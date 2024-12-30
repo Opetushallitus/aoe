@@ -62,7 +62,6 @@ public class MigrationServiceImpl implements MigrationService {
     private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // ID set temporarily to be moved to the header block after the metadata migration.
-        // lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
         lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
         // dc:identifier
@@ -77,7 +76,7 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toList()) : null);
 
         // dc:date
-        lrmi.setDate(amd.getCreatedat()); // updated ???
+        lrmi.setDate(amd.getCreatedat());
 
         // dc:description
         // Descriptions of the educational material.
@@ -170,7 +169,6 @@ public class MigrationServiceImpl implements MigrationService {
         // lrmi_fi:material
         // Educational material file or link.
         lrmi.setMaterial(amd.getMaterials() == null ? null : amd.getMaterials().stream()
-            // .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
             .map(m -> {
                 Material material = new Material();
 
@@ -299,7 +297,6 @@ public class MigrationServiceImpl implements MigrationService {
         // AlignmentObjects
         // Alignment types NOT found in learningResourceTypes (list) are converted into alignment objects.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
-            //.filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
             .filter(a -> learningResourceTypes.stream().noneMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
