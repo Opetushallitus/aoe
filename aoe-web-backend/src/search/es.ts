@@ -69,7 +69,7 @@ export const createEsIndex = async (): Promise<any> => {
       const indexFound: boolean = await indexExists(index);
       if (indexFound) await deleteIndex(index);
 
-      const createIndexResult: boolean = await createIndex(index);
+      const createIndexResult = await createIndex(index);
       if (createIndexResult) {
         try {
           await addMapping(index, process.env.ES_MAPPING_FILE);
@@ -107,15 +107,50 @@ export const deleteIndex = async (index: string): Promise<boolean> => {
  * @param index
  * Create a new index
  */
-export const createIndex = async (index: string): Promise<any> => {
-  return client.indices.create({
-    index: index
-  }).then((data: any) => {
-    return data.body;
-  }).catch((error: any) => {
-    winstonLogger.error(error);
+export const createIndex = async (index: string): Promise<boolean> => {
+
+  const maxRetries = 5;
+  const retryDelay = 2000;
+
+  try {
+    const response = await client.indices.create({
+      index: index
+    });
+
+    if (response.statusCode === 200) {
+      winstonLogger.info(`Index "${index}" created successfully.`);
+    } else {
+      winstonLogger.error(`Index "${index}" creation not acknowledged.`);
+      return false;
+    }
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const existsResponse = await client.indices.exists({index});
+        if (existsResponse.statusCode === 200) {
+          winstonLogger.info(`Index "${index}" is accessible after ${attempt} attempt(s).`);
+          return true;
+        } else {
+          winstonLogger.warn(
+            `Attempt ${attempt} to check index "${index}" accessibility returned status: ${existsResponse.statusCode}`
+          );
+        }
+      } catch (error) {
+        winstonLogger.warn(
+          `Error checking index "${index}" accessibility on attempt ${attempt}: ${error.message}`
+        );
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, retryDelay));
+    }
+
+    winstonLogger.error(`Index "${index}" is not accessible after ${maxRetries} retries.`);
     return false;
-  });
+
+  } catch (error) {
+    winstonLogger.error(`Error creating or accessing index "${index}": ${error.message}`);
+    return false;
+  }
 };
 
 /**
