@@ -74,7 +74,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-208",
+            "image_tag": "ga-211",
             "allow_ecs_exec": true,
             "env_vars": {
                 "PID_SERVICE_URL": "http://localhost",
@@ -135,7 +135,7 @@
                 "H5P_PATH_LIBRARIES": "/mnt/data/webdata/h5p/libraries",
                 "H5P_PATH_TEMPORARY_STORAGE": "/mnt/data/webdata/h5p/temporary-storage",
                 "H5P_PATH_CONTENT": "/mnt/data/webdata/h5p/content",
-                "H5P_PATH_CORE": "/mnt/data/webdata/h5p/core",
+                "H5P_PATH_CORE": "/app/h5p",
                 "H5P_PATH_EDITOR": "/mnt/data/webdata/h5p/editor",
                 "H5P_PLAY_API": "https://dev.aoe.fi/h5p/play/",
                 "H5P_USER_EMAIL": "oppimateriaalivaranto@aoe.fi",

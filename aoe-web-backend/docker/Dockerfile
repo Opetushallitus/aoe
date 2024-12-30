@@ -5,12 +5,15 @@ COPY ./ /app
 
 # Install only locked dependencies from package-lock.json (faster)
 RUN npm ci && \
-    npm run build -- --omit=dev
+    npm run build -- --omit=dev && \
+mkdir -p /app/h5p && \
+    unzip /app/docker/h5p.zip -d /app/h5p
 
 FROM node:18.18.2-alpine3.18
 
 # Copy source code and configuration files to the app directory
 COPY --from=node_builder /app/dist/ /app/dist/
+COPY --from=node_builder /app/h5p/ /app/h5p/
 
 WORKDIR /app
 
