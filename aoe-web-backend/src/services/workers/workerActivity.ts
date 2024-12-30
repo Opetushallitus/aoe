@@ -4,10 +4,8 @@ import { kafkaProducer } from '@resource/kafkaClient';
 import winstonLogger from '@util/winstonLogger';
 import moment from 'moment';
 import { parentPort, workerData } from 'worker_threads';
-// import { createHash } from 'crypto';
 
 const message: TypeMaterialActivity = {
-  // sessionId: createHash('md5').update(workerData.headers['cookie']).digest('hex') as string,
   timestamp: moment.utc().toISOString() as string,
   eduMaterialId: null,
   interaction: workerData.query.interaction,

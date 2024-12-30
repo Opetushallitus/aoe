@@ -136,12 +136,7 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
 
             query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
             response = await t.any(query, [q.id]);
-            // TODO: Modify the target URLs before passing alignment objects to the response.
-            // if (response) {
-            //   response.forEach((alignmentObject: AlignmentObject): void => {
-            //     alignmentObject.targeturl && modifyEducationalSubjectAndObjectiveURL(alignmentObject);
-            //   });
-            // }
+
             q.alignmentobject = response;
 
             query = `

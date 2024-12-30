@@ -61,15 +61,6 @@ app.use(compression());
 app.use(flash());
 app.use(morganLogger);
 
-if (process.env.NODE_ENV === 'localhost') {
-  try {
-    // Add a development helper module (dev.ts).
-    require('./dev').devHelper(app);
-  } catch (error) {
-    winstonLogger.debug('Development helper module (dev.ts) not available.');
-  }
-}
-
 // Initialize session management and OIDC authorization
 app.use(
   session({

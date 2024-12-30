@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SearchRequestPrimaryRepository extends MongoRepository<SearchRequestDocument, ObjectId> {
-
-    // No custom methods
-
 }

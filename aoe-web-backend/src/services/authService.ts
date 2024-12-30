@@ -204,14 +204,11 @@ export const hasAoeAccess = async (username: string): Promise<boolean> => {
 
 export default {
   getUserData,
-  // hasAccesstoPublication,
   checkAuthenticated,
   insertUserToDatabase,
   hasAccessToPublicatication,
-  // logout,
   hasAccessToMaterial,
   hasAccessToAttachmentFile,
   hasAccessToCollection,
-  // hasAccessToCollectionParams,
   userInfo,
 };

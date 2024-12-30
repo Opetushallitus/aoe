@@ -14,8 +14,8 @@ import java.io.IOException;
 public class XmlValidatorApplication {
 
     public static void main(String[] args) {
-        String xmlFile = "C:\\Users\\mroppone\\_project\\aoe-metadata-provider\\oaipmh-provider\\src\\main\\resources\\xml-oai\\oai_dc.xml";
-        String xsdFile = "C:\\Users\\mroppone\\_project\\aoe-metadata-provider\\oaipmh-provider\\src\\main\\resources\\xml-oai\\oai_dc.xsd";
+        String xmlFile = "<PATH>\\oai_dc.xml";
+        String xsdFile = "<PATH>\\oai_dc.xsd";
         validateXmlFile(xmlFile, xsdFile);
     }
 
@@ -30,7 +30,6 @@ public class XmlValidatorApplication {
             Schema schema = schemaFactory.newSchema(xsdSource);
 
             // Multiple XSD files
-            // Schema schema = schemaFactory.newSchema(new Source[] {new StreamSource(new File(xsdFile1)), new StreamSource(new File(xsdFile2))});
             Validator validator = schema.newValidator();
             validator.validate(xmlSource);
             System.out.println(xmlSource.getSystemId() + " is valid");

@@ -17,8 +17,6 @@ services:
   aoe-data-services:
     ports:
       - 8002:8002
-    environment:
-      SPRING_PROFILES_ACTIVE: 'test'
     env_file:
       - path: ./aoe-data-services/.env
 

@@ -88,21 +88,6 @@ export interface SearchResponse<T> {
   aggregations?: any;
 }
 
-// export interface CollectionSource {
-//     id: number;
-//     createdat: Date;
-//     publishedat: Date;
-//     updatedat: Date;
-//     name: string;
-//     description: string;
-//     keywords: Array<{
-//         value: string;
-//         key: string;
-//     }>;
-//     languages: Array<string>;
-//     alignmentObjects:
-// }
-
 export interface Source {
   id: number;
   createdat: Date;
@@ -228,12 +213,6 @@ export interface Source {
   thumbnail: string;
   popularity: number;
 }
-
-// interface AoeBody {
-//   hits: number;
-//   results?: Array<
-//     {
-// _source: T;
 
 export interface AoeRequestFilter {
   educationalLevels: Array<string>;

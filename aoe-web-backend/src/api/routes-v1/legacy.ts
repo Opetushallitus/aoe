@@ -30,7 +30,6 @@ export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAOE, getAoeUsers);
   router.post('/changeUser', hasAccessToAOE, changeMaterialUser);
 
-  // TODO: Unused endpoint?
   router.get('/material', db.getMaterial);
   router.post(
     '/material/attachment/:materialId',
@@ -53,7 +52,6 @@ export default (router: Router): void => {
   router.get('/pdf/content/:key', downloadPdfFromAllas);
   router.get('/recentmaterial', db.getRecentMaterial);
 
-  // TODO: Duplicate functionality with DELETE /material/:edumaterialid - endpoint used by administrator archiving functionality
   router.delete('/removeMaterial/:id', hasAccessToAOE, removeEducationalMaterial);
 
   router.get('/thumbnail/:id', downloadEmThumbnail);

@@ -36,14 +36,3 @@ export const getPopularityQuery =
   'from educationalmaterial where id = $1) as a, ' +
   '(select (SELECT EXTRACT(DAY FROM (select sum(now() - publishedat) from educationalmaterial where id = $1))) as b))' +
   'as c;';
-
-export async function getPopularity(id: string): Promise<any> {
-  try {
-    const response = await db.task(async (t: any) => {
-      return await t.oneOrNone(getPopularityQuery, [id]);
-    });
-    return response.popularity;
-  } catch (error) {
-    throw new Error(error);
-  }
-}

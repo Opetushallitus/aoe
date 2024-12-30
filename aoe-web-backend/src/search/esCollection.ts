@@ -51,10 +51,7 @@ export async function collectionFromEs(obj: any) {
     const mustList = [];
     // match all if keywords null
     mustList.push(createMatchAllObject());
-    // if (req.body.filters) {
-    // const filters = filterMapper(req.body.filters);
-    // filters.map(filter => mustList.push(filter));
-    // }
+
     const body: MultiMatchSeachBody = {
       'query': {
         'bool': {
@@ -151,8 +148,7 @@ export async function collectionDataToEs(index: string, data: any) {
   try {
     if (data.length > 0) {
       const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
-      // winstonLogger.debug("THIS IS BODY:");
-      // winstonLogger.debug(JSON.stringify(body));
+
       const { body: bulkResponse } = await client.bulk({ refresh: false, body });
       if (bulkResponse.errors) {
         const erroredDocuments = [];
