@@ -302,6 +302,7 @@ export async function metadataToEs(offset: number, limit: number) {
     })
       .then(async (data: any) => {
         if (data.length > 0) {
+          winstonLogger.info(`Adding ${data.length} amount of documents to OpenSearch index ${index}`)
           const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
 
           const { body: bulkResponse } = await client.bulk({ refresh: false, body });

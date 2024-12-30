@@ -148,6 +148,7 @@ export async function collectionDataToEs(index: string, data: any) {
   try {
     if (data.length > 0) {
       const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
+      winstonLogger.info(`Adding ${data.length} amount of documents to OpenSearch index ${index}`)
 
       const { body: bulkResponse } = await client.bulk({ refresh: false, body });
       if (bulkResponse.errors) {
@@ -173,6 +174,7 @@ export async function collectionDataToEs(index: string, data: any) {
       }
     }
   } catch (err) {
+    winstonLogger.error(`Failed to add documents to OpenSearch index ${index}`)
     throw new Error(err);
   }
 }
