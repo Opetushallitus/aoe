@@ -67,7 +67,10 @@ export const createEsIndex = async (): Promise<any> => {
     } else {
       // Delete existing index before recreation.
       const indexFound: boolean = await indexExists(index);
-      if (indexFound) await deleteIndex(index);
+
+      if (indexFound) {
+        await deleteIndex(index);
+      }
 
       const createIndexResult = await createIndex(index);
       if (createIndexResult) {
@@ -77,11 +80,11 @@ export const createEsIndex = async (): Promise<any> => {
           let n;
           Es.ESupdated.value = new Date();
           do {
-            n = await metadataToEs(i, 1000);
+            n = await metadataToEs(i, 1000, 'create');
             i++;
           } while (n);
         } catch (error) {
-          winstonLogger.error(error);
+          winstonLogger.error(`Index ${index} creation failed due to ${JSON.stringify(error)}`);
         }
       }
     }
@@ -93,14 +96,33 @@ export const createEsIndex = async (): Promise<any> => {
  * @param index
  */
 export const deleteIndex = async (index: string): Promise<boolean> => {
-  return client.indices.delete({
-    index: index
-  }).then((data: any) => {
-    return !!data.body;
-  }).catch((error: any) => {
+  try {
+    const deleteResponse = await client.indices.delete({ index });
+    winstonLogger.info(
+      `Index ${index} deleted with status code: ${deleteResponse.statusCode} and acknowledged: ${deleteResponse.body.acknowledged}`
+    );
+
+    if (!deleteResponse.body.acknowledged) {
+      return false;
+    }
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const exists = await indexExists(index);
+      if (!exists) {
+        winstonLogger.info(`Confirmed that index ${index} no longer exists.`);
+        return true;
+      }
+      winstonLogger.warn(`Index ${index} still exists after attempt ${attempt}.`);
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+
+    winstonLogger.error(`Index ${index} still exists after 5 attempts.`);
+    return false;
+  } catch (error: any) {
     winstonLogger.error('Search index deletion failed: %o', error);
     return false;
-  });
+  }
 };
 
 /**
@@ -126,13 +148,13 @@ export const createIndex = async (index: string): Promise<boolean> => {
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        const existsResponse = await client.indices.exists({index});
-        if (existsResponse.statusCode === 200) {
+        const existsResponse = await indexExists(index);
+        if (existsResponse) {
           winstonLogger.info(`Index "${index}" is accessible after ${attempt} attempt(s).`);
           return true;
         } else {
           winstonLogger.warn(
-            `Attempt ${attempt} to check index "${index}" accessibility returned status: ${existsResponse.statusCode}`
+            `Attempt ${attempt} to check index "${index}" accessibility returned: ${existsResponse}`
           );
         }
       } catch (error) {
@@ -160,10 +182,11 @@ export const createIndex = async (index: string): Promise<boolean> => {
 export const indexExists = async (index: string): Promise<boolean> => {
   return client.indices.exists({
     index: index
-  }).then((data: any) => {
-    return !!data.body;
+  }).then((data) => {
+    winstonLogger.info(`Index ${index} exists ${data.statusCode === 200}`)
+    return data.statusCode === 200 && data.body === true;
   }).catch((error: any) => {
-    winstonLogger.error(error);
+    winstonLogger.error(`Failed to check if index ${index} exists ${JSON.stringify(error)}`);
     return false;
   });
 };
@@ -196,7 +219,7 @@ export const addMapping = async (index: string, fileLocation: string): Promise<{
  * @param limit
  * insert metadata
  */
-export async function metadataToEs(offset: number, limit: number) {
+export async function metadataToEs(offset: number, limit: number, operation : 'index' | 'create') {
   return new Promise(async (resolve, reject) => {
     db.tx({ mode }, async (t: any) => {
       const params: any = [];
@@ -302,10 +325,16 @@ export async function metadataToEs(offset: number, limit: number) {
     })
       .then(async (data: any) => {
         if (data.length > 0) {
-          winstonLogger.info(`Adding ${data.length} amount of documents to OpenSearch index ${index}`)
-          const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
+          winstonLogger.info(`Adding ${data.length} documents to OpenSearch index ${index}`)
+          const body = data.flatMap(doc => [{ [operation]: { _index: index, _id: doc.id } }, doc]);
 
-          const { body: bulkResponse } = await client.bulk({ refresh: false, body });
+          const {statusCode, body: bulkResponse } = await performBulkOperation(client, index, body);
+          winstonLogger.info(`OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`);
+
+          if (winstonLogger.isDebugEnabled()) {
+            winstonLogger.debug(`OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`);
+          }
+
           if (bulkResponse.errors) {
             const erroredDocuments = [];
             // The items array has the same order of the dataset we just indexed.
@@ -325,7 +354,7 @@ export async function metadataToEs(offset: number, limit: number) {
                 });
               }
             });
-            winstonLogger.debug('Error documents in metadataToEs(): %o', erroredDocuments);
+            winstonLogger.error('Error documents in metadataToEs(): %o', erroredDocuments);
           }
           resolve(data.length);
         } else {
@@ -333,11 +362,69 @@ export async function metadataToEs(offset: number, limit: number) {
         }
       })
       .catch(error => {
-        winstonLogger.error(error);
+        winstonLogger.error(`Failed to add documents to OpenSearch index ${index} due to ${JSON.stringify(error)}`)
         reject();
       });
   });
 }
+
+export async function performBulkOperation(
+  client: Client,
+  index: string,
+  body: any,
+  maxRetries = 3
+): Promise<{
+  statusCode: number,
+  body: Record<string, any>
+}> {
+  let attempt = 0;
+
+  while (attempt < maxRetries) {
+    try {
+      const { statusCode, body: bulkResponse } = await client.bulk({
+        index,
+        refresh: false,
+        body,
+      });
+
+      if (statusCode === 200 && !bulkResponse.errors) {
+        return { statusCode, body: bulkResponse };
+      } else {
+        winstonLogger.info(
+          `OpenSearch index ${index} bulk attempt ${attempt} failed with status code: ${statusCode}, took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`
+        );
+        if (winstonLogger.isDebugEnabled()) {
+          winstonLogger.debug(`OpenSearch index ${index} bulk attempt ${attempt} failure response body: ${JSON.stringify(bulkResponse)}`);
+        }
+      }
+
+      attempt++;
+
+      if (attempt === maxRetries) {
+        winstonLogger.error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`);
+        return { statusCode, body: bulkResponse };
+      }
+
+    } catch (error) {
+      winstonLogger.error(
+        `Error during bulk operation for index ${index} on attempt ${attempt}: ${JSON.stringify(error)}`
+      );
+
+      attempt++;
+
+      if (attempt === maxRetries) {
+        winstonLogger.error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`);
+        throw error
+      }
+
+    }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  }
+
+}
+
+
 
 /**
  * Update search engine index after recent changes in information resources.
@@ -499,7 +586,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
         }
       ) // #1 then end
       .catch((error) => { // #1 catch start
-        winstonLogger.debug('Search index update faild in updateEsDocument(): ' + error);
+        winstonLogger.error('Search index update failed in updateEsDocument(): ' + error);
         reject(error);
       }); // #1 catch end
   });
@@ -520,14 +607,13 @@ export async function createEsCollectionIndex() {
       do {
         dataToEs = await getCollectionDataToEs(i, 1000);
         i++;
-        await collectionDataToEs(collectionIndex, dataToEs.collections);
+        await collectionDataToEs(collectionIndex, dataToEs.collections, 'create');
       } while (dataToEs.collections && dataToEs.collections.length > 0);
       // set new date CollectionEsUpdated
       Es.CollectionEsUpdated.value = new Date();
     }
   } catch (err) {
-    winstonLogger.debug('Error creating collection index');
-    winstonLogger.error(err);
+    winstonLogger.error(`Index ${process.env.ES_COLLECTION_INDEX} creation failed due to ${JSON.stringify(err)}`);
   }
 }
 
@@ -538,7 +624,7 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
   } catch (err) {
     winstonLogger.debug('elasticSearchQuery error');
     winstonLogger.error(err);
-    next(new ErrorHandler(500, 'There was an issue prosessing your request'));
+    next(new ErrorHandler(500, 'There was an issue processing your request'));
   }
 }
 
@@ -547,7 +633,7 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
     const collectionIndex = process.env.ES_COLLECTION_INDEX;
     const newDate = new Date();
     const dataToEs = await getCollectionDataToUpdate(Es.CollectionEsUpdated.value);
-    await collectionDataToEs(collectionIndex, dataToEs.collections);
+    await collectionDataToEs(collectionIndex, dataToEs.collections, 'index');
 
     Es.CollectionEsUpdated.value = newDate;
   } catch (error) {
@@ -559,10 +645,19 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
 /**
  * START POINT OF SEARCH ENGINE INDEXING
  */
-if (process.env.CREATE_ES_INDEX) {
-  createEsIndex().then();
-  createEsCollectionIndex().then();
+async function initializeIndices(): Promise<void> {
+  if (process.env.CREATE_ES_INDEX) {
+    try {
+      await createEsIndex();
+      await createEsCollectionIndex();
+      winstonLogger.info("OpenSearch indices created successfully.");
+    } catch (error) {
+      winstonLogger.error("Error creating OpenSearch indices:", error);
+    }
+  }
 }
+
+initializeIndices();
 
 export default {
   createEsIndex,
