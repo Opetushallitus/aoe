@@ -6,6 +6,7 @@ import { AoeBody, AoeCollectionResult, MultiMatchSeachBody, SearchResponse } fro
 import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
 import AWS from "aws-sdk";
 import { Client, ApiResponse } from "@opensearch-project/opensearch";
+import { performBulkOperation } from "@search/es";
 
 const isProd = process.env.NODE_ENV == 'production';
 
@@ -144,13 +145,19 @@ export const getCollectionDataToEs = async (offset: number, limit: number) => {
   }
 };
 
-export async function collectionDataToEs(index: string, data: any) {
+export async function collectionDataToEs(index: string, data: any, operation : 'create' | 'index') {
   try {
     if (data.length > 0) {
-      const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
-      winstonLogger.info(`Adding ${data.length} amount of documents to OpenSearch index ${index}`)
+      const body = data.flatMap(doc => [{ [operation]: { _index: index, _id: doc.id } }, doc]);
+      winstonLogger.info(`Adding ${data.length} documents to OpenSearch index ${index}`)
 
-      const { body: bulkResponse } = await client.bulk({ refresh: false, body });
+      const { statusCode, body: bulkResponse } = await performBulkOperation(client, index, body)
+      winstonLogger.info(`OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`);
+
+      if (winstonLogger.isDebugEnabled()) {
+        winstonLogger.debug(`OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`);
+      }
+
       if (bulkResponse.errors) {
         const erroredDocuments = [];
         // The items array has the same order of the dataset we just indexed.
@@ -174,7 +181,7 @@ export async function collectionDataToEs(index: string, data: any) {
       }
     }
   } catch (err) {
-    winstonLogger.error(`Failed to add documents to OpenSearch index ${index}`)
+    winstonLogger.error(`Failed to add documents to OpenSearch index ${index} due to ${JSON.stringify(err)}`)
     throw new Error(err);
   }
 }
