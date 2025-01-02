@@ -5,6 +5,8 @@ set -o errexit -o nounset -o pipefail
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 readonly CURRENT_DIR
 
+# Run cdk buildscript
+"${CURRENT_DIR}/../aoe-infra/01-build.sh"
 
 # Run data analytics buildscript
 "${CURRENT_DIR}/../aoe-data-analytics/deploy-scripts/01-build.sh"
