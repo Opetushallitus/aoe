@@ -106,6 +106,9 @@ export const deleteIndex = async (index: string): Promise<boolean> => {
       return false;
     }
 
+    // delay added due to opensearch serverless issue with old index still being used for bulk
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     for (let attempt = 0; attempt < 5; attempt++) {
       const exists = await indexExists(index);
       if (!exists) {
