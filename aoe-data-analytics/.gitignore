@@ -1,6 +1,8 @@
 ### Build Directory
 target/
 
+# env file
+.env
 
 ### Markup files
 HELP.md
