@@ -7,7 +7,6 @@ const missingEnvs: string[] = [];
 process.env.NODE_ENV || missingEnvs.push('NODE_ENV');
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN');
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL');
-process.env.TEST_RUN || missingEnvs.push('TEST_RUN');
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED');
 process.env.CLOUD_STORAGE_REGION || missingEnvs.push('CLOUD_STORAGE_REGION');
 process.env.CLOUD_STORAGE_BUCKET || missingEnvs.push('CLOUD_STORAGE_BUCKET');
@@ -48,14 +47,8 @@ process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH');
 process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED');
 process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
-
-if (process.env.TEST_RUN === 'true') {
-  process.env.PG_USER || missingEnvs.push('POSTGRES_USER');
-  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD');
-} else {
-  process.env.PG_USER || missingEnvs.push('POSTGRES_USER_SECONDARY');
-  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
-}
+process.env.PG_USER || missingEnvs.push('PG_USER');
+process.env.PG_PASS || missingEnvs.push('PG_PASS');
 
 if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
@@ -69,7 +62,6 @@ export default {
     logLevel: process.env.LOG_LEVEL as string,
     nodeEnv: process.env.NODE_ENV as string,
     portListen: parseInt(process.env.PORT_LISTEN as string, 10) as number,
-    testRun: ((process.env.TEST_RUN as string).toLowerCase() === 'true') as boolean,
   } as const,
 
   // Cloud storage configurations.
