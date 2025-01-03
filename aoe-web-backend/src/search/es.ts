@@ -58,38 +58,68 @@ const mode = new pgLib.txMode.TransactionMode({
   deferrable: true
 });
 
-export const createEsIndex = async (): Promise<any> => {
-  client.ping({
 
-  }, async function(error: any) {
-    if (error) {
-      winstonLogger.error('OpenSearch connection is down: ' + error);
+async function updateAoeIndexData(indexName: string, operation: 'create' | 'index') {
+  try {
+    let i = 0;
+    let n;
+    Es.ESupdated.value = new Date();
+    do {
+      n = await metadataToEs(indexName, i, 1000, operation);
+      i++;
+    } while (n);
+  } catch (error) {
+    winstonLogger.error(`Index ${indexName} creation failed due to ${JSON.stringify(error)}`);
+  }
+}
+
+async function updateCollectionIndexData(collectionIndex: string, operation: 'create' | 'index') {
+
+  let i = 0;
+  let dataToEs;
+  do {
+    dataToEs = await getCollectionDataToEs(i, 1000);
+    i++;
+    await collectionDataToEs(collectionIndex, dataToEs.collections, operation);
+  } while (dataToEs.collections && dataToEs.collections.length > 0);
+  Es.CollectionEsUpdated.value = new Date();
+}
+
+const updateIndex = async (indexName:string, mappingFile: string, recreateIndex: boolean, updateIndexData: (indexName: string, operation: 'create' | 'index') => Promise<void>
+)=> {
+  try {
+    await client.ping()
+  } catch (error) {
+    winstonLogger.error('OpenSearch connection is down: ' + error);
+    throw error;
+  }
+
+  const createAndPopulateIndex = async (indexName: string, mappingFile:string) => {
+    const indexCreated = await createIndex(indexName)
+
+    if (indexCreated) {
+      await addMapping(indexName, mappingFile);
+      await updateIndexData(indexName, 'create');
+    }
+  }
+
+  try {
+    const indexFound = await indexExists(indexName);
+
+    if(!indexFound) {
+      await createAndPopulateIndex(indexName, mappingFile)
     } else {
-      // Delete existing index before recreation.
-      const indexFound: boolean = await indexExists(index);
-
-      if (indexFound) {
-        await deleteIndex(index);
-      }
-
-      const createIndexResult = await createIndex(index);
-      if (createIndexResult) {
-        try {
-          await addMapping(index, process.env.ES_MAPPING_FILE);
-          let i = 0;
-          let n;
-          Es.ESupdated.value = new Date();
-          do {
-            n = await metadataToEs(i, 1000, 'create');
-            i++;
-          } while (n);
-        } catch (error) {
-          winstonLogger.error(`Index ${index} creation failed due to ${JSON.stringify(error)}`);
-        }
+      if (recreateIndex) {
+        await deleteIndex(indexName);
+        await createAndPopulateIndex(indexName, mappingFile)
+      } else {
+        await updateIndexData(indexName,'index');
       }
     }
-  });
-};
+  } catch (err) {
+    winstonLogger.error(`Index ${indexName} update failed due to ${JSON.stringify(err)}`);
+  }
+}
 
 /**
  * Delete existing search index.
@@ -222,7 +252,7 @@ export const addMapping = async (index: string, fileLocation: string): Promise<{
  * @param limit
  * insert metadata
  */
-export async function metadataToEs(offset: number, limit: number, operation : 'index' | 'create') {
+export async function metadataToEs(indexName: string, offset: number, limit: number, operation : 'index' | 'create') {
   return new Promise(async (resolve, reject) => {
     db.tx({ mode }, async (t: any) => {
       const params: any = [];
@@ -328,14 +358,14 @@ export async function metadataToEs(offset: number, limit: number, operation : 'i
     })
       .then(async (data: any) => {
         if (data.length > 0) {
-          winstonLogger.info(`Adding ${data.length} documents to OpenSearch index ${index}`)
-          const body = data.flatMap(doc => [{ [operation]: { _index: index, _id: doc.id } }, doc]);
+          winstonLogger.info(`Adding ${data.length} documents to OpenSearch index ${indexName}`)
+          const body = data.flatMap(doc => [{ [operation]: { _index: indexName, _id: doc.id } }, doc]);
 
-          const {statusCode, body: bulkResponse } = await performBulkOperation(client, index, body);
-          winstonLogger.info(`OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`);
+          const {statusCode, body: bulkResponse } = await performBulkOperation(client, indexName, body);
+          winstonLogger.info(`OpenSearch index ${indexName} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`);
 
           if (winstonLogger.isDebugEnabled()) {
-            winstonLogger.debug(`OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`);
+            winstonLogger.debug(`OpenSearch index ${indexName} bulk completed with response body ${JSON.stringify(bulkResponse)}`);
           }
 
           if (bulkResponse.errors) {
@@ -365,7 +395,7 @@ export async function metadataToEs(offset: number, limit: number, operation : 'i
         }
       })
       .catch(error => {
-        winstonLogger.error(`Failed to add documents to OpenSearch index ${index} due to ${JSON.stringify(error)}`)
+        winstonLogger.error(`Failed to add documents to OpenSearch index ${indexName} due to ${JSON.stringify(error)}`)
         reject();
       });
   });
@@ -595,31 +625,6 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
   });
 };
 
-export async function createEsCollectionIndex() {
-  try {
-    const collectionIndex = process.env.ES_COLLECTION_INDEX;
-    const result: boolean = await indexExists(collectionIndex);
-    if (result) {
-      await deleteIndex(collectionIndex);
-    }
-    const createIndexResult = await createIndex(collectionIndex);
-    if (createIndexResult) {
-      await addMapping(collectionIndex, process.env.ES_COLLECTION_MAPPING_FILE);
-      let i = 0;
-      let dataToEs;
-      do {
-        dataToEs = await getCollectionDataToEs(i, 1000);
-        i++;
-        await collectionDataToEs(collectionIndex, dataToEs.collections, 'create');
-      } while (dataToEs.collections && dataToEs.collections.length > 0);
-      // set new date CollectionEsUpdated
-      Es.CollectionEsUpdated.value = new Date();
-    }
-  } catch (err) {
-    winstonLogger.error(`Index ${process.env.ES_COLLECTION_INDEX} creation failed due to ${JSON.stringify(err)}`);
-  }
-}
-
 export async function getCollectionEsData(req: Request, res: Response, next: NextFunction) {
   try {
     const responseBody: AoeBody<AoeCollectionResult> = await collectionFromEs(req.body);
@@ -649,21 +654,19 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
  * START POINT OF SEARCH ENGINE INDEXING
  */
 async function initializeIndices(): Promise<void> {
-  if (process.env.CREATE_ES_INDEX) {
-    try {
-      await createEsIndex();
-      await createEsCollectionIndex();
-      winstonLogger.info("OpenSearch indices created successfully.");
-    } catch (error) {
-      winstonLogger.error("Error creating OpenSearch indices:", error);
-    }
+  const recreateIndex = (process.env.CREATE_ES_INDEX === '1') as boolean
+
+  try {
+    await updateIndex(process.env.ES_INDEX, process.env.ES_MAPPING_FILE, recreateIndex, updateAoeIndexData);
+    await updateIndex(process.env.ES_COLLECTION_INDEX, process.env.ES_COLLECTION_MAPPING_FILE, recreateIndex, updateCollectionIndexData);
+  } catch (error) {
+    winstonLogger.error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: ` , error);
   }
 }
 
 initializeIndices();
 
 export default {
-  createEsIndex,
   getCollectionEsData,
   updateEsCollectionIndex,
   updateEsDocument,
