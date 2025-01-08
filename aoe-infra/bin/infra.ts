@@ -61,6 +61,9 @@ if (environmentName === 'utility') {
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
+
+  const domain = environmentName  === 'prod' ? `temp.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
+
   new GithubActionsStack(app, 'GithubActionsStack', {
     environment: environmentName
   })
@@ -163,14 +166,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
-    domain: environmentConfig.aws.domain,
+    domain: domain,
     publicHostedZone: HostedZones.publicHostedZone
   })
 
   const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {
     env: { region: 'us-east-1' },
     stackName: `${environmentName}-cloudfront-certificate`,
-    domain: environmentConfig.aws.domain,
+    domain: domain,
     hostedZone: HostedZones.publicHostedZone,
     crossRegionReferences: true
   })
@@ -179,7 +182,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: { region: 'eu-west-1' },
     stackName: `${environmentName}-cloudfront`,
     alb: Alb.alb,
-    domain: environmentConfig.aws.domain,
+    domain: domain,
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
     crossRegionReferences: true
