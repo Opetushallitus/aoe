@@ -68,21 +68,29 @@ Following options are recommended for dumping the database:
 j
 Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environment is done in following way:
 
-Connect to database from bastion:
+Connect to database `postgres` from bastion:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com postgres
 
-Create database and users and grant access:
+Create database and users:
 
     CREATE DATABASE aoe ENCODING 'utf-8';
     CREATE ROLE reporter WITH PASSWORD '<reporter password>';
     CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin password>';
-    GRANT ALL PRIVILEGES ON DATABASE aoe TO aoe_admin;
-    GRANT ALL PRIVILEGES ON SCHEMA public TO aoe_admin;
-    GRANT CONNECT ON DATABASE aoe TO reporter;
-    GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
+
+Connect to database `aoe` from bastion:
+
+    psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com aoe
+
+Grant access:
+
     ALTER ROLE reporter WITH LOGIN;
     ALTER ROLE aoe_admin WITH LOGIN;
+    GRANT ALL PRIVILEGES ON DATABASE aoe TO aoe_admin;
+    GRANT ALL PRIVILEGES ON SCHEMA public TO aoe_admin;
+    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO aoe_admin;
+    GRANT CONNECT ON DATABASE aoe TO reporter;
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
 
 Exit `psql`.
 
