@@ -70,16 +70,16 @@ Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environ
 
 Connect to database from bastion:
 
-    psql -U aoe_db_admin -W -h qa-web-backend.cluster-cnieaeo086l8.eu-west-1.rds.amazonaws.com postgres
+    psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com postgres
 
 Create database and users:
 
     CREATE DATABASE aoe ENCODING 'utf-8';
-    CREATE ROLE reporter WITH PASSWORD '<reporter passu>';
-    CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin passu>';
+    CREATE ROLE reporter WITH PASSWORD '<reporter password>';
+    CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin password>';
 
 Exit `psql`.
 
 From bastion, run restore:
 
-    pg_restore -U aoe_db_admin -W -h <instanssin_tiedot>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < demo-transfer.dump
+    pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < transfer.dump
