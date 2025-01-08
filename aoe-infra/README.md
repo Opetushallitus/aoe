@@ -58,3 +58,28 @@ Then,
 
 Aurora stack creation only creates database master user with a password stored in the AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application user must be created (and granted) separately.
 
+### Database dump for transfer
+
+Following options are recommended for dumping the database:
+
+    pg_dump -Fc --clean -U aoe_db_admin -d aoe > transfer.dump
+
+### Database restore in AWS
+j
+Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environment is done in following way:
+
+Connect to database from bastion:
+
+    psql -U aoe_db_admin -W -h qa-web-backend.cluster-cnieaeo086l8.eu-west-1.rds.amazonaws.com postgres
+
+Create database and users:
+
+    CREATE DATABASE aoe ENCODING 'utf-8';
+    CREATE ROLE reporter WITH PASSWORD '<reporter passu>';
+    CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin passu>';
+
+Exit `psql`.
+
+From bastion, run restore:
+
+    pg_restore -U aoe_db_admin -W -h <instanssin_tiedot>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < demo-transfer.dump
