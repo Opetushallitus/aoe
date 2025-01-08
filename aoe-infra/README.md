@@ -72,11 +72,17 @@ Connect to database from bastion:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com postgres
 
-Create database and users:
+Create database and users and grant access:
 
     CREATE DATABASE aoe ENCODING 'utf-8';
     CREATE ROLE reporter WITH PASSWORD '<reporter password>';
     CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin password>';
+    GRANT ALL PRIVILEGES ON DATABASE aoe TO aoe_admin;
+    GRANT ALL PRIVILEGES ON SCHEMA public TO aoe_admin;
+    GRANT CONNECT ON DATABASE aoe TO reporter;
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
+    ALTER ROLE reporter WITH LOGIN;
+    ALTER ROLE aoe_admin WITH LOGIN;
 
 Exit `psql`.
 
