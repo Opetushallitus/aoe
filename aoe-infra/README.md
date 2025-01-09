@@ -89,8 +89,10 @@ Grant access:
     GRANT ALL PRIVILEGES ON DATABASE aoe TO aoe_admin;
     GRANT ALL PRIVILEGES ON SCHEMA public TO aoe_admin;
     GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO aoe_admin;
+    GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO aoe_admin;
     GRANT CONNECT ON DATABASE aoe TO reporter;
     GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
+    GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reporter;
 
 Exit `psql`.
 
