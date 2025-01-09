@@ -65,6 +65,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const domain = environmentName  === 'prod' ? `temp.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
 
   new GithubActionsStack(app, 'GithubActionsStack', {
+    env: { region: 'eu-west-1' },
     environment: environmentName
   })
 
