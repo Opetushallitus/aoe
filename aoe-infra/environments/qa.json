@@ -74,7 +74,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-250",
+            "image_tag": "ga-267",
             "allow_ecs_exec": true,
             "env_vars": {
                 "PID_SERVICE_URL": "http://localhost",
@@ -98,9 +98,10 @@
                 "SESSION_COOKIE_DOMAIN":".aoe.fi",
                 "SESSION_COOKIE_HTTP_ONLY": "true",
                 "SESSION_COOKIE_MAX_AGE": "86400000",
-                "SESSION_COOKIE_PATH": "/api",
+                "SESSION_COOKIE_PATH": "/",
                 "SESSION_COOKIE_SAME_SITE": "lax",
                 "SESSION_COOKIE_SECURE": "true",
+
                 "SESSION_OPTION_PROXY": "true",
                 "SESSION_OPTION_RESAVE": "false",
                 "SESSION_OPTION_ROLLING": "false",
