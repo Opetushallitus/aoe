@@ -455,7 +455,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       Secrets.secrets.SESSION_SECRET,
       Secrets.secrets.CLIENT_SECRET,
       Secrets.secrets.JWT_SECRET,
-      Secrets.secrets.PID_API_KEY,
       Secrets.secrets.PROXY_URI,
       Secrets.secrets.CLIENT_ID
     ],

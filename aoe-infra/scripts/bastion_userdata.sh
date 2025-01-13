@@ -6,7 +6,7 @@ chmod 770 /data
 
 echo -e "[mongodb-org-5.0] \nname=MongoDB Repository\nbaseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/5.0/x86_64/\ngpgcheck=1 \nenabled=1 \ngpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc" | sudo tee /etc/yum.repos.d/mongodb-org-5.0.repo
 
-rpm --import https://www.mongodb.org/static/pgp/server-6.0.asc
+sudo rpm --import https://www.mongodb.org/static/pgp/server-6.0.asc
 
 cat <<EOF | sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo
 [mongodb-org-6.0]
