@@ -2,12 +2,13 @@ import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import * as efs from 'aws-cdk-lib/aws-efs';
 import { Construct } from "constructs";
 import { ISecurityGroup, IVpc } from "aws-cdk-lib/aws-ec2";
-import { AccessPoint } from "aws-cdk-lib/aws-efs";
+import { AccessPoint, ThroughputMode } from "aws-cdk-lib/aws-efs";
 
 interface EfsStackProps extends StackProps {
     securityGroup: ISecurityGroup;
     vpc: IVpc
-    accessPointPath: string
+    accessPointPath: string,
+    throughputMode: ThroughputMode
 }
 
 export class EfsStack extends Stack {
@@ -22,7 +23,7 @@ export class EfsStack extends Stack {
             vpc: props.vpc,
             lifecyclePolicy: efs.LifecyclePolicy.AFTER_30_DAYS,
             performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
-            throughputMode: efs.ThroughputMode.BURSTING,
+            throughputMode: props.throughputMode,
             securityGroup: props.securityGroup,
         });
 

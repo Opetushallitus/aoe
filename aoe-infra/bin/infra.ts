@@ -62,7 +62,7 @@ if (environmentName === 'utility') {
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
 
-  const domain = environmentName  === 'prod' ? `temp.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
+  const domain = environmentName  === 'prod' ? `aws.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
 
   new GithubActionsStack(app, 'GithubActionsStack', {
     env: { region: 'eu-west-1' },
@@ -236,11 +236,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: { region: 'eu-west-1' },
     vpc: Network.vpc,
     securityGroup: SecurityGroups.efsSecurityGroup,
-    accessPointPath: '/data'
+    accessPointPath: '/data',
+    throughputMode: environmentConfig.EFS.throughputMode
   })
 
   const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
-    instances: 1,
+    instances: environmentConfig.document_db.instances,
+    instanceType: environmentConfig.document_db.instanceType,
     env: { region: 'eu-west-1' },
     vpc: Network.vpc,
     securityGroup: SecurityGroups.documentDbSecurityGroup,
