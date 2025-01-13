@@ -229,26 +229,25 @@
     },
 
     "aurora_databases": {
-        "data_analytics": {
-            "version": "16.4",
-            "min_size_acu": 0.5,
-            "max_size_acu": 1,
-            "performance_insights": false
-          },
-          "web_backend": {
-            "version": "16.4",
-            "min_size_acu": 0.5,
-            "max_size_acu": 1,
-            "performance_insights": false
-          }
+      "web_backend": {
+        "version": "16.4",
+        "min_size_acu": 0.5,
+        "max_size_acu": 1,
+        "performance_insights": false
+      }
     },
     "document_db": {
+        "instances": 1,
+        "instanceType": "t3.medium",
         "engineVersion": "4.0.0"
     },
     "S3": {
         "aoeBucketName": "aoe",
         "aoePdfBucketName": "aoepdf",
         "aoeThumbnailBucketName": "aoethumbnail"
+    },
+    "EFS": {
+        "throughputMode": "bursting"
     },
     "redis_serverless": {
         "semantic_apis": {
