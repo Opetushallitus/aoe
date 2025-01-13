@@ -1,35 +1,35 @@
-import axios, { AxiosRequestConfig } from 'axios';
 import { updateEduMaterialVersionURN } from '@query/apiQueries';
 import { getEdumaterialVersionsWithoutURN } from '@query/pidQueries';
 import { getEduMaterialVersionURL } from './urlService';
 import winstonLogger from '@util/winstonLogger';
-import { IRegisterPID } from '@aoe/services/pidResolutionService';
-import config from '@/config';
+import { Urn } from '@domain/aoeModels';
 
 /**
  * Request for PID registration using URN type.
  * @param url string Resource URL for PID registration.
  */
-export const registerPID = async (url: string): Promise<any> => {
-  try {
-    const pidRegistrationParams: IRegisterPID = {
-      url: url as string,
-      type: 'URN',
-      persist: '0',
-    };
-    const requestHeaders: Record<string, string> = {
-      'Content-Type': 'application/json',
-      apikey: config.SERVER_CONFIG_OPTIONS.pidApiKey,
-    };
-    const response: Record<string, unknown> = await axios.post(
-      config.SERVER_CONFIG_OPTIONS.pidServiceURL,
-      pidRegistrationParams as IRegisterPID,
-      { headers: requestHeaders } as AxiosRequestConfig,
-    );
-    return response.data;
-  } catch (error) {
-    winstonLogger.error('PID registration failed in registerPID(): ' + error);
+export const registerPID = async (url: string): Promise<string> => {
+  const record = await Urn.findOne({
+    where: { material_url: url },
+  });
+
+  if (record) {
+    winstonLogger.error(`URL ${url} already has urn generated`);
+    return null;
   }
+
+  const newId = await Urn.create({ material_url: url });
+  const internalId = newId.id;
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+
+  // Previous URN generator generated formattedInternalId with 8 digits. To prevent possible duplicates increase it to 9
+  const formattedInternalId = internalId.toString().padStart(9, '0');
+  const formattedString = `${year}${month}${formattedInternalId}`;
+
+  const luhnChecksum = calculateLuhn(formattedString);
+  return `urn:nbn:fi:oerfi-${year}${month}${formattedInternalId}_${luhnChecksum}`;
 };
 
 /**
@@ -80,6 +80,27 @@ export const processEntriesWithoutPID = async (): Promise<void> => {
       'PID registration for educational materials without PID failed in processEntriesWithoutPID(): ' + error,
     );
   }
+};
+
+const calculateLuhn = (number: string): number => {
+  let sum = 0;
+  let alternate = false;
+
+  for (let i = number.length - 1; i >= 0; i--) {
+    let n = parseInt(number[i], 10);
+
+    if (alternate) {
+      n *= 2;
+      if (n > 9) {
+        n -= 9;
+      }
+    }
+
+    sum += n;
+    alternate = !alternate;
+  }
+
+  return (10 - (sum % 10)) % 10;
 };
 
 export default {
