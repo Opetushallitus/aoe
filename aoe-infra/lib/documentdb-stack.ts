@@ -1,6 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { InstanceClass, InstanceSize, InstanceType, IVpc, SecurityGroup } from "aws-cdk-lib/aws-ec2";
+import { InstanceType, IVpc, SecurityGroup } from "aws-cdk-lib/aws-ec2";
 import { DatabaseCluster, Endpoint } from "aws-cdk-lib/aws-docdb";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Key } from "aws-cdk-lib/aws-kms";
@@ -13,6 +13,7 @@ interface DocumentDbStackProps extends cdk.StackProps {
   env: { region: string };
   user: Secret,
   kmsKey: Key,
+  instanceType: InstanceType
 }
 export class DocumentdbStack extends cdk.Stack {
   private docdbcluster: DatabaseCluster;
@@ -27,7 +28,7 @@ export class DocumentdbStack extends cdk.Stack {
       },
       engineVersion: props.engineVersion,
       instances: props.instances,
-      instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MEDIUM),
+      instanceType: props.instanceType,
       vpc: props.vpc,
       vpcSubnets: {subnets: props.vpc.isolatedSubnets },
       securityGroup: props.securityGroup,

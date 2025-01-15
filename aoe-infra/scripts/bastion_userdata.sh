@@ -8,6 +8,6 @@ echo -e "[mongodb-org-5.0] \nname=MongoDB Repository\nbaseurl=https://repo.mongo
 
 yum update
 yum install -y htop python3-pip python3-wheel jq bash tmux nohup mongodb-org-shell
-amazon-linux-extras install redis6 postgresql16
+amazon-linux-extras install redis6 postgresql14
 
 wget -O /usr/bin/global-bundle.pem https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
