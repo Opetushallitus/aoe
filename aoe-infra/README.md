@@ -78,6 +78,10 @@ Create database and users:
     CREATE ROLE reporter WITH PASSWORD '<reporter password>';
     CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin password>';
 
+From bastion, run restore:
+
+    pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < transfer.dump
+
 Connect to database `aoe` from bastion:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com aoe
@@ -96,6 +100,3 @@ Grant access:
 
 Exit `psql`.
 
-From bastion, run restore:
-
-    pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < transfer.dump
