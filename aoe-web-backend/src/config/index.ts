@@ -45,8 +45,6 @@ process.env.STREAM_REDIRECT_URI || missingEnvs.push('STREAM_REDIRECT_URI');
 process.env.STREAM_STATUS_HOST || missingEnvs.push('STREAM_STATUS_HOST');
 process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH');
 process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED');
-process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
-process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
 process.env.PG_USER || missingEnvs.push('PG_USER');
 process.env.PG_PASS || missingEnvs.push('PG_PASS');
 
@@ -120,8 +118,6 @@ export default {
   // AOE server and service component general purpose configurations.
   SERVER_CONFIG_OPTIONS: {
     oaipmhAnalyticsURL: process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL as string,
-    pidApiKey: process.env.PID_API_KEY as string,
-    pidServiceURL: process.env.PID_SERVICE_URL as string,
   } as const,
 
   // Session management conventions to handle session initialization and persistence.

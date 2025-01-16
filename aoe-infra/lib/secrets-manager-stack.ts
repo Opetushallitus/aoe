@@ -33,7 +33,6 @@ export class SecretManagerStack extends cdk.Stack {
         SESSION_SECRET: { envVarName: 'SESSION_SECRET', path: '/service/web-backend/SESSION_SECRET', secretKey: 'secretkey' },
         CLIENT_SECRET: { envVarName: 'CLIENT_SECRET', path: '/service/web-backend/CLIENT_SECRET', secretKey: 'secretkey' },
         JWT_SECRET: { envVarName: 'JWT_SECRET', path: '/service/web-backend/JWT_SECRET', secretKey: 'secretkey' },
-        PID_API_KEY: { envVarName: 'PID_API_KEY', path: '/service/web-backend/PID_API_KEY', secretKey: 'secretkey' },
         ANALYTICS_PG_PASS: {envVarName: 'SPRING_DATASOURCE_PRIMARY_PASSWORD', path: '/auroradbs/web-backend/dev/reporter', secretKey: 'password' },
         ANALYTICS_DOCDB_PASSWORD: {envVarName: 'MONGODB_PRIMARY_PASSWORD', path: '/service/data-analytics/DOCDB_PASS', secretKey: 'secretkey' },
         ANALYTICS_TRUST_STORE_PASSWORD: {envVarName: 'TRUST_STORE_PASS', path: '/service/data-analytics/TRUST_STORE_PASS', secretKey: 'secretkey' },
