@@ -74,7 +74,7 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-281",
+            "image_tag": "ga-299",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
@@ -151,11 +151,12 @@
                 "REDIS_USERNAME": "app",
                 "REDIS_USE_TLS": "true",
                 "BASE_URL": "https://aws.aoe.fi/api/v1/",
+
                 "EMAIL_FROM": "oppimateriaalivaranto@aoe.fi",
-                "TRANSPORT_AUTH_USER": "oppimateriaalivaranto@aoe.fi",
-                "TRANSPORT_AUTH_HOST": "XXXX",
-                "TRANSPORT_PORT": "25",
-                "SEND_EMAIL": "0",
+                "SEND_SYSTEM_NOTIFICATION_EMAIL" : "0",
+                "SEND_EXPIRATION_NOTIFICATION_EMAIL" : "0",
+                "SEND_RATING_NOTIFICATION:EMAIL": "0",
+                "SEND_VERIFICATION_EMAIL": "0",
                 "VERIFY_EMAIL_REDIRECT_URL": "/",
 
                 "CLOUD_STORAGE_ENABLED": "1",

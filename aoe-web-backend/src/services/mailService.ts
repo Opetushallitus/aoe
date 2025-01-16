@@ -1,44 +1,66 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { sign, verify } from 'jsonwebtoken';
-import Mail from 'nodemailer/lib/mailer';
-import { createTransport, Transporter } from 'nodemailer';
 import winstonLogger from '@util/winstonLogger';
-
 import { db } from '@resource/postgresClient';
+import AWS from 'aws-sdk';
 
-/**
- * Initialize Nodemailer Transporter
- */
-const transporter: Transporter = createTransport({
-  host: process.env.TRANSPORT_AUTH_HOST as string,
-  port: parseInt(process.env.TRANSPORT_PORT, 10) as number,
-  secure: false,
-  auth: {
-    user: process.env.TRANSPORT_AUTH_USER as string,
-  },
-});
+AWS.config.update({ region: process.env.AWS_REGION || 'eu-west-1' });
+const ses = new AWS.SES();
+
+const sendEmail = async (email: {
+  to: string;
+  from: string;
+  subject: string;
+  body: { html?: string; text?: string };
+}) => {
+  if ((email.body.html && email.body.text) || (!email.body.html && !email.body.text)) {
+    throw new Error("Email body must contain either 'html' or 'text', but not both or neither.");
+  }
+
+  const params: AWS.SES.SendEmailRequest = {
+    Destination: {
+      ToAddresses: [email.to],
+    },
+    Message: {
+      Body: {
+        ...(email.body.html && {
+          Html: {
+            Charset: 'UTF-8',
+            Data: email.body.html,
+          },
+        }),
+        ...(email.body.text && {
+          Text: {
+            Charset: 'UTF-8',
+            Data: email.body.text,
+          },
+        }),
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: email.subject,
+      },
+    },
+    Source: email.from,
+  };
+
+  return await ses.sendEmail(params).promise();
+};
 
 /**
  * Send system notifications like state and error messages to the service mainteiners.
  * @param content string Message to be sent as a system notification.
  */
 export const sendSystemNotification = async (content: string): Promise<void> => {
-  const sender = 'oppimateriaalivaranto@csc.fi';
-  const recipient = 'oppimateriaalivaranto@csc.fi';
-  const subject = 'AOE System Notification';
-
-  // Plain text message to the 'text' field - HTML message to the 'html' field.
-  const mailOptions: Mail.Options = {
-    from: sender as string,
-    to: recipient as string,
-    subject: subject as string,
-    text: content as string,
-  };
   try {
-    // If environment variable SEND_MAIL is true (1), not false (0).
-    if (parseInt(process.env.SEND_EMAIL, 10)) {
-      const info: Record<string, unknown> = await transporter.sendMail(mailOptions);
-      winstonLogger.debug('System email notification delivery completed: ' + info);
+    if (isEnabled('SEND_SYSTEM_NOTIFICATION_EMAIL')) {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL,
+        from: process.env.EMAIL_FROM,
+        subject: 'AOE System Notification',
+        body: { text: content },
+      });
+      winstonLogger.debug('System email notification delivery completed');
     } else {
       winstonLogger.info('System email notification not sent while email service is currently disabled');
     }
@@ -56,16 +78,20 @@ export async function sendExpirationMail() {
   };
   try {
     const materials = await getExpiredMaterials();
-    const emailArray = materials.filter((m) => m.email != undefined).map((m) => m.email);
-    mailOptions.to = emailArray;
-    if (!(process.env.SEND_EMAIL === '1')) {
-      winstonLogger.debug('Email sending disabled');
-    } else {
-      for (const element of emailArray) {
-        mailOptions.to = element;
-        const info = await transporter.sendMail(mailOptions);
-        winstonLogger.debug('Message sent: %s', info.messageId);
+    const emails = materials.filter((m) => m.email != undefined).map((m) => m.email);
+    if (isEnabled('SEND_EXPIRATION_NOTIFICATION_EMAIL')) {
+      for (const email of emails) {
+        const info = await sendEmail({
+          to: email,
+          from: mailOptions.from,
+          subject: mailOptions.subject,
+          body: { text: mailOptions.text },
+        });
+
+        winstonLogger.debug('Message sent: %s', info.MessageId);
       }
+    } else {
+      winstonLogger.debug('Material expiration email sending disabled');
     }
   } catch (err) {
     winstonLogger.error('Error in sendExpirationMail(): %o', err);
@@ -84,9 +110,8 @@ export async function sendRatingNotificationMail() {
         holder[d.email] = d.materialname;
       }
     });
-    if (!(process.env.SEND_EMAIL === '1')) {
-      winstonLogger.debug('Email sending disabled');
-    } else {
+
+    if (isEnabled('SEND_RATING_NOTIFICATION')) {
       for (const element of emailArray) {
         const mailOptions = {
           from: process.env.EMAIL_FROM,
@@ -94,14 +119,22 @@ export async function sendRatingNotificationMail() {
           subject: 'Uusi arvio - Avointen oppimateriaalien kirjasto (aoe.fi)',
           text: await ratingNotificationText(holder[element]),
         };
-        winstonLogger.debug('sending rating mail to: ' + element);
+        winstonLogger.debug('sending rating mail to: ' + mailOptions.to);
         try {
-          const info = await transporter.sendMail(mailOptions);
-          winstonLogger.debug('Message sent: %s', info.messageId);
+          const info = await sendEmail({
+            to: mailOptions.to,
+            from: process.env.EMAIL_FROM,
+            subject: mailOptions.subject,
+            body: { text: mailOptions.text },
+          });
+
+          winstonLogger.debug('Message sent: %s', info.MessageId);
         } catch (error) {
           winstonLogger.error(error);
         }
       }
+    } else {
+      winstonLogger.debug('Rating notification email sending disabled');
     }
   } catch (error) {
     winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error);
@@ -141,16 +174,15 @@ export async function sendVerificationEmail(user: string, email: string) {
   const token_mail_verification = sign(mail, jwtSecret, { expiresIn: '1d' });
 
   const url = process.env.BASE_URL + 'verify?id=' + token_mail_verification;
-  winstonLogger.debug(await verificationEmailText(url));
-  const mailOptions = {
-    from: process.env.EMAIL_FROM,
-    to: email,
-    subject: 'Sähköpostin vahvistus - Avointen oppimateriaalien kirjasto (aoe.fi)',
-    html: await verificationEmailText(url),
-  };
-  if (process.env.SEND_EMAIL === '1') {
-    const info = await transporter.sendMail(mailOptions);
-    winstonLogger.debug('Message sent: %s', info.messageId);
+  const content = await verificationEmailText(url);
+
+  if (isEnabled('SEND_VERIFICATION_EMAIL')) {
+    await sendEmail({
+      to: email,
+      from: process.env.EMAIL_FROM,
+      subject: 'Sähköpostin vahvistus - Avointen oppimateriaalien kirjasto (aoe.fi)',
+      body: { html: content },
+    });
   }
   return url;
 }
@@ -163,7 +195,7 @@ export async function verifyEmailToken(req: Request, res: Response, next: NextFu
       const decoded = await verify(token, jwtSecret);
       const id = decoded.id;
       winstonLogger.debug(id);
-      updateVerifiedEmail(id);
+      await updateVerifiedEmail(id);
       return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/');
     } catch (err) {
       winstonLogger.error('Error in verifyEmailToken(): %o', err);
@@ -234,3 +266,7 @@ AOE-team
 Detta är ett automatiskt meddelande. Om du vill inte få dessa meddelandena, kan di förändra dina inställningar i vyn Mitt konto på Biblioteket för öppna lärresurser.`;
   return ratingNotificationText;
 }
+
+const isEnabled = (prop: string): boolean => {
+  return process.env[prop] === '1';
+};

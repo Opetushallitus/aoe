@@ -33,6 +33,7 @@ import { DocumentdbStack } from '../lib/documentdb-stack'
 import { MskStack } from '../lib/msk-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
+import { SesStack } from "../lib/ses-stack";
 
 const app = new cdk.App()
 
@@ -95,6 +96,22 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     domain: environmentConfig.aws.domain,
     vpc: Network.vpc
   })
+
+  let sesIamPolicy: iam.PolicyStatement | undefined;
+
+  if (environmentName !== 'prod') {
+    const sesStack = new SesStack(app, 'SesStack', {
+      env: { region: 'eu-west-1' },
+      hostedZone: HostedZones.publicHostedZone
+    });
+
+    sesIamPolicy = new iam.PolicyStatement({
+      actions: ['ses:SendEmail'],
+      resources: [
+        sesStack.emailIdentity.emailIdentityArn
+      ]
+    });
+  }
 
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
     env: { region: 'eu-west-1' },
@@ -456,7 +473,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       Secrets.secrets.CLIENT_SECRET,
       Secrets.secrets.JWT_SECRET,
       Secrets.secrets.PROXY_URI,
-      Secrets.secrets.CLIENT_ID
+      Secrets.secrets.CLIENT_ID,
+      Secrets.secrets.ADMIN_EMAIL
     ],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
@@ -472,7 +490,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       s3PolicyStatement,
       efsPolicyStatement,
       kafkaClusterIamPolicy,
-      kafkaTopicIamPolicy
+      kafkaTopicIamPolicy,
+      ...(sesIamPolicy ? [sesIamPolicy] : []),
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     efs: {
