@@ -74,10 +74,9 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-276",
+            "image_tag": "ga-281",
             "allow_ecs_exec": true,
             "env_vars": {
-                "PID_SERVICE_URL": "http://localhost",
                 "NODE_ENV": "production",
                 "LOG_LEVEL": "error",
                 "PORT_LISTEN": "8080",
@@ -163,8 +162,8 @@
                 "KAFKA_ENABLED": "1",
                 "LOGIN_ENABLED": "1",
 
-                "PID_SERVICE_RUN_SCHEDULED": "0",
-                "PID_SERVICE_ENABLED": "0",
+                "PID_SERVICE_RUN_SCHEDULED": "1",
+                "PID_SERVICE_ENABLED": "1",
 
                 "STREAM_ENABLED": "1",
                 "STREAM_FILESIZE_MIN": "100000",
