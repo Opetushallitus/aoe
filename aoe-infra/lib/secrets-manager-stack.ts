@@ -36,6 +36,7 @@ export class SecretManagerStack extends cdk.Stack {
         ANALYTICS_PG_PASS: {envVarName: 'SPRING_DATASOURCE_PRIMARY_PASSWORD', path: '/auroradbs/web-backend/dev/reporter', secretKey: 'password' },
         ANALYTICS_DOCDB_PASSWORD: {envVarName: 'MONGODB_PRIMARY_PASSWORD', path: '/service/data-analytics/DOCDB_PASS', secretKey: 'secretkey' },
         ANALYTICS_TRUST_STORE_PASSWORD: {envVarName: 'TRUST_STORE_PASS', path: '/service/data-analytics/TRUST_STORE_PASS', secretKey: 'secretkey' },
+        ADMIN_EMAIL: {envVarName: 'ADMIN_EMAIL', path: '/service/web-backend/ADMIN_EMAIL', secretKey: 'secretkey' },
     }
 
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
