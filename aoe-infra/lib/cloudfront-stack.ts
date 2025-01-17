@@ -24,28 +24,59 @@ export class CloudfrontStack extends Stack {
   constructor(scope: Construct, id: string, props: CloudfrontStackProps) {
     super(scope, id, props);
 
-
-    // Cloudfront Distribution
-    this.distribution = new cloudfront.Distribution(this, 'Distribution', {
+    const distributionBaseConfiguration = {
       domainNames: [props.domain],
-      certificate: props.certificate,
-      defaultBehavior: {
-        origin: new origins.LoadBalancerV2Origin(props.alb, {
-          protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY
-        }),
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
-        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
-        originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER,
-      },
-    })
+      certificate: props.certificate
+    }
+
+    // Configure default behaviour
+    const defaultBehavior = {
+      origin: new origins.LoadBalancerV2Origin(props.alb, {
+        protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY
+      }),
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+      cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+      originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER,
+    }
+
+    if (props.requireTestAuth) {
+      // create a cloudFront function from the basic-auth.js file
+      const basicAuthFunction = new cloudfront.Function(this, 'RequestFunction', {
+        functionName: 'BasicAuth',
+        runtime: cloudfront.FunctionRuntime.JS_2_0,
+        code: cloudfront.FunctionCode.fromFile({
+          filePath: './resources/functions/basic-auth.js'
+        })
+      });
+
+      // Connect basic authentication function to defaultBehaviour
+      this.distribution = new cloudfront.Distribution(this, 'Distribution', {
+        ...distributionBaseConfiguration,
+        defaultBehavior: {
+          ...defaultBehavior,
+          functionAssociations: [
+            {
+              function: basicAuthFunction,
+              eventType: cloudfront.FunctionEventType.VIEWER_REQUEST
+            },
+          ]
+        }
+      })
+    } else {
+      // No test authentication required
+      this.distribution = new cloudfront.Distribution(this, 'Distribution', {
+        ...distributionBaseConfiguration,
+        defaultBehavior
+      })
+    }
 
     // route53 alias record for cloudfront
     new route53.ARecord(this, 'AliasRecord', {
       zone: props.publicHostedZone,
       recordName: props.domain,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(this.distribution)),
-      });
+    });
 
 
     // this.distribution.addBehavior('/static/*', s3origin, { viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS});

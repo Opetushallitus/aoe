@@ -192,7 +192,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     domain: domain,
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
-    crossRegionReferences: true
+    crossRegionReferences: true,
+    requireTestAuth: environmentConfig.cloudfront.require_test_auth
   })
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
