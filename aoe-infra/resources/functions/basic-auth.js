@@ -18,7 +18,7 @@ function validateBasicAuth(authHeader) {
 		return false;
 	}
 
-	let credentials = String.bytesFrom(match[1], 'base64').split(':', 2);
+	const credentials = Buffer.from(match[1], 'base64').toString('utf-8').split(':', 2);
 
 	return credentials[0] === USERNAME && credentials[1] === PASSWORD;
 }
