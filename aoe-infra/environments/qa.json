@@ -5,6 +5,9 @@
         "domain": "qa.aoe.fi"
     },
     "services": {
+        "cloudfront": {
+            "require_test_authentication": false
+        },
         "data_analytics": {
             "cpu_limit": "512",
             "memory_limit": "1024",

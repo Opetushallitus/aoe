@@ -5,6 +5,9 @@
         "domain": "aoe.fi"
     },
     "services": {
+        "cloudfront": {
+            "require_test_auth": false
+        },
         "data_analytics": {
             "cpu_limit": "1024",
             "memory_limit": "2048",

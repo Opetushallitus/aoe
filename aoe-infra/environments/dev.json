@@ -5,6 +5,9 @@
         "domain": "dev.aoe.fi"
     },
     "services": {
+        "cloudfront": {
+            "require_test_authentication": true
+        },
         "data_analytics": {
             "cpu_limit": "512",
             "memory_limit": "1024",
@@ -228,7 +231,6 @@
         "collectionName": "aoecollection",
         "collectionDescription": "Collection for aoe"
     },
-
     "aurora_databases": {
       "web_backend": {
         "version": "16.4",
