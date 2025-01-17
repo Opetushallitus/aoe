@@ -6,10 +6,51 @@ on:
       branch:
         description: Branch to deploy
         required: true
+      proceedDeploy:
+        description: Set to true to skip CDK diff and directly proceed with deployment. Default is false.
+        required: true
+        default: 'false'
+
+concurrency: deploy-qa
+
+env:
+  DOCKER_BUILDKIT: '1'
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   deploy_qa:
-    runs-on: ubuntu-latest
+    name: 05-deploy-qa.sh
+    permissions:
+      packages: read
+      id-token: write
+      contents: write
+    runs-on: 'ubuntu-24.04'
     steps:
-      - name: Output
-        run: echo "===============> Would now start deploying AOE to QA"
+      - uses: actions/checkout@v4.2.1
+      - name: Checkout all branches and tags with full history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+      - name: Configure qa AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_AOE_QA_ROLE_ARN }}
+          role-session-name: aoe-runner-deploy-qa
+          aws-region: eu-west-1
+
+      - name: Run CDK Diff
+        if: ${{ github.event.inputs.proceedDeploy == 'false' }}
+        run: ./deploy-scripts/05-deploy-qa.sh diff
+        env:
+          UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
+
+      - name: Run CDK Deploy
+        if: ${{ github.event.inputs.proceedDeploy == 'true' }}
+        run: ./deploy-scripts/05-deploy-qa.sh deploy
+        env:
+          UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
+

@@ -17,12 +17,14 @@ const params = 'codes/?format=json';
  * @returns {Promise<void>}
  */
 export async function setKoulutusasteet(): Promise<void> {
+  winstonLogger.info('Getting educational levels from API in setKoulutus()');
   const results: Record<string, unknown>[] = await getDataFromApi(
     config.EXTERNAL_API.suomiKoodistot,
     `/${endpoint}/`,
     { Accept: 'application/json' },
     params,
   );
+  winstonLogger.info('... API fetch done!');
 
   if (!results || !(results as any).results || (results as any).results.length < 1) {
     winstonLogger.error('No data from koodistot.suomi.fi in setKoulutusasteet()');

@@ -1,7 +1,6 @@
 package fi.csc.processor.controller;
 
 import fi.csc.processor.enumeration.Interval;
-import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
 import fi.csc.processor.model.request.EducationalLevelTotalRequest;
@@ -38,75 +37,67 @@ public class StatisticsController {
         this.timeSeriesService = timeSeriesService;
     }
 
-    @PostMapping(path = "/{target}/educationallevel/all",
+    @PostMapping(path = "/prod/educationallevel/all",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getEducationalLevelDistribution(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @RequestBody EducationalLevelTotalRequest educationalLevelTotalRequest) {
         return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalLevelDistribution(
-            educationalLevelTotalRequest, targetEnv), HttpStatus.OK));
+            educationalLevelTotalRequest), HttpStatus.OK));
     }
 
-    @PostMapping(path = "/{target}/educationallevel/expired",
+    @PostMapping(path = "/prod/educationallevel/expired",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getEducationalLevelExpired(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @RequestBody EducationalLevelTotalRequest educationalLevelTotalRequest) {
         if (educationalLevelTotalRequest.getExpiredBefore() != null) {
             return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalLevelExpired(
-                educationalLevelTotalRequest, targetEnv), HttpStatus.OK));
+                educationalLevelTotalRequest), HttpStatus.OK));
         } else {
             return async(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
         }
     }
 
-    @PostMapping(path = "/{target}/educationalsubject/all",
+    @PostMapping(path = "/prod/educationalsubject/all",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getEducationalSubjectDistribution(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @RequestBody EducationalSubjectTotalRequest educationalSubjectTotalRequest) {
         return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalSubjectDistribution(
-            educationalSubjectTotalRequest, targetEnv), HttpStatus.OK));
+            educationalSubjectTotalRequest), HttpStatus.OK));
     }
 
-    @PostMapping(path = "/{target}/organization/all",
+    @PostMapping(path = "/prod/organization/all",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getOrganizationDistribution(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @RequestBody OrganizationTotalRequest organizationTotalRequest) {
         return async(() -> new ResponseEntity<>(this.statisticsService.getOrganizationDistribution(
-            organizationTotalRequest, targetEnv), HttpStatus.OK));
+            organizationTotalRequest), HttpStatus.OK));
     }
 
-    @PostMapping(path = "/{target}/materialactivity/{interval}/total",
+    @PostMapping(path = "/prod/materialactivity/{interval}/total",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getMaterialActivityTotalByInterval(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
         return async(() -> new ResponseEntity<>(this.timeSeriesService.getTotalByInterval(
             interval,
             intervalTotalRequest,
-            MaterialActivityDocument.class,
-            targetEnv), HttpStatus.OK));
+            MaterialActivityDocument.class), HttpStatus.OK));
     }
 
-    @PostMapping(path = "/{target}/searchrequests/{interval}/total",
+    @PostMapping(path = "/prod/searchrequests/{interval}/total",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getSearchRequestsTotalByInterval(
-        @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
         return async(() -> new ResponseEntity<>(this.timeSeriesService.getTotalByInterval(
             interval,
             intervalTotalRequest,
-            SearchRequestDocument.class,
-            targetEnv), HttpStatus.OK));
+            SearchRequestDocument.class), HttpStatus.OK));
     }
 }

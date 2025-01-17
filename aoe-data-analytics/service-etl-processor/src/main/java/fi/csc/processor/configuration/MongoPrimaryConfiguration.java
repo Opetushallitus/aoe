@@ -6,8 +6,8 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import fi.csc.processor.converter.TimeFormatConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,6 +35,9 @@ import static java.util.Collections.singletonList;
     mongoTemplateRef = "primaryMongoTemplate")
 public class MongoPrimaryConfiguration {
 
+    @Value("${mongodb.primary.enable.ssl}")
+    private boolean enableSsl;
+
     @Primary
     @Bean(name = "primaryProperties")
     @ConfigurationProperties("mongodb.primary")
@@ -44,7 +47,14 @@ public class MongoPrimaryConfiguration {
 
     @Bean(name = "primaryMongoClient")
     public MongoClient mongoClient(@Qualifier("primaryProperties") MongoProperties mongoProperties) {
-        return MongoClients.create(MongoClientSettings.builder()
+
+        MongoClientSettings.Builder builder = MongoClientSettings.builder();
+
+        if (enableSsl) {
+            builder.applyToSslSettings(b -> b.enabled(true).invalidHostNameAllowed(true));
+        }
+
+        return MongoClients.create(builder
             .credential(MongoCredential.createCredential(
                 mongoProperties.getUsername(),
                 mongoProperties.getDatabase(),

@@ -7,11 +7,7 @@ const missingEnvs: string[] = [];
 process.env.NODE_ENV || missingEnvs.push('NODE_ENV');
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN');
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL');
-process.env.TEST_RUN || missingEnvs.push('TEST_RUN');
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED');
-process.env.CLOUD_STORAGE_ACCESS_KEY || missingEnvs.push('CLOUD_STORAGE_ACCESS_KEY');
-process.env.CLOUD_STORAGE_ACCESS_SECRET || missingEnvs.push('CLOUD_STORAGE_ACCESS_SECRET');
-process.env.CLOUD_STORAGE_API || missingEnvs.push('CLOUD_STORAGE_API');
 process.env.CLOUD_STORAGE_REGION || missingEnvs.push('CLOUD_STORAGE_REGION');
 process.env.CLOUD_STORAGE_BUCKET || missingEnvs.push('CLOUD_STORAGE_BUCKET');
 process.env.CLOUD_STORAGE_BUCKET_PDF || missingEnvs.push('CLOUD_STORAGE_BUCKET_PDF');
@@ -32,6 +28,7 @@ process.env.KAFKA_BROKER_SERVERS || missingEnvs.push('KAFKA_BROKER_SERVERS');
 process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY || missingEnvs.push('KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY');
 process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS || missingEnvs.push('KAFKA_BROKER_TOPIC_SEARCH_REQUESTS');
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
+process.env.KAFKA_CLIENT_REGION || missingEnvs.push('KAFKA_CLIENT_REGION');
 process.env.CONVERSION_TO_PDF_API || missingEnvs.push('CONVERSION_TO_PDF_API');
 process.env.CONVERSION_TO_PDF_ENABLED || missingEnvs.push('CONVERSION_TO_PDF_ENABLED');
 process.env.POSTGRESQL_HOST || missingEnvs.push('POSTGRESQL_HOST');
@@ -40,22 +37,16 @@ process.env.POSTGRESQL_DATA || missingEnvs.push('POSTGRESQL_DATA');
 process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
+process.env.REDIS_USE_TLS || missingEnvs.push('REDIS_USE_TLS');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.STREAM_ENABLED || missingEnvs.push('STREAM_ENABLED');
 process.env.STREAM_FILESIZE_MIN || missingEnvs.push('STREAM_FILESIZE_MIN');
 process.env.STREAM_REDIRECT_URI || missingEnvs.push('STREAM_REDIRECT_URI');
 process.env.STREAM_STATUS_HOST || missingEnvs.push('STREAM_STATUS_HOST');
 process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH');
-process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
-process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
-
-if (process.env.TEST_RUN === 'true') {
-  process.env.PG_USER || missingEnvs.push('POSTGRES_USER');
-  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD');
-} else {
-  process.env.PG_USER || missingEnvs.push('POSTGRES_USER_SECONDARY');
-  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
-}
+process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED');
+process.env.PG_USER || missingEnvs.push('PG_USER');
+process.env.PG_PASS || missingEnvs.push('PG_PASS');
 
 if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
@@ -69,14 +60,10 @@ export default {
     logLevel: process.env.LOG_LEVEL as string,
     nodeEnv: process.env.NODE_ENV as string,
     portListen: parseInt(process.env.PORT_LISTEN as string, 10) as number,
-    testRun: ((process.env.TEST_RUN as string).toLowerCase() === 'true') as boolean,
   } as const,
 
   // Cloud storage configurations.
   CLOUD_STORAGE_CONFIG: {
-    accessKey: process.env.CLOUD_STORAGE_ACCESS_KEY as string,
-    accessSecret: process.env.CLOUD_STORAGE_ACCESS_SECRET as string,
-    apiURL: process.env.CLOUD_STORAGE_API as string,
     region: process.env.CLOUD_STORAGE_REGION as string,
     bucket: process.env.CLOUD_STORAGE_BUCKET as string,
     bucketPDF: process.env.CLOUD_STORAGE_BUCKET_PDF as string,
@@ -107,6 +94,7 @@ export default {
     topicMaterialActivity: process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY as string,
     topicSearchRequests: process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS as string,
     clientId: process.env.KAFKA_CLIENT_ID as string,
+    region: process.env.KAFKA_CLIENT_REGION as string,
   } as const,
 
   // Configuration for PostgreSQL database connections.
@@ -122,14 +110,14 @@ export default {
   REDIS_OPTIONS: {
     host: process.env.REDIS_HOST as string,
     port: parseInt(process.env.REDIS_PORT as string, 10) as number,
+    username: process.env.REDIS_USERNAME as string,
     pass: process.env.REDIS_PASS as string,
+    protocol: process.env.REDIS_USE_TLS != 'true' ? 'redis' : 'rediss',
   } as const,
 
   // AOE server and service component general purpose configurations.
   SERVER_CONFIG_OPTIONS: {
     oaipmhAnalyticsURL: process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL as string,
-    pidApiKey: process.env.PID_API_KEY as string,
-    pidServiceURL: process.env.PID_SERVICE_URL as string,
   } as const,
 
   // Session management conventions to handle session initialization and persistence.
@@ -156,8 +144,6 @@ export default {
     mimeTypeArr: ['audio/mp4', 'audio/mpeg', 'audio/x-m4a', 'video/mp4'] as string[],
     minFileSize: parseInt(process.env.STREAM_FILESIZE_MIN, 10) as number,
     redirectUri: process.env.STREAM_REDIRECT_URI as string,
-    statusHost: process.env.STREAM_STATUS_HOST as string,
-    statusPath: process.env.STREAM_STATUS_PATH as string,
     streamEnabled: (process.env.STREAM_ENABLED === '1') as boolean,
   } as const,
 
@@ -165,5 +151,7 @@ export default {
   STREAM_STATUS_REQUEST: {
     host: process.env.STREAM_STATUS_HOST as string,
     path: process.env.STREAM_STATUS_PATH as string,
+    port: process.env.STREAM_STATUS_PORT as string,
+    httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean,
   } as const,
 } as const;

@@ -12,7 +12,6 @@ export default (router: Router): void => {
   const moduleRoot = '/h5p';
 
   router.get(`${moduleRoot}/play/:keyS3`, downloadAndRenderH5P);
-  // router.get('/h5p/content/:id/:file(*)', getH5PContent);
 
   // H5P application state not supported for anonymous users in AOE.
   router.get(`${moduleRoot}/contentUserData/:contentID/state/:stateID`, (_req: Request, res: Response): void => {

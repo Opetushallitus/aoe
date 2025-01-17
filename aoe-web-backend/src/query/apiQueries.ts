@@ -70,7 +70,6 @@ export async function getMaterial(req: Request, res: Response, next: NextFunctio
   } catch (err) {
     winstonLogger.error(err);
     next(new ErrorHandler(500, 'Issue getting materials '));
-    // res.status(500).send("getting materials not succeeded");
   }
 }
 
@@ -230,10 +229,6 @@ export const getEducationalMaterialMetadata = async (
       response = await t.any(query, [eduMaterialId]);
     } else {
       if (req.params.publishedat) {
-        // query = "select attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey,
-        // filebucket, defaultfile, kind, label, srclang, materialid from material
-        // inner join attachment on material.id = attachment.materialid
-        // where material.educationalmaterialid = $1 and material.obsoleted = 0 and attachment.obsoleted = 0;";
         query =
           'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, filekey, ' +
           'filebucket, defaultfile, kind, label, srclang, materialid FROM attachmentversioncomposition AS v ' +
@@ -251,10 +246,7 @@ export const getEducationalMaterialMetadata = async (
       }
     }
     queries.push(response);
-    // const TYPE_TIMESTAMP = 1114;
-    // const TYPE_TIMESTAMPTZ = 1184;
-    // use raw date in version
-    // pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, str => str);
+
     query =
       'SELECT DISTINCT publishedat ' +
       'FROM versioncomposition ' +
@@ -262,9 +254,6 @@ export const getEducationalMaterialMetadata = async (
       'ORDER BY publishedat DESC';
     response = await t.any(query, [eduMaterialId]);
     queries.push(response);
-    // pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, parseDate);
-    // const popularity = await t.one(getPopularityQuery, [eduMaterialId]);
-    // queries.push(popularity);
     if (req.params.publishedat) {
       query = 'SELECT urn FROM educationalmaterialversion WHERE educationalmaterialid = $1 AND publishedat = $2';
       response = await t.oneOrNone(query, [eduMaterialId, req.params.publishedat]);
@@ -289,7 +278,6 @@ export const getEducationalMaterialMetadata = async (
       if (req.session?.passport && req.session?.passport.user && req.session?.passport.user.uid) {
         owner = await isOwner(eduMaterialId.toString(), req.session?.passport.user.uid);
       }
-      // winstonLogger.debug(owner);
       // add displayname object to material object
       for (const element of data[14]) {
         const nameobj = {
@@ -312,7 +300,6 @@ export const getEducationalMaterialMetadata = async (
       }
       jsonObj.id = data[0][0].id;
       jsonObj.materials = data[14];
-      // winstonLogger.debug("The jsonObj before first check: " + JSON.stringify(jsonObj));
       for (const i in jsonObj.materials) {
         let ext = '';
         if (jsonObj.materials[i] && jsonObj.materials[i]['originalfilename']) {
@@ -357,15 +344,14 @@ export const getEducationalMaterialMetadata = async (
              * mimetype = text/html + result
              */
             jsonObj.materials[i]['mimetype'] = 'text/html';
-            jsonObj.materials[i]['filepath'] = process.env.HTML_BASE_URL + result;
-            // winstonLogger.debug("The jsonObj: " + JSON.stringify(jsonObj));
+            jsonObj.materials[i]['filepath'] =
+              process.env.HTML_BASE_URL + result.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content');
           } else if (result != false) {
             /**
              * This means the function the returned true, but the mimetype was already text/html so we dont have to change it
              * Simply return the result to the frontend, which means we have to to the query here and push the response thereafter
              */
             jsonObj.materials[i]['filepath'] = result;
-            // winstonLogger.debug("The jsonObj: " + JSON.stringify(jsonObj));
           }
         }
       }
@@ -401,7 +387,6 @@ export const getEducationalMaterialMetadata = async (
       jsonObj.educationalAlignment = data[13];
       jsonObj.educationalLevels = data[8];
       jsonObj.educationalUses = data[9];
-      // jsonObj.inLanguage = data[13];
       jsonObj.accessibilityFeatures = data[5];
       jsonObj.accessibilityHazards = data[6];
       const license: any = {};
@@ -694,7 +679,6 @@ export const insertDataToDescription = async (
   description: any,
 ): Promise<any> => {
   const queries = [];
-  // const query = "INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;";
   const query =
     'INSERT ' +
     'INTO materialdescription ' +
@@ -803,17 +787,10 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
     .tx(async (t: any) => {
       let query;
       const queries: any = [];
-      // let params = req.params;
       const materialname = metadata.name;
-      const nameparams = [];
       let response;
       winstonLogger.debug('Update metadata in updateMaterial(): ' + JSON.stringify(metadata));
-      // let arr = metadata.name;
-      if (materialname == undefined) {
-        // query = "DELETE FROM materialname where educationalmaterialid = $1;";
-        // response  = await t.any(query, [req.params.id]);
-        // queries.push(response);
-      } else {
+      if (materialname !== undefined) {
         queries.push(await insertEducationalMaterialName(materialname, emid, t));
       }
 
@@ -995,7 +972,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
         }
       }
       // isBasedOn
-      params = [];
       let isBasedonArr = [];
       if (metadata.isBasedOn) {
         isBasedonArr = metadata.isBasedOn.externals;
@@ -1080,13 +1056,8 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
           ],
           { table: 'alignmentobject' },
         );
-        // data input values:
-        // winstonLogger.debug(arr);
+
         const values: any = [];
-        // const updateValues: Array<object> = [];
-        // for ( let i = 0; i < arr.length; i += 1) {
-        //     alignmentObjectArr[i].educationalmaterialid = emid;
-        // }
         alignmentObjectArr.forEach(async (element: any) => {
           const obj = {
             alignmenttype: element.alignmentType,
@@ -1098,7 +1069,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
             targeturl: element.targetUrl,
           };
           values.push(obj);
-          // updateValues.push({educationalframework : ((element.educationalFramework == undefined) ? "" : element.educationalFramework)});
         });
         query =
           pgp.helpers.insert(values, cs) +
@@ -1106,7 +1076,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
         queries.push(await t.any(query));
       }
       // Author
-      params = [];
       const authorArr = metadata.authors;
       query = 'DELETE FROM author where educationalmaterialid = $1;';
       response = await t.any(query, [emid]);
@@ -1126,13 +1095,8 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
       }
 
       // File details
-      params = [];
       const fileDetailArr = metadata.fileDetails;
-      if (fileDetailArr === undefined) {
-        // query = "DELETE FROM materialdisplayname where materialid = $1;";
-        // response  = await t.any(query, [emid]);
-        // queries.push(response);
-      } else {
+      if (fileDetailArr !== undefined) {
         for (const element of fileDetailArr) {
           const dnresult = await fh.insertDataToDisplayName(t, emid, element.id, element);
           queries.push(dnresult);
@@ -1172,7 +1136,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
         for (const element of arr) {
           query =
             'INSERT INTO accessibilityfeature (accessibilityfeaturekey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityfeaturekey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1203,7 +1166,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
         for (const element of arr) {
           query =
             'INSERT INTO accessibilityhazard (accessibilityhazardkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityhazardkey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1234,7 +1196,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
         for (const element of arr) {
           query =
             'INSERT INTO educationallevel (educationallevelkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (educationallevelkey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1258,11 +1219,9 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
           // insert new version
           query =
             'INSERT INTO educationalmaterialversion (educationalmaterialid, publishedat) values ($1, now()::timestamp(3)) returning publishedat;';
-          // queries.push(await t.one(query, [emid]));
           publishedat = await t.one(query, [emid]);
-          // queries.push(publishedat);
+
           for (const element of arr) {
-            // query = "INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) VALUES ($1,$2,now(),$3);";
             query =
               'INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) select $1,$2,now()::timestamp(3),$3 where exists (select * from material where id = $2 and educationalmaterialid = $1)';
             queries.push(await t.none(query, [emid, element.materialId, element.priority]));
@@ -1294,7 +1253,6 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
     .catch((err: Error) => {
       winstonLogger.error(err);
       throw err;
-      // next(new ErrorHandler(400, "Issue updating material"));
     });
 };
 
@@ -1445,15 +1403,12 @@ export async function insertIntoEducationalMaterial(obj: any) {
   const materialData = {
     technicalname: obj.technicalname,
     createdat: obj.createdat,
-    // author : obj.author,
-    // organization : obj.organization,
     publishedat: obj.publishedat,
     updatedat: obj.updatedat,
     archivedat: obj.archivedat,
     timerequired: obj.timerequired,
     agerangemin: obj.agerangemin,
     agerangemax: obj.agerangemax,
-    // usersid : obj.usersid,
     usersusername: obj.username,
     licensecode: obj.licensecode,
     originalpublishedat: obj.originalpublishedat,
@@ -1590,21 +1545,12 @@ export async function insertIntoAlignmentObject(obj: any, materialid: any) {
 
 export async function insertIntoMaterial(obj: any, materialid: any) {
   const data = {
-    // materialname : obj.materialname,
     link: obj.link,
     priority: obj.priority,
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'material') + 'RETURNING id';
   await db.any(query);
-}
-
-function createSlug(str: string) {
-  str = str.replace(/[ä]/g, 'a');
-  str = str.replace(/[ö]/g, 'o');
-  str = str.replace(/[å]/g, 'a');
-  str = str.replace(/[^a-zA-Z0-9]/g, '');
-  return str;
 }
 
 export async function isOwner(educationalmaterialid: string, username: string) {

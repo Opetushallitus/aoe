@@ -1,5 +1,3 @@
-import winstonLogger from '@util/winstonLogger';
-
 async function createMaterialObject(indata: any) {
   let obj: any = {};
   let data = await createEducationalMaterialObject(indata);
@@ -38,7 +36,6 @@ async function createMaterialObject(indata: any) {
 async function createPropertyNameList(obj: any, str: string) {
   const list: any = [];
   Object.getOwnPropertyNames(obj).forEach(function (val: any, idx, array) {
-    // startsWith val.includes(str)
     if (val.startsWith(str)) {
       list.push(val);
     }

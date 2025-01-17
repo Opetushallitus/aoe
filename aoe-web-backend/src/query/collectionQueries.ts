@@ -59,8 +59,6 @@ export async function insertEducationalMaterialToCollection(collection: Collecti
  */
 export async function deleteEducationalMaterialFromCollection(collection: Collection) {
   try {
-    const values: any[] = [];
-    // collection.emId.map(id => values.push({collectionid : collection.collectionId, educationalmaterialid: id}));
     const query =
       'DELETE FROM collectioneducationalmaterial WHERE collectionid = $1 AND educationalmaterialid IN ($2:list)';
     await db.none(query, [collection.collectionId, collection.emId]);

@@ -1,0 +1,407 @@
+name: aoe
+
+services:
+
+  aoe-web-frontend:
+    build:
+      context: aoe-web-frontend
+      dockerfile: ./docker/Dockerfile
+      args:
+        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-demo}
+    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
+    container_name: aoe-web-frontend
+    restart: unless-stopped
+    volumes:
+      - ./docker/dev/webdata:/usr/share/nginx/html/webdata
+    user: "root:5606"
+    depends_on:
+      aoe-web-backend:
+        condition: service_started
+
+  # Alias for build system
+  aoe-web-frontend-dev:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: dev
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-qa:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: qa
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-prod:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: prod
+    profiles: ["build-only"]
+
+  nginx:
+    image: nginx:latest
+    hostname: nginx
+    container_name: nginx_proxy
+    ports:
+      - 443:443
+      - 80:80
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/dev/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
+      - ./docker/dev/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
+    depends_on:
+      aoe-web-backend:
+        condition: service_started
+      aoe-web-frontend:
+        condition: service_started
+      aoe-semantic-apis:
+        condition: service_started
+
+  aoe-web-backend:
+    build:
+      context: aoe-web-backend
+      dockerfile: ./docker/Dockerfile
+    image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
+    container_name: aoe-web-backend
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    volumes:
+      - ./docker/dev/web/thumbnail/:/app/thumbnail:rw
+      - ./docker/dev/web/uploads:/app/uploads:rw
+      - ./docker/dev/web/webdata:/webdata:rw
+      - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
+    depends_on:
+      aoe-oidc-server:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+      kafka2:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      opensearch:
+        condition: service_healthy
+
+  aoe-data-analytics:
+    hostname: aoe-data-analytics
+    build:
+      context: aoe-data-analytics
+      dockerfile: ./service-etl-processor/Dockerfile
+      secrets:
+        - trust_store_password
+    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
+    container_name: aoe-data-analytics
+    restart: unless-stopped
+    depends_on:
+      kafka:
+        condition: service_healthy
+      kafka2:
+        condition: service_healthy
+      mongo:
+        condition: service_started
+      postgres:
+        condition: service_started
+
+  aoe-streaming-app:
+    hostname: aoe-streaming-app
+    build:
+      context: aoe-streaming-app
+      dockerfile: ./docker/Dockerfile
+    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
+    container_name: aoe-streaming-app
+    restart: unless-stopped
+
+    depends_on:
+        localstack:
+          condition: service_started
+
+  aoe-data-services:
+    hostname: aoe-data-services
+    build:
+      context: aoe-data-services
+      dockerfile: ./oaipmh-provider/Dockerfile
+    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
+    container_name: aoe-data-services
+    restart: unless-stopped
+    depends_on:
+      aoe-web-backend:
+        condition: service_started
+
+  aoe-semantic-apis:
+    hostname: aoe-semantic-apis
+    build:
+      context: aoe-semantic-apis
+      dockerfile: ./docker/Dockerfile
+    image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
+    container_name: aoe-semantic-apis
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: aoe-postgres
+    environment:
+      POSTGRES_USER: aoeuser
+      POSTGRES_PASSWORD: aoepassword
+      POSTGRES_DB: aoe
+    volumes:
+      - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/dev/postgres_data:/var/lib/postgresql/data
+
+  opensearch:
+    image: opensearchproject/opensearch:2.10.0
+    container_name: opensearch
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - plugins.security.disabled=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./docker/dev/os_data:/usr/share/opensearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo:
+    image: mongo:6.0
+    container_name: aoe-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: aoerootuser
+      MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
+      MONGO_INITDB_DATABASE: aoe
+    volumes:
+      - ./docker/dev/mongo_data:/data/db
+      - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+    ports:
+      - 29092:29092
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  kafka2:
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka2
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:9092,OUTSIDE://kafka2:39092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+    ports:
+      - 39092:39092
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    container_name: redis-reference
+    image: redis:6.2.4-alpine
+    privileged: true
+    command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
+    restart: unless-stopped
+    environment:
+      REDIS_REPLICATION_MODE: master
+    volumes:
+      - ./docker/dev/redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  localstack:
+    image: localstack/localstack:latest
+    networks:
+      default:
+        aliases:
+          - aoe.s3.localhost.localstack.cloud
+          - aoepdf.s3.localhost.localstack.cloud
+          - aoethumbnail.s3.localhost.localstack.cloud
+    environment:
+      - SERVICES=s3
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DEBUG="1"
+      - HOSTNAME_EXTERNAL=localhost
+    ports:
+      - 4566:4566
+    volumes:
+      - ./docker/init-scripts/aws-shutdown.sh:/etc/localstack/init/shutdown.d/aws-shutdown.sh
+      - ./docker/init-scripts/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - ./docker/dev/localstack/S3:/host-directory
+
+  aoe-oidc-server:
+    hostname: aoe-oidc-server
+    container_name: oidc-server-mock
+    image: ghcr.io/soluto/oidc-server-mock:latest
+    restart: on-failure:2
+    expose:
+      - 80
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/.well-known/openid-configuration" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      SERVER_OPTIONS_INLINE: |
+        {
+          "AccessTokenJwtType": "JWT",
+          "Discovery": {
+            "ShowKeySet": true
+          },
+          "Authentication": {
+            "CookieSameSiteMode": "Lax",
+            "CheckSessionCookieSameSiteMode": "Lax"
+          }
+        }
+      OVERRIDE_STANDARD_IDENTITY_RESOURCES:  true
+      IDENTITY_RESOURCES_INLINE: |
+        [
+          {
+            "Name": "profile",
+            "ClaimTypes": [ "name", "given_name", "family_name", "uid", "id" ]  
+          },
+         {
+            "Name": "openid",
+            "ClaimTypes": [ "sub" ]  
+          }
+        ]
+      USERS_CONFIGURATION_INLINE: |
+        [
+          {
+            "SubjectId": "aoeuser-1",
+            "Username": "aoeuser",
+            "Password": "password123",
+            "Claims": [
+              {
+                "Type": "sub",
+                "Value": "aoeuser-1",
+                "ValueType": "string"
+              },
+              {
+                "Type": "locale",
+                "Value": "de",
+                "ValueType": "string"
+              },
+              {
+                "Type": "uid",
+                "Value": "c37ccf17-c8b8-4d5f-b2be-a751f8a4f46e",
+                "ValueType": "string"
+              },
+              {
+                "Type": "id",
+                "Value": "1",
+                "ValueType": "string"
+              },
+              {
+                "Type": "name",
+                "Value": "AOE User",
+                "ValueType": "string"
+              },
+              {
+                "Type": "given_name",
+                "Value": "AOE_first",
+                "ValueType": "string"
+              },
+              { 'Type': 'some-custom-identity-user-claim', 'Value': "Jack's Custom User Claim", 'ValueType': 'string' },
+
+              {
+                "Type": "family_name",
+                "Value": "AOE_last",
+                "ValueType": "string"
+              },
+              {
+                "Type": "email",
+                "Value": "aoeuser@aoe.fi",
+                "ValueType": "string"
+              }
+            ]
+          }
+        ]
+      CLIENTS_CONFIGURATION_INLINE: |
+        [
+          {
+            "ClientId": "aoe-client",
+            "ClientSecrets": ["aoe-secret"],
+            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect"],
+            "AllowedScopes": ["openid", "offline_access", "profile"],
+            "AllowOfflineAccess" : "true", 
+            "AllowedGrantTypes": ["authorization_code"]
+          }
+        ]
+      ASPNETCORE_URLS: http://+:80
+      ASPNET_SERVICES_OPTIONS_INLINE: |
+        { 
+          "ForwardedHeadersOptions": { 
+            "ForwardedHeaders" : "All"
+          }
+        }
+volumes:
+  postgres_data:
+
+secrets:
+  trust_store_password:
+    environment: TRUST_STORE_PASSWORD

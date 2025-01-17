@@ -27,15 +27,35 @@ import {
 import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
 import { setTuvaOppiaineetTavoitteet } from '../controllers/tuva';
 
-export const client = redis.createClient({
-  host: config.REDIS_OPTIONS.host,
-  port: config.REDIS_OPTIONS.port,
-  password: config.REDIS_OPTIONS.pass,
-});
+export const client = redis
+  .createClient({
+    url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
+      config.REDIS_OPTIONS.pass,
+    )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`,
+  })
+  .on('ready', () => {
+    winstonLogger.info(
+      'REDIS [%s://%s:%d] Connection is operable',
+      config.REDIS_OPTIONS.protocol,
+      config.REDIS_OPTIONS.host,
+      config.REDIS_OPTIONS.port,
+    );
+  })
+  .on('error', (err: Error): void => {
+    winstonLogger.error(
+      'REDIS [%s://%s:%d] Error: %o',
+      config.REDIS_OPTIONS.protocol,
+      config.REDIS_OPTIONS.host,
+      config.REDIS_OPTIONS.port,
+      err,
+    );
+  });
+
 export const getAsync = promisify(client.get).bind(client);
 export const setAsync = promisify(client.set).bind(client);
 
 export async function updateRedis(): Promise<void> {
+  winstonLogger.info('Starting Redis update ...');
   await setAsiasanat().catch((err) => winstonLogger.error('Setting YSO asiasanat failed in setAsiasanat(): %o', err));
   await setKoulutusasteet().catch((err) =>
     winstonLogger.error('Setting educational levels failed in setKoulutusasteet(): %o', err),
@@ -111,4 +131,5 @@ export async function updateRedis(): Promise<void> {
       err,
     ),
   );
+  winstonLogger.info('... Redis update done!');
 }

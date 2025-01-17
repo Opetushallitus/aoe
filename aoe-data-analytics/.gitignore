@@ -1,7 +1,7 @@
 ### Build Directory
 target/
 
-### Environment Variables
+# env file
 .env
 
 ### Markup files

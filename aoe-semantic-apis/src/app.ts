@@ -5,6 +5,7 @@ import cron from 'node-cron';
 import cors from 'cors';
 
 import router from './routes';
+import healthRouter from './healthRoute';
 import { client, updateRedis } from './util/redis.utils';
 import { winstonLogger } from './util';
 
@@ -25,7 +26,8 @@ client.on('error', (error: any) => {
   winstonLogger.error(error);
 });
 
-client.on('connect', async () => {
+client.on('ready', async () => {
+  winstonLogger.info('Pushing data to REDIS');
   await updateRedis();
 });
 
@@ -36,7 +38,8 @@ cron.schedule('0 0 3 * * 0', async () => {
 });
 
 // Prefixed routes
-app.use('/api/v1', router);
+app.use('/ref/api/v1', router);
+app.use('/', healthRouter);
 
 // Default error handler.
 app.use(((err, req: Request, res: Response, next: NextFunction) => {

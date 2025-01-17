@@ -117,54 +117,6 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
   }
 };
 
-// export async function convertOfficeToPdf(req: Request, res: Response, next: NextFunction) {
-//     try {
-//         if (!req.params.key) {
-//             next(new ErrorHandler("400", "key missing"));
-//         }
-//         winstonLogger.debug("readstreamfrompouta");
-//         const params = {
-//             "Bucket" : process.env.BUCKET_NAME,
-//             "Key" : req.params.key
-//         };
-//         const folderpath = process.env.HTML_FOLDER + "/" + req.params.key;
-//         const filename = req.params.key.substring(0, req.params.key.lastIndexOf(".")) + ".pdf";
-//         winstonLogger.debug("filename: " + filename);
-//         const stream = await directoryDownloadFromStorage(params);
-//         stream.on("error", function(e) {
-//             winstonLogger.error(e);
-//             next(new ErrorHandler(e.statusCode, e.message || "Error in download"));
-//         });
-//         stream.pipe(fs.createWriteStream(folderpath));
-//         stream.on("end", async function() {
-//             try {
-//             winstonLogger.debug("starting convertOfficeFileToPDF");
-//             winstonLogger.debug(folderpath);
-//             winstonLogger.debug(filename);
-//             const path = await convertOfficeFileToPDF(folderpath, filename);
-//             winstonLogger.debug("starting createReadStream: " + path);
-//             const readstream = fs.createReadStream(path);
-//             readstream.on("error", function(e) {
-//                 winstonLogger.error(e);
-//                 next(new ErrorHandler(e.statusCode, "Error in sending pdf"));
-//             });
-//             res.header("Content-Disposition", contentDisposition(filename));
-//             readstream.pipe(res);
-//             // res.status(200).json(d);
-//             // outstream.pipe(res);
-//             }
-//             catch (error) {
-//                 winstonLogger.error(error);
-//                 next(new ErrorHandler(error.statusCode, "Issue showing pdf"));
-//             }
-//         });
-//     }
-//     catch (error) {
-//         winstonLogger.error(error);
-//         next(new ErrorHandler(error.statusCode, "Issue showing pdf"));
-//     }
-// }
-
 /**
  * Convert an office format file to PDF format.
  * @param {string} filepath File path of the original office format file.
