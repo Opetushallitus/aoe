@@ -14,7 +14,6 @@ import { NextFunction, Request, Response, Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  // TODO: Add regex validation
   router.get('/download/:filename', downloadPreviewFile);
 
   // Single file download and save to user's workstation.

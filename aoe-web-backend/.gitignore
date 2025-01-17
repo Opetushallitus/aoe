@@ -1,11 +1,11 @@
 # Build
 dist/
 
+# env file
+.env
+
 # Dependency Libraries
 node_modules/
-
-# Environment Variables
-.env
 
 # IDEs
 .idea/

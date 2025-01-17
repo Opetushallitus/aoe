@@ -19,6 +19,32 @@ export const commonSettings: ModelOptions = {
   timestamps: false,
 };
 
+export const Urn = sequelize.define<UrnModel>(
+  'urn',
+  {
+    id: {
+      field: 'id',
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    material_url: {
+      field: 'material_url',
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    indexes: [
+      {
+        unique: true,
+        fields: ['material_url'],
+      },
+    ],
+  } && (commonSettings as ModelOptions),
+);
+
 export const AOEUser = <AOEUserType>sequelize.define(
   'aoeuser',
   {

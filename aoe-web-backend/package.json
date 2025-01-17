@@ -32,7 +32,7 @@
     "build": "npm run build-ts && npm run lint",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
-    "lint": "npx eslint src/**/*.{json,ts} test/**/*.{json,ts}",
+    "lint": "npx eslint src/**/*.ts test/**/*.ts",
     "test": "cross-env DOTENV_CONFIG_PATH=test.env jest --detectOpenHandles",
     "test:ci": "npm run test",
     "test:compose": "docker compose -f docker/docker-compose.ci.yml up --abort-on-container-exit --build --force-recreate --remove-orphans",
@@ -40,10 +40,11 @@
     "debug:sequelize": "cross-env DEBUG=sequelize:* node dist/server.js"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.9.1",
     "@lumieducation/h5p-express": "^9.3.2",
     "@lumieducation/h5p-server": "^9.3.2",
+    "@opensearch-project/opensearch": "^2.13.0",
     "@types/cookie-session": "^2.0.49",
+    "aws-msk-iam-sasl-signer-js": "^1.0.0",
     "aws-sdk": "^2.789.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",

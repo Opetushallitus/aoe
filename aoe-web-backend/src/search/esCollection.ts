@@ -1,15 +1,38 @@
-import elasticsearch, { ApiResponse, Client, ClientOptions } from '@elastic/elasticsearch';
 import { db } from '@resource/postgresClient';
 import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { createMatchAllObject } from './esQueries';
 import { AoeBody, AoeCollectionResult, MultiMatchSeachBody, SearchResponse } from './esTypes';
+import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
+import AWS from "aws-sdk";
+import { Client, ApiResponse } from "@opensearch-project/opensearch";
+import { performBulkOperation } from "@search/es";
 
-const client: Client = new elasticsearch.Client({
-  node: process.env.ES_NODE,
-  log: 'trace',
-  keepAlive: true
-} as ClientOptions);
+const isProd = process.env.NODE_ENV == 'production';
+
+const client = new Client(
+  isProd
+    ? {
+      ...AwsSigv4Signer({
+        region: process.env.AWS_REGION || 'eu-west-1',
+        service: 'aoss',
+        getCredentials: () =>
+          new Promise((resolve, reject) => {
+            AWS.config.getCredentials((err, credentials) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(credentials);
+              }
+            });
+          }),
+      }),
+      node: process.env.ES_NODE,
+    }
+    : {
+      node: process.env.ES_NODE,
+    }
+);
 
 /**
  * create es collection query
@@ -29,10 +52,7 @@ export async function collectionFromEs(obj: any) {
     const mustList = [];
     // match all if keywords null
     mustList.push(createMatchAllObject());
-    // if (req.body.filters) {
-    // const filters = filterMapper(req.body.filters);
-    // filters.map(filter => mustList.push(filter));
-    // }
+
     const body: MultiMatchSeachBody = {
       'query': {
         'bool': {
@@ -46,7 +66,8 @@ export async function collectionFromEs(obj: any) {
       'size': size,
       'body': body
     };
-    const result: ApiResponse<SearchResponse<AoeCollectionResult>> = await client.search(query);
+
+    const result: ApiResponse<SearchResponse<AoeCollectionResult>> = await client.search<SearchResponse<AoeCollectionResult>>(query);
     return await aoeCollectionResponseMapper(result);
   } catch (error) {
     throw new Error(error);
@@ -124,13 +145,19 @@ export const getCollectionDataToEs = async (offset: number, limit: number) => {
   }
 };
 
-export async function collectionDataToEs(index: string, data: any) {
+export async function collectionDataToEs(index: string, data: any, operation : 'create' | 'index') {
   try {
     if (data.length > 0) {
-      const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
-      // winstonLogger.debug("THIS IS BODY:");
-      // winstonLogger.debug(JSON.stringify(body));
-      const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+      const body = data.flatMap(doc => [{ [operation]: { _index: index, _id: doc.id } }, doc]);
+      winstonLogger.info(`Adding ${data.length} documents to OpenSearch index ${index}`)
+
+      const { statusCode, body: bulkResponse } = await performBulkOperation(client, index, body)
+      winstonLogger.info(`OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`);
+
+      if (winstonLogger.isDebugEnabled()) {
+        winstonLogger.debug(`OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`);
+      }
+
       if (bulkResponse.errors) {
         const erroredDocuments = [];
         // The items array has the same order of the dataset we just indexed.
@@ -154,6 +181,7 @@ export async function collectionDataToEs(index: string, data: any) {
       }
     }
   } catch (err) {
+    winstonLogger.error(`Failed to add documents to OpenSearch index ${index} due to ${JSON.stringify(err)}`)
     throw new Error(err);
   }
 }

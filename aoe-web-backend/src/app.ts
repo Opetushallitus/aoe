@@ -15,13 +15,38 @@ import compression from 'compression';
 import flash from 'connect-flash';
 import cors, { CorsOptions } from 'cors';
 import express, { Express, NextFunction, Request, Response, Router } from 'express';
-import session, { SessionOptions } from 'express-session';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import lusca from 'lusca';
-import memorystore from 'memorystore';
+import passport from 'passport';
+import connectRedis from 'connect-redis';
+import session, { SessionOptions } from 'express-session';
+import clientRedis from '@resource/redisClient';
 
 const app: Express = express();
-const MemoryStore = memorystore(session);
+
+const RedisStore = connectRedis(session);
+
+app.use(
+  session({
+    store: new RedisStore({ client: clientRedis, logErrors: true }),
+    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
+    rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
+    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
+    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
+    proxy: config.SESSION_CONFIG_OPTIONS.proxy,
+    cookie: {
+      domain: config.SESSION_COOKIE_OPTIONS.domain,
+      httpOnly: config.SESSION_COOKIE_OPTIONS.httpOnly,
+      maxAge: config.SESSION_COOKIE_OPTIONS.maxAge,
+      sameSite: config.SESSION_COOKIE_OPTIONS.sameSite,
+      path: config.SESSION_COOKIE_OPTIONS.path,
+      secure: config.SESSION_COOKIE_OPTIONS.secure,
+    },
+  } as SessionOptions),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.disable('x-powered-by');
 
@@ -61,25 +86,7 @@ app.use(compression());
 app.use(flash());
 app.use(morganLogger);
 
-if (process.env.NODE_ENV === 'localhost') {
-  try {
-    // Add a development helper module (dev.ts).
-    require('./dev').devHelper(app);
-  } catch (error) {
-    winstonLogger.debug('Development helper module (dev.ts) not available.');
-  }
-}
-
-// Initialize session management and OIDC authorization
-app.use(
-  session({
-    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
-    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
-    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
-    store: new MemoryStore({ checkPeriod: 86400000 }), // Prune expired entries every 24h
-  } as SessionOptions),
-);
-oidc.sessionInit(app);
+// Initialize OIDC authorization
 oidc.authInit(app);
 
 // Initialize H5P editor
@@ -97,7 +104,7 @@ app.use(
     logLevel: 'debug',
     logProvider: () => winstonLogger,
     changeOrigin: true,
-    pathRewrite: (path: string) => path.replace('/v2', ''),
+    pathRewrite: (path: string) => path.replace('api/v2', 'analytics/api'),
   }),
 );
 
@@ -107,11 +114,11 @@ app.use('/favicon.ico', express.static('./views/favicon.ico'));
 app.use('/', apiRouterRoot);
 app.use('/api/v1/', apiRouterV1);
 app.use('/api/v2/', apiRouterV2);
-app.use('/h5p/content', express.static('/webdata/h5p/content'));
-app.use('/h5p/core', express.static('/webdata/h5p/core'));
-app.use('/h5p/editor', express.static('/webdata/h5p/editor'));
-app.use('/h5p/libraries', express.static('/webdata/h5p/libraries'));
-
+app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent));
+app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore));
+app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor));
+app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibraries));
+app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder));
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection);
 app.use((err, req: Response, res: NextFunction): void => {

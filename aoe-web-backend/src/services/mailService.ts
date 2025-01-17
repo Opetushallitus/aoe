@@ -61,12 +61,10 @@ export async function sendExpirationMail() {
     if (!(process.env.SEND_EMAIL === '1')) {
       winstonLogger.debug('Email sending disabled');
     } else {
-      const materials = await getExpiredMaterials();
       for (const element of emailArray) {
         mailOptions.to = element;
         const info = await transporter.sendMail(mailOptions);
         winstonLogger.debug('Message sent: %s', info.messageId);
-        // winstonLogger.debug("Message sent: %s", info.response);
       }
     }
   } catch (err) {
@@ -100,7 +98,6 @@ export async function sendRatingNotificationMail() {
         try {
           const info = await transporter.sendMail(mailOptions);
           winstonLogger.debug('Message sent: %s', info.messageId);
-          // winstonLogger.debug("Message sent: %s", info.response);
         } catch (error) {
           winstonLogger.error(error);
         }
@@ -154,7 +151,6 @@ export async function sendVerificationEmail(user: string, email: string) {
   if (process.env.SEND_EMAIL === '1') {
     const info = await transporter.sendMail(mailOptions);
     winstonLogger.debug('Message sent: %s', info.messageId);
-    // winstonLogger.debug("Message sent: %s", info.response);
   }
   return url;
 }

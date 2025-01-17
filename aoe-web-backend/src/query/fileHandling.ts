@@ -34,14 +34,20 @@ import MulterFile = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 import StreamZip from 'node-stream-zip';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // AWS and S3 configurations.
 const configAWS: ServiceConfigurationOptions = {
-  credentials: {
-    accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-    secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-  },
-  endpoint: process.env.CLOUD_STORAGE_API,
   region: process.env.CLOUD_STORAGE_REGION,
+  ...(!isProd
+    ? {
+        endpoint: process.env.CLOUD_STORAGE_API,
+        credentials: {
+          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+        },
+      }
+    : {}),
 };
 AWS.config.update(configAWS);
 
@@ -49,7 +55,7 @@ AWS.config.update(configAWS);
 const storage: StorageEngine = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
   destination: (req: Request, file: any, cb: any) => {
-    cb(undefined, `./${config.MEDIA_FILE_PROCESS.localFolder}/`);
+    cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
   filename: (req: Request, file: any, cb: any) => {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
@@ -89,7 +95,6 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
           if (!file) {
             next(new ErrorHandler(400, 'No file sent'));
           }
-          // const emresp = await insertDataToEducationalMaterialTable(req);
           const metadata = JSON.parse(req.body.attachmentDetails);
           winstonLogger.debug(metadata);
           let attachmentId;
@@ -109,15 +114,10 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
           res.status(200).json({ id: attachmentId });
           try {
             if (typeof file !== 'undefined') {
-              const obj: any = await uploadFileToStorage(
-                './' + file.path,
-                file.filename,
-                process.env.CLOUD_STORAGE_BUCKET,
-              );
-              // await insertDataToAttachmentTable(file, req.params.materialId, obj.Key, obj.Bucket, obj.Location, metadata);
+              const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
               await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
               await deleteDataToTempAttachmentTable(file.filename, result[0].id);
-              fs.unlink('./' + file.path, (err: any) => {
+              fs.unlink(file.path, (err: any) => {
                 if (err) {
                   winstonLogger.error(err);
                 }
@@ -214,7 +214,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                   if (typeof file !== 'undefined') {
                     winstonLogger.debug(materialid);
                     const obj: any = await uploadFileToStorage(
-                      './' + file.path,
+                      file.path,
                       file.filename,
                       process.env.CLOUD_STORAGE_BUCKET,
                     );
@@ -237,7 +237,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                       winstonLogger.error(e);
                     }
                     await deleteDataFromTempRecordTable(file.filename, materialid);
-                    fs.unlink('./' + file.path, (err: any) => {
+                    fs.unlink(file.path, (err: any) => {
                       if (err) {
                         winstonLogger.error(err);
                       }
@@ -252,7 +252,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                 if (!res.headersSent) {
                   next(new ErrorHandler(500, 'Error in upload: ' + err));
                 }
-                fs.unlink('./' + file.path, (err: any) => {
+                fs.unlink(file.path, (err: any) => {
                   if (err) {
                     winstonLogger.debug('Error in uploadMaterial(): ' + err);
                   } else {
@@ -300,7 +300,7 @@ export const uploadFileToLocalDisk = (
         });
       });
     } catch (err) {
-      fs.unlink(`./${req.file.path}`, (err) => {
+      fs.unlink(req.file.path, (err) => {
         if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
       });
       reject(err);
@@ -335,7 +335,7 @@ export const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
 };
 
 export const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
-  fs.unlink(`./${file.path}`, (err: any): void => {
+  fs.unlink(file.path, (err: any): void => {
     if (err) winstonLogger.error('Unlink removal for the uploaded file failed: %o', err);
   });
 };
@@ -350,21 +350,19 @@ export const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { file, fileDetails }: any = await uploadFileToLocalDisk(req, res)
     .then((result: { file: MulterFile; fileDetails: Record<string, unknown> }) => {
-      // winstonLogger.debug('FILE UPLOAD COMPLETED');
       return result;
     })
     .catch((err) => {
       winstonLogger.error('Multer upload failed: %o', err);
       throw err;
     });
-  // winstonLogger.debug('FILEPATH: %s', file.filename);
-  if (!fs.existsSync(`uploads/${file.filename}`)) {
+  if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
     res.status(500).json({ message: 'aborted' });
     return;
   }
   // Detect and reject encrypted PDFs.
   if (file.mimetype === 'application/pdf') {
-    const isEncrypted: boolean = await detectEncyptedPDF(`uploads/${file.filename}`);
+    const isEncrypted: boolean = await detectEncyptedPDF(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`);
     if (isEncrypted) {
       res.status(415).json({ rejected: 'Encrypted PDF files not allowed' }).end();
       deleteFileFromLocalDiskStorage(file);
@@ -396,15 +394,12 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
 
     recordID = await upsertRecord(t, file, material.id); // await insertDataToRecordTable(file, material.id);
-    // Save the file information to the temporary records until the upstreaming is completed.
-    // await upsertMaterialFileToTempRecords(t, file, material.id);
     await t.commit();
   } catch (err: any) {
     winstonLogger.error('Transaction for the single file upload failed: %o', err);
     await t.rollback();
     throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }
-  // TODO: 202 Accepted response to indicate the incomplete upstreaming.
   res.status(200).json({
     id: req.params.edumaterialid,
     material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: req.params.edumaterialid }],
@@ -412,7 +407,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 
   try {
     const fileS3: SendData = await uploadFileToStorage(
-      `./${file.path}`,
+      file.path,
       file.filename,
       config.CLOUD_STORAGE_CONFIG.bucket,
       material,
@@ -451,8 +446,6 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     winstonLogger.error('Single file upstreaming or conversions failed: %o', err);
     if (!res.headersSent) next(new ErrorHandler(500, `File upstreaming failed: ${err}`));
   } finally {
-    // Remove information from incomplete file tasks.
-    // await deleteDataFromTempRecordTable(file.filename, material.id);
     deleteFileFromLocalDiskStorage(file);
   }
 };
@@ -467,39 +460,14 @@ export const fileToStorage = async (
   file: MulterFile,
   materialid: string,
 ): Promise<{ key: string; recordid: string }> => {
-  const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
+  const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
-  fs.unlink(`./${file.path}`, (err: any) => {
+  fs.unlink(file.path, (err: any) => {
     if (err) winstonLogger.error(err);
   });
   return { key: obj.Key, recordid: recordid };
 };
-
-/**
- *
- * @param file
- * @param metadata
- * @param materialid
- * @param attachmentId
- * load attachment to allas storage
- */
-export async function attachmentFileToStorage(
-  file: any,
-  metadata: any,
-  materialid: string,
-  attachmentId: string,
-): Promise<any> {
-  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
-  // await insertDataToAttachmentTable(file, materialid, obj.Key, obj.Bucket, obj.Location, metadata);
-  await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
-  await deleteDataToTempAttachmentTable(file.filename, materialid);
-  fs.unlink('./' + file.path, (err: any) => {
-    if (err) {
-      winstonLogger.error(err);
-    }
-  });
-}
 
 /**
  * check if files in temporaryrecord table and try to load to allas storage
@@ -541,40 +509,6 @@ export const checkTemporaryRecordQueue = async (): Promise<void> => {
     winstonLogger.error(error);
   }
 };
-
-/**
- * check if files in temporaryattachment table and try to load to allas storage
- */
-export async function checkTemporaryAttachmentQueue(): Promise<any> {
-  try {
-    // take hour of
-    const ts = Date.now() - 1000 * 60 * 60;
-    const query = 'Select * From temporaryattachment where extract(epoch from createdat)*1000 < $1 limit 1000;';
-    const data = await db.any(query, [ts]);
-    for (const element of data) {
-      const metadata = {
-        default: element.defaultfile,
-        kind: element.kind,
-        label: element.label,
-        srclang: element.srclang,
-      };
-      const file = {
-        originalname: element.originalfilename,
-        path: element.filepath,
-        size: element.filesize,
-        mimetype: element.mimetype,
-        filename: element.filename,
-      };
-      try {
-        await attachmentFileToStorage(file, metadata, element.id, element.attachmentid);
-      } catch (error) {
-        winstonLogger.error('Error in checkTemporaryAttachmentQueue(): ' + error);
-      }
-    }
-  } catch (error) {
-    winstonLogger.error('Error in checkTemporaryAttachmentQueue(): ' + error);
-  }
-}
 
 export const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
   const query = `
@@ -1030,12 +964,16 @@ export const uploadFileToStorage = (
   materialMeta?: Material,
 ): Promise<SendData> => {
   const config: ServiceConfigurationOptions = {
-    credentials: {
-      accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-      secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-    },
-    endpoint: process.env.CLOUD_STORAGE_API,
     region: process.env.CLOUD_STORAGE_REGION,
+    ...(!isProd
+      ? {
+          endpoint: process.env.CLOUD_STORAGE_API,
+          credentials: {
+            accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+            secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+          },
+        }
+      : {}),
   };
   AWS.config.update(config);
   const s3: S3 = new AWS.S3();
@@ -1086,12 +1024,16 @@ export async function uploadBase64FileToStorage(
   return new Promise(async (resolve, reject) => {
     try {
       const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-        },
-        endpoint: process.env.CLOUD_STORAGE_API,
         region: process.env.CLOUD_STORAGE_REGION,
+        ...(!isProd
+          ? {
+              endpoint: process.env.CLOUD_STORAGE_API,
+              credentials: {
+                accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+                secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+              },
+            }
+          : {}),
       };
       AWS.config.update(config);
       const s3 = new AWS.S3();
@@ -1177,7 +1119,6 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
     }
 
     await downloadFileFromStorage(req, res, next);
-    //if (!data) return res.end();
 
     // Increase download counter unless the user is the owner of the material.
     if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalmaterialId, req))) {
@@ -1188,7 +1129,6 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
       }
     }
     next();
-    // return res.status(200).end();
   } catch (err) {
     if (!res.headersSent) {
       next(new ErrorHandler(400, err));
@@ -1229,7 +1169,6 @@ export const downloadFileFromStorage = async (
         filesize: number;
         mimetype: string;
       } = await db.oneOrNone(query, [fileName]);
-      // { originalfilename: 'oceanwaves1280x720.mp4', filesize: 2000000, mimetype: 'video/mp4' };
       if (!fileDetails) {
         next(new ErrorHandler(404, 'Requested file ' + fileName + ' not found.'));
       } else {
@@ -1454,11 +1393,6 @@ export const downloadAndZipFromStorage = (
 ): Promise<void> => {
   return new Promise((resolve, reject): void => {
     const s3: S3Client = new S3Client({
-      credentials: {
-        accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-        secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-      },
-      endpoint: process.env.CLOUD_STORAGE_API,
       region: process.env.CLOUD_STORAGE_REGION,
     } as S3ClientConfig);
     const bucket = process.env.CLOUD_STORAGE_BUCKET;
@@ -1546,7 +1480,6 @@ export default {
   checkTemporaryRecordQueue,
   uploadBase64FileToStorage,
   uploadAttachmentToMaterial,
-  checkTemporaryAttachmentQueue,
   insertDataToDisplayName,
   upsertMaterialDisplayName,
   upsertMaterialFileToTempRecords,

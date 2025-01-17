@@ -3,6 +3,8 @@ logs
 node_modules
 output
 
-.env
 .idea
 .vscode
+
+# env file
+.env

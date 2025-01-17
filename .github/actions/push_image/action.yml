@@ -1,0 +1,41 @@
+name: Push image
+description: Upload built image to AWS ECR
+inputs:
+  username:
+    description: ghcr.io username
+    required: true
+  password:
+    description: ghcr.io password
+    required: true
+  aws-arn:
+    description: aws util arn
+    required: true
+  image-tag:
+    description: image tag for container image
+    required: true
+
+
+
+runs:
+  using: composite
+  steps:
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3.3.0
+      with:
+        registry: ghcr.io
+        username: ${{ inputs.username }}
+        password: ${{ inputs.password }}
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ inputs.aws-arn }}
+        role-session-name: aoe-runner-ecr-push
+        aws-region: eu-west-1
+
+    - name: 03-push-image.sh
+      working-directory: ./
+      shell: bash
+      env:
+        IMAGE_TAG: ${{ inputs.image-tag }}
+      run: ./deploy-scripts/03-push-image.sh

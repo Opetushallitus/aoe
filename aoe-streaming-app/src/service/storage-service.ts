@@ -4,14 +4,20 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // Cloud object storage configuration
 const configAWS: ServiceConfigurationOptions = {
-  credentials: {
-    accessKeyId: process.env.STORAGE_KEY as string,
-    secretAccessKey: process.env.STORAGE_SECRET as string,
-  },
-  endpoint: process.env.STORAGE_URL as string,
   region: process.env.STORAGE_REGION as string,
+  ...(!isProd
+    ? {
+        endpoint: process.env.STORAGE_URL as string,
+        credentials: {
+          accessKeyId: process.env.STORAGE_KEY as string,
+          secretAccessKey: process.env.STORAGE_SECRET as string,
+        },
+      }
+    : {}),
 };
 const configS3: ClientConfiguration = {
   httpOptions: {
@@ -76,7 +82,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
         })
         .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
           // Forward headers to the response
-          // res.set(headers);
           res.set({
             'Content-Length': headers['content-length'],
             'Content-Range': headers['content-range'],
@@ -112,8 +117,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             res.status(error.statusCode || 500);
             reject(error);
           }
-          // getRequest.abort();
-          // stream.end();
         })
         .once('end', () => {
           winstonLogger.debug(
@@ -122,8 +125,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             fileName,
           );
           resolve();
-          // getRequest.abort();
-          // stream.end();
         })
         .pipe(res);
     } catch (error) {
