@@ -10,12 +10,13 @@ import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 
 
 interface CloudfrontStackProps extends StackProps {
-    domain: string
-    publicHostedZone: route53.IHostedZone
-//    environment: string,
-    alb: elbv2.ILoadBalancerV2
-    certificate: acm.ICertificate
-    // bucket: s3.Bucket,
+  domain: string
+  publicHostedZone: route53.IHostedZone
+  //    environment: string,
+  alb: elbv2.ILoadBalancerV2
+  certificate: acm.ICertificate
+  // bucket: s3.Bucket,
+  requireTestAuth: boolean
 }
 
 export class CloudfrontStack extends Stack {
