@@ -4,7 +4,7 @@
   "description": "Streaming Service for the Library of Open Educational Resources",
   "repository": {
     "type": "git",
-    "url": "git@gitlab.ci.csc.fi:10022/aoe/aoe-streaming-app.git"
+    "url": "https://github.com/Opetushallitus/aoe.git"
   },
   "author": "CSC - IT Center for Science Ltd.",
   "contributors": [

@@ -4,7 +4,7 @@
   "main": "dist/server.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.ci.csc.fi/aoe/aoe-semantic-apis.git"
+    "url": "https://github.com/Opetushallitus/aoe.git"
   },
   "author": "CSC - IT Center for Science Ltd.",
   "contributors": [
