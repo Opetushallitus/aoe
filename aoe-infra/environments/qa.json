@@ -119,7 +119,7 @@
                 "SUCCESS_REDIRECT_URI": "/",
                 "FAILURE_REDIRECT_URI": "/api/login",
 
-                "CREATE_ES_INDEX": "1",
+                "CREATE_ES_INDEX": "0",
                 "ES_INDEX": "aoe",
                 "ES_MAPPING_FILE": "/app/aoemapping.json",
                 "ES_COLLECTION_INDEX": "aoecollection",
