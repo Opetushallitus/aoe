@@ -397,14 +397,19 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     minimumCount: environmentConfig.services.data_services.min_count,
     maximumCount: environmentConfig.services.data_services.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: environmentConfig.services.data_services.env_vars,
+    env_vars: {
+      ...environmentConfig.services.data_services.env_vars,
+      ...{
+        AOE_IDENTIFY_BASEURL: `https://${domain}/meta/oaipmh`
+      }
+    },
     parameter_store_secrets: [],
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/rest/oaipmh*'],
-    healthCheckPath: '/rest/health',
+    listenerPathPatterns: ['/meta/oaipmh*'],
+    healthCheckPath: '/meta/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
