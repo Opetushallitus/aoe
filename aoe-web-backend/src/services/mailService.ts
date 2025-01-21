@@ -111,7 +111,7 @@ export async function sendRatingNotificationMail() {
       }
     });
 
-    if (isEnabled('SEND_RATING_NOTIFICATION')) {
+    if (isEnabled('SEND_RATING_NOTIFICATION_EMAIL')) {
       for (const element of emailArray) {
         const mailOptions = {
           from: process.env.EMAIL_FROM,
