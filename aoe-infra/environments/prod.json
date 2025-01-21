@@ -74,7 +74,7 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-312",
+            "image_tag": "ga-319",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
@@ -155,7 +155,7 @@
                 "EMAIL_FROM": "oppimateriaalivaranto@aoe.fi",
                 "SEND_SYSTEM_NOTIFICATION_EMAIL" : "0",
                 "SEND_EXPIRATION_NOTIFICATION_EMAIL" : "0",
-                "SEND_RATING_NOTIFICATION:EMAIL": "0",
+                "SEND_RATING_NOTIFICATION_EMAIL": "0",
                 "SEND_VERIFICATION_EMAIL": "0",
                 "VERIFY_EMAIL_REDIRECT_URL": "/",
 
