@@ -1,5 +1,6 @@
 import { Accessibility } from './accessibility.mock';
 /* eslint-disable max-len */
+import { environment } from '../../environments/environment';
 
 /**
  * Accessibility Policy mock
@@ -26,7 +27,7 @@ export const AccessibilityPolicy = {
     {
       heading: 'Oppimateriaalien saavutettavuus',
       content: [
-        'Aoe.fi-palveluun tallennettujen oppimateriaalien saavutettavuudesta vastaa oppimateriaalin laatija. Lisätietoja digipalvelulain saavutettavuusvaatimuksista ja soveltamisalasta eri toimijoille voit lukea Aluehallintoviraston ylläpitämältä <a href="https://www.saavutettavuusvaatimukset.fi/digipalvelulain-vaatimukset/" target="_blank" rel="noopener noreferrer">saavutettavuusvaatimukset.fi-verkkosivustolta</a>. Aoe.fi-palvelussa on mahdollista rajata hakua tietyillä saavutettavuusominaisuuksilla. Käyttäjä voi materiaalia tallennettaessa voi lisätä tiedon, millä tavoin saavutettavuus on materiaalissa huomioitu. Lisätietoa saavutettavuuden huomioimisesta aoe.fi-palveluun tallennettavissa materiaaleissa voit lukea <a href="https://aoe.fi/#/saavutettavuus" target="_blank" rel="noopener noreferrer">aoe.fi-palvelun taulukosta</a>, johon on koottu esimerkkejä ja ohjeita.',
+        `Aoe.fi-palveluun tallennettujen oppimateriaalien saavutettavuudesta vastaa oppimateriaalin laatija. Lisätietoja digipalvelulain saavutettavuusvaatimuksista ja soveltamisalasta eri toimijoille voit lukea Aluehallintoviraston ylläpitämältä <a href="https://www.saavutettavuusvaatimukset.fi/digipalvelulain-vaatimukset/" target="_blank" rel="noopener noreferrer">saavutettavuusvaatimukset.fi-verkkosivustolta</a>. Aoe.fi-palvelussa on mahdollista rajata hakua tietyillä saavutettavuusominaisuuksilla. Käyttäjä voi materiaalia tallennettaessa voi lisätä tiedon, millä tavoin saavutettavuus on materiaalissa huomioitu. Lisätietoa saavutettavuuden huomioimisesta aoe.fi-palveluun tallennettavissa materiaaleissa voit lukea <a href="${environment.frontendUrl}/#/saavutettavuus" target="_blank" rel="noopener noreferrer">aoe.fi-palvelun taulukosta</a>, johon on koottu esimerkkejä ja ohjeita.`,
       ],
     },
     {
@@ -69,7 +70,7 @@ export const AccessibilityPolicy = {
     {
       heading: 'Accessibility of learning materials',
       content: [
-        'The party responsible for the accessibility of an educational resource is the creator of the educational resource. More information about the accessibility requirements and scope of the Act on the Provision of Digital Services for different operators is available on <a href="https://www.webaccessibility.fi/requirements-of-the-act-on-the-provision-of-digital-services/" target="_blank" rel="noopener noreferrer">the webaccessibility.fi website</a> maintained by the Regional State Administrative Agency. The aoe.fi service offers the option of narrowing searches based on specific accessibility features. When uploading educational resources to the service, users can add information on how accessibility has been taken into account in the resource. For more information about how to take accessibility into account in the educational resources uploaded to the aoe.fi service, please see <a href="https://aoe.fi/#/saavutettavuus" target="_blank" rel="noopener noreferrer"> this table in the aoe.fi service</a>, which includes examples and instructions.',
+        `The party responsible for the accessibility of an educational resource is the creator of the educational resource. More information about the accessibility requirements and scope of the Act on the Provision of Digital Services for different operators is available on <a href="https://www.webaccessibility.fi/requirements-of-the-act-on-the-provision-of-digital-services/" target="_blank" rel="noopener noreferrer">the webaccessibility.fi website</a> maintained by the Regional State Administrative Agency. The aoe.fi service offers the option of narrowing searches based on specific accessibility features. When uploading educational resources to the service, users can add information on how accessibility has been taken into account in the resource. For more information about how to take accessibility into account in the educational resources uploaded to the aoe.fi service, please see <a href="${environment.frontendUrl}/#/saavutettavuus" target="_blank" rel="noopener noreferrer"> this table in the aoe.fi service</a>, which includes examples and instructions.`,
       ],
     },
     {
@@ -112,7 +113,7 @@ export const AccessibilityPolicy = {
     {
       heading: 'Läromedlens tillgänglighet',
       content: [
-        'Den som har utarbetat lärresursen ansvarar för dess tillgänglighet. Mer information om tillgänglighetskraven enligt lagen om digitala tjänster och lagens tillämpningsområde för olika aktörer finns på webbplatsen <a href="https://www.tillganglighetskrav.fi/lagar-och-standarder/" target="_blank" rel="noopener noreferrer">Tillgänglighetskrav</a>, som drivs av Regionförvaltningsverket. I aoe.fi-tjänsten kan man avgränsa sökningen med vissa tillgänglighetsegenskaper. När användaren lagrar material kan den lägga till information om hur tillgängligheten har beaktats i materialet. Mer information om hur tillgängligheten har beaktats i material som lagrats i aoe.fi-tjänsten finns i <a href="https://aoe.fi/#/saavutettavuus" target="_blank" rel="noopener noreferrer">en tabell i aoe.fi-tjänsten</a>, som innehåller exempel och anvisningar.',
+        `Den som har utarbetat lärresursen ansvarar för dess tillgänglighet. Mer information om tillgänglighetskraven enligt lagen om digitala tjänster och lagens tillämpningsområde för olika aktörer finns på webbplatsen <a href="https://www.tillganglighetskrav.fi/lagar-och-standarder/" target="_blank" rel="noopener noreferrer">Tillgänglighetskrav</a>, som drivs av Regionförvaltningsverket. I aoe.fi-tjänsten kan man avgränsa sökningen med vissa tillgänglighetsegenskaper. När användaren lagrar material kan den lägga till information om hur tillgängligheten har beaktats i materialet. Mer information om hur tillgängligheten har beaktats i material som lagrats i aoe.fi-tjänsten finns i <a href="${environment.frontendUrl}/#/saavutettavuus" target="_blank" rel="noopener noreferrer">en tabell i aoe.fi-tjänsten</a>, som innehåller exempel och anvisningar.`,
       ],
     },
     {
