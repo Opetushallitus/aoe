@@ -7,9 +7,13 @@ import pidResolutionService from '@services/pidResolutionService';
 import winstonLogger from '@util/winstonLogger';
 import { Job, scheduleJob } from 'node-schedule';
 
-// 1:00 AM (UTC): scheduled directory cleaning tasks.
+const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *';
+const pidSchedule = process.env.PID_CRON_SCHEDULE || '0 15 1 * * *';
+const fileCleaningSchedule = process.env.FILE_CLEANING_CRON_SCHEDULE || '0 0 1 * * *';
+const indexUpdateSchedule = process.env.INDEX_UPDATE_CRON_SCHEDULE || '0 30 1 * * *';
+
 export const startScheduledCleaning = (): void => {
-  const dirCleaningScheduler: Job = scheduleJob('0 0 1 * * *', async (): Promise<void> => {
+  const dirCleaningScheduler: Job = scheduleJob(fileCleaningSchedule, async (): Promise<void> => {
     // Remove temporary content from the resource directories (H5P, HTML).
     try {
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false);
@@ -28,7 +32,7 @@ export const startScheduledCleaning = (): void => {
 
 // 1:15 AM (UTC): scheduled PID (Permanent Identifiers) registration for recently published educational materials.
 export const startScheduledRegistrationForPIDs = (): void => {
-  const pidRegisterScheduler: Job = scheduleJob('0 15 1 * * *', async (): Promise<void> => {
+  const pidRegisterScheduler: Job = scheduleJob(pidSchedule, async (): Promise<void> => {
     try {
       if (
         (parseInt(process.env.PID_SERVICE_ENABLED, 10) as number) === 1 &&
@@ -48,7 +52,7 @@ export const startScheduledRegistrationForPIDs = (): void => {
 
 // 1:30 AM (UTC): scheduled search index update.
 export const startScheduledSearchIndexUpdate = (): void => {
-  const searchUpdateScheduler: Job = scheduleJob('0 30 1 * * *', async (): Promise<void> => {
+  const searchUpdateScheduler: Job = scheduleJob(indexUpdateSchedule, async (): Promise<void> => {
     // Update search engine index with recent changes.
     try {
       await updateEsDocument(true);
@@ -62,7 +66,7 @@ export const startScheduledSearchIndexUpdate = (): void => {
   winstonLogger.info('Scheduled job active for search index update at 1:30 AM (UTC)');
 };
 
-scheduleJob('0 0 10 * * *', async (): Promise<void> => {
+scheduleJob(emailSchedule, async (): Promise<void> => {
   try {
     await sendRatingNotificationMail();
     await sendExpirationMail();
