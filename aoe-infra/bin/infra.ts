@@ -97,21 +97,10 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc
   })
 
-  let sesIamPolicy: iam.PolicyStatement | undefined;
-
-  if (environmentName !== 'prod') {
-    const sesStack = new SesStack(app, 'SesStack', {
-      env: { region: 'eu-west-1' },
-      hostedZone: HostedZones.publicHostedZone
-    });
-
-    sesIamPolicy = new iam.PolicyStatement({
-      actions: ['ses:SendEmail'],
-      resources: [
-        sesStack.emailIdentity.emailIdentityArn
-      ]
-    });
-  }
+  const SES = new SesStack(app, 'SesStack', {
+    env: {region: 'eu-west-1'},
+    hostedZone: HostedZones.publicHostedZone
+  });
 
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
     env: { region: 'eu-west-1' },
@@ -444,6 +433,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     resources: [efs.fileSystem.fileSystemArn]
   })
 
+  const sesIamPolicy = new iam.PolicyStatement({
+    actions: [ 'ses:SendEmail' ],
+    resources: [
+      SES.emailIdentity.emailIdentityArn
+    ]
+  });
+
   new EcsServiceStack(app, 'WebBackendEcsService', {
     env: { region: 'eu-west-1' },
     stackName: `${environmentName}-web-backend-service`,
@@ -496,7 +492,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       efsPolicyStatement,
       kafkaClusterIamPolicy,
       kafkaTopicIamPolicy,
-      ...(sesIamPolicy ? [sesIamPolicy] : []),
+      sesIamPolicy,
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     efs: {
