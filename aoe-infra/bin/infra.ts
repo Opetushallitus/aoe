@@ -247,6 +247,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
+    environment : environmentName,
     instances: environmentConfig.document_db.instances,
     instanceType: environmentConfig.document_db.instanceType,
     env: { region: 'eu-west-1' },
