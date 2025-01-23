@@ -4,6 +4,7 @@ import { AuroraPostgresEngineVersion, DatabaseCluster, DatabaseClusterEngine, Cl
 import { IVpc, ISecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
+import * as cdk from 'aws-cdk-lib'
 
 interface AuroraDatabaseProps extends StackProps {
   environment: string;
@@ -69,6 +70,9 @@ export class AuroraDatabaseStack extends Stack {
       deletionProtection: true,
       securityGroups: [props.securityGroup],
       subnetGroup: props.subnetGroup,
+      backup: {
+        retention : props.environment === 'prod' ? cdk.Duration.days(30) : cdk.Duration.days(7)
+      },
       credentials: {
         username: 'aoe_db_admin',
         password: props.auroraDbPassword.secretValueFromJson('password')
