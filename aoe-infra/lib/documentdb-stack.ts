@@ -6,6 +6,7 @@ import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Key } from "aws-cdk-lib/aws-kms";
 
 interface DocumentDbStackProps extends cdk.StackProps {
+  environment: string;
   instances: number;
   engineVersion: string;
   vpc: IVpc;
@@ -33,7 +34,10 @@ export class DocumentdbStack extends cdk.Stack {
       vpcSubnets: {subnets: props.vpc.isolatedSubnets },
       securityGroup: props.securityGroup,
       deletionProtection: true,
-      kmsKey: props.kmsKey
+      kmsKey: props.kmsKey,
+      backup : {
+        retention : props.environment === 'prod' ? cdk.Duration.days(30) : cdk.Duration.days(7)
+      }
     })
 
     this.clusterEndpoint = this.docdbcluster.clusterEndpoint
