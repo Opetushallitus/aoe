@@ -42,13 +42,28 @@ export class CloudfrontStack extends Stack {
     }
 
     if (props.requireTestAuth) {
+
+      const kvStore = new cloudfront.KeyValueStore(this, "KeyValueStore", {
+        keyValueStoreName: "authStore",
+      });
+
       // create a cloudFront function from the basic-auth.js file
       const basicAuthFunction = new cloudfront.Function(this, 'RequestFunction', {
         functionName: 'BasicAuth',
         runtime: cloudfront.FunctionRuntime.JS_2_0,
         code: cloudfront.FunctionCode.fromFile({
           filePath: './resources/functions/basic-auth.js'
-        })
+        }),
+        keyValueStore: kvStore
+      });
+
+      const basicAuthResponseFunction = new cloudfront.Function(this, 'ResponseFunction', {
+        functionName: 'BasicAuthCookie',
+        runtime: cloudfront.FunctionRuntime.JS_2_0,
+        code: cloudfront.FunctionCode.fromFile({
+          filePath: './resources/functions/cookie-response.js'
+        }),
+        keyValueStore: kvStore
       });
 
       // Connect basic authentication function to defaultBehaviour
@@ -61,6 +76,10 @@ export class CloudfrontStack extends Stack {
               function: basicAuthFunction,
               eventType: cloudfront.FunctionEventType.VIEWER_REQUEST
             },
+            {
+              function: basicAuthResponseFunction,
+              eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE
+            }
           ]
         }
       })

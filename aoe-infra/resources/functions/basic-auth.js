@@ -1,10 +1,8 @@
-// Original: https://gist.github.com/jeroenvollenbrock/94edbbc62adc986d6d6a9a3076e66f5b
-// Currently work in progress
+import cf from 'cloudfront';
 
-let USERNAME = 'test';
-let PASSWORD = 'test';
+const COOKIE_NAME = 'aoe_auth_token';
 
-let response401 = {
+const response401 = {
 	statusCode: 401,
 	statusDescription: 'Unauthorized',
 	headers: {
@@ -12,23 +10,74 @@ let response401 = {
 	},
 };
 
-function validateBasicAuth(authHeader) {
-	let match = authHeader.match(/^Basic (.+)$/);
-	if (!match) {
+async function getSecret(key) {
+	try {
+		const kvsHandle = cf.kvs();
+		return await kvsHandle.get(key);
+	} catch (err) {
+		return null;
+	}
+}
+
+async function validateBasicAuth(authHeader) {
+	if (!authHeader) {
 		return false;
 	}
 
-	const credentials = Buffer.from(match[1], 'base64').toString('utf-8').split(':', 2);
+	const match = authHeader.match(/^Basic (.+)$/);
+	if (!match){
+		return false;
+	}
 
-	return credentials[0] === USERNAME && credentials[1] === PASSWORD;
+	const username = await getSecret('username')
+	const password = await getSecret('password')
+
+	const credentials = Buffer.from(match[1], 'base64').toString('utf-8').split(':', 2);
+	return credentials[0] === username && credentials[1] === password;
 }
 
-function handler(event) {
-	let request = event.request;
-	let headers = request.headers;
-	let auth = (headers.authorization && headers.authorization.value) || '';
+async function validateAuthToken(token) {
+	if (!token) return false;
 
-	if (!validateBasicAuth(auth)) { return response401; }
+	const username = await getSecret('username')
+	const tokensecret = await getSecret('tokensecret')
 
+	const decoded = Buffer.from(token, 'base64').toString('utf-8');
+	const parts = decoded.split(':');
+	const tokenUsername = parts[0];
+	const secret = parts[1];
+	return tokenUsername === username && secret === tokensecret;
+}
+
+async function handler(event) {
+	const request = event.request;
+	const headers = request.headers;
+
+	const requestReferer = await getSecret('referer')
+
+	if(request.uri === '/meta/oaipmh') {
+		return request;
+	}
+
+	if (request.uri === '/api/secure/redirect' || request.uri === '/') {
+		const referer = headers.referer && headers.referer.value;
+
+		if (referer === requestReferer){
+			return request;
+		}
+	}
+
+	const cookie = request.cookies[COOKIE_NAME];
+	if (cookie && await validateAuthToken(cookie.value)) {
+		return request;
+	}
+
+	const authHeader = headers.authorization && headers.authorization.value;
+	if (!await validateBasicAuth(authHeader)) {
+		return response401;
+	}
+
+	// If Basic Auth succeeds, proceed with the request
+	// (A viewer-response function will set the cookie)
 	return request;
 }
