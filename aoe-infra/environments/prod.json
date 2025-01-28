@@ -257,5 +257,8 @@
             "min_ecpu_per_second": 1000,
             "max_ecpu_per_second": 40000
         }
+    },
+    "cloudfront": {
+        "require_test_authentication": false
     }
 }

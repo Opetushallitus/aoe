@@ -228,7 +228,6 @@
         "collectionName": "aoecollection",
         "collectionDescription": "Collection for aoe"
     },
-
     "aurora_databases": {
       "web_backend": {
         "version": "16.4",
@@ -258,5 +257,8 @@
             "min_ecpu_per_second": 1000,
             "max_ecpu_per_second": 40000
           }
+    },
+    "cloudfront": {
+        "require_test_authentication": true
     }
 }
