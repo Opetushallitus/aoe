@@ -34,12 +34,15 @@ import { MskStack } from '../lib/msk-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from "../lib/ses-stack";
+import { MonitorStack } from '../lib/monitor-stack'
 
 const app = new cdk.App()
 
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
 const utilityAccountId: string = app.node.tryGetContext('UTILITY_ACCOUNT_ID')
+const envEU = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
+const envUS = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' }
 
 // Allow any in this case, since we don't want to explicitely type json data
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -66,50 +69,55 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const domain = environmentName  === 'prod' ? `aws.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
 
   new GithubActionsStack(app, 'GithubActionsStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     environment: environmentName
+  })
+
+  const Monitor = new MonitorStack(app, 'MonitorStack', {
+    env: envEU,
+    environment: environmentName,
   })
 
   // Remember to update KMS key removal policy
   const Kms = new KmsStack(app, 'KmsStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-kms`,
     environment: environmentName
   })
 
   const Secrets = new SecretManagerStack(app, 'SecretManagerStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-secrets`,
     kmsKey: Kms.secretsManagerKey
   })
 
   const Network = new VpcStack(app, 'VpcStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-vpc`,
     vpc_cidr: environmentConfig.aws.vpc_cidr,
     availability_zones: environmentConfig.aws.availability_zones
   })
 
   const HostedZones = new HostedZoneStack(app, 'HostedZoneStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-hosted-zone`,
     domain: environmentConfig.aws.domain,
     vpc: Network.vpc
   })
 
   const SES = new SesStack(app, 'SesStack', {
-    env: {region: 'eu-west-1'},
+    env: envEU,
     hostedZone: HostedZones.publicHostedZone
   });
 
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-security-groups`,
     vpc: Network.vpc
   })
 
   new BastionStack(app, 'BastionStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-bastion`,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.bastionSecurityGroup,
@@ -118,13 +126,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const AuroraCommons = new AuroraCommonStack(app, 'AuroraCommonStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-aurora-common`,
     vpc: Network.vpc
   })
 
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-web-backend-aurora`,
     auroraVersion: environmentConfig.aurora_databases.web_backend.version,
     environment: environmentName,
@@ -140,7 +148,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-open-search`,
     collectionName: environmentConfig.open_search.collectionName,
     description: environmentConfig.open_search.collectionDescription,
@@ -151,7 +159,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-semantic-apis-redis`,
     elasticacheName: 'semantic-apis',
     consumingServiceName: 'semantic-apis',
@@ -168,7 +176,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const Alb = new AlbStack(app, 'AlbStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     crossRegionReferences: true,
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
@@ -178,7 +186,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {
-    env: { region: 'us-east-1' },
+    env: envUS,
     stackName: `${environmentName}-cloudfront-certificate`,
     domain: domain,
     hostedZone: HostedZones.publicHostedZone,
@@ -186,7 +194,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const Cloudfront = new CloudfrontStack(app, 'CloudFrontStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-cloudfront`,
     alb: Alb.alb,
     domain: domain,
@@ -197,14 +205,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-frontend-bucket`,
     environment: environmentName,
     cloudFrontDistribution: Cloudfront.distribution
   })
 
   const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     environment: environmentName,
     aoeBucketName: environmentConfig.S3.aoeBucketName,
     aoePdfBucketName: environmentConfig.S3.aoePdfBucketName,
@@ -212,12 +220,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     environment: environmentName
   })
 
   new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     crossRegionReferences: true,
     stackName: `${environmentName}-frontend-deployment`,
     environment: environmentName,
@@ -226,7 +234,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const FargateCluster = new FargateClusterStack(app, 'FargateClusterStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-fargate-cluster`,
     environment: environmentName,
     vpc: Network.vpc,
@@ -240,7 +248,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const efs = new EfsStack(app, 'AOEefsStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.efsSecurityGroup,
     accessPointPath: '/data',
@@ -251,7 +259,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     environment : environmentName,
     instances: environmentConfig.document_db.instances,
     instanceType: environmentConfig.document_db.instanceType,
-    env: { region: 'eu-west-1' },
+    env: envEU,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.documentDbSecurityGroup,
     engineVersion: environmentConfig.document_db.engineVersion,
@@ -260,7 +268,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const mskKafka = new MskStack(app, 'AOEMskKafka', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     clusterName: environmentConfig.msk.clusterName,
     instanceType: environmentConfig.msk.instanceType,
     kmsKey: Kms.mskKmsKey,
@@ -299,7 +307,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   new EcsServiceStack(app, 'DataAnalyticsEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-data-analytics-service`,
     serviceName: 'data-analytics',
     environment: environmentName,
@@ -339,11 +347,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckTimeout: 2,
     albPriority: 140,
     privateDnsNamespace: namespace.privateDnsNamespace,
-    iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
+    iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy],
+    alarmSnsTopic: Monitor.topic
   })
 
   new EcsServiceStack(app, 'StreamingEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-streaming-app-service`,
     serviceName: 'streaming-app',
     environment: environmentName,
@@ -370,11 +379,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckTimeout: 2,
     albPriority: 110,
     iAmPolicyStatements: [s3PolicyStatement],
-    privateDnsNamespace: namespace.privateDnsNamespace
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    alarmSnsTopic: Monitor.topic,
   })
 
   new EcsServiceStack(app, 'DataServicesEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-data-services`,
     serviceName: 'data-services',
     environment: environmentName,
@@ -405,7 +415,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 130,
-    privateDnsNamespace: namespace.privateDnsNamespace
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    alarmSnsTopic: Monitor.topic
   })
 
   const aossPolicyStatement = new iam.PolicyStatement({
@@ -443,7 +454,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   });
 
   new EcsServiceStack(app, 'WebBackendEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
     environment: environmentName,
@@ -497,6 +508,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       sesIamPolicy,
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
+    alarmSnsTopic: Monitor.topic,
     efs: {
       volume: {
         name: 'data',
@@ -518,7 +530,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   new EcsServiceStack(app, 'WebFrontendEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-web-frontend-service`,
     serviceName: 'web-frontend',
     environment: environmentName,
@@ -545,11 +557,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckTimeout: 2,
     albPriority: 49000,
     iAmPolicyStatements: [],
-    privateDnsNamespace: namespace.privateDnsNamespace
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    alarmSnsTopic: Monitor.topic
   })
 
   new EcsServiceStack(app, 'SemanticApisEcsService', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-semantic-apis-service`,
     serviceName: 'semantic-apis',
     environment: environmentName,
@@ -579,46 +592,47 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 100,
-    privateDnsNamespace: namespace.privateDnsNamespace
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    alarmSnsTopic: Monitor.topic
   })
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: `${environmentName}-utility`
   })
 
   new EcrStack(app, 'FrontendEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-web-frontend-ecr',
     serviceName: 'aoe-web-frontend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'BackendEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-web-backend-ecr',
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'SemanticApisEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-semantic-apis-ecr',
     serviceName: 'aoe-semantic-apis',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'StreamingAppEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-streaming-app-ecr',
     serviceName: 'aoe-streaming-app',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'DataServicesEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-data-services-ecr',
     serviceName: 'aoe-data-services',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'DataAnalyticsEcrStack', {
-    env: { region: 'eu-west-1' },
+    env: envEU,
     stackName: 'aoe-data-analytics-ecr',
     serviceName: 'aoe-data-analytics',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
