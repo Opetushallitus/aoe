@@ -294,7 +294,7 @@ services:
   aoe-oidc-server:
     hostname: aoe-oidc-server
     container_name: oidc-server-mock
-    image: ghcr.io/soluto/oidc-server-mock:latest
+    image: ghcr.io/soluto/oidc-server-mock:9.0.1
     restart: on-failure:2
     expose:
       - 80
