@@ -200,6 +200,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
     healthcheck:
       test: [ "CMD", "nc", "-z", "localhost", "2181" ]
       interval: 10s
@@ -222,6 +223,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_LOG4J_ROOT_LOGLEVEL: ERROR
+      KAFKA_LOG4J_LOGGERS: kafka=ERROR,kafka.network.RequestChannel$=ERROR,kafka.producer.async.DefaultEventHandler=ERROR,kafka.request.logger=ERROR,kafka.controller=ERROR,kafka.log.LogCleaner=ERROR,state.change.logger=ERROR,kafka.authorizer.logger=ERROR
     ports:
       - 29092:29092
     healthcheck:
@@ -244,6 +247,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_LOG4J_ROOT_LOGLEVEL: ERROR
+      KAFKA_LOG4J_LOGGERS: kafka=ERROR,kafka.network.RequestChannel$=ERROR,kafka.producer.async.DefaultEventHandler=ERROR,kafka.request.logger=ERROR,kafka.controller=ERROR,kafka.log.LogCleaner=ERROR,state.change.logger=ERROR,kafka.authorizer.logger=ERROR
     ports:
       - 39092:39092
     healthcheck:
