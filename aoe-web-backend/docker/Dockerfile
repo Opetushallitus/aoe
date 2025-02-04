@@ -25,6 +25,7 @@ RUN apk add --no-cache \
     ttf-liberation
 
 COPY ./views /app/views
+COPY ./vendor /app/vendor
 COPY ./package.json /app
 COPY ./package-lock.json /app
 COPY ./src/search/aoemapping.json /app
