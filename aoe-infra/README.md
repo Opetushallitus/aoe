@@ -58,6 +58,15 @@ Then,
 
 Aurora stack creation only creates database master user with a password stored in the AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application user must be created (and granted) separately.
 
+### Configuring Monitoring
+
+Sending Alerts is done with an SNS Topic, AWS ChatBot and Slack. To get started with sending alerts to Slack:
+- Create plain text parameters `/monitor/slack_channel_id` and `/monitor/slack_workspace_id` into your AWS System's Manager Parameter Store that contain Slack Workspace ID and Channel ID
+- Invite AWS ChatBot to the Slack channel
+- Head to the AWS account's ChatBot - service, hit "Configure New Client", Select "Slack" from the drop down menu and proceed to authorize the AWS account to the AWS ChatBot - Slack app.
+- Create the Monitor - Stack with the Slack channel name of your choise.
+- You can now use the exported SNS topic for sending alerts.
+
 ### Database dump for transfer
 
 Following options are recommended for dumping the database:

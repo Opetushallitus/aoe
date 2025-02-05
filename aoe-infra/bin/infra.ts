@@ -75,6 +75,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
 
   const Monitor = new MonitorStack(app, 'MonitorStack', {
     env: envEU,
+    slackChannelName: `valvonta-aoe-${environmentName}`,
     environment: environmentName,
   })
 

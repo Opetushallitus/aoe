@@ -1,7 +1,7 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { IVpc } from 'aws-cdk-lib/aws-ec2';
 import { Key } from 'aws-cdk-lib/aws-kms';
-import { Cluster, ExecuteCommandLogging, ICluster } from 'aws-cdk-lib/aws-ecs';
+import { Cluster, ExecuteCommandLogging, ICluster, ContainerInsights } from 'aws-cdk-lib/aws-ecs';
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
@@ -30,6 +30,7 @@ export class FargateClusterStack extends Stack {
     this.fargateCluster = new Cluster(this, "FargateCluster", {
       clusterName: `${props.environment}-ecs-fargate`,
       vpc: props.vpc,
+      conainerInsightsV2: ContainerInsights.ENHANCED,
       executeCommandConfiguration: {
         logging: ExecuteCommandLogging.OVERRIDE,
         logConfiguration: {

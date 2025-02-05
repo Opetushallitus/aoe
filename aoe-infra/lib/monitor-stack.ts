@@ -8,7 +8,8 @@ import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 
 export interface MonitorStackProps extends cdk.StackProps {
- environment: string,
+ slackChannelName: string,
+ environment: string
 }
 
 
@@ -23,24 +24,13 @@ export class MonitorStack extends cdk.Stack {
     this.topic = new sns.Topic(this, `${props.environment}-cloudwatch-slack`);
    
     const slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
-        slackChannelConfigurationName: `valvonta-aoe-${props.environment}`,
+        slackChannelConfigurationName: `${props.slackChannelName}`,
         slackChannelId: slackChannelId,
         slackWorkspaceId: slackWorkspaceId,
         notificationTopics: [this.topic],
         loggingLevel: chatbot.LoggingLevel.INFO,
         logRetention: logs.RetentionDays.THREE_MONTHS,
     });
-
-// AWS-Chatbot-NotificationsOnly-Policy
-    // slackChannel.addToRolePolicy(new PolicyStatement({
-    //     effect: Effect.ALLOW,
-    //     actions: [
-    //     'cloudwatch:Describe*',
-    //     'cloudwatch:Get*',
-    //     'cloudwatch:List*',
-    //     ],
-    //     resources: ['*'],
-    // }));
 
  }
 }

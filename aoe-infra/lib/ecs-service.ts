@@ -140,16 +140,19 @@ export class EcsServiceStack extends Stack {
       ]
     })
 
-    const cwAgentContainer = taskDefinition.addContainer('ecs-cwagent', {
-      image: ContainerImage.fromRegistry("public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest"),
-      environment: {
-        CW_CONFIG_CONTENT: '{"agent": {"debug": true}, "traces": {"traces_collected": {"application_signals": {"enabled": true}}}, "logs": {"metrics_collected": {"application_signals": {"enabled": true}}}}',
-      },
-      logging: new AwsLogDriver({
-        streamPrefix: "cwagent",
-        logGroup: ServiceLogGroup,
-      }),
-    })
+    // const cwAgentContainer = taskDefinition.addContainer('ecs-cwagent', {
+    //   image: ContainerImage.fromRegistry("public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest"),
+    //   environment: {
+    //     CW_CONFIG_CONTENT: '{"agent": {"debug": true}, \
+    //     "traces": {"traces_collected": {"application_signals": {"enabled": true}}}, \
+    //     "logs": {"metrics_collected": {"application_signals": {"enabled": true}}}, \
+    //     "metrics": {"metrics_collected": {"application_signals": {"enabled": true}}}}'
+    //   },
+    //   logging: new AwsLogDriver({
+    //     streamPrefix: "cwagent",
+    //     logGroup: ServiceLogGroup,
+    //   }),
+    // })
 
 
     if (props.efs) {
