@@ -303,7 +303,7 @@ export function createMultiMatchObject(keywords: string, fields: string[]) {
     'multi_match': {
       'query': keywords,
       'fields': fields,
-      'fuzziness': 'AUTO'
+      'fuzziness': '1'
     }
   };
 }
