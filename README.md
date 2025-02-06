@@ -3,18 +3,18 @@
 ## Teknologiat
 Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat
 
-- PostgreSQL
-- MongoDB
-- Redis
-- ElasticSearch
-- Apache Kafka
+- Aurora PostgresSQL
+- DocumentDB
+- ElastiCache Redis OSS
+- OpenSearch -hakuideksi
+- AWS MSK Kafka
 - AWS S3
 - Palvelinteknologiat
   - Spring boot
   - NodeJs
-  - Maven
+  - Maven-build-työkalu kehityskäyttöön ja asennettavan paketin rakentamiseen
 - Web-sovelluksen frontend-teknologiat
-  - Angular 14.3.0
+  - Angular
   - npm-työkalu riippuvuuksien hakuun
   - TypeScript
 
