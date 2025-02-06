@@ -10,7 +10,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-205",
+            "image_tag": "ga-374",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOGGING_LEVEL_FI_CSC": "ERROR",
@@ -51,7 +51,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-314",
+            "image_tag": "ga-374",
             "allow_ecs_exec": true,
             "env_vars": {
                 "SPRING_PROFILES_ACTIVE": "prod",
@@ -66,8 +66,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-375-dev",
-
+            "image_tag": "ga-374-dev",
             "allow_ecs_exec": true
         },
         "web_backend": {
@@ -75,7 +74,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-364",
+            "image_tag": "ga-374",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
@@ -182,7 +181,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-205",
+            "image_tag": "ga-374",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "error",
@@ -198,7 +197,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-205",
+            "image_tag": "ga-374",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
