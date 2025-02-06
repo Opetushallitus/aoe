@@ -1,5 +1,5 @@
 import * as _ from "lodash"
-import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy } from "aws-cdk-lib"
+import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy, aws_cloudwatch_actions } from "aws-cdk-lib"
 import { Construct } from "constructs"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
 import { ICluster, ContainerImage, AwsLogDriver, Secret, FargatePlatformVersion, CpuArchitecture, OperatingSystemFamily, UlimitName, FargateService, TaskDefinition, Compatibility } from "aws-cdk-lib/aws-ecs"
@@ -11,6 +11,8 @@ import * as ssm from "aws-cdk-lib/aws-ssm"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
 import { PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
 import { Volume } from "aws-cdk-lib/aws-ecs/lib/base/task-definition";
 import { MountPoint } from "aws-cdk-lib/aws-ecs/lib/container-definition";
@@ -50,6 +52,7 @@ interface EcsServiceStackProps extends StackProps {
     mountPoint: MountPoint
     volume: Volume
   }
+  alarmSnsTopic: sns.Topic
 }
 
 export class EcsServiceStack extends Stack {
@@ -137,6 +140,21 @@ export class EcsServiceStack extends Stack {
       ]
     })
 
+    // const cwAgentContainer = taskDefinition.addContainer('ecs-cwagent', {
+    //   image: ContainerImage.fromRegistry("public.ecr.aws/cloudwatch-agent/cloudwatch-agent:latest"),
+    //   environment: {
+    //     CW_CONFIG_CONTENT: '{"agent": {"debug": true}, \
+    //     "traces": {"traces_collected": {"application_signals": {"enabled": true}}}, \
+    //     "logs": {"metrics_collected": {"application_signals": {"enabled": true}}}, \
+    //     "metrics": {"metrics_collected": {"application_signals": {"enabled": true}}}}'
+    //   },
+    //   logging: new AwsLogDriver({
+    //     streamPrefix: "cwagent",
+    //     logGroup: ServiceLogGroup,
+    //   }),
+    // })
+
+
     if (props.efs) {
       taskDefinition.addVolume(props.efs.volume);
       container.addMountPoints(props.efs.mountPoint);
@@ -163,26 +181,28 @@ export class EcsServiceStack extends Stack {
       }
     )
 
+    const targetGroup = new ApplicationTargetGroup(this, `${props.serviceName}TargetGroup`, {
+      targets: [ecsService],
+      vpc: props.vpc,
+      healthCheck: {
+        path: `${props.healthCheckPath}`,
+        interval: Duration.seconds(props.healthCheckInterval),
+        healthyThresholdCount: 2,
+        timeout: Duration.seconds(props.healthCheckTimeout)
+      },
+      port: 8080,
+      protocol: ApplicationProtocol.HTTP,
+      deregistrationDelay: Duration.seconds(5),
+      loadBalancingAlgorithmType: TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS
+    })
+
     new ApplicationListenerRule(this, 'serviceDefaultRule', {
       listener: props.listener,
       priority: props.albPriority,
       conditions: [
         ListenerCondition.pathPatterns(props.listenerPathPatterns)
       ],
-      targetGroups: [new ApplicationTargetGroup(this, `${props.serviceName}TargetGroup`, {
-        targets: [ecsService],
-        vpc: props.vpc,
-        healthCheck: {
-          path: `${props.healthCheckPath}`,
-          interval: Duration.seconds(props.healthCheckInterval),
-          healthyThresholdCount: 2,
-          timeout: Duration.seconds(props.healthCheckTimeout)
-        },
-        port: 8080,
-        protocol: ApplicationProtocol.HTTP,
-        deregistrationDelay: Duration.seconds(5),
-        loadBalancingAlgorithmType: TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS
-      })]
+      targetGroups: [targetGroup]
     })
 
     const scalingTarget = ecsService.autoScaleTaskCount({
@@ -202,6 +222,53 @@ export class EcsServiceStack extends Stack {
       cooldown: Duration.minutes(3),
     })
 
+// Cloudwatch alarms for ECS services
+    const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+
+    const unhealthyTasksAlarm = new cloudwatch.Alarm(this, 'UnhealthyTasksAlarm', {
+      alarmName: 'UnhealthyTasksAlarm',
+      metric: targetGroup.metrics.unhealthyHostCount({
+        statistic: 'Average',
+        period: Duration.seconds(30)
+      }),
+      threshold: 1,
+      evaluationPeriods: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    unhealthyTasksAlarm.addAlarmAction(alarmSnsAction)
+    unhealthyTasksAlarm.addOkAction(alarmSnsAction)
+
+    const cpuUtilizationAlarm = new cloudwatch.Alarm(this, 'CpuUtilizationAlarm', {
+      alarmName: 'CpuUtilizationAlarm',
+      metric: ecsService.metricCpuUtilization({
+        statistic: 'Maximum',
+        period: Duration.minutes(5)
+      }),
+      threshold: 85,
+      evaluationPeriods: 3,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    cpuUtilizationAlarm.addAlarmAction(alarmSnsAction)
+    cpuUtilizationAlarm.addOkAction(alarmSnsAction)
+
+    const memoryUtilizationAlarm = new cloudwatch.Alarm(this, 'MemoryUtilizationAlarm', {
+      alarmName: 'MemoryUtilizationAlarm',
+      metric: ecsService.metricMemoryUtilization({
+        statistic: 'Maximum',
+        period: Duration.minutes(5)
+      }),
+      threshold: 85,
+      evaluationPeriods: 2,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    memoryUtilizationAlarm.addAlarmAction(alarmSnsAction)
+    memoryUtilizationAlarm.addOkAction(alarmSnsAction)
+
+
+// Cloudformation outputs
     new CfnOutput(this, 'ServiceDiscoveryName', {
       value: `${props.serviceName}.${props.privateDnsNamespace.namespaceName}`,
     });
