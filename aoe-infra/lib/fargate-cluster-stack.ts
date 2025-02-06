@@ -30,7 +30,7 @@ export class FargateClusterStack extends Stack {
     this.fargateCluster = new Cluster(this, "FargateCluster", {
       clusterName: `${props.environment}-ecs-fargate`,
       vpc: props.vpc,
-      conainerInsightsV2: ContainerInsights.ENHANCED,
+      containerInsightsV2: ContainerInsights.ENHANCED,
       executeCommandConfiguration: {
         logging: ExecuteCommandLogging.OVERRIDE,
         logConfiguration: {
