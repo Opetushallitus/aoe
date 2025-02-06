@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { SearchService } from '@services/search.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { CollectionSearchResults } from '@models/search/collection-search-results';
 
 @Component({
@@ -15,6 +14,7 @@ export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
   results: CollectionSearchResults;
   serviceName: string;
+  loading: boolean;
 
   constructor(private searchSvc: SearchService, private translate: TranslateService, private titleService: Title) {}
 
@@ -26,8 +26,10 @@ export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     this.resultSubscription = this.searchSvc.collectionSearchResults$.subscribe((results: CollectionSearchResults) => {
+      this.loading = false;
       this.results = results;
     });
+    this.loading = true;
     this.searchSvc.updateCollectionSearchResults({ keywords: null });
   }
 

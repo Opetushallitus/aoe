@@ -66,7 +66,8 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-372-dev",
+            "image_tag": "ga-375-dev",
+
             "allow_ecs_exec": true
         },
         "web_backend": {
