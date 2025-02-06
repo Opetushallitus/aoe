@@ -132,6 +132,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.keywordsCtrl.setValue(searchParams?.keywords);
 
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
+    this.loading = true;
     this.searchService.updateSearchResults(searchParams);
 
     this.resultSubscription = this.searchService.searchResults$.subscribe((results: SearchResults) => {
@@ -583,6 +584,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   onSubmit(removedFilter?: UsedFilter): void {
     if (this.searchForm.valid && this.filtersCount < 51) {
+      this.loading = true;
       const searchParams: SearchParams = this.searchForm.value;
       const selectedEducationalLevels: string[] = [];
       let usedFilters: UsedFilter[] = [];
@@ -898,6 +900,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   filterSearch(): void {
+    this.loading = true;
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
