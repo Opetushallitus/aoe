@@ -3,29 +3,29 @@
     <h1>{{ "collections.search.title" | translate }}</h1>
 
     <div class="row">
-      <!--<div class="col-lg-3 mb-2 mb-md-0" id="filters"></div>-->
-      <!--@todo: filters-->
-
-      <!--<div class="col-lg-9">-->
-      <!--@todo: with filters-->
       <div class="col">
-        <div id="results" *ngIf="results?.hits > 0; else noResults">
-          <div class="block-header">
-            <span class="results-count">{{ results.hits }} {{ "search.results.results" | translate }}</span>
+        <ng-container *ngIf="loading; else showResults">
+          <div class="d-flex align-items-center">
+            <div class="spinner-border mr-2" role="status" aria-hidden="true"></div>
+            <strong>{{ "search.results.loading" | translate }}</strong>
           </div>
+        </ng-container>
+        <ng-template #showResults>
+          <div id="results" *ngIf="results?.hits > 0; else noResults">
+            <div class="block-header">
+              <span class="results-count">{{ results.hits }} {{ "search.results.results" | translate }}</span>
+            </div>
 
-          <app-collection-search-result
-            *ngFor="let result of results.results"
-            [result]="result"></app-collection-search-result>
-          <!--result-->
-        </div>
-        <!--results-->
+            <app-collection-search-result
+              *ngFor="let result of results.results"
+              [result]="result"></app-collection-search-result>
+          </div>
+        </ng-template>
 
         <ng-template #noResults>
           <p>{{ "search.results.noResults" | translate }}</p>
         </ng-template>
       </div>
-      <!--search results-->
     </div>
   </div>
 </div>

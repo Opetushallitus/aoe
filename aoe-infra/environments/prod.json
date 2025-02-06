@@ -66,7 +66,7 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-306-prod",
+            "image_tag": "ga-375-prod",
             "allow_ecs_exec": true
         },
         "web_backend": {
