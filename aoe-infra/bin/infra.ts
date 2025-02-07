@@ -278,7 +278,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     securityGroup: SecurityGroups.mskSecurityGroup,
     version: environmentConfig.msk.version,
     volumeSize: environmentConfig.msk.volumeSize,
-    vpc: Network.vpc
+    vpc: Network.vpc,
+    alarmSnsTopic: Monitor.topic
   })
 
   const kafkaClusterIamPolicy = new iam.PolicyStatement({
