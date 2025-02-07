@@ -137,5 +137,29 @@ export class AuroraDatabaseStack extends Stack {
     databaseACUUtilizationAlarm.addAlarmAction(alarmSnsAction);
     databaseACUUtilizationAlarm.addOkAction(alarmSnsAction);
 
+    const databaseDeadlockAlarm = new cloudwatch.Alarm(
+      this,
+      `${props.environment}-${props.clusterName}-aurora-deadlock-alarm`,
+      {
+        alarmName: `${props.environment}-${props.clusterName}-aurora-deadlock-alarm`,
+        alarmDescription: `${props.clusterName} Aurora-tietokannassa havaittu deadlock`,
+        metric: new cloudwatch.Metric({
+          metricName: 'Deadlocks',
+          namespace: 'AWS/RDS',
+          period: cdk.Duration.minutes(1),
+          unit: cloudwatch.Unit.COUNT_PER_SECOND,
+          statistic: cloudwatch.Stats.SUM,
+          dimensionsMap: {
+            DBClusterIdentifier: auroraCluster.clusterIdentifier,
+          },
+        }),
+        threshold: 1,
+        evaluationPeriods: 1,
+        datapointsToAlarm: 1,
+      }
+    );
+    databaseDeadlockAlarm.addAlarmAction(alarmSnsAction);
+    databaseDeadlockAlarm.addOkAction(alarmSnsAction);
+
   }
 }
