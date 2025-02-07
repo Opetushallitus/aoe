@@ -1,24 +1,45 @@
 import * as _ from "lodash"
-import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy, aws_cloudwatch_actions } from "aws-cdk-lib"
+import * as cdk from "aws-cdk-lib"
+import { aws_cloudwatch_actions, CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib"
 import { Construct } from "constructs"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
-import { ICluster, ContainerImage, AwsLogDriver, Secret, FargatePlatformVersion, CpuArchitecture, OperatingSystemFamily, UlimitName, FargateService, TaskDefinition, Compatibility } from "aws-cdk-lib/aws-ecs"
-import { IVpc, ISecurityGroup } from "aws-cdk-lib/aws-ec2"
-import { ApplicationListenerRule, ApplicationProtocol, ApplicationTargetGroup, IApplicationListener, IApplicationLoadBalancer, ListenerCondition, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2"
+import {
+  AwsLogDriver,
+  Compatibility,
+  ContainerImage,
+  CpuArchitecture,
+  FargatePlatformVersion,
+  FargateService,
+  ICluster,
+  OperatingSystemFamily,
+  Secret,
+  TaskDefinition,
+  UlimitName
+} from "aws-cdk-lib/aws-ecs"
+import { ISecurityGroup, IVpc } from "aws-cdk-lib/aws-ec2"
+import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2"
+import {
+  ApplicationListenerRule,
+  ApplicationProtocol,
+  ApplicationTargetGroup,
+  IApplicationListener,
+  IApplicationLoadBalancer,
+  ListenerCondition,
+  TargetGroupLoadBalancingAlgorithmType
+} from "aws-cdk-lib/aws-elasticloadbalancingv2"
 import { Repository } from "aws-cdk-lib/aws-ecr"
 import { AdjustmentType } from "aws-cdk-lib/aws-autoscaling"
 import * as ssm from "aws-cdk-lib/aws-ssm"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import { PrivateDnsNamespace } from 'aws-cdk-lib/aws-servicediscovery';
 import * as sns from "aws-cdk-lib/aws-sns";
 import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
-import { PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
+import { Unit } from "aws-cdk-lib/aws-cloudwatch";
 import { Volume } from "aws-cdk-lib/aws-ecs/lib/base/task-definition";
 import { MountPoint } from "aws-cdk-lib/aws-ecs/lib/container-definition";
 import { SecretEntry } from "./secrets-manager-stack";
-import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2'
-import * as cdk from 'aws-cdk-lib'
 
 interface EcsServiceStackProps extends StackProps {
   environment: string
@@ -283,7 +304,74 @@ export class EcsServiceStack extends Stack {
     memoryUtilizationAlarm.addOkAction(alarmSnsAction)
 
 
-// Cloudformation outputs
+    const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
+      dashboardName: `ECS-${props.serviceName}-Monitoring`,
+    });
+
+    const totalRequestsWidget = new cloudwatch.GraphWidget({
+      title: `Total API Requests - ${props.serviceName}`,
+      left: [
+        targetGroup.metrics.requestCountPerTarget({
+          unit: Unit.COUNT
+        }),
+      ],
+    });
+
+    const okWidget = new cloudwatch.GraphWidget({
+      title: `2XX Count - ${props.serviceName}`,
+      left: [
+        targetGroup.metrics.httpCodeTarget(elbv2.HttpCodeTarget.TARGET_2XX_COUNT)
+      ],
+    });
+
+    const ok3xxWidget = new cloudwatch.GraphWidget({
+      title: `3XX Count - ${props.serviceName}`,
+      left: [
+        targetGroup.metrics.httpCodeTarget(elbv2.HttpCodeTarget.TARGET_3XX_COUNT)
+      ],
+    });
+
+    const error4xxWidget = new cloudwatch.GraphWidget({
+      title: `4XX Errors - ${props.serviceName}`,
+      left: [
+        targetGroup.metrics.httpCodeTarget(elbv2.HttpCodeTarget.TARGET_4XX_COUNT)
+      ],
+    });
+
+    const error5xxWidget = new cloudwatch.GraphWidget({
+      title: `5XX Errors - ${props.serviceName}`,
+      left: [
+        targetGroup.metrics.httpCodeTarget(elbv2.HttpCodeTarget.TARGET_5XX_COUNT)
+      ],
+    });
+
+    const targetResponseTimeMetric = targetGroup.metricTargetResponseTime({
+      statistic: 'Average',
+      period: cdk.Duration.minutes(5),
+    });
+
+    const responseTimeInMs = new cloudwatch.MathExpression({
+      expression: 'm1 * 1000',
+      usingMetrics: { m1: targetResponseTimeMetric },
+    });
+
+    const responseTimeWidget = new cloudwatch.GraphWidget({
+      title: `ResponseTime AVG- ${props.serviceName}`,
+      left: [
+        responseTimeInMs
+      ],
+    });
+
+    // Add widgets to the dashboard
+    dashboard.addWidgets(
+      totalRequestsWidget,
+      okWidget,
+      ok3xxWidget,
+      error4xxWidget,
+      error5xxWidget,
+      responseTimeWidget
+    );
+
     new CfnOutput(this, 'ServiceDiscoveryName', {
       value: `${props.serviceName}.${props.privateDnsNamespace.namespaceName}`,
     });
