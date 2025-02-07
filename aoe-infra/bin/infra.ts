@@ -41,8 +41,8 @@ const app = new cdk.App()
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
 const utilityAccountId: string = app.node.tryGetContext('UTILITY_ACCOUNT_ID')
-const envEU = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
-const envUS = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' }
+const envEU = { region: 'eu-west-1' }
+const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
 
 // Allow any in this case, since we don't want to explicitely type json data
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -74,7 +74,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const Monitor = new MonitorStack(app, 'MonitorStack', {
-    env: envEU,
+    env: envEUAccount,
+
     slackChannelName: `valvonta-aoe-${environmentName}`,
     environment: environmentName,
   })
@@ -188,7 +189,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {
-    env: envUS,
+    env: { region: 'us-east-1' },
     stackName: `${environmentName}-cloudfront-certificate`,
     domain: domain,
     hostedZone: HostedZones.publicHostedZone,
