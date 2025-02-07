@@ -6,7 +6,8 @@ import { Key } from "aws-cdk-lib/aws-kms";
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { Duration } from "aws-cdk-lib";
+import { aws_cloudwatch_actions, Duration } from "aws-cdk-lib";
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 interface MskStackProps extends cdk.StackProps {
   volumeSize: number;
@@ -17,7 +18,8 @@ interface MskStackProps extends cdk.StackProps {
   env: { region: string };
   kmsKey: Key,
   clusterName: string,
-  version: string
+  version: string,
+  alarmSnsTopic: cdk.aws_sns.Topic
 }
 
 export class MskStack extends cdk.Stack {
@@ -116,5 +118,33 @@ export class MskStack extends cdk.Stack {
       value: this.bootstrapBrokers,
     });
 
+    const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+
+    const topics = ['prod_material_activity', 'prod_search_requests']
+
+    topics.forEach(t => {
+      const lagAlarm = new cloudwatch.Alarm(this, `KafkaConsumerLagAlarm-${t}`, {
+        alarmName: `KafkaConsumerLag-${t}`,
+        metric: new cloudwatch.Metric({
+          namespace: 'AWS/Kafka',
+          metricName: 'SumOffsetLag',
+          dimensionsMap: {
+            'Consumer Group': `group-${t.replace(/_/g, '-')}`,
+            'Cluster Name': this.kafkaCluster.clusterName,
+            Topic: t,
+          },
+          statistic: 'Average',
+          period: cdk.Duration.minutes(5),
+        }),
+        threshold: 10,
+        evaluationPeriods: 2,
+        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+        alarmDescription: `Topic ${t} consumer lag is too high, messages are not being processed quickly enough!`,
+        actionsEnabled: true,
+      });
+
+      lagAlarm.addAlarmAction(alarmSnsAction)
+      lagAlarm.addOkAction(alarmSnsAction)
+    })
   }
 }
