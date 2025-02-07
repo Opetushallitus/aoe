@@ -226,7 +226,7 @@ export class EcsServiceStack extends Stack {
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
 
     const unhealthyTasksAlarm = new cloudwatch.Alarm(this, 'UnhealthyTasksAlarm', {
-      alarmName: 'UnhealthyTasksAlarm',
+      alarmName: `${props.serviceName}-UnhealthyTasksAlarm`,
       metric: targetGroup.metrics.unhealthyHostCount({
         statistic: 'Average',
         period: Duration.seconds(30)
@@ -240,7 +240,7 @@ export class EcsServiceStack extends Stack {
     unhealthyTasksAlarm.addOkAction(alarmSnsAction)
 
     const cpuUtilizationAlarm = new cloudwatch.Alarm(this, 'CpuUtilizationAlarm', {
-      alarmName: 'CpuUtilizationAlarm',
+      alarmName: `${props.serviceName}-CpuUtilizationAlarm`,
       metric: ecsService.metricCpuUtilization({
         statistic: 'Maximum',
         period: Duration.minutes(5)
@@ -254,7 +254,7 @@ export class EcsServiceStack extends Stack {
     cpuUtilizationAlarm.addOkAction(alarmSnsAction)
 
     const memoryUtilizationAlarm = new cloudwatch.Alarm(this, 'MemoryUtilizationAlarm', {
-      alarmName: 'MemoryUtilizationAlarm',
+      alarmName: `${props.serviceName}-MemoryUtilizationAlarm`,
       metric: ecsService.metricMemoryUtilization({
         statistic: 'Maximum',
         period: Duration.minutes(5)
