@@ -1,10 +1,12 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, aws_cloudwatch_actions } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { AuroraPostgresEngineVersion, DatabaseCluster, DatabaseClusterEngine, ClusterInstance, DBClusterStorageType, SubnetGroup, ParameterGroup, CaCertificate, Endpoint } from 'aws-cdk-lib/aws-rds';
 import { IVpc, ISecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import * as cdk from 'aws-cdk-lib'
+import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
+import * as sns from "aws-cdk-lib/aws-sns";
 
 interface AuroraDatabaseProps extends StackProps {
   environment: string;
@@ -18,6 +20,7 @@ interface AuroraDatabaseProps extends StackProps {
   kmsKey: Key,
   auroraDbPassword: Secret;
   subnetGroup: SubnetGroup;
+  alarmSnsTopic: sns.Topic
 }
 
 export class AuroraDatabaseStack extends Stack {
@@ -80,5 +83,83 @@ export class AuroraDatabaseStack extends Stack {
     })
 
     this.endPoint = auroraCluster.clusterEndpoint
+
+    // Monitoring
+    const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+
+    const cpuThreshold = 95;
+    const databaseCPUUtilizationAlarm = new cloudwatch.Alarm(
+      this,
+      `${props.environment}-${props.clusterName}-aurora-cpu-utilization-alarm`,
+      {
+        alarmName: `${props.environment}-${props.clusterName}-aurora-cpu-utilization-alarm`,
+        alarmDescription: `${props.clusterName} Aurora-tietokannan CPUUtilization-arvo on ylittänyt hälytysrajan: ${cpuThreshold}%`,
+        metric: new cloudwatch.Metric({
+          metricName: 'CPUUtilization',
+          namespace: 'AWS/RDS',
+          period: cdk.Duration.minutes(15),
+          unit: cloudwatch.Unit.PERCENT,
+          statistic: cloudwatch.Stats.AVERAGE,
+          dimensionsMap: {
+            DBClusterIdentifier: auroraCluster.clusterIdentifier,
+          },
+        }),
+        threshold: 95,
+        evaluationPeriods: 1,
+        datapointsToAlarm: 1,
+      }
+    );
+    databaseCPUUtilizationAlarm.addAlarmAction(alarmSnsAction);
+    databaseCPUUtilizationAlarm.addOkAction(alarmSnsAction);
+
+    const acuThreshold = 90;
+    const databaseACUUtilizationAlarm = new cloudwatch.Alarm(
+      this,
+      `${props.environment}-${props.clusterName}-aurora-acu-utilization-alarm`,
+      {
+        alarmName: `${props.environment}-${props.clusterName}-aurora-acu-utilization-alarm`,
+        alarmDescription: `${props.clusterName} Aurora-tietokannan ACUUtilization-arvo on ylittänyt hälytysrajan: ${acuThreshold}%`,
+        metric: new cloudwatch.Metric({
+          metricName: 'ACUUtilization',
+          namespace: 'AWS/RDS',
+          period: cdk.Duration.minutes(15),
+          unit: cloudwatch.Unit.PERCENT,
+          statistic: cloudwatch.Stats.AVERAGE,
+          dimensionsMap: {
+            DBClusterIdentifier: auroraCluster.clusterIdentifier,
+          },
+        }),
+        threshold: acuThreshold,
+        evaluationPeriods: 1,
+        datapointsToAlarm: 1,
+      }
+    );
+    databaseACUUtilizationAlarm.addAlarmAction(alarmSnsAction);
+    databaseACUUtilizationAlarm.addOkAction(alarmSnsAction);
+
+    const databaseDeadlockAlarm = new cloudwatch.Alarm(
+      this,
+      `${props.environment}-${props.clusterName}-aurora-deadlock-alarm`,
+      {
+        alarmName: `${props.environment}-${props.clusterName}-aurora-deadlock-alarm`,
+        alarmDescription: `${props.clusterName} Aurora-tietokannassa havaittu deadlock`,
+        metric: new cloudwatch.Metric({
+          metricName: 'Deadlocks',
+          namespace: 'AWS/RDS',
+          period: cdk.Duration.minutes(1),
+          unit: cloudwatch.Unit.COUNT_PER_SECOND,
+          statistic: cloudwatch.Stats.SUM,
+          dimensionsMap: {
+            DBClusterIdentifier: auroraCluster.clusterIdentifier,
+          },
+        }),
+        threshold: 1,
+        evaluationPeriods: 1,
+        datapointsToAlarm: 1,
+      }
+    );
+    databaseDeadlockAlarm.addAlarmAction(alarmSnsAction);
+    databaseDeadlockAlarm.addOkAction(alarmSnsAction);
+
   }
 }
