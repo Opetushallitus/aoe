@@ -145,7 +145,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     maxSizeAcu: environmentConfig.aurora_databases.web_backend.max_acu,
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
-    subnetGroup: AuroraCommons.auroraSubnetGroup
+    subnetGroup: AuroraCommons.auroraSubnetGroup,
+    alarmSnsTopic: Monitor.topic,
   })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
