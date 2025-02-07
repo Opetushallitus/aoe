@@ -17,7 +17,8 @@ import { PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
 import { Volume } from "aws-cdk-lib/aws-ecs/lib/base/task-definition";
 import { MountPoint } from "aws-cdk-lib/aws-ecs/lib/container-definition";
 import { SecretEntry } from "./secrets-manager-stack";
-
+import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2'
+import * as cdk from 'aws-cdk-lib'
 
 interface EcsServiceStackProps extends StackProps {
   environment: string
@@ -222,8 +223,22 @@ export class EcsServiceStack extends Stack {
       cooldown: Duration.minutes(3),
     })
 
-// Cloudwatch alarms for ECS services
+    // Cloudwatch alarms for ECS services
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+
+    const alb5xxAlarm = new cloudwatch.Alarm(this, `Alb5xxAlarm`, {
+      alarmName: `${props.serviceName}-Alb5xxAlarm`,
+      metric: props.alb.metrics.httpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
+        statistic: 'Sum',
+        period: cdk.Duration.minutes(5)
+      }),
+      threshold: 1,
+      evaluationPeriods: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    alb5xxAlarm.addAlarmAction(alarmSnsAction)
+    alb5xxAlarm.addOkAction(alarmSnsAction)
 
     const unhealthyTasksAlarm = new cloudwatch.Alarm(this, 'UnhealthyTasksAlarm', {
       alarmName: `${props.serviceName}-UnhealthyTasksAlarm`,
