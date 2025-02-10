@@ -21,7 +21,9 @@ export class MonitorStack extends cdk.Stack {
     const slackChannelId = ssm.StringParameter.valueFromLookup(this, '/monitor/slack_channel_id');
     const slackWorkspaceId = ssm.StringParameter.valueFromLookup(this, '/monitor/slack_workspace_id');
 
-    this.topic = new sns.Topic(this, `${props.environment}-cloudwatch-slack`);
+    this.topic = new sns.Topic(this, `${props.environment}-cloudwatch-slack`, {
+      topicName: `${props.environment}-cloudwatch-slack`,
+    });
 
     this.slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
       slackChannelConfigurationName: `${props.slackChannelName}`,
