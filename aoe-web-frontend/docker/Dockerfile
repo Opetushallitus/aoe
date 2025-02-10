@@ -1,5 +1,5 @@
 ARG FRONTEND_CONFIGURATION
-FROM node:14.21.3-bullseye AS front-builder
+FROM node:18.20.6-bookworm AS front-builder
 
 WORKDIR /app
 ADD ./ /app/
