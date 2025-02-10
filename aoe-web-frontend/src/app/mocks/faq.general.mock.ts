@@ -70,7 +70,7 @@ export const FAQGeneral = {
       question:
         'Löysin mbz-tiedoston sisältävän oppimateriaalin, mutta minulla ei ole moodlea käytössä. Voinko käyttää materiaalia jotenkin muuten?',
       answer: [
-        `Valitettavasti mbz-tiedostot vaativat Moodlen, jotta sitä voi katsoa. Periaatteessa tiedosto voi avautua myös johonkin toiseen oppimisen hallintajärjestelmään, mutta tällöin oppimateriaalin virheettömästä toimivuudesta ei ole takeita. Löydät lisätietoja moodle-oppimateriaaleista käyttöohjeiden osiosta "Tarkempia ohjeita blogistamme", otsikko "Kurssitiedostot avoimina oppimateriaaleina": <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeiden</a>`,
+        `Valitettavasti mbz-tiedostot vaativat Moodlen, jotta sitä voi katsoa. Periaatteessa tiedosto voi avautua myös johonkin toiseen oppimisen hallintajärjestelmään, mutta tällöin oppimateriaalin virheettömästä toimivuudesta ei ole takeita. Löydät lisätietoja moodle-oppimateriaaleista <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeiden</a> osiosta "Tarkempia ohjeita blogistamme", otsikko "Kurssitiedostot avoimina oppimateriaaleina."`,
       ],
     },
     {
@@ -154,7 +154,7 @@ export const FAQGeneral = {
       question:
         "I found an OER containing a mbz file, but I don't have access to a Moodle. Is there some other way to open the OER?",
       answer: [
-        `Unfortunately mbz files can only be used in a Moodle. It might be possible to open the OER in a different learning environment but there would be no quarantees that the OER would function accordingly. You can read more about Moodle related OERs from instructions (in Finnish). <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a>`,
+        `Unfortunately mbz files can only be used in a Moodle. It might be possible to open the OER in a different learning environment but there would be no quarantees that the OER would function accordingly. You can read more about Moodle related OERs from <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a> (in Finnish: Tarkempia ohjeita blogistamme, article Kurssitiedostot avoimina oppimateriaaleina).`,
       ],
     },
     {
@@ -201,7 +201,7 @@ export const FAQGeneral = {
       question: 'Kräver tjänsten inloggning?',
       answer: [
         'Alla kan använda och söka bland lärresurserna utan att logga in.',
-        'För att kunna spara material och publicera kommentarer måste man vara inloggad. Inloggningsmöjligheterna är MPASSid och Haka samt <a href="http://Suomi.fi" target="_blank" rel="noopener nofollow">Suomi.fi</a>-inloggning.',
+        'För att kunna spara material och publicera kommentarer måste man vara inloggad. Inloggningsmöjligheterna är MPASSid och Haka samt <a href="https://www.suomi.fi/hemsidan" target="_blank" rel="noopener nofollow">Suomi.fi</a>-inloggning.',
       ],
     },
     {

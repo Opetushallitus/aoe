@@ -166,7 +166,7 @@ export const FAQMaterial = {
                 </ul>`,
         'You can take a look at accessibility from the <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow">accessibility guide by the Open Science Coordination in Finland</a><a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow"> (a link to avointiede.fi)</a>.',
         'For more information, see the <a href="https://papunet.net/saavutettavuus/ohjeita-ja-oppaita/ " target="_blank" rel="noopener nofollow">quides</a> on the Finnish Association on Intellectual and Developmental Disabilities’ Papunet service (in Finnish).',
-        'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource. This makes it easier for users to find resources that meet their needs. For more information on material descriptions, see the service’s <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">open wiki</a>.',
+        'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource.',
       ],
     },
     {
@@ -197,7 +197,7 @@ export const FAQMaterial = {
       answer: [
         'Det enda att tänka på när det gäller Biblioteket för öppna lärresurser är att du i det verktyg du använder ska kunna ladda upp/spara en fil av ditt verk på din dator, och att du har rätt att licensera ditt undervisningsmaterial öppet. Du hittar mer information om öppna licenser på den här sidan under rubriken Vad är Creative Commons-licenser?',
         'Om fillagring inte är aktuell kan man också länka materialet. Försäkra dig i så fall om att materialet är öppet tillgängligt utan inloggning eller andra begränsningar såväl nu som senare på den plattform där det skapats.',
-        'Samordningen av öppen vetenskap har sammanställt <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/kvalitetskriterier-oppna-larresurser" target="_blank" rel="noopener nofollow">Kvalitetskriterier för öppna lärresurser</a> (länk till <a href="http://avointiede.fi" target="_blank" rel="noopener nofollow">avointiede.fi</a>), som är avsedda som hjälp för dem som utarbetar och använder öppna lärresurser.',
+        'Samordningen av öppen vetenskap har sammanställt <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/kvalitetskriterier-oppna-larresurser" target="_blank" rel="noopener nofollow">Kvalitetskriterier för öppna lärresurser (länk till avointiede.fi) </a>, som är avsedda som hjälp för dem som utarbetar och använder öppna lärresurser.',
         'Det lönar sig att gå igenom <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Utbildningsstyrelsens kvalitetskriterier</a> för digitala läromaterial och fundera på vad man själv vill ha ut av dem.',
         `Också projektet <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
         'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.',
@@ -257,9 +257,9 @@ export const FAQMaterial = {
             <li>att du skapar textversioner av videor, diagram och bilder</li>
             <li>att du erbjuder innehållet i olika format, exempelvis såväl text som infografer.</li>
         </ul>`,
-        'Du kan läsa mer på <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/handbok-i-tillganglighet-till-oppna-larresurser" target="_blank rel="noopener nofollow">Handbok i tillgänglighet till öppna lärresurser</a> (länk till <a href="http://avointiede.fi" target="_blank rel="noopener nofollow">avointiede.fi</a>), som är en tydlig guide om tillgänglighet från Samordningen av öppna vetenskap.',
-        'Mer information finns också till exempel i <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">snabbguiden för innehållsproducenter i Förbundet Utvecklingshämnings tjänst Papunet</a> (på finska).',
-        'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet. Det underlättar för användarna att hitta material som passar dem. Det finns mera information <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">om metadata i tjänstens öppna wiki</a> (på finska).',
+        'Du kan läsa mer på <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/handbok-i-tillganglighet-till-oppna-larresurser" target="_blank" rel="noopener nofollow">Handbok i tillgänglighet till öppna lärresurser (länk till avointiede.fi)</a>, som är en tydlig guide om tillgänglighet från Samordningen av öppna vetenskap.',
+        'Mer information finns också till exempel i <a href="https://papunet.net/saavutettavuus/pa-svenska/anvisningar-och-guider/" target="_blank" rel="noopener nofollow">guider i Förbundet Utvecklingshämnings tjänst Papunet</a>.',
+        'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet.',
       ],
     },
     {
