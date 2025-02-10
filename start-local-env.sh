@@ -85,7 +85,6 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-export REVISION=${revision}
 compose="docker compose -f ./docker-compose.yml"
 compose="$compose -f ./docker-compose.local-dev.yml"
 
