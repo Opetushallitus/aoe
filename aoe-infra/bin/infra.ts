@@ -35,6 +35,7 @@ import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from "../lib/ses-stack";
 import { MonitorStack } from '../lib/monitor-stack'
+import { GuardDutyS3Stack } from "../lib/quard-duty-stack";
 
 const app = new cdk.App()
 
@@ -246,10 +247,27 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const buckets = s3BucketStack.allBuckets()
+
+  new GuardDutyS3Stack(app, 'GuardDutyStack', {
+    env: envEUAccount,
+    buckets: buckets,
+    alarmSnsTopic: Monitor.topic
+  })
+
   const s3PolicyStatement = new PolicyStatement({
-    actions: ['s3:ListBucket', 's3:PutObject', 's3:GetObject', 's3:DeleteObject'],
+    actions: ['s3:ListBucket', 's3:PutObject', 's3:DeleteObject'],
     resources: buckets.flatMap((bucket) => [bucket.bucketArn, `${bucket.bucketArn}/*`])
   })
+
+  const s3GetObjectPolicyStatement = new PolicyStatement({
+    actions: [ 's3:GetObject', 's3:GetObjectVersion' ],
+    resources: buckets.flatMap((bucket) => [ `${bucket.bucketArn}/*` ]),
+    conditions: {
+      StringNotEqualsIfExists: {
+        "s3:ExistingObjectTag/GuardDutyMalwareScanStatus": "THREATS_FOUND"
+      }
+    }
+  });
 
   const efs = new EfsStack(app, 'AOEefsStack', {
     env: envEU,
@@ -383,7 +401,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 110,
-    iAmPolicyStatements: [s3PolicyStatement],
+    iAmPolicyStatements: [s3PolicyStatement, s3GetObjectPolicyStatement],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic,
   })
@@ -507,6 +525,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     iAmPolicyStatements: [
       aossPolicyStatement,
       s3PolicyStatement,
+      s3GetObjectPolicyStatement,
       efsPolicyStatement,
       kafkaClusterIamPolicy,
       kafkaTopicIamPolicy,
