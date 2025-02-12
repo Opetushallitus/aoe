@@ -68,6 +68,10 @@ public class MigrationServiceImpl implements MigrationService {
         // URN identifier provided if already registered.
         lrmi.setIdentifierURN(amd.getUrn());
 
+        // dc:identifier
+        // AOE url to material.
+        lrmi.setIdentifierUrl(amd.getAoeUrl());
+
         // dc:title
         // Titles (headers) of the educational material.
         lrmi.setTitle(amd.getMaterialname() != null ? amd.getMaterialname().stream()

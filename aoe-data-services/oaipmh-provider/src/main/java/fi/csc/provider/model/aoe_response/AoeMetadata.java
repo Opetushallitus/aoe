@@ -114,6 +114,9 @@ public class AoeMetadata {
     @JsonProperty
     private Thumbnail thumbnail;
 
+    @JsonProperty
+    private String aoeUrl;
+
     // Getters only
     public Long getId() {
         return id;
@@ -121,6 +124,10 @@ public class AoeMetadata {
 
     public String getUrn() {
         return urn;
+    }
+
+    public String getAoeUrl() {
+        return this.aoeUrl;
     }
 
     public LocalDateTime getCreatedat() {

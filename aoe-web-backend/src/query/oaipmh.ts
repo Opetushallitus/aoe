@@ -1,6 +1,11 @@
 import { MetadataResponse } from '@aoe/util/metadataModifier';
 import { db } from '@resource/postgresClient';
-import { aoeFileDownloadUrl, aoePdfDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService';
+import {
+  aoeFileDownloadUrl,
+  aoePdfDownloadUrl,
+  aoeThumbnailDownloadUrl,
+  getEduMaterialVersionURL,
+} from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { Request, Response } from 'express';
 
@@ -158,12 +163,13 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
             }
             // Query to attach URN for the OAI-PMH metadata response.
             query = `
-              SELECT urn FROM educationalmaterialversion
+              SELECT urn, publishedat FROM educationalmaterialversion
               WHERE educationalmaterialid = $1 AND publishedat =
                 (SELECT MAX(publishedat) FROM educationalmaterialversion WHERE educationalmaterialid = $1)
             `;
             response = await db.oneOrNone(query, [q.id]);
             q.urn = response?.urn || null;
+            q.aoeUrl = await getEduMaterialVersionURL(q.id, response?.publishedat ?? null);
             return q;
           },
         )

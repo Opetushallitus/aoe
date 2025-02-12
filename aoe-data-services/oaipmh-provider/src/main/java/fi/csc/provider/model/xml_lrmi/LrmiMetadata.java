@@ -51,6 +51,9 @@ public class LrmiMetadata {
     @XmlElement(name = "dc:identifier")
     private String identifierURN;
 
+    @XmlElement(name = "dc:identifier")
+    private String identifierUrl;
+
     @XmlElement(name = "dc:title")
     private List<LangValue> title;
 
