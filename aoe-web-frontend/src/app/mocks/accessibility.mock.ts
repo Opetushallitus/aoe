@@ -98,7 +98,7 @@ export const Accessibility: AccessibilityTable = {
         'Explain the unfamiliar terms used.',
       ],
       details: [
-        `<a href="https://www.kotus.fi/en" rel="noopener">Institute for the Languages of Finland</a>`,
+        `<a href="https://en.kotus.fi" rel="noopener">Institute for the Languages of Finland</a>`,
         `<a href="https://kaltura.hamk.fi/media/N%C3%A4in+kirjoitat+saavutettavaa+verkkoteksti%C3%A4/0_b20hi76r" rel="noopener">Accessible online text (in Finnish)</a>`,
       ],
       howTo: [
@@ -132,7 +132,7 @@ export const Accessibility: AccessibilityTable = {
       details: [
         `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Image and sound (in Finnish)</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=en" rel="noopener">About captioning videos</a>`,
-        `<a href="https://selkokeskus.fi/in-english/guidelines-and-instructions/" rel="noopener">Plain language videos</a>`,
+        `<a href=" https://selkokeskus.fi/selkokieli/" rel="noopener">Plain language videos (in Finnish)</a>`,
         'The guideline ' +
           `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Captioning of videos promotes accessibility</a>` +
           ' shows the differences between different modes of captioning (open or closed captions) (in Finnish)',
@@ -201,7 +201,7 @@ export const Accessibility: AccessibilityTable = {
         'Namnge länkar på ett överskådligt sätt.',
       ],
       details: [
-        `<a href="https://www.saavutettavasti.fi/saavutettavat-asiakirjat/" rel="noopener">Anvisningar för tillgängliga dokument på webbplatsen Saavutettavasti.fi (på finska)</a>`,
+        `<a href="https://www.saavutettavasti.fi/sv/tillgangliga-dokument/" rel="noopener">Anvisningar för tillgängliga dokument på webbplatsen Saavutettavasti.fi</a>`,
         `<a href="https://www.eoppiva.fi/koulutukset/saavutettavat-asiakirjat-verkossa/" rel="noopener">eOppivas kurs: Tillgängliga dokument på webben  (på finska)</a>`,
       ],
       howTo: [
@@ -216,9 +216,9 @@ export const Accessibility: AccessibilityTable = {
         'Skriv textalternativ för icke-textuella element: bildtexter eller alternativa texter för bilder samt textning, alternativ text eller bildtolkning för video- och audioupptagningar.',
       ],
       details: [
-        `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Bild och ljud (på finska)</a>`,
+        `<a href="https://www.saavutettavasti.fi/sv/bild-och-ljud/" rel="noopener">Bild och ljud</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=sv" rel="noopener">Lägga till undertexter</a>`,
-        `<a href="https://selkokeskus.fi/pa-svenska/om-lattlast/" rel="noopener">Lättlästa videor</a>`,
+        `<a href="https://selkokeskus.fi/selkokieli/" rel="noopener">Lättlästa videor (på finska)</a>`,
         'I anvisningen ' +
           `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Textning av videor främjar tillgängligheten</a>` +
           ' tydliggörs skillnaderna mellan olika textningssätt (open eller closed captions) (på finska)',
