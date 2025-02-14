@@ -55,7 +55,7 @@ async function handler(event) {
 
 	const requestReferer = await getSecret('referer')
 
-	if(request.uri === '/meta/oaipmh') {
+	if(request.uri === '/meta/oaipmh' || request.uri === '/meta/v2/oaipmh') {
 		return request;
 	}
 
