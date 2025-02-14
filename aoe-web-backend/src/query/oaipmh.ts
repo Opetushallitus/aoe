@@ -18,12 +18,14 @@ import { Request, Response } from 'express';
  */
 export const getMaterialMetaData = async (req: Request, res: Response): Promise<void> => {
   winstonLogger.debug(
-    'OAI-PMH: dateMin=%s, dateMax=%s, materialPerPage=%d, pageNumber=%d',
+    'OAI-PMH: allversions=%s dateMin=%s, dateMax=%s, materialPerPage=%d, pageNumber=%d',
+    req.body.allVersions,
     req.body.dateMin,
     req.body.dateMax,
     req.body.materialPerPage,
     req.body.pageNumber,
   );
+
   if (!req.body.dateMin || !req.body.dateMax || req.body.materialPerPage < 1 || req.body.pageNumber < 0) {
     res
       .status(400)
@@ -31,6 +33,9 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
       .end();
     return;
   }
+
+  const loadAllVersions: boolean = req.body.allVersions;
+
   // Query to count the total amount of published educational materials with a time range requirement.
   // Notice that a published material has an 'updatedat' value, otherwise it is an unpublished draft.
   const countQueryWithTimeRange = `
@@ -40,12 +45,18 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
   `;
   // Query to fetch a batch from the database with the provided requirements.
   const batchQueryWithTimeRange = `
-    SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin,
+    SELECT em.id, em.createdat, em.publishedat, emv.publishedat as "urnpublishedat", em.updatedat, em.archivedat, em.timerequired, em.agerangemin,
       em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires,
       em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects,
       em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects,
       em.suitsallbranches
     FROM educationalmaterial em
+    INNER JOIN educationalmaterialversion emv on emv.educationalmaterialid = em.id
+    ${
+      !loadAllVersions
+        ? `AND emv.publishedat = (SELECT MAX(publishedat) FROM educationalmaterialversion emv2 WHERE emv2.educationalmaterialid = emv.educationalmaterialid)`
+        : ''
+    }
     WHERE em.updatedat >= timestamp $1 AND em.updatedat < timestamp $2 AND em.publishedat IS NOT NULL
     ORDER BY em.id ASC
     OFFSET $3
@@ -56,11 +67,7 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
       r.mimetype, r.filekey, r.filebucket, m.obsoleted, r.pdfkey
     FROM (
       SELECT vc.materialid, vc.publishedat, vc.priority FROM versioncomposition vc
-      WHERE publishedat = (
-        SELECT MAX(publishedat)
-        FROM versioncomposition
-        WHERE educationalmaterialid = $1
-      )
+      WHERE vc.publishedat = $2
     ) AS version
     LEFT JOIN material m ON version.materialid = m.id
     LEFT JOIN record r ON m.id = r.materialid
@@ -70,6 +77,7 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
   const dateMax: string = req.body.dateMax;
   const materialPerPage: number = req.body.materialPerPage;
   const pageNumber: number = req.body.pageNumber;
+
   try {
     const result = await db.oneOrNone(countQueryWithTimeRange, [dateMin, dateMax]);
     const completeListSize: number = result ? parseInt(result.count, 10) : 0;
@@ -83,15 +91,19 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
           async (q: any): Promise<any> => {
             const m: any = [];
             await Promise.all(
-              await t.map(joinQueryWithLatestVersionMaterials, [q.id], async (q2: any): Promise<void> => {
-                q2.filepath = await aoeFileDownloadUrl(q2.filekey);
-                q2.pdfpath = await aoePdfDownloadUrl(q2.pdfkey);
-                t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
-                  q2.materialdisplayname = data;
-                  m.push(q2);
-                });
-                q.materials = m;
-              }),
+              await t.map(
+                joinQueryWithLatestVersionMaterials,
+                [q.id, q.urnpublishedat],
+                async (q2: any): Promise<void> => {
+                  q2.filepath = await aoeFileDownloadUrl(q2.filekey);
+                  q2.pdfpath = await aoePdfDownloadUrl(q2.pdfkey);
+                  t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
+                    q2.materialdisplayname = data;
+                    m.push(q2);
+                  });
+                  q.materials = m;
+                },
+              ),
             );
             let query: string;
             let response: any;
@@ -164,12 +176,15 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
             // Query to attach URN for the OAI-PMH metadata response.
             query = `
               SELECT urn, publishedat FROM educationalmaterialversion
-              WHERE educationalmaterialid = $1 AND publishedat =
-                (SELECT MAX(publishedat) FROM educationalmaterialversion WHERE educationalmaterialid = $1)
+              WHERE educationalmaterialid = $1 AND publishedat = $2
             `;
-            response = await db.oneOrNone(query, [q.id]);
+            response = await db.oneOrNone(query, [q.id, q.urnpublishedat]);
             q.urn = response?.urn || null;
-            q.aoeUrl = await getEduMaterialVersionURL(q.id, response?.publishedat ?? null);
+
+            if (loadAllVersions) {
+              q.aoeUrl = await getEduMaterialVersionURL(q.id, response?.publishedat ?? null);
+            }
+
             return q;
           },
         )

@@ -64,6 +64,8 @@ public class MigrationServiceImpl implements MigrationService {
         // ID set temporarily to be moved to the header block after the metadata migration.
         lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
+        lrmi.setPublishedAt(amd.getUrnPublishedat());
+
         // dc:identifier
         // URN identifier provided if already registered.
         lrmi.setIdentifierURN(amd.getUrn());

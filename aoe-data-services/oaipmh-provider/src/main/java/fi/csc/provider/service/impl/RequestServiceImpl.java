@@ -36,7 +36,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String fromEncoded, String untilEncoded, Integer resumptionCounter) {
+    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String fromEncoded, String untilEncoded, Integer resumptionCounter, boolean allVersions) {
         MetadataRequest metadataRequest = new MetadataRequest();
 
         if (!fromEncoded.isEmpty() && !untilEncoded.isEmpty()) {
@@ -51,6 +51,7 @@ public class RequestServiceImpl implements RequestService {
         }
         metadataRequest.setMaterialPerPage(Integer.parseInt(env.getProperty("aoe.request.per-page", "20")));
         metadataRequest.setPageNumber(resumptionCounter);
+        metadataRequest.setAllVersions(allVersions);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");

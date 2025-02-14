@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RequestService {
 
-    AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String from, String until, Integer resumptionCounter);
+    AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String from, String until, Integer resumptionCounter, boolean allVersions);
 
 }

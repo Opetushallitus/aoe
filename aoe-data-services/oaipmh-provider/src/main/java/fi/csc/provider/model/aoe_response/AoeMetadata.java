@@ -117,6 +117,11 @@ public class AoeMetadata {
     @JsonProperty
     private String aoeUrl;
 
+    @JsonProperty
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime urnpublishedat;
+
     // Getters only
     public Long getId() {
         return id;
@@ -128,6 +133,10 @@ public class AoeMetadata {
 
     public String getAoeUrl() {
         return this.aoeUrl;
+    }
+
+    public LocalDateTime getUrnPublishedat() {
+        return this.urnpublishedat;
     }
 
     public LocalDateTime getCreatedat() {

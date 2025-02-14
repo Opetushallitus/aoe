@@ -2,7 +2,6 @@ package fi.csc.provider.controller;
 
 import fi.csc.provider.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.provider.service.MetadataService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,24 +19,32 @@ public class ProviderController {
         this.metadataService = metadataService;
     }
 
+    @GetMapping(path = "/v2/oaipmh", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<OaiPmhFrame> getV2Metadata(
+            @RequestParam(required = false, defaultValue = "") String verb,
+            @RequestParam(required = false, defaultValue = "") String identifier,
+            @RequestParam(required = false, defaultValue = "") String metadataPrefix,
+            @RequestParam(required = false, defaultValue = "") String from,
+            @RequestParam(required = false, defaultValue = "") String until,
+            @RequestParam(required = false, defaultValue = "") String resumptionToken) {
+
+
+        return new ResponseEntity<>(
+                this.metadataService.getV2Metadata(verb, identifier, metadataPrefix, from, until, resumptionToken),
+                HttpStatus.OK);
+    }
+
     @GetMapping(path = "/oaipmh", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<OaiPmhFrame> getMetadata(
-        @RequestParam(required = false, defaultValue = "") String verb,
-        @RequestParam(required = false, defaultValue = "") String identifier,
-        @RequestParam(required = false, defaultValue = "") String metadataPrefix,
-        @RequestParam(required = false, defaultValue = "") String from,
-        @RequestParam(required = false, defaultValue = "") String until,
-        @RequestParam(required = false, defaultValue = "") String resumptionToken,
-        HttpServletRequest request) {
-        String requestUrl = request.getScheme()
-            + "://"
-            + request.getServerName()
-            + (request.getServerPort() != 0 ? ":" + request.getServerPort() : "")
-            + request.getRequestURI();
+            @RequestParam(required = false, defaultValue = "") String verb,
+            @RequestParam(required = false, defaultValue = "") String identifier,
+            @RequestParam(required = false, defaultValue = "") String metadataPrefix,
+            @RequestParam(required = false, defaultValue = "") String from,
+            @RequestParam(required = false, defaultValue = "") String until,
+            @RequestParam(required = false, defaultValue = "") String resumptionToken) {
         return new ResponseEntity<>(
-            this.metadataService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken,
-                requestUrl),
-            HttpStatus.OK);
+                this.metadataService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken),
+                HttpStatus.OK);
     }
 
     @GetMapping(path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -114,6 +114,8 @@ public class LrmiMetadata {
     private Integer agerangemin;
     private Integer agerangemax;
 
+    private LocalDateTime publishedAt;
+
     // Serialization field (to XML) for typicalAgeRange
     // @XmlElement(name = "fi_lrmi:typicalAgeRange")
     private String getTypicalAgeRange() {
@@ -144,6 +146,10 @@ public class LrmiMetadata {
     private List<AlignmentObject> alignmentObject;
 
     public LrmiMetadata() {}
+
+    public void setPublishedAt(LocalDateTime publishedat) {
+        this.publishedAt = publishedat;
+    }
 
     // JAXB event callback
     // void beforeUnmarshal(Unmarshaller m, Object parent)
