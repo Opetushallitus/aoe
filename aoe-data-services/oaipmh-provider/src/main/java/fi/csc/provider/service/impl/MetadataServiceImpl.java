@@ -26,13 +26,14 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
-    private final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    private Environment env;
+    final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    Environment env;
     private MigrationService migrationService;
-    private RequestService requestService;
+    RequestService requestService;
 
     @Autowired
     public MetadataServiceImpl(Environment env, MigrationService migrationService, RequestService requestService) {
@@ -44,32 +45,23 @@ public class MetadataServiceImpl implements MetadataService {
     @Override
     public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String fromEncoded, String untilEncoded,
                                    String resumptionToken) {
-        return getMetadata(verb, identifier, metadataPrefix, fromEncoded, untilEncoded, resumptionToken, env.getProperty("aoe.identify.base-url"), false);
-    }
 
-    @Override
-    public OaiPmhFrame getV2Metadata(String verb, String identifier, String metadataPrefix, String fromEncoded, String untilEncoded,
-                                     String resumptionToken) {
-        return getMetadata(verb, identifier, metadataPrefix, fromEncoded, untilEncoded, resumptionToken, env.getProperty("aoe.identify.v2.base-url"), true);
-    }
-
-    private OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String fromEncoded, String untilEncoded, String resumptionToken, String aoeBaseUrl, boolean allVersions) {
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
-        frame.setRequest(new Request(verb, identifier, metadataPrefix, aoeBaseUrl));
+        frame.setRequest(new Request(verb, identifier, metadataPrefix, getAoeIdentifybaseUrl()));
 
         switch (verb.toUpperCase()) {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, false, allVersions);
+                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, false);
                 break;
             case "LISTIDENTIFIERS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
-                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, true, allVersions);
+                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, true);
                 break;
             case "IDENTIFY":
-                setServiceInformation(frame, verb, aoeBaseUrl);
+                setServiceInformation(frame, verb);
                 break;
             case "LISTMETADATAFORMATS":
             default:
@@ -78,29 +70,33 @@ public class MetadataServiceImpl implements MetadataService {
         return frame;
     }
 
-    private void setServiceInformation(OaiPmhFrame frame, String verb, String aoeBaseUrl) {
+    private void setServiceInformation(OaiPmhFrame frame, String verb) {
 
         // Service identifiers
         frame.setVerb(new JAXBElement<>(new QName(verb), Identify.class, new Identify(
-            env.getProperty("aoe.identify.repository-name"),
-            aoeBaseUrl,
-            env.getProperty("aoe.identify.protocol-version"),
-            env.getProperty("aoe.identify.admin-email"),
-            env.getProperty("aoe.identify.earliest-datestamp"),
-            env.getProperty("aoe.identify.deleted-record"),
-            env.getProperty("aoe.identify.granularity"),
-            env.getProperty("aoe.identify.compression")
+                env.getProperty("aoe.identify.repository-name"),
+                getAoeIdentifybaseUrl(),
+                env.getProperty("aoe.identify.protocol-version"),
+                env.getProperty("aoe.identify.admin-email"),
+                env.getProperty("aoe.identify.earliest-datestamp"),
+                env.getProperty("aoe.identify.deleted-record"),
+                env.getProperty("aoe.identify.granularity"),
+                env.getProperty("aoe.identify.compression")
         )));
 
         // OAI identifiers
         ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
-            .setScheme(env.getProperty("aoe.oai-identifier.scheme"));
+                                               .setScheme(env.getProperty("aoe.oai-identifier.scheme"));
         ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
-            .setRepositoryIdentifier(env.getProperty("aoe.oai-identifier.repository-identifier"));
+                                               .setRepositoryIdentifier(env.getProperty("aoe.oai-identifier.repository-identifier"));
         ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
-            .setDelimeter(env.getProperty("aoe.oai-identifier.delimeter"));
+                                               .setDelimeter(env.getProperty("aoe.oai-identifier.delimeter"));
         ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
-            .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
+                                               .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
+    }
+
+    String getAoeIdentifybaseUrl() {
+        return env.getProperty("aoe.identify.base-url");
     }
 
     /**
@@ -112,37 +108,24 @@ public class MetadataServiceImpl implements MetadataService {
      * @param resumptionToken Integer number for the next batch.
      * @param identifiersOnly Boolean value for the identifiers (headers) only request.
      */
-    private void setLrmiMetadata(OaiPmhFrame frame, String from, String until, String resumptionToken, boolean identifiersOnly, boolean allVersions) {
+    private void setLrmiMetadata(OaiPmhFrame frame, String from, String until, String resumptionToken, boolean identifiersOnly) {
         Integer resumptionCounter = resolveResumptionValue(resumptionToken);
-        AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = this.requestService.getAoeMetadata(from, until, resumptionCounter, allVersions);
+        AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = getAoeMetadata(from, until, resumptionCounter);
         List<AoeMetadata> aoeMetaContent = aoeMetaFrame.getContent();
 
-        if (aoeMetaContent != null && !aoeMetaContent.isEmpty()) {
+        if (aoeMetaContent != null && aoeMetaContent.size() > 0) {
             List<LrmiMetadata> migratedMetadata = aoeMetaContent.stream()
-                .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
-                .toList();
+                                                                .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
+                                                                .collect(Collectors.toList());
             List<Record> records = new ArrayList<>();
-            
-            migratedMetadata.forEach(meta -> {
-                RecordHeader recordHeader;
-                if (allVersions) {
-                    String publishedAt = (meta.getPublishedAt() != null ? CUSTOM_DATETIME.format(meta.getPublishedAt()) : "");
-                    recordHeader = new RecordHeader(
-                            (meta.getDeleted() ? "deleted" : null),
-                            meta.getIdentifier() + "-" + publishedAt,
-                            publishedAt);
-                } else {
 
-                    recordHeader = new RecordHeader(
-                            (meta.getDeleted() ? "deleted" : null),
-                            meta.getIdentifier(),
-                            (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
-                }
+            migratedMetadata.forEach(meta -> {
+                RecordHeader recordHeader = getRecordHeader(meta);
                 RecordMetadata recordMetadata = new RecordMetadata();
                 recordMetadata.setLrmiMetadata(meta);
                 Record record = new Record();
                 record.setHeader(recordHeader);
-                record.setMetadata(identifiersOnly || meta.getDeleted() ? null : recordMetadata);
+                record.setMetadata(getRecordMetadata(identifiersOnly, meta, recordMetadata));
                 records.add(record);
             });
             addResumptionToken(frame, aoeMetaFrame, resumptionCounter, identifiersOnly);
@@ -153,6 +136,21 @@ public class MetadataServiceImpl implements MetadataService {
             }
             ((ListRecords) frame.getVerb().getValue()).setRecords(records);
         }
+    }
+
+    RecordMetadata getRecordMetadata(boolean identifiersOnly, LrmiMetadata meta, RecordMetadata recordMetadata) {
+        return identifiersOnly || meta.getDeleted() ? null : recordMetadata;
+    }
+
+    AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String from, String until, Integer resumptionCounter) {
+        return this.requestService.getAoeMetadata(from, until, resumptionCounter, false);
+    }
+
+    RecordHeader getRecordHeader(LrmiMetadata meta) {
+        return new RecordHeader(
+                (meta.getDeleted() ? "deleted" : null),
+                meta.getIdentifier(),
+                (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
     }
 
     /**
@@ -176,11 +174,11 @@ public class MetadataServiceImpl implements MetadataService {
         }
         if (identifiersOnly) {
             ((ListIdentifiers) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
-                aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
+                    aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
             return;
         }
         ((ListRecords) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
-            aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
+                aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
     }
 
     /**

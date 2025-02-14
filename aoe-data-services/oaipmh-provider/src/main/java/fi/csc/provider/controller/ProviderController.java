@@ -3,6 +3,7 @@ package fi.csc.provider.controller;
 import fi.csc.provider.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.provider.service.MetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProviderController {
     private final MetadataService metadataService;
+    private final MetadataService metadataUrnService;
 
     @Autowired
-    public ProviderController(MetadataService metadataService) {
+    public ProviderController(@Qualifier("metadataServiceImpl") MetadataService metadataService,
+                              @Qualifier("metadataUrnServiceImpl") MetadataService metadataUrnService) {
         this.metadataService = metadataService;
+        this.metadataUrnService = metadataUrnService;
     }
 
     @GetMapping(path = "/v2/oaipmh", produces = MediaType.APPLICATION_XML_VALUE)
@@ -28,9 +32,8 @@ public class ProviderController {
             @RequestParam(required = false, defaultValue = "") String until,
             @RequestParam(required = false, defaultValue = "") String resumptionToken) {
 
-
         return new ResponseEntity<>(
-                this.metadataService.getV2Metadata(verb, identifier, metadataPrefix, from, until, resumptionToken),
+                this.metadataUrnService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken),
                 HttpStatus.OK);
     }
 
@@ -42,6 +45,7 @@ public class ProviderController {
             @RequestParam(required = false, defaultValue = "") String from,
             @RequestParam(required = false, defaultValue = "") String until,
             @RequestParam(required = false, defaultValue = "") String resumptionToken) {
+
         return new ResponseEntity<>(
                 this.metadataService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken),
                 HttpStatus.OK);

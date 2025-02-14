@@ -41,15 +41,25 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
   const countQueryWithTimeRange = `
     SELECT count(*)
     FROM educationalmaterial em
+      ${loadAllVersions ? `INNER JOIN educationalmaterialversion emv on emv.educationalmaterialid = em.id` : ''}
     WHERE em.updatedat >= timestamp $1 AND em.updatedat < timestamp $2 AND em.publishedat IS NOT NULL
   `;
   // Query to fetch a batch from the database with the provided requirements.
   const batchQueryWithTimeRange = `
-    SELECT em.id, em.createdat, em.publishedat, emv.publishedat as "urnpublishedat", em.updatedat, em.archivedat, em.timerequired, em.agerangemin,
-      em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires,
-      em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects,
-      em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects,
-      em.suitsallbranches
+    SELECT em.id, em.createdat, em.publishedat, emv.publishedat as "urnpublishedat", em.updatedat, em.archivedat, em.obsoleted,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.timerequired END AS timerequired,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.agerangemin END AS agerangemin,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.agerangemax END AS agerangemax,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.licensecode END AS licensecode,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.originalpublishedat END AS originalpublishedat,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.expires END AS expires,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallearlychildhoodsubjects END AS suitsallearlychildhoodsubjects,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallpreprimarysubjects END AS suitsallpreprimarysubjects,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallbasicstudysubjects END AS suitsallbasicstudysubjects,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsalluppersecondarysubjects END AS suitsalluppersecondarysubjects,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallvocationaldegrees END AS suitsallvocationaldegrees,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallselfmotivatedsubjects END AS suitsallselfmotivatedsubjects,
+           CASE WHEN em.obsoleted = 1 THEN NULL ELSE em.suitsallbranches END AS suitsallbranches
     FROM educationalmaterial em
     INNER JOIN educationalmaterialversion emv on emv.educationalmaterialid = em.id
     ${
@@ -107,71 +117,74 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
             );
             let query: string;
             let response: any;
-            query = 'SELECT * FROM materialname WHERE educationalmaterialid = $1';
-            q.materialname = await t.any(query, q.id);
 
-            query = 'SELECT * FROM materialdescription WHERE educationalmaterialid = $1';
-            q.materialdescription = await t.any(query, q.id);
+            if (q.obsoleted === 0) {
+              query = 'SELECT * FROM materialname WHERE educationalmaterialid = $1';
+              q.materialname = await t.any(query, q.id);
 
-            query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
-            q.educationalaudience = await t.any(query, [q.id]);
+              query = 'SELECT * FROM materialdescription WHERE educationalmaterialid = $1';
+              q.materialdescription = await t.any(query, q.id);
 
-            query = 'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1';
-            q.learningresourcetype = await t.any(query, [q.id]);
+              query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
+              q.educationalaudience = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM accessibilityfeature WHERE educationalmaterialid = $1';
-            q.accessibilityfeature = await t.any(query, [q.id]);
+              query = 'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1';
+              q.learningresourcetype = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM accessibilityhazard WHERE educationalmaterialid = $1';
-            q.accessibilityhazard = await t.any(query, [q.id]);
+              query = 'SELECT * FROM accessibilityfeature WHERE educationalmaterialid = $1';
+              q.accessibilityfeature = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM keyword WHERE educationalmaterialid = $1';
-            q.keyword = await t.any(query, [q.id]);
+              query = 'SELECT * FROM accessibilityhazard WHERE educationalmaterialid = $1';
+              q.accessibilityhazard = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM educationallevel WHERE educationalmaterialid = $1';
-            q.educationallevel = await t.any(query, [q.id]);
+              query = 'SELECT * FROM keyword WHERE educationalmaterialid = $1';
+              q.keyword = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM educationaluse WHERE educationalmaterialid = $1';
-            q.educationaluse = await t.any(query, [q.id]);
+              query = 'SELECT * FROM educationallevel WHERE educationalmaterialid = $1';
+              q.educationallevel = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM publisher WHERE educationalmaterialid = $1';
-            q.publisher = await t.any(query, [q.id]);
+              query = 'SELECT * FROM educationaluse WHERE educationalmaterialid = $1';
+              q.educationaluse = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM author WHERE educationalmaterialid = $1';
-            q.author = await t.any(query, [q.id]);
+              query = 'SELECT * FROM publisher WHERE educationalmaterialid = $1';
+              q.publisher = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1';
-            q.isbasedon = await t.map(query, [q.id], (q2: any) => {
-              t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then((data: any): void => {
-                q2.author = data;
+              query = 'SELECT * FROM author WHERE educationalmaterialid = $1';
+              q.author = await t.any(query, [q.id]);
+
+              query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1';
+              q.isbasedon = await t.map(query, [q.id], (q2: any) => {
+                t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then((data: any): void => {
+                  q2.author = data;
+                });
+                return q2;
               });
-              return q2;
-            });
 
-            query = 'SELECT * FROM inlanguage WHERE educationalmaterialid = $1';
-            q.inlanguage = await t.any(query, [q.id]);
+              query = 'SELECT * FROM inlanguage WHERE educationalmaterialid = $1';
+              q.inlanguage = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
-            response = await t.any(query, [q.id]);
+              query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
+              response = await t.any(query, [q.id]);
 
-            q.alignmentobject = response;
+              q.alignmentobject = response;
 
-            query = `
-              SELECT u.firstname, u.lastname
-              FROM educationalmaterial em
-              INNER JOIN users u ON em.usersusername = u.username
-              WHERE em.id = $1
-            `;
-            q.owner = await t.any(query, [q.id]);
+              query = `
+                SELECT u.firstname, u.lastname
+                FROM educationalmaterial em
+                INNER JOIN users u ON em.usersusername = u.username
+                WHERE em.id = $1
+              `;
+              q.owner = await t.any(query, [q.id]);
 
-            query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
-            q.educationalaudience = await t.any(query, [q.id]);
+              query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
+              q.educationalaudience = await t.any(query, [q.id]);
 
-            query = 'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0';
-            response = await db.oneOrNone(query, [q.id]);
-            if (response) {
-              response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
-              q.thumbnail = response;
+              query = 'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0';
+              response = await db.oneOrNone(query, [q.id]);
+              if (response) {
+                response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
+                q.thumbnail = response;
+              }
             }
             // Query to attach URN for the OAI-PMH metadata response.
             query = `

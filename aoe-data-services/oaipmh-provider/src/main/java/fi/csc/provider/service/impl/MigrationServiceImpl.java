@@ -149,7 +149,7 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setArchivedAt(amd.getArchivedat());
 
         // An estimate for the user's time consumed with the educational material.
-        lrmi.setTimeRequired(amd.getTimerequired().isEmpty() ? null : amd.getTimerequired());
+        lrmi.setTimeRequired((amd.getTimerequired() == null || amd.getTimerequired().isEmpty()) ? null : amd.getTimerequired());
 
         // lrmi_fi:author
         // Authors can be persons or organizations (or mixed).

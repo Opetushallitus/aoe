@@ -7,7 +7,4 @@ public interface MetadataService {
     OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String from, String until,
                             String resumptionToken);
 
-    OaiPmhFrame getV2Metadata(String verb, String identifier, String metadataPrefix, String from, String until,
-                            String resumptionToken);
-
 }
