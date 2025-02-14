@@ -14,6 +14,7 @@ public class MetadataRequest {
 
     private Integer materialPerPage;
     private Integer pageNumber;
+    private boolean allVersions;
 
     public LocalDateTime getDateMin() {
         return dateMin;
@@ -45,5 +46,13 @@ public class MetadataRequest {
 
     public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
+    }
+
+    public void setAllVersions(boolean allVersions) {
+        this.allVersions = allVersions;
+    }
+
+    public boolean getAllVersions() {
+        return allVersions;
     }
 }

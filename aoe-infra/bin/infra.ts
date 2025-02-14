@@ -424,7 +424,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env_vars: {
       ...environmentConfig.services.data_services.env_vars,
       ...{
-        AOE_IDENTIFY_BASEURL: `https://${domain}/meta/oaipmh`
+        AOE_IDENTIFY_BASEURL: `https://${domain}/meta/oaipmh`,
+        AOE_IDENTIFY_V2_BASEURL: `https://${domain}/meta/v2/oaipmh`
       }
     },
     parameter_store_secrets: [],
@@ -432,7 +433,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/meta/oaipmh*'],
+    listenerPathPatterns: ['/meta/oaipmh*', '/meta/v2/oaipmh*'],
     healthCheckPath: '/meta/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,

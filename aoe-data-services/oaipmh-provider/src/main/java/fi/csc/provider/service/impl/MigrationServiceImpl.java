@@ -64,9 +64,15 @@ public class MigrationServiceImpl implements MigrationService {
         // ID set temporarily to be moved to the header block after the metadata migration.
         lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
+        lrmi.setPublishedAt(amd.getUrnPublishedat());
+
         // dc:identifier
         // URN identifier provided if already registered.
         lrmi.setIdentifierURN(amd.getUrn());
+
+        // dc:identifier
+        // AOE url to material.
+        lrmi.setIdentifierUrl(amd.getAoeUrl());
 
         // dc:title
         // Titles (headers) of the educational material.
@@ -143,7 +149,7 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setArchivedAt(amd.getArchivedat());
 
         // An estimate for the user's time consumed with the educational material.
-        lrmi.setTimeRequired(amd.getTimerequired().isEmpty() ? null : amd.getTimerequired());
+        lrmi.setTimeRequired((amd.getTimerequired() == null || amd.getTimerequired().isEmpty()) ? null : amd.getTimerequired());
 
         // lrmi_fi:author
         // Authors can be persons or organizations (or mixed).

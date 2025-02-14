@@ -11,6 +11,11 @@
       "description": "Base URL for harvesting requests."
     },
     {
+      "name": "aoe.identify.v2.base-url",
+      "type": "java.lang.String",
+      "description": "Base v2 URL for harvesting requests."
+    },
+    {
       "name": "aoe.identify.protocol-version",
       "type": "java.lang.String",
       "description": "OAI-PMH protocol version."
