@@ -154,9 +154,9 @@
 
                 "EMAIL_FROM": "oppimateriaalivaranto@aoe.fi",
                 "SEND_SYSTEM_NOTIFICATION_EMAIL" : "0",
-                "SEND_EXPIRATION_NOTIFICATION_EMAIL" : "0",
-                "SEND_RATING_NOTIFICATION_EMAIL": "0",
-                "SEND_VERIFICATION_EMAIL": "0",
+                "SEND_EXPIRATION_NOTIFICATION_EMAIL" : "1",
+                "SEND_RATING_NOTIFICATION_EMAIL": "1",
+                "SEND_VERIFICATION_EMAIL": "1",
                 "VERIFY_EMAIL_REDIRECT_URL": "/",
 
                 "CLOUD_STORAGE_ENABLED": "1",
