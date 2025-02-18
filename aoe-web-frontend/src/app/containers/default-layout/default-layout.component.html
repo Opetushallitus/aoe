@@ -97,13 +97,15 @@
       <div class="col-sm-6 col-md">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a href="https://www.oph.fi/fi/node/17792">{{ "navigation.termsOfUse" | translate }}</a>
+            <a [href]="links.termsOfUsage[translate.currentLang].link">{{ "navigation.termsOfUse" | translate }}</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.oph.fi/fi/node/17791">{{ "navigation.privacyPolicy" | translate }}</a>
+            <a [href]="links.privacyPolicy[translate.currentLang].link">{{ "navigation.privacyPolicy" | translate }}</a>
           </li>
           <li class="nav-item">
-            <a href="https://www.oph.fi/fi/node/17793">{{ "navigation.accessibilityPolicy" | translate }}</a>
+            <a [href]="links.accessibilityStatement[translate.currentLang].link">
+              {{ "navigation.accessibilityPolicy" | translate }}
+            </a>
           </li>
         </ul>
       </div>

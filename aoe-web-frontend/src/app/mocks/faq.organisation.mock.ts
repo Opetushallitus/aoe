@@ -37,7 +37,7 @@ export const FAQOrganisation = {
     {
       question: 'What kind of metadata model does the Library of Open Educational Resources have?',
       answer: [
-        'The service uses an internationally compatible LRMI-based metadata model, which is intended to facilitate finding educational resources in a high-quality way. Over the course of the project, the metadata model was profiled to meet the needs of the Finnish education sector in collaboration with stakeholders. The model continues to be developed. Please see this <a href="https://wiki.eduuni.fi/x/tQBEDQ" target="_blank" rel="noopener nofollow">wikipage for up-to-date documentation on the model</a>. The metadata model and the vocabularies it utilizes are openly available for use.',
+        'The service uses an internationally compatible LRMI-based metadata model, which is intended to facilitate finding educational resources in a high-quality way. Over the course of the project, the metadata model was profiled to meet the needs of the Finnish education sector in collaboration with stakeholders. The model continues to be developed. Please see this <a href="https://wiki.eduuni.fi/x/tQBEDQ" target="_blank" rel="noopener nofollow">wikipage for up-to-date documentation on the model (in Finnish)</a>. The metadata model and the vocabularies it utilizes are openly available for use.',
       ],
     },
     {
@@ -58,7 +58,7 @@ export const FAQOrganisation = {
     {
       question: 'Hur ser metadatamodellen för Biblioteket för öppna lärresurser ut?',
       answer: [
-        'Biblioteket för öppna lärresurser använder en internationellt kompatibel, LRMI-baserad metadatamodell som är avsedd att göra det lättare att hitta högklassiga lärresurser. Under projektets gång utformades metadatamodellen tillsammans med intressentgrupperna för de behov som finns på det finländska utbildningsfältet. Metadatamodellen vidareutvecklas och den nyaste <a href="https://wiki.eduuni.fi/x/tQBEDQ" target="_blank" rel="noopener nofollow">dokumentationen om metadatamodellen finns på den här wikisidan</a>. Metadatamodellen och dess terminologier är öppet tillgängliga.',
+        'Biblioteket för öppna lärresurser använder en internationellt kompatibel, LRMI-baserad metadatamodell som är avsedd att göra det lättare att hitta högklassiga lärresurser. Under projektets gång utformades metadatamodellen tillsammans med intressentgrupperna för de behov som finns på det finländska utbildningsfältet. Metadatamodellen vidareutvecklas och den nyaste <a href="https://wiki.eduuni.fi/x/tQBEDQ" target="_blank" rel="noopener nofollow">dokumentationen om metadatamodellen finns på den här wikisidan (på finska)</a>. Metadatamodellen och dess terminologier är öppet tillgängliga.',
       ],
     },
     {

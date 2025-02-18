@@ -27,6 +27,42 @@ export class DefaultLayoutComponent implements OnInit {
   // window !== window.top : true => The site is in a frame.
   embedded: boolean = window !== window.top;
 
+  links = {
+    termsOfUsage: {
+      fi: {
+        link: 'https://www.oph.fi/fi/node/17792',
+      },
+      en: {
+        link: 'https://www.oph.fi/en/node/17792',
+      },
+      sv: {
+        link: 'https://www.oph.fi/sv/node/17792',
+      },
+    },
+    privacyPolicy: {
+      fi: {
+        link: 'https://www.oph.fi/fi/node/17791',
+      },
+      en: {
+        link: 'https://www.oph.fi/en/node/17791',
+      },
+      sv: {
+        link: 'https://www.oph.fi/sv/node/17791',
+      },
+    },
+    accessibilityStatement: {
+      fi: {
+        link: 'https://www.oph.fi/fi/node/17793',
+      },
+      en: {
+        link: 'https://www.oph.fi/en/node/17793',
+      },
+      sv: {
+        link: 'https://www.oph.fi/sv/node/17793',
+      },
+    },
+  };
+
   logos = {
     okm: {
       fi: {
