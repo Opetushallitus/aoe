@@ -136,23 +136,11 @@
 <div *ngIf="!embedded" class="logos">
   <div class="container">
     <div class="row justify-content-center align-items-center">
-      <div class="col-auto">
-        <img
-          [src]="logos.okm[translate.currentLang].src"
-          [alt]="logos.okm[translate.currentLang].alt"
-          class="img-fluid" />
-      </div>
-
-      <div class="col-auto text-center">
-        <img src="assets/img/logos/csc.png" alt="CSC" class="img-fluid" />
-        <span>{{ "footer.developer" | translate }}</span>
-      </div>
-
-      <div class="col-auto">
+      <div class="col text-center">
         <img
           [src]="logos.oph[translate.currentLang].src"
           [alt]="logos.oph[translate.currentLang].alt"
-          class="img-fluid" />
+          class="img-fluid w-25" />
       </div>
     </div>
   </div>
