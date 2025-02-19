@@ -47,7 +47,6 @@
     "@ng-select/ng-select": "^9.1.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "bootstrap": "^4.6.0",
     "core-js": "^2.6.12",
     "echarts": "^5.4.0",
     "eslint": "^7.32.0",
@@ -106,7 +105,11 @@
   },
   "overrides": {
     "semver": "7.7.1",
-    "webpack-dev-middleware": "5.3.4"
+    "webpack-dev-middleware": "5.3.4",
+    "bootstrap": "5.3.3",
+    "dompurify": "3.2.4",
+    "esbuild": "0.25.0",
+    "xml2js": "0.6.2"
   },
   "engines": {
     "node": ">= 18",
