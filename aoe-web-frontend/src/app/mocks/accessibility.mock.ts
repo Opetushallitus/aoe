@@ -132,7 +132,7 @@ export const Accessibility: AccessibilityTable = {
       details: [
         `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Image and sound (in Finnish)</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=en" rel="noopener">About captioning videos</a>`,
-        `<a href=" https://selkokeskus.fi/selkokieli/" rel="noopener">Plain language videos (in Finnish)</a>`,
+        `<a href="https://selkokeskus.fi/selkokieli/" rel="noopener">Plain language videos (in Finnish)</a>`,
         'The guideline ' +
           `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Captioning of videos promotes accessibility</a>` +
           ' shows the differences between different modes of captioning (open or closed captions) (in Finnish)',
