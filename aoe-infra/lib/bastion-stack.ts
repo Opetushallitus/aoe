@@ -43,7 +43,8 @@ export class BastionStack extends Stack {
           'elasticfilesystem:DescribeFileSystems',
           'elasticfilesystem:ClientWrite',
           'elasticfilesystem:ClientMount',
-          'elasticfilesystem:DescribeMountTargets'
+          'elasticfilesystem:DescribeMountTargets',
+          's3:GetObject'
         ],
         resources: ['*']
       })
