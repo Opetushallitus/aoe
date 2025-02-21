@@ -14,17 +14,17 @@ export interface AoeRouteMessage {
 
 export const alertTypeDanger = 'danger';
 export const allasErrorMessage =
-  'Palvelussamme on tällä hetkellä vikatilanne. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian. Ajankohtaisimmat tiedot Twitter-kanavallamme @aoe_suomi.';
+  'Palvelussamme on tällä hetkellä vikatilanne. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian.';
 export const allasErrorMessageEn =
-  'We currently have an error that affects using the service. Uploading new learning resources has been blocked until the problem is resolved. We will fix the problem as soon as possible. Find the latest information on our Twitter channel @aoe_suomi.';
+  'We currently have an error that affects using the service. Uploading new learning resources has been blocked until the problem is resolved. We will fix the problem as soon as possible.';
 export const allasErrorMessageSv =
-  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Publicering av nya lärresurser har blockerats tills problemet har lösts. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.';
+  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Publicering av nya lärresurser har blockerats tills problemet har lösts. Vi löser problemet så snart som möjligt.';
 export const loginErrorMessage =
-  'Palveluun kirjautumisessa on tällä hetkellä ongelmaa. Selvitämme asiaa ja korjaamme sen mahdollisimman pian. Ajankohtaisimmat tiedot Twitter-kanavallamme @aoe_suomi.';
+  'Palveluun kirjautumisessa on tällä hetkellä ongelmaa. Selvitämme asiaa ja korjaamme sen mahdollisimman pian.';
 export const loginErrorMessageEn =
-  'There is currently an error in signing in to the service. We will fix the problem as soon as possible. Find the latest information on our Twitter channel @aoe_suomi.';
+  'There is currently an error in signing in to the service. We will fix the problem as soon as possible.';
 export const loginErrorMessageSv =
-  'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.';
+  'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt.';
 
 export const isAllasEnabled = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   if (!config.APPLICATION_CONFIG.isCloudStorageEnabled) {

@@ -66,7 +66,7 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-483-prod",
+            "image_tag": "ga-488-prod",
             "allow_ecs_exec": true
         },
         "web_backend": {
@@ -74,7 +74,7 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-447",
+            "image_tag": "ga-488",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",

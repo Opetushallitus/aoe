@@ -64,31 +64,17 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   logos = {
-    okm: {
-      fi: {
-        src: 'assets/img/logos/okm-fi.jpg',
-        alt: 'Opetus- ja kulttuuriministeriö',
-      },
-      en: {
-        src: 'assets/img/logos/okm-en.jpg',
-        alt: 'Ministry of Education and Culture',
-      },
-      sv: {
-        src: 'assets/img/logos/okm-sv.jpg',
-        alt: 'Undervisnings- och kulturministeriet',
-      },
-    },
     oph: {
       fi: {
-        src: 'assets/img/logos/oph-fisv.png',
+        src: 'assets/img/logos/OPH_Su_Ru_vaaka_RGB.png',
         alt: 'Opetushallitus',
       },
       en: {
-        src: 'assets/img/logos/oph-en.png',
+        src: 'assets/img/logos/OPH_En_vaaka_rgb.png',
         alt: 'Finnish National Agency for Education',
       },
       sv: {
-        src: 'assets/img/logos/oph-fisv.png',
+        src: 'assets/img/logos/OPH_Su_Ru_vaaka_RGB.png',
         alt: 'Utbildningsstyrelsen',
       },
     },
