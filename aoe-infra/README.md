@@ -73,13 +73,28 @@ Following options are recommended for dumping the database:
 
     pg_dump -Fc --clean -U aoe_db_admin -d aoe > transfer.dump
 
+There exists a production script at production db host (`opmat-db.xxx.xx`)in following path:
+
+    /opt/aoe/postgresql/
+
+The script for generating transfer dump is following:
+
+    ./pg_backup_dump_for_transfer.sh
+
+Backup is generated under `/data/backup` directory with name `transfer-<datestamp>.dump`. Copy it to your personal home directory and transfer it out from there.
+
 ### Database restore in AWS
-j
+
 Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environment is done in following way:
+
 
 Connect to database `postgres` from bastion:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com postgres
+
+If you need to drop old database with connections open, use following command:
+
+    DROP DATABASE aoe WITH (FORCE);
 
 Create database and users:
 
@@ -89,7 +104,7 @@ Create database and users:
 
 From bastion, run restore:
 
-    pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com --no-owner --role=aoe_db_admin -d aoe < transfer.dump
+    pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com -d aoe < transfer.dump
 
 Connect to database `aoe` from bastion:
 
