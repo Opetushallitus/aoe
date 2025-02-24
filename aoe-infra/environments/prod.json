@@ -10,7 +10,7 @@
             "memory_limit": "2048",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-422",
+            "image_tag": "ga-500",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOGGING_LEVEL_FI_CSC": "ERROR",

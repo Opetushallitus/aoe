@@ -7,14 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
-
-import static fi.csc.processor.utils.AsyncUtil.async;
 
 @RestController
 @RequestMapping(value = "/produce")
@@ -27,18 +26,20 @@ public class KafkaController {
     }
 
     @PostMapping(path = "/prod/materialactivity", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Async
     public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopicPrimary(
         @RequestBody MaterialActivity materialActivity) {
-        return async(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             this.kafkaProducer.sendMaterialActivityPrimary(materialActivity);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         });
     }
 
     @PostMapping(path = "/prod/searchrequests", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Async
     public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopicPrimary(
         @RequestBody SearchRequest searchRequest) {
-        return async(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             this.kafkaProducer.sendSearchRequestsPrimary(searchRequest);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         });
