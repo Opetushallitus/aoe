@@ -232,7 +232,7 @@
       "web_backend": {
         "version": "16.4",
         "min_size_acu": 0.5,
-        "max_size_acu": 1,
+        "max_size_acu": 2,
         "performance_insights": false
       }
     },
