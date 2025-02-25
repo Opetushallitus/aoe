@@ -6,17 +6,36 @@ if [ -n "${COMMON_FUNCTIONS_SOURCED:-}" ]; then
   return
 fi
 readonly COMMON_FUNCTIONS_SOURCED="true"
+readonly aws_cli_version="2.22.13"
 
 readonly revision="${GITHUB_SHA:-$(git rev-parse HEAD)}"
 readonly repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
+
+function docker_run_with_aws_env {
+  docker run \
+    --env AWS_PROFILE \
+    --env AWS_REGION \
+    --env AWS_DEFAULT_REGION \
+    --env AWS_ACCESS_KEY_ID \
+    --env AWS_SECRET_ACCESS_KEY \
+    --env AWS_SESSION_TOKEN \
+    --env BROWSER=/usr/bin/echo \
+    --volume "$HOME/.aws:/root/.aws" \
+    "$@"
+}
+
+function aws {
+  docker_run_with_aws_env \
+    --rm -i "amazon/aws-cli:$aws_cli_version" "$@"
+}
 
 function require_dev_aws_session {
   info "Verifying that AWS session has not expired"
   ## SSO Login does not work in container
   aws sts get-caller-identity --profile=aoe-dev 1>/dev/null || {
     info "Session is expired"
-    aws --profile aoe-dev sso login
+    aws --profile aoe-dev sso login --sso-session oph-federation --use-device-code | while read -r line; do echo $line; if echo $line | grep user_code; then open $line; fi; done
   }
 }
 
