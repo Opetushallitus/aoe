@@ -29,6 +29,7 @@ generate_cert() {
 
   # Generate private key
   echo "Generating private key..."
+  mkdir -p docker/dev
   openssl genrsa -out "${KEY_FILE}" 2048
 
   # Generate CSR with SAN
