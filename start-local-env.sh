@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
-FETCH_SECRETS_SCRIPT="$(dirname "$0")/scripts/fetch_secrets.sh"
 
+FETCH_SECRETS_SCRIPT="$repo"/scripts/fetch_secrets.sh
 
-AOE_WEB_BACKEND_ENV="$(dirname "$0")/aoe-web-backend/.env"
-AOE_STREAMING_APP_ENV="$(dirname "$0")/aoe-streaming-app/.env"
-AOE_DATA_ANALYTICS_ENV="$(dirname "$0")/aoe-data-analytics/.env"
-AOE_SEMANTIC_APIS_ENV="$(dirname "$0")/aoe-semantic-apis/.env"
-AOE_DATA_SERVICES_ENV="$(dirname "$0")/aoe-data-services/.env"
+AOE_WEB_BACKEND_ENV="$repo"/aoe-web-backend/.env
+AOE_STREAMING_APP_ENV="$repo"/aoe-streaming-app/.env
+AOE_DATA_ANALYTICS_ENV="$repo"/aoe-data-analytics/.env
+AOE_SEMANTIC_APIS_ENV="$repo"/aoe-semantic-apis/.env
+AOE_DATA_SERVICES_ENV="$repo"/aoe-data-services/.env
 
 generate_cert() {
   CERT_NAME="nginx-selfsigned"
