@@ -363,7 +363,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/analytics/api/*'],
+    listenerPathPatterns: ['/analytics/api/status'],
     healthCheckPath: '/analytics/api/status',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
