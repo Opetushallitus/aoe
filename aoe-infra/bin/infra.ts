@@ -68,7 +68,7 @@ if (environmentName === 'utility') {
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
 
-  const domain = environmentName  === 'prod' ? `aws.${environmentConfig.aws.domain}` : environmentConfig.aws.domain
+  const domain = environmentConfig.aws.domain
 
   new GithubActionsStack(app, 'GithubActionsStack', {
     env: envEU,
