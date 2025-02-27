@@ -100,6 +100,10 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             res.status(status);
           }
         });
+      // Handle client closing connection prematurely
+      res.on('close', () => {
+        getRequest.abort();
+      });
       // Stream configuration and event handlers
       getRequest
         .createReadStream()
