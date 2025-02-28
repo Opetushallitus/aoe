@@ -75,8 +75,9 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
       };
 
       // Request configuration and event handlers
-      const getRequest: AWS.Request<S3.GetObjectOutput, AWS.AWSError> = s3
-        .getObject(getRequestObject)
+      const getRequest: AWS.Request<S3.GetObjectOutput, AWS.AWSError> = s3.getObject(getRequestObject);
+
+      getRequest
         .on('error', (error: AWSError) => {
           winstonLogger.error('S3 GET request failed: %o', error);
         })
@@ -100,9 +101,17 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             res.status(status);
           }
         });
+
       // Stream configuration and event handlers
-      getRequest
-        .createReadStream()
+      const stream = getRequest.createReadStream();
+
+      req.on('close', () => {
+        winstonLogger.debug('Request closed');
+        stream.destroy();
+        getRequest.abort();
+      });
+
+      stream
         .once('error', (error: AWSError) => {
           if (error.name === 'NoSuchKey') {
             winstonLogger.debug('Requested file %s not found', fileName);
@@ -117,6 +126,10 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             res.status(error.statusCode || 500);
             reject(error);
           }
+        })
+        .once('close', () => {
+          winstonLogger.debug('S3 read stream closed');
+          resolve();
         })
         .once('end', () => {
           winstonLogger.debug(
