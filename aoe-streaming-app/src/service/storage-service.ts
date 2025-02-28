@@ -79,7 +79,9 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
 
       getRequest
         .on('error', (error: AWSError) => {
-          winstonLogger.error('S3 GET request failed: %o', error);
+          if (error.name !== 'RequestAbortedError') {
+            winstonLogger.error('S3 GET request failed: %o', error);
+          }
         })
         .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
           // Forward headers to the response
