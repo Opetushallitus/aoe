@@ -3,7 +3,7 @@
   "extends": ["config:best-practices"],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
-  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
   "automerge": false,
   "platformAutomerge": false,
