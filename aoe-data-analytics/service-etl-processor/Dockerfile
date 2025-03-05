@@ -1,4 +1,4 @@
-FROM maven:3.8.4-openjdk-17-slim as build
+FROM maven:3.8.4-openjdk-17-slim@sha256:150deb7b386bad685dcf0c781b9b9023a25896087b637c069a50c8019cab86f8 as build
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -17,7 +17,7 @@ ADD . .
 RUN mvn package -DskipTests && \
     sh -c "touch ./service-etl-processor/target/service-etl-processor-0.0.1-exec.jar"
 
-FROM openjdk:17-slim
+FROM openjdk:17-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f68c3f62f9774
 
 # Copy the certs folder from the build stage
 COPY --from=build /certs /certs
