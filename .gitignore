@@ -2,3 +2,5 @@
 
 # exclude container mounted folders
 /docker/dev
+
+.DS_Store
