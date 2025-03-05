@@ -6,6 +6,7 @@ updates:
       - "/aoe-data-services"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "npm"
     directories:
@@ -16,6 +17,7 @@ updates:
       - "/aoe-web-frontend"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "docker"
     directories:
@@ -27,3 +29,4 @@ updates:
       - "/aoe-web-frontend/docker"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 0
