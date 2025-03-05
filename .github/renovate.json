@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
+  "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+  "branchPrefix": "github-renovate/",
+  "automerge": false,
+  "platformAutomerge": false,
+  "automergeSchedule": ["at any time"],
+  "rebaseWhen": "behind-base-branch",
+  "forkProcessing": "disabled",
+  "prCreation": "immediate",
+  "ignoreTests": false,
+  "automergeType": "pr",
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true,
+  "enabledManagers": ["nvm", "npm", "github-actions", "dockerfile", "maven"],
+  "github-actions": { "automerge": true },
+  "dockerfile": { "automerge": true },
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "enabled": true,
+      "automerge": false,
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchPackageNames": ["*"]
+    },
+    {
+      "groupName": "Renovate",
+      "automerge": false,
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "matchDepNames": ["ghcr.io/renovatebot/base-image"]
+    },
+    {
+      "groupName": "Spring Boot",
+      "matchPackageNames": ["org.springframework.boot"],
+      "enabled": false
+    },
+    {
+      "groupName": "logstash",
+      "matchPackageNames": ["net.logstash.logback"],
+      "enabled": false
+    }
+  ],
+  "prConcurrentLimit": 10
+}
