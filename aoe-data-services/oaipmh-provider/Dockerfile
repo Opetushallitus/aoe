@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-17-slim AS build
+FROM maven:3.8-openjdk-18-slim AS build
 WORKDIR /app
 ADD . .
 RUN mvn clean package -DskipTests
