@@ -3,6 +3,8 @@ updates:
   - package-ecosystem: "maven"
     directories:
       - "/aoe-data-analytics"
+      - "/aoe-data-services"
+      - "/aoe-data-services"
     schedule:
       interval: "daily"
 
