@@ -17,7 +17,7 @@ ADD . .
 RUN mvn package -DskipTests && \
     sh -c "touch ./service-etl-processor/target/service-etl-processor-0.0.1-exec.jar"
 
-FROM openjdk:17-slim
+FROM openjdk:18-slim
 
 # Copy the certs folder from the build stage
 COPY --from=build /certs /certs
