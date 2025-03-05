@@ -8,18 +8,23 @@ updates:
     schedule:
       interval: "daily"
 
-  # # Enable version updates for npm
-  # - package-ecosystem: "npm"
-  #   # Look for `package.json` and `lock` files in the `root` directory
-  #   directory: "/"
-  #   # Check the npm registry for updates every day (weekdays)
-  #   schedule:
-  #     interval: "daily"
+  - package-ecosystem: "npm"
+    directories:
+      - "/aoe-infra"
+      - "/aoe-semantic-apis"
+      - "/aoe-streaming-app"
+      - "/aoe-web-backend"
+      - "/aoe-web-frontend"
+    schedule:
+      interval: "daily"
 
-  # # Enable version updates for Docker
-  # - package-ecosystem: "docker"
-  #   # Look for a `Dockerfile` in the `root` directory
-  #   directory: "/"
-  #   # Check for updates once a week
-  #   schedule:
-  #     interval: "weekly"
+  - package-ecosystem: "docker"
+    directories:
+      - "/aoe-data-analytics/service-etl-processor"
+      - "/aoe-data-services/oaipmh-provider/"
+      - "/aoe-semantic-apis/docker"
+      - "/aoe-streaming-app/docker"
+      - "/aoe-web-backend/docker"
+      - "/aoe-web-frontend/docker"
+    schedule:
+      interval: "daily"
