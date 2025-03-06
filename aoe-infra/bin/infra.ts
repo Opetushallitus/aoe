@@ -46,6 +46,14 @@ const envEU = { region: 'eu-west-1' }
 const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
 const envUS = { region: 'us-east-1' }
 
+function getRevisionFromEnv() {
+  if (process.env.revision) {
+    return process.env.revision
+  }
+  throw new Error('Missing REVISION env variable')
+}
+
+
 // Allow any in this case, since we don't want to explicitely type json data
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 let environmentConfig: any
@@ -67,6 +75,8 @@ if (environmentName === 'utility') {
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
+
+  const revision = getRevisionFromEnv()
 
   const domain = environmentConfig.aws.domain
 
@@ -337,7 +347,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.dataAnalyticsServiceSecurityGroup,
-    imageTag: environmentConfig.services.data_analytics.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.data_analytics.allow_ecs_exec,
     taskCpu: environmentConfig.services.data_analytics.cpu_limit,
     taskMemory: environmentConfig.services.data_analytics.memory_limit,
@@ -382,7 +392,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.streamingServiceSecurityGroup,
-    imageTag: environmentConfig.services.streaming.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.streaming.allow_ecs_exec,
     taskCpu: environmentConfig.services.streaming.cpu_limit,
     taskMemory: environmentConfig.services.streaming.memory_limit,
@@ -414,7 +424,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.dataServicesSecurityGroup,
-    imageTag: environmentConfig.services.data_services.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.data_services.allow_ecs_exec,
     taskCpu: environmentConfig.services.data_services.cpu_limit,
     taskMemory: environmentConfig.services.data_services.memory_limit,
@@ -485,7 +495,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webBackendsServiceSecurityGroup,
-    imageTag: environmentConfig.services.web_backend.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.web_backend.allow_ecs_exec,
     taskCpu: environmentConfig.services.web_backend.cpu_limit,
     taskMemory: environmentConfig.services.web_backend.memory_limit,
@@ -562,7 +572,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
-    imageTag: environmentConfig.services.web_frontend.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.web_frontend.allow_ecs_exec,
     taskCpu: environmentConfig.services.web_frontend.cpu_limit,
     taskMemory: environmentConfig.services.web_frontend.memory_limit,
@@ -594,7 +604,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.semanticApisServiceSecurityGroup,
-    imageTag: environmentConfig.services.semantic_apis.image_tag,
+    revision,
     allowEcsExec: environmentConfig.services.semantic_apis.allow_ecs_exec,
     taskCpu: environmentConfig.services.semantic_apis.cpu_limit,
     taskMemory: environmentConfig.services.semantic_apis.memory_limit,

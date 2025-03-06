@@ -5,11 +5,12 @@ on:
     inputs:
       branch:
         description: Branch to deploy
-        required: true
+        required: false
+        default: green-qa
       proceedDeploy:
-        description: Set to true to skip CDK diff and directly proceed with deployment. Default is false.
-        required: true
-        default: 'false'
+        description: Set to true to skip CDK diff and directly proceed with deployment.
+        required: false
+        default: 'true'
 
 concurrency: deploy-prod
 
@@ -54,3 +55,8 @@ jobs:
         env:
           UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
 
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag --force green-prod
+          git push --force origin green-prod

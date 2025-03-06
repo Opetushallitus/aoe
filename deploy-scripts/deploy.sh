@@ -25,13 +25,14 @@ function main {
 
 function deploy {
   pushd "$repo"/aoe-infra
-  "./cdk.sh" deploy --all
+
+  REVISION="$revision" "./cdk.sh" deploy --all
   popd
 }
 
 function diff {
   pushd "$repo"/aoe-infra
-  "./cdk.sh" diff
+  REVISION="$revision" "./cdk.sh" diff
   popd
 }
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
+
 # allow sourcing this file multiple times from different scripts
 if [ -n "${BUILD_FUNCTIONS_SOURCED:-}" ]; then
   return
@@ -16,7 +18,7 @@ function buildService {
   local compose_tag=$2
   local tag_value
 
-  local img_tag="$github_registry${service}:${IMAGE_TAG}"
+  local img_tag="$github_registry${service}:${revision}"
 
   local tags_to_push=()
 

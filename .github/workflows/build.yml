@@ -1,13 +1,14 @@
 name: Build
-
 on:
-  workflow_dispatch:
-  pull_request:
+  push:
     branches:
-      - '**'
+      - main
+  workflow_call:
+
+concurrency: build-${{ github.ref }}
 
 env:
-  DOCKER_BUILDKIT: '1'
+  DOCKER_BUILDKIT: '1' # BuildKit is enabled by default starting in Docker v23, Ubuntu 22.04 has an older version
 
 defaults:
   run:
@@ -37,7 +38,6 @@ jobs:
         run: ./deploy-scripts/01-build.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IMAGE_TAG: ga-${{ github.run_number }}
           TRUST_STORE_PASSWORD: ${{ secrets.TRUST_STORE_PASSWORD }}
 
   lint:
@@ -50,7 +50,7 @@ jobs:
 
   push_image:
     name: 03-push-image.sh
-    if: github.event.pull_request.draft == false
+    if: github.ref == 'refs/heads/main'
     needs: [ lint, build ]
     permissions:
       packages: write
@@ -68,4 +68,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
-          image-tag: ga-${{ github.run_number }}
+
+  deploy_dev:
+    needs: [push_image]
+    uses: ./.github/workflows/deploy_dev.yml
+    secrets: inherit

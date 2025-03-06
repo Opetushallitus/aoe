@@ -1,15 +1,17 @@
 name: Deploy DEV
 
 on:
+  workflow_call:
   workflow_dispatch:
     inputs:
       branch:
         description: Branch to deploy
-        required: true
+        required: false
+        default: main
       proceedDeploy:
-        description: Set to true to skip CDK diff and directly proceed with deployment. Default is false.
-        required: true
-        default: 'false'
+        description: Set to true to skip CDK diff and directly proceed with deployment.
+        required: false
+        default: 'true'
 
 concurrency: deploy-dev
 
@@ -23,6 +25,7 @@ defaults:
 jobs:
   deploy_dev:
     name: 04-deploy-dev.sh
+    if: github.ref == 'refs/heads/main'
     permissions:
       packages: read
       id-token: write
@@ -31,9 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Checkout all branches and tags with full history
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.1
         with:
-          ref: ${{ inputs.branch }}
           fetch-depth: 0
       - name: Configure dev AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -54,3 +56,8 @@ jobs:
         env:
           UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
 
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag --force green-dev
+          git push --force origin green-dev

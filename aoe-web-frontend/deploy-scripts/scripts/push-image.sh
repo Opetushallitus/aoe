@@ -22,10 +22,10 @@ function main() {
   esac
 
   local aoe_service_name="aoe-web-frontend"
-  local github_image_tag="$github_registry${aoe_service_name}-${configuration}:${IMAGE_TAG}"
+  local github_image_tag="$github_registry${aoe_service_name}-${configuration}:${revision}"
 
   local ecr_registry="${REGISTRY}/$aoe_service_name"
-  local ecr_image_tag="${ecr_registry}:${IMAGE_TAG}"
+  local ecr_image_tag="${ecr_registry}:${revision}"
   upload_image_to_ecr "$github_image_tag" "$ecr_image_tag-${configuration}"
 }
 

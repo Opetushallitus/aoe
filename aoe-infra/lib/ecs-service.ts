@@ -57,7 +57,7 @@ interface EcsServiceStackProps extends StackProps {
   alb: IApplicationLoadBalancer
   albPriority: number
   healthCheckPath: string
-  imageTag: string
+  revision: string
   allowEcsExec: boolean
   parameter_store_secrets: string[]
   secrets_manager_secrets: SecretEntry[]
@@ -143,7 +143,7 @@ export class EcsServiceStack extends Stack {
 
       image: ContainerImage.fromEcrRepository(
         ImageRepository,
-        props.imageTag
+        props.revision
       ),
       logging: new AwsLogDriver({
         logGroup: ServiceLogGroup,

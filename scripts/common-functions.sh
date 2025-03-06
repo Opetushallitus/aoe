@@ -7,6 +7,7 @@ if [ -n "${COMMON_FUNCTIONS_SOURCED:-}" ]; then
 fi
 readonly COMMON_FUNCTIONS_SOURCED="true"
 
+readonly revision="${GITHUB_SHA:-$(git rev-parse HEAD)}"
 readonly repo="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
 
