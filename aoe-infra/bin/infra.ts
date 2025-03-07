@@ -47,10 +47,10 @@ const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-wes
 const envUS = { region: 'us-east-1' }
 
 function getRevisionFromEnv() {
-  if (process.env.revision) {
-    return process.env.revision
+  if (app.node.tryGetContext('revision')) {
+    return app.node.tryGetContext('revision')
   }
-  throw new Error('Missing REVISION env variable')
+  throw new Error('Missing revision env variable')
 }
 
 
