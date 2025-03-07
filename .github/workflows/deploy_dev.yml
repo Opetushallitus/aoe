@@ -29,6 +29,14 @@ jobs:
     runs-on: 'ubuntu-24.04'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Send build status "in progress"
+        uses: ./.github/actions/build_status
+        with:
+          task: deploy-dev
+          status: inProgress
+          api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
+
       - name: Checkout all branches and tags with full history
         uses: actions/checkout@v4.2.1
         with:
@@ -51,3 +59,17 @@ jobs:
           git config user.email github-actions@github.com
           git tag --force green-dev
           git push --force origin green-dev
+
+  deployment_status_completed:
+    name: Send deployment status
+    needs: [deploy_dev]
+    if: ${{ always() && github.ref == 'refs/heads/main' }}
+    continue-on-error: true
+    runs-on: 'ubuntu-24.04'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: ./.github/actions/build_status
+        with:
+          task: deploy-dev
+          status: ${{ needs.deploy_untuva.result == 'success' && 'success' || 'failure' }}
+          api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
