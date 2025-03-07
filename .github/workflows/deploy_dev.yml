@@ -8,10 +8,6 @@ on:
         description: Branch to deploy
         required: false
         default: main
-      proceedDeploy:
-        description: Set to true to skip CDK diff and directly proceed with deployment.
-        required: false
-        default: 'true'
 
 concurrency: deploy-dev
 
@@ -44,19 +40,13 @@ jobs:
           role-session-name: aoe-runner-deploy-dev
           aws-region: eu-west-1
 
-      - name: Run CDK Diff
-        if: ${{ github.event.inputs.proceedDeploy == 'false' }}
-        run: ./deploy-scripts/04-deploy-dev.sh diff
-        env:
-          UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
-
       - name: Run CDK Deploy
-        if: ${{ github.event.inputs.proceedDeploy == 'true' }}
         run: ./deploy-scripts/04-deploy-dev.sh deploy
         env:
           UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
 
-      - run: |
+      - name: Tag deploy 
+        run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git tag --force green-dev
