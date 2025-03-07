@@ -31,7 +31,6 @@ export default tseslint.config(
             'no-unneeded-ternary': 'error',
             'no-var': 'error',
             'prefer-promise-reject-errors': 'error',
-            'prefer-template': 'error',
             '@typescript-eslint/explicit-module-boundary-types': 'off'
         }
     }
