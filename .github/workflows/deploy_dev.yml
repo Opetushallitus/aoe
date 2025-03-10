@@ -71,5 +71,5 @@ jobs:
       - uses: ./.github/actions/build_status
         with:
           task: deploy-dev
-          status: ${{ needs.deploy_untuva.result == 'success' && 'success' || 'failure' }}
+          status: ${{ needs.deploy_dev.result == 'success' && 'success' || 'failure' }}
           api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
