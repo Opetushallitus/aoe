@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { IKey } from "aws-cdk-lib/aws-kms";
+import { RemovalPolicy } from 'aws-cdk-lib'
 
 interface SecretManagerStackProps extends cdk.StackProps {
     kmsKey: IKey;
@@ -20,12 +21,14 @@ export type Secrets = {
 
 // Stack for secrets generated on the fly (mostly resources that don't support Parameter Store)
 export class SecretManagerStack extends cdk.Stack {
+    public readonly pagerdutyEventUrl: secretsmanager.Secret;
     public readonly semanticApisPassword: secretsmanager.Secret;
     public readonly webBackendAuroraPassword: secretsmanager.Secret;
     public readonly webBackendPassportSessionSecret: secretsmanager.Secret
     public readonly documentDbPassword: secretsmanager.Secret;
 
     public readonly secrets: Secrets = {
+        PAGERDUTY_EVENT_URL: {envVarName: 'PAGERDUTY_EVENT_URL', path: '/pagerduty/event_url', secretKey: 'secretkey'},
         CLIENT_ID: {envVarName: 'CLIENT_ID', path: '/service/web-backend/CLIENT_ID', secretKey: 'secretkey'},
         PROXY_URI: {envVarName: 'PROXY_URI', path: '/service/web-backend/PROXY_URI', secretKey: 'secretkey'},
         REDIS_PASS: { envVarName: 'REDIS_PASS', path: '/service/semantic-apis/REDIS_PASS', secretKey: 'secretkey' },
@@ -41,6 +44,12 @@ export class SecretManagerStack extends cdk.Stack {
 
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
         super(scope, id, props);
+
+        this.pagerdutyEventUrl = new secretsmanager.Secret(this, 'pagerdutyEventUrl', {
+            secretName: '/pagerduty/event_url',
+            description: '',
+            removalPolicy: RemovalPolicy.RETAIN,
+        });
 
         this.semanticApisPassword = new secretsmanager.Secret(this, 'secret', {
             secretName: '/service/semantic-apis/REDIS_PASS',

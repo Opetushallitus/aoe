@@ -150,7 +150,13 @@ function log {
   local -r timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
   >&2 echo -e "${timestamp} ${level} ${message}"
+} 
+
+function get_secret {
+  local name="$1"
+  aws secretsmanager get-secret-value --secret-id "$name" --query "SecretString" --output text
 }
+
 
 function wait_for_container_to_be_healthy {
   require_command docker

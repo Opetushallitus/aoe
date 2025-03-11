@@ -4,6 +4,7 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 import * as chatbot from 'aws-cdk-lib/aws-chatbot';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 
 
 export interface MonitorStackProps extends cdk.StackProps {
@@ -33,6 +34,11 @@ export class MonitorStack extends cdk.Stack {
       loggingLevel: chatbot.LoggingLevel.INFO,
       logRetention: logs.RetentionDays.THREE_MONTHS,
     });
+
+    if (process.env['PAGERDUTY_EVENT_URL']) {
+      // throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
+      this.topic.addSubscription(new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL']))
+    }
 
   }
 }
