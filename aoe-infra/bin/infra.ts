@@ -80,7 +80,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
 
   const domain = environmentConfig.aws.domain
 
-  new GithubActionsStack(app, 'GithubActionsStack', {
+  const GithubAction = new GithubActionsStack(app, 'GithubActionsStack', {
     env: envEU,
     environment: environmentName
   })
@@ -104,6 +104,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: `${environmentName}-secrets`,
     kmsKey: Kms.secretsManagerKey
   })
+
+  Secrets.pagerdutyEventUrl.grantRead(GithubAction.githubActionsRole)
 
   const Network = new VpcStack(app, 'VpcStack', {
     env: envEU,
