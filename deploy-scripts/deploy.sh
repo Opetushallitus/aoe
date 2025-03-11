@@ -26,8 +26,8 @@ function main {
 function deploy {
   pushd "$repo"/aoe-infra
 
-  PAGERDUTY_EVENT_URL=$( get_secret "/pagerduty/event_url")
-  export PAGERDUTY_EVENT_URL
+  # PAGERDUTY_EVENT_URL=$( get_secret "/pagerduty/event_url")
+  # export PAGERDUTY_EVENT_URL
 
   ./cdk.sh deploy --all
   popd
