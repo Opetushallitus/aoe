@@ -49,8 +49,6 @@ jobs:
 
       - name: Run CDK Deploy
         run: ./deploy-scripts/06-deploy-prod.sh deploy
-        env:
-          UTILITY_ACCOUNT_ID: ${{ secrets.UTILITY_ACCOUNT_ID }}
 
       - name: Tag deploy 
         run: |

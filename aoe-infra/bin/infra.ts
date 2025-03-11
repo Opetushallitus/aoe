@@ -41,7 +41,7 @@ const app = new cdk.App()
 
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
-const utilityAccountId: string = app.node.tryGetContext('UTILITY_ACCOUNT_ID')
+const utilityAccountId: string = "637423428507"
 const envEU = { region: 'eu-west-1' }
 const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
 const envUS = { region: 'us-east-1' }
