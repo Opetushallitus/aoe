@@ -30,6 +30,15 @@ function aws {
     --rm -i "amazon/aws-cli:$aws_cli_version" "$@"
 }
 
+function require_aws_session {
+  info "Verifying that AWS session has not expired"
+  ## SSO Login does not work in container
+  aws sts get-caller-identity --profile="aoe-$ENV" 1>/dev/null || {
+    info "Session is expired"
+    aws --profile aoe-"$ENV" sso login --sso-session oph-federation --use-device-code | while read -r line; do echo $line; if echo $line | grep user_code; then open $line; fi; done
+  }
+}
+
 function require_dev_aws_session {
   info "Verifying that AWS session has not expired"
   ## SSO Login does not work in container
