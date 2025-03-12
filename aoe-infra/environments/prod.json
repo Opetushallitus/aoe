@@ -10,7 +10,6 @@
             "memory_limit": "2048",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-500",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOGGING_LEVEL_FI_CSC": "ERROR",
@@ -51,7 +50,6 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-462",
             "allow_ecs_exec": true,
             "env_vars": {
                 "SPRING_PROFILES_ACTIVE": "prod",
@@ -66,7 +64,6 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-506-prod",
             "allow_ecs_exec": true
         },
         "web_backend": {
@@ -74,7 +71,6 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-488",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
@@ -180,7 +176,6 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-512",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "error",
@@ -196,7 +191,6 @@
             "memory_limit": "4096",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-422",
             "allow_ecs_exec": true,
             "env_vars": {
                 "NODE_ENV": "production",
