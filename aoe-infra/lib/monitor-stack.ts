@@ -35,10 +35,10 @@ export class MonitorStack extends cdk.Stack {
       logRetention: logs.RetentionDays.THREE_MONTHS,
     });
 
-    if (process.env['PAGERDUTY_EVENT_URL']) {
-      // throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
-      this.topic.addSubscription(new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL']))
+    if (!process.env['PAGERDUTY_EVENT_URL']) {
+      throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
     }
+    this.topic.addSubscription(new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL']))
 
   }
 }
