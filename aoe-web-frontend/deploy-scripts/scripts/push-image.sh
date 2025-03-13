@@ -33,7 +33,6 @@ function setup() {
   cd "${repo}"
   require_command docker
   require_docker_compose
-  configure_aws_credentials
   get_ecr_login_credentials
 }
 

@@ -46,6 +46,15 @@ function upload_image_to_ecr {
 
 function get_ecr_login_credentials() {
   if [[ "${CI:-}" = "true" ]]; then
+    export AWS_REGION=${AWS_REGION:-"eu-west-1"}
+    ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text) || {
+        fatal "Could not check that AWS credentials are working."
+    }
+
+    export REGISTRY="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+
     aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$REGISTRY"
   fi
+  export AWS_DEFAULT_REGION="$AWS_REGION"
+  echo "Constructed registry: $REGISTRY"
 }
