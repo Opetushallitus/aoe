@@ -3,7 +3,7 @@ set -euo pipefail
 
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
 
-require_dev_aws_session
+require_aws_session_for_env dev
 
 STREAMING_ENV="$(dirname "$0")/../aoe-streaming-app/.env"
 SEMANTIC_ENV="$(dirname "$0")/../aoe-semantic-apis/.env"

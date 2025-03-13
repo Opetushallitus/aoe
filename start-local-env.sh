@@ -73,7 +73,7 @@ check_env_files() {
 
 if ! check_env_files; then
     echo "Secrets not found, logging in to AWS SSO.."
-    require_dev_aws_session
+    require_aws_session_for_env dev
 
     echo "running fetch-secrets.sh..."
     bash "$FETCH_SECRETS_SCRIPT"

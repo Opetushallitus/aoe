@@ -9,7 +9,7 @@ function aws {
     --rm -i "amazon/aws-cli:$aws_cli_version" "$@"
 }
 
-require_dev_aws_session
+require_aws_session_for_env dev
 
 echo "Fetching secret from AWS Secrets Manager..."
 aws s3 cp s3://aoe-local-dev/semantic-api/.env /aws/aoe-semantic-apis/.env --profile aoe-dev

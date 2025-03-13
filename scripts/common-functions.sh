@@ -30,37 +30,17 @@ function aws {
     --rm -i "amazon/aws-cli:$aws_cli_version" "$@"
 }
 
-function require_aws_session {
-  info "Verifying that AWS session has not expired"
-  ## SSO Login does not work in container
-  aws sts get-caller-identity --profile="aoe-$ENV" 1>/dev/null || {
-    info "Session is expired"
-    aws --profile aoe-"$ENV" sso login --sso-session oph-federation --use-device-code | while read -r line; do echo $line; if echo $line | grep user_code; then open $line; fi; done
-  }
-}
+function require_aws_session_for_env {
+    local PROFILE="aoe-${1}"
+    info "Verifying that AWS session has not expired"
 
-function require_dev_aws_session {
-  info "Verifying that AWS session has not expired"
-  ## SSO Login does not work in container
-  aws sts get-caller-identity --profile=aoe-dev 1>/dev/null || {
-    info "Session is expired"
-    aws --profile aoe-dev sso login --sso-session oph-federation --use-device-code | while read -r line; do echo $line; if echo $line | grep user_code; then open $line; fi; done
-  }
-}
-
-function configure_aws_credentials {
-  if [[ "${CI:-}" = "true" ]]; then
-    export AWS_REGION=${AWS_REGION:-"eu-west-1"}
-    ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text) || {
-        fatal "Could not check that AWS credentials are working."
+    aws sts get-caller-identity --profile="${PROFILE}" 1>/dev/null || {
+      info "Session is expired for profile ${PROFILE}"
+      aws --profile "${PROFILE}" sso login --sso-session oph-federation --use-device-code | while read -r line; do echo $line; if echo $line | grep user_code; then open $line; fi; done
     }
-
-    export REGISTRY="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
-  fi
-
-  export AWS_DEFAULT_REGION="$AWS_REGION"
-  echo "Constructed registry: $REGISTRY"
-
+    export AWS_PROFILE="${PROFILE}"
+    export AWS_REGION="eu-west-1"
+    info "Using AWS profile $AWS_PROFILE"
 }
 
 function use_correct_node_version {
