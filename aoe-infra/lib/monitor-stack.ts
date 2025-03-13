@@ -5,6 +5,7 @@ import * as chatbot from 'aws-cdk-lib/aws-chatbot';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
+import * as iam from "aws-cdk-lib/aws-iam";
 
 
 export interface MonitorStackProps extends cdk.StackProps {
@@ -25,6 +26,14 @@ export class MonitorStack extends cdk.Stack {
     this.topic = new sns.Topic(this, `${props.environment}-cloudwatch-slack`, {
       topicName: `${props.environment}-cloudwatch-slack`,
     });
+
+    new iam.PolicyStatement({
+      principals: [new iam.ServicePrincipal("cloudwatch.amazonaws.com")],
+      actions: [
+        "sns:Publish",
+      ],
+      resources: [this.topic.topicArn]
+    })
 
     this.slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
       slackChannelConfigurationName: `${props.slackChannelName}`,
