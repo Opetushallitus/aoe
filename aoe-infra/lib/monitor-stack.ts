@@ -27,13 +27,7 @@ export class MonitorStack extends cdk.Stack {
       topicName: `${props.environment}-cloudwatch-slack`,
     });
 
-    new iam.PolicyStatement({
-      principals: [new iam.ServicePrincipal("cloudwatch.amazonaws.com")],
-      actions: [
-        "sns:Publish",
-      ],
-      resources: [this.topic.topicArn]
-    })
+    this.topic.grantPublish(new iam.ServicePrincipal("cloudwatch.amazonaws.com"))
 
     this.slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
       slackChannelConfigurationName: `${props.slackChannelName}`,
