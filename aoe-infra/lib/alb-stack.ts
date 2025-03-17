@@ -5,6 +5,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 
 interface AlbStackProps extends cdk.StackProps {
@@ -12,6 +13,7 @@ interface AlbStackProps extends cdk.StackProps {
     securityGroupId: string,
     domain: string
     publicHostedZone: route53.IHostedZone
+    environment: 'dev' | 'qa' | 'prod'
 }
 
 export class AlbStack extends cdk.Stack {
@@ -37,6 +39,21 @@ export class AlbStack extends cdk.Stack {
                 { mutable: false }
             )
         });
+
+        const logBucket = new s3.Bucket(this, `albLogBucket`, {
+          bucketName: `aoe-alb-logs-${props.environment}`,
+          accessControl: s3.BucketAccessControl.PRIVATE,
+          blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+          objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_PREFERRED,
+          lifecycleRules: [
+            {
+              id: 'ExpireOldVersions',
+              noncurrentVersionExpiration: cdk.Duration.days(30) // Retain old versions for 30 days
+            }
+          ]
+        })
+    
+        this.alb.logAccessLogs(logBucket)
         // Use this when an actual domain is available for ACM certs
         //    new alb listener
         this.certificate = new acm.Certificate(this, 'Certificate', {
