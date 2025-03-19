@@ -90,7 +90,7 @@ export class AlbStack extends cdk.Stack {
                 interval: cdk.Duration.seconds(30),
                 path: '/',
                 protocol: elbv2.Protocol.HTTP,
-                timeout: cdk.Duration.seconds(5),
+                timeout: cdk.Duration.seconds(10),
                 unhealthyThresholdCount: 2
             },
         });
