@@ -526,7 +526,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       Secrets.secrets.ADMIN_EMAIL
     ],
     utilityAccountId: utilityAccountId,
-    alb: Alb.alb,
     listener: Alb.albListener,
     listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
     healthCheckPath: '/',
