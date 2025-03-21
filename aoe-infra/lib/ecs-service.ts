@@ -247,20 +247,6 @@ export class EcsServiceStack extends Stack {
     // Cloudwatch alarms for ECS services
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
 
-    const alb5xxAlarm = new cloudwatch.Alarm(this, `Alb5xxAlarm`, {
-      alarmName: `${props.serviceName}-Alb5xxAlarm`,
-      metric: props.alb.metrics.httpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
-        statistic: 'Sum',
-        period: cdk.Duration.minutes(5)
-      }),
-      threshold: 1,
-      evaluationPeriods: 1,
-      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
-    })
-    alb5xxAlarm.addAlarmAction(alarmSnsAction)
-    alb5xxAlarm.addOkAction(alarmSnsAction)
-
     const unhealthyTasksAlarm = new cloudwatch.Alarm(this, 'UnhealthyTasksAlarm', {
       alarmName: `${props.serviceName}-UnhealthyTasksAlarm`,
       metric: targetGroup.metrics.unhealthyHostCount({

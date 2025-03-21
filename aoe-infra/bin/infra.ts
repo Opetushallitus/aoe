@@ -200,7 +200,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
     domain: domain,
-    publicHostedZone: HostedZones.publicHostedZone
+    publicHostedZone: HostedZones.publicHostedZone,
+    alarmSnsTopic: Monitor.topic
   })
 
   const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {

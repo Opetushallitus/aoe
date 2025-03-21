@@ -7,6 +7,9 @@ import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import { aws_cloudwatch_actions } from 'aws-cdk-lib';
+import {Alarm,ComparisonOperator,TreatMissingData} from "aws-cdk-lib/aws-cloudwatch";
+import { Topic } from 'aws-cdk-lib/aws-sns';
 
 interface AlbStackProps extends cdk.StackProps {
     vpc: ec2.IVpc,
@@ -14,6 +17,7 @@ interface AlbStackProps extends cdk.StackProps {
     domain: string
     publicHostedZone: route53.IHostedZone
     environment: 'dev' | 'qa' | 'prod'
+    alarmSnsTopic: Topic
 }
 
 export class AlbStack extends cdk.Stack {
@@ -99,5 +103,21 @@ export class AlbStack extends cdk.Stack {
             targetGroups: [albDefaultTargetGroup]
         });
 
+        const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+        
+
+        const alb5xxAlarm = new Alarm(this, `Alb5xxAlarm`, {
+              alarmName: 'Alb5xxAlarm',
+              metric: this.alb.metrics.httpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
+                statistic: 'Sum',
+                period: cdk.Duration.minutes(5)
+              }),
+              threshold: 10,
+              evaluationPeriods: 1,
+              comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+              treatMissingData: TreatMissingData.NOT_BREACHING
+            })
+            alb5xxAlarm.addAlarmAction(alarmSnsAction)
+            alb5xxAlarm.addOkAction(alarmSnsAction)
     }
 }
