@@ -23,7 +23,6 @@ import {
   ApplicationProtocol,
   ApplicationTargetGroup,
   IApplicationListener,
-  IApplicationLoadBalancer,
   ListenerCondition,
   TargetGroupLoadBalancingAlgorithmType
 } from "aws-cdk-lib/aws-elasticloadbalancingv2"
@@ -54,7 +53,6 @@ interface EcsServiceStackProps extends StackProps {
   serviceName: string
   listener: IApplicationListener
   listenerPathPatterns: string[]
-  alb: IApplicationLoadBalancer
   albPriority: number
   healthCheckPath: string
   revision: string
