@@ -4,7 +4,7 @@
     "baseUrl": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2020"],
+    "lib": ["es2020", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
