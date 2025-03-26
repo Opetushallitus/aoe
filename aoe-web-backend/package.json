@@ -107,6 +107,7 @@
     "@types/express-session": "^1.17.3",
     "@types/jest": "^29.5.12",
     "@types/jquery": "^3.5.4",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.14.165",
     "@types/lusca": "^1.6.2",
     "@types/mime": "^2.0.3",
