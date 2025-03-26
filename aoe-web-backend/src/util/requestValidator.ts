@@ -2,10 +2,10 @@ import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import { body, header, Result, ValidationChain, ValidationError, validationResult } from 'express-validator';
-import DOMPurify from 'isomorphic-dompurify';
+import { addHook, sanitize } from 'isomorphic-dompurify';
 
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.
-DOMPurify.addHook('afterSanitizeAttributes', (element: Element): void => {
+addHook('afterSanitizeAttributes', (element: Element): void => {
   if (element.tagName === 'A' && !element.hasAttribute('target')) element.setAttribute('target', '_blank');
   if (element.tagName === 'A' && !element.hasAttribute('rel')) element.setAttribute('rel', 'noopener noreferrer');
 });
@@ -148,7 +148,7 @@ export const validateNotification = (): ValidationChain[] => {
       .isString()
       .customSanitizer((text: string) => {
         const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text;
-        return DOMPurify.sanitize(decoded, {
+        return sanitize(decoded, {
           ALLOWED_ATTR: ['href', 'rel', 'target'],
           ALLOWED_TAGS: ['a', 'b', 'i'],
         });
@@ -172,7 +172,7 @@ export const validateNotificationUpdate = (): ValidationChain[] => {
       .isString()
       .customSanitizer((text: string) => {
         const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text;
-        return DOMPurify.sanitize(decoded, {
+        return sanitize(decoded, {
           ALLOWED_ATTR: ['href', 'rel', 'target'],
           ALLOWED_TAGS: ['a', 'b', 'i'],
         });

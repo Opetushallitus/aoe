@@ -121,7 +121,7 @@ app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibrar
 app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder));
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection);
-app.use((err, req: Response, res: NextFunction): void => {
+app.use((err, _req: Response, res: NextFunction): void => {
   handleError(err, res);
 });
 
