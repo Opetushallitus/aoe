@@ -81,7 +81,7 @@ export const authInit = (app: Express): void => {
     const deleteCookie: CookieOptions = {
       maxAge: -1,
       signed: cookieRef.signed,
-      expires: cookieRef.expires,
+      expires: cookieRef.expires || undefined,
       httpOnly: cookieRef.httpOnly,
       path: cookieRef.path,
       domain: cookieRef.domain,

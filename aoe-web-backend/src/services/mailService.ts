@@ -148,8 +148,8 @@ export async function getExpiredMaterials() {
 }
 
 interface EmailMaterial {
-  email: string
-  materialname: string
+  email: string;
+  materialname: string;
 }
 
 export async function getNewRatings() {
@@ -191,12 +191,15 @@ export async function sendVerificationEmail(user: string, email: string) {
   return url;
 }
 
-export async function verifyEmailToken(req: Request, res: Response, next: NextFunction) {
+export async function verifyEmailToken(req: Request, res: Response, _next: NextFunction) {
   const jwtSecret = process.env.JWT_SECRET;
   const token = req.query.id;
-  if (token) {
+  if (token && typeof token === 'string') {
     try {
       const decoded = verify(token, jwtSecret);
+      if (typeof decoded === 'string') {
+        throw new Error('jsonwebtoken did not contain jwt payload');
+      }
       const id = decoded.id;
       winstonLogger.debug(id);
       await updateVerifiedEmail(id);
