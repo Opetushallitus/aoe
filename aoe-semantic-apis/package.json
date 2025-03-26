@@ -28,6 +28,7 @@
     "build": "npm run build-ts && npm run lint",
     "build-ts": "npx tsc",
     "lint": "npx eslint src/**/*.ts",
+    "fix-lint": "npm run lint -- --fix",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"yarn run watch-ts\" \"yarn run watch-node\"",

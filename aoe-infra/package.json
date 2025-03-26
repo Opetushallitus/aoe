@@ -8,7 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "eslint lib/**/*.ts bin/**/*.ts",
-    "lint:fix": "eslint --fix lib/**/*.ts bin/**/*.ts",
+    "fix-lint": "npm run lint -- --fix",
     "test": "jest",
     "cdk": "cdk"
   },

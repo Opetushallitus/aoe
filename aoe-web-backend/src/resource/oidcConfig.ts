@@ -10,8 +10,8 @@ const Issuer = openidClient.Issuer;
 const Strategy = openidClient.Strategy;
 
 interface User {
-  uid: unknown
-  name: string
+  uid: unknown;
+  name: string;
 }
 
 /**
@@ -27,17 +27,20 @@ Issuer.discover(process.env.PROXY_URI)
     });
     passport.use(
       'oidc',
-      new Strategy({ client }, (_tokenset: TokenSet, userinfo: UserinfoResponse, done: (err: any, user?: User) => void): void => {
-        ah.insertUserToDatabase(userinfo)
-          .then(() => {
-            const nameparsed: string = userinfo.given_name + ' ' + userinfo.family_name;
-            return done(undefined, { uid: userinfo.uid, name: nameparsed });
-          })
-          .catch((err: Error) => {
-            winstonLogger.error('Saving user information failed: %s', err);
-            return done('Saving user information failed', undefined);
-          });
-      }),
+      new Strategy(
+        { client },
+        (_tokenset: TokenSet, userinfo: UserinfoResponse, done: (err: any, user?: User) => void): void => {
+          ah.insertUserToDatabase(userinfo)
+            .then(() => {
+              const nameparsed: string = userinfo.given_name + ' ' + userinfo.family_name;
+              return done(undefined, { uid: userinfo.uid, name: nameparsed });
+            })
+            .catch((err: Error) => {
+              winstonLogger.error('Saving user information failed: %s', err);
+              return done('Saving user information failed', undefined);
+            });
+        },
+      ),
     );
 
     passport.serializeUser((user: Express.User, done): void => {

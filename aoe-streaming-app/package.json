@@ -20,6 +20,7 @@
     "build": "npm run build-ts && npm run lint",
     "build-ts": "npx tsc",
     "lint": "npx eslint src/**/*.ts",
+    "fix-lint": "npm run lint -- --fix",
     "serve": "node dist/server.js",
     "test": "jest --forceExit --coverage",
     "watch-ts": "npx tsc -w",

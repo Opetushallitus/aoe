@@ -33,6 +33,7 @@
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
     "lint": "npx eslint src/**/*.ts test/**/*.ts",
+    "fix-lint": "npm run lint -- --fix",
     "test": "cross-env DOTENV_CONFIG_PATH=test.env jest --detectOpenHandles",
     "test:ci": "npm run test",
     "test:compose": "docker compose -f docker/docker-compose.ci.yml up --abort-on-container-exit --build --force-recreate --remove-orphans",
