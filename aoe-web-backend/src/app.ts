@@ -67,7 +67,7 @@ app.set('trust proxy', '127.0.0.1');
 
 // CORS and Referer configurations for the development environments.
 if (['development', 'localhost'].includes(process.env.NODE_ENV as string)) {
-  app.all('/*', (req: Request, res: Response, next: NextFunction): void => {
+  app.all('/*', (_req: Request, res: Response, next: NextFunction): void => {
     res.header('Referrer-Policy', 'no-referrer');
     next();
   });
@@ -121,7 +121,7 @@ app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibrar
 app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder));
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection);
-app.use((err, _req: Response, res: NextFunction): void => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
   handleError(err, res);
 });
 
