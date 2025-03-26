@@ -72,7 +72,6 @@ export const sendSystemNotification = async (content: string): Promise<void> => 
 export async function sendExpirationMail() {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
-    to: undefined,
     subject: 'Materiaali vanhenee - Avointen oppimateriaalien kirjasto (aoe.fi)',
     text: expirationEmailText,
   };
@@ -148,10 +147,15 @@ export async function getExpiredMaterials() {
   return data;
 }
 
+interface EmailMaterial {
+  email: string
+  materialname: string
+}
+
 export async function getNewRatings() {
   const query =
     "select distinct email, m.materialname from rating join educationalmaterial as em on em.id = rating.educationalmaterialid join materialname as m on em.id = m.educationalmaterialid join users on em.usersusername = users.username where rating.updatedat > (now() -  INTERVAL '1 days') and m.language = 'fi';";
-  const data = await db.any(query);
+  const data = await db.any<EmailMaterial>(query);
   return data;
 }
 
@@ -192,7 +196,7 @@ export async function verifyEmailToken(req: Request, res: Response, next: NextFu
   const token = req.query.id;
   if (token) {
     try {
-      const decoded = await verify(token, jwtSecret);
+      const decoded = verify(token, jwtSecret);
       const id = decoded.id;
       winstonLogger.debug(id);
       await updateVerifiedEmail(id);
@@ -206,7 +210,7 @@ export async function verifyEmailToken(req: Request, res: Response, next: NextFu
   }
 }
 
-async function verificationEmailText(url) {
+async function verificationEmailText(url: string) {
   const verificationEmailText = `<p>Hei</p>
 <p>olet syöttänyt sähköpostisi Avointen oppimateriaalien kirjaston Omat tiedot -sivulle.</p>
 <p><a href='${url}'>Vahvista sähköpostiosoitteesi ilmoitusten vastaanottamiseksi klikkaamalla linkkiä</a></p>
