@@ -29,7 +29,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "npm run build-ts && npm run lint",
+    "build": "npm run build-ts",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
     "lint": "npx eslint src/**/*.ts test/**/*.ts",
