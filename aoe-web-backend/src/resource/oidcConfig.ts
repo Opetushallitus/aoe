@@ -3,11 +3,16 @@ import { isLoginEnabled } from '@services/routeEnablerService';
 import winstonLogger from '@util/winstonLogger';
 import { CookieOptions, Express, Request, Response } from 'express';
 import { Cookie } from 'express-session';
-import openidClient, { Client, custom, HttpOptions } from 'openid-client';
+import openidClient, { Client, custom, HttpOptions, TokenSet, UserinfoResponse } from 'openid-client';
 import passport from 'passport';
 
 const Issuer = openidClient.Issuer;
 const Strategy = openidClient.Strategy;
+
+interface User {
+  uid: unknown
+  name: string
+}
 
 /**
  * Configuration for OpenID Connect Authorization Management
@@ -22,7 +27,7 @@ Issuer.discover(process.env.PROXY_URI)
     });
     passport.use(
       'oidc',
-      new Strategy({ client }, (_tokenset: any, userinfo: Record<string, unknown>, done: any): void => {
+      new Strategy({ client }, (_tokenset: TokenSet, userinfo: UserinfoResponse, done: (err: any, user?: User) => void): void => {
         ah.insertUserToDatabase(userinfo)
           .then(() => {
             const nameparsed: string = userinfo.given_name + ' ' + userinfo.family_name;
