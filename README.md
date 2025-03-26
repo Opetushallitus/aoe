@@ -54,3 +54,31 @@ Lokaali AOE käyttää mock OIDC palvelua, jota vasten AOE tekee autentikaation.
 4. Selaimella AOE web sovellukseen pääsee url:lla https://demo.aoe.fi/
 
 
+#### aws config:
+
+[sso-session oph-federation]
+sso_session=oph-federation
+sso_region=eu-west-1
+sso_start_url = https://oph-aws-sso.awsapps.com/start
+sso_registration_scopes = sso:account:access
+
+[profile aoe-dev]
+sso_session = oph-federation
+sso_account_id = 339713180834
+sso_role_name = AdministratorAccess
+region = eu-west-1
+output = json
+
+[profile aoe-qa]
+sso_session = oph-federation
+sso_account_id = 058264216444
+sso_role_name = AdministratorAccess
+region = eu-west-1
+output = json
+
+[profile aoe-prod]
+sso_session = oph-federation
+sso_account_id = 381492241240
+sso_role_name = AdministratorAccess
+region = eu-west-1
+output = json
