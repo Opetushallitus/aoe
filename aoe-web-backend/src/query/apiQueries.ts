@@ -16,46 +16,48 @@ import fh from './fileHandling';
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {
-    db.tx(async (t: any) => {
-      const queries: any = [];
-      let query;
-      query =
+    await db.tx(async (t: any) => {
+      const insertIntoMaterialQuery =
         'insert into material (link, educationalmaterialid, materiallanguagekey, priority) values ($1,$2,$3,$4) returning id, link;';
-      const data = await t.one(query, [req.body.link, req.params.edumaterialid, req.body.language, req.body.priority]);
-      queries.push(data);
+      const newLink = await t.one(insertIntoMaterialQuery, [
+        req.body.link,
+        req.params.edumaterialid,
+        req.body.language,
+        req.body.priority,
+      ]);
+
       const displayName = req.body.displayName;
-      query =
+
+      const insertIntoMaterialDisplayNameQuery =
         'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;';
-      if (displayName.fi === null) {
-        queries.push(await t.none(query, ['', 'fi', data.id, req.params.edumaterialid]));
-      } else {
-        queries.push(await t.none(query, [displayName.fi, 'fi', data.id, req.params.edumaterialid]));
-      }
-      if (displayName.sv === null) {
-        queries.push(await t.none(query, ['', 'sv', data.id, req.params.edumaterialid]));
-      } else {
-        queries.push(await t.none(query, [displayName.sv, 'sv', data.id, req.params.edumaterialid]));
-      }
-      if (displayName.en === null) {
-        queries.push(await t.none(query, ['', 'en', data.id, req.params.edumaterialid]));
-      } else {
-        queries.push(await t.none(query, [displayName.en, 'en', data.id, req.params.edumaterialid]));
-      }
-      query = 'update educationalmaterial set updatedat = now() where id = $1;';
-      queries.push(await db.none(query, [req.params.edumaterialid]));
-      return t.batch(queries);
-    })
-      .then((result: any) => {
-        const response = {
-          id: req.params.edumaterialid,
-          link: result[0],
-        };
-        res.status(200).json(response);
-      })
-      .catch((err: Error) => {
-        winstonLogger.error(err);
-        next(new ErrorHandler(400, 'Issue adding link to material'));
-      });
+      await t.none(insertIntoMaterialDisplayNameQuery, [
+        displayName.fi || '',
+        'fi',
+        newLink.id,
+        req.params.edumaterialid,
+      ]);
+      await t.none(insertIntoMaterialDisplayNameQuery, [
+        displayName.sv || '',
+        'sv',
+        newLink.id,
+        req.params.edumaterialid,
+      ]);
+      await t.none(insertIntoMaterialDisplayNameQuery, [
+        displayName.en || '',
+        'en',
+        newLink.id,
+        req.params.edumaterialid,
+      ]);
+
+      const setUpdateTimestamp = 'update educationalmaterial set updatedat = now() where id = $1;';
+      await t.none(setUpdateTimestamp, [req.params.edumaterialid]);
+
+      const response = {
+        id: req.params.edumaterialid,
+        link: newLink,
+      };
+      res.status(200).json(response);
+    });
   } catch (err) {
     winstonLogger.error(err);
     next(new ErrorHandler(500, 'Issue adding link to material'));

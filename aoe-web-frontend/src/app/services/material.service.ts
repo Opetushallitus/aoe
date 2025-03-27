@@ -129,7 +129,7 @@ export class MaterialService {
    * Save link materials to an educational material.
    * @param data
    */
-  postLinks(data: { link: string; displayName: string; language: string; priority: number }): Observable<any> {
+  postLinks(data: LinkPost): Observable<any> {
     return this.http
       .post<any>(`${environment.backendUrlV2}/material/link/${this.educationalMaterialID$$.getValue()}`, data, {
         headers: new HttpHeaders({ Accept: 'application/json' }),
