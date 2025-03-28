@@ -27,7 +27,7 @@ import { koodistoSources } from '@constants/koodisto-sources';
 export class MaterialService {
   private educationalMaterialEditForm$$: BehaviorSubject<EducationalMaterialForm | null> =
     new BehaviorSubject<EducationalMaterialForm | null>(null);
-  private educationalMaterialID$$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private educationalMaterialID$$: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   private uploadedFiles$$: BehaviorSubject<UploadedFile[] | null> = new BehaviorSubject<UploadedFile[] | null>(null);
   private uploadResponses$$: BehaviorSubject<UploadMessage[]> = new BehaviorSubject<UploadMessage[]>([]);
 
@@ -45,7 +45,7 @@ export class MaterialService {
 
   constructor(private http: HttpClient, private translate: TranslateService) {}
 
-  private static handleError(err: HttpErrorResponse) {
+  public static handleError(err: HttpErrorResponse) {
     return throwError(`Something bad happened - please try again later: ${err}`);
   }
 
@@ -129,11 +129,8 @@ export class MaterialService {
    * Save link materials to an educational material.
    * @param data
    */
-  postLinks(data: LinkPost): Observable<any> {
-    return this.http
-      .post<any>(`${environment.backendUrlV2}/material/link/${this.educationalMaterialID$$.getValue()}`, data, {
-        headers: new HttpHeaders({ Accept: 'application/json' }),
-      })
+  postLinks(data: LinkPost): Observable<UploadMessage> {
+    return this.postLink(data, this.educationalMaterialID$$.getValue())
       .pipe(
         map((response: any): { message: number; status: string; visible: boolean; statusHTTP: number } => ({
           status: 'completed',
@@ -141,8 +138,8 @@ export class MaterialService {
           visible: true,
           statusHTTP: response.status,
         })),
-        catchError((err) => of({ status: 'error', message: 100, visible: true, statusHTTP: err.status })),
-      );
+        catchError((err: HttpErrorResponse) => of({ status: 'error', message: 100, visible: true, statusHTTP: err.status })),
+      )
   }
 
   postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
@@ -152,9 +149,7 @@ export class MaterialService {
           Accept: 'application/json',
         }),
       })
-      .pipe(catchError(MaterialService.handleError));
   }
-
 
   createEmptyEducationalMaterial(formData: FormData): Observable<string> {
     return this.http

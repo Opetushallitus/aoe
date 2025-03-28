@@ -18,6 +18,7 @@ import { Subtitle, SubtitleKind } from '@models/material/subtitle';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { mimeTypes } from '@constants/mimetypes';
 import { validatorParams } from '@constants/validator-params';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -451,7 +452,9 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           priority: material.priority,
         };
         let postResponse: LinkPostResponse;
-        this.materialService.postLink(payload, this.educationalMaterialID).subscribe(
+        this.materialService.postLink(payload, this.educationalMaterialID)
+        .pipe(catchError(MaterialService.handleError))
+        .subscribe(
           (response: LinkPostResponse) => (postResponse = response),
           (error) => console.error(error),
           () => this.completeLinkPost(postResponse, i),
