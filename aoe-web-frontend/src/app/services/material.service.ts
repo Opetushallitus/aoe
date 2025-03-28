@@ -145,6 +145,17 @@ export class MaterialService {
       );
   }
 
+  postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
+    return this.http
+      .post<LinkPostResponse>(`${environment.backendUrlV2}/material/link/${educationalMaterialID}`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+      })
+      .pipe(catchError(MaterialService.handleError));
+  }
+
+
   createEmptyEducationalMaterial(formData: FormData): Observable<string> {
     return this.http
       .post<string>(`${environment.backendUrl}/material/file`, formData, {
@@ -1271,16 +1282,6 @@ export class MaterialService {
         }),
         catchError(MaterialService.handleError),
       );
-  }
-
-  postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
-    return this.http
-      .post<LinkPostResponse>(`${environment.backendUrlV2}/material/link/${educationalMaterialID}`, payload, {
-        headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
-      })
-      .pipe(catchError(MaterialService.handleError));
   }
 
   /**
