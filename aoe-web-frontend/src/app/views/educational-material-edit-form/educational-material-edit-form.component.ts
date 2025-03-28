@@ -62,7 +62,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.koodistoService.updateLicenses().subscribe();
     this.educationalMaterialID = +this.route.snapshot.paramMap.get('materialId');
-    this.materialService.setEducationalMaterialID(this.educationalMaterialID.toString());
+    this.materialService.setEducationalMaterialID(this.educationalMaterialID);
     this.subscriptionUpdateUploadedFiles = this.materialService
       .updateUploadedFiles(this.educationalMaterialID)
       .subscribe({

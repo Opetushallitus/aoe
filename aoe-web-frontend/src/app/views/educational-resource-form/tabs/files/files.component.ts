@@ -27,7 +27,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   @Input() uploadedFiles$: Observable<UploadedFile[]>;
 
   @Output() emitterAbort: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() emitterEducationalMaterialID: EventEmitter<string> = new EventEmitter<string>();
+  @Output() emitterEducationalMaterialID: EventEmitter<number> = new EventEmitter<number>();
   @Output() emitterUploadActive: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // @HostListener('window:online', ['$event']) onLine(e: any): void {}
@@ -486,7 +486,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             const formData: FormData = new FormData();
             formData.append('name', JSON.stringify(this.names.value));
             this.materialService.createEmptyEducationalMaterial(formData).subscribe(
-              (educationalMaterialID: string): void => {
+              (educationalMaterialID: number): void => {
                 this.emitterEducationalMaterialID.emit(educationalMaterialID);
                 // this.materialService.setEducationalMaterialID(educationalMaterialID);
               },

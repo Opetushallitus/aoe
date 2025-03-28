@@ -99,7 +99,7 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
     this.uploadActive = uploadActive;
   }
 
-  updateEducationalMaterialID(educationalMaterialID: string): void {
+  updateEducationalMaterialID(educationalMaterialID: number): void {
     this.materialService.setEducationalMaterialID(educationalMaterialID);
   }
 

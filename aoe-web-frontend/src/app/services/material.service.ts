@@ -39,7 +39,7 @@ export class MaterialService {
     this.educationalMaterialEditForm$$.asObservable();
   public educationalMaterialID$: Observable<number> = this.educationalMaterialID$$
     .asObservable()
-    .pipe(map((id: string | null) => (id !== null ? +id : 0)));
+    .pipe(map((id: number | null) => (id !== null ? id : 0)));
   public publishedUserMaterials$$: Subject<EducationalMaterialCard[]> = new Subject<EducationalMaterialCard[]>();
   public unpublishedUserMaterials$$: Subject<EducationalMaterialCard[]> = new Subject<EducationalMaterialCard[]>();
 
@@ -73,11 +73,11 @@ export class MaterialService {
     this.educationalMaterialEditForm$$.next(educationalMaterialForm);
   }
 
-  getEducationalMaterialID(): string | null {
+  getEducationalMaterialID(): number | null {
     return this.educationalMaterialID$$.getValue();
   }
 
-  setEducationalMaterialID(id: string): void {
+  setEducationalMaterialID(id: number): void {
     this.educationalMaterialID$$.next(id);
   }
 
@@ -151,14 +151,14 @@ export class MaterialService {
       })
   }
 
-  createEmptyEducationalMaterial(formData: FormData): Observable<string> {
+  createEmptyEducationalMaterial(formData: FormData): Observable<number> {
     return this.http
       .post<string>(`${environment.backendUrl}/material/file`, formData, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
       })
-      .pipe(map((response: any): string => response.id));
+      .pipe(map((response: any): number => response.id));
   }
 
   /**
@@ -1231,7 +1231,7 @@ export class MaterialService {
    * @param eduMaterialID
    * @param attachmentID
    */
-  setAttachmentObsoleted(eduMaterialID: string, attachmentID: number): Observable<any> {
+  setAttachmentObsoleted(eduMaterialID: number, attachmentID: number): Observable<any> {
     return this.http
       .delete(`${environment.backendUrlV2}/material/${eduMaterialID}/obsolete/${attachmentID}/attachment`)
       .pipe(catchError(MaterialService.handleError));
