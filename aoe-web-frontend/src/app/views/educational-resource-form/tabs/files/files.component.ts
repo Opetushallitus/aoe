@@ -311,7 +311,6 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   uploadFiles(): void {
-    // console.log('FILE UPLOAD STARTED');
     this.emitterUploadActive.emit(true);
     this.uploadActive = true;
     this.concurrentTasks = [];
@@ -347,7 +346,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
 
     // Run concurrent tasks and finally upload subtitles if available.
-    // this.subscriptionConcurrentTasks =
     this.materialService.runConcurrentTasks(this.concurrentTasks, this.completedIndexes).subscribe(
       (results: { results: UploadMessage; metadata: any }[]): void => {
         const subtitleUploads: Observable<any>[] = [];
