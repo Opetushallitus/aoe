@@ -141,17 +141,6 @@ export class MaterialService {
           visible: true,
           statusHTTP: response.status,
         })),
-        // retryWhen((errors: Observable<any>) =>
-        //   errors.pipe(
-        //     delay(1000),
-        //     tap((err): void => {
-        //       console.log('Retry after an error:', errors);
-        //     }),
-        //     take(1), // 1 extra trial after the original request.
-        //     mergeMap((error) => throwError(error)),
-        //   ),
-        // ),
-        // timeout(3000),
         catchError((err) => of({ status: 'error', message: 100, visible: true, statusHTTP: err.status })),
       );
   }
