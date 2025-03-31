@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
+
+npm_ci_if_package_lock_has_changed
 
 npm run prettier-check
 npx --no playwright install --with-deps chromium
