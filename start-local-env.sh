@@ -86,8 +86,7 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-compose="docker compose -f ./docker-compose.yml"
-compose="$compose -f ./docker-compose.local-dev.yml"
+compose="docker compose -f ./docker-compose.local-dev.yml"
 
 readonly compose
 
@@ -136,7 +135,7 @@ tmux kill-session -t $session || true
 tmux start-server
 tmux new-session -d -s $session -c "$repo" -x "$(tput cols)" -y "$(tput lines)"
 
-readonly up_cmd="$compose up --no-log-prefix --build"
+readonly up_cmd="$compose up --no-log-prefix"
 tmux set -g pane-border-status bottom
 tmux rename-window -t $session:0 'infra'
 tmux select-pane -t 0
@@ -194,8 +193,6 @@ tmux select-pane -t 1.2
 tmux send-keys "$up_cmd kafka" C-m
 tmux split-window -v
 
-wait_for_container_to_be_healthy "kafka"
-
 tmux select-pane -t 1.3
 tmux send-keys "$up_cmd kafka2" C-m
 
@@ -216,8 +213,6 @@ tmux split-window -v   # Pane 5
 
 tmux select-pane -t 2.0
 tmux send-keys "$up_cmd aoe-web-backend" C-m
-
-wait_for_container_to_be_healthy "aoe-web-backend"
 
 tmux select-pane -t 2.1
 tmux send-keys "$up_cmd aoe-data-services" C-m
