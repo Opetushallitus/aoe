@@ -5,6 +5,10 @@ import { blob as blobConsumer } from 'stream/consumers';
 export const Materiaali = (page: Page) => {
   const locators = {
     lataaDropdown: page.getByRole('button', { name: 'Lataa' }),
+    preview: async (tiedosto: string) => {
+      const materiaaliNumero = await getMateriaaliNumero();
+      return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
+    }
   };
 
   const expectHeading = async (materiaali: string) => {
