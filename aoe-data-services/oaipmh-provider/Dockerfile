@@ -3,7 +3,7 @@ WORKDIR /app
 ADD . .
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-slim
+FROM openjdk:18-slim
 WORKDIR /app
 COPY --from=build /app/oaipmh-provider/target/oaipmh-provider.jar oaipmh-provider.jar
 RUN sh -c "touch oaipmh-provider.jar"
