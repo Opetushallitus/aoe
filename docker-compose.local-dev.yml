@@ -211,8 +211,24 @@ services:
     ports:
       - 27017:27017
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    ports:
+      - 2181:2181
+
   kafka:
-    image: confluentinc/cp-kafka:7.6.5.arm64
+    image: confluentinc/cp-kafka:7.0.1
     container_name: kafka
     depends_on:
       zookeeper:
@@ -236,7 +252,7 @@ services:
       start_period: 30s
 
   kafka2:
-    image: confluentinc/cp-kafka:7.6.5.arm64
+    image: confluentinc/cp-kafka:7.0.1
     container_name: kafka2
     depends_on:
       zookeeper:
@@ -258,22 +274,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.6.5.arm64
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
-    healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-    ports:
-      - 2181:2181
 
   localstack:
     image: localstack/localstack:latest
