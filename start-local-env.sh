@@ -3,6 +3,7 @@ set -o errexit -o nounset -o pipefail
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
 
 FETCH_SECRETS_SCRIPT="$repo"/scripts/fetch_secrets.sh
+RUN_PSQL_LOCAL_SCRIPT="$repo"/scripts/psql-local.sh
 
 AOE_WEB_BACKEND_ENV="$repo"/aoe-web-backend/.env
 AOE_STREAMING_APP_ENV="$repo"/aoe-streaming-app/.env
@@ -237,3 +238,5 @@ rename_services_panes_to_match_the_script_they_run_window_3
 tmux select-window -t 2
 tmux select-pane -t 2.0
 tmux attach-session -t $session
+
+eval "$RUN_PSQL_LOCAL_SCRIPT" "-c \"INSERT INTO aoeuser VALUES ('c37ccf17-c8b8-4d5f-b2be-a751f8a4f46e') ON CONFLICT DO NOTHING;\""

@@ -8,7 +8,7 @@ function main {
   local container_name
   container_name="$($compose ps --quiet postgres)"
 
-  docker exec -it  "$container_name" psql postgres://aoeuser:aoepassword@localhost/aoe
+  docker exec -it  "$container_name" psql postgres://aoeuser:aoepassword@localhost/aoe "$@"
 }
 
 main "$@"
