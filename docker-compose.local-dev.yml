@@ -18,6 +18,7 @@ services:
         condition: service_started
     ports:
       - 8282:80
+      - 33344:8080
 
   aoe-streaming-app:
     hostname: aoe-streaming-app
@@ -392,7 +393,8 @@ services:
           {
             "ClientId": "aoe-client",
             "ClientSecrets": ["aoe-secret"],
-            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect"],
+            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect",
+            "http://localhost:33344/api/secure/redirect"],
             "AllowedScopes": ["openid", "offline_access", "profile"],
             "AllowOfflineAccess" : "true",
             "AllowedGrantTypes": ["authorization_code"]
