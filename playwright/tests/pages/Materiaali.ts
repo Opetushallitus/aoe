@@ -7,8 +7,8 @@ export const Materiaali = (page: Page) => {
     lataaDropdown: page.getByRole('button', { name: 'Lataa' }),
     preview: async (tiedosto: string) => {
       const materiaaliNumero = await getMateriaaliNumero();
-      return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
-    }
+      return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`);
+    },
   };
 
   const expectHeading = async (materiaali: string) => {
@@ -33,6 +33,11 @@ export const Materiaali = (page: Page) => {
     return lataaTiedosto('Lataa kaikki tiedostot');
   };
 
+  const clickVerkkosivu = async () => {
+    const materiaaliNumero = await getMateriaaliNumero();
+    await page.getByTestId(`preview-link-${materiaaliNumero}`).click();
+  };
+
   return {
     header: Header(page),
     ...locators,
@@ -40,5 +45,6 @@ export const Materiaali = (page: Page) => {
     getMateriaaliNumero,
     lataaTiedosto,
     lataaKaikkiTiedostot,
+    clickVerkkosivu,
   };
 };

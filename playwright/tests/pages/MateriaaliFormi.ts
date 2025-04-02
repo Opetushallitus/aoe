@@ -22,6 +22,12 @@ export const MateriaaliFormi = (page: Page, isEditingAsForSomeReasonTheLabelIsDi
       await page.locator(fileLocator).setInputFiles(path.join(__dirname, '../../test-files/blank.pdf'));
       await expect(page.locator(fileLocator)).toHaveValue('C:\\fakepath\\blank.pdf');
     },
+    lisaaVerkkosivu: async () => {
+      const linkLocator = '#link0';
+      await page.locator(linkLocator).fill('https://www.example.com');
+      await expect(page.locator(linkLocator)).toHaveValue('https://www.example.com');
+      await page.locator('#displayName0').fill('esimerkkisivu');
+    },
     seuraava: async () => {
       await locators.seuraava.click();
       return perustiedot;
