@@ -109,7 +109,7 @@ services:
   aoe-web-backend:
     build:
       context: aoe-web-backend
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/Dockerfile.local
     image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:
@@ -123,6 +123,7 @@ services:
       - ./docker/dev/web/uploads:/app/uploads:rw
       - ./docker/dev/web/webdata:/webdata:rw
       - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
+      - ./aoe-web-backend/src:/app/src:rw
     depends_on:
       aoe-oidc-server:
         condition: service_healthy
