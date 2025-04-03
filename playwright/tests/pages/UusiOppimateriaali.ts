@@ -20,10 +20,10 @@ export const UusiOppimateriaali = (page: Page) => {
     const esikatseluJaTallennus = await hyodynnetytMateriaalit.seuraava();
     return await esikatseluJaTallennus.tallenna(materiaaliNimi);
   };
-  const taytaJaTallennaUusiVerkkosivuMateriaali = async (materiaaliNimi: string) => {
+  const taytaJaTallennaUusiVerkkosivuMateriaali = async (materiaaliNimi: string, verkkosivu: string) => {
     const { form } = MateriaaliFormi(page);
     await form.oppimateriaalinNimi(materiaaliNimi);
-    await form.lisaaVerkkosivu();
+    await form.lisaaVerkkosivu(verkkosivu);
     const perustiedot = await form.seuraava();
     await perustiedot.lisaaHenkilo();
     await perustiedot.lisaaAsiasana();

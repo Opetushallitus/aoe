@@ -50,7 +50,7 @@ test('kirjautumaton käyttämä voi ilman kirjautumista siirtyä materiaalin sis
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit();
   const uusiVerkkosivuMateriaali = await omatMateriaalit.luoUusiMateriaali();
   const materiaaliNimi = uusiVerkkosivuMateriaali.randomMateriaaliNimi();
-  await uusiVerkkosivuMateriaali.taytaJaTallennaUusiVerkkosivuMateriaali(materiaaliNimi);
+  await uusiVerkkosivuMateriaali.taytaJaTallennaUusiVerkkosivuMateriaali(materiaaliNimi, 'https://www.example.com');
 
   const newContext = await browser.newContext({ storageState: undefined });
   const kirjautumatonEtusivu = Etusivu(await newContext.newPage());
