@@ -1,0 +1,28 @@
+/**
+ * @ignore
+ */
+export const environment = {
+  production: true,
+  loginUrl: 'https://demo.aoe.fi/api',
+  backendUrl: 'https://demo.aoe.fi/api/v1',
+  backendUrlV2: 'https://demo.aoe.fi/api/v2',
+  embedBackendUrl: 'https://lessons.demo.aoe.fi/embed',
+  statisticsBackendUrl: 'https://demo.aoe.fi/api/v2/statistics/prod',
+  frontendUrl: 'https://demo.aoe.fi',
+  newERLSKey: 'aoe.new-educational-resource',
+  koodistoUrl: 'https://demo.aoe.fi/ref/api/v1',
+  sessionCookie: 'connect.sid',
+  userdataKey: 'aoe.userdata',
+  cookieSettingsCookie: 'aoe.cookies',
+  searchParams: 'aoe.searchParams',
+  searchResults: 'aoe.searchResults',
+  usedFilters: 'aoe.usedFilters',
+  editMaterial: 'aoe.editMaterial',
+  title: '- Avointen oppimateriaalien kirjasto (demo.aoe.fi)',
+  collection: 'aoe.collection',
+  collectionSearchParams: 'aoe.collectionSearchParams',
+  collectionSearchResults: 'aoe.collectionSearchResults',
+  sessionMaxAge: 60 * 60 * 8 * 1000, // 8 hours
+  disableForms: 'aoe.disableForms',
+  disableLogin: 'aoe.disableLogin',
+};

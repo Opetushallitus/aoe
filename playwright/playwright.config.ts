@@ -22,7 +22,28 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['list'],
+    [
+      'junit',
+      {
+        outputFile: 'playwright-results/junit-playwright-js-unit.xml',
+      },
+    ],
+    [
+      'html',
+      {
+        outputFolder: '../playwright-results/html-report/',
+        open: 'never',
+      },
+    ],
+    [
+      'blob',
+      {
+        outputDir: '../playwright-results/blob-report',
+      },
+    ],
+  ],
   expect: {
     timeout: 5000,
   },
@@ -32,8 +53,11 @@ export default defineConfig({
     baseURL: 'https://demo.aoe.fi',
     actionTimeout: 5000,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-
+    trace: 'on',
+    screenshot: {
+      mode: 'on',
+      fullPage: true,
+    },
     ignoreHTTPSErrors: true,
   },
 

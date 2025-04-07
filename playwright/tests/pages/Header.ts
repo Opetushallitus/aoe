@@ -12,7 +12,7 @@ export const Header = (page: Page) => {
     try {
       await hyvaksyKayttoehdot.click({ timeout: 500 });
       await page.getByRole('button', { name: 'Tallenna' }).click();
-      await page.waitForURL('https://demo.aoe.fi/#/etusivu', { waitUntil: 'domcontentloaded' });
+      await page.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' });
       await page.getByRole('link', { name: 'Omat oppimateriaalit' }).click();
     } catch (e) {
       console.log('Terms of Service already accepted, skipping');

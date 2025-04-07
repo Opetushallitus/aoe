@@ -13,7 +13,7 @@ export const BrysselEtusivu = (page: Page) => {
     try {
       await hyvaksyKayttoehdot.click({ timeout: 500 });
       await page.getByRole('button', { name: 'Tallenna' }).click();
-      await page.waitForURL(`https://demo.aoe.fi/#/bryssel/${routeName}`, { waitUntil: 'domcontentloaded' });
+      await page.waitForURL(`/#/bryssel/${routeName}`, { waitUntil: 'domcontentloaded' });
       await page.getByTestId(routeName).click();
     } catch (e) {
       console.log('Terms of Service already accepted, skipping');

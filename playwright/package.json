@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "playwright:test": "playwright test",
     "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors",
     "prettier-write": "prettier --write .",
     "prettier-check": "prettier --check ."

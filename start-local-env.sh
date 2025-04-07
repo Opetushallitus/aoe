@@ -128,7 +128,7 @@ function rename_services_panes_to_match_the_script_they_run_window_3 {
 
 init
 
-$compose create --build -- aoe-web-frontend aoe-web-backend aoe-data-analytics aoe-semantic-apis aoe-data-services aoe-streaming-app aoe-oidc-server localstack redis mongo postgres zookeeper kafka kafka2 opensearch nginx
+$compose create --build
 
 session="aoe"
 
@@ -165,11 +165,11 @@ tmux send-keys "$up_cmd localstack" C-m
 
 # Pane 2: MongoDB
 tmux select-pane -t 2
-tmux send-keys "$up_cmd mongo" C-m
+tmux send-keys "$up_cmd aoe-mongodb" C-m
 
 # Pane 3: PostgreSQL
 tmux select-pane -t 3
-tmux send-keys "$up_cmd postgres" C-m
+tmux send-keys "$up_cmd aoe-postgres" C-m
 
 # Pane 4: oidc
 tmux select-pane -t 4
@@ -238,5 +238,3 @@ rename_services_panes_to_match_the_script_they_run_window_3
 tmux select-window -t 2
 tmux select-pane -t 2.0
 tmux attach-session -t $session
-
-eval "$RUN_PSQL_LOCAL_SCRIPT" "-c \"INSERT INTO aoeuser VALUES ('c37ccf17-c8b8-4d5f-b2be-a751f8a4f46e') ON CONFLICT DO NOTHING;\""

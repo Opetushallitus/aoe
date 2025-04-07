@@ -1,12 +1,13 @@
-name: aoe-local
+name: aoe-ci
 services:
 
   aoe-web-frontend:
+    profiles: [aoe]
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
       args:
-        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-demo}
+        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-ci}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     restart: unless-stopped
     volumes:
@@ -18,8 +19,22 @@ services:
     ports:
       - 8282:80
       - 33344:8080
-
+    networks:
+      - default
+  test-runner:
+    profiles: [test]
+    build:
+      context: .
+      dockerfile: Dockerfile.playwright-test-runner 
+    networks:
+      - default
+    volumes:
+      - ./ci/screenshots:/screenshots
+      - ./ci/test-results:/playwright-results
+    environment:
+      - CI=true
   aoe-streaming-app:
+    profiles: [aoe]
     hostname: aoe-streaming-app
     build:
       context: aoe-streaming-app
@@ -38,6 +53,7 @@ services:
           condition: service_started
 
   aoe-data-services:
+    profiles: [aoe]
     hostname: aoe-data-services
     build:
       context: aoe-data-services
@@ -53,6 +69,7 @@ services:
       - path: ./aoe-data-services/.env
 
   aoe-semantic-apis:
+    profiles: [aoe]
     hostname: aoe-semantic-apis
     build:
       context: aoe-semantic-apis
@@ -74,6 +91,7 @@ services:
     command: sh -c "yarn serve"
 
   aoe-data-analytics:
+    profiles: [aoe]
     hostname: aoe-data-analytics
     build:
       context: aoe-data-analytics
@@ -102,6 +120,7 @@ services:
         max-file: '3'
 
   aoe-web-backend:
+    profiles: [aoe]
     build:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
@@ -136,8 +155,9 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - ./aoe-web-backend/.env
+      - ./aoe-web-backend/.env.ci
   redis:
+    profiles: [aoe]
     image: redis:6.2.4-alpine
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
@@ -156,6 +176,7 @@ services:
       - 6379:6379
 
   aoe-postgres:
+    profiles: [aoe]
     image: postgres:15-alpine
     ports:
       - 5432:5432
@@ -169,6 +190,7 @@ services:
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
+    profiles: [aoe]
     image: opensearchproject/opensearch:2.10.0
     environment:
       - cluster.name=opensearch-cluster
@@ -193,6 +215,7 @@ services:
       - 9600:9600
 
   aoe-mongodb:
+    profiles: [aoe]
     image: mongo:6.0
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
@@ -205,6 +228,7 @@ services:
       - 27017:27017
 
   zookeeper:
+    profiles: [aoe]
     image: confluentinc/cp-zookeeper:7.0.1
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -220,6 +244,7 @@ services:
       - 2181:2181
 
   kafka:
+    profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
     depends_on:
       zookeeper:
@@ -243,6 +268,7 @@ services:
       start_period: 30s
 
   kafka2:
+    profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
     depends_on:
       zookeeper:
@@ -266,6 +292,7 @@ services:
       start_period: 30s
 
   localstack:
+    profiles: [aoe]
     image: localstack/localstack:latest
     networks:
       default:
@@ -287,11 +314,15 @@ services:
       - ./docker/dev/localstack/S3:/host-directory
 
   aoe-oidc-server:
+    profiles: [aoe]
     hostname: aoe-oidc-server
     image: ghcr.io/soluto/oidc-server-mock:9.0.1
     restart: on-failure:2
+    networks:
+      - default
     expose:
       - 80
+      - 443
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:80/.well-known/openid-configuration" ]
       interval: 30s
@@ -381,8 +412,7 @@ services:
           {
             "ClientId": "aoe-client",
             "ClientSecrets": ["aoe-secret"],
-            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect",
-            "http://localhost:33344/api/secure/redirect"],
+            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect"],
             "AllowedScopes": ["openid", "offline_access", "profile"],
             "AllowOfflineAccess" : "true",
             "AllowedGrantTypes": ["authorization_code"]
@@ -397,6 +427,7 @@ services:
         }
 
   nginx:
+    profiles: [aoe]
     image: nginx:latest
     hostname: nginx
     ports:
@@ -406,6 +437,10 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/dev/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
       - ./docker/dev/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
+    networks:
+      default:
+        aliases:
+          - demo.aoe.fi
     depends_on:
       aoe-web-backend:
         condition: service_started
@@ -416,7 +451,7 @@ services:
 
 networks:
   default:
-    name: aoe_local-dev
+    name: aoe_ci
 
 volumes:
   postgres_data:
