@@ -188,6 +188,7 @@
                 <div class="input-group-append">
                   <button
                     class="btn btn-outline-gray"
+                    data-testid="replaceLinkButton"
                     type="button"
                     (click)="showReplaceInput[i] = !showReplaceInput[i]">
                     {{ "forms.common.replaceLink" | translate }}
@@ -201,6 +202,7 @@
                 <input
                   type="url"
                   class="form-control"
+                  data-testid="replaceLinkInput"
                   id="{{ 'newLink' + i }}"
                   formControlName="newLink"
                   [ngClass]="{

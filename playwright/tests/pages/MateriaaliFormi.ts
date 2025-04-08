@@ -28,6 +28,10 @@ export const MateriaaliFormi = (page: Page, isEditingAsForSomeReasonTheLabelIsDi
       await expect(page.locator(linkLocator)).toHaveValue(verkkosivu);
       await page.locator('#displayName0').fill('esimerkkisivu');
     },
+    muokkaaVerkkoSivu: async (verkkosivu: string) => {
+      await page.getByTestId('replaceLinkButton').click();
+      await page.getByTestId('replaceLinkInput').fill(verkkosivu);
+    },
     seuraava: async () => {
       await locators.seuraava.click();
       return perustiedot;

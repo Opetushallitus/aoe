@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material;
+  testid=window.location.href.split('/').reverse()[0]
   materialUrl: string;
   @ViewChild('pdfViewer', { static: true }) public pdfViewer;
 

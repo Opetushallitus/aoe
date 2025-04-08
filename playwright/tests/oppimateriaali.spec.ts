@@ -45,7 +45,7 @@ test('käyttäjä voi päivittää materiaalista kaikki linkit kerralla ja julka
 
   const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(materiaaliNumero);
   const muokkausForm = muokkaaMateriaalia.form;
-  await muokkausForm.lisaaVerkkosivu('https://example.org');
+  await muokkausForm.muokkaaVerkkoSivu('https://example.org');
   const esikatseluJaTallennut = await muokkausForm
     .seuraava()
     .then((n) => n.seuraava())
