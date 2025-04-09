@@ -1,25 +1,25 @@
 package fi.csc.processor.configuration;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@Configuration
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/produce/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/statistics/**").permitAll()
-            .antMatchers(HttpMethod.POST, "/statistics/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/status").permitAll()
-            .antMatchers("/actuator/**").permitAll()
+            .authorizeHttpRequests()
+            .requestMatchers(HttpMethod.POST, "/produce/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/statistics/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/statistics/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/status").permitAll()
+            .requestMatchers("/actuator/**").permitAll()
             .anyRequest().denyAll();
         return http.build();
     }
