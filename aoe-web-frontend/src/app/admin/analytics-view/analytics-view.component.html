@@ -39,6 +39,7 @@
           [closeOnSelect]="false"
           bindLabel="label.fi"
           bindValue="value"
+          data-testid="käyttötapa"
           id="form-usage-select-activity"
           labelForId="form-usage-select-activity"
           formControlName="activity"></ng-select>
@@ -59,6 +60,7 @@
           bindLabel="label.fi"
           bindValue="value"
           id="form-usage-select-interval"
+          data-testid="aikajana"
           labelForId="form-usage-select-interval"
           formControlName="interval"></ng-select>
         <ng-container
@@ -188,12 +190,12 @@
         </ng-select>
       </div>
     </div>
-    <button type="submit" [disabled]="formGroupUsage.invalid" class="btn btn-blue" #activitySubmit>Hae tiedot</button>
+    <button type="submit" [disabled]="formGroupUsage.invalid" class="btn btn-blue" data-testid='käyttömäärä-button' #activitySubmit>Hae tiedot</button>
     &nbsp;&nbsp;
     <button (click)="resetFormActivity($event)" class="btn btn-cancel">Tyhjennä</button>
   </form>
   <br />
-  <app-line-chart [options]="eChartsOptionActivity"></app-line-chart>
+  <app-line-chart data-testid='käyttömäärä-chart' [options]="eChartsOptionActivity"></app-line-chart>
   <br />
 </section>
 <br />
