@@ -13,14 +13,15 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeHttpRequests()
+
+        http.csrf((csrf) -> csrf.disable())
+            .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/produce/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/statistics/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/statistics/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/status").permitAll()
             .requestMatchers("/actuator/**").permitAll()
-            .anyRequest().denyAll();
+            .anyRequest().denyAll());
         return http.build();
     }
 }

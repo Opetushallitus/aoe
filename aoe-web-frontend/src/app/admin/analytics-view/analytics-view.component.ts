@@ -432,7 +432,7 @@ export class AnalyticsViewComponent implements OnInit {
         const payload: StatisticsTimespanPost = this.createPayload(
           this.getDatestamp(this.formUsageDateSinceCtrl.value),
           this.getDatestamp(this.formUsageDateUntilCtrl.value),
-          this.formUsageActivityCtrl.value,
+          ActivityEnum.VIEW,
           'metadata',
         );
         const viewingData: ActivityData = await this.getUserActivity(
