@@ -12,7 +12,7 @@ import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import * as pgLib from 'pg-promise';
 import { updateViewCounter } from './analyticsQueries';
-import fh from './fileHandling';
+import { downloadFileFromStorage, insertDataToDisplayName } from './fileHandling';
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {
@@ -332,8 +332,7 @@ export const getEducationalMaterialMetadata = async (
             'The req.params.key before it is being sent to DownloadFIleFromStorage function: %s',
             req.params.key,
           );
-          const result = await fh.downloadFileFromStorage(req, res, next, true);
-          winstonLogger.debug('The result from fh.downloadFile with isZip True value: %o', result);
+          const result = await downloadFileFromStorage(req, res, next, true);
           if (
             result != false &&
             (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
@@ -632,7 +631,7 @@ export const setAttachmentObsoleted = async (req: Request, res: Response, next: 
   }
 };
 
-export async function setLanguage(obj: any) {
+async function setLanguage(obj: any) {
   try {
     if (obj) {
       if (!obj.fi || obj.fi === '') {
@@ -674,7 +673,7 @@ export async function setLanguage(obj: any) {
   }
 }
 
-export const insertDataToDescription = async (
+const insertDataToDescription = async (
   t: any,
   educationalmaterialid: string,
   description: any,
@@ -1099,7 +1098,7 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
       const fileDetailArr = metadata.fileDetails;
       if (fileDetailArr !== undefined) {
         for (const element of fileDetailArr) {
-          const dnresult = await fh.insertDataToDisplayName(t, emid, element.id, element);
+          const dnresult = await insertDataToDisplayName(t, emid, element.id, element);
           queries.push(dnresult);
           query = 'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
           queries.push(await t.any(query, [element.language, element.id, emid]));
@@ -1271,22 +1270,6 @@ export const updateEduMaterialVersionURN = async (id: string, publishedat: strin
   }
 };
 
-export async function createUser(req: Request, res: Response, next: NextFunction) {
-  try {
-    const query =
-      'INSERT INTO users (firstname, lastname, username, preferredlanguage, preferredtargetname,' +
-      "preferredalignmenttype) VALUES ($1, $2, $3, 'fi', '', '') RETURNING username";
-    if (req.body.username === undefined) {
-      next(new ErrorHandler(500, 'Username cannot be undefined'));
-    }
-    const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.username]);
-    res.status(200).json(data);
-  } catch (err) {
-    winstonLogger.error(err);
-    next(new ErrorHandler(500, 'Issue creating user'));
-  }
-}
-
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
     const query =
@@ -1330,161 +1313,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function insertIntoEducationalMaterial(obj: any) {
-  const materialData = {
-    technicalname: obj.technicalname,
-    createdat: obj.createdat,
-    publishedat: obj.publishedat,
-    updatedat: obj.updatedat,
-    archivedat: obj.archivedat,
-    timerequired: obj.timerequired,
-    agerangemin: obj.agerangemin,
-    agerangemax: obj.agerangemax,
-    usersusername: obj.username,
-    licensecode: obj.licensecode,
-    originalpublishedat: obj.originalpublishedat,
-  };
-  const query = pgp.helpers.insert(materialData, undefined, 'educationalmaterial') + 'RETURNING id';
-  const data = await db.any(query);
-  return data;
-}
-
-export async function insertIntoMaterialName(obj: any, materialid: any) {
-  const data = {
-    materialname: obj.MaterialName,
-    language: obj.Language,
-    slug: obj.Slug,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'materialname') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoMaterialDescription(obj: any, materialid: any) {
-  const data = {
-    description: obj.Description,
-    language: obj.Language,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'materialdescription') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoEducationalAudience(obj: any, materialid: any) {
-  const data = {
-    educationalrole: obj.EducationalRole,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'educationalaudience') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoLearningResourceType(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'learningresourcetype') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoAuthor(obj: any, materialid: any) {
-  const data = {
-    authorname: obj.authorname,
-    organization: obj.organization,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'author') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoAccessibilityFeature(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'accessibilityfeature') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoAccessibilityHazard(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'accessibilityhazard') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoKeyWord(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    keyurl: '',
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'keyword') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoEducationalLevel(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'educationallevel') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoEducationalUse(obj: any, materialid: any) {
-  const data = {
-    value: obj.value,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'educationaluse') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoPublisher(obj: any, materialid: any) {
-  const data = {
-    name: obj.name,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'publisher') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoInLanguage(obj: any, materialid: any) {
-  const data = {
-    inlanguage: obj.name,
-    url: '',
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'inlanguage') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoAlignmentObject(obj: any, materialid: any) {
-  const data = {
-    alignmenttype: obj.alignmenttype,
-    targetname: obj.targetname,
-    source: obj.source,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'alignmentobject') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function insertIntoMaterial(obj: any, materialid: number) {
-  const data = {
-    link: obj.link,
-    priority: obj.priority,
-    educationalmaterialid: materialid,
-  };
-  const query = pgp.helpers.insert(data, undefined, 'material') + 'RETURNING id';
-  await db.any(query);
-}
-
-export async function isOwner(educationalmaterialid: number, uid: string) {
+async function isOwner(educationalmaterialid: number, uid: string) {
   const result = await db.oneOrNone(
     'SELECT usersusername from educationalmaterial WHERE id = $1',
     educationalmaterialid,
