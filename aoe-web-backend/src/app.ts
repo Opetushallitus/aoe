@@ -21,6 +21,8 @@ import passport from 'passport';
 import connectRedis from 'connect-redis';
 import session, { SessionOptions } from 'express-session';
 import clientRedis from '@resource/redisClient';
+import { db } from './resource/postgresClient';
+import { asyncHandler } from './asyncHandler';
 
 export const app: Express = express();
 
@@ -124,6 +126,11 @@ app.use(lusca.xssProtection);
 app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
   handleError(err, res);
 });
+
+app.get('/', asyncHandler(async (_req: Request, res: Response) => {
+  await db.none('SELECT 1')
+  res.json({ status: 'ok' })
+}))
 
 app.set('port', 3000);
 
