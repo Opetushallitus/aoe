@@ -673,11 +673,7 @@ async function setLanguage(obj: any) {
   }
 }
 
-const insertDataToDescription = async (
-  t: any,
-  educationalmaterialid: string,
-  description: any,
-): Promise<any> => {
+const insertDataToDescription = async (t: any, educationalmaterialid: string, description: any): Promise<any> => {
   const queries = [];
   const query =
     'INSERT ' +
