@@ -1,9 +1,0 @@
-{
-  "exec": "node --trace-deprecation --abort-on-uncaught-exception -r ts-node/register -r tsconfig-paths/register src/server.ts",
-  "execMap": {
-    "ts": "ts-node"
-  },
-  "ext": "js,json,ts",
-  "ignore": ["src/**/*.test.ts", "test/**/*.test.ts", "node_modules"],
-  "watch": ["src"]
-}
