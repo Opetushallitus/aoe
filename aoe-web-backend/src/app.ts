@@ -125,10 +125,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
   handleError(err, res);
 });
 
-// Root status page with Pug template
-app.set('views', './views');
-app.set('view engine', 'pug');
-
 app.set('port', 3000);
 
 // Synchronize database with Sequelize models.
