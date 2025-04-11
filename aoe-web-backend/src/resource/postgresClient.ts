@@ -1,6 +1,5 @@
 import config from '@/config';
 import winstonLogger from '@util/winstonLogger';
-import promise from 'bluebird';
 import moment from 'moment';
 import pgPromise, { IConnected, IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise';
 import { IClient } from 'pg-promise/typescript/pg-subset';
@@ -22,7 +21,6 @@ const initOptions: IInitOptions = {
       winstonLogger.error('PG error: %o', err);
     }
   },
-  promiseLib: promise,
 };
 
 export const pgURL = PG_URL_FULL;

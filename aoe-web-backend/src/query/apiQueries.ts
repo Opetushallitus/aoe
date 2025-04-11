@@ -1486,7 +1486,7 @@ export async function insertIntoMaterial(obj: any, materialid: number) {
 
 export async function isOwner(educationalmaterialid: number, uid: string) {
   const result = await db.oneOrNone(
-    "SELECT usersusername from educationalmaterial WHERE id = $1",
+    'SELECT usersusername from educationalmaterial WHERE id = $1',
     educationalmaterialid,
   );
   if (!result) {

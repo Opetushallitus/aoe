@@ -11,7 +11,7 @@ import winstonLogger from '@util/winstonLogger';
  * @param httpsConnection use https or http
  * @param options http.RequestOptions
  */
-export default (httpsConnection: boolean, options: RequestOptions): Promise<any> => {
+export const httpsClient = (httpsConnection: boolean, options: RequestOptions): Promise<any> => {
   return new Promise((resolve, reject) => {
     let request = (httpsConnection ? https : http).request(options, (response: IncomingMessage) => {
       let output = '';
