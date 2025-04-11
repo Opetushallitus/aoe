@@ -22,7 +22,7 @@ import connectRedis from 'connect-redis';
 import session, { SessionOptions } from 'express-session';
 import clientRedis from '@resource/redisClient';
 
-const app: Express = express();
+export const app: Express = express();
 
 const RedisStore = connectRedis(session);
 
@@ -149,5 +149,3 @@ require('@util/aoeScheduler');
 aoeScheduler.startScheduledCleaning();
 aoeScheduler.startScheduledRegistrationForPIDs();
 aoeScheduler.startScheduledSearchIndexUpdate();
-
-export default app;

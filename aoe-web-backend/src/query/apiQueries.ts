@@ -276,10 +276,9 @@ export const getEducationalMaterialMetadata = async (
       if (data[0][0] === undefined) {
         return res.status(200).json(jsonObj);
       }
-      let owner = false;
-      if (req.session?.passport && req.session?.passport.user && req.session?.passport.user.uid) {
-        owner = await isOwner(eduMaterialId.toString(), req.session?.passport.user.uid);
-      }
+      const uid = req?.session?.passport?.user.uid || '';
+
+      const owner = await isOwner(eduMaterialId, uid);
       // add displayname object to material object
       for (const element of data[14]) {
         const nameobj = {
@@ -1475,7 +1474,7 @@ export async function insertIntoAlignmentObject(obj: any, materialid: any) {
   await db.any(query);
 }
 
-export async function insertIntoMaterial(obj: any, materialid: any) {
+export async function insertIntoMaterial(obj: any, materialid: number) {
   const data = {
     link: obj.link,
     priority: obj.priority,

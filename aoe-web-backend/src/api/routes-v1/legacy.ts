@@ -8,7 +8,7 @@ import {
 } from '@/metadataExtension/metadataExtension';
 import rating from '@/rating/rating';
 import { updateUserSettings } from '@/users/userSettings';
-import db from '@query/apiQueries';
+import { getMaterial, getRecentMaterial, getUser, getUserMaterial, updateTermsOfUsage, updateUser } from '@query/apiQueries';
 import fileHandling from '@query/fileHandling';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '@query/thumbnailHandler';
 import authService, { hasAccessToAOE } from '@services/authService';
@@ -30,7 +30,7 @@ export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAOE, getAoeUsers);
   router.post('/changeUser', hasAccessToAOE, changeMaterialUser);
 
-  router.get('/material', db.getMaterial);
+  router.get('/material', getMaterial);
   router.post(
     '/material/attachment/:materialId',
     isAllasEnabled,
@@ -50,19 +50,19 @@ export default (router: Router): void => {
   );
   router.get('/names/:id', hasAccessToAOE, getMaterialNames);
   router.get('/pdf/content/:key', downloadPdfFromAllas);
-  router.get('/recentmaterial', db.getRecentMaterial);
+  router.get('/recentmaterial', getRecentMaterial);
 
   router.delete('/removeMaterial/:id', hasAccessToAOE, removeEducationalMaterial);
 
   router.get('/thumbnail/:id', downloadEmThumbnail);
   router.put('/updateSettings', authService.checkAuthenticated, updateUserSettings);
-  router.get('/user', authService.checkAuthenticated, db.getUser);
-  router.put('/user', authService.checkAuthenticated, db.updateUser);
+  router.get('/user', authService.checkAuthenticated, getUser);
+  router.put('/user', authService.checkAuthenticated, updateUser);
   router.get('/userdata', authService.checkAuthenticated, authService.getUserData);
   router.post('/userinfo', authService.userInfo);
-  router.get('/usermaterial', authService.checkAuthenticated, db.getUserMaterial);
+  router.get('/usermaterial', authService.checkAuthenticated, getUserMaterial);
   router.get('/usersMetadata/:id', authService.checkAuthenticated, getUsersMetadataExtension);
-  router.put('/termsOfUsage', authService.checkAuthenticated, db.updateTermsOfUsage);
+  router.put('/termsOfUsage', authService.checkAuthenticated, updateTermsOfUsage);
   router.get('/verify', verifyEmailToken);
 
   // Collection request endpoints
