@@ -1331,76 +1331,6 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function insertEducationalMaterial(obj: any, func: any) {
-  await db.any('BEGIN');
-  try {
-    const response = await insertIntoEducationalMaterial(obj.educationalmaterial[0]);
-    const materialid = response[0].id;
-    let mkey = 'MaterialName';
-    for (const num in obj[mkey]) {
-      await insertIntoMaterialName(obj[mkey][num], materialid);
-    }
-    mkey = 'Description';
-    for (const num in obj[mkey]) {
-      await insertIntoMaterialDescription(obj[mkey][num], materialid);
-    }
-    mkey = 'EducationalAudience';
-    for (const num in obj[mkey]) {
-      await insertIntoEducationalAudience(obj[mkey][num], materialid);
-    }
-    mkey = 'LearningResourceType';
-    for (const num in obj[mkey]) {
-      await insertIntoLearningResourceType(obj[mkey][num], materialid);
-    }
-    mkey = 'AccessibilityFeature';
-    for (const num in obj[mkey]) {
-      await insertIntoAccessibilityFeature(obj[mkey][num], materialid);
-    }
-    mkey = 'AccessibilityHazard';
-    for (const num in obj[mkey]) {
-      await insertIntoAccessibilityHazard(obj[mkey][num], materialid);
-    }
-    mkey = 'KeyWord';
-    for (const num in obj[mkey]) {
-      await insertIntoKeyWord(obj[mkey][num], materialid);
-    }
-    mkey = 'EducationalLevel';
-    for (const num in obj[mkey]) {
-      await insertIntoEducationalLevel(obj[mkey][num], materialid);
-    }
-    mkey = 'EducationalUse';
-    for (const num in obj[mkey]) {
-      await insertIntoEducationalUse(obj[mkey][num], materialid);
-    }
-    mkey = 'Publisher';
-    for (const num in obj[mkey]) {
-      await insertIntoPublisher(obj[mkey][num], materialid);
-    }
-    mkey = 'InLanguage';
-    for (const num in obj[mkey]) {
-      await insertIntoInLanguage(obj[mkey][num], materialid);
-    }
-    mkey = 'AlignmentObject';
-    for (const num in obj[mkey]) {
-      await insertIntoAlignmentObject(obj[mkey][num], materialid);
-    }
-    mkey = 'Material';
-    for (const num in obj[mkey]) {
-      await insertIntoMaterial(obj[mkey][num], materialid);
-    }
-    mkey = 'Author';
-    for (const num in obj[mkey]) {
-      await insertIntoAuthor(obj[mkey][num], materialid);
-    }
-    await db.any('COMMIT');
-    func(undefined, 'Success');
-  } catch (err) {
-    await db.any('ROLLBACK');
-    winstonLogger.error('Error in insertEducationalMaterial(): %o', err);
-    func(err);
-  }
-}
-
 export async function insertIntoEducationalMaterial(obj: any) {
   const materialData = {
     technicalname: obj.technicalname,
@@ -1555,53 +1485,13 @@ export async function insertIntoMaterial(obj: any, materialid: any) {
   await db.any(query);
 }
 
-export async function isOwner(educationalmaterialid: string, username: string) {
-  if (educationalmaterialid && username) {
-    const query = 'SELECT UsersUserName from EducationalMaterial WHERE id = $1';
-    const result = await db.oneOrNone(query, educationalmaterialid);
-    if (!result) {
-      return false;
-    } else if (username === result.usersusername) {
-      return true;
-    } else {
-      return false;
-    }
+export async function isOwner(educationalmaterialid: number, uid: string) {
+  const result = await db.oneOrNone(
+    "SELECT usersusername from educationalmaterial WHERE id = $1",
+    educationalmaterialid,
+  );
+  if (!result) {
+    return false;
   }
+  return uid === result.usersusername;
 }
-
-export default {
-  addLinkToMaterial,
-  getMaterial,
-  getEducationalMaterialMetadata,
-  getUserMaterial,
-  getRecentMaterial,
-  setEducationalMaterialObsoleted,
-  setMaterialObsoleted,
-  setAttachmentObsoleted,
-  setLanguage,
-  insertDataToDescription,
-  insertEducationalMaterialName,
-  updateMaterial,
-  updateEduMaterialVersionURN,
-  createUser,
-  updateUser,
-  updateTermsOfUsage,
-  getUser,
-  insertEducationalMaterial,
-  insertIntoEducationalMaterial,
-  insertIntoMaterialName,
-  insertIntoMaterialDescription,
-  insertIntoEducationalAudience,
-  insertIntoLearningResourceType,
-  insertIntoAuthor,
-  insertIntoAccessibilityFeature,
-  insertIntoAccessibilityHazard,
-  insertIntoKeyWord,
-  insertIntoEducationalLevel,
-  insertIntoEducationalUse,
-  insertIntoPublisher,
-  insertIntoInLanguage,
-  insertIntoAlignmentObject,
-  insertIntoMaterial,
-  isOwner,
-};
