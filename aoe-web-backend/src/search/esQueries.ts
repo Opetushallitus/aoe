@@ -375,15 +375,3 @@ export async function deleteDocument(index: string, id: string) {
     winstonLogger.error(error);
   }
 }
-
-export default {
-  elasticSearchQuery,
-  createShouldObject,
-  createMultiMatchObject,
-  createMatchAllObject,
-  filterMapper,
-  aoeResponseMapper,
-  hasDownloadableFiles,
-  createMustMatchObject,
-  deleteDocument
-};

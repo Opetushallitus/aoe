@@ -2,9 +2,6 @@ import { Router } from 'express';
 import embed from './embed';
 import h5p from './h5p';
 
-export { default as embed } from './embed';
-export { default as h5p } from './h5p';
-
 /**
  * API root modules available in runtime environment.
  *

@@ -1,7 +1,7 @@
 import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '@query/apiQueries';
 import { downloadAllMaterialsCompressed, downloadFile, downloadPreviewFile, uploadFileToMaterial } from '@query/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '@query/thumbnailHandler';
-import authService, { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
+import { checkAuthenticated, hasAccessToAttachmentFile, hasAccessToMaterial, hasAccessToPublicatication } from '@services/authService';
 import { isAllasEnabled } from '@services/routeEnablerService';
 import requestErrorHandler from '@util/requestErrorHandler';
 import requestValidator from '@util/requestValidator';
@@ -34,8 +34,8 @@ export default (router: Router): void => {
   // Materials set obsoleted are not available for the users.
   router.delete(
     `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:materialid([0-9]{1,6})`,
-    authService.checkAuthenticated,
-    authService.hasAccessToMaterial,
+    checkAuthenticated,
+    hasAccessToMaterial,
     setMaterialObsoleted,
   );
 
@@ -43,8 +43,8 @@ export default (router: Router): void => {
   // Attachments set obsoleted are not available for the users.
   router.delete(
     `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:attachmentid([0-9]{1,6})/attachment`,
-    authService.checkAuthenticated,
-    authService.hasAccessToAttachmentFile,
+    checkAuthenticated,
+    hasAccessToAttachmentFile,
     setAttachmentObsoleted,
   );
 
@@ -68,8 +68,8 @@ export default (router: Router): void => {
     isAllasEnabled,
     requestValidator.fileUploadRules(),
     requestErrorHandler,
-    authService.checkAuthenticated,
-    authService.hasAccessToPublicatication,
+    checkAuthenticated,
+    hasAccessToPublicatication,
     uploadFileToMaterial,
   );
 

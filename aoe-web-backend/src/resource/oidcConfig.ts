@@ -1,4 +1,4 @@
-import ah from '@services/authService';
+import { insertUserToDatabase } from '@services/authService';
 import { isLoginEnabled } from '@services/routeEnablerService';
 import winstonLogger from '@util/winstonLogger';
 import { CookieOptions, Express, Request, Response } from 'express';
@@ -30,7 +30,7 @@ Issuer.discover(process.env.PROXY_URI)
       new Strategy(
         { client },
         (_tokenset: TokenSet, userinfo: UserinfoResponse, done: (err: any, user?: User) => void): void => {
-          ah.insertUserToDatabase(userinfo)
+          insertUserToDatabase(userinfo)
             .then(() => {
               const nameparsed: string = userinfo.given_name + ' ' + userinfo.family_name;
               return done(undefined, { uid: userinfo.uid, name: nameparsed });
@@ -105,8 +105,4 @@ export const authInit = (app: Express): void => {
       successRedirect: process.env.SUCCESS_REDIRECT_URI,
     }),
   );
-};
-
-export default {
-  authInit,
 };

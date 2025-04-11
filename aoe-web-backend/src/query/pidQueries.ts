@@ -17,7 +17,3 @@ export const getEdumaterialVersionsWithoutURN = async (limit: number): Promise<a
     throw new Error(error);
   }
 };
-
-export default {
-  getEdumaterialVersionsWithoutURN,
-};

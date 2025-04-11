@@ -79,7 +79,7 @@ export async function collectionFromEs(obj: any) {
  * @param response
  * map collection elasticsearch response to aoe response
  */
-export async function aoeCollectionResponseMapper(response: ApiResponse<SearchResponse<AoeCollectionResult>>) {
+async function aoeCollectionResponseMapper(response: ApiResponse<SearchResponse<AoeCollectionResult>>) {
   try {
     const resp: AoeBody<AoeCollectionResult> = {
       hits: response.body.hits.total.value

@@ -1,10 +1,10 @@
-import clientPostgres from '@resource/postgresClient';
+import { pgURL } from '@resource/postgresClient';
 import { isEncoded } from '@util/requestValidator';
 import winstonLogger from '@util/winstonLogger';
 import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize';
 import config from '@/config';
 
-export const sequelize: Sequelize = new Sequelize(clientPostgres.pgURL, {
+export const sequelize: Sequelize = new Sequelize(pgURL, {
   dialect: 'postgres',
   logging:
     config.APPLICATION_CONFIG.nodeEnv === 'production'
@@ -14,7 +14,7 @@ export const sequelize: Sequelize = new Sequelize(clientPostgres.pgURL, {
         },
 });
 
-export const commonSettings: ModelOptions = {
+const commonSettings: ModelOptions = {
   freezeTableName: true,
   timestamps: false,
 };
@@ -45,7 +45,7 @@ export const Urn = sequelize.define<UrnModel>(
   } && (commonSettings as ModelOptions),
 );
 
-export const AOEUser = <AOEUserType>sequelize.define(
+const AOEUser = <AOEUserType>sequelize.define(
   'aoeuser',
   {
     username: {

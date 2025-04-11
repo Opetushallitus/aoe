@@ -125,7 +125,7 @@ const updateIndex = async (indexName:string, mappingFile: string, recreateIndex:
  * Delete existing search index.
  * @param index
  */
-export const deleteIndex = async (index: string): Promise<boolean> => {
+const deleteIndex = async (index: string): Promise<boolean> => {
   try {
     const deleteResponse = await client.indices.delete({ index });
     winstonLogger.info(
@@ -162,7 +162,7 @@ export const deleteIndex = async (index: string): Promise<boolean> => {
  * @param index
  * Create a new index
  */
-export const createIndex = async (index: string): Promise<boolean> => {
+const createIndex = async (index: string): Promise<boolean> => {
 
   const maxRetries = 5;
   const retryDelay = 2000;
@@ -212,7 +212,7 @@ export const createIndex = async (index: string): Promise<boolean> => {
  * Verify that specific search engine index exists.
  * @param index
  */
-export const indexExists = async (index: string): Promise<boolean> => {
+const indexExists = async (index: string): Promise<boolean> => {
   return client.indices.exists({
     index: index
   }).then((data) => {
@@ -229,7 +229,7 @@ export const indexExists = async (index: string): Promise<boolean> => {
  * @param fileLocation
  * add mapping to index
  */
-export const addMapping = async (index: string, fileLocation: string): Promise<{ status: string }> => {
+const addMapping = async (index: string, fileLocation: string): Promise<{ status: string }> => {
   return new Promise(async (resolve, reject) => {
     const rawdata: Buffer = fs.readFileSync(fileLocation);
     const searchIndexMap: ISearchIndexMap = JSON.parse(rawdata.toString());
@@ -252,7 +252,7 @@ export const addMapping = async (index: string, fileLocation: string): Promise<{
  * @param limit
  * insert metadata
  */
-export async function metadataToEs(indexName: string, offset: number, limit: number, operation : 'index' | 'create') {
+async function metadataToEs(indexName: string, offset: number, limit: number, operation : 'index' | 'create') {
   return new Promise(async (resolve, reject) => {
     db.tx({ mode }, async (t: any) => {
       const params: any = [];
@@ -665,9 +665,3 @@ async function initializeIndices(): Promise<void> {
 }
 
 initializeIndices();
-
-export default {
-  getCollectionEsData,
-  updateEsCollectionIndex,
-  updateEsDocument,
-};

@@ -123,7 +123,7 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
  * @param {string} filename File name of the original office file.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
+const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
   const extension = 'pdf';
   const outputPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${filename}`;
 
@@ -173,7 +173,7 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
   }
 };
 
-export const getFilesWithoutPDF = async (): Promise<any> => {
+const getFilesWithoutPDF = async (): Promise<any> => {
   try {
     return await db.task(async (t: any) => {
       const query = `

@@ -4,7 +4,7 @@ import { handleError } from '@/helpers/errorHandler';
 import apiRoot from '@api/routes-root';
 import apiV1 from '@api/routes-v1';
 import apiV2 from '@api/routes-v2';
-import oidc from '@resource/oidcConfig';
+import { authInit } from '@resource/oidcConfig';
 import { checkAuthenticated } from '@services/authService';
 import { initializeH5P } from '@services/h5pService';
 import aoeScheduler from '@util/aoeScheduler';
@@ -87,7 +87,7 @@ app.use(flash());
 app.use(morganLogger);
 
 // Initialize OIDC authorization
-oidc.authInit(app);
+authInit(app);
 
 // Initialize H5P editor
 initializeH5P().catch((err: unknown): void => {

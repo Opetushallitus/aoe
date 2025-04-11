@@ -280,7 +280,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
  * @param {e.Response} res
  * @return {Promise<{file: Express.Multer.File, fileDetails: Record<string, unknown>}>}
  */
-export const uploadFileToLocalDisk = (
+const uploadFileToLocalDisk = (
   req: Request,
   res: Response,
 ): Promise<{ file: MulterFile; fileDetails: Record<string, unknown> }> => {
@@ -309,7 +309,7 @@ export const uploadFileToLocalDisk = (
   });
 };
 
-export const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
+const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, (err, data: Buffer) => {
       if (err) {
@@ -334,7 +334,7 @@ export const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
   });
 };
 
-export const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
+const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
   fs.unlink(file.path, (err: any): void => {
     if (err) winstonLogger.error('Unlink removal for the uploaded file failed: %o', err);
   });
@@ -456,10 +456,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
  * @param file
  * @param materialid
  */
-export const fileToStorage = async (
-  file: MulterFile,
-  materialid: string,
-): Promise<{ key: string; recordid: string }> => {
+const fileToStorage = async (file: MulterFile, materialid: string): Promise<{ key: string; recordid: string }> => {
   const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
@@ -472,7 +469,7 @@ export const fileToStorage = async (
 /**
  * check if files in temporaryrecord table and try to load to allas storage
  */
-export const checkTemporaryRecordQueue = async (): Promise<void> => {
+const checkTemporaryRecordQueue = async (): Promise<void> => {
   try {
     // Take the last hour off from the current time.
     const ts = Date.now() - 1000 * 60 * 60;
@@ -510,49 +507,13 @@ export const checkTemporaryRecordQueue = async (): Promise<void> => {
   }
 };
 
-export const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
+const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
   const query = `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
   `;
   return await t.one(query, [req.session.passport.user.uid]);
-};
-
-/**
- * Update or insert the file information to the temporary records when the related file processing is still in progress.
- * Attach queries to a transaction provided.
- * @param {Transaction} t
- * @param {Express.Multer.File} file
- * @param {string} materialId
- * @return {Promise<any>}
- */
-export const upsertMaterialFileToTempRecords = async (
-  t: Transaction,
-  file: MulterFile,
-  materialId: string,
-): Promise<any> => {
-  const temporaryRecord = await TemporaryRecord.findOne({
-    where: {
-      originalFileName: file.originalname,
-      materialId,
-    },
-    transaction: t,
-  });
-  await TemporaryRecord.upsert(
-    {
-      id: temporaryRecord && temporaryRecord.id, // NULL for the new entries.
-      filePath: file.path || temporaryRecord.filePath,
-      originalFileName: file.originalname || temporaryRecord.originalFileName,
-      fileSize: file.size || temporaryRecord.fileSize,
-      mimeType: file.mimetype || temporaryRecord.mimeType,
-      fileName: file.filename || temporaryRecord.fileName,
-      materialId: materialId || temporaryRecord.materialId,
-    },
-    {
-      transaction: t,
-    },
-  );
 };
 
 /**
@@ -563,7 +524,7 @@ export const upsertMaterialFileToTempRecords = async (
  * @param materialId
  * @return {Promise<any>}
  */
-export const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
+const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
   const query = `
     INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, materialid)
     VALUES ($1, $2, $3, $4, $5, $6)
@@ -581,7 +542,7 @@ export const insertDataToTempRecordTable = async (t: any, file: MulterFile, mate
  * @param fileDetails
  * @return {Promise<any>}
  */
-export const upsertMaterialDisplayName = async (
+const upsertMaterialDisplayName = async (
   t: Transaction,
   educationalMaterialId: string,
   materialId: string,
@@ -702,7 +663,7 @@ export async function insertDataToDisplayName(
   return queries;
 }
 
-export const insertDataToMaterialTable = async (
+const insertDataToMaterialTable = async (
   t: any,
   eduMaterialId: string,
   location: any,
@@ -726,7 +687,7 @@ export const insertDataToMaterialTable = async (
  * @param metadata
  * @return {Promise<any>}
  */
-export const insertDataToAttachmentTable = async (
+const insertDataToAttachmentTable = async (
   files: any,
   materialID: any,
   fileKey: any,
@@ -779,12 +740,7 @@ export const insertDataToAttachmentTable = async (
   return data[1].id;
 };
 
-export async function updateAttachment(
-  fileKey: any,
-  fileBucket: any,
-  location: string,
-  attachmentId: string,
-): Promise<any> {
+async function updateAttachment(fileKey: any, fileBucket: any, location: string, attachmentId: string): Promise<any> {
   const queries = [];
   let query;
   await db
@@ -799,7 +755,7 @@ export async function updateAttachment(
     });
 }
 
-export async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string): Promise<any> {
+async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string): Promise<any> {
   const query =
     'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
@@ -829,7 +785,7 @@ export async function insertDataToTempAttachmentTable(files: any, metadata: any,
  * @param {string} recordID
  * @return {Promise<void>}
  */
-export const upsertRecord = async (
+const upsertRecord = async (
   t: Transaction,
   file: MulterFile,
   materialID: string,
@@ -880,7 +836,7 @@ export const upsertRecord = async (
  * @param recordID
  * @return {Promise<string | null>}
  */
-export const insertDataToRecordTable = async (
+const insertDataToRecordTable = async (
   file: MulterFile,
   materialID: string,
   cloudKey?: string,
@@ -936,7 +892,7 @@ export const insertDataToRecordTable = async (
  * @param materialId
  * @return {Promise<void>}
  */
-export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
+const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
   const query = `
     DELETE FROM temporaryrecord
     WHERE filename = $1 AND materialid = $2
@@ -944,7 +900,7 @@ export const deleteDataFromTempRecordTable = async (filename: any, materialId: a
   await db.any(query, [filename, materialId]);
 };
 
-export async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
+async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
   const query = 'DELETE FROM temporaryattachment WHERE filename = $1 AND id = $2';
   return await db.any(query, [filename, materialId]);
 }
@@ -1384,7 +1340,7 @@ export const downloadAllMaterialsCompressed = async (
  * @param keys  string[] Array of object storage keys
  * @param files string[] Array of file names
  */
-export const downloadAndZipFromStorage = (
+const downloadAndZipFromStorage = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -1422,7 +1378,7 @@ export const downloadAndZipFromStorage = (
  * @param {string} zipFilePath
  * @returns {Promise<boolean | string>}
  */
-export const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> => {
+const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> => {
   const searchRecursive = (dir: string, pattern: string) => {
     // This is where we store pattern matches of all files inside the directory
     let results = [];

@@ -201,14 +201,3 @@ export const hasAoeAccess = async (username: string): Promise<boolean> => {
   `;
   return !!(await db.oneOrNone(query, [username]));
 };
-
-export default {
-  getUserData,
-  checkAuthenticated,
-  insertUserToDatabase,
-  hasAccessToPublicatication,
-  hasAccessToMaterial,
-  hasAccessToAttachmentFile,
-  hasAccessToCollection,
-  userInfo,
-};

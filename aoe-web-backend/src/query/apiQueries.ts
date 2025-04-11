@@ -3,7 +3,7 @@ import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial';
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter';
 import { db, pgp } from '@resource/postgresClient';
-import elasticSearch from '@search/es';
+import { updateEsDocument } from '@search/es';
 import { hasDownloadableFiles } from '@search/esQueries';
 import { hasAccesstoPublication } from '@services/authService';
 import { aoeThumbnailDownloadUrl } from '@services/urlService';
@@ -552,7 +552,7 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
       return t.batch(queries);
     });
     res.status(204).send();
-    elasticSearch.updateEsDocument().catch((err: Error) => {
+    updateEsDocument().catch((err: Error) => {
       winstonLogger.error(err);
     });
   } catch (err) {
@@ -593,7 +593,7 @@ export const setMaterialObsoleted = async (req: Request, res: Response, next: Ne
       return t.batch(queries);
     });
     res.status(200).json({ obsoleted: req.params.materialid });
-    elasticSearch.updateEsDocument().catch((err: Error): void => {
+    updateEsDocument().catch((err: Error): void => {
       winstonLogger.error('Search index update failed: %o', err);
     });
   } catch (err) {
@@ -623,7 +623,7 @@ export const setAttachmentObsoleted = async (req: Request, res: Response, next: 
       return t.batch(queries);
     });
     res.status(200).json({ status: 'deleted' });
-    elasticSearch.updateEsDocument().catch((err: Error) => {
+    updateEsDocument().catch((err: Error) => {
       winstonLogger.error('Search index update failed after setting an attachment file obsoleted: %o', err);
     });
   } catch (err) {

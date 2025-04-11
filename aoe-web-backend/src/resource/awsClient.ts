@@ -22,7 +22,3 @@ const configS3: ServiceConfigurationOptions = {
 };
 AWS.config.update(configS3);
 export const s3: S3 = new AWS.S3();
-
-export default {
-  s3,
-};

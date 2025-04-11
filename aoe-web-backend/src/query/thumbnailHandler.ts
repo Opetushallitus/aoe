@@ -193,9 +193,3 @@ async function updateCollectionThumbnailData(
     throw new Error(error);
   }
 }
-
-export default {
-  uploadbase64Image,
-  downloadEmThumbnail,
-  downloadCollectionThumbnail,
-};

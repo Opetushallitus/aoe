@@ -44,9 +44,3 @@ db.connect()
   .catch((err: Error) => {
     winstonLogger.error('PG [%s] Connection Test Error: %o', PG_URL_HOST, err);
   });
-
-export default {
-  db,
-  pgp,
-  pgURL,
-};
