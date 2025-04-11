@@ -9,7 +9,7 @@ import {
 import rating from '@/rating/rating';
 import { updateUserSettings } from '@/users/userSettings';
 import { getMaterial, getRecentMaterial, getUser, getUserMaterial, updateTermsOfUsage, updateUser } from '@query/apiQueries';
-import fileHandling from '@query/fileHandling';
+import { uploadAttachmentToMaterial, uploadMaterial } from '@query/fileHandling';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '@query/thumbnailHandler';
 import authService, { hasAccessToAOE } from '@services/authService';
 import { verifyEmailToken } from '@services/mailService';
@@ -36,9 +36,9 @@ export default (router: Router): void => {
     isAllasEnabled,
     authService.checkAuthenticated,
     authService.hasAccessToMaterial,
-    fileHandling.uploadAttachmentToMaterial,
+    uploadAttachmentToMaterial,
   );
-  router.post('/material/file', isAllasEnabled, authService.checkAuthenticated, fileHandling.uploadMaterial);
+  router.post('/material/file', isAllasEnabled, authService.checkAuthenticated, uploadMaterial);
   router.get('/messages/info', aoeRoutes);
   router.get('/metadata/:id', getMetadataExtension);
   router.put(

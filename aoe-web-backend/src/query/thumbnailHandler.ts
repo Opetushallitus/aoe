@@ -4,7 +4,7 @@ import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import mime from 'mime';
-import fh, { downloadFromStorage } from './fileHandling';
+import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling';
 
 /**
  * @param req
@@ -24,7 +24,7 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
       const extension = mime.getExtension(matches[1]);
       const fileName = 'thumbnail-' + Date.now() + '.' + extension;
       const buffer: Buffer = Buffer.from(base64Data, 'base64');
-      const obj: any = await fh.uploadBase64FileToStorage(buffer, fileName, process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL);
+      const obj: any = await uploadBase64FileToStorage(buffer, fileName, process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL);
       if (req.params.edumaterialid) {
         await updateEmThumbnailData(obj.Location, matches[1], req.params.edumaterialid, fileName, obj.Key, obj.Bucket);
       } else {

@@ -1,5 +1,5 @@
 import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '@query/apiQueries';
-import fileHandling, { downloadAllMaterialsCompressed, downloadFile, downloadPreviewFile } from '@query/fileHandling';
+import { downloadAllMaterialsCompressed, downloadFile, downloadPreviewFile, uploadFileToMaterial } from '@query/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '@query/thumbnailHandler';
 import authService, { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
 import { isAllasEnabled } from '@services/routeEnablerService';
@@ -70,7 +70,7 @@ export default (router: Router): void => {
     requestErrorHandler,
     authService.checkAuthenticated,
     authService.hasAccessToPublicatication,
-    fileHandling.uploadFileToMaterial,
+    uploadFileToMaterial,
   );
 
   // SAVE A LINK MATERIAL TO THE EDUCATIONAL MATERIAL

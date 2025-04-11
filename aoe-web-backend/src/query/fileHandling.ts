@@ -1466,23 +1466,3 @@ export const unZipAndExtract = async (zipFilePath: string): Promise<boolean | st
     return false;
   }
 };
-
-export default {
-  uploadMaterial,
-  uploadFileToLocalDisk,
-  uploadFileToMaterial,
-  uploadFileToStorage,
-  downloadPreviewFile,
-  downloadFile,
-  unZipAndExtract,
-  downloadFileFromStorage,
-  downloadAllMaterialsCompressed,
-  checkTemporaryRecordQueue,
-  uploadBase64FileToStorage,
-  uploadAttachmentToMaterial,
-  insertDataToDisplayName,
-  upsertMaterialDisplayName,
-  upsertMaterialFileToTempRecords,
-  downloadFromStorage,
-  directoryDownloadFromStorage,
-};
