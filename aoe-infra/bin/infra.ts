@@ -528,7 +528,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
     listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
-    healthCheckPath: '/',
+    healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,

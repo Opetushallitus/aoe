@@ -110,6 +110,22 @@ app.use(
   }),
 );
 
+// Synchronize database with Sequelize models.
+const dbInit = async (): Promise<void> => {
+  await sequelize.sync({
+    logging: false,
+  });
+};
+dbInit().catch((err: unknown): void => {
+  winstonLogger.error('Synchronizing database with Sequelize models failed: %o', err);
+  process.exit(1);
+});
+
+app.get('/health', asyncHandler(async (_req: Request, res: Response) => {
+  await db.any('SELECT 1')
+  res.json({ status: 'ok' })
+}))
+
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
@@ -127,23 +143,8 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
   handleError(err, res);
 });
 
-app.get('/', asyncHandler(async (_req: Request, res: Response) => {
-  await db.none('SELECT 1')
-  res.json({ status: 'ok' })
-}))
-
 app.set('port', 3000);
 
-// Synchronize database with Sequelize models.
-const dbInit = async (): Promise<void> => {
-  await sequelize.sync({
-    logging: false,
-  });
-};
-dbInit().catch((err: unknown): void => {
-  winstonLogger.error('Synchronizing database with Sequelize models failed: %o', err);
-  process.exit(1);
-});
 
 // TODO: To be removed after full refactoring of aoeScheduler.ts
 require('@util/aoeScheduler');

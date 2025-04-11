@@ -34,13 +34,3 @@ pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, (str: string) => moment.utc(str).toIS
 
 // Initialize DB connection
 export const db: IDatabase<IClient, IClient> = pgp(PG_URL_FULL);
-
-// Test DB connection
-db.connect()
-  .then((obj: IConnected<any, IClient>) => {
-    winstonLogger.debug('PG [%s] Connection is operable', PG_URL_HOST);
-    obj.done();
-  })
-  .catch((err: Error) => {
-    winstonLogger.error('PG [%s] Connection Test Error: %o', PG_URL_HOST, err);
-  });

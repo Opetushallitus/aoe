@@ -113,7 +113,7 @@ services:
     image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000" ]
+      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
