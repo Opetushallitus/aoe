@@ -48,6 +48,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRUST_STORE_PASSWORD: ${{ secrets.TRUST_STORE_PASSWORD }}
+  run-tests:
+    name: 02-1-run-tests.sh
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Run 02-1-run-tests.sh
+        run: ./deploy-scripts/02-lint.sh
 
   lint:
     name: 02-lint.sh
