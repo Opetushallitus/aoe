@@ -79,6 +79,10 @@ jobs:
   run-tests:
     name: 02-1-run-tests.sh
     needs: [push_image]
+    permissions:
+      packages: read
+      id-token: read
+      contents: read
     runs-on: ubuntu-24.04
     steps:
       - name: Login to GitHub Container Registry
@@ -92,6 +96,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ inputs.aws-arn }}
+          role-to-assume: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
           role-session-name: aoe-runner-run-tests
           aws-region: eu-west-1
 
