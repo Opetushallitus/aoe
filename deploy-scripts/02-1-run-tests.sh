@@ -18,11 +18,23 @@ function clean {
 }
 
 function start_services {
-  $compose --profile aoe up --build -d
+  $compose --profile aoe up -d
 }
 
 function run_playwright_tests {
   $compose --profile test up --build
+}
+
+function require_built_images {
+  if running_on_gh_actions; then
+    get_ecr_login_credentials
+  fi
+
+  require_service_image "aoe-web-backend"
+  require_service_image "aoe-web-frontend"
+  require_service_image "aoe-data-services"
+  require_service_image "aoe-streaming-app"
+  require_service_image "aoe-semantic-apis"
 }
 
 function main {
@@ -31,11 +43,22 @@ function main {
   use_correct_node_version
   require_command "docker"
   docker build -t playwright-image -f Dockerfile.playwright-test-runner .
-  $compose build
+  require_built_images
   start_services
 
   run_playwright_tests
   clean
+}
+
+function require_service_image {
+  service=$1
+  if running_on_gh_actions; then
+    local img_tag="$github_registry${service}:${revision}"
+    require_built_image "$img_tag"
+  else
+    local img_tag="${service}:latest"
+    require_built_image "$img_tag"
+  fi
 }
 
 main "$@"
