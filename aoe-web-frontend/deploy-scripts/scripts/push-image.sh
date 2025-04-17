@@ -12,13 +12,13 @@ function main() {
 
   configuration=${1:-none}
   case $configuration in
-    "dev"|"qa"|"prod")
-      echo "Building for configuration ${configuration}"
-      ;;
-    *)
-      echo "Configuration parameter is not correct (got configuration=$configuration)"
-      exit 1
-      ;;
+  "dev" | "qa" | "prod" | "ci")
+    echo "Building for configuration ${configuration}"
+    ;;
+  *)
+    echo "Configuration parameter is not correct (got configuration=$configuration)"
+    exit 1
+    ;;
   esac
 
   local aoe_service_name="aoe-web-frontend"
