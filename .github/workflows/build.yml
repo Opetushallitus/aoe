@@ -88,6 +88,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.aws-arn }}
+          role-session-name: aoe-runner-run-tests
+          aws-region: eu-west-1
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run 02-1-run-tests.sh
