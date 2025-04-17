@@ -95,7 +95,6 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ inputs.aws-arn }}
           role-to-assume: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
           role-session-name: aoe-runner-run-tests
           aws-region: eu-west-1
