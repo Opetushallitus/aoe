@@ -31,7 +31,7 @@ function require_built_images {
   fi
 
   require_service_image "aoe-web-backend"
-  require_service_image "aoe-web-frontend"
+  require_service_image "aoe-web-frontend-ci"
   require_service_image "aoe-data-services"
   require_service_image "aoe-streaming-app"
   require_service_image "aoe-semantic-apis"

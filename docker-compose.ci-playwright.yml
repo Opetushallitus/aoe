@@ -21,6 +21,7 @@ services:
       - 33344:8080
     networks:
       - default
+
   test-runner:
     profiles: [test]
     build:

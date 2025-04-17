@@ -17,6 +17,14 @@ services:
     depends_on:
       aoe-web-backend:
         condition: service_started
+  # Alias for build system
+  aoe-web-frontend-ci:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: ci
+    profiles: ["build-only"]
+
 
   # Alias for build system
   aoe-web-frontend-dev:
