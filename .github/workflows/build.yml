@@ -54,7 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run 02-1-run-tests.sh
-        run: ./deploy-scripts/02-lint.sh
+        run: ./deploy-scripts/02-1-run-tests.sh
 
   lint:
     name: 02-lint.sh
