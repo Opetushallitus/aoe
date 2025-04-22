@@ -1,7 +1,7 @@
 name: aoe-ci
 services:
 
-  aoe-web-frontend:
+  aoe-web-frontend-ci:
     profiles: [aoe]
     build:
       context: aoe-web-frontend

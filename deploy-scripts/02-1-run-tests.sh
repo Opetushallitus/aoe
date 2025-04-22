@@ -35,6 +35,7 @@ function require_built_images {
   require_service_image "aoe-data-services"
   require_service_image "aoe-streaming-app"
   require_service_image "aoe-semantic-apis"
+  require_service_image "aoe-data-analytics"
 }
 
 function main {
