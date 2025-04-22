@@ -445,7 +445,7 @@ services:
     depends_on:
       aoe-web-backend:
         condition: service_started
-      aoe-web-frontend:
+      aoe-web-frontend-ci:
         condition: service_started
       aoe-semantic-apis:
         condition: service_started
