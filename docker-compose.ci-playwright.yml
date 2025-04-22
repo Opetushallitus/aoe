@@ -48,7 +48,7 @@ services:
     ports:
       - 3001:3001
     env_file:
-      - path: ./aoe-streaming-app/.env
+      - path: ./aoe-streaming-app/.env.ci
     depends_on:
         localstack:
           condition: service_started
@@ -67,7 +67,7 @@ services:
     ports:
       - 8002:8002
     env_file:
-      - path: ./aoe-data-services/.env
+      - path: ./aoe-data-services/.env.ci
 
   aoe-semantic-apis:
     profiles: [aoe]
@@ -87,7 +87,7 @@ services:
     ports:
       - 3002:3002
     env_file:
-      - path: ./aoe-semantic-apis/.env
+      - path: ./aoe-semantic-apis/.env.ci
         required: true
     command: sh -c "yarn serve"
 
@@ -114,7 +114,7 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - path: ./aoe-data-analytics/.env
+      - path: ./aoe-data-analytics/.env.ci
     logging:
       options:
         max-size: '10m'
