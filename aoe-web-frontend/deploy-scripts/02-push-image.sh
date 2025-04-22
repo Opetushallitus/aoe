@@ -7,8 +7,7 @@ function main {
   ${push_command} dev
   ${push_command} qa
   ${push_command} prod
+  ${push_command} ci
 }
 
 main
-
-
