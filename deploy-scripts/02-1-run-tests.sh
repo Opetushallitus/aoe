@@ -22,7 +22,7 @@ function start_services {
 }
 
 function run_playwright_tests {
-  $compose --profile test up --build
+  $compose --profile test up
 }
 
 function require_built_images {
