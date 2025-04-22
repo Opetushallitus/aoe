@@ -79,6 +79,10 @@ jobs:
   run-tests:
     name: 02-1-run-tests.sh
     needs: [push_image]
+    permissions:
+      packages: write
+      id-token: write
+      contents: read
     runs-on: ubuntu-24.04
     steps:
       - name: Login to GitHub Container Registry
