@@ -22,6 +22,7 @@ function start_services {
 }
 
 function run_playwright_tests {
+  export TRUST_STORE_PASSWORD=ci-super-secret
   $compose --profile test up
 }
 
