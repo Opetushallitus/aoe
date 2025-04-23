@@ -22,8 +22,7 @@ function start_services {
 }
 
 function run_playwright_tests {
-  export TRUST_STORE_PASSWORD=ci-super-secret
-  $compose --profile test up
+  $compose -e TRUST_STORE_PASSWORD=ci-super-secret --profile test up
 }
 
 function require_built_images {
