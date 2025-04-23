@@ -18,11 +18,11 @@ function clean {
 }
 
 function start_services {
-  $compose --profile aoe up -d
+  $compose -e TRUST_STORE_PASSWORD=ci-super-secret --profile aoe up -d
 }
 
 function run_playwright_tests {
-  $compose -e TRUST_STORE_PASSWORD=ci-super-secret --profile test up
+  $compose --profile test up
 }
 
 function require_built_images {
