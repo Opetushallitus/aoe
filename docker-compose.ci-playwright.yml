@@ -1,14 +1,14 @@
 name: aoe-ci
 services:
 
-  aoe-web-frontend-ci:
+  aoe-web-frontend:
     profiles: [aoe]
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
       args:
         FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-ci}
-    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
+    image: aoe-web-frontend-ci:latest
     restart: unless-stopped
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
@@ -445,7 +445,7 @@ services:
     depends_on:
       aoe-web-backend:
         condition: service_started
-      aoe-web-frontend-ci:
+      aoe-web-frontend:
         condition: service_started
       aoe-semantic-apis:
         condition: service_started

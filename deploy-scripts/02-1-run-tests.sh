@@ -11,23 +11,27 @@ trap clean EXIT
 
 compose="docker compose -p aoe_ci -f docker-compose.ci-playwright.yml"
 
+TRUST_STORE_PASSWORD=ci-super-secret
+
 readonly compose
 
 function clean {
-  $compose down
+  $compose --profile aoe down
 }
 
 function start_services {
-  $compose -e TRUST_STORE_PASSWORD=ci-super-secret --profile aoe up -d
+  $compose --profile aoe up -d
 }
 
 function run_playwright_tests {
-  $compose --profile test up
+  $compose --profile test up --force-recreate
 }
 
 function require_built_images {
   if running_on_gh_actions; then
     get_ecr_login_credentials
+  else
+    $compose --profile aoe build
   fi
 
   require_service_image "aoe-web-backend"
