@@ -20,11 +20,11 @@ function clean {
 }
 
 function start_services {
-  $compose --profile aoe up -d
+  $compose --profile aoe up --no-build -d
 }
 
 function run_playwright_tests {
-  $compose --profile test up --force-recreate
+  $compose --profile test up--no-build --force-recreate
 }
 
 function require_built_images {

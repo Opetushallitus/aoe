@@ -78,7 +78,7 @@ jobs:
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
   run-tests:
     name: 02-1-run-tests.sh
-    needs: [push_image]
+    needs: build
     permissions:
       packages: write
       id-token: write
