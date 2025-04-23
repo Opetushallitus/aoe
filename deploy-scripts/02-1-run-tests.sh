@@ -20,20 +20,20 @@ function clean {
 }
 
 function start_services {
+
+  if running_on_gh_actions; then
+    AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
+    AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
+    AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend-ci:${revision}"
+    AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
+    AOE_SEMANTIC_APIS_TAG="${github_registry}aoe-semantic-apis:${revision}"
+    AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
+  fi
   $compose --profile aoe up --no-build -d
 }
 
 function run_playwright_tests {
-  $compose --profile test up--no-build --force-recreate
-}
-
-function require_built_images {
-  require_service_image "aoe-web-backend"
-  require_service_image "aoe-web-frontend-ci"
-  require_service_image "aoe-data-services"
-  require_service_image "aoe-streaming-app"
-  require_service_image "aoe-semantic-apis"
-  require_service_image "aoe-data-analytics"
+  $compose --profile test up --no-build --force-recreate
 }
 
 function main {
@@ -42,22 +42,10 @@ function main {
   use_correct_node_version
   require_command "docker"
   docker build -t playwright-image -f Dockerfile.playwright-test-runner .
-  require_built_images
   start_services
 
   run_playwright_tests
   clean
-}
-
-function require_service_image {
-  service=$1
-  if running_on_gh_actions; then
-    local img_tag="$github_registry${service}:${revision}"
-    require_built_image "$img_tag"
-  else
-    local img_tag="${service}:latest"
-    require_built_image "$img_tag"
-  fi
 }
 
 main "$@"
