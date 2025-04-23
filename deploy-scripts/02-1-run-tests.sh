@@ -30,8 +30,6 @@ function run_playwright_tests {
 function require_built_images {
   if running_on_gh_actions; then
     get_ecr_login_credentials
-  else
-    $compose --profile aoe build
   fi
 
   require_service_image "aoe-web-backend"
