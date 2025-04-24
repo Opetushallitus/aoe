@@ -198,7 +198,8 @@ services:
       - node.name=opensearch-node
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - plugins.security.disabled=true
+      - DISABLE_SECURITY_PLUGIN=true
+
     volumes:
       - ./docker/dev/os_data:/usr/share/opensearch/data
     ulimits:
