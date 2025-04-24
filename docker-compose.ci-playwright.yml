@@ -199,9 +199,6 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - DISABLE_SECURITY_PLUGIN=true
-
-    volumes:
-      - ./docker/dev/os_data:/usr/share/opensearch/data
     ulimits:
       memlock:
         soft: -1
