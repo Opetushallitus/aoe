@@ -48,7 +48,7 @@ function main {
   cd "$repo"
   use_correct_node_version
   require_command "docker"
-  docker build -t playwright-image -f Dockerfile.playwright-test-runner .
+  $compose --profile test build
   start_services
 
   run_playwright_tests
