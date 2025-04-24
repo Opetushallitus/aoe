@@ -30,12 +30,6 @@ function start_services {
     export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
 
   fi
-  echo $AOE_WEB_BACKEND_TAG
-  echo $AOE_DATA_SERVICES_TAG
-  echo $AOE_WEB_FRONTEND_TAG
-  echo $AOE_STREAMING_APP_TAG
-  echo $AOE_SEMANTIC_APIS_TAG
-  echo $AOE_DATA_ANALYTICS_TAG
   $compose --profile aoe up --no-build -d
 }
 
