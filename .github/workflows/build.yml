@@ -59,7 +59,7 @@ jobs:
   push_image:
     name: 03-push-image.sh
     if: github.ref == 'refs/heads/main'
-    needs: [ lint, build ]
+    needs: [ lint, build, run-tests ]
     permissions:
       packages: write
       id-token: write
