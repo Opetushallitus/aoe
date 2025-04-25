@@ -41,7 +41,7 @@ export default defineConfig({
     [
       'blob',
       {
-        outputDir: '../playwright-results/blob-report',
+        outputDir: '../ci/playwright-results/blob-report',
       },
     ],
   ],
