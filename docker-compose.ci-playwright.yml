@@ -30,8 +30,8 @@ services:
     networks:
       - default
     volumes:
-      - ./ci/screenshots:/screenshots
-      - ./ci/test-results:/playwright-results
+      - ./screenshots:/screenshots
+      - ./playwright-results:/playwright-results
     environment:
       - CI=true
   aoe-streaming-app:

@@ -28,7 +28,7 @@ export default defineConfig({
     [
       'junit',
       {
-        outputFile: 'playwright-results/junit-playwright-js-unit.xml',
+        outputFile: '../playwright-results/junit-playwright-js-unit.xml',
       },
     ],
     [
@@ -41,7 +41,7 @@ export default defineConfig({
     [
       'blob',
       {
-        outputDir: '../ci/playwright-results/blob-report',
+        outputDir: '../playwright-results/blob-report',
       },
     ],
   ],
