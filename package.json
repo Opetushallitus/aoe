@@ -1,0 +1,14 @@
+{
+  "name": "aoe",
+  "version": "1.0.0",
+  "description": "## Teknologiat Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "playwright": "^1.52.0"
+  }
+}
