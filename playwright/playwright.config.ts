@@ -1,5 +1,25 @@
 import { defineConfig, devices } from '@playwright/test';
 
+function generateMetadata() {
+  const { GITHUB_SHA, GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env
+
+  const ciLink =
+    GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID
+      ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+      : undefined
+
+  return {
+    'revision.id': GITHUB_SHA,
+    'revision.author': undefined,
+    'revision.email': undefined,
+    'revision.subject': undefined,
+    'revision.timestamp': undefined,
+    'revision.link': undefined,
+    'ci.link': ciLink,
+    timestamp: Date.now(),
+  }
+}
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -12,6 +32,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  metadata: generateMetadata(),
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,

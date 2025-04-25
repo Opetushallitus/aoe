@@ -34,6 +34,11 @@ services:
       - ./playwright-results:/playwright-results
     environment:
       - CI=true
+      - GITHUB_SHA
+      - GITHUB_SERVER_URL
+      - GITHUB_REPOSITORY
+      - GITHUB_RUN_ID
+
   aoe-streaming-app:
     profiles: [aoe]
     hostname: aoe-streaming-app

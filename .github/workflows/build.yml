@@ -106,7 +106,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: playwright-blob-${{ matrix.shard }}
+          name: playwright-blob
           path: playwright-results/blob-report
           retention-days: 1
   build_status_completed:
