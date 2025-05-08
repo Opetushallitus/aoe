@@ -123,7 +123,7 @@ jobs:
           status: ${{ needs.push_image.result == 'success' && 'success' || 'failure' }}
           api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
 
-  #deploy_dev:
-  #  needs: [push_image]
-  #  uses: ./.github/workflows/deploy_dev.yml
-  #  secrets: inherit
+  deploy_dev:
+    needs: [push_image]
+    uses: ./.github/workflows/deploy_dev.yml
+    secrets: inherit
