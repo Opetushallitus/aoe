@@ -126,13 +126,6 @@
                 "HTML_BASE_URL": "https://dev.aoe.fi",
                 "HTML_FOLDER": "/mnt/data/webdata/htmlfolder",
 
-                "H5P_JSON_CONFIGURATION": "dist/services/config/h5p.json",
-                "H5P_PATH_LIBRARIES": "/mnt/data/webdata/h5p/libraries",
-                "H5P_PATH_TEMPORARY_STORAGE": "/mnt/data/webdata/h5p/temporary-storage",
-                "H5P_PATH_CONTENT": "/mnt/data/webdata/h5p/content",
-                "H5P_PATH_CORE": "/app/h5p",
-                "H5P_PATH_EDITOR": "/mnt/data/webdata/h5p/editor",
-                "H5P_PLAY_API": "https://dev.aoe.fi/h5p/play/",
                 "H5P_USER_EMAIL": "oppimateriaalivaranto@aoe.fi",
 
                 "MATERIAL_FILE_UPLOAD_FOLDER": "/mnt/data/uploads",
