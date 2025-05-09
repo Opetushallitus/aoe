@@ -75,7 +75,7 @@ export default {
     h5pPathLibraries: '/app/h5p/libraries',
     h5pPathCore: '/app/h5p/libraries/h5p-php-library',
     h5pPathEditor: '/app/h5p/libraries/h5p-editor-php-library',
-    h5pPlayApi: process.env.HTML_BASE_URL as string + '/h5p/play/' ,
+    h5pPlayApi: (process.env.HTML_BASE_URL as string) + '/h5p/play/',
     h5pUserEmail: process.env.H5P_USER_EMAIL as string,
   } as const,
 
