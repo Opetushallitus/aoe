@@ -558,7 +558,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       },
       mountPoint: {
         sourceVolume: 'data',
-        containerPath: '/mnt/data',
+        containerPath: '/mnt/data', // how to mount from bastion: sudo mount -t efs -o tls,iam fs-02c2d5a3ca0064690:/ /mnt/
         readOnly: false
       }
     }
