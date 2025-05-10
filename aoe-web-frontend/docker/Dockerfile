@@ -1,5 +1,5 @@
 ARG FRONTEND_CONFIGURATION
-FROM node:18.20.6-bookworm AS front-builder
+FROM node:23.10.0-bookworm AS front-builder
 
 WORKDIR /app
 ADD package.json /app/
