@@ -18,7 +18,6 @@ export const startScheduledCleaning = (): void => {
     try {
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false);
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false);
-      rmDir(config.MEDIA_FILE_PROCESS.h5pPathLibraries, false);
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false);
       winstonLogger.debug('Scheduled removal for temporary H5P and HTML content completed.');
     } catch (err: unknown) {
