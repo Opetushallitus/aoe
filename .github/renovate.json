@@ -41,6 +41,16 @@
       "groupName": "logstash",
       "matchPackageNames": ["net.logstash.logback"],
       "enabled": false
+    },
+    {
+      "groupName": "httpclient5",
+      "enabled": true,
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["org.apache.httpcomponents.client5"]
     }
   ],
   "prConcurrentLimit": 10
