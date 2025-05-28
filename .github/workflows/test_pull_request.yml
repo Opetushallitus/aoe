@@ -1,0 +1,9 @@
+name: Test pull request
+on:
+  pull_request:
+  merge_group:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
