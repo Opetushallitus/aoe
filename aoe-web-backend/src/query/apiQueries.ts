@@ -1094,8 +1094,7 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
       const fileDetailArr = metadata.fileDetails;
       if (fileDetailArr !== undefined) {
         for (const element of fileDetailArr) {
-          const dnresult = await insertDataToDisplayName(t, emid, element.id, element);
-          queries.push(dnresult);
+          await insertDataToDisplayName(t, emid, element.id, element);
           query = 'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
           queries.push(await t.any(query, [element.language, element.id, emid]));
           if (element.link) {

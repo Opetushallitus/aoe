@@ -5,7 +5,6 @@ import {
   MaterialDisplayName,
   Record,
   sequelize,
-  TemporaryRecord,
 } from '@/domain/aoeModels';
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '@/helpers/officeToPdfConverter';
@@ -24,15 +23,16 @@ import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer';
 import { promisify } from 'node:util';
 import path from 'path';
 import pdfParser from 'pdf-parse';
-import { ColumnSet } from 'pg-promise';
+import { ColumnSet, ITask } from 'pg-promise';
 import s3Zip, { ArchiveOptions } from 's3-zip';
-import { Error, Transaction } from 'sequelize';
+import { Transaction } from 'sequelize';
 import stream, { PassThrough, Readable } from 'stream';
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
 import MulterFile = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 import StreamZip from 'node-stream-zip';
+import { IClient } from 'pg-promise/typescript/pg-subset';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -166,11 +166,10 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               next(new ErrorHandler(500, 'Error in upload'));
             }
           }
-          const file: MulterFile = req.file;
           const resp: any = {};
 
           // Send educationalmaterialid if no file send for link material creation.
-          if (!file) {
+          if (!req.file) {
             await db
               .tx(async (t: any) => {
                 const id = await insertDataToEducationalMaterialTable(req, t);
@@ -188,26 +187,22 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                 next(new ErrorHandler(500, 'Error in upload'));
               });
           } else {
+            const file: MulterFile = req.file;
             let materialid: string;
             const fileDetails = JSON.parse(req.body.fileDetails);
             const material: any = [];
-            db.tx(async (t: any) => {
-              const queries = [];
+            db.tx(async (t: ITask<IClient>) => {
               const emresp = await insertDataToEducationalMaterialTable(req, t);
-              queries.push(emresp);
               const id = await insertDataToMaterialTable(t, emresp.id, '', fileDetails.language, fileDetails.priority);
-              queries.push(id);
               material.push({ id: id.id, createFrom: file.originalname });
               materialid = id.id;
-              let result = await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
-              queries.push(result);
-              result = await insertDataToTempRecordTable(t, file, id.id);
-              queries.push(result);
-              return t.batch(queries);
+              await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
+              await insertDataToTempRecordTable(t, file, id.id);
+              return emresp
             })
               .then(async (data: any) => {
                 // return 200 if success and continue sending files to pouta
-                resp.id = data[0].id;
+                resp.id = data.id;
                 resp.material = material;
                 res.status(200).json(resp);
                 try {
@@ -219,6 +214,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                       process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
+
                     // convert file to pdf if office document
                     try {
                       if (isOfficeMimeType(file.mimetype)) {
@@ -230,7 +226,9 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                           pdfkey,
                           config.CLOUD_STORAGE_CONFIG.bucketPDF,
                         );
-                        await updatePdfKey(pdfobj.Key, recordid);
+                        if (recordid) {
+                          await updatePdfKey(pdfobj.Key, recordid);
+                        }
                       }
                     } catch (e) {
                       winstonLogger.debug('ERROR converting office file to pdf');
@@ -300,9 +298,12 @@ const uploadFileToLocalDisk = (
         });
       });
     } catch (err) {
-      fs.unlink(req.file.path, (err) => {
-        if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
-      });
+      const file = req.file
+      if (file) {
+        fs.unlink(file.path, (err) => {
+          if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
+        });
+      }
       reject(err);
       winstonLogger.error('File upload failed: %o', err);
     }
@@ -369,6 +370,14 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       return;
     }
   }
+
+  const edumaterialid = req.params.edumaterialid 
+
+  if (!edumaterialid) {
+    res.status(400).json({ rejected: 'Missing edumaterialid' });
+    return
+  }
+
   let material: Material;
   let recordID: string;
   let t: Transaction;
@@ -381,7 +390,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     material = await Material.create(
       {
         link: '',
-        educationalMaterialId: req.params.edumaterialid,
+        educationalMaterialId: edumaterialid,
         obsoleted: 0,
         priority: (fileDetails as any).priority,
         materialLanguageKey: (fileDetails as any).language,
@@ -391,7 +400,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       },
     );
     // Save the material display name with language versions.
-    await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+    await upsertMaterialDisplayName(t, material.id, fileDetails);
 
     recordID = await upsertRecord(t, file, material.id); // await insertDataToRecordTable(file, material.id);
     await t.commit();
@@ -401,8 +410,8 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }
   res.status(200).json({
-    id: req.params.edumaterialid,
-    material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: req.params.edumaterialid }],
+    id: edumaterialid,
+    material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: edumaterialid }],
   });
 
   try {
@@ -450,70 +459,13 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   }
 };
 
-/**
- * Load a file to the cloud storage.
- * TODO: Possible duplicate function
- * @param file
- * @param materialid
- */
-const fileToStorage = async (file: MulterFile, materialid: string): Promise<{ key: string; recordid: string }> => {
-  const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
-  const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
-  await deleteDataFromTempRecordTable(file.filename, materialid);
-  fs.unlink(file.path, (err: any) => {
-    if (err) winstonLogger.error(err);
-  });
-  return { key: obj.Key, recordid: recordid };
-};
-
-/**
- * check if files in temporaryrecord table and try to load to allas storage
- */
-const checkTemporaryRecordQueue = async (): Promise<void> => {
-  try {
-    // Take the last hour off from the current time.
-    const ts = Date.now() - 1000 * 60 * 60;
-    const query = `
-      SELECT * FROM temporaryrecord
-      WHERE extract(epoch from createdat) * 1000 < $1
-      LIMIT 1000
-    `;
-    const records = await db.any(query, [ts]);
-    for (const record of records) {
-      const file: MulterFile = {
-        fieldname: null,
-        originalname: record.originalfilename,
-        encoding: '',
-        mimetype: record.mimetype,
-        size: record.filesize,
-        stream: null,
-        destination: null,
-        filename: record.filename,
-        path: record.filepath,
-        buffer: null,
-      };
-      try {
-        const obj = await fileToStorage(file, record.materialid);
-        const path = await downstreamAndConvertOfficeFileToPDF(obj.key);
-        const pdfkey = obj.key.substring(0, obj.key.lastIndexOf('.')) + '.pdf';
-        const pdfobj: any = await uploadFileToStorage(path, pdfkey, config.CLOUD_STORAGE_CONFIG.bucketPDF);
-        await updatePdfKey(pdfobj.Key, obj.recordid);
-      } catch (error) {
-        winstonLogger.error(error);
-      }
-    }
-  } catch (error) {
-    winstonLogger.error(error);
-  }
-};
-
-const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
+const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{id: string}> => {
   const query = `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
   `;
-  return await t.one(query, [req.session.passport.user.uid]);
+  return await t.one<{id: string}>(query, [req.session.passport.user.uid]);
 };
 
 /**
@@ -524,27 +476,25 @@ const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promi
  * @param materialId
  * @return {Promise<any>}
  */
-const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
+const insertDataToTempRecordTable = async (t: ITask<IClient>, file: MulterFile, materialId: any): Promise<string> => {
   const query = `
     INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, materialid)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING id
   `;
-  return await t.any(query, [file.filename, file.path, file.originalname, file.size, file.mimetype, materialId]);
+  return await t.one<string>(query, [file.filename, file.path, file.originalname, file.size, file.mimetype, materialId]);
 };
 
 /**
  * Update or insert a material display name with the language versions (if available) and attach to a transaction.
  * A new implementation of the function insertDataToDisplayName() below.
  * @param {Transaction} t
- * @param {string} educationalMaterialId
  * @param {string} materialId
  * @param fileDetails
  * @return {Promise<any>}
  */
 const upsertMaterialDisplayName = async (
   t: Transaction,
-  educationalMaterialId: string,
   materialId: string,
   fileDetails: any,
 ): Promise<void> => {
@@ -567,7 +517,7 @@ const upsertMaterialDisplayName = async (
       displayName:
         fileDetails.displayName.en || (materialDisplayNameEN && materialDisplayNameEN.displayName) || missingLang,
       language: 'en',
-      materialId: materialId || materialDisplayNameEN.materialId,
+      materialId: materialId || materialDisplayNameEN?.materialId,
     },
     {
       transaction: t,
@@ -579,7 +529,7 @@ const upsertMaterialDisplayName = async (
       displayName:
         fileDetails.displayName.fi || (materialDisplayNameFI && materialDisplayNameFI.displayName) || missingLang,
       language: 'fi',
-      materialId: materialId || materialDisplayNameFI.materialId,
+      materialId: materialId || materialDisplayNameFI?.materialId,
     },
     {
       transaction: t,
@@ -591,7 +541,7 @@ const upsertMaterialDisplayName = async (
       displayName:
         fileDetails.displayName.sv || (materialDisplayNameSV && materialDisplayNameSV.displayName) || missingLang,
       language: 'sv',
-      materialId: materialId || materialDisplayNameSV.materialId,
+      materialId: materialId || materialDisplayNameSV?.materialId,
     },
     {
       transaction: t,
@@ -606,65 +556,62 @@ const upsertMaterialDisplayName = async (
  * @param educationalmaterialid
  * @param {string} materialid
  * @param fileDetails
- * @return {Promise<any>}
  */
 export async function insertDataToDisplayName(
   t: any,
-  educationalmaterialid,
+  educationalmaterialid: string,
   materialid: string,
   fileDetails: any,
-): Promise<any> {
-  const queries = [];
+) {
   const query =
     'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;';
   if (fileDetails.displayName && materialid) {
     if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
       if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
         if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          queries.push(await t.none(query, ['', 'fi', materialid, educationalmaterialid]));
+          await t.none(query, ['', 'fi', materialid, educationalmaterialid]);
         } else {
-          queries.push(await t.none(query, [fileDetails.displayName.en, 'fi', materialid, educationalmaterialid]));
+          await t.none(query, [fileDetails.displayName.en, 'fi', materialid, educationalmaterialid]);
         }
       } else {
-        queries.push(await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]));
+        await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]);
       }
     } else {
-      queries.push(await t.none(query, [fileDetails.displayName.fi, 'fi', materialid, educationalmaterialid]));
+      await t.none(query, [fileDetails.displayName.fi, 'fi', materialid, educationalmaterialid]);
     }
 
     if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
       if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
         if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          queries.push(await t.none(query, ['', 'sv', materialid, educationalmaterialid]));
+          await t.none(query, ['', 'sv', materialid, educationalmaterialid]);
         } else {
-          queries.push(await t.none(query, [fileDetails.displayName.en, 'sv', materialid, educationalmaterialid]));
+          await t.none(query, [fileDetails.displayName.en, 'sv', materialid, educationalmaterialid]);
         }
       } else {
-        queries.push(await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]));
+        await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]);
       }
     } else {
-      queries.push(await t.none(query, [fileDetails.displayName.sv, 'sv', materialid, educationalmaterialid]));
+      await t.none(query, [fileDetails.displayName.sv, 'sv', materialid, educationalmaterialid]);
     }
 
     if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
       if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
         if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-          queries.push(await t.none(query, ['', 'en', materialid, educationalmaterialid]));
+          await t.none(query, ['', 'en', materialid, educationalmaterialid]);
         } else {
-          queries.push(await t.none(query, [fileDetails.displayName.sv, 'en', materialid, educationalmaterialid]));
+          await t.none(query, [fileDetails.displayName.sv, 'en', materialid, educationalmaterialid]);
         }
       } else {
-        queries.push(await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]));
+        await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]);
       }
     } else {
-      queries.push(await t.none(query, [fileDetails.displayName.en, 'en', materialid, educationalmaterialid]));
+      await t.none(query, [fileDetails.displayName.en, 'en', materialid, educationalmaterialid]);
     }
   }
-  return queries;
 }
 
 const insertDataToMaterialTable = async (
-  t: any,
+  t: ITask<IClient>,
   eduMaterialId: string,
   location: any,
   languages,
@@ -740,15 +687,12 @@ const insertDataToAttachmentTable = async (
   return data[1].id;
 };
 
-async function updateAttachment(fileKey: any, fileBucket: any, location: string, attachmentId: string): Promise<any> {
-  const queries = [];
-  let query;
+async function updateAttachment(fileKey: any, fileBucket: any, location: string, attachmentId: string) {
   await db
-    .tx(async (t: any) => {
-      query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4';
+    .tx(async (t: ITask<IClient>) => {
+      const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4';
       winstonLogger.debug(query);
-      queries.push(await db.none(query, [location, fileKey, fileBucket, attachmentId]));
-      return t.batch(queries);
+      await t.none(query, [location, fileKey, fileBucket, attachmentId]);
     })
     .catch((err: Error) => {
       throw err;
@@ -844,18 +788,16 @@ const insertDataToRecordTable = async (
   cloudURI?: string,
   recordID?: string,
 ): Promise<string | null> => {
-  let query;
   try {
     const { id } = await db.tx(async (t: any) => {
-      query = `
+      await t.none(`
         UPDATE educationalmaterial SET updatedat = NOW()
         WHERE id = (
           SELECT educationalmaterialid
           FROM material
           WHERE id = $1
         )
-      `;
-      await t.none(query, [materialID]);
+      `, [materialID]);
       let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
         ['filepath', 'originalfilename', 'filesize', 'mimetype', 'materialid', 'filekey', 'filebucket'],
         { table: 'record' },
@@ -873,13 +815,12 @@ const insertDataToRecordTable = async (
         columnSet = columnSet.extend(['id']);
         values['id'] = recordID;
       }
-      query = `
+      return await t.oneOrNone(`
         ${pgp.helpers.insert([values], columnSet)}
         ON CONFLICT (id) DO UPDATE SET
         filepath = EXCLUDED.filepath, filekey = EXCLUDED.filekey, filebucket = EXCLUDED.filebucket
         RETURNING id
-      `;
-      return await t.oneOrNone(query);
+      `);
     });
     return id;
   } catch (err) {
