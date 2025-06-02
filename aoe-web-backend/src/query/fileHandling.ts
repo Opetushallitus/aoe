@@ -1,11 +1,5 @@
 import config from '@/config';
-import {
-  EducationalMaterial,
-  Material,
-  MaterialDisplayName,
-  Record,
-  sequelize,
-} from '@/domain/aoeModels';
+import { EducationalMaterial, Material, MaterialDisplayName, Record, sequelize } from '@/domain/aoeModels';
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '@/helpers/officeToPdfConverter';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
@@ -198,7 +192,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               materialid = id.id;
               await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
               await insertDataToTempRecordTable(t, file, id.id);
-              return emresp
+              return emresp;
             })
               .then(async (data: any) => {
                 // return 200 if success and continue sending files to pouta
@@ -298,7 +292,7 @@ const uploadFileToLocalDisk = (
         });
       });
     } catch (err) {
-      const file = req.file
+      const file = req.file;
       if (file) {
         fs.unlink(file.path, (err) => {
           if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
@@ -371,11 +365,11 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     }
   }
 
-  const edumaterialid = req.params.edumaterialid 
+  const edumaterialid = req.params.edumaterialid;
 
   if (!edumaterialid) {
     res.status(400).json({ rejected: 'Missing edumaterialid' });
-    return
+    return;
   }
 
   let material: Material;
@@ -459,13 +453,13 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   }
 };
 
-const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{id: string}> => {
+const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{ id: string }> => {
   const query = `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
   `;
-  return await t.one<{id: string}>(query, [req.session.passport.user.uid]);
+  return await t.one<{ id: string }>(query, [req.session.passport.user.uid]);
 };
 
 /**
@@ -482,7 +476,14 @@ const insertDataToTempRecordTable = async (t: ITask<IClient>, file: MulterFile, 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING id
   `;
-  return await t.one<string>(query, [file.filename, file.path, file.originalname, file.size, file.mimetype, materialId]);
+  return await t.one<string>(query, [
+    file.filename,
+    file.path,
+    file.originalname,
+    file.size,
+    file.mimetype,
+    materialId,
+  ]);
 };
 
 /**
@@ -493,11 +494,7 @@ const insertDataToTempRecordTable = async (t: ITask<IClient>, file: MulterFile, 
  * @param fileDetails
  * @return {Promise<any>}
  */
-const upsertMaterialDisplayName = async (
-  t: Transaction,
-  materialId: string,
-  fileDetails: any,
-): Promise<void> => {
+const upsertMaterialDisplayName = async (t: Transaction, materialId: string, fileDetails: any): Promise<void> => {
   const materialDisplayNameEN = await MaterialDisplayName.findOne({
     where: { language: 'en', materialId },
     transaction: t,
@@ -790,14 +787,17 @@ const insertDataToRecordTable = async (
 ): Promise<string | null> => {
   try {
     const { id } = await db.tx(async (t: any) => {
-      await t.none(`
+      await t.none(
+        `
         UPDATE educationalmaterial SET updatedat = NOW()
         WHERE id = (
           SELECT educationalmaterialid
           FROM material
           WHERE id = $1
         )
-      `, [materialID]);
+      `,
+        [materialID],
+      );
       let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
         ['filepath', 'originalfilename', 'filesize', 'mimetype', 'materialid', 'filekey', 'filebucket'],
         { table: 'record' },
