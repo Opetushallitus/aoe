@@ -14,5 +14,9 @@ ADD ./ /app/
 RUN npm run build --no-cache -- --configuration "$FRONTEND_CONFIGURATION"
 
 FROM openresty/openresty:1.19.9.1-4-bullseye
+
+RUN apt-get update && apt-get install curl -y
+
 COPY --from=front-builder /app/dist/ /usr/share/nginx/html/
 COPY ./docker/server.conf /etc/nginx/conf.d/default.conf
+

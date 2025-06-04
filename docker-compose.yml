@@ -11,6 +11,11 @@ services:
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
@@ -52,8 +57,8 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: nginx
     hostname: nginx
-    container_name: nginx_proxy
     ports:
       - 443:443
       - 80:80
@@ -165,6 +170,11 @@ services:
       POSTGRES_USER: aoeuser
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aoeuser" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
@@ -198,6 +208,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
       MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
       MONGO_INITDB_DATABASE: aoe
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
     volumes:
       - ./docker/dev/mongo_data:/data/db
       - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
@@ -267,8 +279,8 @@ services:
       start_period: 30s
 
   redis:
-    container_name: redis-reference
     image: redis:6.2.4-alpine
+    container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
     restart: unless-stopped
@@ -285,6 +297,7 @@ services:
 
   localstack:
     image: localstack/localstack:latest
+    container_name: localstack 
     networks:
       default:
         aliases:
@@ -306,8 +319,8 @@ services:
 
   aoe-oidc-server:
     hostname: aoe-oidc-server
-    container_name: oidc-server-mock
     image: ghcr.io/soluto/oidc-server-mock:9.0.1
+    container_name: aoe-oidc-server
     restart: on-failure:2
     expose:
       - 80

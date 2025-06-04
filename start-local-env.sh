@@ -190,9 +190,13 @@ tmux select-pane -t 1.0
 tmux send-keys "$up_cmd zookeeper" C-m
 tmux split-window -v
 
+wait_for_container_to_be_healthy zookeeper
+
 tmux select-pane -t 1.2
 tmux send-keys "$up_cmd kafka" C-m
 tmux split-window -v
+
+wait_for_container_to_be_healthy zookeeper
 
 tmux select-pane -t 1.3
 tmux send-keys "$up_cmd kafka2" C-m
@@ -212,23 +216,46 @@ tmux select-pane -t 2.3
 tmux split-window -v   # Pane 4
 tmux split-window -v   # Pane 5
 
+wait_for_container_to_be_healthy aoe-oidc-server
+wait_for_container_to_be_healthy aoe-postgres
+wait_for_container_to_be_healthy kafka
+wait_for_container_to_be_healthy kafka2
+wait_for_container_to_be_healthy redis
+wait_for_container_to_be_healthy opensearch
+
 tmux select-pane -t 2.0
 tmux send-keys "$up_cmd aoe-web-backend" C-m
+
+wait_for_container_to_be_healthy aoe-web-backend
 
 tmux select-pane -t 2.1
 tmux send-keys "$up_cmd aoe-data-services" C-m
 
+wait_for_container_to_be_healthy localstack
+
 tmux select-pane -t 2.2
 tmux send-keys "$up_cmd aoe-streaming-app" C-m
+
+wait_for_container_to_be_healthy kafka
+wait_for_container_to_be_healthy kafka2
+wait_for_container_to_be_healthy aoe-mongodb
+wait_for_container_to_be_healthy aoe-postgres
 
 tmux select-pane -t 2.3
 tmux send-keys "$up_cmd aoe-data-analytics" C-m
 
+wait_for_container_to_be_healthy redis
+
 tmux select-pane -t 2.4
 tmux send-keys "$up_cmd aoe-semantic-apis" C-m
 
+wait_for_container_to_be_healthy aoe-web-backend
+
 tmux select-pane -t 2.5
 tmux send-keys "$up_cmd aoe-web-frontend" C-m
+
+wait_for_container_to_be_healthy aoe-web-backend
+wait_for_container_to_be_healthy aoe-web-frontend
 
 tmux select-window -t 1
 tmux select-pane -t 1.1

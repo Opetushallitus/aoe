@@ -9,7 +9,13 @@ services:
       args:
         FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-ci}
     image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend-ci:latest}
+    container_name: aoe-web-frontend
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
@@ -46,6 +52,7 @@ services:
       context: aoe-streaming-app
       dockerfile: ./docker/Dockerfile
     image: ${AOE_STREAMING_APP_TAG:-aoe-streaming-app:latest}
+    container_name: aoe-streaming-app
     restart: unless-stopped
     environment:
       - NODE_ENV=development
@@ -81,6 +88,7 @@ services:
       context: aoe-semantic-apis
       dockerfile: ./docker/Dockerfile
     image: ${AOE_SEMANTIC_APIS_TAG:-aoe-semantic-apis:latest}
+    container_name: aoe-semantic-apis
     restart: unless-stopped
     depends_on:
       redis:
@@ -105,6 +113,7 @@ services:
       secrets:
         - trust_store_password
     image: ${AOE_DATA_ANALYTICS_TAG:-aoe-data-analytics:latest}
+    container_name: aoe-data-analytics
     restart: unless-stopped
     depends_on:
       kafka:
@@ -131,6 +140,7 @@ services:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
     image: ${AOE_WEB_BACKEND_TAG:-aoe-web-backend:latest}
+    container_name: aoe-web-backend
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
       interval: 10s
@@ -162,9 +172,11 @@ services:
       - 3000:3000
     env_file:
       - ./aoe-web-backend/.env.ci
+
   redis:
     profiles: [aoe]
     image: redis:6.2.4-alpine
+    container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
     restart: unless-stopped
@@ -184,12 +196,18 @@ services:
   aoe-postgres:
     profiles: [aoe]
     image: postgres:15-alpine
+    container_name: aoe-postgres
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: aoeuser
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aoeuser" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/1-init.sql
       - ./docker/init-scripts/aoe-user.sql:/docker-entrypoint-initdb.d/2-init.sql
@@ -198,6 +216,7 @@ services:
   opensearch:
     profiles: [aoe]
     image: opensearchproject/opensearch:2.10.0
+    container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node
@@ -220,10 +239,13 @@ services:
   aoe-mongodb:
     profiles: [aoe]
     image: mongo:6.0
+    container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
       MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
       MONGO_INITDB_DATABASE: aoe
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
     volumes:
       - ./docker/dev/mongo_data:/data/db
       - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
@@ -233,6 +255,7 @@ services:
   zookeeper:
     profiles: [aoe]
     image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -249,6 +272,7 @@ services:
   kafka:
     profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -273,6 +297,7 @@ services:
   kafka2:
     profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka2
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -297,6 +322,7 @@ services:
   localstack:
     profiles: [aoe]
     image: localstack/localstack:latest
+    container_name: localstack 
     networks:
       default:
         aliases:
@@ -320,6 +346,7 @@ services:
     profiles: [aoe]
     hostname: aoe-oidc-server
     image: ghcr.io/soluto/oidc-server-mock:9.0.1
+    container_name: aoe-oidc-server
     restart: on-failure:2
     networks:
       - default
@@ -432,6 +459,7 @@ services:
   nginx:
     profiles: [aoe]
     image: nginx:latest
+    container_name: nginx
     hostname: nginx
     ports:
       - 443:443
