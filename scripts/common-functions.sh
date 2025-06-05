@@ -13,8 +13,17 @@ set +o nounset
 current_file=${BASH_SOURCE[0]:-$0}
 set -o nounset
 
-readonly revision="${GITHUB_SHA:-$(git rev-parse HEAD)}"
-readonly repo="$( cd "$( dirname "$current_file" )" && cd .. && pwd )"
+revision="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+readonly revision
+
+repo="$( cd "$( dirname "$current_file" )" && cd .. && pwd )"
+readonly repo
+
+compose="docker compose -f $repo/docker-compose.local-dev.yml"
+readonly compose
+up_cmd="$compose up --no-log-prefix"
+readonly up_cmd
+
 NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
 
 function docker_run_with_aws_env {
@@ -157,7 +166,8 @@ function wait_for_container_to_be_healthy {
   local -r container_name="$1"
 
   info "Waiting for docker container $container_name to be healthy"
-  until [ "$(docker inspect -f {{.State.Health.Status}} "$container_name" 2>/dev/null || echo "not-running")" == "healthy" ]; do
+  until [ "$(docker inspect -f "{{.State.Health.Status}}" "$container_name" 2>/dev/null || echo "not-running")" == "healthy" ]; do
+
     sleep 2;
   done;
 }

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
+
+# shellcheck source=./scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
 
 FETCH_SECRETS_SCRIPT="$repo"/scripts/fetch_secrets.sh
@@ -87,9 +89,7 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-compose="docker compose -f ./docker-compose.local-dev.yml"
-
-readonly compose
+$compose create --build
 
 function stop() {
   $compose down --remove-orphans || true
@@ -128,15 +128,12 @@ function rename_services_panes_to_match_the_script_they_run_window_3 {
 
 init
 
-$compose create --build
-
 session="aoe"
 
 tmux kill-session -t $session || true
 tmux start-server
 tmux new-session -d -s $session -c "$repo" -x "$(tput cols)" -y "$(tput lines)"
 
-readonly up_cmd="$compose up --no-log-prefix"
 tmux set -g pane-border-status bottom
 tmux rename-window -t $session:0 'infra'
 tmux select-pane -t 0
@@ -190,16 +187,12 @@ tmux select-pane -t 1.0
 tmux send-keys "$up_cmd zookeeper" C-m
 tmux split-window -v
 
-wait_for_container_to_be_healthy zookeeper
-
 tmux select-pane -t 1.2
-tmux send-keys "$up_cmd kafka" C-m
+tmux send-keys "$repo/scripts/run-kafka.sh" C-m
 tmux split-window -v
 
-wait_for_container_to_be_healthy zookeeper
-
 tmux select-pane -t 1.3
-tmux send-keys "$up_cmd kafka2" C-m
+tmux send-keys "$repo/scripts/run-kafka2.sh" C-m
 
 rename_infra2_panes_to_match_the_script_they_run_window_2
 
@@ -216,50 +209,27 @@ tmux select-pane -t 2.3
 tmux split-window -v   # Pane 4
 tmux split-window -v   # Pane 5
 
-wait_for_container_to_be_healthy aoe-oidc-server
-wait_for_container_to_be_healthy aoe-postgres
-wait_for_container_to_be_healthy kafka
-wait_for_container_to_be_healthy kafka2
-wait_for_container_to_be_healthy redis
-wait_for_container_to_be_healthy opensearch
-
 tmux select-pane -t 2.0
-tmux send-keys "$up_cmd aoe-web-backend" C-m
-
-wait_for_container_to_be_healthy aoe-web-backend
+tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
 
 tmux select-pane -t 2.1
-tmux send-keys "$up_cmd aoe-data-services" C-m
-
-wait_for_container_to_be_healthy localstack
+tmux send-keys "$repo/scripts/run-data-services.sh" C-m
 
 tmux select-pane -t 2.2
-tmux send-keys "$up_cmd aoe-streaming-app" C-m
-
-wait_for_container_to_be_healthy kafka
-wait_for_container_to_be_healthy kafka2
-wait_for_container_to_be_healthy aoe-mongodb
-wait_for_container_to_be_healthy aoe-postgres
+tmux send-keys "$repo/scripts/run-streaming-app.sh" C-m
 
 tmux select-pane -t 2.3
-tmux send-keys "$up_cmd aoe-data-analytics" C-m
-
-wait_for_container_to_be_healthy redis
+tmux send-keys "$repo/scripts/run-data-analytics.sh" C-m
 
 tmux select-pane -t 2.4
-tmux send-keys "$up_cmd aoe-semantic-apis" C-m
-
-wait_for_container_to_be_healthy aoe-web-backend
+tmux send-keys "$repo/scripts/run-semantic-apis.sh" C-m
 
 tmux select-pane -t 2.5
-tmux send-keys "$up_cmd aoe-web-frontend" C-m
-
-wait_for_container_to_be_healthy aoe-web-backend
-wait_for_container_to_be_healthy aoe-web-frontend
+tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
 
 tmux select-window -t 1
 tmux select-pane -t 1.1
-tmux send-keys "$up_cmd nginx" C-m
+tmux send-keys "$repo/scripts/run-nginx.sh" C-m
 
 rename_services_panes_to_match_the_script_they_run_window_3
 tmux select-window -t 2
