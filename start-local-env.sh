@@ -89,10 +89,10 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-$compose create --build
+"$local_compose" create --build
 
 function stop() {
-  $compose down --remove-orphans || true
+  "$local_compose" down --remove-orphans || true
 }
 trap stop EXIT
 
@@ -154,27 +154,27 @@ tmux select-layout tiled
 
 # Pane 0: Redis
 tmux select-pane -t 0
-tmux send-keys "$up_cmd redis" C-m
+tmux send-keys "$local_up_cmd redis" C-m
 
 # Pane 1: Localstack
 tmux select-pane -t 1
-tmux send-keys "$up_cmd localstack" C-m
+tmux send-keys "$local_up_cmd localstack" C-m
 
 # Pane 2: MongoDB
 tmux select-pane -t 2
-tmux send-keys "$up_cmd aoe-mongodb" C-m
+tmux send-keys "$local_up_cmd aoe-mongodb" C-m
 
 # Pane 3: PostgreSQL
 tmux select-pane -t 3
-tmux send-keys "$up_cmd aoe-postgres" C-m
+tmux send-keys "$local_up_cmd aoe-postgres" C-m
 
 # Pane 4: oidc
 tmux select-pane -t 4
-tmux send-keys "$up_cmd aoe-oidc-server" C-m
+tmux send-keys "$local_up_cmd aoe-oidc-server" C-m
 
 # Pane 5: elasticsearch
 tmux select-pane -t 5
-tmux send-keys "$up_cmd opensearch" C-m
+tmux send-keys "$local_up_cmd opensearch" C-m
 
 rename_infra_panes_to_match_the_script_they_run
 
@@ -184,7 +184,7 @@ tmux select-pane -t 1.0
 tmux split-window -h -p 50
 
 tmux select-pane -t 1.0
-tmux send-keys "$up_cmd zookeeper" C-m
+tmux send-keys "$local_up_cmd zookeeper" C-m
 tmux split-window -v
 
 tmux select-pane -t 1.2

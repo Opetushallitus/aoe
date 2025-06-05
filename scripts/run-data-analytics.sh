@@ -10,7 +10,7 @@ function main {
   wait_for_container_to_be_healthy aoe-mongodb
   wait_for_container_to_be_healthy aoe-postgres
 
-  $up_cmd aoe-data-analytics
+  $local_up_cmd aoe-data-analytics
 }
 
 main "$@"

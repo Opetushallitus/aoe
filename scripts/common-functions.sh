@@ -19,12 +19,13 @@ readonly revision
 repo="$( cd "$( dirname "$current_file" )" && cd .. && pwd )"
 readonly repo
 
-compose="docker compose -f $repo/docker-compose.local-dev.yml"
-readonly compose
-up_cmd="$compose up --no-log-prefix"
-readonly up_cmd
-
 NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
+
+local_compose=docker compose -f "$repo"/docker-compose.local-dev.yml
+readonly local_compose
+
+local_up_cmd="$local_compose" up --no-log-prefix
+readonly local_up_cmd
 
 function docker_run_with_aws_env {
   docker run \

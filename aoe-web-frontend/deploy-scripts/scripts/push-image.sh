@@ -13,7 +13,7 @@ function main() {
   configuration=${1:-none}
   case $configuration in
   "dev" | "qa" | "prod" | "ci")
-    echo "Building for configuration ${configuration}"
+    echo "Pushing for configuration ${configuration}"
     ;;
   *)
     echo "Configuration parameter is not correct (got configuration=$configuration)"

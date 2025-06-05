@@ -7,7 +7,7 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
 function main {
   wait_for_container_to_be_healthy localstack
 
-  $up_cmd aoe-streaming-app
+  $local_up_cmd aoe-streaming-app
 }
 
 main "$@"

@@ -11,7 +11,7 @@ function main {
   wait_for_container_to_be_healthy kafka2
   wait_for_container_to_be_healthy redis
   wait_for_container_to_be_healthy opensearch
-  $up_cmd aoe-web-backend
+  $local_up_cmd aoe-web-backend
 }
 
 main "$@"

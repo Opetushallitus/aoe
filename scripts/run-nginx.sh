@@ -8,7 +8,7 @@ function main {
   wait_for_container_to_be_healthy aoe-web-backend
   wait_for_container_to_be_healthy aoe-web-frontend
 
-  $up_cmd nginx
+  $local_up_cmd nginx
 }
 
 main "$@"
