@@ -579,7 +579,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     minimumCount: environmentConfig.services.web_frontend.min_count,
     maximumCount: environmentConfig.services.web_frontend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {},
+    env_vars: {
+      ENV: environmentName
+    },
     parameter_store_secrets: [],
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,

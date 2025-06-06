@@ -1,7 +1,4 @@
-/**
- * @ignore
- */
-export const environment = {
+export const prodEnvironment = {
   production: true,
   loginUrl: 'https://aoe.fi/api',
   backendUrl: 'https://aoe.fi/api/v1',

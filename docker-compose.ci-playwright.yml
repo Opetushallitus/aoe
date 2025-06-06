@@ -6,8 +6,6 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
-      args:
-        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-ci}
     image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend-ci:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
@@ -27,6 +25,8 @@ services:
       - 33344:8080
     networks:
       - default
+    environment:
+      - ENV=ci
 
   test-runner:
     profiles: [test]

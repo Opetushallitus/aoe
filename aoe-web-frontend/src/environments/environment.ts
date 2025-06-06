@@ -1,12 +1,10 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
+import { ciEnvironment } from "./environment.ci";
+import { demoEnvironment } from "./environment.demo";
+import { devEnvironment } from "./environment.dev";
+import { prodEnvironment } from "./environment.prod";
+import { qaEnvironment } from "./environment.qa";
 
-/**
- * @ignore
- */
-export const environment = {
+export let environment = {
   production: false,
   loginUrl: 'https://localhost:3000/api', // 'https://demo.aoe.fi/api',
   backendUrl: 'https://localhost:3000/api/v1', // 'https://demo.aoe.fi/api/v1', // demo
@@ -32,3 +30,24 @@ export const environment = {
   disableForms: 'aoe.disableForms',
   disableLogin: 'aoe.disableLogin',
 };
+
+export function loadCiEnv() {
+  environment = ciEnvironment
+}
+
+export function loadDevEnv() {
+  environment = devEnvironment
+}
+
+export function loadDemoEnv() {
+  environment = demoEnvironment
+}
+
+export function loadQaEnv() {
+  environment = qaEnvironment
+}
+
+export function loadProdEnv() {
+  environment = prodEnvironment
+}
+

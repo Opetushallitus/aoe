@@ -5,8 +5,6 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
-      args:
-        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-demo}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
@@ -24,6 +22,8 @@ services:
     ports:
       - 8282:80
       - 33344:8080
+    environment:
+      - ENV=dev
 
   aoe-streaming-app:
     hostname: aoe-streaming-app
