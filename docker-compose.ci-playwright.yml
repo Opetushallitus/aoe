@@ -6,7 +6,7 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend-ci:latest}
+    image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
     healthcheck:
