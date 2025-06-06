@@ -89,10 +89,10 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-"$local_compose" create --build
+$local_compose create --build
 
 function stop() {
-  "$local_compose" down --remove-orphans || true
+  $local_compose down --remove-orphans || true
 }
 trap stop EXIT
 

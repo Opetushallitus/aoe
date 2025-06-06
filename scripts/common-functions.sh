@@ -21,10 +21,10 @@ readonly repo
 
 NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
 
-local_compose=docker compose -f "$repo"/docker-compose.local-dev.yml
+local_compose="docker compose -f $repo/docker-compose.local-dev.yml"
 readonly local_compose
 
-local_up_cmd="$local_compose" up --no-log-prefix
+local_up_cmd="$local_compose up --no-log-prefix"
 readonly local_up_cmd
 
 function docker_run_with_aws_env {
