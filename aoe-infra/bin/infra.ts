@@ -572,7 +572,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
-    revision: revision + "-" + environmentName,
+    revision: revision,
     allowEcsExec: environmentConfig.services.web_frontend.allow_ecs_exec,
     taskCpu: environmentConfig.services.web_frontend.cpu_limit,
     taskMemory: environmentConfig.services.web_frontend.memory_limit,
