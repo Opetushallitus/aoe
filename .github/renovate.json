@@ -5,7 +5,6 @@
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
-  "automerge": false,
   "platformAutomerge": false,
   "automergeSchedule": ["at any time"],
   "rebaseWhen": "behind-base-branch",
@@ -19,6 +18,10 @@
   "github-actions": { "automerge": true },
   "dockerfile": { "automerge": true },
   "packageRules": [
+    {
+      "enabled": false,
+      "matchPackageNames": ["*"]
+    },
     {
       "matchManagers": ["npm"],
       "enabled": true,
