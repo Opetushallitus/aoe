@@ -1,24 +1,15 @@
 name: Build
 on:
-  push:
-    branches:
-      - main
   workflow_call:
 
 concurrency: build-${{ github.ref }}
 
 env:
-  DOCKER_BUILDKIT: '1' # BuildKit is enabled by default starting in Docker v23, Ubuntu 22.04 has an older version
+  DOCKER_BUILDKIT: "1" # BuildKit is enabled by default starting in Docker v23, Ubuntu 22.04 has an older version
 
 defaults:
   run:
     shell: bash
-
-permissions:
-  id-token: write
-  contents: write
-  actions: read
-  packages: write
 
 jobs:
   build:
@@ -123,7 +114,3 @@ jobs:
           status: ${{ needs.push_image.result == 'success' && 'success' || 'failure' }}
           api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
 
-  deploy_dev:
-    needs: [push_image]
-    uses: ./.github/workflows/deploy_dev.yml
-    secrets: inherit
