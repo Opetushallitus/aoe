@@ -40,12 +40,11 @@
   "docker-compose": { "automerge": true },
   "packageRules": [
     {
-      "enabled": false,
+      "automerge": false,
       "matchPackageNames": ["*"]
     },
     {
       "matchManagers": ["npm"],
-      "enabled": true,
       "automerge": false,
       "matchUpdateTypes": ["major", "minor", "patch"],
       "matchPackageNames": ["*"]
@@ -59,16 +58,15 @@
     {
       "groupName": "Spring Boot",
       "matchPackageNames": ["org.springframework.boot"],
-      "enabled": false
+      "automerge": false
     },
     {
       "groupName": "logstash",
       "matchPackageNames": ["net.logstash.logback"],
-      "enabled": false
+      "automerge": false
     },
     {
       "groupName": "httpclient5",
-      "enabled": true,
       "automerge": true,
       "matchUpdateTypes": [
         "minor",
