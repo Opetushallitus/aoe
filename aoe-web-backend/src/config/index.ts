@@ -58,6 +58,9 @@ export default {
   // Cloud storage configurations.
   CLOUD_STORAGE_CONFIG: {
     region: process.env.CLOUD_STORAGE_REGION as string,
+    endpoint: process.env.CLOUD_STORAGE_API as string,
+    accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY as string,
+    secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET as string,
     bucket: process.env.CLOUD_STORAGE_BUCKET as string,
     bucketPDF: process.env.CLOUD_STORAGE_BUCKET_PDF as string,
     bucketThumbnail: process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL as string,

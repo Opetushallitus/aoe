@@ -96,7 +96,7 @@ async function downloadThumbnail(req: Request, res: Response, next: NextFunction
       Bucket: config.CLOUD_STORAGE_CONFIG.bucketThumbnail,
       Key: key,
     };
-    await downloadFromStorage(req, res, next, params, key);
+    await downloadFromStorage(res, next, params, key);
   } catch (error) {
     next(new ErrorHandler(500, 'downloadThumbnail() Error: ' + error));
   }

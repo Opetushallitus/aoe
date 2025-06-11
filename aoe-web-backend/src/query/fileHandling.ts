@@ -32,13 +32,13 @@ const isProd = process.env.NODE_ENV === 'production';
 
 // AWS and S3 configurations.
 const configAWS: ServiceConfigurationOptions = {
-  region: process.env.CLOUD_STORAGE_REGION,
+  region: config.CLOUD_STORAGE_CONFIG.region,
   ...(!isProd
     ? {
-        endpoint: process.env.CLOUD_STORAGE_API,
+        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
         credentials: {
-          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
+          secretAccessKey: config.CLOUD_STORAGE_CONFIG.secretAccessKey,
         },
       }
     : {}),
@@ -48,10 +48,10 @@ AWS.config.update(configAWS);
 // define multer storage
 const storage: StorageEngine = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
-  destination: (req: Request, file: any, cb: any) => {
+  destination: (_req: Request, _file: any, cb: any) => {
     cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
-  filename: (req: Request, file: any, cb: any) => {
+  filename: (_req: Request, file: any, cb: any) => {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
     let str = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
     str = str.replace(/[^a-zA-Z0-9]/g, '');
@@ -71,70 +71,60 @@ const upload: Multer = multer({
  * @param {e.NextFunction} next
  * @return {Promise<any>}
  */
-export const uploadAttachmentToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const uploadAttachmentToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const contentType: string = req.headers['content-type'];
-    if (contentType.startsWith('multipart/form-data')) {
-      upload.single('attachment')(req, res, async (err: any): Promise<any> => {
-        try {
+    const contentType = req.headers['content-type'];
+    if (!contentType) {
+          return next(new ErrorHandler(400, 'Missing content-type header'));
+    }
+    
+    const materialId = req.params.materialId
+    if (!materialId) {
+          return next(new ErrorHandler(400, 'Missing materialId req param'));
+    }
+
+    if (!contentType.startsWith('multipart/form-data')) {
+      return next(new ErrorHandler(400, 'Wrong contentType'));
+    }
+      upload.single('attachment')(req, res, async (err: any) => {
           if (err) {
             winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err);
             if (err.code === 'LIMIT_FILE_SIZE') {
-              next(new ErrorHandler(413, err.message));
+              return next(new ErrorHandler(413, err.message));
             } else {
-              next(new ErrorHandler(500, 'Failure in file upload'));
+              return next(new ErrorHandler(500, 'Failure in file upload'));
             }
           }
-          const file = (<any>req).file;
+          const file = req.file;
           if (!file) {
-            next(new ErrorHandler(400, 'No file sent'));
+            return next(new ErrorHandler(400, 'No file sent'));
           }
           const metadata = JSON.parse(req.body.attachmentDetails);
           winstonLogger.debug(metadata);
-          let attachmentId;
-          let result: any[] = [];
-          if (typeof file !== 'undefined') {
-            attachmentId = await insertDataToAttachmentTable(
-              file,
-              req.params.materialId,
-              undefined,
-              undefined,
-              undefined,
-              metadata,
-            );
-            result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
-          }
-          // return 200 if success and continue sending files to pouta
-          res.status(200).json({ id: attachmentId });
-          try {
-            if (typeof file !== 'undefined') {
-              const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
-              await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
-              await deleteDataToTempAttachmentTable(file.filename, result[0].id);
-              fs.unlink(file.path, (err: any) => {
-                if (err) {
-                  winstonLogger.error(err);
-                }
-              });
+          const attachmentId = await insertDataToAttachmentTable(
+            file,
+            materialId,
+            undefined,
+            undefined,
+            undefined,
+            metadata,
+          );
+          const result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
+          const obj: any = await uploadFileToStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket);
+          await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
+          await deleteDataToTempAttachmentTable(file.filename, result[0].id);
+          fs.unlink(file.path, (err: any) => {
+            if (err) {
+              winstonLogger.error(err);
             }
-          } catch (error) {
-            winstonLogger.error(
-              'error while sending files to pouta: ' + error + ' - ' + JSON.stringify((<any>req).file),
-            );
-          }
-        } catch (e) {
-          winstonLogger.error(e);
-          if (!res.headersSent) {
-            next(new ErrorHandler(500, 'Failure in file upload'));
-          }
-        }
+          });
+          res.status(200).json({ id: attachmentId });
       });
-    } else {
-      next(new ErrorHandler(400, 'Wrong contentType'));
-    }
   } catch (err) {
-    winstonLogger.error(err);
-    next(new ErrorHandler(500, 'Not found'));
+    winstonLogger.error(
+      'Failure in file upload', req.file, err
+    );
+    return next(new ErrorHandler(500, 'Failure in file upload'));
   }
 };
 
@@ -146,9 +136,15 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
  */
 export const uploadMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    winstonLogger.debug(req.body);
     const contentType = req.headers['content-type'];
-    if (contentType.startsWith('multipart/form-data')) {
+    if (!contentType) {
+          return next(new ErrorHandler(400, 'Missing content-type header'));
+    }
+
+    winstonLogger.debug(req.body);
+    if (!contentType.startsWith('multipart/form-data')) {
+      return next(new ErrorHandler(400, 'Wrong contentType'));
+    }
       upload.single('file')(req, res, async (err: any) => {
         try {
           if (err) {
@@ -205,7 +201,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     const obj: any = await uploadFileToStorage(
                       file.path,
                       file.filename,
-                      process.env.CLOUD_STORAGE_BUCKET,
+                      config.CLOUD_STORAGE_CONFIG.bucket,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
 
@@ -259,9 +255,6 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           }
         }
       });
-    } else {
-      next(new ErrorHandler(400, 'Not found'));
-    }
   } catch (err) {
     next(new ErrorHandler(500, 'Error in upload: ' + err));
   }
@@ -454,12 +447,16 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 };
 
 const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{ id: string }> => {
-  const query = `
+  const uid = req.session?.passport?.user.uid
+  if (!uid) {
+    winstonLogger.error('insertDataToEducationalMaterialTable missing uid in reques');
+    throw new Error("Missing uid!")
+  }
+  return await t.one<{ id: string }>(`
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
-  `;
-  return await t.one<{ id: string }>(query, [req.session.passport.user.uid]);
+  `, [uid]);
 };
 
 /**
@@ -611,7 +608,7 @@ const insertDataToMaterialTable = async (
   t: ITask<IClient>,
   eduMaterialId: string,
   location: any,
-  languages,
+  languages: any,
   priority: number,
 ): Promise<any> => {
   const query = `
@@ -633,10 +630,10 @@ const insertDataToMaterialTable = async (
  */
 const insertDataToAttachmentTable = async (
   files: any,
-  materialID: any,
-  fileKey: any,
-  fileBucket: any,
-  location: string,
+  materialID: string,
+  fileKey: string|undefined,
+  fileBucket: string|undefined,
+  location: string|undefined,
   metadata: any,
 ): Promise<any> => {
   const queries: any[] = [];
@@ -735,10 +732,16 @@ const upsertRecord = async (
   cloudURI?: string,
   recordID?: string,
 ): Promise<string> => {
-  const material: Material = await Material.findOne({
+  const material = await Material.findOne({
     where: { id: materialID },
     transaction: t,
   });
+
+  if (!material) {
+    winstonLogger.error('usperRecord: did not find material to upsert: ', materialID);
+    throw new Error("Did not find material to upsert")
+  }
+
   await EducationalMaterial.update(
     { updatedAt: sequelize.literal('CURRENT_TIMESTAMP') },
     {
@@ -748,7 +751,7 @@ const upsertRecord = async (
       transaction: t,
     },
   );
-  const [record]: [IRecord, boolean] = await Record.upsert(
+  const [record] = await Record.upsert(
     {
       id: recordID,
       filePath: cloudURI,
@@ -803,6 +806,7 @@ const insertDataToRecordTable = async (
         { table: 'record' },
       );
       const values = {
+        id: recordID ? recordID : undefined,
         filepath: cloudURI,
         originalfilename: file.originalname,
         filesize: file.size,
@@ -813,7 +817,6 @@ const insertDataToRecordTable = async (
       };
       if (recordID) {
         columnSet = columnSet.extend(['id']);
-        values['id'] = recordID;
       }
       return await t.oneOrNone(`
         ${pgp.helpers.insert([values], columnSet)}
@@ -860,19 +863,6 @@ export const uploadFileToStorage = (
   bucketName: string,
   materialMeta?: Material,
 ): Promise<SendData> => {
-  const config: ServiceConfigurationOptions = {
-    region: process.env.CLOUD_STORAGE_REGION,
-    ...(!isProd
-      ? {
-          endpoint: process.env.CLOUD_STORAGE_API,
-          credentials: {
-            accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-            secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-          },
-        }
-      : {}),
-  };
-  AWS.config.update(config);
   const s3: S3 = new AWS.S3();
   const passThrough: PassThrough = new stream.PassThrough();
   let putObjectS3: S3.PutObjectRequest = { Bucket: bucketName, Key: fileName, Body: passThrough };
@@ -920,19 +910,6 @@ export async function uploadBase64FileToStorage(
 ): Promise<any> {
   return new Promise(async (resolve, reject) => {
     try {
-      const config: ServiceConfigurationOptions = {
-        region: process.env.CLOUD_STORAGE_REGION,
-        ...(!isProd
-          ? {
-              endpoint: process.env.CLOUD_STORAGE_API,
-              credentials: {
-                accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-                secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-              },
-            }
-          : {}),
-      };
-      AWS.config.update(config);
       const s3 = new AWS.S3();
       try {
         const params = {
@@ -994,7 +971,12 @@ export const downloadPreviewFile = async (req: Request, res: Response, next: Nex
  */
 export const downloadFile = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const filename: string = req.params.filename;
+    const filename = req.params.filename;
+
+    if (!filename) {
+      return next(new ErrorHandler(400, "Missing request param filename"));
+    }
+
     const materialidQuery = 'SELECT materialid FROM record WHERE filekey = $1';
     const materialid = (await db.any(materialidQuery, [filename]))[0];
 
@@ -1005,15 +987,12 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
       educationalmaterialid: string;
     }[] = await db.any(educationalmaterialidQuery, [materialid.materialid]);
 
-    let educationalmaterialId: number;
-    if (originalMaterialIdArr) {
-      educationalmaterialId = parseInt(originalMaterialIdArr[0].educationalmaterialid, 10);
+    const originalMaterialId = originalMaterialIdArr?.[0]
 
-      // Pass educational material ID to the next function in request chain.
-      res.locals.id = educationalmaterialId;
-    } else {
-      educationalmaterialId = parseInt(materialid.materialid, 10);
-    }
+    let educationalmaterialId = originalMaterialId ? parseInt(originalMaterialId.educationalmaterialid, 10) :parseInt(materialid.materialid, 10)
+
+    // Pass educational material ID to the next function in request chain.
+    res.locals.id = educationalmaterialId;
 
     await downloadFileFromStorage(req, res, next);
 
@@ -1022,13 +1001,14 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
       try {
         await updateDownloadCounter(educationalmaterialId.toString());
       } catch (error) {
-        winstonLogger.error('Updating download counter failed: ' + error);
+        winstonLogger.error('Updating download counter failed:', error);
       }
     }
     next();
   } catch (err) {
     if (!res.headersSent) {
-      next(new ErrorHandler(400, err));
+      winstonLogger.error('downloadFile error:', err);
+      next(new ErrorHandler(400, "Unkown error"));
     }
   }
 };
@@ -1065,10 +1045,10 @@ export const downloadFileFromStorage = async (
         originalfilename: string;
         filesize: number;
         mimetype: string;
-      } = await db.oneOrNone(query, [fileName]);
+      } | null = await db.oneOrNone(query, [fileName]);
       if (!fileDetails) {
-        next(new ErrorHandler(404, 'Requested file ' + fileName + ' not found.'));
-      } else {
+        return next(new ErrorHandler(404, 'Requested file ' + fileName + ' not found.'));
+      }
         // Check if Range HTTP header is present and the criteria for streaming service redirect are fulfilled.
         if (
           config.STREAM_REDIRECT_CRITERIA.streamEnabled &&
@@ -1084,9 +1064,8 @@ export const downloadFileFromStorage = async (
           Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
           Key: (req.params.filename as string) || (req.params.key as string),
         };
-        const resp = await downloadFromStorage(req, res, next, params, fileDetails.originalfilename, isZip);
+        const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip);
         resolve(resp);
-      }
     } catch (err) {
       winstonLogger.error('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
       next(new ErrorHandler(500, 'Downloading a single file failed in downloadFileFromStorage()'));
@@ -1138,7 +1117,6 @@ export const directoryDownloadFromStorage = async (
  * @param isZip        boolean Indicator for the need of decompression
  */
 export const downloadFromStorage = (
-  req: Request,
   res: Response,
   next: NextFunction,
   paramsS3: { Bucket: string; Key: string },
@@ -1164,11 +1142,11 @@ export const downloadFromStorage = (
             if (err.name === 'NoSuchKey') {
               winstonLogger.debug('Requested file %s not found.', origFilename);
               res.status(404);
-              resolve(null);
+              resolve(false);
             } else if (err.name === 'TimeoutError') {
               winstonLogger.debug('Connection closed by timeout event.');
               res.end();
-              resolve(null);
+              resolve(false);
             } else {
               winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err));
               reject(err);
@@ -1184,11 +1162,11 @@ export const downloadFromStorage = (
             if (err.name === 'NoSuchKey') {
               winstonLogger.debug('Requested file %s not found.', origFilename);
               res.status(404);
-              resolve(null);
+              resolve(false);
             } else if (err.name === 'TimeoutError') {
               winstonLogger.debug('Connection closed by timeout event.');
               res.end();
-              resolve(null);
+              resolve(false);
             } else {
               winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err));
               reject(err);
@@ -1197,7 +1175,7 @@ export const downloadFromStorage = (
           })
           // Wait for 'end' event for readable stream.
           .once('end', (): void => {
-            resolve(null);
+            resolve(false);
           })
           .pipe(res);
       }
@@ -1219,6 +1197,13 @@ export const downloadAllMaterialsCompressed = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+
+  const edumaterialid =  req.params.edumaterialid
+  
+  if (!edumaterialid) {
+      return next(new ErrorHandler(400, 'Missing edumaterialid req param'));
+  }
+
   // Queries to resolve files of the latest educational material version requested.
   const queryLatestPublished = `
     SELECT MAX(publishedat) AS max
@@ -1241,12 +1226,12 @@ export const downloadAllMaterialsCompressed = async (
     filekey: string;
     originalfilename: string;
   }[] = await db.task(async (t: any): Promise<any[]> => {
-    let publishedAt: string = req.params.publishedat;
+    let publishedAt = req.params.publishedat;
     if (!publishedAt) {
-      const latestPublished: { max: string } = await t.oneOrNone(queryLatestPublished, req.params.edumaterialid);
+      const latestPublished: { max: string } = await t.oneOrNone(queryLatestPublished, edumaterialid);
       publishedAt = latestPublished.max;
     }
-    return await db.any(queryVersionFilesIds, [req.params.edumaterialid, publishedAt]);
+    return await db.any(queryVersionFilesIds, [edumaterialid, publishedAt]);
   });
   const fileKeys: string[] = [];
   const fileNames: EntryData[] = [];
@@ -1258,11 +1243,11 @@ export const downloadAllMaterialsCompressed = async (
   }
   res.header('Content-Disposition', 'attachment; filename=materials.zip');
   // Downstream files from the object storage and zip the bundle.
-  await downloadAndZipFromStorage(req, res, next, fileKeys, fileNames).catch((err): void => {
+  await downloadAndZipFromStorage(res, fileKeys, fileNames).catch((err): void => {
     throw err;
   });
   // Update the download counter.
-  const educationalMaterialId: number = parseInt(req.params.edumaterialid, 10);
+  const educationalMaterialId: number = parseInt(edumaterialid, 10);
   if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
     try {
       await updateDownloadCounter(educationalMaterialId.toString());
@@ -1282,9 +1267,7 @@ export const downloadAllMaterialsCompressed = async (
  * @param files string[] Array of file names
  */
 const downloadAndZipFromStorage = (
-  req: Request,
   res: Response,
-  next: NextFunction,
   keys: string[],
   files: EntryData[],
 ): Promise<void> => {
@@ -1322,7 +1305,7 @@ const downloadAndZipFromStorage = (
 const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> => {
   const searchRecursive = (dir: string, pattern: string) => {
     // This is where we store pattern matches of all files inside the directory
-    let results = [];
+    let results: string[] = [];
     // Read contents of directory
     fs.readdirSync(dir).forEach((dirInner) => {
       // Obtain absolute path
@@ -1349,12 +1332,12 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     // Return the full path of index.html.
     const indexHtmlPaths: string[] = searchRecursive(targetUnzipFolder, 'index.html');
     if (Array.isArray(indexHtmlPaths) && indexHtmlPaths.length) {
-      return indexHtmlPaths[0];
+      return indexHtmlPaths[0] || false
     }
     // If index.html not found, search recursively for index.htm in the target unzip folder.
     const indexHtmPaths = searchRecursive(targetUnzipFolder, 'index.htm');
     if (Array.isArray(indexHtmPaths) && indexHtmPaths.length) {
-      return indexHtmPaths[0];
+      return indexHtmPaths[0] || false
     }
     // The web site is not functional without an index file => return false.
     return false;
