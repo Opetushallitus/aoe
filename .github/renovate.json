@@ -1,22 +1,49 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
+  "extends": [
+    "config:best-practices",
+    "workarounds:javaLTSVersions",
+    ":rebaseStalePrs",
+    "npm:unpublishSafe"
+  ],
+  "onboarding": false,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
+  "username": "aoe-renovate[bot]",
   "branchPrefix": "github-renovate/",
-  "platformAutomerge": false,
-  "automergeSchedule": ["at any time"],
-  "rebaseWhen": "behind-base-branch",
+  "platform": "github",
   "forkProcessing": "disabled",
-  "prCreation": "immediate",
   "ignoreTests": false,
   "automergeType": "pr",
-  "separateMajorMinor": true,
-  "separateMultipleMajor": true,
-  "enabledManagers": ["nvm", "npm", "github-actions", "dockerfile", "maven"],
+  "lockFileMaintenance": { "enabled": true },
+  "schedule": [
+    "at any time"
+  ],
+  "automergeSchedule": [
+    "at any time"
+  ],
+  "platformAutomerge": true,
+  "automerge": true,
+  "repositories": [
+    "Opetushallitus/aoe"
+  ],
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": false
+  },
+  "enabledManagers": [
+    "nvm", 
+    "npm", 
+    "github-actions", 
+    "docker-compose",
+    "dockerfile", 
+    "maven"
+  ],
   "github-actions": { "automerge": true },
   "dockerfile": { "automerge": true },
+  "docker-compose": { "automerge": true },
   "packageRules": [
     {
       "enabled": false,
