@@ -6,13 +6,10 @@
     ":rebaseStalePrs",
     "npm:unpublishSafe"
   ],
-  "onboarding": false,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
-  "username": "aoe-renovate[bot]",
   "branchPrefix": "github-renovate/",
-  "platform": "github",
   "forkProcessing": "disabled",
   "ignoreTests": false,
   "automergeType": "pr",
@@ -25,9 +22,6 @@
   ],
   "platformAutomerge": true,
   "automerge": true,
-  "repositories": [
-    "Opetushallitus/aoe"
-  ],
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "labels": ["security"],
