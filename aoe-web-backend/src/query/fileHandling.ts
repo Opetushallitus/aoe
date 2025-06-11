@@ -75,55 +75,53 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
   try {
     const contentType = req.headers['content-type'];
     if (!contentType) {
-          return next(new ErrorHandler(400, 'Missing content-type header'));
+      return next(new ErrorHandler(400, 'Missing content-type header'));
     }
-    
-    const materialId = req.params.materialId
+
+    const materialId = req.params.materialId;
     if (!materialId) {
-          return next(new ErrorHandler(400, 'Missing materialId req param'));
+      return next(new ErrorHandler(400, 'Missing materialId req param'));
     }
 
     if (!contentType.startsWith('multipart/form-data')) {
       return next(new ErrorHandler(400, 'Wrong contentType'));
     }
-      upload.single('attachment')(req, res, async (err: any) => {
-          if (err) {
-            winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err);
-            if (err.code === 'LIMIT_FILE_SIZE') {
-              return next(new ErrorHandler(413, err.message));
-            } else {
-              return next(new ErrorHandler(500, 'Failure in file upload'));
-            }
-          }
-          const file = req.file;
-          if (!file) {
-            return next(new ErrorHandler(400, 'No file sent'));
-          }
-          const metadata = JSON.parse(req.body.attachmentDetails);
-          winstonLogger.debug(metadata);
-          const attachmentId = await insertDataToAttachmentTable(
-            file,
-            materialId,
-            undefined,
-            undefined,
-            undefined,
-            metadata,
-          );
-          const result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
-          const obj: any = await uploadFileToStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket);
-          await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
-          await deleteDataToTempAttachmentTable(file.filename, result[0].id);
-          fs.unlink(file.path, (err: any) => {
-            if (err) {
-              winstonLogger.error(err);
-            }
-          });
-          res.status(200).json({ id: attachmentId });
+    upload.single('attachment')(req, res, async (err: any) => {
+      if (err) {
+        winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err);
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return next(new ErrorHandler(413, err.message));
+        } else {
+          return next(new ErrorHandler(500, 'Failure in file upload'));
+        }
+      }
+      const file = req.file;
+      if (!file) {
+        return next(new ErrorHandler(400, 'No file sent'));
+      }
+      const metadata = JSON.parse(req.body.attachmentDetails);
+      winstonLogger.debug(metadata);
+      const attachmentId = await insertDataToAttachmentTable(
+        file,
+        materialId,
+        undefined,
+        undefined,
+        undefined,
+        metadata,
+      );
+      const result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
+      const obj: any = await uploadFileToStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket);
+      await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
+      await deleteDataToTempAttachmentTable(file.filename, result[0].id);
+      fs.unlink(file.path, (err: any) => {
+        if (err) {
+          winstonLogger.error(err);
+        }
       });
+      res.status(200).json({ id: attachmentId });
+    });
   } catch (err) {
-    winstonLogger.error(
-      'Failure in file upload', req.file, err
-    );
+    winstonLogger.error('Failure in file upload', req.file, err);
     return next(new ErrorHandler(500, 'Failure in file upload'));
   }
 };
@@ -138,123 +136,123 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
   try {
     const contentType = req.headers['content-type'];
     if (!contentType) {
-          return next(new ErrorHandler(400, 'Missing content-type header'));
+      return next(new ErrorHandler(400, 'Missing content-type header'));
     }
 
     winstonLogger.debug(req.body);
     if (!contentType.startsWith('multipart/form-data')) {
       return next(new ErrorHandler(400, 'Wrong contentType'));
     }
-      upload.single('file')(req, res, async (err: any) => {
-        try {
-          if (err) {
-            winstonLogger.debug(err);
-            if (err.code === 'LIMIT_FILE_SIZE') {
-              next(new ErrorHandler(413, err.message));
-            } else {
-              winstonLogger.error(err);
-              next(new ErrorHandler(500, 'Error in upload'));
-            }
-          }
-          const resp: any = {};
-
-          // Send educationalmaterialid if no file send for link material creation.
-          if (!req.file) {
-            await db
-              .tx(async (t: any) => {
-                const id = await insertDataToEducationalMaterialTable(req, t);
-                if (req.body.name) {
-                  await insertEducationalMaterialName(JSON.parse(req.body.name), id.id, t);
-                }
-                return id;
-              })
-              .then((data: any) => {
-                resp.id = data.id;
-                return res.status(200).json(resp);
-              })
-              .catch((err: Error) => {
-                winstonLogger.debug(err);
-                next(new ErrorHandler(500, 'Error in upload'));
-              });
+    upload.single('file')(req, res, async (err: any) => {
+      try {
+        if (err) {
+          winstonLogger.debug(err);
+          if (err.code === 'LIMIT_FILE_SIZE') {
+            next(new ErrorHandler(413, err.message));
           } else {
-            const file: MulterFile = req.file;
-            let materialid: string;
-            const fileDetails = JSON.parse(req.body.fileDetails);
-            const material: any = [];
-            db.tx(async (t: ITask<IClient>) => {
-              const emresp = await insertDataToEducationalMaterialTable(req, t);
-              const id = await insertDataToMaterialTable(t, emresp.id, '', fileDetails.language, fileDetails.priority);
-              material.push({ id: id.id, createFrom: file.originalname });
-              materialid = id.id;
-              await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
-              await insertDataToTempRecordTable(t, file, id.id);
-              return emresp;
-            })
-              .then(async (data: any) => {
-                // return 200 if success and continue sending files to pouta
-                resp.id = data.id;
-                resp.material = material;
-                res.status(200).json(resp);
-                try {
-                  if (typeof file !== 'undefined') {
-                    winstonLogger.debug(materialid);
-                    const obj: any = await uploadFileToStorage(
-                      file.path,
-                      file.filename,
-                      config.CLOUD_STORAGE_CONFIG.bucket,
-                    );
-                    const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
-
-                    // convert file to pdf if office document
-                    try {
-                      if (isOfficeMimeType(file.mimetype)) {
-                        winstonLogger.debug('Convert file and send to allas');
-                        const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
-                        const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadFileToStorage(
-                          path,
-                          pdfkey,
-                          config.CLOUD_STORAGE_CONFIG.bucketPDF,
-                        );
-                        if (recordid) {
-                          await updatePdfKey(pdfobj.Key, recordid);
-                        }
-                      }
-                    } catch (e) {
-                      winstonLogger.debug('ERROR converting office file to pdf');
-                      winstonLogger.error(e);
-                    }
-                    await deleteDataFromTempRecordTable(file.filename, materialid);
-                    fs.unlink(file.path, (err: any) => {
-                      if (err) {
-                        winstonLogger.error(err);
-                      }
-                    });
-                  }
-                } catch (err) {
-                  winstonLogger.debug('error while sending file to pouta: ' + JSON.stringify((<any>req).file));
-                  winstonLogger.error(err);
-                }
-              })
-              .catch((err: Error) => {
-                if (!res.headersSent) {
-                  next(new ErrorHandler(500, 'Error in upload: ' + err));
-                }
-                fs.unlink(file.path, (err: any) => {
-                  if (err) {
-                    winstonLogger.debug('Error in uploadMaterial(): ' + err);
-                  } else {
-                    winstonLogger.debug('file removed');
-                  }
-                });
-              });
-          }
-        } catch (e) {
-          if (!res.headersSent) {
-            next(new ErrorHandler(500, 'Error in upload: ' + e));
+            winstonLogger.error(err);
+            next(new ErrorHandler(500, 'Error in upload'));
           }
         }
-      });
+        const resp: any = {};
+
+        // Send educationalmaterialid if no file send for link material creation.
+        if (!req.file) {
+          await db
+            .tx(async (t: any) => {
+              const id = await insertDataToEducationalMaterialTable(req, t);
+              if (req.body.name) {
+                await insertEducationalMaterialName(JSON.parse(req.body.name), id.id, t);
+              }
+              return id;
+            })
+            .then((data: any) => {
+              resp.id = data.id;
+              return res.status(200).json(resp);
+            })
+            .catch((err: Error) => {
+              winstonLogger.debug(err);
+              next(new ErrorHandler(500, 'Error in upload'));
+            });
+        } else {
+          const file: MulterFile = req.file;
+          let materialid: string;
+          const fileDetails = JSON.parse(req.body.fileDetails);
+          const material: any = [];
+          db.tx(async (t: ITask<IClient>) => {
+            const emresp = await insertDataToEducationalMaterialTable(req, t);
+            const id = await insertDataToMaterialTable(t, emresp.id, '', fileDetails.language, fileDetails.priority);
+            material.push({ id: id.id, createFrom: file.originalname });
+            materialid = id.id;
+            await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
+            await insertDataToTempRecordTable(t, file, id.id);
+            return emresp;
+          })
+            .then(async (data: any) => {
+              // return 200 if success and continue sending files to pouta
+              resp.id = data.id;
+              resp.material = material;
+              res.status(200).json(resp);
+              try {
+                if (typeof file !== 'undefined') {
+                  winstonLogger.debug(materialid);
+                  const obj: any = await uploadFileToStorage(
+                    file.path,
+                    file.filename,
+                    config.CLOUD_STORAGE_CONFIG.bucket,
+                  );
+                  const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
+
+                  // convert file to pdf if office document
+                  try {
+                    if (isOfficeMimeType(file.mimetype)) {
+                      winstonLogger.debug('Convert file and send to allas');
+                      const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
+                      const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
+                      const pdfobj: any = await uploadFileToStorage(
+                        path,
+                        pdfkey,
+                        config.CLOUD_STORAGE_CONFIG.bucketPDF,
+                      );
+                      if (recordid) {
+                        await updatePdfKey(pdfobj.Key, recordid);
+                      }
+                    }
+                  } catch (e) {
+                    winstonLogger.debug('ERROR converting office file to pdf');
+                    winstonLogger.error(e);
+                  }
+                  await deleteDataFromTempRecordTable(file.filename, materialid);
+                  fs.unlink(file.path, (err: any) => {
+                    if (err) {
+                      winstonLogger.error(err);
+                    }
+                  });
+                }
+              } catch (err) {
+                winstonLogger.debug('error while sending file to pouta: ' + JSON.stringify((<any>req).file));
+                winstonLogger.error(err);
+              }
+            })
+            .catch((err: Error) => {
+              if (!res.headersSent) {
+                next(new ErrorHandler(500, 'Error in upload: ' + err));
+              }
+              fs.unlink(file.path, (err: any) => {
+                if (err) {
+                  winstonLogger.debug('Error in uploadMaterial(): ' + err);
+                } else {
+                  winstonLogger.debug('file removed');
+                }
+              });
+            });
+        }
+      } catch (e) {
+        if (!res.headersSent) {
+          next(new ErrorHandler(500, 'Error in upload: ' + e));
+        }
+      }
+    });
   } catch (err) {
     next(new ErrorHandler(500, 'Error in upload: ' + err));
   }
@@ -447,16 +445,19 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 };
 
 const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{ id: string }> => {
-  const uid = req.session?.passport?.user.uid
+  const uid = req.session?.passport?.user.uid;
   if (!uid) {
     winstonLogger.error('insertDataToEducationalMaterialTable missing uid in reques');
-    throw new Error("Missing uid!")
+    throw new Error('Missing uid!');
   }
-  return await t.one<{ id: string }>(`
+  return await t.one<{ id: string }>(
+    `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
-  `, [uid]);
+  `,
+    [uid],
+  );
 };
 
 /**
@@ -631,9 +632,9 @@ const insertDataToMaterialTable = async (
 const insertDataToAttachmentTable = async (
   files: any,
   materialID: string,
-  fileKey: string|undefined,
-  fileBucket: string|undefined,
-  location: string|undefined,
+  fileKey: string | undefined,
+  fileBucket: string | undefined,
+  location: string | undefined,
   metadata: any,
 ): Promise<any> => {
   const queries: any[] = [];
@@ -739,7 +740,7 @@ const upsertRecord = async (
 
   if (!material) {
     winstonLogger.error('usperRecord: did not find material to upsert: ', materialID);
-    throw new Error("Did not find material to upsert")
+    throw new Error('Did not find material to upsert');
   }
 
   await EducationalMaterial.update(
@@ -974,7 +975,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
     const filename = req.params.filename;
 
     if (!filename) {
-      return next(new ErrorHandler(400, "Missing request param filename"));
+      return next(new ErrorHandler(400, 'Missing request param filename'));
     }
 
     const materialidQuery = 'SELECT materialid FROM record WHERE filekey = $1';
@@ -987,9 +988,11 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
       educationalmaterialid: string;
     }[] = await db.any(educationalmaterialidQuery, [materialid.materialid]);
 
-    const originalMaterialId = originalMaterialIdArr?.[0]
+    const originalMaterialId = originalMaterialIdArr?.[0];
 
-    let educationalmaterialId = originalMaterialId ? parseInt(originalMaterialId.educationalmaterialid, 10) :parseInt(materialid.materialid, 10)
+    let educationalmaterialId = originalMaterialId
+      ? parseInt(originalMaterialId.educationalmaterialid, 10)
+      : parseInt(materialid.materialid, 10);
 
     // Pass educational material ID to the next function in request chain.
     res.locals.id = educationalmaterialId;
@@ -1008,7 +1011,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
   } catch (err) {
     if (!res.headersSent) {
       winstonLogger.error('downloadFile error:', err);
-      next(new ErrorHandler(400, "Unkown error"));
+      next(new ErrorHandler(400, 'Unkown error'));
     }
   }
 };
@@ -1049,23 +1052,23 @@ export const downloadFileFromStorage = async (
       if (!fileDetails) {
         return next(new ErrorHandler(404, 'Requested file ' + fileName + ' not found.'));
       }
-        // Check if Range HTTP header is present and the criteria for streaming service redirect are fulfilled.
-        if (
-          config.STREAM_REDIRECT_CRITERIA.streamEnabled &&
-          req.headers['range'] &&
-          (await requestRedirected(fileDetails, fileName))
-        ) {
-          res.setHeader('Location', config.STREAM_REDIRECT_CRITERIA.redirectUri + fileName);
-          res.status(302);
-          resolve(undefined);
-          return;
-        }
-        const params: { Bucket: string; Key: string } = {
-          Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
-          Key: (req.params.filename as string) || (req.params.key as string),
-        };
-        const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip);
-        resolve(resp);
+      // Check if Range HTTP header is present and the criteria for streaming service redirect are fulfilled.
+      if (
+        config.STREAM_REDIRECT_CRITERIA.streamEnabled &&
+        req.headers['range'] &&
+        (await requestRedirected(fileDetails, fileName))
+      ) {
+        res.setHeader('Location', config.STREAM_REDIRECT_CRITERIA.redirectUri + fileName);
+        res.status(302);
+        resolve(undefined);
+        return;
+      }
+      const params: { Bucket: string; Key: string } = {
+        Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
+        Key: (req.params.filename as string) || (req.params.key as string),
+      };
+      const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip);
+      resolve(resp);
     } catch (err) {
       winstonLogger.error('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
       next(new ErrorHandler(500, 'Downloading a single file failed in downloadFileFromStorage()'));
@@ -1197,11 +1200,10 @@ export const downloadAllMaterialsCompressed = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+  const edumaterialid = req.params.edumaterialid;
 
-  const edumaterialid =  req.params.edumaterialid
-  
   if (!edumaterialid) {
-      return next(new ErrorHandler(400, 'Missing edumaterialid req param'));
+    return next(new ErrorHandler(400, 'Missing edumaterialid req param'));
   }
 
   // Queries to resolve files of the latest educational material version requested.
@@ -1266,11 +1268,7 @@ export const downloadAllMaterialsCompressed = async (
  * @param keys  string[] Array of object storage keys
  * @param files string[] Array of file names
  */
-const downloadAndZipFromStorage = (
-  res: Response,
-  keys: string[],
-  files: EntryData[],
-): Promise<void> => {
+const downloadAndZipFromStorage = (res: Response, keys: string[], files: EntryData[]): Promise<void> => {
   return new Promise((resolve, reject): void => {
     const s3: S3Client = new S3Client({
       region: process.env.CLOUD_STORAGE_REGION,
@@ -1332,12 +1330,12 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     // Return the full path of index.html.
     const indexHtmlPaths: string[] = searchRecursive(targetUnzipFolder, 'index.html');
     if (Array.isArray(indexHtmlPaths) && indexHtmlPaths.length) {
-      return indexHtmlPaths[0] || false
+      return indexHtmlPaths[0] || false;
     }
     // If index.html not found, search recursively for index.htm in the target unzip folder.
     const indexHtmPaths = searchRecursive(targetUnzipFolder, 'index.htm');
     if (Array.isArray(indexHtmPaths) && indexHtmPaths.length) {
-      return indexHtmPaths[0] || false
+      return indexHtmPaths[0] || false;
     }
     // The web site is not functional without an index file => return false.
     return false;
