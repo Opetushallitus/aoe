@@ -61,11 +61,6 @@
       "automerge": false
     },
     {
-      "groupName": "logstash",
-      "matchPackageNames": ["net.logstash.logback"],
-      "automerge": false
-    },
-    {
       "groupName": "httpclient5",
       "automerge": true,
       "matchUpdateTypes": [
@@ -73,6 +68,33 @@
         "patch"
       ],
       "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
+    },
+    {
+      "groupName": "Bootstrap",
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["bootstrap"]
+    },
+    {
+      "groupName": "Multer",
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["multer", "@types/multer"]
+    },
+    {
+      "groupName": "Http Proxy Middleware",
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["http-proxy-middleware"]
     }
   ],
   "prConcurrentLimit": 10
