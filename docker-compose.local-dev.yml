@@ -149,7 +149,7 @@ services:
       - ./aoe-web-backend/.env
 
   redis:
-    image: redis:6.2.4-alpine
+    image: redis:6.2.4-alpine@sha256:0039796b887fd30e460353f14e46ba1004152aa97f5f59094cc21eac445fc89b
     container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
@@ -168,7 +168,7 @@ services:
       - 6379:6379
 
   aoe-postgres:
-    image: postgres:15-alpine
+    image: postgres:15-alpine@sha256:2985f77749c75e90d340b8538dbf55d4e5b2c5396b2f05b7add61a7d8cd50a99
     container_name: aoe-postgres
     ports:
       - 5432:5432
@@ -187,7 +187,7 @@ services:
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
-    image: opensearchproject/opensearch:2.10.0
+    image: opensearchproject/opensearch:2.10.0@sha256:c8f3ebd2a9340acbed0df8b7ba057dd013df829c5385fb03f4053473bdd8c1b6
     container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
@@ -212,7 +212,7 @@ services:
       - 9600:9600
 
   aoe-mongodb:
-    image: mongo:6.0
+    image: mongo:6.0@sha256:2c6f0a6f33856597ad3d467a71af506bec71e73d945ead65b1af119be38b4c43
     container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
@@ -227,7 +227,7 @@ services:
       - 27017:27017
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
+    image: confluentinc/cp-zookeeper:7.0.1@sha256:8c2977ab33ae92f804d703daa9aa72b0dc2c15f07292f5e076cf48dd304d24d2
     container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -243,7 +243,7 @@ services:
       - 2181:2181
 
   kafka:
-    image: confluentinc/cp-kafka:7.0.1
+    image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
     container_name: kafka
     depends_on:
       zookeeper:
@@ -267,7 +267,7 @@ services:
       start_period: 30s
 
   kafka2:
-    image: confluentinc/cp-kafka:7.0.1
+    image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
     container_name: kafka2
     depends_on:
       zookeeper:
@@ -291,7 +291,7 @@ services:
       start_period: 30s
 
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack:latest@sha256:5d8145b9bc002868b03a191fe44623a77fa22809e5ba67b74b65fa24d91c1d27
     container_name: localstack 
     networks:
       default:
@@ -314,7 +314,7 @@ services:
 
   aoe-oidc-server:
     hostname: aoe-oidc-server
-    image: ghcr.io/soluto/oidc-server-mock:9.0.1
+    image: ghcr.io/soluto/oidc-server-mock:9.0.1@sha256:4cf0fe8752cdf78266e5178ee6551762e398ec0c6be6abea154fab32646db6b0
     container_name: aoe-oidc-server
     restart: on-failure:2
     expose:
@@ -424,7 +424,7 @@ services:
         }
 
   nginx:
-    image: nginx:latest
+    image: nginx:latest@sha256:6784fb0834aa7dbbe12e3d7471e69c290df3e6ba810dc38b34ae33d3c1c05f7d
     container_name: nginx
     hostname: nginx
     ports:
