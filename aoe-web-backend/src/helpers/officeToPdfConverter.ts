@@ -110,7 +110,7 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
       Bucket: config.CLOUD_STORAGE_CONFIG.bucketPDF,
       Key: req.params.key,
     };
-    await downloadFromStorage(req, res, next, params, req.params.key);
+    await downloadFromStorage(res, next, params, req.params.key);
   } catch (error) {
     winstonLogger.error(error);
     next(new ErrorHandler(error.statusCode, 'Issue showing pdf'));

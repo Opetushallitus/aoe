@@ -11,30 +11,30 @@ trap clean EXIT
 
 compose="docker compose -p aoe_ci -f docker-compose.ci-playwright.yml"
 
+TRUST_STORE_PASSWORD=ci-super-secret
+
 readonly compose
 
 function clean {
-  $compose down
+  $compose --profile aoe down
 }
 
 function start_services {
-  $compose --profile aoe up -d
+
+  if running_on_gh_actions; then
+    export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
+    export AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
+    export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
+    export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
+    export AOE_SEMANTIC_APIS_TAG="${github_registry}aoe-semantic-apis:${revision}"
+    export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
+
+  fi
+  $compose --profile aoe up --no-build -d
 }
 
 function run_playwright_tests {
-  $compose --profile test up --build
-}
-
-function require_built_images {
-  if running_on_gh_actions; then
-    get_ecr_login_credentials
-  fi
-
-  require_service_image "aoe-web-backend"
-  require_service_image "aoe-web-frontend"
-  require_service_image "aoe-data-services"
-  require_service_image "aoe-streaming-app"
-  require_service_image "aoe-semantic-apis"
+  $compose --profile test up --no-build --force-recreate
 }
 
 function main {
@@ -42,23 +42,11 @@ function main {
   cd "$repo"
   use_correct_node_version
   require_command "docker"
-  docker build -t playwright-image -f Dockerfile.playwright-test-runner .
-  require_built_images
+  $compose --profile test build
   start_services
 
   run_playwright_tests
   clean
-}
-
-function require_service_image {
-  service=$1
-  if running_on_gh_actions; then
-    local img_tag="$github_registry${service}:${revision}"
-    require_built_image "$img_tag"
-  else
-    local img_tag="${service}:latest"
-    require_built_image "$img_tag"
-  fi
 }
 
 main "$@"

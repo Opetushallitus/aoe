@@ -6,10 +6,14 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
-      args:
-        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-ci}
-    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
+    image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend:latest}
+    container_name: aoe-web-frontend
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
@@ -21,6 +25,9 @@ services:
       - 33344:8080
     networks:
       - default
+    environment:
+      - ENV=ci
+
   test-runner:
     profiles: [test]
     build:
@@ -29,17 +36,23 @@ services:
     networks:
       - default
     volumes:
-      - ./ci/screenshots:/screenshots
-      - ./ci/test-results:/playwright-results
+      - ./screenshots:/screenshots
+      - ./playwright-results:/playwright-results
     environment:
       - CI=true
+      - GITHUB_SHA
+      - GITHUB_SERVER_URL
+      - GITHUB_REPOSITORY
+      - GITHUB_RUN_ID
+
   aoe-streaming-app:
     profiles: [aoe]
     hostname: aoe-streaming-app
     build:
       context: aoe-streaming-app
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
+    image: ${AOE_STREAMING_APP_TAG:-aoe-streaming-app:latest}
+    container_name: aoe-streaming-app
     restart: unless-stopped
     environment:
       - NODE_ENV=development
@@ -47,7 +60,7 @@ services:
     ports:
       - 3001:3001
     env_file:
-      - path: ./aoe-streaming-app/.env
+      - path: ./aoe-streaming-app/.env.ci
     depends_on:
         localstack:
           condition: service_started
@@ -58,7 +71,7 @@ services:
     build:
       context: aoe-data-services
       dockerfile: ./oaipmh-provider/Dockerfile
-    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
+    image: ${AOE_DATA_SERVICES_TAG:-aoe-data-services:latest}
     restart: unless-stopped
     depends_on:
       aoe-web-backend:
@@ -66,7 +79,7 @@ services:
     ports:
       - 8002:8002
     env_file:
-      - path: ./aoe-data-services/.env
+      - path: ./aoe-data-services/.env.ci
 
   aoe-semantic-apis:
     profiles: [aoe]
@@ -74,7 +87,8 @@ services:
     build:
       context: aoe-semantic-apis
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
+    image: ${AOE_SEMANTIC_APIS_TAG:-aoe-semantic-apis:latest}
+    container_name: aoe-semantic-apis
     restart: unless-stopped
     depends_on:
       redis:
@@ -86,7 +100,7 @@ services:
     ports:
       - 3002:3002
     env_file:
-      - path: ./aoe-semantic-apis/.env
+      - path: ./aoe-semantic-apis/.env.ci
         required: true
     command: sh -c "yarn serve"
 
@@ -98,7 +112,8 @@ services:
       dockerfile: ./service-etl-processor/Dockerfile
       secrets:
         - trust_store_password
-    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
+    image: ${AOE_DATA_ANALYTICS_TAG:-aoe-data-analytics:latest}
+    container_name: aoe-data-analytics
     restart: unless-stopped
     depends_on:
       kafka:
@@ -113,7 +128,7 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - path: ./aoe-data-analytics/.env
+      - path: ./aoe-data-analytics/.env.ci
     logging:
       options:
         max-size: '10m'
@@ -124,7 +139,8 @@ services:
     build:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
-    image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
+    image: ${AOE_WEB_BACKEND_TAG:-aoe-web-backend:latest}
+    container_name: aoe-web-backend
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
       interval: 10s
@@ -156,9 +172,11 @@ services:
       - 3000:3000
     env_file:
       - ./aoe-web-backend/.env.ci
+
   redis:
     profiles: [aoe]
     image: redis:6.2.4-alpine
+    container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
     restart: unless-stopped
@@ -178,12 +196,18 @@ services:
   aoe-postgres:
     profiles: [aoe]
     image: postgres:15-alpine
+    container_name: aoe-postgres
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: aoeuser
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aoeuser" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/1-init.sql
       - ./docker/init-scripts/aoe-user.sql:/docker-entrypoint-initdb.d/2-init.sql
@@ -192,15 +216,13 @@ services:
   opensearch:
     profiles: [aoe]
     image: opensearchproject/opensearch:2.10.0
+    container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - plugins.security.disabled=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-    volumes:
-      - ./docker/dev/os_data:/usr/share/opensearch/data
+      - DISABLE_SECURITY_PLUGIN=true
     ulimits:
       memlock:
         soft: -1
@@ -217,10 +239,13 @@ services:
   aoe-mongodb:
     profiles: [aoe]
     image: mongo:6.0
+    container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
       MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
       MONGO_INITDB_DATABASE: aoe
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
     volumes:
       - ./docker/dev/mongo_data:/data/db
       - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
@@ -230,6 +255,7 @@ services:
   zookeeper:
     profiles: [aoe]
     image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -246,6 +272,7 @@ services:
   kafka:
     profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -270,6 +297,7 @@ services:
   kafka2:
     profiles: [aoe]
     image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka2
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -294,6 +322,7 @@ services:
   localstack:
     profiles: [aoe]
     image: localstack/localstack:latest
+    container_name: localstack 
     networks:
       default:
         aliases:
@@ -317,6 +346,7 @@ services:
     profiles: [aoe]
     hostname: aoe-oidc-server
     image: ghcr.io/soluto/oidc-server-mock:9.0.1
+    container_name: aoe-oidc-server
     restart: on-failure:2
     networks:
       - default
@@ -429,14 +459,15 @@ services:
   nginx:
     profiles: [aoe]
     image: nginx:latest
+    container_name: nginx
     hostname: nginx
     ports:
       - 443:443
       - 80:80
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/dev/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
-      - ./docker/dev/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
+      - ./docker/nginx/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
+      - ./docker/nginx/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
     networks:
       default:
         aliases:

@@ -1,27 +1,50 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
+  "extends": [
+    "config:best-practices",
+    "workarounds:javaLTSVersions",
+    ":rebaseStalePrs",
+    "npm:unpublishSafe"
+  ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
-  "automerge": false,
-  "platformAutomerge": false,
-  "automergeSchedule": ["at any time"],
-  "rebaseWhen": "behind-base-branch",
   "forkProcessing": "disabled",
-  "prCreation": "immediate",
   "ignoreTests": false,
   "automergeType": "pr",
-  "separateMajorMinor": true,
-  "separateMultipleMajor": true,
-  "enabledManagers": ["nvm", "npm", "github-actions", "dockerfile", "maven"],
+  "lockFileMaintenance": { "enabled": true },
+  "schedule": [
+    "at any time"
+  ],
+  "automergeSchedule": [
+    "at any time"
+  ],
+  "platformAutomerge": true,
+  "automerge": true,
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": true
+  },
+  "enabledManagers": [
+    "nvm", 
+    "npm", 
+    "github-actions", 
+    "docker-compose",
+    "dockerfile", 
+    "maven"
+  ],
   "github-actions": { "automerge": true },
   "dockerfile": { "automerge": true },
+  "docker-compose": { "automerge": true },
   "packageRules": [
     {
+      "automerge": false,
+      "matchPackageNames": ["*"]
+    },
+    {
       "matchManagers": ["npm"],
-      "enabled": true,
       "automerge": false,
       "matchUpdateTypes": ["major", "minor", "patch"],
       "matchPackageNames": ["*"]
@@ -35,12 +58,21 @@
     {
       "groupName": "Spring Boot",
       "matchPackageNames": ["org.springframework.boot"],
-      "enabled": false
+      "automerge": false
     },
     {
       "groupName": "logstash",
       "matchPackageNames": ["net.logstash.logback"],
-      "enabled": false
+      "automerge": false
+    },
+    {
+      "groupName": "httpclient5",
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
     }
   ],
   "prConcurrentLimit": 10

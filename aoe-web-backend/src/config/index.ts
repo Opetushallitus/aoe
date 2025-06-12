@@ -12,13 +12,6 @@ process.env.CLOUD_STORAGE_REGION || missingEnvs.push('CLOUD_STORAGE_REGION');
 process.env.CLOUD_STORAGE_BUCKET || missingEnvs.push('CLOUD_STORAGE_BUCKET');
 process.env.CLOUD_STORAGE_BUCKET_PDF || missingEnvs.push('CLOUD_STORAGE_BUCKET_PDF');
 process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL || missingEnvs.push('CLOUD_STORAGE_BUCKET_THUMBNAIL');
-process.env.H5P_JSON_CONFIGURATION || missingEnvs.push('H5P_JSON_CONFIGURATION');
-process.env.H5P_PATH_LIBRARIES || missingEnvs.push('H5P_PATH_LIBRARIES');
-process.env.H5P_PATH_TEMPORARY_STORAGE || missingEnvs.push('H5P_PATH_TEMPORARY_STORAGE');
-process.env.H5P_PATH_CONTENT || missingEnvs.push('H5P_PATH_CONTENT');
-process.env.H5P_PATH_CORE || missingEnvs.push('H5P_PATH_CORE');
-process.env.H5P_PATH_EDITOR || missingEnvs.push('H5P_PATH_EDITOR');
-process.env.H5P_PLAY_API || missingEnvs.push('H5P_PLAY_API');
 process.env.H5P_USER_EMAIL || missingEnvs.push('H5P_USER_EMAIL');
 process.env.HTML_FOLDER || missingEnvs.push('HTML_FOLDER');
 process.env.MATERIAL_FILE_UPLOAD_FOLDER || missingEnvs.push('MATERIAL_FILE_UPLOAD_FOLDER');
@@ -65,6 +58,9 @@ export default {
   // Cloud storage configurations.
   CLOUD_STORAGE_CONFIG: {
     region: process.env.CLOUD_STORAGE_REGION as string,
+    endpoint: process.env.CLOUD_STORAGE_API as string,
+    accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY as string,
+    secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET as string,
     bucket: process.env.CLOUD_STORAGE_BUCKET as string,
     bucketPDF: process.env.CLOUD_STORAGE_BUCKET_PDF as string,
     bucketThumbnail: process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL as string,
@@ -76,13 +72,13 @@ export default {
     conversionToPdfEnabled: (process.env.CONVERSION_TO_PDF_ENABLED === '1') as boolean,
     htmlFolder: process.env.HTML_FOLDER as string,
     localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
-    h5pJsonConfiguration: process.env.H5P_JSON_CONFIGURATION as string,
-    h5pPathLibraries: process.env.H5P_PATH_LIBRARIES as string,
-    h5pPathTemporaryStorage: process.env.H5P_PATH_TEMPORARY_STORAGE as string,
-    h5pPathContent: process.env.H5P_PATH_CONTENT as string,
-    h5pPathCore: process.env.H5P_PATH_CORE as string,
-    h5pPathEditor: process.env.H5P_PATH_EDITOR as string,
-    h5pPlayApi: process.env.H5P_PLAY_API as string,
+    h5pJsonConfiguration: 'dist/services/config/h5p.json',
+    h5pPathTemporaryStorage: '/mnt/data/webdata/h5p/temporary-storage',
+    h5pPathContent: '/mnt/data/webdata/h5p/content',
+    h5pPathLibraries: '/app/h5p/libraries',
+    h5pPathCore: '/app/h5p/libraries/h5p-php-library',
+    h5pPathEditor: '/app/h5p/libraries/h5p-editor-php-library',
+    h5pPlayApi: (process.env.HTML_BASE_URL as string) + '/h5p/play/',
     h5pUserEmail: process.env.H5P_USER_EMAIL as string,
   } as const,
 

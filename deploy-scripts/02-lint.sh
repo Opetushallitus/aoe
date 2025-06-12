@@ -4,9 +4,6 @@ set -o errexit -o nounset -o pipefail
 # shellcheck source=../scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
 
-# shellcheck source=./deploy-functions.sh
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/deploy-functions.sh"
-
 function main {
     echo "$repo"
     cd "$repo"

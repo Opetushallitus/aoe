@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
+
+# shellcheck source=./scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
 
 FETCH_SECRETS_SCRIPT="$repo"/scripts/fetch_secrets.sh
@@ -87,12 +89,10 @@ fi
 
 export TRUST_STORE_PASSWORD=myPassword
 
-compose="docker compose -f ./docker-compose.local-dev.yml"
-
-readonly compose
+$local_compose create --build
 
 function stop() {
-  $compose down --remove-orphans || true
+  $local_compose down --remove-orphans || true
 }
 trap stop EXIT
 
@@ -128,15 +128,12 @@ function rename_services_panes_to_match_the_script_they_run_window_3 {
 
 init
 
-$compose create --build
-
 session="aoe"
 
 tmux kill-session -t $session || true
 tmux start-server
 tmux new-session -d -s $session -c "$repo" -x "$(tput cols)" -y "$(tput lines)"
 
-readonly up_cmd="$compose up --no-log-prefix"
 tmux set -g pane-border-status bottom
 tmux rename-window -t $session:0 'infra'
 tmux select-pane -t 0
@@ -157,27 +154,27 @@ tmux select-layout tiled
 
 # Pane 0: Redis
 tmux select-pane -t 0
-tmux send-keys "$up_cmd redis" C-m
+tmux send-keys "$local_up_cmd redis" C-m
 
 # Pane 1: Localstack
 tmux select-pane -t 1
-tmux send-keys "$up_cmd localstack" C-m
+tmux send-keys "$local_up_cmd localstack" C-m
 
 # Pane 2: MongoDB
 tmux select-pane -t 2
-tmux send-keys "$up_cmd aoe-mongodb" C-m
+tmux send-keys "$local_up_cmd aoe-mongodb" C-m
 
 # Pane 3: PostgreSQL
 tmux select-pane -t 3
-tmux send-keys "$up_cmd aoe-postgres" C-m
+tmux send-keys "$local_up_cmd aoe-postgres" C-m
 
 # Pane 4: oidc
 tmux select-pane -t 4
-tmux send-keys "$up_cmd aoe-oidc-server" C-m
+tmux send-keys "$local_up_cmd aoe-oidc-server" C-m
 
 # Pane 5: elasticsearch
 tmux select-pane -t 5
-tmux send-keys "$up_cmd opensearch" C-m
+tmux send-keys "$local_up_cmd opensearch" C-m
 
 rename_infra_panes_to_match_the_script_they_run
 
@@ -187,15 +184,15 @@ tmux select-pane -t 1.0
 tmux split-window -h -p 50
 
 tmux select-pane -t 1.0
-tmux send-keys "$up_cmd zookeeper" C-m
+tmux send-keys "$local_up_cmd zookeeper" C-m
 tmux split-window -v
 
 tmux select-pane -t 1.2
-tmux send-keys "$up_cmd kafka" C-m
+tmux send-keys "$repo/scripts/run-kafka.sh" C-m
 tmux split-window -v
 
 tmux select-pane -t 1.3
-tmux send-keys "$up_cmd kafka2" C-m
+tmux send-keys "$repo/scripts/run-kafka2.sh" C-m
 
 rename_infra2_panes_to_match_the_script_they_run_window_2
 
@@ -213,26 +210,26 @@ tmux split-window -v   # Pane 4
 tmux split-window -v   # Pane 5
 
 tmux select-pane -t 2.0
-tmux send-keys "$up_cmd aoe-web-backend" C-m
+tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
 
 tmux select-pane -t 2.1
-tmux send-keys "$up_cmd aoe-data-services" C-m
+tmux send-keys "$repo/scripts/run-data-services.sh" C-m
 
 tmux select-pane -t 2.2
-tmux send-keys "$up_cmd aoe-streaming-app" C-m
+tmux send-keys "$repo/scripts/run-streaming-app.sh" C-m
 
 tmux select-pane -t 2.3
-tmux send-keys "$up_cmd aoe-data-analytics" C-m
+tmux send-keys "$repo/scripts/run-data-analytics.sh" C-m
 
 tmux select-pane -t 2.4
-tmux send-keys "$up_cmd aoe-semantic-apis" C-m
+tmux send-keys "$repo/scripts/run-semantic-apis.sh" C-m
 
 tmux select-pane -t 2.5
-tmux send-keys "$up_cmd aoe-web-frontend" C-m
+tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
 
 tmux select-window -t 1
 tmux select-pane -t 1.1
-tmux send-keys "$up_cmd nginx" C-m
+tmux send-keys "$repo/scripts/run-nginx.sh" C-m
 
 rename_services_panes_to_match_the_script_they_run_window_3
 tmux select-window -t 2

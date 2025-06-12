@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 
+# shellcheck source=./common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
+
+# shellcheck source=../deploy-scripts/deploy-functions.sh
+source "$repo/deploy-scripts/deploy-functions.sh"
 
 # allow sourcing this file multiple times from different scripts
 if [ -n "${BUILD_FUNCTIONS_SOURCED:-}" ]; then

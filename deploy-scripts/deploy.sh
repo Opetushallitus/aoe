@@ -12,7 +12,7 @@ function main {
 
   start_gh_actions_group "Deploy $ENV"
   if ! running_on_gh_actions; then
-    require_aws_session_for_env $ENV
+    require_aws_session_for_env "$ENV"
     deploy --profile "aoe-$ENV"
   else 
     deploy

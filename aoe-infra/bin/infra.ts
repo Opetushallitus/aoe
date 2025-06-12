@@ -558,7 +558,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       },
       mountPoint: {
         sourceVolume: 'data',
-        containerPath: '/mnt/data',
+        containerPath: '/mnt/data', // how to mount from bastion: sudo mount -t efs -o tls,iam fs-02c2d5a3ca0064690:/ /mnt/
         readOnly: false
       }
     }
@@ -572,14 +572,16 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
-    revision: revision + "-" + environmentName,
+    revision: revision,
     allowEcsExec: environmentConfig.services.web_frontend.allow_ecs_exec,
     taskCpu: environmentConfig.services.web_frontend.cpu_limit,
     taskMemory: environmentConfig.services.web_frontend.memory_limit,
     minimumCount: environmentConfig.services.web_frontend.min_count,
     maximumCount: environmentConfig.services.web_frontend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {},
+    env_vars: {
+      ENV: environmentName
+    },
     parameter_store_secrets: [],
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,

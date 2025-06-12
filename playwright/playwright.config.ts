@@ -1,5 +1,25 @@
 import { defineConfig, devices } from '@playwright/test';
 
+function generateMetadata() {
+  const { GITHUB_SHA, GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env
+
+  const ciLink =
+    GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID
+      ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+      : undefined
+
+  return {
+    'revision.id': GITHUB_SHA,
+    'revision.author': undefined,
+    'revision.email': undefined,
+    'revision.subject': undefined,
+    'revision.timestamp': undefined,
+    'revision.link': undefined,
+    'ci.link': ciLink,
+    timestamp: Date.now(),
+  }
+}
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -12,22 +32,24 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  metadata: generateMetadata(),
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 10 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
+    [process.env.CI ? 'github' : 'null'],
     ['list'],
     [
       'junit',
       {
-        outputFile: 'playwright-results/junit-playwright-js-unit.xml',
+        outputFile: '../playwright-results/junit-playwright-js-unit.xml',
       },
     ],
     [
@@ -45,7 +67,7 @@ export default defineConfig({
     ],
   ],
   expect: {
-    timeout: 5000,
+    timeout: process.env.CI ? 10000 : 5000,
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

@@ -8,3 +8,7 @@
 .DS_Store
 
 */**/.package-lock.json.checksum
+
+/playwright-results
+/screenshots
+/node_modules

@@ -1,7 +1,4 @@
-/**
- * @ignore
- */
-export const environment = {
+export const ciEnvironment = {
   production: true,
   loginUrl: 'https://demo.aoe.fi/api',
   backendUrl: 'https://demo.aoe.fi/api/v1',
