@@ -2,7 +2,7 @@ FROM maven:3.8.4-openjdk-17-slim@sha256:150deb7b386bad685dcf0c781b9b9023a2589608
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y curl openssl perl --no-install-recommends && \
+    apt-get install -y curl openssl --no-install-recommends && \
     apt-get clean
 
 COPY ./service-etl-processor/import_rds_certs.sh /certs/import_rds_certs.sh

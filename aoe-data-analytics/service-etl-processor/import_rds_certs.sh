@@ -23,10 +23,19 @@ curl -sS "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem" > $
 
 awk 'split_after == 1 {n++;split_after=0} /-----END CERTIFICATE-----/ {split_after=1}{print > "rds-ca-" n ".pem"}' < ${mydir}/global-bundle.pem
 
-for CERT in rds-ca-*; do
-  alias=$(openssl x509 -noout -text -in "$CERT" | perl -ne 'next unless /Subject:/; s/.*(CN=|CN = )//; print')
-  echo "Importing $alias"
-  keytool -import -file "${CERT}" -alias "${alias}" -storepass "${storepassword}" -keystore ${truststore} -noprompt
+for CERT in rds-ca-*.pem; do
+  subject=$(openssl x509 -noout -subject -in "$CERT")
+  cn=$(echo "$subject" | awk -F'CN=' '{print $2}' | cut -d'/' -f1 | cut -d',' -f1)
+
+  # Fallback if CN is empty or malformed
+  if [ -z "$cn" ]; then
+    cn="cert$(date +%s%N)"
+  fi
+
+  cn_safe=$(echo "$cn" | tr -cd '[:alnum:]_-')
+
+  echo "Importing $cn with keytool safe alias: $cn_safe"
+  keytool -import -file "${CERT}" -alias "${cn_safe}" -storepass "${storepassword}" -keystore ${truststore} -noprompt
   rm "$CERT"
 done
 
