@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 01-build.sh
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Send build status "in progress"
         if: github.ref == 'refs/heads/main'
@@ -28,7 +28,7 @@ jobs:
 
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3.3.0
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -58,7 +58,7 @@ jobs:
     runs-on: 'ubuntu-24.04'
     steps:
       - name: Fetch history for all branches and tags
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           fetch-depth: 0
       - name: Push image
@@ -77,13 +77,13 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v4
         with:
           role-to-assume: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
           role-session-name: aoe-runner-run-tests
           aws-region: eu-west-1
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3.3.0
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
