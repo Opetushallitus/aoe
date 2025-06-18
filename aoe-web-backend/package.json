@@ -72,7 +72,7 @@
     "openid-client": "^5.0.0",
     "passport": "^0.7.0",
     "pdf-parse": "^1.1.1",
-    "pg-promise": "^10.7.3",
+    "pg-promise": "^11.0.0",
     "redis": "^4.6.13",
     "s3-zip": "^3.3.0",
     "sequelize": "^6.33.0",
