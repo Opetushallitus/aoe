@@ -23,7 +23,7 @@ services:
       - 8282:80
       - 33344:8080
     environment:
-      - ENV=dev
+      - ENV=demo
 
   aoe-streaming-app:
     hostname: aoe-streaming-app
@@ -184,7 +184,6 @@ services:
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/1-init.sql
       - ./docker/init-scripts/aoe-user.sql:/docker-entrypoint-initdb.d/2-init.sql
-      - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
     image: opensearchproject/opensearch:2.10.0@sha256:c8f3ebd2a9340acbed0df8b7ba057dd013df829c5385fb03f4053473bdd8c1b6
