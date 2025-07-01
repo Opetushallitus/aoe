@@ -33,15 +33,15 @@ import { DocumentdbStack } from '../lib/documentdb-stack'
 import { MskStack } from '../lib/msk-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
-import { SesStack } from "../lib/ses-stack";
+import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
-import { GuardDutyS3Stack } from "../lib/quard-duty-stack";
+import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
 
 const app = new cdk.App()
 
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
-const utilityAccountId: string = "637423428507"
+const utilityAccountId: string = '637423428507'
 const envEU = { region: 'eu-west-1' }
 const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
 const envUS = { region: 'us-east-1' }
@@ -52,7 +52,6 @@ function getRevisionFromEnv() {
   }
   throw new Error('Missing revision env variable')
 }
-
 
 // Allow any in this case, since we don't want to explicitely type json data
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -75,7 +74,6 @@ if (environmentName === 'utility') {
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
-
   const revision = getRevisionFromEnv()
 
   const domain = environmentConfig.aws.domain
@@ -89,7 +87,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEUAccount,
 
     slackChannelName: `valvonta-aoe-${environmentName}`,
-    environment: environmentName,
+    environment: environmentName
   })
 
   // Remember to update KMS key removal policy
@@ -124,7 +122,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const SES = new SesStack(app, 'SesStack', {
     env: envEU,
     hostedZone: HostedZones.publicHostedZone
-  });
+  })
 
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
     env: envEU,
@@ -161,7 +159,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
     subnetGroup: AuroraCommons.auroraSubnetGroup,
-    alarmSnsTopic: Monitor.topic,
+    alarmSnsTopic: Monitor.topic
   })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
@@ -274,14 +272,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const s3GetObjectPolicyStatement = new PolicyStatement({
-    actions: [ 's3:GetObject', 's3:GetObjectVersion' ],
-    resources: buckets.flatMap((bucket) => [ `${bucket.bucketArn}/*` ]),
+    actions: ['s3:GetObject', 's3:GetObjectVersion'],
+    resources: buckets.flatMap((bucket) => [`${bucket.bucketArn}/*`]),
     conditions: {
       StringNotEqualsIfExists: {
-        "s3:ExistingObjectTag/GuardDutyMalwareScanStatus": "THREATS_FOUND"
+        's3:ExistingObjectTag/GuardDutyMalwareScanStatus': 'THREATS_FOUND'
       }
     }
-  });
+  })
 
   const efs = new EfsStack(app, 'AOEefsStack', {
     env: envEU,
@@ -292,7 +290,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
-    environment : environmentName,
+    environment: environmentName,
     instances: environmentConfig.document_db.instances,
     instanceType: environmentConfig.document_db.instanceType,
     env: envEU,
@@ -415,7 +413,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     albPriority: 110,
     iAmPolicyStatements: [s3PolicyStatement, s3GetObjectPolicyStatement],
     privateDnsNamespace: namespace.privateDnsNamespace,
-    alarmSnsTopic: Monitor.topic,
+    alarmSnsTopic: Monitor.topic
   })
 
   new EcsServiceStack(app, 'DataServicesEcsService', {
@@ -482,11 +480,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const sesIamPolicy = new iam.PolicyStatement({
-    actions: [ 'ses:SendEmail' ],
-    resources: [
-      SES.emailIdentity.emailIdentityArn
-    ]
-  });
+    actions: ['ses:SendEmail'],
+    resources: [SES.emailIdentity.emailIdentityArn]
+  })
 
   new EcsServiceStack(app, 'WebBackendEcsService', {
     env: envEU,
@@ -540,7 +536,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       efsPolicyStatement,
       kafkaClusterIamPolicy,
       kafkaTopicIamPolicy,
-      sesIamPolicy,
+      sesIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic,

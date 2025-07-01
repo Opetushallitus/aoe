@@ -13,7 +13,7 @@ $large-display: 1920px;
     $result: $size * 1.2;
     font-size: $result;
   }
-  
+
   @media only screen and (max-width: $large-display) {
     $result: $size * 1.2;
     font-size: $result;

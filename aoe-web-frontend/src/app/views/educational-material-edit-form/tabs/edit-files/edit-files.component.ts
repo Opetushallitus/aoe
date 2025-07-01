@@ -452,13 +452,14 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           priority: material.priority,
         };
         let postResponse: LinkPostResponse;
-        this.materialService.postLink(payload, this.educationalMaterialID)
-        .pipe(catchError(MaterialService.handleError))
-        .subscribe(
-          (response: LinkPostResponse) => (postResponse = response),
-          (error) => console.error(error),
-          () => this.completeLinkPost(postResponse, i),
-        );
+        this.materialService
+          .postLink(payload, this.educationalMaterialID)
+          .pipe(catchError(MaterialService.handleError))
+          .subscribe(
+            (response: LinkPostResponse) => (postResponse = response),
+            (error) => console.error(error),
+            () => this.completeLinkPost(postResponse, i),
+          );
       }
     });
   }

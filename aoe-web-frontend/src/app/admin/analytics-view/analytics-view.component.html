@@ -190,12 +190,19 @@
         </ng-select>
       </div>
     </div>
-    <button type="submit" [disabled]="formGroupUsage.invalid" class="btn btn-blue" data-testid='käyttömäärä-button' #activitySubmit>Hae tiedot</button>
+    <button
+      type="submit"
+      [disabled]="formGroupUsage.invalid"
+      class="btn btn-blue"
+      data-testid="käyttömäärä-button"
+      #activitySubmit>
+      Hae tiedot
+    </button>
     &nbsp;&nbsp;
     <button (click)="resetFormActivity($event)" class="btn btn-cancel">Tyhjennä</button>
   </form>
   <br />
-  <app-line-chart data-testid='käyttömäärä-chart' [options]="eChartsOptionActivity"></app-line-chart>
+  <app-line-chart data-testid="käyttömäärä-chart" [options]="eChartsOptionActivity"></app-line-chart>
   <br />
 </section>
 <br />

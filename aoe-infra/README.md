@@ -18,27 +18,27 @@ With aws sso login spell above, you must define `--profile <target-account-aws-p
 
 Example: `npx cdk deploy -c environment=dev DataAnalyticsAuroraStack --profile aoe-dev`
 
-
 ## cdk command examples for deploying the project stacks
 
-* `npx cdk deploy -c environment=<dev/qa/prod/utility> --all`  deploy all stacks to the target environment
-* `npx cdk destroy -c environment=<dev/qa/prod/utility> --all`  destroy all stacks to the target environment (note: you need to empty S3 - buckets etc. manually)
-* `npx npx cdk deploy -c environment=dev WebBackendAuroraStack` deploy only WebBackendAuroraStack (and any change in it's dependencies)
-* `npx npx cdk destroy -c environment=dev WebBackendAuroraStack` destroy only WebBackendAuroraStack (and any change in it's dependencies)
+- `npx cdk deploy -c environment=<dev/qa/prod/utility> --all` deploy all stacks to the target environment
+- `npx cdk destroy -c environment=<dev/qa/prod/utility> --all` destroy all stacks to the target environment (note: you need to empty S3 - buckets etc. manually)
+- `npx npx cdk deploy -c environment=dev WebBackendAuroraStack` deploy only WebBackendAuroraStack (and any change in it's dependencies)
+- `npx npx cdk destroy -c environment=dev WebBackendAuroraStack` destroy only WebBackendAuroraStack (and any change in it's dependencies)
 
 ## Generic cdk commands
-* `npx cdk diff`    compare deployed stack with current state
-* `npx npm run build`   compile typescript to js
-* `npx npm run watch`   watch for changes and compile
-* `npx npm run test`    perform the jest unit tests
-* `npx cdk synth`   emits the synthesized CloudFormation template
+
+- `npx cdk diff` compare deployed stack with current state
+- `npx npm run build` compile typescript to js
+- `npx npm run watch` watch for changes and compile
+- `npx npm run test` perform the jest unit tests
+- `npx cdk synth` emits the synthesized CloudFormation template
 
 ## Environment variables
 
 Environment variables have been split into two places;
 
-* `environments/<environment>.json` contains environment specific non-sensitive configuration
-* AWS Parameter Store contains variables with sensitive information. Parameters in the parameter store are expected to be prefixed with `/<environment>/<serviceName>/`
+- `environments/<environment>.json` contains environment specific non-sensitive configuration
+- AWS Parameter Store contains variables with sensitive information. Parameters in the parameter store are expected to be prefixed with `/<environment>/<serviceName>/`
 
 ## Subnetting
 
@@ -50,10 +50,11 @@ First, add a new Security Group and Security Group rules to the `security-groups
 
 ## Adding a new database
 
-Then, 
-- add a new Security Group and Security Group rules to the `security-groups.ts`, 
+Then,
+
+- add a new Security Group and Security Group rules to the `security-groups.ts`,
 - add a new secret in the `secrets-manager-stack.ts`
-- add the service/environment specific database configuration into `environments/<environment>.json` 
+- add the service/environment specific database configuration into `environments/<environment>.json`
 - create a new stack instance of `aurora-serverless-database.ts` in the `/bin/infra.ts`
 
 Aurora stack creation only creates database master user with a password stored in the AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application user must be created (and granted) separately.
@@ -61,6 +62,7 @@ Aurora stack creation only creates database master user with a password stored i
 ### Configuring Monitoring
 
 Sending Alerts is done with an SNS Topic, AWS ChatBot and Slack. To get started with sending alerts to Slack:
+
 - Create plain text parameters `/monitor/slack_channel_id` and `/monitor/slack_workspace_id` into your AWS System's Manager Parameter Store that contain Slack Workspace ID and Channel ID
 - Invite AWS ChatBot to the Slack channel
 - Head to the AWS account's ChatBot - service, hit "Configure New Client", Select "Slack" from the drop down menu and proceed to authorize the AWS account to the AWS ChatBot - Slack app.
@@ -86,7 +88,6 @@ Backup is generated under `/data/backup` directory with name `transfer-<datestam
 ### Database restore in AWS
 
 Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environment is done in following way:
-
 
 Connect to database `postgres` from bastion:
 
@@ -123,4 +124,3 @@ Grant access:
     GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reporter;
 
 Exit `psql`.
-

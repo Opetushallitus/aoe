@@ -2,7 +2,6 @@
   "arrowParens": "always",
   "bracketSameLine": true,
   "bracketSpacing": true,
-  "editor.formatOnSave": true,
   "htmlWhitespaceSensitivity": "ignore",
   "printWidth": 120,
   "semi": true,

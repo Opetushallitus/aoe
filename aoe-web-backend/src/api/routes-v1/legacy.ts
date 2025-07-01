@@ -1,4 +1,12 @@
-import { addEducationalMaterialToCollection, createCollection, getCollection, getRecentCollection, getUserCollections, removeEducationalMaterialFromCollection, updateCollection } from '@/collection/collection';
+import {
+  addEducationalMaterialToCollection,
+  createCollection,
+  getCollection,
+  getRecentCollection,
+  getUserCollections,
+  removeEducationalMaterialFromCollection,
+  updateCollection,
+} from '@/collection/collection';
 import { changeMaterialUser, getAoeUsers, getMaterialNames, removeEducationalMaterial } from '@/controllers/material';
 import { downloadPdfFromAllas } from '@/helpers/officeToPdfConverter';
 import {
@@ -9,7 +17,14 @@ import {
 import { addRating, getRating, getUserRating } from '@/rating/rating';
 import { getUserData, hasAccessToCollection, userInfo } from '@/services/authService';
 import { updateUserSettings } from '@/users/userSettings';
-import { getMaterial, getRecentMaterial, getUser, getUserMaterial, updateTermsOfUsage, updateUser } from '@query/apiQueries';
+import {
+  getMaterial,
+  getRecentMaterial,
+  getUser,
+  getUserMaterial,
+  updateTermsOfUsage,
+  updateUser,
+} from '@query/apiQueries';
 import { uploadAttachmentToMaterial, uploadMaterial } from '@query/fileHandling';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '@query/thumbnailHandler';
 import { checkAuthenticated, hasAccessToAOE, hasAccessToMaterial } from '@services/authService';

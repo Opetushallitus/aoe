@@ -9,21 +9,20 @@ if (environment.production) {
 }
 
 fetch('./assets/config/config.json')
-	.then((resp) => resp.json())
-	.then((config) => {
-    if (config.env === "ci") {
-      loadCiEnv()
-    } else if (config.env === "dev") {
-      loadDevEnv()
-    } else if (config.env === "demo") {
-      loadDemoEnv()
-    } else if (config.env === "qa") {
-      loadQaEnv()
-    } else if (config.env === "prod") {
-      loadProdEnv()
+  .then((resp) => resp.json())
+  .then((config) => {
+    if (config.env === 'ci') {
+      loadCiEnv();
+    } else if (config.env === 'dev') {
+      loadDevEnv();
+    } else if (config.env === 'demo') {
+      loadDemoEnv();
+    } else if (config.env === 'qa') {
+      loadQaEnv();
+    } else if (config.env === 'prod') {
+      loadProdEnv();
     }
     platformBrowserDynamic()
       .bootstrapModule(AppModule)
       .catch((err) => console.log(err));
-	});
-
+  });

@@ -1,8 +1,8 @@
-import { ciEnvironment } from "./environment.ci";
-import { demoEnvironment } from "./environment.demo";
-import { devEnvironment } from "./environment.dev";
-import { prodEnvironment } from "./environment.prod";
-import { qaEnvironment } from "./environment.qa";
+import { ciEnvironment } from './environment.ci';
+import { demoEnvironment } from './environment.demo';
+import { devEnvironment } from './environment.dev';
+import { prodEnvironment } from './environment.prod';
+import { qaEnvironment } from './environment.qa';
 
 export let environment = {
   production: false,
@@ -32,22 +32,21 @@ export let environment = {
 };
 
 export function loadCiEnv() {
-  environment = ciEnvironment
+  environment = ciEnvironment;
 }
 
 export function loadDevEnv() {
-  environment = devEnvironment
+  environment = devEnvironment;
 }
 
 export function loadDemoEnv() {
-  environment = demoEnvironment
+  environment = demoEnvironment;
 }
 
 export function loadQaEnv() {
-  environment = qaEnvironment
+  environment = qaEnvironment;
 }
 
 export function loadProdEnv() {
-  environment = prodEnvironment
+  environment = prodEnvironment;
 }
-

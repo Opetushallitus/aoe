@@ -6,14 +6,14 @@ Main tools are Angular, Bootstrap 4 and SASS
 
 ## Installation
 
-``` bash
+```bash
 # install app's dependencies
 $ npm install
 ```
 
 ## Usage
 
-``` bash
+```bash
 # serve with hot reload at localhost:4200.
 $ ng serve
 
@@ -64,4 +64,3 @@ aoe-web-frontend/
 ├── package.json
 └── ...
 ```
-

@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 // Load the environment variables before anything else.
 dotenv.config();
 
-import {app} from './app';
+import { app } from './app';
 import errorHandler from 'errorhandler';
 import { Socket } from 'net';
 import winstonLogger from '@util/winstonLogger';

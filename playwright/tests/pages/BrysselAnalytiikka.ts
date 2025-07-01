@@ -1,5 +1,4 @@
 import { Page } from '@playwright/test';
-import { MateriaaliFormi } from './MateriaaliFormi';
 
 export const BrysselAnalyytiikka = (page: Page) => {
   const locators = {

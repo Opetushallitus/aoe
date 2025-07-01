@@ -121,10 +121,13 @@ dbInit().catch((err: unknown): void => {
   process.exit(1);
 });
 
-app.get('/health', asyncHandler(async (_req: Request, res: Response) => {
-  await db.any('SELECT 1')
-  res.json({ status: 'ok' })
-}))
+app.get(
+  '/health',
+  asyncHandler(async (_req: Request, res: Response) => {
+    await db.any('SELECT 1');
+    res.json({ status: 'ok' });
+  }),
+);
 
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
@@ -144,7 +147,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
 });
 
 app.set('port', 3000);
-
 
 // TODO: To be removed after full refactoring of aoeScheduler.ts
 require('@util/aoeScheduler');

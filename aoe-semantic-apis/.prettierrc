@@ -10,21 +10,14 @@
   "useTabs": false,
   "overrides": [
     {
-      "files": [
-        "**/*.html",
-        "**/*.scss",
-        "**/*.css"
-      ],
+      "files": ["**/*.html", "**/*.scss", "**/*.css"],
       "options": {
         "singleQuote": false,
         "tabWidth": 2
       }
     },
     {
-      "files": [
-        "**/*.ts",
-        "**/*.js"
-      ],
+      "files": ["**/*.ts", "**/*.js"],
       "options": {
         "tabWidth": 2
       }

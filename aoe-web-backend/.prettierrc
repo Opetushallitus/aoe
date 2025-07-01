@@ -8,10 +8,7 @@
   "singleQuote": true,
   "overrides": [
     {
-      "files": [
-        "**/*.json",
-        "**/*.yml"
-      ],
+      "files": ["**/*.json", "**/*.yml"],
       "options": {
         "singleQuote": false,
         "trailingComma": "none"

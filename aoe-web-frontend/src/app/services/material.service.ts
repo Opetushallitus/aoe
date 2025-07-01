@@ -130,25 +130,29 @@ export class MaterialService {
    * @param data
    */
   postLinks(data: LinkPost): Observable<UploadMessage> {
-    return this.postLink(data, this.educationalMaterialID$$.getValue())
-      .pipe(
-        map((response: any): { message: number; status: string; visible: boolean; statusHTTP: number } => ({
-          status: 'completed',
-          message: 100,
-          visible: true,
-          statusHTTP: response.status,
-        })),
-        catchError((err: HttpErrorResponse) => of({ status: 'error', message: 100, visible: true, statusHTTP: err.status })),
-      )
+    return this.postLink(data, this.educationalMaterialID$$.getValue()).pipe(
+      map((response: any): { message: number; status: string; visible: boolean; statusHTTP: number } => ({
+        status: 'completed',
+        message: 100,
+        visible: true,
+        statusHTTP: response.status,
+      })),
+      catchError((err: HttpErrorResponse) =>
+        of({ status: 'error', message: 100, visible: true, statusHTTP: err.status }),
+      ),
+    );
   }
 
   postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
-    return this.http
-      .post<LinkPostResponse>(`${environment.backendUrlV2}/material/link/${educationalMaterialID}`, payload, {
+    return this.http.post<LinkPostResponse>(
+      `${environment.backendUrlV2}/material/link/${educationalMaterialID}`,
+      payload,
+      {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
-      })
+      },
+    );
   }
 
   createEmptyEducationalMaterial(formData: FormData): Observable<number> {

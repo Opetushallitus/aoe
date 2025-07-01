@@ -1,7 +1,17 @@
 import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '@query/apiQueries';
-import { downloadAllMaterialsCompressed, downloadFile, downloadPreviewFile, uploadFileToMaterial } from '@query/fileHandling';
+import {
+  downloadAllMaterialsCompressed,
+  downloadFile,
+  downloadPreviewFile,
+  uploadFileToMaterial,
+} from '@query/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '@query/thumbnailHandler';
-import { checkAuthenticated, hasAccessToAttachmentFile, hasAccessToMaterial, hasAccessToPublicatication } from '@services/authService';
+import {
+  checkAuthenticated,
+  hasAccessToAttachmentFile,
+  hasAccessToMaterial,
+  hasAccessToPublicatication,
+} from '@services/authService';
 import { isAllasEnabled } from '@services/routeEnablerService';
 import requestErrorHandler from '@util/requestErrorHandler';
 import requestValidator from '@util/requestValidator';
