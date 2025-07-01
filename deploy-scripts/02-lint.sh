@@ -10,7 +10,7 @@ function main {
     use_correct_node_version
 
     runLint "aoe-semantic-apis"
-    # runLint "aoe-web-frontend"
+    runLint "aoe-web-frontend"
     runLint "aoe-web-backend"
     runLint "aoe-streaming-app"
     runLint "aoe-infra"
