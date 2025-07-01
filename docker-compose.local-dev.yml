@@ -1,6 +1,5 @@
 name: aoe-local
 services:
-
   aoe-web-frontend:
     build:
       context: aoe-web-frontend
@@ -9,16 +8,13 @@ services:
     container_name: aoe-web-frontend
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
-    user: "root:5606"
-    depends_on:
-      aoe-web-backend:
-        condition: service_started
+    user: 'root:5606'
     ports:
       - 8282:80
       - 33344:8080
@@ -40,9 +36,6 @@ services:
       - 3001:3001
     env_file:
       - path: ./aoe-streaming-app/.env
-    depends_on:
-        localstack:
-          condition: service_started
 
   aoe-data-services:
     hostname: aoe-data-services
@@ -51,9 +44,6 @@ services:
       dockerfile: ./oaipmh-provider/Dockerfile
     image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
     restart: unless-stopped
-    depends_on:
-      aoe-web-backend:
-        condition: service_started
     ports:
       - 8002:8002
     env_file:
@@ -67,9 +57,7 @@ services:
     image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
     container_name: aoe-semantic-apis
     restart: unless-stopped
-    depends_on:
-      redis:
-        condition: service_healthy
+
     environment:
       - NODE_ENV=development
       - LOG_LEVEL=info
@@ -91,16 +79,16 @@ services:
     image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
     container_name: aoe-data-analytics
     restart: unless-stopped
-    depends_on:
-      kafka:
-        condition: service_healthy
-      kafka2:
-        condition: service_healthy
-      aoe-mongodb:
-        condition: service_started
-      aoe-postgres:
-        condition: service_started
-    entrypoint: ["java", "-Xms512m", "-Xmx512m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "service-etl-processor.jar"]
+
+    entrypoint:
+      [
+        'java',
+        '-Xms512m',
+        '-Xmx512m',
+        '-Djava.security.egd=file:/dev/./urandom',
+        '-jar',
+        'service-etl-processor.jar',
+      ]
     ports:
       - 8080:8080
     env_file:
@@ -117,7 +105,8 @@ services:
     image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
+      test:
+        ['CMD', 'wget', '--spider', '-q', 'http://aoe-web-backend:3000/health']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -128,19 +117,7 @@ services:
       - ./docker/dev/web/webdata:/webdata:rw
       - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
       - ./aoe-web-backend/src:/app/src:rw
-    depends_on:
-      aoe-oidc-server:
-        condition: service_healthy
-      aoe-postgres:
-        condition: service_started
-      kafka:
-        condition: service_healthy
-      kafka2:
-        condition: service_healthy
-      redis:
-        condition: service_started
-      opensearch:
-        condition: service_healthy
+
     environment:
       - NODE_ENV=development
     ports:
@@ -152,14 +129,34 @@ services:
     image: redis:6.2.4-alpine@sha256:0039796b887fd30e460353f14e46ba1004152aa97f5f59094cc21eac445fc89b
     container_name: redis
     privileged: true
-    command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
+    command:
+      [
+        'redis-server',
+        '--requirepass',
+        'dev_password',
+        '--user',
+        'devuser',
+        'on',
+        '>devuser_password',
+        '~*',
+        '+@all',
+        '--user',
+        'default',
+        'off',
+        'nopass',
+        'nocommands',
+      ]
     restart: unless-stopped
     environment:
       REDIS_REPLICATION_MODE: master
     volumes:
       - ./docker/dev/redis_data:/data
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG"]
+      test:
+        [
+          'CMD-SHELL',
+          'redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG',
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -177,7 +174,7 @@ services:
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U aoeuser" ]
+      test: ['CMD-SHELL', 'pg_isready -U aoeuser']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -194,7 +191,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - plugins.security.disabled=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
     volumes:
       - ./docker/dev/os_data:/usr/share/opensearch/data
     ulimits:
@@ -202,7 +199,7 @@ services:
         soft: -1
         hard: -1
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9200/_cluster/health']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -233,7 +230,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      test: ['CMD', 'nc', '-z', 'localhost', '2181']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -244,9 +241,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
     container_name: kafka
-    depends_on:
-      zookeeper:
-        condition: service_healthy
+
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -259,7 +254,7 @@ services:
     ports:
       - 29092:29092
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+      test: ['CMD', 'nc', '-z', 'localhost', '9092']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -268,9 +263,7 @@ services:
   kafka2:
     image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
     container_name: kafka2
-    depends_on:
-      zookeeper:
-        condition: service_healthy
+
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -283,7 +276,7 @@ services:
     ports:
       - 39092:39092
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+      test: ['CMD', 'nc', '-z', 'localhost', '9092']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -291,7 +284,7 @@ services:
 
   localstack:
     image: localstack/localstack:latest@sha256:5d8145b9bc002868b03a191fe44623a77fa22809e5ba67b74b65fa24d91c1d27
-    container_name: localstack 
+    container_name: localstack
     networks:
       default:
         aliases:
@@ -319,7 +312,13 @@ services:
     expose:
       - 80
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80/.well-known/openid-configuration" ]
+      test:
+        [
+          'CMD',
+          'curl',
+          '-f',
+          'http://localhost:80/.well-known/openid-configuration',
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -433,13 +432,6 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/nginx/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
       - ./docker/nginx/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
-    depends_on:
-      aoe-web-backend:
-        condition: service_started
-      aoe-web-frontend:
-        condition: service_started
-      aoe-semantic-apis:
-        condition: service_started
 
 networks:
   default:
