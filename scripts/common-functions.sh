@@ -24,7 +24,7 @@ NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
 local_compose="docker compose -f $repo/docker-compose.local-dev.yml"
 readonly local_compose
 
-local_up_cmd="$local_compose up --no-log-prefix"
+local_up_cmd="$local_compose up --build --no-log-prefix"
 readonly local_up_cmd
 
 function docker_run_with_aws_env {
@@ -154,7 +154,7 @@ function log {
   local -r timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 
   >&2 echo -e "${timestamp} ${level} ${message}"
-} 
+}
 
 function get_secret {
   local name="$1"
