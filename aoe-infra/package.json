@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint lib/**/*.ts bin/**/*.ts",
+    "lint": "eslint lib/**/*.ts bin/**/*.ts --ignore-pattern '**/*.d.ts'",
     "fix-lint": "npm run lint -- --fix",
     "test": "jest",
     "cdk": "cdk"
