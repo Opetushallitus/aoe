@@ -477,56 +477,77 @@ export async function getUserMaterial(req: Request, res: Response, next: NextFun
 
 export async function getRecentMaterial(req: Request, res: Response, next: NextFunction) {
   try {
-    db.task(async (t: any) => {
-      const params: any = [];
-      let query;
-      query =
-        "SELECT id FROM educationalmaterial WHERE obsoleted = '0' AND publishedat IS NOT NULL AND ( expires IS NULL OR expires > now() )  ORDER BY updatedAt DESC LIMIT 6;";
-      return t
-        .map(query, params, async (q: any) => {
-          query = 'select * from materialname where educationalmaterialid = $1;';
-          let response = await t.any(query, [q.id]);
-          q.name = response;
-          query = 'select * from materialdescription where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.description = response;
-          query = 'select * from learningresourcetype where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.learningResourceTypes = response;
-          query = 'select * from keyword where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.keywords = response;
-          query = 'select * from author where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.authors = response;
-          query = 'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
-          response = await db.oneOrNone(query, [q.id]);
-          if (response) {
-            response.thumbnail = await aoeThumbnailDownloadUrl(response.thumbnail);
-          }
-          q.thumbnail = response;
-          query = 'select * from educationallevel where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.educationalLevels = response;
-          query =
-            'select licensecode as key, license as value from educationalmaterial as m left join licensecode as l on m.licensecode = l.code WHERE m.id = $1;';
-          const responseObj = await t.oneOrNone(query, [q.id]);
-          q.license = responseObj;
-          return q;
-        })
-        .then(t.batch)
-        .catch((error: any) => {
-          winstonLogger.error(error);
-          return error;
-        });
-    }).then((data: any) => {
-      res.status(200).json(data);
+    const data = await db.task(async (t: any) => {
+      // Fetch the initial list of educational materials
+      const materials = await t.any(
+        "SELECT id FROM educationalmaterial WHERE obsoleted = '0' AND publishedat IS NOT NULL AND (expires IS NULL OR expires > now()) ORDER BY updatedAt DESC LIMIT 6;"
+      );
+
+      // Process each material to fetch additional details
+      for (const material of materials) {
+        // Fetch material names
+        material.name = await t.any(
+          'SELECT * FROM materialname WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch material descriptions
+        material.description = await t.any(
+          'SELECT * FROM materialdescription WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch learning resource types
+        material.learningResourceTypes = await t.any(
+          'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch keywords
+        material.keywords = await t.any(
+          'SELECT * FROM keyword WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch authors
+        material.authors = await t.any(
+          'SELECT * FROM author WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch thumbnail
+        const thumbnailResponse = await db.oneOrNone(
+          'SELECT filekey AS thumbnail FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0;',
+          [material.id]
+        );
+        if (thumbnailResponse) {
+          thumbnailResponse.thumbnail = await aoeThumbnailDownloadUrl(thumbnailResponse.thumbnail);
+        }
+        material.thumbnail = thumbnailResponse;
+
+        // Fetch educational levels
+        material.educationalLevels = await t.any(
+          'SELECT * FROM educationallevel WHERE educationalmaterialid = $1;',
+          [material.id]
+        );
+
+        // Fetch license information
+        material.license = await t.oneOrNone(
+          'SELECT licensecode AS key, license AS value FROM educationalmaterial AS m LEFT JOIN licensecode AS l ON m.licensecode = l.code WHERE m.id = $1;',
+          [material.id]
+        );
+      }
+
+      return materials;
     });
+
+    res.status(200).json(data);
   } catch (err) {
     winstonLogger.error(err);
     next(new ErrorHandler(500, 'Issue getting recent materials'));
   }
 }
+
 
 export async function setEducationalMaterialObsoleted(req: Request, res: Response, next: NextFunction) {
   try {
