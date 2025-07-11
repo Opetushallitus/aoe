@@ -26,7 +26,11 @@ export const loginErrorMessageEn =
 export const loginErrorMessageSv =
   'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt.';
 
-export const isAllasEnabled = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const isAllasEnabled = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   if (!config.APPLICATION_CONFIG.isCloudStorageEnabled) {
     const statusCode = 503;
     res.status(statusCode).json({
@@ -34,12 +38,18 @@ export const isAllasEnabled = async (req: Request, res: Response, next: NextFunc
       statusCode,
       message: allasErrorMessage,
     });
-    throw new Error('File upload interrupted as the cloud storage is currently disabled in the environment variables.');
+    throw new Error(
+      'File upload interrupted as the cloud storage is currently disabled in the environment variables.',
+    );
   }
   next();
 };
 
-export const isLoginEnabled = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const isLoginEnabled = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const login = Number(process.env.LOGIN_ENABLED);
     if (!login) {

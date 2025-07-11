@@ -62,7 +62,9 @@ export const sendSystemNotification = async (content: string): Promise<void> => 
       });
       winstonLogger.debug('System email notification delivery completed');
     } else {
-      winstonLogger.info('System email notification not sent while email service is currently disabled');
+      winstonLogger.info(
+        'System email notification not sent while email service is currently disabled',
+      );
     }
   } catch (error) {
     winstonLogger.error('System email notification delivery failed: ' + error);

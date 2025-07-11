@@ -140,7 +140,10 @@ export const updateEducationalMaterialMetadata = async (
       return next(
         new ErrorHandler(
           400,
-          'Metadata update for the educational material failed: edumaterialid=' + emid + ', metadata=' + metadata,
+          'Metadata update for the educational material failed: edumaterialid=' +
+            emid +
+            ', metadata=' +
+            metadata,
         ),
       );
     }
@@ -150,7 +153,11 @@ export const updateEducationalMaterialMetadata = async (
     // Update the search index after educational material changes.
     await updateEsDocument();
 
-    if (Number(process.env.PID_SERVICE_ENABLED) === 1 && eduMaterial[1] && eduMaterial[1].publishedat) {
+    if (
+      Number(process.env.PID_SERVICE_ENABLED) === 1 &&
+      eduMaterial[1] &&
+      eduMaterial[1].publishedat
+    ) {
       const aoeurl: string = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat);
       const pidurn = await pidResolutionService.registerPID(aoeurl);
       await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn);

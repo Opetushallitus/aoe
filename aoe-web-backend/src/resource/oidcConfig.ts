@@ -3,7 +3,13 @@ import { isLoginEnabled } from '@services/routeEnablerService';
 import winstonLogger from '@util/winstonLogger';
 import { CookieOptions, Express, Request, Response } from 'express';
 import { Cookie } from 'express-session';
-import openidClient, { Client, custom, HttpOptions, TokenSet, UserinfoResponse } from 'openid-client';
+import openidClient, {
+  Client,
+  custom,
+  HttpOptions,
+  TokenSet,
+  UserinfoResponse,
+} from 'openid-client';
 import passport from 'passport';
 
 const Issuer = openidClient.Issuer;
@@ -29,7 +35,11 @@ Issuer.discover(process.env.PROXY_URI)
       'oidc',
       new Strategy(
         { client },
-        (_tokenset: TokenSet, userinfo: UserinfoResponse, done: (err: any, user?: User) => void): void => {
+        (
+          _tokenset: TokenSet,
+          userinfo: UserinfoResponse,
+          done: (err: any, user?: User) => void,
+        ): void => {
           insertUserToDatabase(userinfo)
             .then(() => {
               const nameparsed: string = userinfo.given_name + ' ' + userinfo.family_name;

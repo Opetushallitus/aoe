@@ -10,7 +10,18 @@ const PG_USER: string = config.POSTGRESQL_OPTIONS.user;
 const PG_PASS: string = config.POSTGRESQL_OPTIONS.pass;
 const PG_DATA: string = config.POSTGRESQL_OPTIONS.data;
 
-const PG_URL_FULL: string = ['postgres://', PG_USER, ':', PG_PASS, '@', PG_HOST, ':', PG_PORT, '/', PG_DATA].join('');
+const PG_URL_FULL: string = [
+  'postgres://',
+  PG_USER,
+  ':',
+  PG_PASS,
+  '@',
+  PG_HOST,
+  ':',
+  PG_PORT,
+  '/',
+  PG_DATA,
+].join('');
 const PG_URL_HOST: string = ['postgres://', PG_HOST, ':', PG_PORT].join('');
 
 // Options and error handlers for pg-promise.

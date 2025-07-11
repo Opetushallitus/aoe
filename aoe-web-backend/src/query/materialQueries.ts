@@ -67,7 +67,8 @@ export async function getOwnerName(materialid: string) {
 
 export async function getMaterialName(materialid: string) {
   try {
-    const query = 'select materialname, language from materialname where educationalmaterialid = $1';
+    const query =
+      'select materialname, language from materialname where educationalmaterialid = $1';
     return await db.any(query, [materialid]);
   } catch (error) {
     throw new Error(error);

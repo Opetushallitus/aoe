@@ -11,7 +11,11 @@ import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling';
  * @param res
  * @param next
  */
-export const uploadbase64Image = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const uploadbase64Image = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   try {
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('application/json')) {
@@ -24,9 +28,20 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
       const extension = mime.getExtension(matches[1]);
       const fileName = 'thumbnail-' + Date.now() + '.' + extension;
       const buffer: Buffer = Buffer.from(base64Data, 'base64');
-      const obj: any = await uploadBase64FileToStorage(buffer, fileName, process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL);
+      const obj: any = await uploadBase64FileToStorage(
+        buffer,
+        fileName,
+        process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL,
+      );
       if (req.params.edumaterialid) {
-        await updateEmThumbnailData(obj.Location, matches[1], req.params.edumaterialid, fileName, obj.Key, obj.Bucket);
+        await updateEmThumbnailData(
+          obj.Location,
+          matches[1],
+          req.params.edumaterialid,
+          fileName,
+          obj.Key,
+          obj.Bucket,
+        );
       } else {
         await updateCollectionThumbnailData(
           obj.Location,
@@ -51,7 +66,11 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
  * @param res
  * @param next
  */
-export const downloadEmThumbnail = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const downloadEmThumbnail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   try {
     const key = req.params.filename || req.params.id;
     if (!key) {
@@ -59,7 +78,12 @@ export const downloadEmThumbnail = async (req: Request, res: Response, next: Nex
     }
     await downloadThumbnail(req, res, next, key);
   } catch (error) {
-    next(new ErrorHandler(500, 'downloadEmThumbnail() Downloading the thumbnail image failed: ' + error));
+    next(
+      new ErrorHandler(
+        500,
+        'downloadEmThumbnail() Downloading the thumbnail image failed: ' + error,
+      ),
+    );
   }
 };
 
@@ -68,7 +92,11 @@ export const downloadEmThumbnail = async (req: Request, res: Response, next: Nex
  * @param res
  * @param next
  */
-export const downloadCollectionThumbnail = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const downloadCollectionThumbnail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   try {
     const key = req.params.id;
     if (!key) {
@@ -77,7 +105,12 @@ export const downloadCollectionThumbnail = async (req: Request, res: Response, n
     await downloadThumbnail(req, res, next, key);
   } catch (error) {
     winstonLogger.error(error);
-    next(new ErrorHandler(500, 'downloadCollectionThumbnail() Downloading the thumbnail image failed: ' + error));
+    next(
+      new ErrorHandler(
+        500,
+        'downloadCollectionThumbnail() Downloading the thumbnail image failed: ' + error,
+      ),
+    );
   }
 };
 
@@ -134,7 +167,10 @@ async function updateEmThumbnailData(
   );
   try {
     let query;
-    query = 'UPDATE thumbnail ' + 'SET obsoleted = 1 ' + 'WHERE educationalmaterialid = $1 AND obsoleted = 0';
+    query =
+      'UPDATE thumbnail ' +
+      'SET obsoleted = 1 ' +
+      'WHERE educationalmaterialid = $1 AND obsoleted = 0';
     winstonLogger.debug('updateEmThumbnailData() Query: ' + query);
     await db.none(query, [educationalmaterialid]);
     query =
@@ -173,7 +209,8 @@ async function updateCollectionThumbnailData(
 ) {
   try {
     let query;
-    query = 'UPDATE collectionthumbnail SET obsoleted = 1 WHERE collectionid = $1 AND obsoleted = 0';
+    query =
+      'UPDATE collectionthumbnail SET obsoleted = 1 WHERE collectionid = $1 AND obsoleted = 0';
     winstonLogger.debug('updateCollectionThumbnailData() Query: ' + query);
     await db.none(query, [collectionid]);
     query =

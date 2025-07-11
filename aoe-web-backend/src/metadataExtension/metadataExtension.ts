@@ -1,5 +1,9 @@
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { insertMetadataExtension, metadataExtension, usersMetadataExtension } from '@query/metadataExtensionQueries';
+import {
+  insertMetadataExtension,
+  metadataExtension,
+  usersMetadataExtension,
+} from '@query/metadataExtensionQueries';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 

@@ -66,7 +66,8 @@ export async function addLinkToMaterial(req: Request, res: Response, next: NextF
 
 export async function getMaterial(req: Request, res: Response, next: NextFunction) {
   try {
-    const query = 'SELECT * FROM educationalmaterial where obsoleted != 1 order by id desc limit 100;';
+    const query =
+      'SELECT * FROM educationalmaterial where obsoleted != 1 order by id desc limit 100;';
     const data = await db.any(query);
     res.status(200).json(data);
   } catch (err) {
@@ -218,7 +219,8 @@ export const getEducationalMaterialMetadata = async (
     response = await t.any(query, [eduMaterialId]);
     queries.push(response);
 
-    query = 'SELECT * FROM thumbnail ' + 'WHERE educationalmaterialid = $1 AND obsoleted = 0 LIMIT 1';
+    query =
+      'SELECT * FROM thumbnail ' + 'WHERE educationalmaterialid = $1 AND obsoleted = 0 LIMIT 1';
     response = await t.oneOrNone(query, [eduMaterialId]);
     queries.push(response);
     // get all attachments from attachment table if not published else get from version table
@@ -257,7 +259,8 @@ export const getEducationalMaterialMetadata = async (
     response = await t.any(query, [eduMaterialId]);
     queries.push(response);
     if (req.params.publishedat) {
-      query = 'SELECT urn FROM educationalmaterialversion WHERE educationalmaterialid = $1 AND publishedat = $2';
+      query =
+        'SELECT urn FROM educationalmaterialversion WHERE educationalmaterialid = $1 AND publishedat = $2';
       response = await t.oneOrNone(query, [eduMaterialId, req.params.publishedat]);
       queries.push(response);
     } else {
@@ -345,7 +348,8 @@ export const getEducationalMaterialMetadata = async (
              */
             jsonObj.materials[i]['mimetype'] = 'text/html';
             jsonObj.materials[i]['filepath'] =
-              process.env.HTML_BASE_URL + result.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content');
+              process.env.HTML_BASE_URL +
+              result.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content');
           } else if (result != false) {
             /**
              * This means the function the returned true, but the mimetype was already text/html so we dont have to change it
@@ -401,14 +405,19 @@ export const getEducationalMaterialMetadata = async (
       }
       jsonObj.attachments = data[18];
       jsonObj.versions = data[19];
-      jsonObj.hasDownloadableFiles = jsonObj.materials ? hasDownloadableFiles(jsonObj.materials) : false;
+      jsonObj.hasDownloadableFiles = jsonObj.materials
+        ? hasDownloadableFiles(jsonObj.materials)
+        : false;
       jsonObj.urn = data[20] ? data[20].urn : data[20];
       !resDisabled && res.status(200).json(jsonObj);
 
       // Pass response (metadata) to the next function in the request chain.
       res.locals = jsonObj;
 
-      if (!resDisabled && (!req.isAuthenticated() || !(await hasAccesstoPublication(jsonObj.id, req)))) {
+      if (
+        !resDisabled &&
+        (!req.isAuthenticated() || !(await hasAccesstoPublication(jsonObj.id, req)))
+      ) {
         updateViewCounter(jsonObj.id).catch((error) => {
           winstonLogger.error(`View counter update failed: ${error}`);
         });
@@ -421,7 +430,11 @@ export const getEducationalMaterialMetadata = async (
     });
 };
 
-export async function getUserMaterial(req: Request, res: Response, next: NextFunction): Promise<any> {
+export async function getUserMaterial(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> {
   try {
     db.task(async (t: any) => {
       const params: any = [];
@@ -446,7 +459,8 @@ export async function getUserMaterial(req: Request, res: Response, next: NextFun
           query = 'select * from author where educationalmaterialid = $1;';
           response = await t.any(query, [q.id]);
           q.authors = response;
-          query = 'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
+          query =
+            'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
           response = await db.oneOrNone(query, [q.id]);
           if (response) {
             response.thumbnail = await aoeThumbnailDownloadUrl(response.thumbnail);
@@ -480,7 +494,7 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
     const data = await db.task(async (t: any) => {
       // Fetch the initial list of educational materials
       const materials = await t.any(
-        "SELECT id FROM educationalmaterial WHERE obsoleted = '0' AND publishedat IS NOT NULL AND (expires IS NULL OR expires > now()) ORDER BY updatedAt DESC LIMIT 6;"
+        "SELECT id FROM educationalmaterial WHERE obsoleted = '0' AND publishedat IS NOT NULL AND (expires IS NULL OR expires > now()) ORDER BY updatedAt DESC LIMIT 6;",
       );
 
       // Process each material to fetch additional details
@@ -488,37 +502,35 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
         // Fetch material names
         material.name = await t.any(
           'SELECT * FROM materialname WHERE educationalmaterialid = $1;',
-          [material.id]
+          [material.id],
         );
 
         // Fetch material descriptions
         material.description = await t.any(
           'SELECT * FROM materialdescription WHERE educationalmaterialid = $1;',
-          [material.id]
+          [material.id],
         );
 
         // Fetch learning resource types
         material.learningResourceTypes = await t.any(
           'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1;',
-          [material.id]
+          [material.id],
         );
 
         // Fetch keywords
-        material.keywords = await t.any(
-          'SELECT * FROM keyword WHERE educationalmaterialid = $1;',
-          [material.id]
-        );
+        material.keywords = await t.any('SELECT * FROM keyword WHERE educationalmaterialid = $1;', [
+          material.id,
+        ]);
 
         // Fetch authors
-        material.authors = await t.any(
-          'SELECT * FROM author WHERE educationalmaterialid = $1;',
-          [material.id]
-        );
+        material.authors = await t.any('SELECT * FROM author WHERE educationalmaterialid = $1;', [
+          material.id,
+        ]);
 
         // Fetch thumbnail
         const thumbnailResponse = await db.oneOrNone(
           'SELECT filekey AS thumbnail FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0;',
-          [material.id]
+          [material.id],
         );
         if (thumbnailResponse) {
           thumbnailResponse.thumbnail = await aoeThumbnailDownloadUrl(thumbnailResponse.thumbnail);
@@ -528,13 +540,13 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
         // Fetch educational levels
         material.educationalLevels = await t.any(
           'SELECT * FROM educationallevel WHERE educationalmaterialid = $1;',
-          [material.id]
+          [material.id],
         );
 
         // Fetch license information
         material.license = await t.oneOrNone(
           'SELECT licensecode AS key, license AS value FROM educationalmaterial AS m LEFT JOIN licensecode AS l ON m.licensecode = l.code WHERE m.id = $1;',
-          [material.id]
+          [material.id],
         );
       }
 
@@ -548,8 +560,11 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
   }
 }
 
-
-export async function setEducationalMaterialObsoleted(req: Request, res: Response, next: NextFunction) {
+export async function setEducationalMaterialObsoleted(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     let query;
     let data;
@@ -565,7 +580,8 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
         arr.push("('" + data[i - 1].id + "')");
       }
       if (arr.length > 0) {
-        query = "update attachment SET obsoleted = '1' WHERE materialid in (" + arr.join(',') + ' );';
+        query =
+          "update attachment SET obsoleted = '1' WHERE materialid in (" + arr.join(',') + ' );';
         queries.push(await db.none(query));
       }
       query = 'update educationalmaterial set updatedat = now() where id = $1';
@@ -587,7 +603,11 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
  * @param {e.NextFunction} next
  * @return {Promise<void>}
  */
-export const setMaterialObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const setMaterialObsoleted = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
@@ -622,7 +642,11 @@ export const setMaterialObsoleted = async (req: Request, res: Response, next: Ne
   }
 };
 
-export const setAttachmentObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const setAttachmentObsoleted = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     let query;
     let data;
@@ -645,7 +669,10 @@ export const setAttachmentObsoleted = async (req: Request, res: Response, next: 
     });
     res.status(200).json({ status: 'deleted' });
     updateEsDocument().catch((err: Error) => {
-      winstonLogger.error('Search index update failed after setting an attachment file obsoleted: %o', err);
+      winstonLogger.error(
+        'Search index update failed after setting an attachment file obsoleted: %o',
+        err,
+      );
     });
   } catch (err) {
     next(new ErrorHandler(500, `Setting an attachment file obsoleted failed: ${err}`));
@@ -694,7 +721,11 @@ async function setLanguage(obj: any) {
   }
 }
 
-const insertDataToDescription = async (t: any, educationalmaterialid: string, description: any): Promise<any> => {
+const insertDataToDescription = async (
+  t: any,
+  educationalmaterialid: string,
+  description: any,
+): Promise<any> => {
   const queries = [];
   const query =
     'INSERT ' +
@@ -710,16 +741,30 @@ const insertDataToDescription = async (t: any, educationalmaterialid: string, de
           queries.push(await t.any(query, ['', 'fi', educationalmaterialid]));
         } else {
           queries.push(
-            await t.any(query, [removeInvalidXMLCharacters(description.en, true), 'fi', educationalmaterialid]),
+            await t.any(query, [
+              removeInvalidXMLCharacters(description.en, true),
+              'fi',
+              educationalmaterialid,
+            ]),
           );
         }
       } else {
         queries.push(
-          await t.any(query, [removeInvalidXMLCharacters(description.sv, true), 'fi', educationalmaterialid]),
+          await t.any(query, [
+            removeInvalidXMLCharacters(description.sv, true),
+            'fi',
+            educationalmaterialid,
+          ]),
         );
       }
     } else {
-      queries.push(await t.any(query, [removeInvalidXMLCharacters(description.fi, true), 'fi', educationalmaterialid]));
+      queries.push(
+        await t.any(query, [
+          removeInvalidXMLCharacters(description.fi, true),
+          'fi',
+          educationalmaterialid,
+        ]),
+      );
     }
 
     if (!description.sv || description.sv === '') {
@@ -728,16 +773,30 @@ const insertDataToDescription = async (t: any, educationalmaterialid: string, de
           queries.push(await t.any(query, ['', 'sv', educationalmaterialid]));
         } else {
           queries.push(
-            await t.any(query, [removeInvalidXMLCharacters(description.en, true), 'sv', educationalmaterialid]),
+            await t.any(query, [
+              removeInvalidXMLCharacters(description.en, true),
+              'sv',
+              educationalmaterialid,
+            ]),
           );
         }
       } else {
         queries.push(
-          await t.any(query, [removeInvalidXMLCharacters(description.fi, true), 'sv', educationalmaterialid]),
+          await t.any(query, [
+            removeInvalidXMLCharacters(description.fi, true),
+            'sv',
+            educationalmaterialid,
+          ]),
         );
       }
     } else {
-      queries.push(await t.any(query, [removeInvalidXMLCharacters(description.sv, true), 'sv', educationalmaterialid]));
+      queries.push(
+        await t.any(query, [
+          removeInvalidXMLCharacters(description.sv, true),
+          'sv',
+          educationalmaterialid,
+        ]),
+      );
     }
 
     if (!description.en || description.en === '') {
@@ -746,16 +805,30 @@ const insertDataToDescription = async (t: any, educationalmaterialid: string, de
           queries.push(await t.any(query, ['', 'en', educationalmaterialid]));
         } else {
           queries.push(
-            await t.any(query, [removeInvalidXMLCharacters(description.sv, true), 'en', educationalmaterialid]),
+            await t.any(query, [
+              removeInvalidXMLCharacters(description.sv, true),
+              'en',
+              educationalmaterialid,
+            ]),
           );
         }
       } else {
         queries.push(
-          await t.any(query, [removeInvalidXMLCharacters(description.fi, true), 'en', educationalmaterialid]),
+          await t.any(query, [
+            removeInvalidXMLCharacters(description.fi, true),
+            'en',
+            educationalmaterialid,
+          ]),
         );
       }
     } else {
-      queries.push(await t.any(query, [removeInvalidXMLCharacters(description.en, true), 'en', educationalmaterialid]));
+      queries.push(
+        await t.any(query, [
+          removeInvalidXMLCharacters(description.en, true),
+          'en',
+          educationalmaterialid,
+        ]),
+      );
     }
   }
   return queries;
@@ -799,7 +872,10 @@ export async function insertEducationalMaterialName(materialname: NameObject, id
  * @param {string} emid
  * @return {Promise<any>}
  */
-export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid: string): Promise<any> => {
+export const updateMaterial = async (
+  metadata: EducationalMaterialMetadata,
+  emid: string,
+): Promise<any> => {
   return await db
     .tx(async (t: any) => {
       let query;
@@ -1082,7 +1158,8 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
             source: element.source,
             educationalmaterialid: emid,
             objectkey: element.key,
-            educationalframework: element.educationalFramework == undefined ? '' : element.educationalFramework,
+            educationalframework:
+              element.educationalFramework == undefined ? '' : element.educationalFramework,
             targeturl: element.targetUrl,
           };
           values.push(obj);
@@ -1116,7 +1193,8 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
       if (fileDetailArr !== undefined) {
         for (const element of fileDetailArr) {
           await insertDataToDisplayName(t, emid, element.id, element);
-          query = 'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
+          query =
+            'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
           queries.push(await t.any(query, [element.language, element.id, emid]));
           if (element.link) {
             query = 'UPDATE material SET link = $1 WHERE id = $2 AND educationalmaterialid = $3';
@@ -1222,7 +1300,14 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
             'update attachment set kind = $1, defaultfile = $2, label = $3, srclang = $4 where (id = $5 ' +
             'and (select educationalmaterialid from material where id = (select materialid from attachment where id = $5)) = $6)';
           queries.push(
-            await t.none(query, [element.kind, element.default, element.label, element.lang, element.id, emid]),
+            await t.none(query, [
+              element.kind,
+              element.default,
+              element.label,
+              element.lang,
+              element.id,
+              emid,
+            ]),
           );
         }
       }
@@ -1230,7 +1315,8 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
       if (metadata.isVersioned) {
         const arr = metadata.materials;
         if (metadata.materials) {
-          query = 'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;';
+          query =
+            'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;';
           queries.push(await t.none(query, [emid]));
           // insert new version
           query =
@@ -1272,7 +1358,11 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
     });
 };
 
-export const updateEduMaterialVersionURN = async (id: string, publishedat: string, urn: string): Promise<void> => {
+export const updateEduMaterialVersionURN = async (
+  id: string,
+  publishedat: string,
+  urn: string,
+): Promise<void> => {
   try {
     const query = `
       UPDATE educationalmaterialversion
@@ -1281,7 +1371,9 @@ export const updateEduMaterialVersionURN = async (id: string, publishedat: strin
     `;
     await db.none(query, [id, publishedat, urn]);
   } catch (error) {
-    winstonLogger.error('Update for educational material version failed in updateEduMaterialVersionURN(): ' + error);
+    winstonLogger.error(
+      'Update for educational material version failed in updateEduMaterialVersionURN(): ' + error,
+    );
     throw new Error(error);
   }
 };

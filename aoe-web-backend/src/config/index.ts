@@ -16,10 +16,13 @@ process.env.H5P_USER_EMAIL || missingEnvs.push('H5P_USER_EMAIL');
 process.env.HTML_FOLDER || missingEnvs.push('HTML_FOLDER');
 process.env.MATERIAL_FILE_UPLOAD_FOLDER || missingEnvs.push('MATERIAL_FILE_UPLOAD_FOLDER');
 process.env.KAFKA_ENABLED || missingEnvs.push('KAFKA_ENABLED');
-process.env.KAFKA_EXCLUDED_AGENT_IDENTIFIERS || missingEnvs.push('KAFKA_EXCLUDED_AGENT_IDENTIFIERS');
+process.env.KAFKA_EXCLUDED_AGENT_IDENTIFIERS ||
+  missingEnvs.push('KAFKA_EXCLUDED_AGENT_IDENTIFIERS');
 process.env.KAFKA_BROKER_SERVERS || missingEnvs.push('KAFKA_BROKER_SERVERS');
-process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY || missingEnvs.push('KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY');
-process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS || missingEnvs.push('KAFKA_BROKER_TOPIC_SEARCH_REQUESTS');
+process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY ||
+  missingEnvs.push('KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY');
+process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS ||
+  missingEnvs.push('KAFKA_BROKER_TOPIC_SEARCH_REQUESTS');
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
 process.env.KAFKA_CLIENT_REGION || missingEnvs.push('KAFKA_CLIENT_REGION');
 process.env.CONVERSION_TO_PDF_API || missingEnvs.push('CONVERSION_TO_PDF_API');
@@ -31,13 +34,15 @@ process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
 process.env.REDIS_USE_TLS || missingEnvs.push('REDIS_USE_TLS');
-process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
+process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL ||
+  missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.STREAM_ENABLED || missingEnvs.push('STREAM_ENABLED');
 process.env.STREAM_FILESIZE_MIN || missingEnvs.push('STREAM_FILESIZE_MIN');
 process.env.STREAM_REDIRECT_URI || missingEnvs.push('STREAM_REDIRECT_URI');
 process.env.STREAM_STATUS_HOST || missingEnvs.push('STREAM_STATUS_HOST');
 process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH');
-process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED');
+process.env.STREAM_STATUS_HOST_HTTPS_ENABLED ||
+  missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED');
 process.env.PG_USER || missingEnvs.push('PG_USER');
 process.env.PG_PASS || missingEnvs.push('PG_PASS');
 
@@ -84,7 +89,9 @@ export default {
 
   // Configuration for the client of Kafka message queue system.
   MESSAGE_QUEUE_OPTIONS: {
-    kafkaExcludedAgentIdentifiers: (process.env.KAFKA_EXCLUDED_AGENT_IDENTIFIERS as string).split(',') as string[],
+    kafkaExcludedAgentIdentifiers: (process.env.KAFKA_EXCLUDED_AGENT_IDENTIFIERS as string).split(
+      ',',
+    ) as string[],
     kafkaProducerEnabled: (process.env.KAFKA_ENABLED === '1') as boolean,
     brokerServers: process.env.KAFKA_BROKER_SERVERS as string,
     topicMaterialActivity: process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY as string,
@@ -121,7 +128,8 @@ export default {
     proxy: (process.env.SESSION_OPTION_PROXY.toLowerCase() === 'true') as boolean,
     resave: (process.env.SESSION_OPTION_RESAVE.toLowerCase() === 'true') as boolean,
     rolling: (process.env.SESSION_OPTION_ROLLING.toLowerCase() === 'true') as boolean,
-    saveUninitialized: (process.env.SESSION_OPTION_SAVE_UNINITIALIZED.toLowerCase() === 'true') as boolean,
+    saveUninitialized: (process.env.SESSION_OPTION_SAVE_UNINITIALIZED.toLowerCase() ===
+      'true') as boolean,
     secret: process.env.SESSION_SECRET as string,
   } as const,
 

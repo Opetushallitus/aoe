@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '@query/ratingQueries';
+import {
+  insertRating,
+  insertRatingAverage,
+  getRatings,
+  getUserRatings,
+} from '@query/ratingQueries';
 import { RatingInformation } from './interface/rating-information.interface';
 import winstonLogger from '@util/winstonLogger';
 

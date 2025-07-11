@@ -27,7 +27,9 @@ let h5pPlayer: H5PPlayer;
 export const initializeH5P = async (): Promise<void> => {
   try {
     h5pConfig = new H5PConfig(
-      new fsImplementations.JsonStorage(path.resolve(config.MEDIA_FILE_PROCESS.h5pJsonConfiguration)),
+      new fsImplementations.JsonStorage(
+        path.resolve(config.MEDIA_FILE_PROCESS.h5pJsonConfiguration),
+      ),
     );
     await h5pConfig.load();
     h5pEditor = fs(
@@ -89,7 +91,9 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     );
 
     // Render HTML content of the application.
-    const htmlH5P: string = await h5pPlayer.render(savedContentId, userH5P, 'en', { ignoreUserPermissions: true });
+    const htmlH5P: string = await h5pPlayer.render(savedContentId, userH5P, 'en', {
+      ignoreUserPermissions: true,
+    });
     res.status(200).send(htmlH5P).end();
   } catch (err: unknown) {
     winstonLogger.error('Processing or rendering H5P failed: %o', err);

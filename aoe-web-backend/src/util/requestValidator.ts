@@ -1,13 +1,22 @@
 import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
-import { body, header, Result, ValidationChain, ValidationError, validationResult } from 'express-validator';
+import {
+  body,
+  header,
+  Result,
+  ValidationChain,
+  ValidationError,
+  validationResult,
+} from 'express-validator';
 import { addHook, sanitize } from 'isomorphic-dompurify';
 
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.
 addHook('afterSanitizeAttributes', (element: Element): void => {
-  if (element.tagName === 'A' && !element.hasAttribute('target')) element.setAttribute('target', '_blank');
-  if (element.tagName === 'A' && !element.hasAttribute('rel')) element.setAttribute('rel', 'noopener noreferrer');
+  if (element.tagName === 'A' && !element.hasAttribute('target'))
+    element.setAttribute('target', '_blank');
+  if (element.tagName === 'A' && !element.hasAttribute('rel'))
+    element.setAttribute('rel', 'noopener noreferrer');
 });
 
 export const addCollectionValidationRules = (): ValidationChain[] => {
@@ -21,7 +30,11 @@ export const addCollectionValidationRules = (): ValidationChain[] => {
 
 export const createCollectionValidationRules = (): ValidationChain[] => {
   return [
-    body('name', 'String name must exist max length 255 characters').exists().bail().isString().isLength({ max: 255 }),
+    body('name', 'String name must exist max length 255 characters')
+      .exists()
+      .bail()
+      .isString()
+      .isLength({ max: 255 }),
   ];
 };
 
@@ -49,16 +62,26 @@ export const metadataExtensionValidationRules = (): ValidationChain[] => {
     body('keywords.*.key', 'string key expected ').if(body('keywords').exists()).isString(),
     body('keywords.*.value', 'string value expected ').if(body('keywords').exists()).isString(),
 
-    body('accessibilityFeatures.*.key', 'string key expected ').if(body('accessibilityFeatures').exists()).isString(),
+    body('accessibilityFeatures.*.key', 'string key expected ')
+      .if(body('accessibilityFeatures').exists())
+      .isString(),
     body('accessibilityFeatures.*.value', 'string value expected ')
       .if(body('accessibilityFeatures').exists())
       .isString(),
 
-    body('educationalLevels.*.key', 'string key expected ').if(body('educationalLevels').exists()).isString(),
-    body('educationalLevels.*.value', 'string value expected ').if(body('educationalLevels').exists()).isString(),
+    body('educationalLevels.*.key', 'string key expected ')
+      .if(body('educationalLevels').exists())
+      .isString(),
+    body('educationalLevels.*.value', 'string value expected ')
+      .if(body('educationalLevels').exists())
+      .isString(),
 
-    body('accessibilityHazards.*.key', 'string key expected ').if(body('accessibilityHazards').exists()).isString(),
-    body('accessibilityHazards.*.value', 'string value expected ').if(body('accessibilityHazards').exists()).isString(),
+    body('accessibilityHazards.*.key', 'string key expected ')
+      .if(body('accessibilityHazards').exists())
+      .isString(),
+    body('accessibilityHazards.*.value', 'string value expected ')
+      .if(body('accessibilityHazards').exists())
+      .isString(),
   ];
 };
 
@@ -82,7 +105,11 @@ export const removeCollectionValidationRules = (): ValidationChain[] => {
   ];
 };
 
-export const rulesValidate = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const rulesValidate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   const errors: Result<ValidationError> = validationResult(req);
   if (errors.isEmpty()) {
     return next();
@@ -98,7 +125,11 @@ export const rulesValidate = async (req: Request, res: Response, next: NextFunct
 export const updateCollectionValidationRules = (): ValidationChain[] => {
   return [
     body('collectionId', 'Integer collectionId must exist').exists().bail().isInt(),
-    body('name', 'String name must exist max length 255 characters').exists().bail().isString().isLength({ max: 255 }),
+    body('name', 'String name must exist max length 255 characters')
+      .exists()
+      .bail()
+      .isString()
+      .isLength({ max: 255 }),
     body('publish', 'publish boolean expected').if(body('publish').exists()).isBoolean(),
     body('description', 'string description expected max length 2000 characters')
       .if(body('description').exists())
@@ -107,24 +138,46 @@ export const updateCollectionValidationRules = (): ValidationChain[] => {
     body('keywords.*.key', 'string key expected ').if(body('keywords').exists()).isString(),
     body('keywords.*.value', 'string value expected ').if(body('keywords').exists()).isString(),
     body('languages.*').isString(),
-    body('educationalRoles.*.key', 'string key expected ').if(body('educationalRoles').exists()).isString(),
-    body('educationalRoles.*.value', 'string value expected ').if(body('educationalRoles').exists()).isString(),
+    body('educationalRoles.*.key', 'string key expected ')
+      .if(body('educationalRoles').exists())
+      .isString(),
+    body('educationalRoles.*.value', 'string value expected ')
+      .if(body('educationalRoles').exists())
+      .isString(),
 
-    body('alignmentObjects.*.alignmentType', 'alignmentType expected ').if(body('alignmentObjects').exists()).exists(),
-    body('alignmentObjects.*.targetName', 'targetName expected ').if(body('alignmentObjects').exists()).exists(),
-    body('alignmentObjects.*.source', 'source expected ').if(body('alignmentObjects').exists()).exists(),
+    body('alignmentObjects.*.alignmentType', 'alignmentType expected ')
+      .if(body('alignmentObjects').exists())
+      .exists(),
+    body('alignmentObjects.*.targetName', 'targetName expected ')
+      .if(body('alignmentObjects').exists())
+      .exists(),
+    body('alignmentObjects.*.source', 'source expected ')
+      .if(body('alignmentObjects').exists())
+      .exists(),
     body('alignmentObjects.*.key', 'key expected ').if(body('alignmentObjects').exists()).exists(),
-    body('educationalUses.*.key', 'string key expected ').if(body('educationalUses').exists()).isString(),
-    body('educationalUses.*.value', 'string value expected ').if(body('educationalUses').exists()).isString(),
+    body('educationalUses.*.key', 'string key expected ')
+      .if(body('educationalUses').exists())
+      .isString(),
+    body('educationalUses.*.value', 'string value expected ')
+      .if(body('educationalUses').exists())
+      .isString(),
 
-    body('accessibilityHazards.*.key', 'string key expected ').if(body('accessibilityHazards').exists()).isString(),
-    body('accessibilityHazards.*.value', 'string value expected ').if(body('accessibilityHazards').exists()).isString(),
+    body('accessibilityHazards.*.key', 'string key expected ')
+      .if(body('accessibilityHazards').exists())
+      .isString(),
+    body('accessibilityHazards.*.value', 'string value expected ')
+      .if(body('accessibilityHazards').exists())
+      .isString(),
 
-    body('accessibilityFeatures.*.key', 'string key expected ').if(body('accessibilityFeatures').exists()).isString(),
+    body('accessibilityFeatures.*.key', 'string key expected ')
+      .if(body('accessibilityFeatures').exists())
+      .isString(),
     body('accessibilityFeatures.*.value', 'string value expected ')
       .if(body('accessibilityFeatures').exists())
       .isString(),
-    body('materials.*.id', 'educationalmaterial id expected').if(body('materials').exists()).isInt(),
+    body('materials.*.id', 'educationalmaterial id expected')
+      .if(body('materials').exists())
+      .isInt(),
     body('materials.*.priority', 'priority expected').if(body('materials').exists()).isInt(),
     body('headings.*.heading', 'heading expected max length 255 characters')
       .if(body('headings').exists())
@@ -157,8 +210,16 @@ export const validateNotification = (): ValidationChain[] => {
       .bail()
       .customSanitizer((text: string) => encodeURIComponent(text)),
     body('type', 'not a valid value of ERROR or INFO').exists().isIn(['ERROR', 'INFO']),
-    body('showSince', 'not a valid ISODate string').exists().optional({ nullable: true }).isISO8601().toDate(),
-    body('showUntil', 'not a valid ISODate string').exists().optional({ nullable: true }).isISO8601().toDate(),
+    body('showSince', 'not a valid ISODate string')
+      .exists()
+      .optional({ nullable: true })
+      .isISO8601()
+      .toDate(),
+    body('showUntil', 'not a valid ISODate string')
+      .exists()
+      .optional({ nullable: true })
+      .isISO8601()
+      .toDate(),
   ];
 };
 
@@ -181,14 +242,33 @@ export const validateNotificationUpdate = (): ValidationChain[] => {
       .bail()
       .customSanitizer((text: string) => encodeURIComponent(text)),
     body('type', 'not a valid value of ERROR or INFO').exists().isIn(['ERROR', 'INFO']),
-    body('createdAt', 'not a valid ISODate string').exists().optional({ nullable: true }).isISO8601().toDate(),
-    body('showSince', 'not a valid ISODate string').exists().optional({ nullable: true }).isISO8601().toDate(),
-    body('showUntil', 'not a valid ISODate string').exists().optional({ nullable: true }).isISO8601().toDate(),
-    body('disabled', 'not a valid boolean value').exists().optional({ nullable: false }).isBoolean(),
+    body('createdAt', 'not a valid ISODate string')
+      .exists()
+      .optional({ nullable: true })
+      .isISO8601()
+      .toDate(),
+    body('showSince', 'not a valid ISODate string')
+      .exists()
+      .optional({ nullable: true })
+      .isISO8601()
+      .toDate(),
+    body('showUntil', 'not a valid ISODate string')
+      .exists()
+      .optional({ nullable: true })
+      .isISO8601()
+      .toDate(),
+    body('disabled', 'not a valid boolean value')
+      .exists()
+      .optional({ nullable: false })
+      .isBoolean(),
   ];
 };
 
-export const validateRatingUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const validateRatingUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   const { usersusername } = await db.task(async (t: any) => {
     const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1';
     const educationalMateriaId: number = parseInt(req.body.materialId, 10);

@@ -2,7 +2,11 @@ import config from '@/config';
 import { rmDir } from '@/helpers/fileRemover';
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter';
 import { updateEsDocument } from '@search/es';
-import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '@services/mailService';
+import {
+  sendExpirationMail,
+  sendRatingNotificationMail,
+  sendSystemNotification,
+} from '@services/mailService';
 import pidResolutionService from '@services/pidResolutionService';
 import winstonLogger from '@util/winstonLogger';
 import { Job, scheduleJob } from 'node-schedule';
@@ -22,7 +26,9 @@ export const startScheduledCleaning = (): void => {
       winstonLogger.debug('Scheduled removal for temporary H5P and HTML content completed.');
     } catch (err: unknown) {
       winstonLogger.error('Scheduled removal for temporary H5P or HTML content failed: %o', err);
-      await sendSystemNotification('Scheduled directory cleaning at 1:00 AM (UTC) has failed and interrupted.');
+      await sendSystemNotification(
+        'Scheduled directory cleaning at 1:00 AM (UTC) has failed and interrupted.',
+      );
       dirCleaningScheduler.cancel();
     }
   });
@@ -38,11 +44,18 @@ export const startScheduledRegistrationForPIDs = (): void => {
         (parseInt(process.env.PID_SERVICE_RUN_SCHEDULED, 10) as number) === 1
       ) {
         await pidResolutionService.processEntriesWithoutPID();
-        winstonLogger.debug('Scheduled PID registration for recently published educational materials completed.');
+        winstonLogger.debug(
+          'Scheduled PID registration for recently published educational materials completed.',
+        );
       }
     } catch (err: unknown) {
-      winstonLogger.error('Scheduled PID registration for recently published educational materials failed: %o', err);
-      await sendSystemNotification('Scheduled PID registration at 1:15 AM (UTC) has failed and interrupted.');
+      winstonLogger.error(
+        'Scheduled PID registration for recently published educational materials failed: %o',
+        err,
+      );
+      await sendSystemNotification(
+        'Scheduled PID registration at 1:15 AM (UTC) has failed and interrupted.',
+      );
       pidRegisterScheduler.cancel();
     }
   });
@@ -58,7 +71,9 @@ export const startScheduledSearchIndexUpdate = (): void => {
       winstonLogger.debug('Scheduled index update for the search engine completed.');
     } catch (err: unknown) {
       winstonLogger.error('Scheduled index update for the search engine failed: %o', err);
-      await sendSystemNotification('Scheduled search index update at 4:30 AM has failed and interrupted.');
+      await sendSystemNotification(
+        'Scheduled search index update at 4:30 AM has failed and interrupted.',
+      );
       searchUpdateScheduler.cancel();
     }
   });

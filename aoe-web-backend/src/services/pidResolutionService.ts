@@ -77,7 +77,8 @@ export const processEntriesWithoutPID = async (): Promise<void> => {
     }
   } catch (error) {
     throw Error(
-      'PID registration for educational materials without PID failed in processEntriesWithoutPID(): ' + error,
+      'PID registration for educational materials without PID failed in processEntriesWithoutPID(): ' +
+        error,
     );
   }
 };

@@ -76,7 +76,11 @@ export const insertUserToDatabase = async (userinfo: Record<string, unknown>): P
   }
 };
 
-export async function hasAccessToPublicatication(req: Request, res: Response, next: NextFunction): Promise<any> {
+export async function hasAccessToPublicatication(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> {
   const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1';
   const eduMaterial = await db.oneOrNone(query, [req.params.edumaterialid]);
   if (req.session.passport.user.uid === eduMaterial.usersusername) {
@@ -85,7 +89,11 @@ export async function hasAccessToPublicatication(req: Request, res: Response, ne
   res.sendStatus(401);
 }
 
-export const hasAccessToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const hasAccessToMaterial = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const materialid = req.params.materialid || req.params.materialId;
   const query = `
     SELECT em.usersusername
@@ -101,7 +109,11 @@ export const hasAccessToMaterial = async (req: Request, res: Response, next: Nex
   res.sendStatus(401).end();
 };
 
-export const hasAccessToAttachmentFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const hasAccessToAttachmentFile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const id = req.params.attachmentid;
   const query = `
     SELECT em.usersusername
@@ -126,7 +138,11 @@ export const hasAccessToAttachmentFile = async (req: Request, res: Response, nex
   return;
 };
 
-export const hasAccessToCollection = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const hasAccessToCollection = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const id = req.body.collectionId;
   const result = await hasAccessToCollectionID(id, req.session.passport.user.uid);
   if (!result) {
@@ -137,7 +153,11 @@ export const hasAccessToCollection = async (req: Request, res: Response, next: N
   return;
 };
 
-export const hasAccessToCollectionParams = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const hasAccessToCollectionParams = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const id = req.params.collectionid;
   const hasAccess: boolean = await hasAccessToCollectionID(id, req.session.passport.user.uid);
   if (!hasAccess) {
@@ -157,7 +177,11 @@ export const hasAccessToCollectionID = async (id: string, username: string): Pro
   return !!(await db.oneOrNone(query, [id, username]));
 };
 
-export const hasAccessToAOE = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const hasAccessToAOE = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.isAuthenticated()) {
       res.sendStatus(401).end();

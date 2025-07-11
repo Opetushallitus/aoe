@@ -101,7 +101,11 @@ export const isOfficeMimeType = (s: string): boolean => {
  * @param {e.NextFunction} next
  * @return {Promise<void>}
  */
-export const downloadPdfFromAllas = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const downloadPdfFromAllas = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     if (!req.params.key) {
       next(new ErrorHandler(400, 'key missing'));
@@ -132,7 +136,9 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
       const file = fs.readFileSync(filepath);
       libre.convert(file, extension, undefined, async (err: Error, data: Buffer) => {
         if (err) {
-          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
+          winstonLogger.error(
+            'Converting an office file to PDF failed in convertOfficeFileToPDF()',
+          );
           return reject(err);
         }
         await fsPromise.writeFile(outputPath, data);
@@ -162,9 +168,11 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
       if (isOfficeMimeType(file.mimetype)) {
         const pdfKey: string = file.filekey.substring(0, file.filekey.lastIndexOf('.')) + '.pdf';
         downstreamAndConvertOfficeFileToPDF(file.filekey).then((path: string) => {
-          uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then((obj: any) => {
-            void updatePdfKey(obj.Key, file.id);
-          });
+          uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
+            (obj: any) => {
+              void updatePdfKey(obj.Key, file.id);
+            },
+          );
         });
       }
     }

@@ -1,7 +1,17 @@
 import config from '@/config';
-import { EducationalMaterial, Material, MaterialDisplayName, Record, sequelize } from '@/domain/aoeModels';
+import {
+  EducationalMaterial,
+  Material,
+  MaterialDisplayName,
+  Record,
+  sequelize,
+} from '@/domain/aoeModels';
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '@/helpers/officeToPdfConverter';
+import {
+  downstreamAndConvertOfficeFileToPDF,
+  isOfficeMimeType,
+  updatePdfKey,
+} from '@/helpers/officeToPdfConverter';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import { db, pgp } from '@resource/postgresClient';
 import { hasAccesstoPublication } from '@services/authService';
@@ -52,7 +62,10 @@ const storage: StorageEngine = multer.diskStorage({
     cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
   filename: (_req: Request, file: any, cb: any) => {
-    const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+    const ext = file.originalname.substring(
+      file.originalname.lastIndexOf('.'),
+      file.originalname.length,
+    );
     let str = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
     str = str.replace(/[^a-zA-Z0-9]/g, '');
     cb(undefined, str + '-' + Date.now() + ext);
@@ -71,7 +84,11 @@ const upload: Multer = multer({
  * @param {e.NextFunction} next
  * @return {Promise<any>}
  */
-export const uploadAttachmentToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const uploadAttachmentToMaterial = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const contentType = req.headers['content-type'];
     if (!contentType) {
@@ -110,7 +127,11 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
         metadata,
       );
       const result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
-      const obj: any = await uploadFileToStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket);
+      const obj: any = await uploadFileToStorage(
+        file.path,
+        file.filename,
+        config.CLOUD_STORAGE_CONFIG.bucket,
+      );
       await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
       await deleteDataToTempAttachmentTable(file.filename, result[0].id);
       fs.unlink(file.path, (err: any) => {
@@ -132,7 +153,11 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
  * @param {e.NextFunction} next
  * @return {Promise<any>}
  */
-export const uploadMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const uploadMaterial = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   try {
     const contentType = req.headers['content-type'];
     if (!contentType) {
@@ -181,7 +206,13 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           const material: any = [];
           db.tx(async (t: ITask<IClient>) => {
             const emresp = await insertDataToEducationalMaterialTable(req, t);
-            const id = await insertDataToMaterialTable(t, emresp.id, '', fileDetails.language, fileDetails.priority);
+            const id = await insertDataToMaterialTable(
+              t,
+              emresp.id,
+              '',
+              fileDetails.language,
+              fileDetails.priority,
+            );
             material.push({ id: id.id, createFrom: file.originalname });
             materialid = id.id;
             await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
@@ -201,7 +232,13 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     file.filename,
                     config.CLOUD_STORAGE_CONFIG.bucket,
                   );
-                  const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
+                  const recordid = await insertDataToRecordTable(
+                    file,
+                    materialid,
+                    obj.Key,
+                    obj.Bucket,
+                    obj.Location,
+                  );
 
                   // convert file to pdf if office document
                   try {
@@ -230,7 +267,9 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                   });
                 }
               } catch (err) {
-                winstonLogger.debug('error while sending file to pouta: ' + JSON.stringify((<any>req).file));
+                winstonLogger.debug(
+                  'error while sending file to pouta: ' + JSON.stringify((<any>req).file),
+                );
                 winstonLogger.error(err);
               }
             })
@@ -333,7 +372,11 @@ const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
  * @param {e.NextFunction} next
  * @return {Promise<void>}
  */
-export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const uploadFileToMaterial = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   const { file, fileDetails }: any = await uploadFileToLocalDisk(req, res)
     .then((result: { file: MulterFile; fileDetails: Record<string, unknown> }) => {
       return result;
@@ -348,7 +391,9 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   }
   // Detect and reject encrypted PDFs.
   if (file.mimetype === 'application/pdf') {
-    const isEncrypted: boolean = await detectEncyptedPDF(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`);
+    const isEncrypted: boolean = await detectEncyptedPDF(
+      `${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`,
+    );
     if (isEncrypted) {
       res.status(415).json({ rejected: 'Encrypted PDF files not allowed' }).end();
       deleteFileFromLocalDiskStorage(file);
@@ -396,7 +441,9 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   }
   res.status(200).json({
     id: edumaterialid,
-    material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: edumaterialid }],
+    material: [
+      { id: material.id, createFrom: file.originalname, educationalmaterialid: edumaterialid },
+    ],
   });
 
   try {
@@ -411,22 +458,32 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED, // SERIALIZABLE,
       },
       async (t: Transaction): Promise<void> => {
-        await upsertRecord(t, file, material.id, fileS3.Key, fileS3.Bucket, fileS3.Location, recordID);
+        await upsertRecord(
+          t,
+          file,
+          material.id,
+          fileS3.Key,
+          fileS3.Bucket,
+          fileS3.Location,
+          recordID,
+        );
       },
     );
     // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
       const keyPDF: string = fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.')) + '.pdf';
       // Downstream an office file and convert to PDF in the local file system (linked disk storage).
-      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string): Promise<void> => {
-        // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
-        await uploadFileToStorage(pathPDF, keyPDF, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
-          async (pdfS3: SendData): Promise<void> => {
-            // Save the material's PDF key to indicate the availability of a PDF version.
-            await updatePdfKey(pdfS3.Key, recordID);
-          },
-        );
-      });
+      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(
+        async (pathPDF: string): Promise<void> => {
+          // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
+          await uploadFileToStorage(pathPDF, keyPDF, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
+            async (pdfS3: SendData): Promise<void> => {
+              // Save the material's PDF key to indicate the availability of a PDF version.
+              await updatePdfKey(pdfS3.Key, recordID);
+            },
+          );
+        },
+      );
     }
   } catch (err) {
     await Material.update(
@@ -444,7 +501,10 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   }
 };
 
-const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClient>): Promise<{ id: string }> => {
+const insertDataToEducationalMaterialTable = async (
+  req: Request,
+  t: ITask<IClient>,
+): Promise<{ id: string }> => {
   const uid = req.session?.passport?.user.uid;
   if (!uid) {
     winstonLogger.error('insertDataToEducationalMaterialTable missing uid in reques');
@@ -468,7 +528,11 @@ const insertDataToEducationalMaterialTable = async (req: Request, t: ITask<IClie
  * @param materialId
  * @return {Promise<any>}
  */
-const insertDataToTempRecordTable = async (t: ITask<IClient>, file: MulterFile, materialId: any): Promise<string> => {
+const insertDataToTempRecordTable = async (
+  t: ITask<IClient>,
+  file: MulterFile,
+  materialId: any,
+): Promise<string> => {
   const query = `
     INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, materialid)
     VALUES ($1, $2, $3, $4, $5, $6)
@@ -492,7 +556,11 @@ const insertDataToTempRecordTable = async (t: ITask<IClient>, file: MulterFile, 
  * @param fileDetails
  * @return {Promise<any>}
  */
-const upsertMaterialDisplayName = async (t: Transaction, materialId: string, fileDetails: any): Promise<void> => {
+const upsertMaterialDisplayName = async (
+  t: Transaction,
+  materialId: string,
+  fileDetails: any,
+): Promise<void> => {
   const materialDisplayNameEN = await MaterialDisplayName.findOne({
     where: { language: 'en', materialId },
     transaction: t,
@@ -505,12 +573,15 @@ const upsertMaterialDisplayName = async (t: Transaction, materialId: string, fil
     where: { language: 'sv', materialId },
     transaction: t,
   });
-  const missingLang: string = fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
+  const missingLang: string =
+    fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameEN && materialDisplayNameEN.id,
       displayName:
-        fileDetails.displayName.en || (materialDisplayNameEN && materialDisplayNameEN.displayName) || missingLang,
+        fileDetails.displayName.en ||
+        (materialDisplayNameEN && materialDisplayNameEN.displayName) ||
+        missingLang,
       language: 'en',
       materialId: materialId || materialDisplayNameEN?.materialId,
     },
@@ -522,7 +593,9 @@ const upsertMaterialDisplayName = async (t: Transaction, materialId: string, fil
     {
       id: materialDisplayNameFI && materialDisplayNameFI.id,
       displayName:
-        fileDetails.displayName.fi || (materialDisplayNameFI && materialDisplayNameFI.displayName) || missingLang,
+        fileDetails.displayName.fi ||
+        (materialDisplayNameFI && materialDisplayNameFI.displayName) ||
+        missingLang,
       language: 'fi',
       materialId: materialId || materialDisplayNameFI?.materialId,
     },
@@ -534,7 +607,9 @@ const upsertMaterialDisplayName = async (t: Transaction, materialId: string, fil
     {
       id: materialDisplayNameSV && materialDisplayNameSV.id,
       displayName:
-        fileDetails.displayName.sv || (materialDisplayNameSV && materialDisplayNameSV.displayName) || missingLang,
+        fileDetails.displayName.sv ||
+        (materialDisplayNameSV && materialDisplayNameSV.displayName) ||
+        missingLang,
       language: 'sv',
       materialId: materialId || materialDisplayNameSV?.materialId,
     },
@@ -566,7 +641,12 @@ export async function insertDataToDisplayName(
         if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
           await t.none(query, ['', 'fi', materialid, educationalmaterialid]);
         } else {
-          await t.none(query, [fileDetails.displayName.en, 'fi', materialid, educationalmaterialid]);
+          await t.none(query, [
+            fileDetails.displayName.en,
+            'fi',
+            materialid,
+            educationalmaterialid,
+          ]);
         }
       } else {
         await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]);
@@ -580,7 +660,12 @@ export async function insertDataToDisplayName(
         if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
           await t.none(query, ['', 'sv', materialid, educationalmaterialid]);
         } else {
-          await t.none(query, [fileDetails.displayName.en, 'sv', materialid, educationalmaterialid]);
+          await t.none(query, [
+            fileDetails.displayName.en,
+            'sv',
+            materialid,
+            educationalmaterialid,
+          ]);
         }
       } else {
         await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]);
@@ -594,7 +679,12 @@ export async function insertDataToDisplayName(
         if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
           await t.none(query, ['', 'en', materialid, educationalmaterialid]);
         } else {
-          await t.none(query, [fileDetails.displayName.sv, 'en', materialid, educationalmaterialid]);
+          await t.none(query, [
+            fileDetails.displayName.sv,
+            'en',
+            materialid,
+            educationalmaterialid,
+          ]);
         }
       } else {
         await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]);
@@ -682,10 +772,16 @@ const insertDataToAttachmentTable = async (
   return data[1].id;
 };
 
-async function updateAttachment(fileKey: any, fileBucket: any, location: string, attachmentId: string) {
+async function updateAttachment(
+  fileKey: any,
+  fileBucket: any,
+  location: string,
+  attachmentId: string,
+) {
   await db
     .tx(async (t: ITask<IClient>) => {
-      const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4';
+      const query =
+        'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4';
       winstonLogger.debug(query);
       await t.none(query, [location, fileKey, fileBucket, attachmentId]);
     })
@@ -694,7 +790,11 @@ async function updateAttachment(fileKey: any, fileBucket: any, location: string,
     });
 }
 
-async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string): Promise<any> {
+async function insertDataToTempAttachmentTable(
+  files: any,
+  metadata: any,
+  attachmentId: string,
+): Promise<any> {
   const query =
     'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
@@ -803,7 +903,15 @@ const insertDataToRecordTable = async (
         [materialID],
       );
       let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
-        ['filepath', 'originalfilename', 'filesize', 'mimetype', 'materialid', 'filekey', 'filebucket'],
+        [
+          'filepath',
+          'originalfilename',
+          'filesize',
+          'mimetype',
+          'materialid',
+          'filekey',
+          'filebucket',
+        ],
         { table: 'record' },
       );
       const values = {
@@ -880,7 +988,10 @@ export const uploadFileToStorage = (
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
       .once('error', (err: Error): void => {
-        winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        winstonLogger.error(
+          'Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s',
+          fileName,
+        );
         reject(err);
       })
       .pipe(passThrough);
@@ -891,7 +1002,10 @@ export const uploadFileToStorage = (
         resolve(resp);
       })
       .catch((err: Error): void => {
-        winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        winstonLogger.error(
+          'Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s',
+          fileName,
+        );
         reject(err);
       });
   });
@@ -922,20 +1036,24 @@ export async function uploadBase64FileToStorage(
         s3.upload(params, (err: any, data: any) => {
           if (err) {
             winstonLogger.error(
-              'Reading file from the local file system failed in uploadBase64FileToStorage(): ' + err,
+              'Reading file from the local file system failed in uploadBase64FileToStorage(): ' +
+                err,
             );
             reject(err);
           }
           if (data) {
             winstonLogger.debug(
-              'Uploading file to the cloud object storage completed in ' + (Date.now() - startTime) / 1000 + 's',
+              'Uploading file to the cloud object storage completed in ' +
+                (Date.now() - startTime) / 1000 +
+                's',
             );
             resolve(data);
           }
         });
       } catch (err) {
         winstonLogger.error(
-          'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' + err,
+          'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' +
+            err,
         );
         reject(err);
       }
@@ -952,7 +1070,11 @@ export async function uploadBase64FileToStorage(
  * @param res
  * @param next
  */
-export const downloadPreviewFile = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const downloadPreviewFile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   winstonLogger.debug('HTTP request headers present in downloadPreviewFile(): %o', req.headers);
   try {
     const data = await downloadFileFromStorage(req, res, next);
@@ -970,7 +1092,11 @@ export const downloadPreviewFile = async (req: Request, res: Response, next: Nex
  * @param res
  * @param next
  */
-export const downloadFile = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const downloadFile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<any> => {
   try {
     const filename = req.params.filename;
 
@@ -983,7 +1109,8 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
 
     if (!materialid) return res.status(404).end();
 
-    const educationalmaterialidQuery = 'SELECT educationalmaterialid FROM versioncomposition WHERE materialid = $1';
+    const educationalmaterialidQuery =
+      'SELECT educationalmaterialid FROM versioncomposition WHERE materialid = $1';
     const originalMaterialIdArr: {
       educationalmaterialid: string;
     }[] = await db.any(educationalmaterialidQuery, [materialid.materialid]);
@@ -1067,10 +1194,20 @@ export const downloadFileFromStorage = async (
         Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
         Key: (req.params.filename as string) || (req.params.key as string),
       };
-      const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip);
+      const resp = await downloadFromStorage(
+        res,
+        next,
+        params,
+        fileDetails.originalfilename,
+        isZip,
+      );
       resolve(resp);
     } catch (err) {
-      winstonLogger.error('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
+      winstonLogger.error(
+        'downloadFileFromStorage(): req.params.filename=%s, isZip=%s',
+        req.params.filename,
+        isZip,
+      );
       next(new ErrorHandler(500, 'Downloading a single file failed in downloadFileFromStorage()'));
     }
   });
@@ -1184,7 +1321,12 @@ export const downloadFromStorage = (
       }
     } catch (err: unknown) {
       reject();
-      next(new ErrorHandler(500, `Download of [${origFilename}] failed in downloadFromStorage(): ${err}`));
+      next(
+        new ErrorHandler(
+          500,
+          `Download of [${origFilename}] failed in downloadFromStorage(): ${err}`,
+        ),
+      );
     }
   });
 };
@@ -1230,7 +1372,10 @@ export const downloadAllMaterialsCompressed = async (
   }[] = await db.task(async (t: any): Promise<any[]> => {
     let publishedAt = req.params.publishedat;
     if (!publishedAt) {
-      const latestPublished: { max: string } = await t.oneOrNone(queryLatestPublished, edumaterialid);
+      const latestPublished: { max: string } = await t.oneOrNone(
+        queryLatestPublished,
+        edumaterialid,
+      );
       publishedAt = latestPublished.max;
     }
     return await db.any(queryVersionFilesIds, [edumaterialid, publishedAt]);
@@ -1268,7 +1413,11 @@ export const downloadAllMaterialsCompressed = async (
  * @param keys  string[] Array of object storage keys
  * @param files string[] Array of file names
  */
-const downloadAndZipFromStorage = (res: Response, keys: string[], files: EntryData[]): Promise<void> => {
+const downloadAndZipFromStorage = (
+  res: Response,
+  keys: string[],
+  files: EntryData[],
+): Promise<void> => {
   return new Promise((resolve, reject): void => {
     const s3: S3Client = new S3Client({
       region: process.env.CLOUD_STORAGE_REGION,

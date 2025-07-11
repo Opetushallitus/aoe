@@ -7,7 +7,8 @@ const selectWorkerFile = (req: Request): string => {
   // Compile the worker file with .import.js in localhost environment for Nodemon project execution.
   if (process.env.NODE_ENV === 'localhost') {
     if (req.url.includes('search')) return 'workerSearch.import.js';
-    if (req.url.includes('material') || req.url.includes('download')) return 'workerActivity.import.js';
+    if (req.url.includes('material') || req.url.includes('download'))
+      return 'workerActivity.import.js';
   }
   if (req.url.includes('search')) return 'workerSearch.js';
   if (req.url.includes('material') || req.url.includes('download')) return 'workerActivity.js';
@@ -34,7 +35,8 @@ export const hasExcludedAgents = (req: Request): boolean => {
  */
 export function runMessageQueueThread(req: Request, res?: Response): Promise<any> {
   // Interrupt analytics processing if Kafka producer is disabled or excluded clients are involved.
-  if (!config.MESSAGE_QUEUE_OPTIONS.kafkaProducerEnabled || hasExcludedAgents(req)) return Promise.resolve(undefined);
+  if (!config.MESSAGE_QUEUE_OPTIONS.kafkaProducerEnabled || hasExcludedAgents(req))
+    return Promise.resolve(undefined);
 
   const workerData = {
     body: req.body,
@@ -45,7 +47,9 @@ export function runMessageQueueThread(req: Request, res?: Response): Promise<any
   };
   return new Promise((resolve, reject) => {
     const workerFile = selectWorkerFile(req);
-    const worker = new Worker(path.resolve(__dirname, `workers/${workerFile}`), { workerData } as WorkerOptions);
+    const worker = new Worker(path.resolve(__dirname, `workers/${workerFile}`), {
+      workerData,
+    } as WorkerOptions);
     worker
       .on('message', resolve)
       .on('error', reject)

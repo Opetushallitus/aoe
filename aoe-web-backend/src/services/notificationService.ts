@@ -142,7 +142,10 @@ export const setScheduledNotification = async (req: Request, res: Response): Pro
  * @param {e.Response} res
  * @return {Promise<void>}
  */
-export const setScheduledNotificationDisabled = async (req: Request, res: Response): Promise<void> => {
+export const setScheduledNotificationDisabled = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const notificationID: string = req.params.id;
   const t: Transaction = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,

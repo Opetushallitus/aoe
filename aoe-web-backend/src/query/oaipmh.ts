@@ -26,10 +26,17 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
     req.body.pageNumber,
   );
 
-  if (!req.body.dateMin || !req.body.dateMax || req.body.materialPerPage < 1 || req.body.pageNumber < 0) {
+  if (
+    !req.body.dateMin ||
+    !req.body.dateMax ||
+    req.body.materialPerPage < 1 ||
+    req.body.pageNumber < 0
+  ) {
     res
       .status(400)
-      .json({ message: 'Mandatory field dateMin, dateMax, materialPerPage or pageNumber is missing' })
+      .json({
+        message: 'Mandatory field dateMin, dateMax, materialPerPage or pageNumber is missing',
+      })
       .end();
     return;
   }
@@ -41,7 +48,11 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
   const countQueryWithTimeRange = `
     SELECT count(*)
     FROM educationalmaterial em
-      ${loadAllVersions ? `INNER JOIN educationalmaterialversion emv on emv.educationalmaterialid = em.id` : ''}
+      ${
+        loadAllVersions
+          ? `INNER JOIN educationalmaterialversion emv on emv.educationalmaterialid = em.id`
+          : ''
+      }
     WHERE em.updatedat >= timestamp $1 AND em.updatedat < timestamp $2 AND em.publishedat IS NOT NULL
   `;
   // Query to fetch a batch from the database with the provided requirements.
@@ -107,10 +118,12 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
                 async (q2: any): Promise<void> => {
                   q2.filepath = await aoeFileDownloadUrl(q2.filekey);
                   q2.pdfpath = await aoePdfDownloadUrl(q2.pdfkey);
-                  t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
-                    q2.materialdisplayname = data;
-                    m.push(q2);
-                  });
+                  t.any('select * from materialdisplayname where materialid = $1;', q2.id).then(
+                    (data: any) => {
+                      q2.materialdisplayname = data;
+                      m.push(q2);
+                    },
+                  );
                   q.materials = m;
                 },
               ),
@@ -154,9 +167,11 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
 
               query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1';
               q.isbasedon = await t.map(query, [q.id], (q2: any) => {
-                t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then((data: any): void => {
-                  q2.author = data;
-                });
+                t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then(
+                  (data: any): void => {
+                    q2.author = data;
+                  },
+                );
                 return q2;
               });
 
@@ -179,7 +194,8 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
               query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
               q.educationalaudience = await t.any(query, [q.id]);
 
-              query = 'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0';
+              query =
+                'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0';
               response = await db.oneOrNone(query, [q.id]);
               if (response) {
                 response.filepath = await aoeThumbnailDownloadUrl(response.filekey);

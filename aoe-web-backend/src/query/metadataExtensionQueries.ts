@@ -2,26 +2,34 @@ import { MetadataExtension } from '@/metadataExtension/metadataExtension';
 import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 
-export async function insertMetadataExtension(id: string, username: string, metadata: MetadataExtension) {
+export async function insertMetadataExtension(
+  id: string,
+  username: string,
+  metadata: MetadataExtension,
+) {
   try {
     await db.tx(async (t: any) => {
       let query;
       let response;
       const queries = [];
       winstonLogger.debug('starting insertMetadataExtension');
-      query = 'DELETE FROM accessibilityfeatureextension where educationalmaterialid = $1 and usersusername = $2;';
+      query =
+        'DELETE FROM accessibilityfeatureextension where educationalmaterialid = $1 and usersusername = $2;';
       response = await t.none(query, [id, username]);
       queries.push(response);
 
-      query = 'DELETE FROM accessibilityhazardextension where educationalmaterialid = $1 and usersusername = $2;';
+      query =
+        'DELETE FROM accessibilityhazardextension where educationalmaterialid = $1 and usersusername = $2;';
       response = await t.none(query, [id, username]);
       queries.push(response);
 
-      query = 'DELETE FROM educationallevelextension where educationalmaterialid = $1 and usersusername = $2;';
+      query =
+        'DELETE FROM educationallevelextension where educationalmaterialid = $1 and usersusername = $2;';
       response = await t.none(query, [id, username]);
       queries.push(response);
 
-      query = 'DELETE FROM keywordextension where educationalmaterialid = $1 and usersusername = $2;';
+      query =
+        'DELETE FROM keywordextension where educationalmaterialid = $1 and usersusername = $2;';
       response = await t.none(query, [id, username]);
       queries.push(response);
 
@@ -67,7 +75,8 @@ export async function insertMetadataExtension(id: string, username: string, meta
 export async function metadataExtension(id: string) {
   try {
     const data = await db.task(async (t: any) => {
-      let query = 'SELECT value, keywordkey as key FROM keywordextension WHERE educationalmaterialid = $1;';
+      let query =
+        'SELECT value, keywordkey as key FROM keywordextension WHERE educationalmaterialid = $1;';
       const keywords = await db.any(query, [id]);
       query =
         'SELECT value, accessibilityhazardkey as key FROM accessibilityhazardextension WHERE educationalmaterialid = $1;';

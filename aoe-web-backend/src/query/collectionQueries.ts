@@ -16,7 +16,10 @@ export async function insertCollection(username: string, collection: Collection)
       query =
         'insert into collection (createdat, updatedat, createdby, collectionname) ' +
         'values (now(), now(), $1, $2) returning id';
-      winstonLogger.debug('CollectionQueries insertCollection: ' + query, [username, collection.name]);
+      winstonLogger.debug('CollectionQueries insertCollection: ' + query, [
+        username,
+        collection.name,
+      ]);
       const id = await t.oneOrNone(query, [username, collection.name]);
       query =
         'INSERT INTO userscollection (usersusername, collectionid) ' +
@@ -40,11 +43,15 @@ export async function insertCollection(username: string, collection: Collection)
 export async function insertEducationalMaterialToCollection(collection: Collection) {
   try {
     const values: any[] = [];
-    collection.emId.map((id) => values.push({ collectionid: collection.collectionId, educationalmaterialid: id }));
+    collection.emId.map((id) =>
+      values.push({ collectionid: collection.collectionId, educationalmaterialid: id }),
+    );
     const cs = new pgp.helpers.ColumnSet(['collectionid', 'educationalmaterialid'], {
       table: 'collectioneducationalmaterial',
     });
-    const query = pgp.helpers.insert(values, cs) + ' ON CONFLICT (collectionid, educationalmaterialid) DO NOTHING;';
+    const query =
+      pgp.helpers.insert(values, cs) +
+      ' ON CONFLICT (collectionid, educationalmaterialid) DO NOTHING;';
     winstonLogger.debug('Query in insertEducationalMaterialToCollection()' + query);
     await db.none(query);
   } catch (err) {
@@ -146,24 +153,28 @@ export async function collectionQuery(collectionId: string, username?: string) {
       query =
         'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1;';
       const alignmentObjects = await t.any(query, [collectionId]);
-      query = 'SELECT value, educationalusekey as key FROM collectioneducationaluse WHERE collectionid = $1;';
+      query =
+        'SELECT value, educationalusekey as key FROM collectioneducationaluse WHERE collectionid = $1;';
       const educationalUses = await t.any(query, [collectionId]);
       query =
         'SELECT educationalrole as value, educationalrolekey as key FROM collectioneducationalaudience WHERE collectionid = $1;';
       const educationalRoles = await t.any(query, [collectionId]);
-      query = 'SELECT value, accessibilityhazardkey as key FROM collectionaccessibilityhazard WHERE collectionid = $1;';
+      query =
+        'SELECT value, accessibilityhazardkey as key FROM collectionaccessibilityhazard WHERE collectionid = $1;';
       const accessibilityHazards = await t.any(query, [collectionId]);
       query =
         'SELECT value, accessibilityfeaturekey as key FROM collectionaccessibilityfeature WHERE collectionid = $1;';
       const accessibilityFeatures = await t.any(query, [collectionId]);
-      query = 'SELECT value, educationallevelkey as key FROM collectioneducationallevel WHERE collectionid = $1;';
+      query =
+        'SELECT value, educationallevelkey as key FROM collectioneducationallevel WHERE collectionid = $1;';
       const educationalLevels = await t.any(query, [collectionId]);
 
       query =
         'select educationalmaterialid as id, priority, publishedat from collectioneducationalmaterial as cem left join educationalmaterial as em on cem.educationalmaterialid = em.id where collectionid = $1;';
       const educationalmaterials = await Promise.all(
         await t.map(query, [collection.id], async (q: any) => {
-          query = 'select authorname, organization, organizationkey from author where educationalmaterialid = $1';
+          query =
+            'select authorname, organization, organizationkey from author where educationalmaterialid = $1';
           q.author = await t.any(query, [q.id]);
           query =
             'select licensecode as key, l.license as value from educationalmaterial as m left join licensecode as l ON l.code = m.licensecode where id = $1';
@@ -180,10 +191,13 @@ export async function collectionQuery(collectionId: string, username?: string) {
             map[obj.language] = obj.description;
             return map;
           }, {});
-          query = 'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
+          query =
+            'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
           const thumbnailresponse = await t.oneOrNone(query, [q.id]);
           if (thumbnailresponse) {
-            thumbnailresponse.thumbnail = await aoeThumbnailDownloadUrl(thumbnailresponse.thumbnail);
+            thumbnailresponse.thumbnail = await aoeThumbnailDownloadUrl(
+              thumbnailresponse.thumbnail,
+            );
           }
           q.thumbnail = thumbnailresponse;
 
@@ -193,7 +207,8 @@ export async function collectionQuery(collectionId: string, username?: string) {
           return q;
         }),
       );
-      query = 'SELECT id, heading, description, priority FROM collectionheading WHERE collectionid = $1;';
+      query =
+        'SELECT id, heading, description, priority FROM collectionheading WHERE collectionid = $1;';
       const headings = await t.any(query, [collectionId]);
 
       query =
@@ -243,7 +258,8 @@ export async function insertCollectionMetadata(collection: Collection) {
     const data = await db.tx(async (t: any) => {
       const queries = [];
       const description = collection.description ? collection.description : '';
-      let query = 'UPDATE collection SET description = $1, collectionname = $2, updatedat = now() where id = $3';
+      let query =
+        'UPDATE collection SET description = $1, collectionname = $2, updatedat = now() where id = $3';
       let response = await t.none(query, [description, collection.name, collectionId]);
 
       query = 'DELETE FROM collectionkeyword where collectionid = $1';
@@ -253,7 +269,8 @@ export async function insertCollectionMetadata(collection: Collection) {
       if (collection.keywords) {
         arr = collection.keywords;
         for (const element of arr) {
-          query = 'INSERT INTO collectionkeyword (collectionid, value, keywordkey) VALUES ($1,$2,$3)';
+          query =
+            'INSERT INTO collectionkeyword (collectionid, value, keywordkey) VALUES ($1,$2,$3)';
           response = await t.none(query, [collectionId, element.value, element.key]);
           queries.push(response);
         }
@@ -308,7 +325,8 @@ export async function insertCollectionMetadata(collection: Collection) {
       if (collection.educationalUses) {
         arr = collection.educationalUses;
         for (const element of arr) {
-          query = 'INSERT INTO collectioneducationaluse (collectionid, value, educationalusekey) VALUES ($1, $2, $3)';
+          query =
+            'INSERT INTO collectioneducationaluse (collectionid, value, educationalusekey) VALUES ($1, $2, $3)';
           response = await t.none(query, [collectionId, element.value, element.key]);
           queries.push(response);
         }
@@ -374,7 +392,12 @@ export async function insertCollectionMetadata(collection: Collection) {
         for (const element of arr) {
           query =
             'INSERT INTO collectionheading (collectionid, heading, description, priority) VALUES ($1, $2, $3, $4)';
-          response = await t.none(query, [collectionId, element.heading, element.description, element.priority]);
+          response = await t.none(query, [
+            collectionId,
+            element.heading,
+            element.description,
+            element.priority,
+          ]);
           queries.push(response);
         }
       }
@@ -402,7 +425,8 @@ export async function recentCollectionQuery() {
           query =
             'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1;';
           q.alignmentObjects = await t.any(query, [q.id]);
-          query = 'SELECT value, educationalusekey as key FROM collectioneducationaluse WHERE collectionid = $1;';
+          query =
+            'SELECT value, educationalusekey as key FROM collectioneducationaluse WHERE collectionid = $1;';
           q.educationalUses = await t.any(query, [q.id]);
           query =
             'SELECT educationalrole as value, educationalrolekey as key FROM collectioneducationalaudience WHERE collectionid = $1;';
@@ -413,7 +437,8 @@ export async function recentCollectionQuery() {
           query =
             'SELECT value, accessibilityfeaturekey as key FROM collectionaccessibilityfeature WHERE collectionid = $1;';
           q.accessibilityFeatures = await t.any(query, [q.id]);
-          query = 'SELECT value, educationallevelkey as key FROM collectioneducationallevel WHERE collectionid = $1;';
+          query =
+            'SELECT value, educationallevelkey as key FROM collectioneducationallevel WHERE collectionid = $1;';
           q.educationalLevels = await t.any(query, [q.id]);
           query =
             'Select filepath, filekey as thumbnail from collectionthumbnail where collectionid = $1 and obsoleted = 0;';
