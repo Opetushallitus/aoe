@@ -702,7 +702,6 @@ async function setLanguage(obj: any) {
   }
 }
 
-
 const insertDataToDescription = async (
   t: any,
   educationalmaterialid: string,
