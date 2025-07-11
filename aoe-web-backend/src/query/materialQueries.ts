@@ -2,75 +2,62 @@ import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 
 export async function updateEducationalMaterial(emid: string) {
-  try {
-    const id = await db.tx(async (t: any) => {
-      let query;
-      query = 'UPDATE educationalmaterial SET obsoleted = 1 WHERE id = $1;';
-      winstonLogger.debug('materialQueries removeEducationalMaterial: ' + query, [emid]);
-      await t.none(query, [emid]);
-      query = 'UPDATE material SET obsoleted = 1 WHERE educationalmaterialid = $1 returning id;';
-      winstonLogger.debug('materialQueries removeEducationalMaterial: ' + query, [emid]);
-      const id = await t.any(query, [emid]);
-      winstonLogger.debug('Materials set obsoleted: ' + JSON.stringify(id));
-      query = 'UPDATE attachment set obsoleted = 1 WHERE materialid = $1 returning id;';
-      for (const element of id) {
-        winstonLogger.debug('materialQueries removeEducationalMaterial: ' + query, [element.id]);
-        const attachmentid = await t.any(query, [element.id]);
-        winstonLogger.debug('set obsoleted attachments: ' + JSON.stringify(attachmentid));
-      }
-      return { id };
-    });
-    return id;
-  } catch (error) {
-    throw new Error(error);
-  }
+  return await db.tx(async (t: any) => {
+    await t.none('UPDATE educationalmaterial SET obsoleted = 1 WHERE id = $1;', [emid]);
+    winstonLogger.debug('Educational material obsoleted for id: ' + emid);
+
+    const materialIds = await t.any(
+      'UPDATE material SET obsoleted = 1 WHERE educationalmaterialid = $1 RETURNING id;',
+      [emid],
+    );
+    winstonLogger.debug('Materials obsoleted: ' + JSON.stringify(materialIds));
+
+    for (const { id } of materialIds) {
+      const attachmentIds = await t.any(
+        'UPDATE attachment SET obsoleted = 1 WHERE materialid = $1 RETURNING id;',
+        [id],
+      );
+      winstonLogger.debug(
+        'Attachments obsoleted for material id ' + id + ': ' + JSON.stringify(attachmentIds),
+      );
+    }
+
+    return { id: materialIds };
+  });
 }
 
 export async function changeEducationalMaterialUser(emid: string, id: string) {
-  try {
-    let query;
-    return await db.tx(async (t: any) => {
-      query = 'Select username from users where id = $1;';
-      const username = await t.oneOrNone(query, [id]);
-      if (!username || !username.username) {
-        return false;
-      } else {
-        query = 'UPDATE educationalmaterial SET usersusername = $1 where id = $2;';
-        winstonLogger.debug('changeEducationalMaterialOwner: ' + query, [username.username, emid]);
-        await t.none(query, [username.username, emid]);
-        return true;
-      }
-    });
-  } catch (error) {
-    throw new Error(error);
-  }
+  return await db.tx(async (t: any) => {
+    const username = await t.oneOrNone('SELECT username FROM users WHERE id = $1;', [id]);
+    if (!username || !username.username) {
+      return false;
+    }
+
+    await t.none('UPDATE educationalmaterial SET usersusername = $1 WHERE id = $2;', [
+      username.username,
+      emid,
+    ]);
+    winstonLogger.debug(
+      'Changed educational material owner to: ' + username.username + ' for material id: ' + emid,
+    );
+    return true;
+  });
 }
 
 export async function getUsers() {
-  try {
-    const query = 'select id, firstname, lastname, email from users;';
-    return await db.any(query);
-  } catch (error) {
-    throw new Error(error);
-  }
+  return await db.any('SELECT id, firstname, lastname, email FROM users;');
 }
 
 export async function getOwnerName(materialid: string) {
-  try {
-    const query =
-      'select firstname, lastname from educationalmaterial as em join users on em.usersusername = users.username where em.id = $1;';
-    return await db.oneOrNone(query, [materialid]);
-  } catch (error) {
-    throw new Error(error);
-  }
+  return await db.oneOrNone(
+    'SELECT firstname, lastname FROM educationalmaterial AS em JOIN users ON em.usersusername = users.username WHERE em.id = $1;',
+    [materialid],
+  );
 }
 
 export async function getMaterialName(materialid: string) {
-  try {
-    const query =
-      'select materialname, language from materialname where educationalmaterialid = $1';
-    return await db.any(query, [materialid]);
-  } catch (error) {
-    throw new Error(error);
-  }
+  return await db.any(
+    'SELECT materialname, language FROM materialname WHERE educationalmaterialid = $1;',
+    [materialid],
+  );
 }
