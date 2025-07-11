@@ -2,6 +2,8 @@ import { Collection } from '@/collection/collection';
 import { db, pgp } from '@resource/postgresClient';
 import { aoeCollectionThumbnailDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
+import { ITask } from 'pg-promise';
+import { IClient } from 'pg-promise/typescript/pg-subset';
 
 /**
  *
@@ -255,155 +257,148 @@ export async function collectionQuery(collectionId: string, username?: string) {
 export async function insertCollectionMetadata(collection: Collection) {
   try {
     const collectionId = collection.collectionId;
-    const data = await db.tx(async (t: any) => {
-      const queries = [];
-      const description = collection.description ? collection.description : '';
-      let query =
-        'UPDATE collection SET description = $1, collectionname = $2, updatedat = now() where id = $3';
-      let response = await t.none(query, [description, collection.name, collectionId]);
+    await db.tx(async (t: any) => {
+      const description = collection.description || '';
 
-      query = 'DELETE FROM collectionkeyword where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
-      let arr;
+      // Update collection description and name
+      await t.none(
+        'UPDATE collection SET description = $1, collectionname = $2, updatedat = now() WHERE id = $3',
+        [description, collection.name, collectionId],
+      );
+
+      // Update keywords
+      await t.none('DELETE FROM collectionkeyword WHERE collectionid = $1', [collectionId]);
       if (collection.keywords) {
-        arr = collection.keywords;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectionkeyword (collectionid, value, keywordkey) VALUES ($1,$2,$3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.keywords) {
+          await t.none(
+            'INSERT INTO collectionkeyword (collectionid, value, keywordkey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
 
-      query = 'DELETE FROM collectionlanguage where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+      // Update languages
+      await t.none('DELETE FROM collectionlanguage WHERE collectionid = $1', [collectionId]);
       if (collection.languages) {
-        arr = collection.languages;
-        for (const element of arr) {
-          query = 'INSERT INTO collectionlanguage (collectionid, language) VALUES ($1, $2)';
-          response = await t.none(query, [collectionId, element]);
-          queries.push(response);
+        for (const element of collection.languages) {
+          await t.none('INSERT INTO collectionlanguage (collectionid, language) VALUES ($1, $2)', [
+            collectionId,
+            element,
+          ]);
         }
       }
-      query = 'DELETE FROM collectioneducationalaudience where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+
+      // Update educational audiences
+      await t.none('DELETE FROM collectioneducationalaudience WHERE collectionid = $1', [
+        collectionId,
+      ]);
       if (collection.educationalRoles) {
-        arr = collection.educationalRoles;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectioneducationalaudience (collectionid, educationalrole, educationalrolekey) VALUES ($1, $2, $3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.educationalRoles) {
+          await t.none(
+            'INSERT INTO collectioneducationalaudience (collectionid, educationalrole, educationalrolekey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
-      query = 'DELETE FROM collectionalignmentobject where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+
+      // Update alignment objects
+      await t.none('DELETE FROM collectionalignmentobject WHERE collectionid = $1', [collectionId]);
       if (collection.alignmentObjects) {
-        arr = collection.alignmentObjects;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectionalignmentobject (collectionid, alignmenttype, targetname, source, objectkey, educationalframework, targeturl) VALUES ($1, $2, $3, $4, $5, $6, $7);';
-          response = await t.none(query, [
-            collectionId,
-            element.alignmentType,
-            element.targetName,
-            element.source,
-            element.key,
-            element.educationalFramework,
-            element.targetUrl,
-          ]);
-          queries.push(response);
+        for (const element of collection.alignmentObjects) {
+          await t.none(
+            'INSERT INTO collectionalignmentobject (collectionid, alignmenttype, targetname, source, objectkey, educationalframework, targeturl) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            [
+              collectionId,
+              element.alignmentType,
+              element.targetName,
+              element.source,
+              element.key,
+              element.educationalFramework,
+              element.targetUrl,
+            ],
+          );
         }
       }
-      query = 'DELETE FROM collectioneducationaluse where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+
+      // Update educational uses
+      await t.none('DELETE FROM collectioneducationaluse WHERE collectionid = $1', [collectionId]);
       if (collection.educationalUses) {
-        arr = collection.educationalUses;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectioneducationaluse (collectionid, value, educationalusekey) VALUES ($1, $2, $3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.educationalUses) {
+          await t.none(
+            'INSERT INTO collectioneducationaluse (collectionid, value, educationalusekey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
-      query = 'DELETE FROM collectionaccessibilityhazard where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+
+      // Update accessibility hazards
+      await t.none('DELETE FROM collectionaccessibilityhazard WHERE collectionid = $1', [
+        collectionId,
+      ]);
       if (collection.accessibilityHazards) {
-        arr = collection.accessibilityHazards;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectionaccessibilityhazard (collectionid, value, accessibilityhazardkey) VALUES ($1, $2, $3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.accessibilityHazards) {
+          await t.none(
+            'INSERT INTO collectionaccessibilityhazard (collectionid, value, accessibilityhazardkey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
-      query = 'DELETE FROM collectionaccessibilityfeature where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+
+      // Update accessibility features
+      await t.none('DELETE FROM collectionaccessibilityfeature WHERE collectionid = $1', [
+        collectionId,
+      ]);
       if (collection.accessibilityFeatures) {
-        arr = collection.accessibilityFeatures;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectionaccessibilityfeature (collectionid, value, accessibilityfeaturekey) VALUES ($1, $2, $3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.accessibilityFeatures) {
+          await t.none(
+            'INSERT INTO collectionaccessibilityfeature (collectionid, value, accessibilityfeaturekey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
 
-      query = 'DELETE FROM collectioneducationallevel where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+      // Update educational levels
+      await t.none('DELETE FROM collectioneducationallevel WHERE collectionid = $1', [
+        collectionId,
+      ]);
       if (collection.educationalLevels) {
-        arr = collection.educationalLevels;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectioneducationallevel (collectionid, value, educationallevelkey) VALUES ($1, $2, $3)';
-          response = await t.none(query, [collectionId, element.value, element.key]);
-          queries.push(response);
+        for (const element of collection.educationalLevels) {
+          await t.none(
+            'INSERT INTO collectioneducationallevel (collectionid, value, educationallevelkey) VALUES ($1, $2, $3)',
+            [collectionId, element.value, element.key],
+          );
         }
       }
 
+      // Update publish status
       if (collection.publish) {
-        query = 'UPDATE collection SET publishedat = now() where id = $1 and publishedat IS NULL';
-        response = await t.none(query, [collectionId]);
-        queries.push(response);
+        await t.none(
+          'UPDATE collection SET publishedat = now() WHERE id = $1 AND publishedat IS NULL',
+          [collectionId],
+        );
       }
+
+      // Update materials
       if (collection.materials) {
-        arr = collection.materials;
-        for (const element of arr) {
-          query =
-            'UPDATE collectioneducationalmaterial SET priority = $1 where collectionid = $2 and educationalmaterialid = $3;';
-          response = await t.none(query, [element.priority, collectionId, element.id]);
-          queries.push(response);
+        for (const element of collection.materials) {
+          await t.none(
+            'UPDATE collectioneducationalmaterial SET priority = $1 WHERE collectionid = $2 AND educationalmaterialid = $3',
+            [element.priority, collectionId, element.id],
+          );
         }
       }
 
-      query = 'DELETE FROM collectionheading where collectionid = $1';
-      response = await t.none(query, [collectionId]);
-      queries.push(response);
+      // Update headings
+      await t.none('DELETE FROM collectionheading WHERE collectionid = $1', [collectionId]);
       if (collection.headings) {
-        arr = collection.headings;
-        for (const element of arr) {
-          query =
-            'INSERT INTO collectionheading (collectionid, heading, description, priority) VALUES ($1, $2, $3, $4)';
-          response = await t.none(query, [
-            collectionId,
-            element.heading,
-            element.description,
-            element.priority,
-          ]);
-          queries.push(response);
+        for (const element of collection.headings) {
+          await t.none(
+            'INSERT INTO collectionheading (collectionid, heading, description, priority) VALUES ($1, $2, $3, $4)',
+            [collectionId, element.heading, element.description, element.priority],
+          );
         }
       }
-      return t.batch(queries);
     });
-    return data;
   } catch (err) {
     winstonLogger.error('Error in insertCollectionMetadata(): %o', err);
     throw new Error(err);
@@ -412,49 +407,68 @@ export async function insertCollectionMetadata(collection: Collection) {
 
 export async function recentCollectionQuery() {
   try {
-    const data = await db.task(async (t: any) => {
-      let query =
-        'select collection.id, publishedat, updatedat, createdat, collectionname as name, description from collection WHERE publishedat IS NOT NULL ORDER BY updatedAt DESC LIMIT 6';
-      const collections = await Promise.all(
-        await t.map(query, [], async (q: any) => {
-          query = 'SELECT value, keywordkey as key FROM collectionkeyword WHERE collectionid = $1;';
-          q.keywords = await t.any(query, [q.id]);
-          query = 'SELECT language FROM collectionlanguage WHERE collectionid = $1;';
-          const languageObjects = await t.any(query, [q.id]);
-          q.languages = languageObjects.map((o) => o.language);
-          query =
-            'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1;';
-          q.alignmentObjects = await t.any(query, [q.id]);
-          query =
-            'SELECT value, educationalusekey as key FROM collectioneducationaluse WHERE collectionid = $1;';
-          q.educationalUses = await t.any(query, [q.id]);
-          query =
-            'SELECT educationalrole as value, educationalrolekey as key FROM collectioneducationalaudience WHERE collectionid = $1;';
-          q.educationalRoles = await t.any(query, [q.id]);
-          query =
-            'SELECT value, accessibilityhazardkey as key FROM collectionaccessibilityhazard WHERE collectionid = $1;';
-          q.accessibilityHazards = await t.any(query, [q.id]);
-          query =
-            'SELECT value, accessibilityfeaturekey as key FROM collectionaccessibilityfeature WHERE collectionid = $1;';
-          q.accessibilityFeatures = await t.any(query, [q.id]);
-          query =
-            'SELECT value, educationallevelkey as key FROM collectioneducationallevel WHERE collectionid = $1;';
-          q.educationalLevels = await t.any(query, [q.id]);
-          query =
-            'Select filepath, filekey as thumbnail from collectionthumbnail where collectionid = $1 and obsoleted = 0;';
-          let response = await t.oneOrNone(query, [q.id]);
-          q.thumbnail = undefined;
-          if (response) {
-            q.thumbnail = await aoeCollectionThumbnailDownloadUrl(response.thumbnail);
-          }
-          query =
-            "select concat(firstname, ' ', lastname) as name from userscollection join users on usersusername = username where collectionid = $1;";
-          response = await t.any(query, [q.id]);
-          const authors = [];
-          response.map((o) => authors.push(o.name));
-          q.authors = authors;
-          return q;
-        }),
+    const data = await db.task(async (t: ITask<IClient>) => {
+      const collections = await t.map(
+        'SELECT collection.id, publishedat, updatedat, createdat, collectionname AS name, description FROM collection WHERE publishedat IS NOT NULL ORDER BY updatedAt DESC LIMIT 6',
+        [],
+        async (collection: any) => {
+          collection.keywords = await t.any(
+            'SELECT value, keywordkey AS key FROM collectionkeyword WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          const languageObjects = await t.any(
+            'SELECT language FROM collectionlanguage WHERE collectionid = $1',
+            [collection.id],
+          );
+          collection.languages = languageObjects.map((o) => o.language);
+
+          collection.alignmentObjects = await t.any(
+            'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          collection.educationalUses = await t.any(
+            'SELECT value, educationalusekey AS key FROM collectioneducationaluse WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          collection.educationalRoles = await t.any(
+            'SELECT educationalrole AS value, educationalrolekey AS key FROM collectioneducationalaudience WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          collection.accessibilityHazards = await t.any(
+            'SELECT value, accessibilityhazardkey AS key FROM collectionaccessibilityhazard WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          collection.accessibilityFeatures = await t.any(
+            'SELECT value, accessibilityfeaturekey AS key FROM collectionaccessibilityfeature WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          collection.educationalLevels = await t.any(
+            'SELECT value, educationallevelkey AS key FROM collectioneducationallevel WHERE collectionid = $1',
+            [collection.id],
+          );
+
+          const thumbnailResponse = await t.oneOrNone(
+            'SELECT filepath, filekey AS thumbnail FROM collectionthumbnail WHERE collectionid = $1 AND obsoleted = 0',
+            [collection.id],
+          );
+          collection.thumbnail = thumbnailResponse
+            ? await aoeCollectionThumbnailDownloadUrl(thumbnailResponse.thumbnail)
+            : undefined;
+
+          const authorResponse = await t.any(
+            "SELECT CONCAT(firstname, ' ', lastname) AS name FROM userscollection JOIN users ON usersusername = username WHERE collectionid = $1",
+            [collection.id],
+          );
+          collection.authors = authorResponse.map((o) => o.name);
+
+          return collection;
+        },
       );
       return { collections };
     });

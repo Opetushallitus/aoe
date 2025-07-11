@@ -197,7 +197,7 @@ export async function updateCollection(
   try {
     const collection = new Collection(req.body);
     winstonLogger.debug(collection);
-    const data = await insertCollectionMetadata(collection);
+    await insertCollectionMetadata(collection);
     res.status(200).json({ status: 'success' });
     try {
       await updateEsCollectionIndex();
