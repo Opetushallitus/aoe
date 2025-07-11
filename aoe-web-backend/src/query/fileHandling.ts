@@ -561,62 +561,38 @@ const upsertMaterialDisplayName = async (
   materialId: string,
   fileDetails: any,
 ): Promise<void> => {
-  const materialDisplayNameEN = await MaterialDisplayName.findOne({
-    where: { language: 'en', materialId },
-    transaction: t,
-  });
-  const materialDisplayNameFI = await MaterialDisplayName.findOne({
-    where: { language: 'fi', materialId },
-    transaction: t,
-  });
-  const materialDisplayNameSV = await MaterialDisplayName.findOne({
-    where: { language: 'sv', materialId },
-    transaction: t,
-  });
-  const missingLang: string =
-    fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
-  await MaterialDisplayName.upsert(
-    {
-      id: materialDisplayNameEN && materialDisplayNameEN.id,
-      displayName:
-        fileDetails.displayName.en ||
-        (materialDisplayNameEN && materialDisplayNameEN.displayName) ||
-        missingLang,
-      language: 'en',
-      materialId: materialId || materialDisplayNameEN?.materialId,
-    },
-    {
+  // Define the languages we are interested in
+  const languages = ['en', 'fi', 'sv'];
+
+  // Iterate over each language to perform find and upsert operations
+  for (const language of languages) {
+    // Find the existing material display name for the current language
+    const materialDisplayName = await MaterialDisplayName.findOne({
+      where: { language, materialId },
       transaction: t,
-    },
-  );
-  await MaterialDisplayName.upsert(
-    {
-      id: materialDisplayNameFI && materialDisplayNameFI.id,
-      displayName:
-        fileDetails.displayName.fi ||
-        (materialDisplayNameFI && materialDisplayNameFI.displayName) ||
-        missingLang,
-      language: 'fi',
-      materialId: materialId || materialDisplayNameFI?.materialId,
-    },
-    {
-      transaction: t,
-    },
-  );
-  await MaterialDisplayName.upsert(
-    {
-      id: materialDisplayNameSV && materialDisplayNameSV.id,
-      displayName:
-        fileDetails.displayName.sv ||
-        (materialDisplayNameSV && materialDisplayNameSV.displayName) ||
-        missingLang,
-      language: 'sv',
-      materialId: materialId || materialDisplayNameSV?.materialId,
-    },
-    {
-      transaction: t,
-    },
-  );
+    });
+
+    // Determine the display name to use, falling back to the first available language if necessary
+    const displayName =
+      fileDetails.displayName[language] ||
+      materialDisplayName?.displayName ||
+      fileDetails.displayName.en ||
+      fileDetails.displayName.fi ||
+      fileDetails.displayName.sv;
+
+    // Perform the upsert operation for the current language
+    await MaterialDisplayName.upsert(
+      {
+        id: materialDisplayName?.id,
+        displayName,
+        language,
+        materialId: materialId || materialDisplayName?.materialId,
+      },
+      {
+        transaction: t,
+      },
+    );
+  }
 };
 
 /**
@@ -633,66 +609,21 @@ export async function insertDataToDisplayName(
   materialid: string,
   fileDetails: any,
 ) {
-  const query =
-    'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;';
   if (fileDetails.displayName && materialid) {
-    if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-      if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          await t.none(query, ['', 'fi', materialid, educationalmaterialid]);
-        } else {
-          await t.none(query, [
-            fileDetails.displayName.en,
-            'fi',
-            materialid,
-            educationalmaterialid,
-          ]);
-        }
-      } else {
-        await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]);
-      }
-    } else {
-      await t.none(query, [fileDetails.displayName.fi, 'fi', materialid, educationalmaterialid]);
-    }
+    const languages = ['fi', 'sv', 'en'];
 
-    if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          await t.none(query, ['', 'sv', materialid, educationalmaterialid]);
-        } else {
-          await t.none(query, [
-            fileDetails.displayName.en,
-            'sv',
-            materialid,
-            educationalmaterialid,
-          ]);
-        }
-      } else {
-        await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]);
-      }
-    } else {
-      await t.none(query, [fileDetails.displayName.sv, 'sv', materialid, educationalmaterialid]);
-    }
-
-    if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-        if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-          await t.none(query, ['', 'en', materialid, educationalmaterialid]);
-        } else {
-          await t.none(query, [
-            fileDetails.displayName.sv,
-            'en',
-            materialid,
-            educationalmaterialid,
-          ]);
-        }
-      } else {
-        await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]);
-      }
-    } else {
-      await t.none(query, [fileDetails.displayName.en, 'en', materialid, educationalmaterialid]);
+    for (const lang of languages) {
+      const displayName = getDisplayName(fileDetails.displayName, lang);
+      await t.none(
+        'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;',
+        [displayName, lang, materialid, educationalmaterialid],
+      );
     }
   }
+}
+
+function getDisplayName(displayNameObj: any, lang: string): string {
+  return displayNameObj[lang] || displayNameObj.fi || displayNameObj.sv || displayNameObj.en || '';
 }
 
 const insertDataToMaterialTable = async (
