@@ -283,7 +283,7 @@ services:
       start_period: 30s
 
   localstack:
-    image: localstack/localstack:latest@sha256:5d8145b9bc002868b03a191fe44623a77fa22809e5ba67b74b65fa24d91c1d27
+    image: localstack/localstack:latest@sha256:996c61b13801f9a0f539550ce5364b821c95e1bfb691b37a329d0ef4f2dcc362
     container_name: localstack
     networks:
       default:
