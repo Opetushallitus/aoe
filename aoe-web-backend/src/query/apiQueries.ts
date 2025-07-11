@@ -682,44 +682,26 @@ export const setAttachmentObsoleted = async (
 async function setLanguage(obj: any) {
   try {
     if (obj) {
+      // Set 'fi' based on the availability of 'sv' and 'en'
       if (!obj.fi || obj.fi === '') {
-        if (!obj.sv || obj.sv === '') {
-          if (!obj.en || obj.en === '') {
-            obj.fi = '';
-          } else {
-            obj.fi = obj.en;
-          }
-        } else {
-          obj.fi = obj.sv;
-        }
+        obj.fi = obj.sv || obj.en || '';
       }
+
+      // Set 'sv' based on the availability of 'fi' and 'en'
       if (!obj.sv || obj.sv === '') {
-        if (!obj.fi || obj.fi === '') {
-          if (!obj.en || obj.en === '') {
-            obj.sv = '';
-          } else {
-            obj.sv = obj.en;
-          }
-        } else {
-          obj.sv = obj.fi;
-        }
+        obj.sv = obj.fi || obj.en || '';
       }
+
+      // Set 'en' based on the availability of 'fi' and 'sv'
       if (!obj.en || obj.en === '') {
-        if (!obj.fi || obj.fi === '') {
-          if (!obj.sv || obj.sv === '') {
-            obj.en = '';
-          } else {
-            obj.en = obj.sv;
-          }
-        } else {
-          obj.en = obj.fi;
-        }
+        obj.en = obj.fi || obj.sv || '';
       }
     }
   } catch (err) {
     throw new Error('Error in setLanguage(): ' + err);
   }
 }
+
 
 const insertDataToDescription = async (
   t: any,
