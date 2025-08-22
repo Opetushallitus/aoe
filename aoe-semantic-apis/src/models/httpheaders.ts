@@ -1,4 +1,4 @@
 export interface HttpHeaders {
-  Accept?: string;
+  Accept: string;
   'Caller-Id'?: string;
 }

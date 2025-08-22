@@ -1,5 +1,3 @@
-import rp from 'request-promise';
-
 import { HttpHeaders } from '../models/httpheaders';
 import { winstonLogger } from '../util';
 
@@ -14,12 +12,17 @@ export async function getDataFromApi(
       url: `${api}${route}${params}`,
       headers: headers,
     };
-    const body = await rp.get(options);
+    const response = await fetch(options.url, {
+      headers: {
+        Accept: headers.Accept,
+        ...(!!headers?.['Caller-Id'] ? { 'Caller-Id': headers['Caller-Id'] } : {}),
+      },
+    });
 
-    if (headers?.Accept === 'application/json') {
-      return JSON.parse(body);
+    if (headers.Accept === 'application/json') {
+      return await response.json();
     } else {
-      return body;
+      return response.text();
     }
   } catch (err) {
     winstonLogger.error('Error getting data from ' + api + ': %o', err);

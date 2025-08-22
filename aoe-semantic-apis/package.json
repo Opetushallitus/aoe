@@ -47,8 +47,6 @@
     "express-swagger-generator": "^1.1.17",
     "node-cron": "^2.0.3",
     "redis": "^3.0.2",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6",
     "striptags": "^3.1.1",
     "winston": "^3.7.2",
     "xml2js": "^0.6.2"
@@ -60,11 +58,9 @@
     "@types/express": "4.17.13",
     "@types/form-data": "2.5.0",
     "@types/jest": "26.0.24",
-    "@types/node": "14.18.16",
+    "@types/node": "^24.3.0",
     "@types/node-cron": "2.0.5",
     "@types/redis": "2.8.32",
-    "@types/request": "2.48.8",
-    "@types/request-promise": "4.1.48",
     "@types/supertest": "2.0.12",
     "@types/xml2js": "0.4.11",
     "@typescript-eslint/eslint-plugin": "5.21.0",
@@ -80,7 +76,7 @@
     "supertest": "6.2.3",
     "ts-jest": "29.2.5",
     "ts-node": "9.1.1",
-    "typescript": "4.6.3"
+    "typescript": "^5.9.2"
   },
   "overrides": {
     "semver": "7.7.1",
