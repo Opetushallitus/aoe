@@ -407,68 +407,70 @@ export async function insertCollectionMetadata(collection: Collection) {
 
 export async function recentCollectionQuery() {
   try {
-    const data = await db.task(async (t: ITask<IClient>) => {
-      const collections = await t.map(
-        'SELECT collection.id, publishedat, updatedat, createdat, collectionname AS name, description FROM collection WHERE publishedat IS NOT NULL ORDER BY updatedAt DESC LIMIT 6',
-        [],
-        async (collection: any) => {
-          collection.keywords = await t.any(
-            'SELECT value, keywordkey AS key FROM collectionkeyword WHERE collectionid = $1',
-            [collection.id],
-          );
+    const data = await db.tx(async (t: ITask<IClient>) => {
+      const collections = await Promise.all(
+        await t.map(
+          'SELECT collection.id, publishedat, updatedat, createdat, collectionname AS name, description FROM collection WHERE publishedat IS NOT NULL ORDER BY updatedAt DESC LIMIT 6',
+          [],
+          async (collection: any) => {
+            collection.keywords = await t.any(
+              'SELECT value, keywordkey AS key FROM collectionkeyword WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          const languageObjects = await t.any(
-            'SELECT language FROM collectionlanguage WHERE collectionid = $1',
-            [collection.id],
-          );
-          collection.languages = languageObjects.map((o) => o.language);
+            const languageObjects = await t.any(
+              'SELECT language FROM collectionlanguage WHERE collectionid = $1',
+              [collection.id],
+            );
+            collection.languages = languageObjects.map((o) => o.language);
 
-          collection.alignmentObjects = await t.any(
-            'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.alignmentObjects = await t.any(
+              'SELECT alignmenttype, targetname, source, educationalframework, objectkey, targeturl FROM collectionalignmentobject WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          collection.educationalUses = await t.any(
-            'SELECT value, educationalusekey AS key FROM collectioneducationaluse WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.educationalUses = await t.any(
+              'SELECT value, educationalusekey AS key FROM collectioneducationaluse WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          collection.educationalRoles = await t.any(
-            'SELECT educationalrole AS value, educationalrolekey AS key FROM collectioneducationalaudience WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.educationalRoles = await t.any(
+              'SELECT educationalrole AS value, educationalrolekey AS key FROM collectioneducationalaudience WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          collection.accessibilityHazards = await t.any(
-            'SELECT value, accessibilityhazardkey AS key FROM collectionaccessibilityhazard WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.accessibilityHazards = await t.any(
+              'SELECT value, accessibilityhazardkey AS key FROM collectionaccessibilityhazard WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          collection.accessibilityFeatures = await t.any(
-            'SELECT value, accessibilityfeaturekey AS key FROM collectionaccessibilityfeature WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.accessibilityFeatures = await t.any(
+              'SELECT value, accessibilityfeaturekey AS key FROM collectionaccessibilityfeature WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          collection.educationalLevels = await t.any(
-            'SELECT value, educationallevelkey AS key FROM collectioneducationallevel WHERE collectionid = $1',
-            [collection.id],
-          );
+            collection.educationalLevels = await t.any(
+              'SELECT value, educationallevelkey AS key FROM collectioneducationallevel WHERE collectionid = $1',
+              [collection.id],
+            );
 
-          const thumbnailResponse = await t.oneOrNone(
-            'SELECT filepath, filekey AS thumbnail FROM collectionthumbnail WHERE collectionid = $1 AND obsoleted = 0',
-            [collection.id],
-          );
-          collection.thumbnail = thumbnailResponse
-            ? await aoeCollectionThumbnailDownloadUrl(thumbnailResponse.thumbnail)
-            : undefined;
+            const thumbnailResponse = await t.oneOrNone(
+              'SELECT filepath, filekey AS thumbnail FROM collectionthumbnail WHERE collectionid = $1 AND obsoleted = 0',
+              [collection.id],
+            );
+            collection.thumbnail = thumbnailResponse
+              ? await aoeCollectionThumbnailDownloadUrl(thumbnailResponse.thumbnail)
+              : undefined;
 
-          const authorResponse = await t.any(
-            "SELECT CONCAT(firstname, ' ', lastname) AS name FROM userscollection JOIN users ON usersusername = username WHERE collectionid = $1",
-            [collection.id],
-          );
-          collection.authors = authorResponse.map((o) => o.name);
+            const authorResponse = await t.any(
+              "SELECT CONCAT(firstname, ' ', lastname) AS name FROM userscollection JOIN users ON usersusername = username WHERE collectionid = $1",
+              [collection.id],
+            );
+            collection.authors = authorResponse.map((o) => o.name);
 
-          return collection;
-        },
+            return collection;
+          },
+        ),
       );
       return { collections };
     });

@@ -2,6 +2,7 @@ import { Header } from './Header';
 import { expect, Page } from '@playwright/test';
 import { UusiOppimateriaali } from './UusiOppimateriaali';
 import { MuokkaaMateriaalia } from './MuokkaaMateriaalia';
+import { MuokkaaKokoelmaa } from './MuokkaaKokoelmaa';
 
 export const OmatOppimateriaalit = (page: Page) => {
   const locators = {
@@ -24,6 +25,11 @@ export const OmatOppimateriaalit = (page: Page) => {
     await expect(page.getByRole('heading', { name: 'Oppimateriaalin muokkaus' })).toBeVisible();
     return MuokkaaMateriaalia(page);
   };
+  const startToEditKokoelma = async (kokoelmaName: string) => {
+    await page.getByRole('link', { name: `Oppimateriaalin kansikuva ${kokoelmaName}` }).click();
+    await page.getByRole('link', { name: 'Muokkaa' }).click();
+    return MuokkaaKokoelmaa(page);
+  };
 
   return {
     header: Header(page),
@@ -31,5 +37,6 @@ export const OmatOppimateriaalit = (page: Page) => {
     luoUusiMateriaali,
     expectToFindMateriaali,
     startToEditMateriaaliNumero,
+    startToEditKokoelma,
   };
 };

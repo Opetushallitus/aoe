@@ -37,6 +37,13 @@ export const Materiaali = (page: Page) => {
     const materiaaliNumero = await getMateriaaliNumero();
     await page.getByTestId(`preview-link-${materiaaliNumero}`).click();
   };
+  const lisaaKokoelmaan = async (kokoelmaName: string) => {
+    await page.getByRole('button', { name: 'Lisää kokoelmaan' }).click();
+    await page.getByRole('textbox', { name: 'Kokoelman nimi' }).fill(kokoelmaName);
+    await page.getByRole('button', { name: 'Tallenna' }).click();
+    await page.getByLabel(kokoelmaName).click({ force: true });
+    await page.getByRole('button', { name: 'Lisää', exact: true }).click();
+  };
 
   return {
     header: Header(page),
@@ -46,5 +53,6 @@ export const Materiaali = (page: Page) => {
     lataaTiedosto,
     lataaKaikkiTiedostot,
     clickVerkkosivu,
+    lisaaKokoelmaan,
   };
 };

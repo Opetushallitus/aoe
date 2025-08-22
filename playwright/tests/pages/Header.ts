@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
 import { OmatOppimateriaalit } from './OmatOppimateriaalit';
+import { KokoelmatPage } from './KokoelmatPage';
 
 export const Header = (page: Page) => {
   const locators = {
@@ -19,9 +20,14 @@ export const Header = (page: Page) => {
     }
     return OmatOppimateriaalit(page);
   };
+  async function clickKokoelmat() {
+    await page.getByRole('link', { name: 'Kokoelmat' }).click();
+    return KokoelmatPage(page);
+  }
 
   return {
     clickOmatMateriaalit,
+    clickKokoelmat,
     ...locators,
   };
 };

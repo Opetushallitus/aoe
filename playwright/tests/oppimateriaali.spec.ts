@@ -55,3 +55,20 @@ test('käyttäjä voi päivittää materiaalista kaikki linkit kerralla ja julka
     .then((n) => n.seuraava());
   await esikatseluJaTallennut.tallenna(materiaaliNimi);
 });
+test('käyttäjä voi luoda kokoelman ja julkaista sen', async ({ page }) => {
+  const etusivu = Etusivu(page);
+  await etusivu.goto();
+  let omatMateriaalitPage = await etusivu.header.clickOmatMateriaalit();
+  const uusiMateriaali = await omatMateriaalitPage.luoUusiMateriaali();
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi();
+  const materiaaliPage = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi);
+  const kokoelmaName = 'Testikokoelma-' + materiaaliNimi;
+  await materiaaliPage.lisaaKokoelmaan(kokoelmaName);
+  omatMateriaalitPage = await etusivu.header.clickOmatMateriaalit();
+  const kokoelmaEditPage = await omatMateriaalitPage.startToEditKokoelma(kokoelmaName);
+  const kokoelmaPage = await kokoelmaEditPage.julkaiseKokoelma();
+  const kokoelmatPage = await kokoelmaPage.header.clickKokoelmat();
+  await expect(await kokoelmatPage.kokoelmaByName(kokoelmaName)).toContainText(
+    'Kokoelma on luotu Playwright testissä.',
+  );
+});
