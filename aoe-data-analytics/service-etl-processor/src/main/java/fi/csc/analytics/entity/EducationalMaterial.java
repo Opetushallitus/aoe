@@ -1,11 +1,11 @@
 package fi.csc.analytics.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
 

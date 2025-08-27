@@ -1,18 +1,17 @@
 package fi.csc.analytics.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
-
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity(name = "EducationalLevel")
-@Table(name = "EducationalLevel")
-public class EducationalLevel {
+@Entity(name = "Author")
+@Table(name = "Author")
+public class Author {
 
     @Id
     @Column(name = "Id")
@@ -23,11 +22,17 @@ public class EducationalLevel {
     @JoinColumn(name = "EducationalMaterialId", referencedColumnName = "Id", insertable = false, updatable = false)
     private EducationalMaterial educationalMaterial;
 
-    @Column(name = "Value")
-    private String value;
+    @Column(name = "EducationalMaterialId")
+    private Long educationalMaterialId;
 
-    @Column(name = "EducationalLevelKey")
-    private String educationalLevelKey;
+    @Column(name = "AuthorName")
+    private String authorName;
+
+    @Column(name = "Organization")
+    private String organization;
+
+    @Column(name = "OrganizationKey")
+    private String organizationKey;
 
 }
 
