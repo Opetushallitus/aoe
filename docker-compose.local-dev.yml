@@ -208,7 +208,7 @@ services:
       - 9600:9600
 
   aoe-mongodb:
-    image: mongo:4.0
+    image: mongo:4.0@sha256:4ca81c89ad08f4cfa9906005126112bffe8fb363800466ef5e50f6238f6f6af1
     container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
