@@ -167,7 +167,7 @@ services:
       retries: 5
 
   mongo:
-    image: mongo:6.0@sha256:2c6f0a6f33856597ad3d467a71af506bec71e73d945ead65b1af119be38b4c43
+    image: mongo:4.0
     container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
