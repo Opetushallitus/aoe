@@ -422,7 +422,7 @@ services:
         }
 
   nginx:
-    image: nginx:latest@sha256:6784fb0834aa7dbbe12e3d7471e69c290df3e6ba810dc38b34ae33d3c1c05f7d
+    image: nginx:latest@sha256:33e0bbc7ca9ecf108140af6288c7c9d1ecc77548cbfd3952fd8466a75edefe57
     container_name: nginx
     hostname: nginx
     ports:
