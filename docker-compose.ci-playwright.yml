@@ -109,7 +109,7 @@ services:
     hostname: aoe-data-analytics
     build:
       context: aoe-data-analytics
-      dockerfile: ./service-etl-processor/Dockerfile
+      dockerfile: ./Dockerfile
       secrets:
         - trust_store_password
     image: ${AOE_DATA_ANALYTICS_TAG:-aoe-data-analytics:latest}
@@ -124,7 +124,7 @@ services:
         condition: service_started
       aoe-postgres:
         condition: service_started
-    entrypoint: ["java", "-Xms512m", "-Xmx512m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "service-etl-processor.jar"]
+    entrypoint: ["java", "-Xms512m", "-Xmx512m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "aoe-data-analytics.jar"]
     ports:
       - 8080:8080
     env_file:

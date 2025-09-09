@@ -5,7 +5,7 @@ RUN apt-get update && \
     apt-get install -y curl openssl --no-install-recommends && \
     apt-get clean
 
-COPY ./service-etl-processor/import_rds_certs.sh /certs/import_rds_certs.sh
+COPY ./import_rds_certs.sh /certs/import_rds_certs.sh
 #COPY import_rds_certs.sh /certs/import_rds_certs.sh
 
 RUN --mount=type=secret,id=trust_store_password,required=true \
@@ -14,8 +14,7 @@ RUN --mount=type=secret,id=trust_store_password,required=true \
 
 WORKDIR /app
 ADD . .
-RUN mvn package -DskipTests && \
-    sh -c "touch ./service-etl-processor/target/service-etl-processor-0.0.1-exec.jar"
+RUN mvn package -DskipTests
 
 FROM openjdk:17-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f68c3f62f9774
 
@@ -23,5 +22,5 @@ FROM openjdk:17-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f
 COPY --from=build /certs /certs
 
 WORKDIR /app
-COPY --from=build /app/service-etl-processor/target/service-etl-processor-0.0.1-exec.jar service-etl-processor.jar
-ENTRYPOINT ["sh", "-c", "java -Xms512m -Xmx512m -Djavax.net.ssl.trustStorePassword=$TRUST_STORE_PASS -Djavax.net.ssl.trustStore=/certs/rds-truststore.jks -Djava.security.egd=file:/dev/./urandom -jar service-etl-processor.jar"]
+COPY --from=build /app/target/aoe-data-analytics-0.0.1.jar aoe-data-analytics.jar
+ENTRYPOINT ["sh", "-c", "java -Xms512m -Xmx512m -Djavax.net.ssl.trustStorePassword=$TRUST_STORE_PASS -Djavax.net.ssl.trustStore=/certs/rds-truststore.jks -Djava.security.egd=file:/dev/./urandom -jar aoe-data-analytics.jar"]

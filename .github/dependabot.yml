@@ -21,7 +21,7 @@ updates:
 
   - package-ecosystem: "docker"
     directories:
-      - "/aoe-data-analytics/service-etl-processor"
+      - "/aoe-data-analytics/"
       - "/aoe-data-services/oaipmh-provider/"
       - "/aoe-semantic-apis/docker"
       - "/aoe-streaming-app/docker"

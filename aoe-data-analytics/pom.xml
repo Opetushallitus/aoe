@@ -12,7 +12,7 @@
   <groupId>fi.csc</groupId>
   <artifactId>aoe-data-analytics</artifactId>
   <version>0.0.1</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -21,20 +21,154 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
   </properties>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
+  <dependencies>
+      <dependency>
           <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-          <configuration>
-            <skip>true</skip>
-          </configuration>
+          <artifactId>spring-boot-starter</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+      <!-- This can be removed when spring-boot-starter-web is newer than 3.5.4 AND it has the minimum webmvc version  6.2.10 -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-webmvc</artifactId>
+          <version>6.2.10</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-data-mongodb</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.mongodb</groupId>
+          <artifactId>mongodb-driver-sync</artifactId>
+          <version>5.4.0</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-core -->
+      <dependency>
+          <groupId>org.mongodb</groupId>
+          <artifactId>mongodb-driver-core</artifactId>
+          <version>5.4.0</version>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka-streams</artifactId>
+          <version>3.3.2</version>
+      </dependency>
+      <dependency>
+          <groupId>software.amazon.msk</groupId>
+          <artifactId>aws-msk-iam-auth</artifactId>
+          <version>2.3.2</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-http2 -->
+      <!--  aws-msk-iam-auth v. 2.3.2 uses the vulnerable version of netty-codec so override it -->
+      <dependency>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-codec-http2</artifactId>
+          <version>4.2.4.Final</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.kafka</groupId>
+          <artifactId>spring-kafka</artifactId>
+          <version>3.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-configuration-processor</artifactId>
+          <optional>true</optional>
+      </dependency>
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <optional>true</optional>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.kafka</groupId>
+          <artifactId>spring-kafka-test</artifactId>
+          <version>3.2.0</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>ch.qos.logback.access</groupId>
+          <artifactId>logback-access-tomcat</artifactId>
+          <version>2.0.6</version>
+      </dependency>
+      <dependency>
+          <groupId>jakarta.persistence</groupId>
+          <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-data-jpa</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter</artifactId>
+          <scope>test</scope>
+      </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+                <executable>true</executable>
+                <!--<fork>false</fork>-->
+                <mainClass>fi.csc.processor.ServiceEtlProcessorApplication</mainClass>
+                <skip>false</skip>
+            </configuration>
         </plugin>
-      </plugins>
-    </pluginManagement>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M7</version>
+            <dependencies>
+                <dependency>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-engine</artifactId>
+                    <version>5.11.4</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </resource>
+    </resources>
   </build>
-  <modules>
-    <module>service-etl-processor</module>
-  </modules>
 </project>
