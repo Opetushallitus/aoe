@@ -107,7 +107,7 @@ services:
     hostname: aoe-data-services
     build:
       context: aoe-data-services
-      dockerfile: ./oaipmh-provider/Dockerfile
+      dockerfile: ./Dockerfile
     image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
     container_name: aoe-data-services
     restart: unless-stopped

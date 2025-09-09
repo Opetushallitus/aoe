@@ -22,7 +22,7 @@ updates:
   - package-ecosystem: "docker"
     directories:
       - "/aoe-data-analytics/"
-      - "/aoe-data-services/oaipmh-provider/"
+      - "/aoe-data-services/"
       - "/aoe-semantic-apis/docker"
       - "/aoe-streaming-app/docker"
       - "/aoe-web-backend/docker"

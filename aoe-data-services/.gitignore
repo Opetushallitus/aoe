@@ -35,6 +35,3 @@ build/
 
 ### Intellij ###
 .idea/
-
-### Development Utils ###
-/oaipmh-provider/src/main/java/fi/csc/provider/utils/
