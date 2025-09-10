@@ -8,11 +8,16 @@
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
+  "dependencyDashboardApproval": true,
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
+
   "forkProcessing": "disabled",
-  "ignoreTests": false,
+
+  "automerge": true,
   "automergeType": "pr",
+  "platformAutomerge": true,
+
   "lockFileMaintenance": { "enabled": true },
   "schedule": [
     "at any time"
@@ -20,12 +25,11 @@
   "automergeSchedule": [
     "at any time"
   ],
-  "platformAutomerge": true,
-  "automerge": true,
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "labels": ["security"],
-    "automerge": true
+    "automerge": true,
+    "dependencyDashboardApproval": false
   },
   "enabledManagers": [
     "nvm", 
@@ -35,34 +39,41 @@
     "dockerfile", 
     "maven"
   ],
-  "github-actions": { "automerge": true },
-  "dockerfile": { "automerge": true },
-  "docker-compose": { "automerge": true },
+  "github-actions": { 
+    "automerge": true,
+    "dependencyDashboardApproval": false
+  },
+  "dockerfile": { 
+    "automerge": true,
+    "dependencyDashboardApproval": false
+  },
+  "docker-compose": { 
+    "automerge": true,
+    "dependencyDashboardApproval": false
+  },
   "packageRules": [
     {
       "automerge": false,
+      "dependencyDashboardApproval": true,
       "matchPackageNames": ["*"]
     },
     {
-      "matchManagers": ["npm"],
-      "automerge": false,
-      "matchUpdateTypes": ["major", "minor", "patch"],
+      "automerge": true,
+      "dependencyDashboardApproval": false,
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": ["*"]
-    },
-    {
-      "groupName": "Renovate",
-      "automerge": false,
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "matchDepNames": ["ghcr.io/renovatebot/base-image"]
     },
     {
       "groupName": "Spring Boot",
       "matchPackageNames": ["org.springframework.boot"],
-      "automerge": false
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "dependencyDashboardApproval": false
     },
     {
       "groupName": "httpclient5",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -72,6 +83,7 @@
     {
       "groupName": "Bootstrap",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -81,6 +93,7 @@
     {
       "groupName": "Multer",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -90,6 +103,7 @@
     {
       "groupName": "Async",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -99,6 +113,7 @@
     {
       "groupName": "Dotenv",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
@@ -108,6 +123,7 @@
     {
       "groupName": "Http Proxy Middleware",
       "automerge": true,
+      "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
         "patch"
