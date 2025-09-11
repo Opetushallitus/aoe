@@ -97,7 +97,7 @@
     "@types/node": "22.14.0",
     "@types/node-schedule": "2.1.7",
     "@types/passport": "1.0.17",
-    "@types/pdf-parse": "1.1.4",
+    "@types/pdf-parse": "1.1.5",
     "@types/s3-zip": "3.3.1",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
