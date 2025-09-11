@@ -14,7 +14,7 @@
 
   "forkProcessing": "disabled",
 
-  "prCreation": "status-success",
+  "prCreation": "immediate",
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
