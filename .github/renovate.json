@@ -61,13 +61,13 @@
     {
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["*"]
     },
     {
       "groupName": "Spring Boot",
       "matchPackageNames": ["org.springframework.boot"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "automerge": true,
       "dependencyDashboardApproval": false
     },
@@ -75,60 +75,42 @@
       "groupName": "httpclient5",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
     },
     {
       "groupName": "Bootstrap",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["bootstrap"]
     },
     {
       "groupName": "Multer",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["multer", "@types/multer"]
     },
     {
       "groupName": "Async",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["async", "@types/async"]
     },
     {
       "groupName": "Dotenv",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["dotenv", "@types/dotenv"]
     },
     {
       "groupName": "Http Proxy Middleware",
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "lockFileMaintenance", "rollback", "bump", "replacement"],
       "matchPackageNames": ["http-proxy-middleware"]
     }
   ],
