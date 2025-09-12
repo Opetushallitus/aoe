@@ -25,20 +25,19 @@ app.disable('x-powered-by');
 // Set application to operate correctly behind a proxy server (get client information from X-Forwarded-* headers)
 app.set('trust proxy', '127.0.0.1');
 
-// Root status page with Pug template
-app.set('views', './views');
-app.set('view engine', 'pug');
-
 // HTTP request handlers
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morganHttpLogger);
 
+app.get( '/health', (_req: Request, res: Response) => {
+    res.json({ status: 'ok' });
+});
+
 // Connected API versions and custom middlewares
 app.use('/', apiRouterRoot);
 app.use('/stream/api/v1', postHttpProcessor, apiRouterV1);
-app.use('/favicon.ico', express.static('./views/favicon.ico'));
 
 // Default error handler
 app.use(((err: any, req: Request, res: Response, next: NextFunction) => {

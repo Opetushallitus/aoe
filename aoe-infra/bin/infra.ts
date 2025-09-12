@@ -406,7 +406,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
     listenerPathPatterns: ['/stream/api/v1*'],
-    healthCheckPath: '/',
+    healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
