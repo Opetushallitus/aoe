@@ -21,7 +21,8 @@
     "lint": "npx eslint src/**/*.ts",
     "fix-lint": "npm run lint -- --fix",
     "test": "jest --forceExit --coverage",
-    "watch-ts": "npx tsc -w"
+    "watch-ts": "npx tsc -w",
+    "knip": "knip"
   },
   "dependencies": {
     "async": "^3.2.0",
@@ -66,7 +67,7 @@
     "@types/lusca": "1.7.5",
     "@types/morgan": "1.9.4",
     "@types/multer": "1.4.7",
-    "@types/node": "^18.19.123",
+    "@types/node": "^18.19.124",
     "@types/supertest": "2.0.12",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
@@ -74,6 +75,7 @@
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.9.0",
     "eslint-plugin-prettier": "4.2.1",
+    "knip": "^5.63.1",
     "prettier": "2.8.8",
     "typescript": "^5.9.2"
   }

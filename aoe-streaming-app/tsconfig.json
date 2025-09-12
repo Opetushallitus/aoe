@@ -13,7 +13,6 @@
     "strict": true,
     "noImplicitAny": true,
     "baseUrl": "./",
-    "typeRoots": ["./node_modules/@types"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
