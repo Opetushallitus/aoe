@@ -96,7 +96,7 @@
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "eslint": "8.57.1",
-    "eslint-config-prettier": "8.10.0",
+    "eslint-config-prettier": "8.10.2",
     "eslint-plugin-prettier": "4.2.1",
     "https": "1.0.0",
     "knip": "5.50.2",
