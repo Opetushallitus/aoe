@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as lodash from 'lodash'
 import * as cdk from 'aws-cdk-lib'
 import { aws_cloudwatch_actions, CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
@@ -94,7 +94,7 @@ export class EcsServiceStack extends Stack {
       ...props.parameter_store_secrets.reduce((secretsAcc, secretName) => {
         const ssmParameter = ssm.StringParameter.fromSecureStringParameterAttributes(
           this,
-          `${_.upperFirst(_.camelCase(secretName))}Parameter`,
+          `${lodash.upperFirst(lodash.camelCase(secretName))}Parameter`,
           {
             version: 0,
             parameterName: `/service/${props.serviceName}/${secretName}`
@@ -107,7 +107,7 @@ export class EcsServiceStack extends Stack {
       ...(props.secrets_manager_secrets || []).reduce((secretsAcc, se) => {
         const secret = secretsmanager.Secret.fromSecretNameV2(
           this,
-          `${_.upperFirst(_.camelCase(se.path))}Secret`,
+          `${lodash.upperFirst(lodash.camelCase(se.path))}Secret`,
           se.path
         )
 
