@@ -1,4 +1,4 @@
-FROM node:18.20.6-bookworm@sha256:f12d34408955b2081f82078e8f96c3299ca0f38d11e76086cb9b9b1b669977e4 AS front-builder
+FROM node:18.20.8-bookworm@sha256:c6ae79e38498325db67193d391e6ec1d224d96c693a8a4d943498556716d3783 AS front-builder
 
 WORKDIR /app
 ADD package.json /app/
