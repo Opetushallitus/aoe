@@ -56,11 +56,6 @@
     "@types/node-cron": "2.0.8",
     "@types/redis": "2.8.32",
     "@types/xml2js": "0.4.14",
-    "@typescript-eslint/eslint-plugin": "5.21.0",
-    "@typescript-eslint/parser": "5.21.0",
-    "eslint": "8.14.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-prettier": "4.0.0",
     "knip": "^5.63.1",
     "typescript": "^5.9.2"
   },
