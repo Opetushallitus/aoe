@@ -1,8 +1,8 @@
 export interface AlignmentObjectExtended {
-  key?: string | number;
-  parent?: any;
-  gradeEntity?: number;
-  source?: string;
+  key?: string | number
+  parent?: any
+  gradeEntity?: number
+  source?: string
   alignmentType:
     | 'assesses'
     | 'teaches'
@@ -10,10 +10,10 @@ export interface AlignmentObjectExtended {
     | 'textComplexity'
     | 'readingLevel'
     | 'educationalSubject'
-    | 'educationalLevel';
-  educationalFramework?: string;
-  targetDescription?: string;
-  targetName: string;
-  targetUrl?: string;
-  children?: AlignmentObjectExtended[];
+    | 'educationalLevel'
+  educationalFramework?: string
+  targetDescription?: string
+  targetName: string
+  targetUrl?: string
+  children?: AlignmentObjectExtended[]
 }
