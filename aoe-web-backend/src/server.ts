@@ -1,28 +1,36 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
 
 // Load the environment variables before anything else.
-dotenv.config();
+dotenv.config()
 
-import { app } from './app';
-import errorHandler from 'errorhandler';
-import { Socket } from 'net';
-import winstonLogger from '@util/winstonLogger';
+import { app } from './app'
+import errorHandler from 'errorhandler'
+import { Socket } from 'net'
+import winstonLogger from '@util/winstonLogger'
 
-app.use(errorHandler());
+app.use(errorHandler())
 
-const server = app.listen(parseInt(process.env.PORT_LISTEN as string, 10) || 3000, '0.0.0.0', () => {
-  winstonLogger.info('App is running at http://0.0.0.0:%d in %s mode', process.env.PORT_LISTEN, app.get('env'));
-});
+const server = app.listen(
+  parseInt(process.env.PORT_LISTEN as string, 10) || 3000,
+  '0.0.0.0',
+  () => {
+    winstonLogger.info(
+      'App is running at http://0.0.0.0:%d in %s mode',
+      process.env.PORT_LISTEN,
+      app.get('env')
+    )
+  }
+)
 
 // Socket event handlers for the debugging purposes.
 server.on('connection', (socket: Socket) => {
-  socket.setTimeout(600 * 60 * 1000);
+  socket.setTimeout(600 * 60 * 1000)
   socket.on('timeout', () => {
-    socket.end();
-  });
+    socket.end()
+  })
   socket.on('error', () => {
-    socket.end();
-  });
-});
+    socket.end()
+  })
+})
 
-export default server;
+export default server

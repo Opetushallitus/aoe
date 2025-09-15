@@ -1,5 +1,5 @@
-import winston, { format, Logform, Logger } from 'winston';
-import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
+import winston, { format, Logform, Logger } from 'winston'
+import { ConsoleTransportOptions } from 'winston/lib/winston/transports'
 
 // Custom logging levels
 const loggingLevels = {
@@ -8,16 +8,16 @@ const loggingLevels = {
     http: 1,
     error: 2,
     warn: 3,
-    debug: 4,
-  },
-};
+    debug: 4
+  }
+}
 
 // Options for console logging
-const logLevel: string | undefined = process.env.LOG_LEVEL;
+const logLevel: string | undefined = process.env.LOG_LEVEL
 const consoleOptions: ConsoleTransportOptions = {
   level: process.env.NODE_ENV === 'production' ? logLevel || 'error' : logLevel || 'debug',
-  handleExceptions: true,
-};
+  handleExceptions: true
+}
 
 // Configuration for logging format and transports
 const winstonLogger: Logger = winston.createLogger({
@@ -27,11 +27,11 @@ const winstonLogger: Logger = winston.createLogger({
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(
       (log: Logform.TransformableInfo) =>
-        `[${log.level.toUpperCase()}] ${log.timestamp} ${log.message}`,
-    ),
+        `[${log.level.toUpperCase()}] ${log.timestamp} ${log.message}`
+    )
   ),
   levels: loggingLevels.levels,
-  transports: [new winston.transports.Console(consoleOptions)],
-});
+  transports: [new winston.transports.Console(consoleOptions)]
+})
 
-export default winstonLogger;
+export default winstonLogger

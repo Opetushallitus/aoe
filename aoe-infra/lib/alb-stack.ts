@@ -36,9 +36,14 @@ export class AlbStack extends cdk.Stack {
       },
       internetFacing: true,
       http2Enabled: true,
-      securityGroup: ec2.SecurityGroup.fromSecurityGroupId(this, 'ImmutableSecurityGroup', props.securityGroupId, {
-        mutable: false
-      })
+      securityGroup: ec2.SecurityGroup.fromSecurityGroupId(
+        this,
+        'ImmutableSecurityGroup',
+        props.securityGroupId,
+        {
+          mutable: false
+        }
+      )
     })
 
     const logBucket = new s3.Bucket(this, `albLogBucket`, {

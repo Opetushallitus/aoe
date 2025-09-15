@@ -59,7 +59,9 @@ export class KmsStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY
     })
 
-    this.cloudwatchLogsKmsKey.grantEncryptDecrypt(new aws_iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`))
+    this.cloudwatchLogsKmsKey.grantEncryptDecrypt(
+      new aws_iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`)
+    )
 
     this.ebsKmsKey = new Key(this, 'ebsKmsKey', {
       alias: `alias/${props.environment}-ebs-aoe-key`,

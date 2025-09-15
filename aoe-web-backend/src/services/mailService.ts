@@ -1,51 +1,51 @@
-import { NextFunction, Request, Response } from 'express';
-import { sign, verify } from 'jsonwebtoken';
-import winstonLogger from '@util/winstonLogger';
-import { db } from '@resource/postgresClient';
-import AWS from 'aws-sdk';
+import { NextFunction, Request, Response } from 'express'
+import { sign, verify } from 'jsonwebtoken'
+import winstonLogger from '@util/winstonLogger'
+import { db } from '@resource/postgresClient'
+import AWS from 'aws-sdk'
 
-AWS.config.update({ region: process.env.AWS_REGION || 'eu-west-1' });
-const ses = new AWS.SES();
+AWS.config.update({ region: process.env.AWS_REGION || 'eu-west-1' })
+const ses = new AWS.SES()
 
 const sendEmail = async (email: {
-  to: string;
-  from: string;
-  subject: string;
-  body: { html?: string; text?: string };
+  to: string
+  from: string
+  subject: string
+  body: { html?: string; text?: string }
 }) => {
   if ((email.body.html && email.body.text) || (!email.body.html && !email.body.text)) {
-    throw new Error("Email body must contain either 'html' or 'text', but not both or neither.");
+    throw new Error("Email body must contain either 'html' or 'text', but not both or neither.")
   }
 
   const params: AWS.SES.SendEmailRequest = {
     Destination: {
-      ToAddresses: [email.to],
+      ToAddresses: [email.to]
     },
     Message: {
       Body: {
         ...(email.body.html && {
           Html: {
             Charset: 'UTF-8',
-            Data: email.body.html,
-          },
+            Data: email.body.html
+          }
         }),
         ...(email.body.text && {
           Text: {
             Charset: 'UTF-8',
-            Data: email.body.text,
-          },
-        }),
+            Data: email.body.text
+          }
+        })
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: email.subject,
-      },
+        Data: email.subject
+      }
     },
-    Source: email.from,
-  };
+    Source: email.from
+  }
 
-  return await ses.sendEmail(params).promise();
-};
+  return await ses.sendEmail(params).promise()
+}
 
 /**
  * Send system notifications like state and error messages to the service mainteiners.
@@ -58,59 +58,59 @@ export const sendSystemNotification = async (content: string): Promise<void> => 
         to: process.env.ADMIN_EMAIL,
         from: process.env.EMAIL_FROM,
         subject: 'AOE System Notification',
-        body: { text: content },
-      });
-      winstonLogger.debug('System email notification delivery completed');
+        body: { text: content }
+      })
+      winstonLogger.debug('System email notification delivery completed')
     } else {
       winstonLogger.info(
-        'System email notification not sent while email service is currently disabled',
-      );
+        'System email notification not sent while email service is currently disabled'
+      )
     }
   } catch (error) {
-    winstonLogger.error('System email notification delivery failed: ' + error);
+    winstonLogger.error(`System email notification delivery failed: ${error}`)
   }
-};
+}
 
 export async function sendExpirationMail() {
   const mailOptions = {
     from: process.env.EMAIL_FROM,
     subject: 'Materiaali vanhenee - Avointen oppimateriaalien kirjasto (aoe.fi)',
-    text: expirationEmailText,
-  };
+    text: expirationEmailText
+  }
   try {
-    const materials = await getExpiredMaterials();
-    const emails = materials.filter((m) => m.email != undefined).map((m) => m.email);
+    const materials = await getExpiredMaterials()
+    const emails = materials.filter((m) => m.email !== undefined).map((m) => m.email)
     if (isEnabled('SEND_EXPIRATION_NOTIFICATION_EMAIL')) {
       for (const email of emails) {
         const info = await sendEmail({
           to: email,
           from: mailOptions.from,
           subject: mailOptions.subject,
-          body: { text: mailOptions.text },
-        });
+          body: { text: mailOptions.text }
+        })
 
-        winstonLogger.debug('Message sent: %s', info.MessageId);
+        winstonLogger.debug('Message sent: %s', info.MessageId)
       }
     } else {
-      winstonLogger.debug('Material expiration email sending disabled');
+      winstonLogger.debug('Material expiration email sending disabled')
     }
   } catch (err) {
-    winstonLogger.error('Error in sendExpirationMail(): %o', err);
+    winstonLogger.error('Error in sendExpirationMail(): %o', err)
   }
 }
 
 export async function sendRatingNotificationMail() {
   try {
-    const emails = await getNewRatings();
-    const emailArray = emails.filter((m) => m.email != undefined).map((m) => m.email);
-    const holder = {};
+    const emails = await getNewRatings()
+    const emailArray = emails.filter((m) => m.email !== undefined).map((m) => m.email)
+    const holder = {}
     emails.forEach(function (d) {
       if (holder.hasOwnProperty(d.email)) {
-        holder[d.email] = holder[d.email] + ', ' + d.materialname;
+        holder[d.email] = `${holder[d.email]}, ${d.materialname}`
       } else {
-        holder[d.email] = d.materialname;
+        holder[d.email] = d.materialname
       }
-    });
+    })
 
     if (isEnabled('SEND_RATING_NOTIFICATION_EMAIL')) {
       for (const element of emailArray) {
@@ -118,100 +118,100 @@ export async function sendRatingNotificationMail() {
           from: process.env.EMAIL_FROM,
           to: element,
           subject: 'Uusi arvio - Avointen oppimateriaalien kirjasto (aoe.fi)',
-          text: await ratingNotificationText(holder[element]),
-        };
-        winstonLogger.debug('sending rating mail to: ' + mailOptions.to);
+          text: await ratingNotificationText(holder[element])
+        }
+        winstonLogger.debug(`sending rating mail to: ${mailOptions.to}`)
         try {
           const info = await sendEmail({
             to: mailOptions.to,
             from: process.env.EMAIL_FROM,
             subject: mailOptions.subject,
-            body: { text: mailOptions.text },
-          });
+            body: { text: mailOptions.text }
+          })
 
-          winstonLogger.debug('Message sent: %s', info.MessageId);
+          winstonLogger.debug('Message sent: %s', info.MessageId)
         } catch (error) {
-          winstonLogger.error(error);
+          winstonLogger.error(error)
         }
       }
     } else {
-      winstonLogger.debug('Rating notification email sending disabled');
+      winstonLogger.debug('Rating notification email sending disabled')
     }
   } catch (error) {
-    winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error);
+    winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error)
   }
 }
 
 export async function getExpiredMaterials() {
   const query =
-    "select distinct email from educationalmaterial join users on educationalmaterial.usersusername = username where expires < NOW() + INTERVAL '2 days' and expires >= NOW() + INTERVAL '1 days';";
-  const data = await db.any(query);
-  return data;
+    "select distinct email from educationalmaterial join users on educationalmaterial.usersusername = username where expires < NOW() + INTERVAL '2 days' and expires >= NOW() + INTERVAL '1 days';"
+  const data = await db.any(query)
+  return data
 }
 
 interface EmailMaterial {
-  email: string;
-  materialname: string;
+  email: string
+  materialname: string
 }
 
 export async function getNewRatings() {
   const query =
-    "select distinct email, m.materialname from rating join educationalmaterial as em on em.id = rating.educationalmaterialid join materialname as m on em.id = m.educationalmaterialid join users on em.usersusername = users.username where rating.updatedat > (now() -  INTERVAL '1 days') and m.language = 'fi';";
-  const data = await db.any<EmailMaterial>(query);
-  return data;
+    "select distinct email, m.materialname from rating join educationalmaterial as em on em.id = rating.educationalmaterialid join materialname as m on em.id = m.educationalmaterialid join users on em.usersusername = users.username where rating.updatedat > (now() -  INTERVAL '1 days') and m.language = 'fi';"
+  const data = await db.any<EmailMaterial>(query)
+  return data
 }
 
 export async function updateVerifiedEmail(user: string) {
   try {
-    const query = 'update users set verifiedemail = true where username = $1;';
-    await db.none(query, [user]);
+    const query = 'update users set verifiedemail = true where username = $1;'
+    await db.none(query, [user])
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error)
   }
 }
 
 export async function sendVerificationEmail(user: string, email: string) {
-  const jwtSecret = process.env.JWT_SECRET;
-  const date = new Date();
+  const jwtSecret = process.env.JWT_SECRET
+  const date = new Date()
   const mail = {
     id: user,
-    created: date.toString(),
-  };
-  const token_mail_verification = sign(mail, jwtSecret, { expiresIn: '1d' });
+    created: date.toString()
+  }
+  const token_mail_verification = sign(mail, jwtSecret, { expiresIn: '1d' })
 
-  const url = process.env.BASE_URL + 'verify?id=' + token_mail_verification;
-  const content = await verificationEmailText(url);
+  const url = `${process.env.BASE_URL}verify?id=${token_mail_verification}`
+  const content = await verificationEmailText(url)
 
   if (isEnabled('SEND_VERIFICATION_EMAIL')) {
     await sendEmail({
       to: email,
       from: process.env.EMAIL_FROM,
       subject: 'Sähköpostin vahvistus - Avointen oppimateriaalien kirjasto (aoe.fi)',
-      body: { html: content },
-    });
+      body: { html: content }
+    })
   }
-  return url;
+  return url
 }
 
 export async function verifyEmailToken(req: Request, res: Response, _next: NextFunction) {
-  const jwtSecret = process.env.JWT_SECRET;
-  const token = req.query.id;
+  const jwtSecret = process.env.JWT_SECRET
+  const token = req.query.id
   if (token && typeof token === 'string') {
     try {
-      const decoded = verify(token, jwtSecret);
+      const decoded = verify(token, jwtSecret)
       if (typeof decoded === 'string') {
-        throw new Error('jsonwebtoken did not contain jwt payload');
+        throw new Error('jsonwebtoken did not contain jwt payload')
       }
-      const id = decoded.id;
-      winstonLogger.debug(id);
-      await updateVerifiedEmail(id);
-      return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/');
+      const id = decoded.id
+      winstonLogger.debug(id)
+      await updateVerifiedEmail(id)
+      return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/')
     } catch (err) {
-      winstonLogger.error('Error in verifyEmailToken(): %o', err);
-      return res.sendStatus(403);
+      winstonLogger.error('Error in verifyEmailToken(): %o', err)
+      return res.sendStatus(403)
     }
   } else {
-    return res.sendStatus(403);
+    return res.sendStatus(403)
   }
 }
 
@@ -230,8 +230,8 @@ async function verificationEmailText(url: string) {
 ${url}
 <p></p>
 <p>Ystävällisin terveisin, Best regards, Med vänlig hälsning,</p>
-<p>AOE-tiimi</p>`;
-  return verificationEmailText;
+<p>AOE-tiimi</p>`
+  return verificationEmailText
 }
 
 const expirationEmailText = `Hei,
@@ -250,7 +250,7 @@ Hej,
 Det föråldras-datum som du har gett till din lärresurs är nära. Du kan redigera det föråldras-datum och uppdatera din lärresurs från Mina lärresurser-sidan.
 Med vänliga hälsningar,
 AOE-team
-Detta är ett automatiskt meddelande. Om du vill inte få dessa meddelandena, kan du förändra dina inställningar I vyn Mitt konto på Biblioteket för öppna lärresurser.`;
+Detta är ett automatiskt meddelande. Om du vill inte få dessa meddelandena, kan du förändra dina inställningar I vyn Mitt konto på Biblioteket för öppna lärresurser.`
 
 async function ratingNotificationText(materials: string) {
   const ratingNotificationText = `Hei,
@@ -272,10 +272,10 @@ Din lärresurs har fått en ny recension. Du kan läsa den från Mina lärresurs
 Lärresurser: ${materials}
 Med vänliga hälsningar,
 AOE-team
-Detta är ett automatiskt meddelande. Om du vill inte få dessa meddelandena, kan di förändra dina inställningar i vyn Mitt konto på Biblioteket för öppna lärresurser.`;
-  return ratingNotificationText;
+Detta är ett automatiskt meddelande. Om du vill inte få dessa meddelandena, kan di förändra dina inställningar i vyn Mitt konto på Biblioteket för öppna lärresurser.`
+  return ratingNotificationText
 }
 
 const isEnabled = (prop: string): boolean => {
-  return process.env[prop] === '1';
-};
+  return process.env[prop] === '1'
+}

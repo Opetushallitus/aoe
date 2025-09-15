@@ -1,15 +1,15 @@
-import config from '@/config';
-import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling';
-import { s3 } from '@resource/awsClient';
-import { db } from '@resource/postgresClient';
-import winstonLogger from '@util/winstonLogger';
-import { AWSError } from 'aws-sdk';
-import { NextFunction, Request, Response } from 'express';
-import fs, { WriteStream } from 'fs';
-import fsPromise from 'fs/promises';
-import libre from 'libreoffice-convert';
-import stream from 'stream';
-import { ErrorHandler } from './errorHandler';
+import config from '@/config'
+import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
+import { s3 } from '@resource/awsClient'
+import { db } from '@resource/postgresClient'
+import winstonLogger from '@util/winstonLogger'
+import { AWSError } from 'aws-sdk'
+import { NextFunction, Request, Response } from 'express'
+import fs, { WriteStream } from 'fs'
+import fsPromise from 'fs/promises'
+import libre from 'libreoffice-convert'
+import stream from 'stream'
+import { ErrorHandler } from './errorHandler'
 
 const officeMimeTypes = [
   // .doc
@@ -83,8 +83,8 @@ const officeMimeTypes = [
   'application/vnd.oasis.opendocument.chart-template',
   'application/vnd.oasis.opendocument.formula-template',
   'application/vnd.oasis.opendocument.image-template',
-  'application/vnd.oasis.opendocument.text-web',
-];
+  'application/vnd.oasis.opendocument.text-web'
+]
 
 /**
  * Check if a file mimetype is an office format.
@@ -92,8 +92,8 @@ const officeMimeTypes = [
  * @return {boolean}
  */
 export const isOfficeMimeType = (s: string): boolean => {
-  return officeMimeTypes.indexOf(s) >= 0;
-};
+  return officeMimeTypes.indexOf(s) >= 0
+}
 
 /**
  * @param {e.Request} req
@@ -104,22 +104,22 @@ export const isOfficeMimeType = (s: string): boolean => {
 export const downloadPdfFromAllas = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<void> => {
   try {
     if (!req.params.key) {
-      next(new ErrorHandler(400, 'key missing'));
+      next(new ErrorHandler(400, 'key missing'))
     }
     const params = {
       Bucket: config.CLOUD_STORAGE_CONFIG.bucketPDF,
-      Key: req.params.key,
-    };
-    await downloadFromStorage(res, next, params, req.params.key);
+      Key: req.params.key
+    }
+    await downloadFromStorage(res, next, params, req.params.key)
   } catch (error) {
-    winstonLogger.error(error);
-    next(new ErrorHandler(error.statusCode, 'Issue showing pdf'));
+    winstonLogger.error(error)
+    next(new ErrorHandler(error.statusCode, 'Issue showing pdf'))
   }
-};
+}
 
 /**
  * Convert an office format file to PDF format.
@@ -128,28 +128,26 @@ export const downloadPdfFromAllas = async (
  * @return {Promise<string>} File path of the converted PDF.
  */
 const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
-  const extension = 'pdf';
-  const outputPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${filename}`;
+  const extension = 'pdf'
+  const outputPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${filename}`
 
   return new Promise((resolve, reject) => {
     try {
-      const file = fs.readFileSync(filepath);
+      const file = fs.readFileSync(filepath)
       libre.convert(file, extension, undefined, async (err: Error, data: Buffer) => {
         if (err) {
-          winstonLogger.error(
-            'Converting an office file to PDF failed in convertOfficeFileToPDF()',
-          );
-          return reject(err);
+          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()')
+          return reject(err)
         }
-        await fsPromise.writeFile(outputPath, data);
-        return resolve(outputPath);
-      });
+        await fsPromise.writeFile(outputPath, data)
+        return resolve(outputPath)
+      })
     } catch (err) {
-      winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
-      return reject(err);
+      winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err)
+      return reject(err)
     }
-  });
-};
+  })
+}
 
 /**
  * Scheduled process to collect the office file materials without a PDF conversion,
@@ -160,26 +158,26 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
 export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
   try {
     // Fetch the office files without a PDF conversion.
-    const files = await getFilesWithoutPDF();
+    const files = await getFilesWithoutPDF()
 
     for (let index = 0; index < files.length; index++) {
-      const file = files[index];
+      const file = files[index]
 
       if (isOfficeMimeType(file.mimetype)) {
-        const pdfKey: string = file.filekey.substring(0, file.filekey.lastIndexOf('.')) + '.pdf';
+        const pdfKey: string = `${file.filekey.substring(0, file.filekey.lastIndexOf('.'))}.pdf`
         downstreamAndConvertOfficeFileToPDF(file.filekey).then((path: string) => {
           uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
             (obj: any) => {
-              void updatePdfKey(obj.Key, file.id);
-            },
-          );
-        });
+              void updatePdfKey(obj.Key, file.id)
+            }
+          )
+        })
       }
     }
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err)
   }
-};
+}
 
 const getFilesWithoutPDF = async (): Promise<any> => {
   try {
@@ -189,14 +187,14 @@ const getFilesWithoutPDF = async (): Promise<any> => {
         FROM record
         WHERE filekey IS NOT NULL AND pdfkey IS NULL
         ORDER BY id
-      `;
-      return await t.any(query);
-    });
+      `
+      return await t.any(query)
+    })
   } catch (err: unknown) {
-    winstonLogger.error('Fetching files without PDFs failed: %o', err);
-    throw err;
+    winstonLogger.error('Fetching files without PDFs failed: %o', err)
+    throw err
   }
-};
+}
 
 /**
  * Downstream a stored office file from the cloud storage and convert it to PDF format.
@@ -205,46 +203,46 @@ const getFilesWithoutPDF = async (): Promise<any> => {
  */
 export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
-    const filename: string = key.substring(0, key.lastIndexOf('.')) + '.pdf';
+    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`
+    const filename: string = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
     const stream: stream = s3
       .getObject({
         Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
-        Key: key,
+        Key: key
       })
-      .createReadStream();
+      .createReadStream()
     const ws: WriteStream = fs
       .createWriteStream(folderpath)
       .once('error', (err: AWSError): void => {
         if (err.name === 'NoSuchKey') {
-          winstonLogger.debug('Requested file [%s] not found.', key);
-          resolve(null);
+          winstonLogger.debug('Requested file [%s] not found.', key)
+          resolve(null)
         } else if (err.name === 'TimeoutError') {
-          winstonLogger.debug('Connection closed by timeout event.');
-          resolve(null);
+          winstonLogger.debug('Connection closed by timeout event.')
+          resolve(null)
         } else {
-          winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err));
-          reject(err);
-          throw err;
+          winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err))
+          reject(err)
+          throw err
         }
       })
       .once('close', async (): Promise<void> => {
         try {
-          const path: string = await convertOfficeFileToPDF(folderpath, filename);
-          return resolve(path);
+          const path: string = await convertOfficeFileToPDF(folderpath, filename)
+          return resolve(path)
         } catch (e) {
-          winstonLogger.error('Error catch when trying to convertOfficeFileToPDF()');
-          return reject(e);
+          winstonLogger.error('Error catch when trying to convertOfficeFileToPDF()')
+          return reject(e)
         }
-      });
+      })
     stream
       .on('error', (err): void => {
-        reject(err);
-        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err);
+        reject(err)
+        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err)
       })
-      .pipe(ws);
-  });
-};
+      .pipe(ws)
+  })
+}
 
 /**
  * @param {string} key
@@ -256,7 +254,7 @@ export const updatePdfKey = async (key: string, id: string): Promise<void> => {
     const query = `
       UPDATE record SET pdfkey = $1
       WHERE id = $2
-    `;
-    await t.none(query, [key, id]);
-  });
-};
+    `
+    await t.none(query, [key, id])
+  })
+}

@@ -1,13 +1,13 @@
-import { hasAccessToAOE } from '@services/authService';
+import { hasAccessToAOE } from '@services/authService'
 import {
   getScheduledNotifications,
   getScheduledNotificationsAll,
   setScheduledNotification,
-  setScheduledNotificationDisabled,
-} from '@services/notificationService';
-import requestErrorHandler from '@util/requestErrorHandler';
-import { validateNotification } from '@util/requestValidator';
-import { NextFunction, Request, Response, Router } from 'express';
+  setScheduledNotificationDisabled
+} from '@services/notificationService'
+import requestErrorHandler from '@util/requestErrorHandler'
+import { validateNotification } from '@util/requestValidator'
+import { NextFunction, Request, Response, Router } from 'express'
 
 /**
  * API version 2.0 for requesting application system processes.
@@ -15,24 +15,24 @@ import { NextFunction, Request, Response, Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/process';
+  const moduleRoot = '/process'
 
   // Get currently active notifications.
   router.get(
     `${moduleRoot}/notifications`,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.accepts('json')) {
-        res.sendStatus(400).end();
-        return;
+        res.sendStatus(400).end()
+        return
       }
-      next();
+      next()
     },
     (req: Request, res: Response, next: NextFunction): void => {
       getScheduledNotifications(req, res).catch((err: unknown): void => {
-        next(err);
-      });
-    },
-  );
+        next(err)
+      })
+    }
+  )
 
   // Get currently active and upcoming notifications.
   router.get(
@@ -40,17 +40,17 @@ export default (router: Router): void => {
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.accepts('json')) {
-        res.sendStatus(400).end();
-        return;
+        res.sendStatus(400).end()
+        return
       }
-      next();
+      next()
     },
     (req: Request, res: Response, next: NextFunction): void => {
       getScheduledNotificationsAll(req, res).catch((err: unknown): void => {
-        next(err);
-      });
-    },
-  );
+        next(err)
+      })
+    }
+  )
 
   // Save a new scheduled notification.
   router.post(
@@ -58,19 +58,19 @@ export default (router: Router): void => {
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.is('application/json')) {
-        res.sendStatus(400).end();
-        return;
+        res.sendStatus(400).end()
+        return
       }
-      next();
+      next()
     },
     validateNotification(),
     requestErrorHandler,
     (req: Request, res: Response, next: NextFunction): void => {
       setScheduledNotification(req, res).catch((err: unknown): void => {
-        next(err);
-      });
-    },
-  );
+        next(err)
+      })
+    }
+  )
 
   // Update a notification to disabled.
   router.patch(
@@ -78,8 +78,8 @@ export default (router: Router): void => {
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       setScheduledNotificationDisabled(req, res).catch((err: unknown): void => {
-        next(err);
-      });
-    },
-  );
-};
+        next(err)
+      })
+    }
+  )
+}

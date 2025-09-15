@@ -1,6 +1,6 @@
-import { uploadbase64Image } from '@query/thumbnailHandler';
-import { checkAuthenticated, hasAccessToCollectionParams } from '@services/authService';
-import { Router } from 'express';
+import { uploadbase64Image } from '@query/thumbnailHandler'
+import { checkAuthenticated, hasAccessToCollectionParams } from '@services/authService'
+import { Router } from 'express'
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational material.
@@ -10,7 +10,7 @@ import { Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/collection';
+  const moduleRoot = '/collection'
 
   // Upload collection thumbnail image file to the cloud object storage.
   // Case of a collection identified by request parameter name :collectionid in uploadbase64Image().
@@ -18,6 +18,6 @@ export default (router: Router): void => {
     `${moduleRoot}/:collectionid([0-9]{1,6})/thumbnail`,
     checkAuthenticated,
     hasAccessToCollectionParams,
-    uploadbase64Image,
-  );
-};
+    uploadbase64Image
+  )
+}

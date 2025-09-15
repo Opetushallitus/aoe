@@ -1,4 +1,4 @@
-export {};
+export {}
 
 /**
  * Declare TypeScript types and relations between imported JavaScript modules that are not covered by installed @types
@@ -14,14 +14,14 @@ export {};
  */
 declare module 'express-session' {
   interface SessionData {
-    passport: Passport;
+    passport: Passport
   }
 
   interface Passport {
-    user: User;
+    user: User
   }
 
   interface User {
-    uid: string;
+    uid: string
   }
 }

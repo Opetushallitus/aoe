@@ -1,108 +1,108 @@
-import config from '@/config';
-import { ErrorHandler } from '@/helpers/errorHandler';
-import { NextFunction, Request, Response } from 'express';
+import config from '@/config'
+import { ErrorHandler } from '@/helpers/errorHandler'
+import { NextFunction, Request, Response } from 'express'
 
 export interface AoeRouteMessage {
-  enabled: string;
+  enabled: string
   message: {
-    fi: string;
-    en: string;
-    sv: string;
-  };
-  alertType: string;
+    fi: string
+    en: string
+    sv: string
+  }
+  alertType: string
 }
 
-export const alertTypeDanger = 'danger';
+export const alertTypeDanger = 'danger'
 export const allasErrorMessage =
-  'Palvelussamme on tällä hetkellä vikatilanne. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian.';
+  'Palvelussamme on tällä hetkellä vikatilanne. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian.'
 export const allasErrorMessageEn =
-  'We currently have an error that affects using the service. Uploading new learning resources has been blocked until the problem is resolved. We will fix the problem as soon as possible.';
+  'We currently have an error that affects using the service. Uploading new learning resources has been blocked until the problem is resolved. We will fix the problem as soon as possible.'
 export const allasErrorMessageSv =
-  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Publicering av nya lärresurser har blockerats tills problemet har lösts. Vi löser problemet så snart som möjligt.';
+  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Publicering av nya lärresurser har blockerats tills problemet har lösts. Vi löser problemet så snart som möjligt.'
 export const loginErrorMessage =
-  'Palveluun kirjautumisessa on tällä hetkellä ongelmaa. Selvitämme asiaa ja korjaamme sen mahdollisimman pian.';
+  'Palveluun kirjautumisessa on tällä hetkellä ongelmaa. Selvitämme asiaa ja korjaamme sen mahdollisimman pian.'
 export const loginErrorMessageEn =
-  'There is currently an error in signing in to the service. We will fix the problem as soon as possible.';
+  'There is currently an error in signing in to the service. We will fix the problem as soon as possible.'
 export const loginErrorMessageSv =
-  'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt.';
+  'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt.'
 
 export const isAllasEnabled = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<void> => {
   if (!config.APPLICATION_CONFIG.isCloudStorageEnabled) {
-    const statusCode = 503;
+    const statusCode = 503
     res.status(statusCode).json({
       status: 'error',
       statusCode,
-      message: allasErrorMessage,
-    });
+      message: allasErrorMessage
+    })
     throw new Error(
-      'File upload interrupted as the cloud storage is currently disabled in the environment variables.',
-    );
+      'File upload interrupted as the cloud storage is currently disabled in the environment variables.'
+    )
   }
-  next();
-};
+  next()
+}
 
 export const isLoginEnabled = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<void> => {
   try {
-    const login = Number(process.env.LOGIN_ENABLED);
+    const login = Number(process.env.LOGIN_ENABLED)
     if (!login) {
-      const statusCode = 503;
-      const message = loginErrorMessage;
+      const statusCode = 503
+      const message = loginErrorMessage
       res.status(statusCode).json({
         status: 'error',
         statusCode,
-        message,
-      });
+        message
+      })
     } else {
-      next();
+      next()
     }
   } catch (err) {
-    next(new ErrorHandler(err, 'Issue in login'));
+    next(new ErrorHandler(err, 'Issue in login'))
   }
-};
+}
 
 export const aoeRoutes = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const allasMessageObject = {
       fi: allasErrorMessage,
       en: allasErrorMessageEn,
-      sv: allasErrorMessageSv,
-    };
+      sv: allasErrorMessageSv
+    }
     const loginMessageObject = {
       fi: loginErrorMessage,
       en: loginErrorMessageEn,
-      sv: loginErrorMessageSv,
-    };
-    let allasMessageEnabled = '1';
-    if (config.APPLICATION_CONFIG.isCloudStorageEnabled) {
-      allasMessageEnabled = '0';
+      sv: loginErrorMessageSv
     }
-    let loginMessageEnabled = '1';
+    let allasMessageEnabled = '1'
+    if (config.APPLICATION_CONFIG.isCloudStorageEnabled) {
+      allasMessageEnabled = '0'
+    }
+    let loginMessageEnabled = '1'
     if (process.env.LOGIN_ENABLED === '1') {
-      loginMessageEnabled = '0';
+      loginMessageEnabled = '0'
     }
     const allas: AoeRouteMessage = {
       enabled: allasMessageEnabled,
       message: allasMessageObject,
-      alertType: alertTypeDanger,
-    };
+      alertType: alertTypeDanger
+    }
     const login: AoeRouteMessage = {
       enabled: loginMessageEnabled,
       message: loginMessageObject,
-      alertType: alertTypeDanger,
-    };
+      alertType: alertTypeDanger
+    }
     res.status(200).json({
       allas,
-      login,
-    });
+      login
+    })
   } catch (e) {
-    next(new ErrorHandler(e, 'Issue in messages info'));
+    next(new ErrorHandler(e, 'Issue in messages info'))
   }
-};
+}

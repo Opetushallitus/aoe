@@ -1,6 +1,6 @@
-import config from '@/config';
-import { httpsClient } from '@resource/httpsClient';
-import winstonLogger from '@util/winstonLogger';
+import config from '@/config'
+import { httpsClient } from '@resource/httpsClient'
+import winstonLogger from '@util/winstonLogger'
 
 /**
  * Criteria check for Streaming service redirect.
@@ -11,14 +11,14 @@ import winstonLogger from '@util/winstonLogger';
  */
 export const requestRedirected = async (
   fileDetails: { originalfilename: string; filesize: number; mimetype: string },
-  fileStorageId: string,
+  fileStorageId: string
 ): Promise<boolean> => {
   const criteriaFulfilled: boolean =
     fileDetails.filesize >= config.STREAM_REDIRECT_CRITERIA.minFileSize &&
-    config.STREAM_REDIRECT_CRITERIA.mimeTypeArr.indexOf(fileDetails.mimetype) > -1;
-  const streamingOperable: boolean = await streamingStatusCheck(fileStorageId);
-  return criteriaFulfilled && streamingOperable;
-};
+    config.STREAM_REDIRECT_CRITERIA.mimeTypeArr.indexOf(fileDetails.mimetype) > -1
+  const streamingOperable: boolean = await streamingStatusCheck(fileStorageId)
+  return criteriaFulfilled && streamingOperable
+}
 
 /**
  * Streaming service status check request to redirect downloads only to an operable service.
@@ -29,7 +29,7 @@ export const requestRedirected = async (
 export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> => {
   return httpsClient(config.STREAM_STATUS_REQUEST.httpsEnabled, {
     headers: {
-      'Cache-Control': 'no-cache',
+      'Cache-Control': 'no-cache'
     },
     host: config.STREAM_STATUS_REQUEST.host as string,
     ...(config.STREAM_STATUS_REQUEST.httpsEnabled
@@ -37,20 +37,20 @@ export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> =>
       : { port: config.STREAM_STATUS_REQUEST.port }),
     method: 'HEAD',
     path: (config.STREAM_STATUS_REQUEST.path as string) + fileStorageId,
-    timeout: 1000,
+    timeout: 1000
   }).then(
     ({ statusCode }) => {
-      winstonLogger.debug('Streaming service status: %s', statusCode);
-      return statusCode === 200;
+      winstonLogger.debug('Streaming service status: %s', statusCode)
+      return statusCode === 200
     },
     (error) => {
-      winstonLogger.debug('Streaming service status check not passed: ' + error);
-      return false;
-    },
-  );
-};
+      winstonLogger.debug(`Streaming service status check not passed: ${error}`)
+      return false
+    }
+  )
+}
 
 export default {
   requestRedirected,
-  streamingStatusCheck,
-};
+  streamingStatusCheck
+}

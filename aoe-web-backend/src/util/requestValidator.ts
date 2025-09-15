@@ -1,32 +1,34 @@
-import { db } from '@resource/postgresClient';
-import winstonLogger from '@util/winstonLogger';
-import { NextFunction, Request, Response } from 'express';
+import { db } from '@resource/postgresClient'
+import winstonLogger from '@util/winstonLogger'
+import { NextFunction, Request, Response } from 'express'
 import {
   body,
   header,
   Result,
   ValidationChain,
   ValidationError,
-  validationResult,
-} from 'express-validator';
-import { addHook, sanitize } from 'isomorphic-dompurify';
+  validationResult
+} from 'express-validator'
+import { addHook, sanitize } from 'isomorphic-dompurify'
 
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.
 addHook('afterSanitizeAttributes', (element: Element): void => {
-  if (element.tagName === 'A' && !element.hasAttribute('target'))
-    element.setAttribute('target', '_blank');
-  if (element.tagName === 'A' && !element.hasAttribute('rel'))
-    element.setAttribute('rel', 'noopener noreferrer');
-});
+  if (element.tagName === 'A' && !element.hasAttribute('target')) {
+    element.setAttribute('target', '_blank')
+  }
+  if (element.tagName === 'A' && !element.hasAttribute('rel')) {
+    element.setAttribute('rel', 'noopener noreferrer')
+  }
+})
 
 export const addCollectionValidationRules = (): ValidationChain[] => {
   return [
     body('collectionId', 'Integer collectionId must exist').exists().bail().isInt(),
     body('emId', 'emId expected').exists(),
     body('emId', 'Array emId expected').isArray(),
-    body('emId.*').isInt(),
-  ];
-};
+    body('emId.*').isInt()
+  ]
+}
 
 export const createCollectionValidationRules = (): ValidationChain[] => {
   return [
@@ -34,9 +36,9 @@ export const createCollectionValidationRules = (): ValidationChain[] => {
       .exists()
       .bail()
       .isString()
-      .isLength({ max: 255 }),
-  ];
-};
+      .isLength({ max: 255 })
+  ]
+}
 
 export const fileUploadRules = (): ValidationChain[] => {
   return [
@@ -45,17 +47,17 @@ export const fileUploadRules = (): ValidationChain[] => {
       .withMessage('Content-Type header missing')
       .bail()
       .contains('multipart/form-data')
-      .withMessage('Upload is not a multipart form'),
-  ];
-};
+      .withMessage('Upload is not a multipart form')
+  ]
+}
 
 export const isEncoded = (str: string): boolean => {
   try {
-    return decodeURIComponent(str) !== str;
+    return decodeURIComponent(str) !== str
   } catch (err) {
-    return true;
+    return true
   }
-};
+}
 
 export const metadataExtensionValidationRules = (): ValidationChain[] => {
   return [
@@ -81,9 +83,9 @@ export const metadataExtensionValidationRules = (): ValidationChain[] => {
       .isString(),
     body('accessibilityHazards.*.value', 'string value expected ')
       .if(body('accessibilityHazards').exists())
-      .isString(),
-  ];
-};
+      .isString()
+  ]
+}
 
 export const ratingValidationRules = (): ValidationChain[] => {
   return [
@@ -92,35 +94,35 @@ export const ratingValidationRules = (): ValidationChain[] => {
     body('ratingVisual').exists().optional({ nullable: true }).isInt({ min: 1, max: 5 }),
     body('feedbackPositive').exists().optional({ nullable: true }).isLength({ max: 1000 }),
     body('feedbackSuggest').exists().optional({ nullable: true }).isLength({ max: 1000 }),
-    body('feedbackPurpose').exists().optional({ nullable: true }).isLength({ max: 1000 }),
-  ];
-};
+    body('feedbackPurpose').exists().optional({ nullable: true }).isLength({ max: 1000 })
+  ]
+}
 
 export const removeCollectionValidationRules = (): ValidationChain[] => {
   return [
     body('collectionId', 'Integer collectionId must exist').exists().bail().isInt(),
     body('emId', 'emId expected').exists(),
     body('emId', 'Array emId expected').isArray(),
-    body('emId.*').isInt(),
-  ];
-};
+    body('emId.*').isInt()
+  ]
+}
 
 export const rulesValidate = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<any> => {
-  const errors: Result<ValidationError> = validationResult(req);
+  const errors: Result<ValidationError> = validationResult(req)
   if (errors.isEmpty()) {
-    return next();
+    return next()
   }
-  const extractedErrors: any[] = [];
-  errors.array().map((err: ValidationError) => extractedErrors.push({ [err.param]: err.msg }));
-  winstonLogger.debug('body: ', req.body, 'validation errors: ', extractedErrors);
+  const extractedErrors: any[] = []
+  errors.array().map((err: ValidationError) => extractedErrors.push({ [err.param]: err.msg }))
+  winstonLogger.debug('body: ', req.body, 'validation errors: ', extractedErrors)
   return res.status(422).send({
-    errors: extractedErrors,
-  });
-};
+    errors: extractedErrors
+  })
+}
 
 export const updateCollectionValidationRules = (): ValidationChain[] => {
   return [
@@ -188,9 +190,9 @@ export const updateCollectionValidationRules = (): ValidationChain[] => {
       .optional({ nullable: true })
       .isString()
       .isLength({ max: 2000 }),
-    body('headings.*.priority', 'priority expected').if(body('headings').exists()).isInt(),
-  ];
-};
+    body('headings.*.priority', 'priority expected').if(body('headings').exists()).isInt()
+  ]
+}
 
 export const validateNotification = (): ValidationChain[] => {
   return [
@@ -200,11 +202,11 @@ export const validateNotification = (): ValidationChain[] => {
       .bail()
       .isString()
       .customSanitizer((text: string) => {
-        const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text;
+        const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text
         return sanitize(decoded, {
           ALLOWED_ATTR: ['href', 'rel', 'target'],
-          ALLOWED_TAGS: ['a', 'b', 'i'],
-        });
+          ALLOWED_TAGS: ['a', 'b', 'i']
+        })
       })
       .isLength({ max: 500, min: 1 })
       .bail()
@@ -219,9 +221,9 @@ export const validateNotification = (): ValidationChain[] => {
       .exists()
       .optional({ nullable: true })
       .isISO8601()
-      .toDate(),
-  ];
-};
+      .toDate()
+  ]
+}
 
 export const validateNotificationUpdate = (): ValidationChain[] => {
   return [
@@ -232,11 +234,11 @@ export const validateNotificationUpdate = (): ValidationChain[] => {
       .bail()
       .isString()
       .customSanitizer((text: string) => {
-        const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text;
+        const decoded: string = isEncoded(text) ? decodeURIComponent(text) : text
         return sanitize(decoded, {
           ALLOWED_ATTR: ['href', 'rel', 'target'],
-          ALLOWED_TAGS: ['a', 'b', 'i'],
-        });
+          ALLOWED_TAGS: ['a', 'b', 'i']
+        })
       })
       .isLength({ max: 500, min: 1 })
       .bail()
@@ -257,34 +259,31 @@ export const validateNotificationUpdate = (): ValidationChain[] => {
       .optional({ nullable: true })
       .isISO8601()
       .toDate(),
-    body('disabled', 'not a valid boolean value')
-      .exists()
-      .optional({ nullable: false })
-      .isBoolean(),
-  ];
-};
+    body('disabled', 'not a valid boolean value').exists().optional({ nullable: false }).isBoolean()
+  ]
+}
 
 export const validateRatingUser = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<any> => {
   const { usersusername } = await db.task(async (t: any) => {
-    const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1';
-    const educationalMateriaId: number = parseInt(req.body.materialId, 10);
-    return await t.oneOrNone(query, [educationalMateriaId]);
-  });
+    const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1'
+    const educationalMateriaId: number = parseInt(req.body.materialId, 10)
+    return await t.oneOrNone(query, [educationalMateriaId])
+  })
   if (usersusername === req.session.passport.user.uid) {
     return res.status(400).send({
       error: {
         status: 400,
         message: 'Bad Request',
-        description: 'Rating user same as educational material owner',
-      },
-    });
+        description: 'Rating user same as educational material owner'
+      }
+    })
   }
-  return next();
-};
+  return next()
+}
 
 export default {
   addCollectionValidationRules,
@@ -298,5 +297,5 @@ export default {
   updateCollectionValidationRules,
   validateNotification,
   validateNotificationUpdate,
-  validateRatingUser,
-};
+  validateRatingUser
+}

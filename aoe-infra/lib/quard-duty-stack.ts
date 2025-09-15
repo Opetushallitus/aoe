@@ -93,7 +93,9 @@ export class GuardDutyS3Stack extends cdk.Stack {
         sid: 'AllowPutValidationObject',
         effect: iam.Effect.ALLOW,
         actions: ['s3:PutObject'],
-        resources: props.buckets.map((bucket) => `${bucket.bucketArn}/malware-protection-resource-validation-object`)
+        resources: props.buckets.map(
+          (bucket) => `${bucket.bucketArn}/malware-protection-resource-validation-object`
+        )
       })
     )
 
@@ -116,19 +118,23 @@ export class GuardDutyS3Stack extends cdk.Stack {
     )
 
     props.buckets.forEach((bucket, index) => {
-      const malwareProtectionPlan = new guardduty.CfnMalwareProtectionPlan(this, `GuardDutyS3MalwarePlan-${index}`, {
-        role: guardDutyRole.roleArn,
-        protectedResource: {
-          s3Bucket: {
-            bucketName: bucket.bucketName
-          }
-        },
-        actions: {
-          tagging: {
-            status: 'ENABLED'
+      const malwareProtectionPlan = new guardduty.CfnMalwareProtectionPlan(
+        this,
+        `GuardDutyS3MalwarePlan-${index}`,
+        {
+          role: guardDutyRole.roleArn,
+          protectedResource: {
+            s3Bucket: {
+              bucketName: bucket.bucketName
+            }
+          },
+          actions: {
+            tagging: {
+              status: 'ENABLED'
+            }
           }
         }
-      })
+      )
 
       malwareProtectionPlan.node.addDependency(guardDutyRole)
     })

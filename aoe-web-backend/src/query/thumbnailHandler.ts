@@ -1,10 +1,10 @@
-import config from '@/config';
-import { ErrorHandler } from '@/helpers/errorHandler';
-import { db } from '@resource/postgresClient';
-import winstonLogger from '@util/winstonLogger';
-import { NextFunction, Request, Response } from 'express';
-import mime from 'mime';
-import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling';
+import config from '@/config'
+import { ErrorHandler } from '@/helpers/errorHandler'
+import { db } from '@resource/postgresClient'
+import winstonLogger from '@util/winstonLogger'
+import { NextFunction, Request, Response } from 'express'
+import mime from 'mime'
+import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling'
 
 /**
  * @param req
@@ -14,25 +14,25 @@ import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling';
 export const uploadbase64Image = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<any> => {
   try {
-    const contentType = req.headers['content-type'];
+    const contentType = req.headers['content-type']
     if (contentType.startsWith('application/json')) {
-      const imgdata = req.body.base64image;
-      const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '');
-      const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+      const imgdata = req.body.base64image
+      const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+      const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       if (matches === undefined) {
-        return next(new ErrorHandler(400, 'File not a valid base64 encoded image'));
+        return next(new ErrorHandler(400, 'File not a valid base64 encoded image'))
       }
-      const extension = mime.getExtension(matches[1]);
-      const fileName = 'thumbnail-' + Date.now() + '.' + extension;
-      const buffer: Buffer = Buffer.from(base64Data, 'base64');
+      const extension = mime.getExtension(matches[1])
+      const fileName = `thumbnail-${Date.now()}.${extension}`
+      const buffer: Buffer = Buffer.from(base64Data, 'base64')
       const obj: any = await uploadBase64FileToStorage(
         buffer,
         fileName,
-        process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL,
-      );
+        process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL
+      )
       if (req.params.edumaterialid) {
         await updateEmThumbnailData(
           obj.Location,
@@ -40,8 +40,8 @@ export const uploadbase64Image = async (
           req.params.edumaterialid,
           fileName,
           obj.Key,
-          obj.Bucket,
-        );
+          obj.Bucket
+        )
       } else {
         await updateCollectionThumbnailData(
           obj.Location,
@@ -49,17 +49,17 @@ export const uploadbase64Image = async (
           req.params.collectionid,
           fileName,
           obj.Key,
-          obj.Bucket,
-        );
+          obj.Bucket
+        )
       }
-      return res.status(200).json({ url: obj.Location });
+      return res.status(200).json({ url: obj.Location })
     } else {
-      return res.status(400).json({ error: 'application/json expected' });
+      return res.status(400).json({ error: 'application/json expected' })
     }
   } catch (error) {
-    next(new ErrorHandler(500, 'uploadbase64Image() Thumbnail image upload failed:' + error));
+    next(new ErrorHandler(500, `uploadbase64Image() Thumbnail image upload failed:${error}`))
   }
-};
+}
 
 /**
  * @param req
@@ -69,23 +69,23 @@ export const uploadbase64Image = async (
 export const downloadEmThumbnail = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<any> => {
   try {
-    const key = req.params.filename || req.params.id;
+    const key = req.params.filename || req.params.id
     if (!key) {
-      return res.status(200).json({});
+      return res.status(200).json({})
     }
-    await downloadThumbnail(req, res, next, key);
+    await downloadThumbnail(req, res, next, key)
   } catch (error) {
     next(
       new ErrorHandler(
         500,
-        'downloadEmThumbnail() Downloading the thumbnail image failed: ' + error,
-      ),
-    );
+        `downloadEmThumbnail() Downloading the thumbnail image failed: ${error}`
+      )
+    )
   }
-};
+}
 
 /**
  * @param req
@@ -95,24 +95,24 @@ export const downloadEmThumbnail = async (
 export const downloadCollectionThumbnail = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ): Promise<any> => {
   try {
-    const key = req.params.id;
+    const key = req.params.id
     if (!key) {
-      return res.status(200).json({});
+      return res.status(200).json({})
     }
-    await downloadThumbnail(req, res, next, key);
+    await downloadThumbnail(req, res, next, key)
   } catch (error) {
-    winstonLogger.error(error);
+    winstonLogger.error(error)
     next(
       new ErrorHandler(
         500,
-        'downloadCollectionThumbnail() Downloading the thumbnail image failed: ' + error,
-      ),
-    );
+        `downloadCollectionThumbnail() Downloading the thumbnail image failed: ${error}`
+      )
+    )
   }
-};
+}
 
 /**
  * @param req
@@ -123,15 +123,15 @@ export const downloadCollectionThumbnail = async (
 async function downloadThumbnail(req: Request, res: Response, next: NextFunction, key: string) {
   try {
     if (!key) {
-      return res.status(200).json({});
+      return res.status(200).json({})
     }
     const params = {
       Bucket: config.CLOUD_STORAGE_CONFIG.bucketThumbnail,
-      Key: key,
-    };
-    await downloadFromStorage(res, next, params, key);
+      Key: key
+    }
+    await downloadFromStorage(res, next, params, key)
   } catch (error) {
-    next(new ErrorHandler(500, 'downloadThumbnail() Error: ' + error));
+    next(new ErrorHandler(500, `downloadThumbnail() Error: ${error}`))
   }
 }
 
@@ -149,7 +149,7 @@ async function updateEmThumbnailData(
   educationalmaterialid: string,
   filename: string,
   fileKey: string,
-  fileBucket: string,
+  fileBucket: string
 ) {
   winstonLogger.debug(
     'updateEmThumbnailData(): filepath=' +
@@ -163,31 +163,31 @@ async function updateEmThumbnailData(
       ', filekey=' +
       fileKey +
       ', fileBucket=' +
-      fileBucket,
-  );
+      fileBucket
+  )
   try {
-    let query;
+    let query
     query =
       'UPDATE thumbnail ' +
       'SET obsoleted = 1 ' +
-      'WHERE educationalmaterialid = $1 AND obsoleted = 0';
-    winstonLogger.debug('updateEmThumbnailData() Query: ' + query);
-    await db.none(query, [educationalmaterialid]);
+      'WHERE educationalmaterialid = $1 AND obsoleted = 0'
+    winstonLogger.debug(`updateEmThumbnailData() Query: ${query}`)
+    await db.none(query, [educationalmaterialid])
     query =
       'INSERT INTO thumbnail (filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket) ' +
-      'VALUES ($1, $2, $3, $4, $5, $6)';
-    winstonLogger.debug('updateEmThumbnailData() Query: ' + query, [
+      'VALUES ($1, $2, $3, $4, $5, $6)'
+    winstonLogger.debug(`updateEmThumbnailData() Query: ${query}`, [
       filepath,
       mimetype,
       educationalmaterialid,
       filename,
       fileKey,
-      fileBucket,
-    ]);
-    await db.any(query, [filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket]);
+      fileBucket
+    ])
+    await db.any(query, [filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket])
   } catch (error) {
-    winstonLogger.error('updateEmThumbnailData(): ' + error);
-    throw new Error(error);
+    winstonLogger.error(`updateEmThumbnailData(): ${error}`)
+    throw new Error(error)
   }
 }
 
@@ -205,28 +205,27 @@ async function updateCollectionThumbnailData(
   collectionid: string,
   filename: string,
   fileKey: string,
-  fileBucket: string,
+  fileBucket: string
 ) {
   try {
-    let query;
-    query =
-      'UPDATE collectionthumbnail SET obsoleted = 1 WHERE collectionid = $1 AND obsoleted = 0';
-    winstonLogger.debug('updateCollectionThumbnailData() Query: ' + query);
-    await db.none(query, [collectionid]);
+    let query
+    query = 'UPDATE collectionthumbnail SET obsoleted = 1 WHERE collectionid = $1 AND obsoleted = 0'
+    winstonLogger.debug(`updateCollectionThumbnailData() Query: ${query}`)
+    await db.none(query, [collectionid])
     query =
       'INSERT INTO collectionthumbnail (filepath, mimetype, collectionid, filename, fileKey, fileBucket) ' +
-      'VALUES ($1, $2, $3, $4, $5, $6)';
-    winstonLogger.debug('updateCollectionThumbnailData() Query: ' + query, [
+      'VALUES ($1, $2, $3, $4, $5, $6)'
+    winstonLogger.debug(`updateCollectionThumbnailData() Query: ${query}`, [
       filepath,
       mimetype,
       collectionid,
       filename,
       fileKey,
-      fileBucket,
-    ]);
-    await db.any(query, [filepath, mimetype, collectionid, filename, fileKey, fileBucket]);
+      fileBucket
+    ])
+    await db.any(query, [filepath, mimetype, collectionid, filename, fileKey, fileBucket])
   } catch (error) {
-    winstonLogger.error('updateCollectionThumbnailData(): ' + error);
-    throw new Error(error);
+    winstonLogger.error(`updateCollectionThumbnailData(): ${error}`)
+    throw new Error(error)
   }
 }

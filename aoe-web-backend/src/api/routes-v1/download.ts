@@ -1,8 +1,8 @@
-import { getEducationalMaterialMetadata } from '@query/apiQueries';
-import { downloadFile, downloadPreviewFile } from '@query/fileHandling';
-import { runMessageQueueThread } from '@services/threadService';
-import winstonLogger from '@util/winstonLogger';
-import { NextFunction, Request, Response, Router } from 'express';
+import { getEducationalMaterialMetadata } from '@query/apiQueries'
+import { downloadFile, downloadPreviewFile } from '@query/fileHandling'
+import { runMessageQueueThread } from '@services/threadService'
+import winstonLogger from '@util/winstonLogger'
+import { NextFunction, Request, Response, Router } from 'express'
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.
@@ -14,7 +14,7 @@ import { NextFunction, Request, Response, Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  router.get('/download/:filename', downloadPreviewFile);
+  router.get('/download/:filename', downloadPreviewFile)
 
   // Single file download and save to user's workstation.
   router.get(
@@ -25,19 +25,21 @@ export default (router: Router): void => {
     (req: Request, res: Response, next: NextFunction) => {
       if (req.query.interaction === 'load') {
         getEducationalMaterialMetadata(req, res, next, true).catch(() => {
-          winstonLogger.error('Additional metadata processing failed for a single file download.');
-        });
+          winstonLogger.error('Additional metadata processing failed for a single file download.')
+        })
       } else {
-        res.status(200).end();
+        res.status(200).end()
       }
     },
     (req: Request, res: Response) => {
       if (req.query.interaction === 'load') {
         runMessageQueueThread(req, res).then((result) => {
-          if (result) winstonLogger.debug('THREAD: Message queue publishing completed for %o', result);
-        });
+          if (result) {
+            winstonLogger.debug('THREAD: Message queue publishing completed for %o', result)
+          }
+        })
       }
-      res.status(200).end();
-    },
-  );
-};
+      res.status(200).end()
+    }
+  )
+}

@@ -1,8 +1,8 @@
-import { pgURL } from '@resource/postgresClient';
-import { isEncoded } from '@util/requestValidator';
-import winstonLogger from '@util/winstonLogger';
-import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize';
-import config from '@/config';
+import { pgURL } from '@resource/postgresClient'
+import { isEncoded } from '@util/requestValidator'
+import winstonLogger from '@util/winstonLogger'
+import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize'
+import config from '@/config'
 
 export const sequelize: Sequelize = new Sequelize(pgURL, {
   dialect: 'postgres',
@@ -10,14 +10,14 @@ export const sequelize: Sequelize = new Sequelize(pgURL, {
     config.APPLICATION_CONFIG.nodeEnv === 'production'
       ? false
       : (sql: string): void => {
-          winstonLogger.debug(sql);
-        },
-});
+          winstonLogger.debug(sql)
+        }
+})
 
 const commonSettings: ModelOptions = {
   freezeTableName: true,
-  timestamps: false,
-};
+  timestamps: false
+}
 
 export const Urn = sequelize.define<UrnModel>(
   'urn',
@@ -26,24 +26,24 @@ export const Urn = sequelize.define<UrnModel>(
       field: 'id',
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     material_url: {
       field: 'material_url',
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-    },
+      unique: true
+    }
   },
   {
     indexes: [
       {
         unique: true,
-        fields: ['material_url'],
-      },
-    ],
-  } && (commonSettings as ModelOptions),
-);
+        fields: ['material_url']
+      }
+    ]
+  } && (commonSettings as ModelOptions)
+)
 
 const AOEUser = <AOEUserType>sequelize.define(
   'aoeuser',
@@ -52,11 +52,11 @@ const AOEUser = <AOEUserType>sequelize.define(
       field: 'username',
       type: DataTypes.STRING(255),
       primaryKey: true,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   } as ModelAttributes<AOEUser, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 export const EducationalMaterial = <EducationalMaterialType>sequelize.define(
   'educationalmaterial',
@@ -65,152 +65,152 @@ export const EducationalMaterial = <EducationalMaterialType>sequelize.define(
       field: 'id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     createdAt: {
       field: 'createdat',
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
+      defaultValue: DataTypes.NOW
     },
     publishedAt: {
       field: 'publishedat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     updatedAt: {
       field: 'updatedat',
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
+      defaultValue: DataTypes.NOW
     },
     archivedAt: {
       field: 'archivedat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     timeRequired: {
       field: 'timerequired',
       type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: '',
+      defaultValue: ''
     },
     ageRangeMin: {
       field: 'agerangemin',
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     ageRangeMax: {
       field: 'agerangemax',
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     licenseCode: {
       field: 'licensecode',
       type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: '',
+      defaultValue: ''
     },
     obsoleted: {
       field: 'obsoleted',
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 0
     },
     originalPublishedAt: {
       field: 'originalpublishedat',
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
+      defaultValue: DataTypes.NOW
     },
     usersUserName: {
       field: 'usersusername',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     expires: {
       field: 'expires',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     suitsAllEarlyChildhoodSubjects: {
       field: 'suitsallearlychildhoodsubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllPreprimarySubjects: {
       field: 'suitsallpreprimarysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllBasicStudySubjects: {
       field: 'suitsallbasicstudysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllUpperSecondarySubjects: {
       field: 'suitsalluppersecondarysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllVocationalDegrees: {
       field: 'suitsallvocationaldegrees',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllSelfmotivatedSubjects: {
       field: 'suitsallselfmotivatedsubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllBranches: {
       field: 'suitsallbranches',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     suitsAllUpperSecondarySubjectsNew: {
       field: 'suitsalluppersecondarysubjectsnew',
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     ratingContentAverage: {
       field: 'ratingcontentaverage',
       type: DataTypes.DECIMAL,
-      allowNull: true,
+      allowNull: true
     },
     ratingVisualAverage: {
       field: 'ratingvisualaverage',
       type: DataTypes.DECIMAL,
-      allowNull: true,
+      allowNull: true
     },
     viewCounter: {
       field: 'viewcounter',
       type: DataTypes.BIGINT,
       allowNull: true,
-      defaultValue: 0,
+      defaultValue: 0
     },
     downloadCounter: {
       field: 'downloadcounter',
       type: DataTypes.BIGINT,
       allowNull: true,
-      defaultValue: 0,
+      defaultValue: 0
     },
     counterUpdatedAt: {
       field: 'counterupdatedat',
       type: DataTypes.DATE,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   } as ModelAttributes<EducationalMaterial, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 export const Material = <MaterialType>sequelize.define(
   'material',
@@ -219,12 +219,12 @@ export const Material = <MaterialType>sequelize.define(
       field: 'id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     link: {
       field: 'link',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     educationalMaterialId: {
       field: 'educationalmaterialid',
@@ -232,29 +232,29 @@ export const Material = <MaterialType>sequelize.define(
       allowNull: false,
       references: {
         model: EducationalMaterial, // Can be the table name 'educationalmaterial' or the Sequelize model EducationalMaterial
-        key: 'id',
-      },
+        key: 'id'
+      }
     },
     obsoleted: {
       field: 'obsoleted',
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 0
     },
     priority: {
       field: 'priority',
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 0
     },
     materialLanguageKey: {
       field: 'materiallanguagekey',
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   } as ModelAttributes<Material, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 export const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
   'materialdisplayname',
@@ -263,17 +263,17 @@ export const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
       field: 'id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     displayName: {
       field: 'displayname',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     language: {
       field: 'language',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     materialId: {
       field: 'materialid',
@@ -281,12 +281,12 @@ export const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
       allowNull: false,
       references: {
         model: Material, // Can be the table name 'material' or the Sequelize model Material
-        key: 'id',
-      },
-    },
+        key: 'id'
+      }
+    }
   } as ModelAttributes<MaterialDisplayName, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 export const Notification = <NotificationType>sequelize.define(
   'notification',
@@ -295,42 +295,42 @@ export const Notification = <NotificationType>sequelize.define(
       field: 'nf_id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     text: {
       field: 'nf_text',
       type: DataTypes.STRING(1500),
-      allowNull: false,
+      allowNull: false
     },
     type: {
       field: 'nf_type',
       type: DataTypes.STRING,
       validate: {
         isIn: {
-          args: [['ERROR', 'INFO']],
-        },
+          args: [['ERROR', 'INFO']]
+        }
       },
-      allowNull: false,
+      allowNull: false
     },
     createdAt: {
       field: 'nf_created_at',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     showSince: {
       field: 'nf_show_since',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     showUntil: {
       field: 'nf_show_until',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     disabled: {
       field: 'nf_disabled',
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: true
     },
     username: {
       field: 'nf_username',
@@ -338,27 +338,27 @@ export const Notification = <NotificationType>sequelize.define(
       allowNull: false,
       references: {
         model: AOEUser,
-        key: 'username',
+        key: 'username'
       },
       onUpdate: 'CASCADE',
-      onDelete: 'NO ACTION',
-    },
+      onDelete: 'NO ACTION'
+    }
   } as ModelAttributes<Notification, unknown>,
   {
     hooks: {
       beforeCreate: (notification: Notification): void => {
         if (!isEncoded(notification.text)) {
-          notification.text = encodeURIComponent(notification.text);
+          notification.text = encodeURIComponent(notification.text)
         }
       },
       beforeValidate: (notification: Notification): void => {
-        notification.text = decodeURIComponent(notification.text);
-      },
+        notification.text = decodeURIComponent(notification.text)
+      }
     },
-    ...commonSettings,
-  } as ModelOptions,
+    ...commonSettings
+  } as ModelOptions
   // commonSettings as ModelOptions,
-);
+)
 
 export const Record = <RecordType>sequelize.define(
   'record',
@@ -367,27 +367,27 @@ export const Record = <RecordType>sequelize.define(
       field: 'id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     filePath: {
       field: 'filepath',
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
     originalFileName: {
       field: 'originalfilename',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     fileSize: {
       field: 'filesize',
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: false
     },
     mimeType: {
       field: 'mimetype',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     materialId: {
       field: 'materialid',
@@ -395,27 +395,27 @@ export const Record = <RecordType>sequelize.define(
       allowNull: false,
       references: {
         model: Material, // Can be the table name 'material' or the Sequelize model Material
-        key: 'id',
-      },
+        key: 'id'
+      }
     },
     fileKey: {
       field: 'filekey',
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
     fileBucket: {
       field: 'filebucket',
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: true
     },
     pdfKey: {
       field: 'pdfkey',
       type: DataTypes.TEXT,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   } as ModelAttributes<IRecord, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 export const TemporaryRecord = <TemporaryRecordType>sequelize.define(
   'temporaryrecord',
@@ -424,32 +424,32 @@ export const TemporaryRecord = <TemporaryRecordType>sequelize.define(
       field: 'id',
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     filePath: {
       field: 'filepath',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     originalFileName: {
       field: 'originalfilename',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     fileSize: {
       field: 'filesize',
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     mimeType: {
       field: 'mimetype',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     fileName: {
       field: 'filename',
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     materialId: {
       field: 'materialid',
@@ -457,41 +457,41 @@ export const TemporaryRecord = <TemporaryRecordType>sequelize.define(
       allowNull: false,
       references: {
         model: Material, // Can be the table name 'material' or the Sequelize model Material
-        key: 'id',
-      },
+        key: 'id'
+      }
     },
     createdAt: {
       field: 'createdat',
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
+      defaultValue: DataTypes.NOW
+    }
   } as ModelAttributes<TemporaryRecord, unknown>,
-  commonSettings as ModelOptions,
-);
+  commonSettings as ModelOptions
+)
 
 // AOEUser <=> Notification
 AOEUser.hasMany(Notification, {
-  foreignKey: 'username',
-});
+  foreignKey: 'username'
+})
 Notification.belongsTo(AOEUser, {
-  foreignKey: 'username',
-});
+  foreignKey: 'username'
+})
 
 // EducationalMaterial <=> Material
 EducationalMaterial.hasMany(Material, {
   foreignKey: 'educationalMaterialId',
-  as: 'materials',
-});
+  as: 'materials'
+})
 Material.belongsTo(EducationalMaterial, {
-  foreignKey: 'educationalMaterialId',
-});
+  foreignKey: 'educationalMaterialId'
+})
 
 // Material <=> MaterialDisplayName
 Material.hasMany(MaterialDisplayName, {
   foreignKey: 'materialId',
-  as: 'materialDisplayNames',
-});
+  as: 'materialDisplayNames'
+})
 MaterialDisplayName.belongsTo(Material, {
-  foreignKey: 'materialId',
-});
+  foreignKey: 'materialId'
+})

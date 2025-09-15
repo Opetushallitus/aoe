@@ -1,5 +1,5 @@
-import { getMaterialMetaData } from '@query/oaipmh';
-import { Router } from 'express';
+import { getMaterialMetaData } from '@query/oaipmh'
+import { Router } from 'express'
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.
@@ -8,7 +8,7 @@ import { Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/oaipmh';
+  const moduleRoot = '/oaipmh'
 
-  router.post(`${moduleRoot}/metadata`, getMaterialMetaData);
-};
+  router.post(`${moduleRoot}/metadata`, getMaterialMetaData)
+}

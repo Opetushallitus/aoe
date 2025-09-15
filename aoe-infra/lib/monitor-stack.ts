@@ -19,7 +19,10 @@ export class MonitorStack extends cdk.Stack {
     super(scope, id, props)
 
     const slackChannelId = ssm.StringParameter.valueFromLookup(this, '/monitor/slack_channel_id')
-    const slackWorkspaceId = ssm.StringParameter.valueFromLookup(this, '/monitor/slack_workspace_id')
+    const slackWorkspaceId = ssm.StringParameter.valueFromLookup(
+      this,
+      '/monitor/slack_workspace_id'
+    )
 
     this.topic = new sns.Topic(this, `${props.environment}-cloudwatch-slack`, {
       topicName: `${props.environment}-cloudwatch-slack`
@@ -39,6 +42,8 @@ export class MonitorStack extends cdk.Stack {
     if (!process.env['PAGERDUTY_EVENT_URL']) {
       throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
     }
-    this.topic.addSubscription(new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL']))
+    this.topic.addSubscription(
+      new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL'])
+    )
   }
 }

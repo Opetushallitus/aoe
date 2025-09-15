@@ -1,6 +1,13 @@
 import * as lodash from 'lodash'
 import * as cdk from 'aws-cdk-lib'
-import { aws_cloudwatch_actions, CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib'
+import {
+  aws_cloudwatch_actions,
+  CfnOutput,
+  Duration,
+  RemovalPolicy,
+  Stack,
+  StackProps
+} from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { LogGroup } from 'aws-cdk-lib/aws-logs'
 import {
@@ -321,7 +328,14 @@ export class EcsServiceStack extends Stack {
     })
 
     // Add widgets to the dashboard
-    dashboard.addWidgets(totalRequestsWidget, okWidget, ok3xxWidget, error4xxWidget, error5xxWidget, responseTimeWidget)
+    dashboard.addWidgets(
+      totalRequestsWidget,
+      okWidget,
+      ok3xxWidget,
+      error4xxWidget,
+      error5xxWidget,
+      responseTimeWidget
+    )
 
     new CfnOutput(this, 'ServiceDiscoveryName', {
       value: `${props.serviceName}.${props.privateDnsNamespace.namespaceName}`

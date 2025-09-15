@@ -1,18 +1,18 @@
 interface IMessageBase {
-  sessionId: string;
-  timestamp: string;
+  sessionId: string
+  timestamp: string
 }
 
 interface IActivityMetadata {
-  eduMaterialId: string;
-  interaction: string;
+  eduMaterialId: string
+  interaction: string
   metadata?: {
-    created: string;
-    updated: string;
-    organizations?: string[];
-    educationalLevels?: string[];
-    educationalSubjects?: string[];
-  };
+    created: string
+    updated: string
+    organizations?: string[]
+    educationalLevels?: string[]
+    educationalSubjects?: string[]
+  }
 }
 
-export type TypeMaterialActivity = Partial<IMessageBase> & IActivityMetadata;
+export type TypeMaterialActivity = Partial<IMessageBase> & IActivityMetadata

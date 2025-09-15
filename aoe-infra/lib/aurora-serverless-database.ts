@@ -40,7 +40,10 @@ export class AuroraDatabaseStack extends Stack {
 
     const parameterGroup = new ParameterGroup(this, 'parameterGroup', {
       engine: DatabaseClusterEngine.auroraPostgres({
-        version: AuroraPostgresEngineVersion.of(props.auroraVersion, props.auroraVersion.split('.')[0])
+        version: AuroraPostgresEngineVersion.of(
+          props.auroraVersion,
+          props.auroraVersion.split('.')[0]
+        )
       }),
       parameters: {
         shared_preload_libraries: 'pg_stat_statements,pg_hint_plan,auto_explain,pg_cron',
@@ -63,7 +66,10 @@ export class AuroraDatabaseStack extends Stack {
     const auroraCluster = new DatabaseCluster(this, `${props.environment}-${props.clusterName}`, {
       vpc: props.vpc,
       engine: DatabaseClusterEngine.auroraPostgres({
-        version: AuroraPostgresEngineVersion.of(props.auroraVersion, props.auroraVersion.split('.')[0])
+        version: AuroraPostgresEngineVersion.of(
+          props.auroraVersion,
+          props.auroraVersion.split('.')[0]
+        )
       }),
       writer: ClusterInstance.serverlessV2('writer', {
         enablePerformanceInsights: props.performanceInsights,

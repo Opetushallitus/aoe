@@ -1,7 +1,7 @@
-import { uploadbase64Image } from '@query/thumbnailHandler';
-import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
-import { isAllasEnabled } from '@services/routeEnablerService';
-import { Router } from 'express';
+import { uploadbase64Image } from '@query/thumbnailHandler'
+import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService'
+import { isAllasEnabled } from '@services/routeEnablerService'
+import { Router } from 'express'
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.
@@ -20,6 +20,6 @@ export default (router: Router): void => {
     isAllasEnabled,
     checkAuthenticated,
     hasAccessToPublicatication,
-    uploadbase64Image,
-  );
-};
+    uploadbase64Image
+  )
+}

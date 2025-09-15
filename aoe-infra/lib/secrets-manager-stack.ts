@@ -27,18 +27,46 @@ export class SecretManagerStack extends cdk.Stack {
   public readonly documentDbPassword: secretsmanager.Secret
 
   public readonly secrets: Secrets = {
-    PAGERDUTY_EVENT_URL: { envVarName: 'PAGERDUTY_EVENT_URL', path: '/pagerduty/event_url', secretKey: 'secretkey' },
-    CLIENT_ID: { envVarName: 'CLIENT_ID', path: '/service/web-backend/CLIENT_ID', secretKey: 'secretkey' },
-    PROXY_URI: { envVarName: 'PROXY_URI', path: '/service/web-backend/PROXY_URI', secretKey: 'secretkey' },
-    REDIS_PASS: { envVarName: 'REDIS_PASS', path: '/service/semantic-apis/REDIS_PASS', secretKey: 'secretkey' },
-    PG_PASS: { envVarName: 'PG_PASS', path: '/service/web-backend/PG_PASS', secretKey: 'secretkey' },
+    PAGERDUTY_EVENT_URL: {
+      envVarName: 'PAGERDUTY_EVENT_URL',
+      path: '/pagerduty/event_url',
+      secretKey: 'secretkey'
+    },
+    CLIENT_ID: {
+      envVarName: 'CLIENT_ID',
+      path: '/service/web-backend/CLIENT_ID',
+      secretKey: 'secretkey'
+    },
+    PROXY_URI: {
+      envVarName: 'PROXY_URI',
+      path: '/service/web-backend/PROXY_URI',
+      secretKey: 'secretkey'
+    },
+    REDIS_PASS: {
+      envVarName: 'REDIS_PASS',
+      path: '/service/semantic-apis/REDIS_PASS',
+      secretKey: 'secretkey'
+    },
+    PG_PASS: {
+      envVarName: 'PG_PASS',
+      path: '/service/web-backend/PG_PASS',
+      secretKey: 'secretkey'
+    },
     SESSION_SECRET: {
       envVarName: 'SESSION_SECRET',
       path: '/service/web-backend/SESSION_SECRET',
       secretKey: 'secretkey'
     },
-    CLIENT_SECRET: { envVarName: 'CLIENT_SECRET', path: '/service/web-backend/CLIENT_SECRET', secretKey: 'secretkey' },
-    JWT_SECRET: { envVarName: 'JWT_SECRET', path: '/service/web-backend/JWT_SECRET', secretKey: 'secretkey' },
+    CLIENT_SECRET: {
+      envVarName: 'CLIENT_SECRET',
+      path: '/service/web-backend/CLIENT_SECRET',
+      secretKey: 'secretkey'
+    },
+    JWT_SECRET: {
+      envVarName: 'JWT_SECRET',
+      path: '/service/web-backend/JWT_SECRET',
+      secretKey: 'secretkey'
+    },
     ANALYTICS_PG_PASS: {
       envVarName: 'SPRING_DATASOURCE_PRIMARY_PASSWORD',
       path: '/auroradbs/web-backend/dev/reporter',
@@ -54,7 +82,11 @@ export class SecretManagerStack extends cdk.Stack {
       path: '/service/data-analytics/TRUST_STORE_PASS',
       secretKey: 'secretkey'
     },
-    ADMIN_EMAIL: { envVarName: 'ADMIN_EMAIL', path: '/service/web-backend/ADMIN_EMAIL', secretKey: 'secretkey' }
+    ADMIN_EMAIL: {
+      envVarName: 'ADMIN_EMAIL',
+      path: '/service/web-backend/ADMIN_EMAIL',
+      secretKey: 'secretkey'
+    }
   }
 
   constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
@@ -76,15 +108,19 @@ export class SecretManagerStack extends cdk.Stack {
       }
     })
 
-    this.webBackendPassportSessionSecret = new secretsmanager.Secret(this, 'PassportSessionSecret', {
-      secretName: '/service/web-backend/SESSION_SECRET',
-      generateSecretString: {
-        secretStringTemplate: JSON.stringify({}),
-        passwordLength: 32,
-        generateStringKey: 'secretkey',
-        excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+    this.webBackendPassportSessionSecret = new secretsmanager.Secret(
+      this,
+      'PassportSessionSecret',
+      {
+        secretName: '/service/web-backend/SESSION_SECRET',
+        generateSecretString: {
+          secretStringTemplate: JSON.stringify({}),
+          passwordLength: 32,
+          generateStringKey: 'secretkey',
+          excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+        }
       }
-    })
+    )
 
     this.webBackendAuroraPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
       secretName: '/auroradbs/web-backend/master-user-password',

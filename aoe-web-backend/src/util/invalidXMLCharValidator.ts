@@ -1,8 +1,8 @@
 export const removeInvalidXMLCharacters = (text: string, removeDiscouraged?: boolean): string => {
   let regex =
-    /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g;
+    /((?:[\0-\x08\x0B\f\x0E-\x1F\uFFFD\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]))/g
 
-  text = text.replace(regex, '');
+  text = text.replace(regex, '')
 
   if (removeDiscouraged) {
     regex = new RegExp(
@@ -14,19 +14,19 @@ export const removeInvalidXMLCharacters = (text: string, removeDiscouraged?: boo
         '[\\uDFFE\\uDFFF])|(?:\\uDBFF[\\uDFFE\\uDFFF])(?:[\\0-\\t\\x0B\\f\\x0E-\\u2027\\u202A-\\uD7FF\\' +
         'uE000-\\uFFFF]|[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]|[\\uD800-\\uDBFF](?![\\uDC00-\\uDFFF])|' +
         '(?:[^\\uD800-\\uDBFF]|^)[\\uDC00-\\uDFFF]))',
-      'g',
-    );
-    text = text.replace(regex, '');
+      'g'
+    )
+    text = text.replace(regex, '')
   }
 
   // Final extra white space and tabs removal
-  text = text.trim();
-  text = text.replace(/\s{2,}/g, ' ');
-  text = text.replace(/\t+/g, '');
+  text = text.trim()
+  text = text.replace(/\s{2,}/g, ' ')
+  text = text.replace(/\t+/g, '')
 
-  return text;
-};
+  return text
+}
 
 export default {
-  removeInvalidXMLCharacters,
-};
+  removeInvalidXMLCharacters
+}

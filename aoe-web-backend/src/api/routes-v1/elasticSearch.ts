@@ -1,5 +1,5 @@
-import { elasticSearchQuery } from '@search/esQueries';
-import { Router } from 'express';
+import { elasticSearchQuery } from '@search/esQueries'
+import { Router } from 'express'
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.
@@ -11,5 +11,5 @@ import { Router } from 'express';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  router.get('/elasticSearch/search', elasticSearchQuery);
-};
+  router.get('/elasticSearch/search', elasticSearchQuery)
+}

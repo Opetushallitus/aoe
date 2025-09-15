@@ -71,40 +71,64 @@ export class SecurityGroupStack extends cdk.Stack {
       }
     )
 
-    this.webBackendsServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendServiceSecurityGroupSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.webBackendsServiceSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'WebBackendServiceSecurityGroupSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
-    this.webFrontendServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebFrontendServiceSecurityGroupSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.webFrontendServiceSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'WebFrontendServiceSecurityGroupSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
-    this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(this, 'SemanticApisServiceSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'SemanticApisServiceSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
-    this.webBackendAuroraSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendAuroraSecurityGroupSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.webBackendAuroraSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'WebBackendAuroraSecurityGroupSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
-    this.semanticApisRedisSecurityGroup = new ec2.SecurityGroup(this, 'SemanticApisRedisSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.semanticApisRedisSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'SemanticApisRedisSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
     this.openSearchSecurityGroup = new ec2.SecurityGroup(this, 'openSearchSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true
     })
 
-    this.streamingServiceSecurityGroup = new ec2.SecurityGroup(this, 'StreamingServiceSecurityGroupSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
+    this.streamingServiceSecurityGroup = new ec2.SecurityGroup(
+      this,
+      'StreamingServiceSecurityGroupSecurityGroup',
+      {
+        vpc: props.vpc,
+        allowAllOutbound: true
+      }
+    )
 
     this.dataServicesSecurityGroup = new ec2.SecurityGroup(this, 'DataServicesSecurityGroup', {
       vpc: props.vpc,
@@ -118,7 +142,10 @@ export class SecurityGroupStack extends cdk.Stack {
 
     this.mskSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(9098))
 
-    this.documentDbSecurityGroup.addIngressRule(this.dataAnalyticsServiceSecurityGroup, ec2.Port.tcp(27017))
+    this.documentDbSecurityGroup.addIngressRule(
+      this.dataAnalyticsServiceSecurityGroup,
+      ec2.Port.tcp(27017)
+    )
 
     this.documentDbSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(27017))
 
@@ -128,21 +155,39 @@ export class SecurityGroupStack extends cdk.Stack {
 
     this.openSearchSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(443))
 
-    this.openSearchSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(443))
+    this.openSearchSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(443)
+    )
 
-    this.semanticApisRedisSecurityGroup.addIngressRule(this.semanticApisServiceSecurityGroup, ec2.Port.tcp(6379))
+    this.semanticApisRedisSecurityGroup.addIngressRule(
+      this.semanticApisServiceSecurityGroup,
+      ec2.Port.tcp(6379)
+    )
 
-    this.semanticApisRedisSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(6379))
+    this.semanticApisRedisSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(6379)
+    )
 
     this.dataAnalyticsServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
-    this.dataAnalyticsServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
+    this.dataAnalyticsServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
-    this.semanticApisRedisSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(6379))
+    this.semanticApisRedisSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(6379)
+    )
 
     this.semanticApisServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
-    this.semanticApisServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
+    this.semanticApisServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
     this.dataServicesSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
@@ -150,32 +195,56 @@ export class SecurityGroupStack extends cdk.Stack {
 
     this.webBackendsServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
-    this.webBackendsServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
+    this.webBackendsServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
-    this.webBackendsServiceSecurityGroup.addIngressRule(this.dataServicesSecurityGroup, ec2.Port.tcp(8080))
+    this.webBackendsServiceSecurityGroup.addIngressRule(
+      this.dataServicesSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
     this.streamingServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
     this.streamingServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
 
-    this.streamingServiceSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(8080))
+    this.streamingServiceSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
-    this.dataAnalyticsServiceSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(8080))
+    this.dataAnalyticsServiceSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443))
 
-    this.webBackendAuroraSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(5432))
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(5432)
+    )
 
-    this.webBackendAuroraSecurityGroup.addIngressRule(this.dataAnalyticsServiceSecurityGroup, ec2.Port.tcp(5432))
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.dataAnalyticsServiceSecurityGroup,
+      ec2.Port.tcp(5432)
+    )
 
     this.webBackendAuroraSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(5432))
 
-    this.webBackendsServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
+    this.webBackendsServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
     this.webFrontendServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
-    this.webFrontendServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
+    this.webFrontendServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
 
     this.webBackendAuroraSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(5432))
 

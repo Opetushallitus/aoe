@@ -1,6 +1,6 @@
-import { uploadbase64Image } from '@query/thumbnailHandler';
-import { checkAuthenticated, hasAccessToCollectionParams } from '@services/authService';
-import { Router } from 'express';
+import { uploadbase64Image } from '@query/thumbnailHandler'
+import { checkAuthenticated, hasAccessToCollectionParams } from '@services/authService'
+import { Router } from 'express'
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.
@@ -16,6 +16,6 @@ export default (router: Router): void => {
     '/collection/uploadBase64Image/:collectionid',
     checkAuthenticated,
     hasAccessToCollectionParams,
-    uploadbase64Image,
-  );
-};
+    uploadbase64Image
+  )
+}

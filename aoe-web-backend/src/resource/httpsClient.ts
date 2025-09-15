@@ -1,8 +1,8 @@
-import { IncomingMessage, RequestOptions } from 'http';
-import https from 'https';
-import http from 'http';
+import { IncomingMessage, RequestOptions } from 'http'
+import https from 'https'
+import http from 'http'
 
-import winstonLogger from '@util/winstonLogger';
+import winstonLogger from '@util/winstonLogger'
 
 /**
  * HTTP(S) client to execute internal request to other service components.
@@ -14,40 +14,40 @@ import winstonLogger from '@util/winstonLogger';
 export const httpsClient = (httpsConnection: boolean, options: RequestOptions): Promise<any> => {
   return new Promise((resolve, reject) => {
     let request = (httpsConnection ? https : http).request(options, (response: IncomingMessage) => {
-      let output = '';
+      let output = ''
       response
         .setEncoding('utf8')
         .on('data', (chunk) => {
-          output += chunk;
+          output += chunk
         })
         .on('end', () => {
           try {
-            let obj;
+            let obj
             if (response.headers['content-type'].includes('json')) {
-              obj = JSON.parse(output);
+              obj = JSON.parse(output)
             } else {
-              obj = output;
+              obj = output
             }
             resolve({
               statusCode: response.statusCode,
-              data: obj,
-            });
+              data: obj
+            })
           } catch (error) {
-            reject(error);
+            reject(error)
           }
         })
         .on('error', () => {
-          response.destroy();
-        });
-    });
+          response.destroy()
+        })
+    })
     request
       .on('error', (error: Error) => {
-        winstonLogger.error('Request handling failed in HTTPS client: ' + error);
-        reject(error);
+        winstonLogger.error(`Request handling failed in HTTPS client: ${error}`)
+        reject(error)
       })
       .on('timeout', () => {
-        winstonLogger.debug('Request timeout in HTTPS client: %s ms', options.timeout);
+        winstonLogger.debug('Request timeout in HTTPS client: %s ms', options.timeout)
       })
-      .end();
-  });
-};
+      .end()
+  })
+}
