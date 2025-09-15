@@ -126,7 +126,7 @@ services:
       - ./aoe-web-backend/.env
 
   redis:
-    image: redis:6.2.4-alpine@sha256:0039796b887fd30e460353f14e46ba1004152aa97f5f59094cc21eac445fc89b
+    image: redis:6.2.19-alpine@sha256:7fe72c486b910f6b1a9769c937dad5d63648ddee82e056f47417542dd40825bb
     container_name: redis
     privileged: true
     command:
