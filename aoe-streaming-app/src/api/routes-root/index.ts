@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import status from './status';
+import { Router } from 'express'
+import status from './status'
 
-export { default as status } from './status';
+export { default as status } from './status'
 
 /**
  * API root modules available in runtime environment.
@@ -9,5 +9,5 @@ export { default as status } from './status';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  status(router);
-};
+  status(router)
+}

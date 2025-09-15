@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import material from './material';
-import status from './status';
+import { Router } from 'express'
+import material from './material'
+import status from './status'
 
-export { default as material } from './material';
-export { default as status } from './status';
+export { default as material } from './material'
+export { default as status } from './status'
 
 /**
  * API modules and versions available in runtime environment.
@@ -12,6 +12,6 @@ export { default as status } from './status';
  * @param router express.Router
  */
 export default (router: Router): void => {
-  material(router);
-  status(router);
-};
+  material(router)
+  status(router)
+}
