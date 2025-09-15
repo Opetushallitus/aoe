@@ -196,7 +196,7 @@ services:
       - 2181:2181
 
   kafka:
-    image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
+    image: confluentinc/cp-kafka:7.9.2@sha256:ecd1ce3c902fb5cfa7fc34881215f1a3e1abdcba5d0d9bbe6b0385ff6425e05c
     container_name: kafka
     depends_on:
       zookeeper:
@@ -220,7 +220,7 @@ services:
       start_period: 30s
 
   kafka2:
-    image: confluentinc/cp-kafka:7.0.1@sha256:dee82c02cd7d36cea8d3369f181f47412adecf1001c10bbd4b4959610868dff5
+    image: confluentinc/cp-kafka:7.9.2@sha256:ecd1ce3c902fb5cfa7fc34881215f1a3e1abdcba5d0d9bbe6b0385ff6425e05c
     container_name: kafka2
     depends_on:
       zookeeper:
