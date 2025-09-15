@@ -32,7 +32,7 @@ export interface Oppiaine {
   kurssit: Kurssi[];
 }
 
-export interface LocalizedStringObject {
+interface LocalizedStringObject {
   fi?: string;
   sv?: string;
   _id: string;
