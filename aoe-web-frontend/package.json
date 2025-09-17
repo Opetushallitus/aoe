@@ -87,7 +87,7 @@
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "bootstrap": "^4.6.0",
-    "eslint-config-prettier": "8.10.0",
+    "eslint-config-prettier": "8.10.2",
     "eslint-plugin-prettier": "4.2.1",
     "jasmine-core": "4.6.1",
     "jasmine-spec-reporter": "5.0.2",
