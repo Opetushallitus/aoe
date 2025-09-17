@@ -79,7 +79,7 @@
     "@angular/cli": "14.2.13",
     "@angular/compiler-cli": "14.3.0",
     "@angular/language-service": "14.3.0",
-    "@types/dompurify": "3.0.5",
+    "@types/dompurify": "3.2.0",
     "@types/jasmine": "4.3.6",
     "@types/jasminewd2": "2.0.13",
     "@types/node": "12.20.55",
@@ -105,7 +105,7 @@
   "overrides": {
     "semver": "7.7.1",
     "webpack-dev-middleware": "5.3.4",
-    "dompurify": "3.2.4",
+    "dompurify": "3.2.6",
     "esbuild": "0.25.0",
     "xml2js": "0.6.2"
   },
