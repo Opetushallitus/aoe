@@ -22,7 +22,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "lint": "ng lint",
+    "lint": "biome check",
+    "fix-lint": "biome check --write",
     "postinstall": "ngcc"
   },
   "type": "module",
@@ -75,6 +76,7 @@
     "@angular/cli": "14.2.13",
     "@angular/compiler-cli": "14.3.0",
     "@angular/language-service": "14.3.0",
+    "@biomejs/biome": "2.2.4",
     "@types/dompurify": "3.2.0",
     "@types/node": "^18.19.123",
     "@types/ws": "8.18.1",
