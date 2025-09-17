@@ -72,7 +72,7 @@
     "@angular/language-service": "14.3.0",
     "@biomejs/biome": "2.2.4",
     "@types/dompurify": "3.2.0",
-    "@types/node": "18.19.123",
+    "@types/node": "18.19.124",
     "@types/ws": "8.18.1",
     "bootstrap": "^4.6.0",
     "sass": "1.77.6",
