@@ -1,5 +1,11 @@
 export const mimeTypes = {
-  video: ['application/x-troff-msvideo', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/mp4'],
+  video: [
+    'application/x-troff-msvideo',
+    'video/avi',
+    'video/msvideo',
+    'video/x-msvideo',
+    'video/mp4'
+  ],
   audio: ['audio/mp3', 'audio/mpeg', 'audio/x-m4a', 'audio/mp4'],
   pdf: ['application/pdf'],
   html: ['text/html'],
@@ -28,7 +34,15 @@ export const mimeTypes = {
     'application/vnd.ms-powerpoint.slideshow.macroEnabled.12',
     'application/vnd.oasis.opendocument.presentation',
     'application/rtf',
-    'application/vnd.ms-access',
+    'application/vnd.ms-access'
   ],
-  image: ['image/bmp', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/tiff', 'image/webp'],
-};
+  image: [
+    'image/bmp',
+    'image/gif',
+    'image/jpeg',
+    'image/png',
+    'image/svg+xml',
+    'image/tiff',
+    'image/webp'
+  ]
+}

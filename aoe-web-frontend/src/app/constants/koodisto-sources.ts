@@ -27,5 +27,5 @@ export const koodistoSources = {
   selfMotivatedObjectives: 'selfMotivatedEducationObjectives',
   scienceBranches: 'branchesOfScience',
   scienceBranchObjectives: 'scienceBranchObjectives',
-  prerequisites: 'prerequisites',
-};
+  prerequisites: 'prerequisites'
+}

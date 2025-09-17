@@ -1,7 +1,7 @@
 export interface LinkPostResponse {
-  id: string;
+  id: string
   link: {
-    id: string;
-    link: string;
-  };
+    id: string
+    link: string
+  }
 }

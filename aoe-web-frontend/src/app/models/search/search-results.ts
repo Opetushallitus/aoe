@@ -1,101 +1,101 @@
 export interface SearchResults {
-  hits: number;
-  results: SearchResult[];
+  hits: number
+  results: SearchResult[]
 }
 
 export interface SearchResult {
-  id: number | string;
-  createdAt: Date;
-  publishedAt?: Date;
-  updatedAt?: Date;
+  id: number | string
+  createdAt: Date
+  publishedAt?: Date
+  updatedAt?: Date
   materialName: [
     {
-      materialname: string;
-      language: string;
-    },
-  ];
+      materialname: string
+      language: string
+    }
+  ]
   description: [
     {
-      description: string;
-      language: string;
-    },
-  ];
+      description: string
+      language: string
+    }
+  ]
   authors: [
     {
-      authorname?: string;
-      organization?: string;
-      organizationkey?: string;
-    },
-  ];
+      authorname?: string
+      organization?: string
+      organizationkey?: string
+    }
+  ]
   learningResourceTypes: [
     {
-      value: string;
-      learningresourcetypekey: string;
-    },
-  ];
+      value: string
+      learningresourcetypekey: string
+    }
+  ]
   license: {
-    key: string;
-    value: string;
-  };
+    key: string
+    value: string
+  }
   educationalLevels: [
     {
-      value: string;
-      educationallevelkey: string;
-    },
-  ];
+      value: string
+      educationallevelkey: string
+    }
+  ]
   educationalRoles?: [
     {
-      value: string;
-      educationalrolekey: string;
-    },
-  ];
+      value: string
+      educationalrolekey: string
+    }
+  ]
   keywords: [
     {
-      value: string;
-      keywordkey: string;
-    },
-  ];
-  languages: string[];
+      value: string
+      keywordkey: string
+    }
+  ]
+  languages: string[]
   educationalSubjects?: [
     {
-      key: number | string;
-      source: string;
-      value: string;
-    },
-  ];
+      key: number | string
+      source: string
+      value: string
+    }
+  ]
   teaches?: [
     {
-      key: number | string;
-      value: string;
-    },
-  ];
-  hasDownloadableFiles: boolean;
+      key: number | string
+      value: string
+    }
+  ]
+  hasDownloadableFiles: boolean
   thumbnail?: {
-    id: number | string;
-    filepath: string;
-    mimetype: string;
-    educationalmaterialid: number | string;
-    filename: string;
-    obsoleted: any;
-    filekey: string;
-    filebucket: string;
-  };
+    id: number | string
+    filepath: string
+    mimetype: string
+    educationalmaterialid: number | string
+    filename: string
+    obsoleted: any
+    filekey: string
+    filebucket: string
+  }
   educationalUses?: [
     {
-      educationalusekey: string;
-      value: string;
-    },
-  ];
+      educationalusekey: string
+      value: string
+    }
+  ]
   accessibilityHazards?: [
     {
-      accessibilityhazardkey: string;
-      value: string;
-    },
-  ];
+      accessibilityhazardkey: string
+      value: string
+    }
+  ]
   accessibilityFeatures?: [
     {
-      accessibilityfeaturekey: string;
-      value: string;
-    },
-  ];
+      accessibilityfeaturekey: string
+      value: string
+    }
+  ]
 }

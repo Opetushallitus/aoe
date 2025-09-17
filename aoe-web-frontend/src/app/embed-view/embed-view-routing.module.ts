@@ -1,22 +1,22 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
 
-import { EducationalMaterialEmbedViewComponent } from './educational-material-embed-view.component';
+import { EducationalMaterialEmbedViewComponent } from './educational-material-embed-view.component'
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'etusivu',
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
   {
     path: '',
-    component: EducationalMaterialEmbedViewComponent,
-  },
-];
+    component: EducationalMaterialEmbedViewComponent
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class EmbedViewRoutingModule {}

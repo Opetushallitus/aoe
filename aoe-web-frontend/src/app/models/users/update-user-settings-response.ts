@@ -1,3 +1,3 @@
 export interface UpdateUserSettingsResponse {
-  status: string;
+  status: string
 }

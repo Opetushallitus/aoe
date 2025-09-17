@@ -1,7 +1,7 @@
 export interface Author {
-  author?: string;
+  author?: string
   organization?: {
-    key: string;
-    value: string;
-  };
+    key: string
+    value: string
+  }
 }

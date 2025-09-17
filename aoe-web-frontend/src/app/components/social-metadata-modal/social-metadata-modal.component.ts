@@ -1,37 +1,37 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { KeyValue } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
-import { SocialMetadataService } from '@services/social-metadata.service';
-import { SocialMetadata } from '@models/social-metadata/social-metadata';
-import { KoodistoService } from '@services/koodisto.service';
-import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { EducationalLevel } from '@models/koodisto/educational-level';
-import { Toast } from '@models/translations/toast';
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { KeyValue } from '@angular/common'
+import { HttpErrorResponse } from '@angular/common/http'
+import { Subscription } from 'rxjs'
+import { BsModalRef } from 'ngx-bootstrap/modal'
+import { ToastrService } from 'ngx-toastr'
+import { TranslateService } from '@ngx-translate/core'
+import { SocialMetadataService } from '@services/social-metadata.service'
+import { SocialMetadata } from '@models/social-metadata/social-metadata'
+import { KoodistoService } from '@services/koodisto.service'
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
+import { EducationalLevel } from '@models/koodisto/educational-level'
+import { Toast } from '@models/translations/toast'
 
 @Component({
   selector: 'app-social-metadata-modal',
   templateUrl: './social-metadata-modal.component.html',
-  styleUrls: ['./social-metadata-modal.component.scss'],
+  styleUrls: ['./social-metadata-modal.component.scss']
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
-  materialId: number;
-  form: FormGroup;
-  keywordSubscription: Subscription;
-  keywords: KeyValue<string, string>[];
-  accessibilityFeatureSubscription: Subscription;
-  accessibilityFeatures: AccessibilityFeature[];
-  accessibilityHazardSubscription: Subscription;
-  accessibilityHazards: AccessibilityHazard[];
-  educationalLevelSubscription: Subscription;
-  educationalLevels: EducationalLevel[];
-  userSocialMetadataSubscription: Subscription;
-  successfulToast: Toast;
+  materialId: number
+  form: FormGroup
+  keywordSubscription: Subscription
+  keywords: KeyValue<string, string>[]
+  accessibilityFeatureSubscription: Subscription
+  accessibilityFeatures: AccessibilityFeature[]
+  accessibilityHazardSubscription: Subscription
+  accessibilityHazards: AccessibilityHazard[]
+  educationalLevelSubscription: Subscription
+  educationalLevels: EducationalLevel[]
+  userSocialMetadataSubscription: Subscription
+  successfulToast: Toast
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -39,7 +39,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private translate: TranslateService,
     private socialMetadataSvc: SocialMetadataService,
-    private koodistoSvc: KoodistoService,
+    private koodistoSvc: KoodistoService
   ) {}
 
   ngOnInit(): void {
@@ -47,78 +47,86 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null),
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
-      educationalLevels: this.fb.control(null),
-    });
+      educationalLevels: this.fb.control(null)
+    })
 
     this.translate.onLangChange.subscribe(() => {
-      this.koodistoSvc.updateKeywords();
-      this.koodistoSvc.updateAccessibilityFeatures();
-      this.koodistoSvc.updateAccessibilityHazards();
-      this.koodistoSvc.updateEducationalLevels();
-    });
+      this.koodistoSvc.updateKeywords()
+      this.koodistoSvc.updateAccessibilityFeatures()
+      this.koodistoSvc.updateAccessibilityHazards()
+      this.koodistoSvc.updateEducationalLevels()
+    })
 
     // keywords
-    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
-      this.keywords = keywords;
-    });
-    this.koodistoSvc.updateKeywords();
+    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe(
+      (keywords: KeyValue<string, string>[]) => {
+        this.keywords = keywords
+      }
+    )
+    this.koodistoSvc.updateKeywords()
 
     // accessibility features
     this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
       (features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      },
-    );
-    this.koodistoSvc.updateAccessibilityFeatures();
+        this.accessibilityFeatures = features
+      }
+    )
+    this.koodistoSvc.updateAccessibilityFeatures()
 
     // accessibility hazards
     this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
       (hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      },
-    );
-    this.koodistoSvc.updateAccessibilityHazards();
+        this.accessibilityHazards = hazards
+      }
+    )
+    this.koodistoSvc.updateAccessibilityHazards()
 
     // educational levels
-    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
-      this.educationalLevels = levels;
-    });
-    this.koodistoSvc.updateEducationalLevels();
+    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe(
+      (levels: EducationalLevel[]) => {
+        this.educationalLevels = levels
+      }
+    )
+    this.koodistoSvc.updateEducationalLevels()
 
     this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe(
       (metadata: SocialMetadata) => {
-        this.form.patchValue(metadata);
-      },
-    );
-    this.socialMetadataSvc.updateUserSocialMetadata(this.materialId);
+        this.form.patchValue(metadata)
+      }
+    )
+    this.socialMetadataSvc.updateUserSocialMetadata(this.materialId)
 
-    this.translate.get('demo.educationalMaterial.socialMetadata.toasts.success').subscribe((translation: Toast) => {
-      this.successfulToast = translation;
-    });
+    this.translate
+      .get('demo.educationalMaterial.socialMetadata.toasts.success')
+      .subscribe((translation: Toast) => {
+        this.successfulToast = translation
+      })
   }
 
   ngOnDestroy(): void {
-    this.keywordSubscription.unsubscribe();
-    this.accessibilityFeatureSubscription.unsubscribe();
-    this.accessibilityHazardSubscription.unsubscribe();
-    this.educationalLevelSubscription.unsubscribe();
-    this.userSocialMetadataSubscription.unsubscribe();
+    this.keywordSubscription.unsubscribe()
+    this.accessibilityFeatureSubscription.unsubscribe()
+    this.accessibilityHazardSubscription.unsubscribe()
+    this.educationalLevelSubscription.unsubscribe()
+    this.userSocialMetadataSubscription.unsubscribe()
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       if (this.form.dirty) {
-        this.socialMetadataSvc.putMaterialSocialMetadata(this.materialId, this.form.value).subscribe(
-          () => {
-            this.bsModalRef.hide();
-            this.socialMetadataSvc.updateSocialMetadata(this.materialId);
-            this.toastr.success(null, this.successfulToast.title);
-          },
-          (err: HttpErrorResponse) => this.toastr.error(null, err.error),
-        );
+        this.socialMetadataSvc
+          .putMaterialSocialMetadata(this.materialId, this.form.value)
+          .subscribe(
+            () => {
+              this.bsModalRef.hide()
+              this.socialMetadataSvc.updateSocialMetadata(this.materialId)
+              this.toastr.success(null, this.successfulToast.title)
+            },
+            (err: HttpErrorResponse) => this.toastr.error(null, err.error)
+          )
       }
 
-      this.bsModalRef.hide();
+      this.bsModalRef.hide()
     }
   }
 }

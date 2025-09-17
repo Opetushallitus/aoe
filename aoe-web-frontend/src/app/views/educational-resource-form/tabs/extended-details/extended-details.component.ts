@@ -1,65 +1,65 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { Title } from '@angular/platform-browser'
+import { Subscription } from 'rxjs'
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment';
-import { addCustomItem, addPrerequisites, textInputValidator } from '@shared/shared.module';
-import { KoodistoService } from '@services/koodisto.service';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { koodistoSources } from '@constants/koodisto-sources';
-import { validatorParams } from '@constants/validator-params';
+import { environment } from '@environments/environment'
+import { addCustomItem, addPrerequisites, textInputValidator } from '@shared/shared.module'
+import { KoodistoService } from '@services/koodisto.service'
+import { AlignmentObjectExtended } from '@models/alignment-object-extended'
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
+import { koodistoSources } from '@constants/koodisto-sources'
+import { validatorParams } from '@constants/validator-params'
 
 @Component({
   selector: 'app-tabs-extended-details',
   templateUrl: './extended-details.component.html',
-  styleUrls: ['./extended-details.component.scss'],
+  styleUrls: ['./extended-details.component.scss']
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
-  @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()
 
-  lang: string = this.translate.currentLang;
-  savedData: any;
-  accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`;
+  lang: string = this.translate.currentLang
+  savedData: any
+  accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`
 
-  accessibilityFeatureSubscription: Subscription;
-  accessibilityFeatures: AccessibilityFeature[];
-  accessibilityHazardSubscription: Subscription;
-  accessibilityHazards: AccessibilityHazard[];
+  accessibilityFeatureSubscription: Subscription
+  accessibilityFeatures: AccessibilityFeature[]
+  accessibilityHazardSubscription: Subscription
+  accessibilityHazards: AccessibilityHazard[]
 
-  form: FormGroup;
-  submitted = false;
+  form: FormGroup
+  submitted = false
 
-  private alignmentObjects: AlignmentObjectExtended[] = [];
+  private alignmentObjects: AlignmentObjectExtended[] = []
 
-  addCustomItem = addCustomItem;
-  addPrerequisites = addPrerequisites;
+  addCustomItem = addCustomItem
+  addPrerequisites = addPrerequisites
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private koodistoProxySvc: KoodistoService,
     private translate: TranslateService,
-    private titleService: Title,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
-    this.setTitle();
+    this.setTitle()
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
+      this.lang = event.lang
 
-      this.setTitle();
+      this.setTitle()
 
-      this.koodistoProxySvc.updateAccessibilityFeatures();
-      this.koodistoProxySvc.updateAccessibilityHazards();
-    });
+      this.koodistoProxySvc.updateAccessibilityFeatures()
+      this.koodistoProxySvc.updateAccessibilityHazards()
+    })
 
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
+    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
 
     this.form = this.fb.group({
       accessibilityFeatures: this.fb.control(null),
@@ -68,78 +68,78 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
         typicalAgeRangeMin: this.fb.control(null, [
           Validators.min(validatorParams.ageRange.min.min),
           Validators.pattern(validatorParams.ageRange.min.pattern),
-          Validators.maxLength(validatorParams.ageRange.min.maxLength),
+          Validators.maxLength(validatorParams.ageRange.min.maxLength)
         ]),
         typicalAgeRangeMax: this.fb.control(null, [
           Validators.min(validatorParams.ageRange.max.min),
           Validators.pattern(validatorParams.ageRange.max.pattern),
-          Validators.maxLength(validatorParams.ageRange.max.maxLength),
-        ]),
+          Validators.maxLength(validatorParams.ageRange.max.maxLength)
+        ])
       }),
       timeRequired: this.fb.control(null, [
         Validators.maxLength(validatorParams.timeRequired.maxLength),
-        textInputValidator(),
+        textInputValidator()
       ]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
-      prerequisites: this.fb.control(null),
-    });
+      prerequisites: this.fb.control(null)
+    })
 
     this.accessibilityFeatureSubscription = this.koodistoProxySvc.accessibilityFeatures$.subscribe(
       (accessibilityFeatures: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = accessibilityFeatures;
-      },
-    );
-    this.koodistoProxySvc.updateAccessibilityFeatures();
+        this.accessibilityFeatures = accessibilityFeatures
+      }
+    )
+    this.koodistoProxySvc.updateAccessibilityFeatures()
 
     this.accessibilityHazardSubscription = this.koodistoProxySvc.accessibilityHazards$.subscribe(
       (accessibilityHazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = accessibilityHazards;
-      },
-    );
-    this.koodistoProxySvc.updateAccessibilityHazards();
+        this.accessibilityHazards = accessibilityHazards
+      }
+    )
+    this.koodistoProxySvc.updateAccessibilityHazards()
 
     if (this.savedData) {
       if (this.savedData.accessibilityFeatures) {
-        this.accessibilityFeaturesCtrl.setValue(this.savedData.accessibilityFeatures);
+        this.accessibilityFeaturesCtrl.setValue(this.savedData.accessibilityFeatures)
       }
 
       if (this.savedData.accessibilityHazards) {
-        this.accessibilityHazardsCtrl.setValue(this.savedData.accessibilityHazards);
+        this.accessibilityHazardsCtrl.setValue(this.savedData.accessibilityHazards)
       }
 
       if (this.savedData.typicalAgeRange) {
-        this.form.get('typicalAgeRange').setValue(this.savedData.typicalAgeRange);
+        this.form.get('typicalAgeRange').setValue(this.savedData.typicalAgeRange)
       }
 
       if (this.savedData.timeRequired) {
-        this.form.get('timeRequired').setValue(this.savedData.timeRequired);
+        this.form.get('timeRequired').setValue(this.savedData.timeRequired)
       }
 
       if (this.savedData.publisher) {
-        this.publisherCtrl.setValue(this.savedData.publisher);
+        this.publisherCtrl.setValue(this.savedData.publisher)
       }
 
       if (this.savedData.expires) {
-        this.form.get('expires').setValue(new Date(this.savedData.expires));
+        this.form.get('expires').setValue(new Date(this.savedData.expires))
       }
 
       if (this.savedData.alignmentObjects) {
-        this.alignmentObjects = this.savedData.alignmentObjects;
+        this.alignmentObjects = this.savedData.alignmentObjects
 
         // filter prerequisites
         const prerequisites = this.alignmentObjects.filter(
-          (alignmentObject) => alignmentObject.source === koodistoSources.prerequisites,
-        );
+          (alignmentObject) => alignmentObject.source === koodistoSources.prerequisites
+        )
 
         // set filtered prerequisites as form control value
-        this.prerequisites.setValue(prerequisites);
+        this.prerequisites.setValue(prerequisites)
 
         // remove prerequisites from alignmentObjects
         prerequisites.forEach((prerequisite: AlignmentObjectExtended) => {
-          const index = this.alignmentObjects.indexOf(prerequisite);
-          this.alignmentObjects.splice(index, 1);
-        });
+          const index = this.alignmentObjects.indexOf(prerequisite)
+          this.alignmentObjects.splice(index, 1)
+        })
       }
     }
   }
@@ -147,11 +147,11 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // save data if its valid, dirty and not submitted
     if (this.submitted === false && this.form.dirty && this.form.valid) {
-      this.saveData();
+      this.saveData()
     }
 
-    this.accessibilityFeatureSubscription.unsubscribe();
-    this.accessibilityHazardSubscription.unsubscribe();
+    this.accessibilityFeatureSubscription.unsubscribe()
+    this.accessibilityHazardSubscription.unsubscribe()
   }
 
   setTitle(): void {
@@ -159,89 +159,94 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
       .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.extended'])
       .subscribe((translations: { [key: string]: string }) => {
         this.titleService.setTitle(
-          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.extended']} - ${translations['common.serviceName']}`,
-        );
-      });
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.extended']} - ${translations['common.serviceName']}`
+        )
+      })
   }
 
   get accessibilityFeaturesCtrl(): FormControl {
-    return this.form.get('accessibilityFeatures') as FormControl;
+    return this.form.get('accessibilityFeatures') as FormControl
   }
 
   get accessibilityHazardsCtrl(): FormControl {
-    return this.form.get('accessibilityHazards') as FormControl;
+    return this.form.get('accessibilityHazards') as FormControl
   }
 
   get typicalAgeRangeMinCtrl(): FormControl {
-    return this.form.get('typicalAgeRange.typicalAgeRangeMin') as FormControl;
+    return this.form.get('typicalAgeRange.typicalAgeRangeMin') as FormControl
   }
 
   get typicalAgeRangeMaxCtrl(): FormControl {
-    return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+    return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl
   }
 
   get timeRequiredCtrl(): FormControl {
-    return this.form.get('timeRequired') as FormControl;
+    return this.form.get('timeRequired') as FormControl
   }
 
   get publisherCtrl(): FormControl {
-    return this.form.get('publisher') as FormControl;
+    return this.form.get('publisher') as FormControl
   }
 
   get prerequisites(): FormControl {
-    return this.form.get('prerequisites') as FormControl;
+    return this.form.get('prerequisites') as FormControl
   }
 
   onSubmit(): void {
-    this.submitted = true;
+    this.submitted = true
     if (this.form.valid) {
       if (this.form.dirty) {
-        this.saveData();
+        this.saveData()
       }
-      void this.router.navigate(['/lisaa-oppimateriaali', 5]);
+      void this.router.navigate(['/lisaa-oppimateriaali', 5])
     }
   }
 
   saveData(): void {
     if (this.prerequisites.value) {
       this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
-        this.alignmentObjects.push(prerequisite);
-      });
+        this.alignmentObjects.push(prerequisite)
+      })
     }
 
     if (this.accessibilityFeaturesCtrl.value && this.accessibilityFeaturesCtrl.value.length === 0) {
-      this.accessibilityFeaturesCtrl.setValue(null);
+      this.accessibilityFeaturesCtrl.setValue(null)
     }
 
     if (this.accessibilityHazardsCtrl.value && this.accessibilityHazardsCtrl.value.length === 0) {
-      this.accessibilityHazardsCtrl.setValue(null);
+      this.accessibilityHazardsCtrl.setValue(null)
     }
 
     if (this.typicalAgeRangeMinCtrl.value === '') {
-      this.typicalAgeRangeMinCtrl.setValue(null);
+      this.typicalAgeRangeMinCtrl.setValue(null)
     }
 
     if (this.typicalAgeRangeMaxCtrl.value === '') {
-      this.typicalAgeRangeMaxCtrl.setValue(null);
+      this.typicalAgeRangeMaxCtrl.setValue(null)
     }
 
     if (this.publisherCtrl.value && this.publisherCtrl.value.length === 0) {
-      this.publisherCtrl.setValue(null);
+      this.publisherCtrl.setValue(null)
     }
 
-    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value, {
-      alignmentObjects: this.alignmentObjects,
-    });
+    const data = Object.assign(
+      {},
+      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      this.form.value,
+      {
+        alignmentObjects: this.alignmentObjects
+      }
+    )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
+    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {
-    void this.router.navigate(['/lisaa-oppimateriaali', 3]);
+    void this.router.navigate(['/lisaa-oppimateriaali', 3])
   }
 
   abort(): void {
-    this.abortEdit.emit(true);
+    this.abortEdit.emit(true)
   }
 }

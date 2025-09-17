@@ -1,11 +1,11 @@
 export interface EducationalSubject {
-  key: number | string;
-  value: string;
-  children: EducationalSubjectChild[];
+  key: number | string
+  value: string
+  children: EducationalSubjectChild[]
 }
 
 export interface EducationalSubjectChild {
-  key: number | string;
-  value: string;
-  parent?: string;
+  key: number | string
+  value: string
+  parent?: string
 }

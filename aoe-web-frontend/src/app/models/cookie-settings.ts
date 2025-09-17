@@ -1,4 +1,4 @@
 export interface CookieSettings {
-  aoe: boolean;
-  googleAnalytics: boolean;
+  aoe: boolean
+  googleAnalytics: boolean
 }

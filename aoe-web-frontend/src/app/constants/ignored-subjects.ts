@@ -1,4 +1,4 @@
-export const ignoredSubjects = ['692136', '739613', '739612', '712901', '692139'];
+export const ignoredSubjects = ['692136', '739613', '739612', '712901', '692139']
 
 export const ignored2019Subjects = [
   '6834382',
@@ -8,5 +8,5 @@ export const ignored2019Subjects = [
   '6828958',
   '6830280',
   '6830958',
-  '6830957',
-];
+  '6830957'
+]

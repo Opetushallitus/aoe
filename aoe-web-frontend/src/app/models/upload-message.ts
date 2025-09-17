@@ -1,17 +1,17 @@
 export interface UploadMessage {
-  message: number | string;
-  status: string;
-  response?: SuccessfulUploadResponse;
-  visible?: boolean;
-  statusHTTP?: number;
+  message: number | string
+  status: string
+  response?: SuccessfulUploadResponse
+  visible?: boolean
+  statusHTTP?: number
 }
 
 interface SuccessfulUploadResponse {
-  id: string;
+  id: string
   material: [
     {
-      id: string;
-      createFrom: string;
-    },
-  ];
+      id: string
+      createFrom: string
+    }
+  ]
 }

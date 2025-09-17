@@ -7,25 +7,25 @@ export const educationalLevelKeys = {
     '7eb3d5be-0575-44db-ab8a-883cf0ae2f26',
     '75e8bed1-b965-483d-8ba4-48a5614c69ba',
     'a2a70a14-b150-4f37-9e20-2bbb71731807',
-    '14fe3b08-8516-4999-946b-96eb90c2d563',
+    '14fe3b08-8516-4999-946b-96eb90c2d563'
   ],
   preparatoryEducation: ['64a427b5-3a25-43e4-b976-ccf3f0539b95'],
   upperSecondary: ['94f79e1e-10e6-483d-b651-27521f94f7bf', 'fd362a80-9662-48b8-acd1-d8cef520530c'],
   vocational: [
     '010c6689-5021-4d8e-8c02-68a27cc5a87b',
     '55c5d6a2-8415-47bc-9d15-7b976b0e999c',
-    'da5b8f43-5fc9-4681-812b-40846926f3fd',
+    'da5b8f43-5fc9-4681-812b-40846926f3fd'
   ],
   selfMotivated: [
     'bc25d0e7-3c68-49a1-9329-239dae01fab7',
     '087dd008-16db-46e7-b0ee-5cd76c64e990',
     '67900499-2356-45a4-b830-3021e73398bc',
-    '427511b0-7071-46f9-a946-3c4c18d4223c',
+    '427511b0-7071-46f9-a946-3c4c18d4223c'
   ],
   higherEducation: [
     'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',
     'ff3334db-2a71-4459-8f0d-c42ce2b12a70',
     '9c14f097-68e3-4e6b-a772-71a44442f72f',
-    '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
-  ],
-};
+    '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a'
+  ]
+}

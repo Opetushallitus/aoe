@@ -1,3 +1,3 @@
 export interface AddToCollectionResponse {
-  status: string;
+  status: string
 }

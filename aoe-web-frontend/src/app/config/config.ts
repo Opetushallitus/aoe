@@ -1,3 +1,3 @@
 export type Config = {
-  env: string;
-};
+  env: string
+}

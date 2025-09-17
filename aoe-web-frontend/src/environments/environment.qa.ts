@@ -21,5 +21,5 @@ export const qaEnvironment = {
   collectionSearchResults: 'aoe.collectionSearchResults',
   sessionMaxAge: 60 * 60 * 8 * 1000, // 8 hours
   disableForms: 'aoe.disableForms',
-  disableLogin: 'aoe.disableLogin',
-};
+  disableLogin: 'aoe.disableLogin'
+}

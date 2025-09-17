@@ -1,5 +1,5 @@
 export interface UsedFilter {
-  key: string | number;
-  value: string;
-  type: string;
+  key: string | number
+  value: string
+  type: string
 }

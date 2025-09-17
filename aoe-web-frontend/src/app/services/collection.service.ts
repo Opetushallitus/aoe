@@ -1,42 +1,51 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from '@environments/environment';
-import { koodistoSources } from '@constants/koodisto-sources';
-import { CreateCollectionPost } from '@models/collections/create-collection-post';
-import { CreateCollectionResponse } from '@models/collections/create-collection-response';
-import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
-import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
-import { UserCollection } from '@models/collections/user-collection';
-import { UserCollectionResponse } from '@models/collections/user-collection-response';
-import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
-import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
-import { CollectionResponse } from '@models/collections/collection-response';
+import { Injectable } from '@angular/core'
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpEventType,
+  HttpHeaders
+} from '@angular/common/http'
+import { Observable, Subject, throwError } from 'rxjs'
+import { catchError, map } from 'rxjs/operators'
+import { environment } from '@environments/environment'
+import { koodistoSources } from '@constants/koodisto-sources'
+import { CreateCollectionPost } from '@models/collections/create-collection-post'
+import { CreateCollectionResponse } from '@models/collections/create-collection-response'
+import { AddToCollectionResponse } from '@models/collections/add-to-collection-response'
+import { AddToCollectionPost } from '@models/collections/add-to-collection-post'
+import { UserCollection } from '@models/collections/user-collection'
+import { UserCollectionResponse } from '@models/collections/user-collection-response'
+import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
+import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response'
+import { CollectionResponse } from '@models/collections/collection-response'
 import {
   CollectionForm,
   CollectionFormMaterial,
   CollectionFormMaterialAndHeading,
-  CollectionFormMaterialAuthor,
-} from '@models/collections/collection-form';
-import { UpdateCollectionPut } from '@models/collections/update-collection-put';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { Collection } from '@models/collections/collection';
-import { AlignmentObjects } from '@models/alignment-objects';
-import { UploadMessage } from '@models/upload-message';
-import { CollectionCard } from '@models/collections/collection-card';
-import { RecentCollectionResponse, RecentCollectionsResponse } from '@models/collections/recent-collections-response';
+  CollectionFormMaterialAuthor
+} from '@models/collections/collection-form'
+import { UpdateCollectionPut } from '@models/collections/update-collection-put'
+import { AlignmentObjectExtended } from '@models/alignment-object-extended'
+import { Collection } from '@models/collections/collection'
+import { AlignmentObjects } from '@models/alignment-objects'
+import { UploadMessage } from '@models/upload-message'
+import { CollectionCard } from '@models/collections/collection-card'
+import {
+  RecentCollectionResponse,
+  RecentCollectionsResponse
+} from '@models/collections/recent-collections-response'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CollectionService {
-  public userCollections$ = new Subject<UserCollection[]>();
-  public privateUserCollections$ = new Subject<UserCollection[]>();
-  public publicUserCollections$ = new Subject<UserCollection[]>();
-  public collection$ = new Subject<Collection>();
-  public editCollection$ = new Subject<CollectionForm>();
-  public recentCollections$ = new Subject<CollectionCard[]>();
+  public userCollections$ = new Subject<UserCollection[]>()
+  public privateUserCollections$ = new Subject<UserCollection[]>()
+  public publicUserCollections$ = new Subject<UserCollection[]>()
+  public collection$ = new Subject<Collection>()
+  public editCollection$ = new Subject<CollectionForm>()
+  public recentCollections$ = new Subject<CollectionCard[]>()
 
   constructor(private http: HttpClient) {}
 
@@ -46,9 +55,9 @@ export class CollectionService {
    * @private
    */
   private handleError(error: HttpErrorResponse) {
-    console.error(error);
+    console.error(error)
 
-    return throwError('Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.')
   }
 
   /**
@@ -60,10 +69,10 @@ export class CollectionService {
     return this.http
       .post<CreateCollectionResponse>(`${environment.backendUrl}/collection/create`, payload, {
         headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
+          Accept: 'application/json'
+        })
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
 
   /**
@@ -73,30 +82,30 @@ export class CollectionService {
     this.http
       .get<UserCollectionResponse>(`${environment.backendUrl}/collection/userCollection`, {
         headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
+          Accept: 'application/json'
+        })
       })
       .subscribe((userCollectionResponse: UserCollectionResponse) => {
-        const privateCollections: UserCollection[] = [];
-        const publicCollections: UserCollection[] = [];
+        const privateCollections: UserCollection[] = []
+        const publicCollections: UserCollection[] = []
 
         // set all user collections
-        this.userCollections$.next(userCollectionResponse.collections);
+        this.userCollections$.next(userCollectionResponse.collections)
 
         userCollectionResponse.collections.forEach((collection: UserCollection) => {
           if (collection.publishedat === null) {
-            privateCollections.push(collection);
+            privateCollections.push(collection)
           } else {
-            publicCollections.push(collection);
+            publicCollections.push(collection)
           }
-        });
+        })
 
         // set private user collections
-        this.privateUserCollections$.next(privateCollections);
+        this.privateUserCollections$.next(privateCollections)
 
         // set public user collections
-        this.publicUserCollections$.next(publicCollections);
-      });
+        this.publicUserCollections$.next(publicCollections)
+      })
   }
 
   /**
@@ -108,10 +117,10 @@ export class CollectionService {
     return this.http
       .post<AddToCollectionResponse>(`${environment.backendUrl}/collection/addMaterial`, payload, {
         headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
+          Accept: 'application/json'
+        })
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
 
   /**
@@ -119,14 +128,20 @@ export class CollectionService {
    * @param {RemoveFromCollectionPost} payload
    * @returns {Observable<RemoveFromCollectionResponse>} Response
    */
-  removeFromCollection(payload: RemoveFromCollectionPost): Observable<RemoveFromCollectionResponse> {
+  removeFromCollection(
+    payload: RemoveFromCollectionPost
+  ): Observable<RemoveFromCollectionResponse> {
     return this.http
-      .post<RemoveFromCollectionResponse>(`${environment.backendUrl}/collection/removeMaterial`, payload, {
-        headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
-      })
-      .pipe(catchError(this.handleError));
+      .post<RemoveFromCollectionResponse>(
+        `${environment.backendUrl}/collection/removeMaterial`,
+        payload,
+        {
+          headers: new HttpHeaders({
+            Accept: 'application/json'
+          })
+        }
+      )
+      .pipe(catchError(this.handleError))
   }
 
   /**
@@ -135,32 +150,35 @@ export class CollectionService {
    */
   updateCollection(collectionId: string): void {
     this.http
-      .get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
-        headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
-      })
+      .get<CollectionResponse>(
+        `${environment.backendUrl}/collection/getCollection/${collectionId}`,
+        {
+          headers: new HttpHeaders({
+            Accept: 'application/json'
+          })
+        }
+      )
       .subscribe((collectionResponse: CollectionResponse) => {
-        const alignmentObjects = this.extractAlignmentObjects(collectionResponse.alignmentObjects);
+        const alignmentObjects = this.extractAlignmentObjects(collectionResponse.alignmentObjects)
 
-        const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
+        const materialsAndHeadings: CollectionFormMaterialAndHeading[] = []
 
         collectionResponse.educationalmaterials.forEach((material) => {
           materialsAndHeadings.push({
             id: material.id,
-            priority: material.priority,
-          });
-        });
+            priority: material.priority
+          })
+        })
 
         collectionResponse.headings.forEach((heading) => {
           materialsAndHeadings.push({
             heading: heading.heading,
             description: heading.description,
-            priority: heading.priority,
-          });
-        });
+            priority: heading.priority
+          })
+        })
 
-        materialsAndHeadings.sort((a, b) => a.priority - b.priority);
+        materialsAndHeadings.sort((a, b) => a.priority - b.priority)
 
         const collection: Collection = {
           id: collectionResponse.collection.id,
@@ -180,10 +198,12 @@ export class CollectionService {
           educationalLevels: collectionResponse.educationalLevels,
           earlyChildhoodEducationSubjects: alignmentObjects.earlyChildhoodEducationSubjects,
           earlyChildhoodEducationObjectives: alignmentObjects.earlyChildhoodEducationObjectives,
-          earlyChildhoodEducationFramework: alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
+          earlyChildhoodEducationFramework:
+            alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
           prePrimaryEducationSubjects: alignmentObjects.prePrimaryEducationSubjects,
           prePrimaryEducationObjectives: alignmentObjects.prePrimaryEducationObjectives,
-          prePrimaryEducationFramework: alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
+          prePrimaryEducationFramework:
+            alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
           basicStudySubjects: alignmentObjects.basicStudySubjects,
           basicStudyObjectives: alignmentObjects.basicStudyObjectives,
           basicStudyContents: alignmentObjects.basicStudyContents,
@@ -193,12 +213,14 @@ export class CollectionService {
           upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
           upperSecondarySchoolCoursesOld: alignmentObjects.upperSecondarySchoolCoursesOld,
           upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
-          upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
+          upperSecondarySchoolFramework:
+            alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
           upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
           upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
           upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
           upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
-          newUpperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
+          newUpperSecondarySchoolFramework:
+            alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
           vocationalDegrees: alignmentObjects.vocationalDegrees,
           vocationalUnits: alignmentObjects.vocationalUnits,
           subjectOfCommonUnit: alignmentObjects.subjectOfCommonUnit,
@@ -211,11 +233,13 @@ export class CollectionService {
           higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
           owner: collectionResponse.owner,
           authors: collectionResponse.authors,
-          thumbnail: collectionResponse.thumbnail ? collectionResponse.thumbnail : 'assets/img/thumbnails/kokoelma.png',
-        };
+          thumbnail: collectionResponse.thumbnail
+            ? collectionResponse.thumbnail
+            : 'assets/img/thumbnails/kokoelma.png'
+        }
 
-        this.collection$.next(collection);
-      });
+        this.collection$.next(collection)
+      })
   }
 
   /**
@@ -224,37 +248,42 @@ export class CollectionService {
    */
   updateEditCollection(collectionId: string): void {
     this.http
-      .get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
-        headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
-      })
+      .get<CollectionResponse>(
+        `${environment.backendUrl}/collection/getCollection/${collectionId}`,
+        {
+          headers: new HttpHeaders({
+            Accept: 'application/json'
+          })
+        }
+      )
       .subscribe((collection: CollectionResponse) => {
-        const alignmentObjects = this.extractAlignmentObjects(collection.alignmentObjects);
-        const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
+        const alignmentObjects = this.extractAlignmentObjects(collection.alignmentObjects)
+        const materialsAndHeadings: CollectionFormMaterialAndHeading[] = []
 
         collection.educationalmaterials.forEach((material) => {
           materialsAndHeadings.push({
             id: material.id,
-            priority: material.priority,
-          });
-        });
+            priority: material.priority
+          })
+        })
 
         collection.headings.forEach((heading) => {
           materialsAndHeadings.push({
             heading: heading.heading,
             description: heading.description,
-            priority: heading.priority,
-          });
-        });
+            priority: heading.priority
+          })
+        })
 
-        materialsAndHeadings.sort((a, b) => a.priority - b.priority);
+        materialsAndHeadings.sort((a, b) => a.priority - b.priority)
 
         const collectionForm: CollectionForm = {
           id: collection.collection.id,
           isPublished: collection.collection.publishedat !== null,
           name: collection.collection.name,
-          thumbnail: collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png',
+          thumbnail: collection.thumbnail
+            ? collection.thumbnail
+            : 'assets/img/thumbnails/kokoelma.png',
           keywords: collection.keywords,
           languages: collection.languages,
           educationalRoles: collection.educationalRoles,
@@ -269,9 +298,9 @@ export class CollectionService {
                   author: author.authorname,
                   organization: {
                     key: author.organizationkey,
-                    value: author.organization,
-                  },
-                }),
+                    value: author.organization
+                  }
+                })
               ),
               license: material.license,
               name: material.name,
@@ -283,36 +312,42 @@ export class CollectionService {
                 : `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`,
               learningResourceTypes: material.learningResourceTypes.map((type) => ({
                 key: type.learningresourcetypekey,
-                value: type.value,
-              })),
-            }),
+                value: type.value
+              }))
+            })
           ),
           materialsAndHeadings,
           description: collection.collection.description,
           educationalLevels: collection.educationalLevels,
           earlyChildhoodEducationSubjects: alignmentObjects.earlyChildhoodEducationSubjects,
           earlyChildhoodEducationObjectives: alignmentObjects.earlyChildhoodEducationObjectives,
-          earlyChildhoodEducationFramework: alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
+          earlyChildhoodEducationFramework:
+            alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
           prePrimaryEducationSubjects: alignmentObjects.prePrimaryEducationSubjects,
           prePrimaryEducationObjectives: alignmentObjects.prePrimaryEducationObjectives,
-          prePrimaryEducationFramework: alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
+          prePrimaryEducationFramework:
+            alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
           basicStudySubjects: alignmentObjects.basicStudySubjects,
           basicStudyObjectives: alignmentObjects.basicStudyObjectives,
           basicStudyContents: alignmentObjects.basicStudyContents,
           basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
           preparatoryEducationSubjects: alignmentObjects.preparatoryEducationSubjects,
           preparatoryEducationObjectives: alignmentObjects.preparatoryEducationObjectives,
-          currentUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsOld.length > 0,
-          newUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsNew.length > 0,
+          currentUpperSecondarySchoolSelected:
+            alignmentObjects.upperSecondarySchoolSubjectsOld.length > 0,
+          newUpperSecondarySchoolSelected:
+            alignmentObjects.upperSecondarySchoolSubjectsNew.length > 0,
           upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
           upperSecondarySchoolCoursesOld: alignmentObjects.upperSecondarySchoolCoursesOld,
           upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
-          upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
+          upperSecondarySchoolFramework:
+            alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
           upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
           upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
           upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
           upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
-          newUpperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
+          newUpperSecondarySchoolFramework:
+            alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
           vocationalDegrees: alignmentObjects.vocationalDegrees,
           vocationalUnits: alignmentObjects.vocationalUnits,
           subjectOfCommonUnit: alignmentObjects.subjectOfCommonUnit,
@@ -322,11 +357,11 @@ export class CollectionService {
           selfMotivatedEducationObjectives: alignmentObjects.selfMotivatedEducationObjectives,
           scienceBranches: alignmentObjects.scienceBranches,
           scienceBranchObjectives: alignmentObjects.scienceBranchObjectives,
-          higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
-        };
+          higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework
+        }
 
-        this.editCollection$.next(collectionForm);
-      });
+        this.editCollection$.next(collectionForm)
+      })
   }
 
   /**
@@ -334,7 +369,9 @@ export class CollectionService {
    * @param {UpdateCollectionPut} collection
    */
   updateCollectionDetails(collection: UpdateCollectionPut): Observable<any> {
-    return this.http.put(`${environment.backendUrl}/collection/update`, collection).pipe(catchError(this.handleError));
+    return this.http
+      .put(`${environment.backendUrl}/collection/update`, collection)
+      .pipe(catchError(this.handleError))
   }
 
   /**
@@ -348,37 +385,37 @@ export class CollectionService {
       .post<{ base64image: string }>(
         `${environment.backendUrlV2}/collection/${collectionId}/thumbnail`,
         {
-          base64image: base64Image,
+          base64image: base64Image
         },
         {
           headers: new HttpHeaders({
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           }),
           reportProgress: true,
-          observe: 'events',
-        },
+          observe: 'events'
+        }
       )
       .pipe(
         map((event: HttpEvent<any>) => {
           switch (event.type) {
             case HttpEventType.UploadProgress:
               if (event.total) {
-                const progress = Math.round((100 * event.loaded) / event.total);
-                return { status: 'progress', message: progress };
+                const progress = Math.round((100 * event.loaded) / event.total)
+                return { status: 'progress', message: progress }
               } else {
-                return { status: 'progress', message: 'Calculating...' };
+                return { status: 'progress', message: 'Calculating...' }
               }
 
             case HttpEventType.Response:
-              return { status: 'completed', message: event.body };
+              return { status: 'completed', message: event.body }
 
             default:
-              return { status: 'error', message: `Unhandled event: ${event.type}` };
+              return { status: 'error', message: `Unhandled event: ${event.type}` }
           }
         }),
-        catchError(this.handleError),
-      );
+        catchError(this.handleError)
+      )
   }
 
   /**
@@ -388,23 +425,25 @@ export class CollectionService {
     this.http
       .get<RecentCollectionsResponse>(`${environment.backendUrl}/collection/recentCollection`, {
         headers: new HttpHeaders({
-          Accept: 'application/json',
-        }),
+          Accept: 'application/json'
+        })
       })
       .subscribe((response: RecentCollectionsResponse) => {
         const collections = response.collections.map((collection: RecentCollectionResponse) => ({
           id: collection.id,
           name: collection.name,
-          thumbnail: collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png',
+          thumbnail: collection.thumbnail
+            ? collection.thumbnail
+            : 'assets/img/thumbnails/kokoelma.png',
           authors: collection.authors,
           description: collection.description,
           keywords: collection.keywords,
           educationalLevels: collection.educationalLevels,
-          languages: collection.languages,
-        }));
+          languages: collection.languages
+        }))
 
-        this.recentCollections$.next(collections);
-      });
+        this.recentCollections$.next(collections)
+      })
   }
 
   /**
@@ -414,30 +453,30 @@ export class CollectionService {
    * @private
    */
   private extractAlignmentObjects(alignmentObjects: any): AlignmentObjects {
-    const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
-    const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];
-    const prePrimaryEducationSubjects: AlignmentObjectExtended[] = [];
-    const prePrimaryEducationObjectives: AlignmentObjectExtended[] = [];
-    const basicStudySubjects: AlignmentObjectExtended[] = [];
-    const basicStudyObjectives: AlignmentObjectExtended[] = [];
-    const basicStudyContents: AlignmentObjectExtended[] = [];
-    const preparatoryEducationSubjects: AlignmentObjectExtended[] = [];
-    const preparatoryEducationObjectives: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolCoursesOld: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
-    const vocationalDegrees: AlignmentObjectExtended[] = [];
-    const vocationalUnits: AlignmentObjectExtended[] = [];
-    const subjectOfCommonUnit: AlignmentObjectExtended[] = [];
-    const vocationalRequirements: AlignmentObjectExtended[] = [];
-    const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
-    const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
-    const scienceBranches: AlignmentObjectExtended[] = [];
-    const scienceBranchObjectives: AlignmentObjectExtended[] = [];
+    const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = []
+    const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = []
+    const prePrimaryEducationSubjects: AlignmentObjectExtended[] = []
+    const prePrimaryEducationObjectives: AlignmentObjectExtended[] = []
+    const basicStudySubjects: AlignmentObjectExtended[] = []
+    const basicStudyObjectives: AlignmentObjectExtended[] = []
+    const basicStudyContents: AlignmentObjectExtended[] = []
+    const preparatoryEducationSubjects: AlignmentObjectExtended[] = []
+    const preparatoryEducationObjectives: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolCoursesOld: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = []
+    const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = []
+    const vocationalDegrees: AlignmentObjectExtended[] = []
+    const vocationalUnits: AlignmentObjectExtended[] = []
+    const subjectOfCommonUnit: AlignmentObjectExtended[] = []
+    const vocationalRequirements: AlignmentObjectExtended[] = []
+    const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = []
+    const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = []
+    const scienceBranches: AlignmentObjectExtended[] = []
+    const scienceBranchObjectives: AlignmentObjectExtended[] = []
 
     alignmentObjects
       .map(
@@ -447,116 +486,116 @@ export class CollectionService {
           key: aObject.objectkey,
           source: aObject.source,
           targetName: aObject.targetname,
-          targetUrl: aObject.targeturl,
-        }),
+          targetUrl: aObject.targeturl
+        })
       )
       .forEach((aObject: AlignmentObjectExtended) => {
         switch (aObject.source) {
           case koodistoSources.earlyChildhoodSubjects:
-            earlyChildhoodEducationSubjects.push(aObject);
-            break;
+            earlyChildhoodEducationSubjects.push(aObject)
+            break
 
           case koodistoSources.earlyChildhoodObjectives:
-            earlyChildhoodEducationObjectives.push(aObject);
-            break;
+            earlyChildhoodEducationObjectives.push(aObject)
+            break
 
           case koodistoSources.prePrimarySubjects:
-            prePrimaryEducationSubjects.push(aObject);
-            break;
+            prePrimaryEducationSubjects.push(aObject)
+            break
 
           case koodistoSources.prePrimaryObjectives:
-            prePrimaryEducationObjectives.push(aObject);
-            break;
+            prePrimaryEducationObjectives.push(aObject)
+            break
 
           case koodistoSources.basicStudySubjects:
-            basicStudySubjects.push(aObject);
-            break;
+            basicStudySubjects.push(aObject)
+            break
 
           case koodistoSources.basicStudyObjectives:
-            basicStudyObjectives.push(aObject);
-            break;
+            basicStudyObjectives.push(aObject)
+            break
 
           case koodistoSources.basicStudyContents:
-            basicStudyContents.push(aObject);
-            break;
+            basicStudyContents.push(aObject)
+            break
 
           case koodistoSources.preparatoryEducationSubjects:
-            preparatoryEducationSubjects.push(aObject);
-            break;
+            preparatoryEducationSubjects.push(aObject)
+            break
 
           case koodistoSources.preparatoryEducationObjectives:
-            preparatoryEducationObjectives.push(aObject);
-            break;
+            preparatoryEducationObjectives.push(aObject)
+            break
 
           case koodistoSources.upperSecondarySubjectsOld:
-            upperSecondarySchoolSubjectsOld.push(aObject);
-            break;
+            upperSecondarySchoolSubjectsOld.push(aObject)
+            break
 
           case koodistoSources.upperSecondaryCoursesOld:
-            upperSecondarySchoolCoursesOld.push(aObject);
-            break;
+            upperSecondarySchoolCoursesOld.push(aObject)
+            break
 
           case koodistoSources.upperSecondarySubjects:
-            upperSecondarySchoolCoursesOld.push(aObject);
-            break;
+            upperSecondarySchoolCoursesOld.push(aObject)
+            break
 
           case koodistoSources.upperSecondaryObjectives:
-            upperSecondarySchoolObjectives.push(aObject);
-            break;
+            upperSecondarySchoolObjectives.push(aObject)
+            break
 
           case koodistoSources.upperSecondarySubjectsNew:
-            upperSecondarySchoolSubjectsNew.push(aObject);
-            break;
+            upperSecondarySchoolSubjectsNew.push(aObject)
+            break
 
           case koodistoSources.upperSecondaryModulesNew:
-            upperSecondarySchoolModulesNew.push(aObject);
-            break;
+            upperSecondarySchoolModulesNew.push(aObject)
+            break
 
           case koodistoSources.upperSecondaryObjectivesNew:
-            upperSecondarySchoolObjectivesNew.push(aObject);
-            break;
+            upperSecondarySchoolObjectivesNew.push(aObject)
+            break
 
           case koodistoSources.upperSecondaryContentsNew:
-            upperSecondarySchoolContentsNew.push(aObject);
-            break;
+            upperSecondarySchoolContentsNew.push(aObject)
+            break
 
           case koodistoSources.vocationalDegrees:
-            vocationalDegrees.push(aObject);
-            break;
+            vocationalDegrees.push(aObject)
+            break
 
           case koodistoSources.vocationalUnits:
-            vocationalUnits.push(aObject);
-            break;
+            vocationalUnits.push(aObject)
+            break
 
           case koodistoSources.subjectOfCommonUnit:
-            subjectOfCommonUnit.push(aObject);
-            break;
+            subjectOfCommonUnit.push(aObject)
+            break
 
           case koodistoSources.vocationalObjectives:
-            vocationalRequirements.push(aObject);
-            break;
+            vocationalRequirements.push(aObject)
+            break
 
           case koodistoSources.vocationalRequirements:
-            vocationalRequirements.push(aObject);
-            break;
+            vocationalRequirements.push(aObject)
+            break
 
           case koodistoSources.selfMotivatedSubjects:
-            selfMotivatedEducationSubjects.push(aObject);
-            break;
+            selfMotivatedEducationSubjects.push(aObject)
+            break
 
           case koodistoSources.selfMotivatedObjectives:
-            selfMotivatedEducationObjectives.push(aObject);
-            break;
+            selfMotivatedEducationObjectives.push(aObject)
+            break
 
           case koodistoSources.scienceBranches:
-            scienceBranches.push(aObject);
-            break;
+            scienceBranches.push(aObject)
+            break
 
           case koodistoSources.scienceBranchObjectives:
-            scienceBranchObjectives.push(aObject);
-            break;
+            scienceBranchObjectives.push(aObject)
+            break
         }
-      });
+      })
 
     return {
       earlyChildhoodEducationSubjects,
@@ -582,7 +621,7 @@ export class CollectionService {
       selfMotivatedEducationSubjects,
       selfMotivatedEducationObjectives,
       scienceBranches,
-      scienceBranchObjectives,
-    };
+      scienceBranchObjectives
+    }
   }
 }

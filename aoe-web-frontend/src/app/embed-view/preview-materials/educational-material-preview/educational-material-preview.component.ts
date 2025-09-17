@@ -1,50 +1,50 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Component, Input, OnInit } from '@angular/core'
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
-import { Material } from '@models/material';
-import { mimeTypes } from '@constants/mimetypes';
+import { Material } from '@models/material'
+import { mimeTypes } from '@constants/mimetypes'
 
 @Component({
   selector: 'app-educational-material-preview',
   templateUrl: './educational-material-preview.component.html',
-  styleUrls: ['./educational-material-preview.component.scss'],
+  styleUrls: ['./educational-material-preview.component.scss']
 })
 export class EducationalMaterialPreviewComponent implements OnInit {
-  @Input() material: Material;
-  @Input() isCollection = false;
-  lang: string = this.translate.currentLang;
+  @Input() material: Material
+  @Input() isCollection = false
+  lang: string = this.translate.currentLang
 
   constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
-    });
+      this.lang = event.lang
+    })
   }
 
   public checkMimeType(mimeType: string): string {
     if (mimeTypes.video.includes(mimeType)) {
-      return 'video';
+      return 'video'
     }
 
     if (mimeTypes.audio.includes(mimeType)) {
-      return 'audio';
+      return 'audio'
     }
 
     if (mimeTypes.pdf.includes(mimeType)) {
-      return 'pdf';
+      return 'pdf'
     }
 
     if (mimeTypes.html.includes(mimeType)) {
-      return 'html';
+      return 'html'
     }
 
     if (mimeTypes.office.includes(mimeType)) {
-      return 'office';
+      return 'office'
     }
 
     if (mimeTypes.image.includes(mimeType)) {
-      return 'image';
+      return 'image'
     }
   }
 }

@@ -1,39 +1,39 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../../environments/environment';
-import { descriptionValidator, textInputValidator } from '../../../shared/shared.module';
-import { validatorParams } from '@constants/validator-params';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { Title } from '@angular/platform-browser'
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { ToastrService } from 'ngx-toastr'
+import { environment } from '../../../../environments/environment'
+import { descriptionValidator, textInputValidator } from '../../../shared/shared.module'
+import { validatorParams } from '@constants/validator-params'
 import {
   CollectionForm,
   CollectionFormMaterial,
-  CollectionFormMaterialAndHeading,
-} from '@models/collections/collection-form';
-import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
-import { Toast } from '@models/translations/toast';
-import { CollectionService } from '@services/collection.service';
+  CollectionFormMaterialAndHeading
+} from '@models/collections/collection-form'
+import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
+import { Toast } from '@models/translations/toast'
+import { CollectionService } from '@services/collection.service'
 
 @Component({
   selector: 'app-collection-materials-tab',
   templateUrl: './collection-materials-tab.component.html',
-  styleUrls: ['./collection-materials-tab.component.scss'],
+  styleUrls: ['./collection-materials-tab.component.scss']
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
-  @Input() collection: CollectionForm;
-  @Input() collectionId: string;
-  @Input() tabId: number;
-  @Output() abortForm = new EventEmitter();
-  form: FormGroup;
-  lang = this.translate.currentLang;
-  submitted = false;
-  materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
-  removedFromCollectionToast: Toast;
-  removedMaterials: string[] = [];
-  serviceName: string;
+  @Input() collection: CollectionForm
+  @Input() collectionId: string
+  @Input() tabId: number
+  @Output() abortForm = new EventEmitter()
+  form: FormGroup
+  lang = this.translate.currentLang
+  submitted = false
+  materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>()
+  removedFromCollectionToast: Toast
+  removedMaterials: string[] = []
+  serviceName: string
 
   constructor(
     private fb: FormBuilder,
@@ -41,42 +41,44 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleService: Title,
     private collectionService: CollectionService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.setTitle();
+    this.setTitle()
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
+      this.lang = event.lang
 
-      this.setTitle();
-    });
+      this.setTitle()
+    })
 
-    this.translate.get('collections.toasts.removedFromCollection').subscribe((translation: Toast) => {
-      this.removedFromCollectionToast = translation;
-    });
+    this.translate
+      .get('collections.toasts.removedFromCollection')
+      .subscribe((translation: Toast) => {
+        this.removedFromCollectionToast = translation
+      })
 
     this.form = this.fb.group({
-      materialsAndHeadings: this.fb.array([]),
-    });
+      materialsAndHeadings: this.fb.array([])
+    })
 
     if (sessionStorage.getItem(environment.collection) === null) {
-      this.patchMaterialsAndHeadings(this.collection.materialsAndHeadings);
-      this.mapMaterials(this.collection.materials);
+      this.patchMaterialsAndHeadings(this.collection.materialsAndHeadings)
+      this.mapMaterials(this.collection.materials)
     } else {
-      const changedCollection = JSON.parse(sessionStorage.getItem(environment.collection));
+      const changedCollection = JSON.parse(sessionStorage.getItem(environment.collection))
 
-      this.patchMaterialsAndHeadings(changedCollection.materialsAndHeadings);
-      this.mapMaterials(changedCollection.materials);
+      this.patchMaterialsAndHeadings(changedCollection.materialsAndHeadings)
+      this.mapMaterials(changedCollection.materials)
     }
   }
 
   ngOnDestroy(): void {
-    this.removeEmptyHeadings();
+    this.removeEmptyHeadings()
 
     if (this.submitted === false && this.form.dirty && this.form.valid) {
-      this.saveCollection();
+      this.saveCollection()
     }
   }
 
@@ -87,16 +89,16 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     this.translate
       .get(['common.serviceName', 'titles.collection.main', 'titles.collection.materials'])
       .subscribe((translations: { [key: string]: string }) => {
-        this.serviceName = translations['common.serviceName'];
+        this.serviceName = translations['common.serviceName']
         this.titleService.setTitle(
-          `${translations['titles.collection.main']}: ${translations['titles.collection.materials']} - ${this.serviceName}`,
-        );
-      });
+          `${translations['titles.collection.main']}: ${translations['titles.collection.materials']} - ${this.serviceName}`
+        )
+      })
   }
 
   /** @getters */
   get materialsAndHeadingsArray(): FormArray {
-    return this.form.get('materialsAndHeadings') as FormArray;
+    return this.form.get('materialsAndHeadings') as FormArray
   }
 
   /**
@@ -106,11 +108,11 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   patchMaterialsAndHeadings(materialsAndHeadings: CollectionFormMaterialAndHeading[]): void {
     materialsAndHeadings.forEach((materialOrHeading: CollectionFormMaterialAndHeading) => {
       if (materialOrHeading.id) {
-        this.materialsAndHeadingsArray.push(this.createMaterial(materialOrHeading));
+        this.materialsAndHeadingsArray.push(this.createMaterial(materialOrHeading))
       } else {
-        this.materialsAndHeadingsArray.push(this.createHeading(materialOrHeading));
+        this.materialsAndHeadingsArray.push(this.createHeading(materialOrHeading))
       }
-    });
+    })
   }
 
   /**
@@ -121,8 +123,8 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   createMaterial(material: CollectionFormMaterialAndHeading): FormGroup {
     return this.fb.group({
       id: this.fb.control(material.id),
-      priority: this.fb.control(material.priority),
-    });
+      priority: this.fb.control(material.priority)
+    })
   }
 
   /**
@@ -134,14 +136,14 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     return this.fb.group({
       heading: this.fb.control(heading ? heading.heading : null, [
         Validators.maxLength(validatorParams.name.maxLength),
-        textInputValidator(),
+        textInputValidator()
       ]),
       description: this.fb.control(heading ? heading.description : null, [
         Validators.maxLength(validatorParams.description.maxLength),
-        descriptionValidator(),
+        descriptionValidator()
       ]),
-      priority: this.fb.control(heading ? heading.priority : null),
-    });
+      priority: this.fb.control(heading ? heading.priority : null)
+    })
   }
 
   /**
@@ -149,7 +151,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * @param {number} idx
    */
   addHeading(idx: number): void {
-    this.materialsAndHeadingsArray.insert(idx, this.createHeading());
+    this.materialsAndHeadingsArray.insert(idx, this.createHeading())
   }
 
   /**
@@ -158,8 +160,8 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    */
   mapMaterials(materials: CollectionFormMaterial[]): void {
     materials.forEach((material: CollectionFormMaterial) => {
-      this.materials.set(material.id, material);
-    });
+      this.materials.set(material.id, material)
+    })
   }
 
   /**
@@ -167,8 +169,12 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * @param {CdkDragDrop<any>} event
    */
   drop(event: CdkDragDrop<any>): void {
-    moveItemInArray(this.materialsAndHeadingsArray.controls, event.previousIndex, event.currentIndex);
-    moveItemInArray(this.materialsAndHeadingsArray.value, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.materialsAndHeadingsArray.controls,
+      event.previousIndex,
+      event.currentIndex
+    )
+    moveItemInArray(this.materialsAndHeadingsArray.value, event.previousIndex, event.currentIndex)
   }
 
   /**
@@ -178,14 +184,14 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     this.materialsAndHeadingsArray.controls
       .filter((ctrl) => ctrl.get('id') === null)
       .forEach((ctrl) => {
-        const headingCtrl = ctrl.get('heading');
+        const headingCtrl = ctrl.get('heading')
 
         if (headingCtrl.value === '' || headingCtrl.value === null) {
           this.materialsAndHeadingsArray.removeAt(
-            this.materialsAndHeadingsArray.controls.findIndex((_ctrl) => _ctrl === ctrl),
-          );
+            this.materialsAndHeadingsArray.controls.findIndex((_ctrl) => _ctrl === ctrl)
+          )
         }
-      });
+      })
   }
 
   /**
@@ -193,31 +199,34 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * @param {number} idx
    */
   removeFromCollection(idx: number): void {
-    const materialId = this.materialsAndHeadingsArray.at(idx).get('id').value;
+    const materialId = this.materialsAndHeadingsArray.at(idx).get('id').value
     const payload: RemoveFromCollectionPost = {
       collectionId: +this.collectionId,
-      emId: [materialId],
-    };
+      emId: [materialId]
+    }
 
     this.collectionService.removeFromCollection(payload).subscribe(() => {
-      this.toastr.success(this.removedFromCollectionToast.message, this.removedFromCollectionToast.title);
-    });
+      this.toastr.success(
+        this.removedFromCollectionToast.message,
+        this.removedFromCollectionToast.title
+      )
+    })
 
-    this.removedMaterials.push(materialId);
+    this.removedMaterials.push(materialId)
 
-    this.materialsAndHeadingsArray.removeAt(idx);
+    this.materialsAndHeadingsArray.removeAt(idx)
   }
 
   /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    */
   onSubmit(): void {
-    this.submitted = true;
-    this.removeEmptyHeadings();
+    this.submitted = true
+    this.removeEmptyHeadings()
 
     if (this.form.valid) {
-      this.saveCollection();
-      void this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId + 1]);
+      this.saveCollection()
+      void this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId + 1])
     }
   }
 
@@ -228,34 +237,34 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     const changedCollection: CollectionForm =
       sessionStorage.getItem(environment.collection) !== null
         ? JSON.parse(sessionStorage.getItem(environment.collection))
-        : this.collection;
+        : this.collection
 
     changedCollection.materials = changedCollection.materials.filter(
-      (material: CollectionFormMaterial) => this.removedMaterials.includes(material.id) === false,
-    );
+      (material: CollectionFormMaterial) => this.removedMaterials.includes(material.id) === false
+    )
 
     changedCollection.materialsAndHeadings = this.materialsAndHeadingsArray.value.map(
       (materialOrHeading: CollectionFormMaterialAndHeading, idx: number) => {
-        materialOrHeading.priority = idx;
+        materialOrHeading.priority = idx
 
-        return materialOrHeading;
-      },
-    );
+        return materialOrHeading
+      }
+    )
 
-    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
+    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection))
   }
 
   /**
    * Emits EventEmitter indicating user wants to abort.
    */
   emitAbort(): void {
-    this.abortForm.emit();
+    this.abortForm.emit()
   }
 
   /**
    * Redirects user to previous tab.
    */
   previous(): void {
-    void this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId - 1]);
+    void this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId - 1])
   }
 }

@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, Subject, throwError } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { catchError } from 'rxjs/operators';
-import { AoeUser, AoeUsersResponse } from '../admin/model/aoe-users-response';
-import { ChangeOwnerResponse } from '../admin/model/change-owner-response';
-import { ChangeOwnerPost } from '../admin/model/change-owner-post';
-import { RemoveMaterialResponse } from '../admin/model/remove-material-response';
-import { MaterialInfoResponse } from '../admin/model/material-info-response';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
+import { Observable, Subject, throwError } from 'rxjs'
+import { environment } from '../../environments/environment'
+import { catchError } from 'rxjs/operators'
+import { AoeUser, AoeUsersResponse } from '../admin/model/aoe-users-response'
+import { ChangeOwnerResponse } from '../admin/model/change-owner-response'
+import { ChangeOwnerPost } from '../admin/model/change-owner-post'
+import { RemoveMaterialResponse } from '../admin/model/remove-material-response'
+import { MaterialInfoResponse } from '../admin/model/material-info-response'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminService {
-  public users$ = new Subject<AoeUser[]>();
-  public materialInfo$ = new Subject<MaterialInfoResponse>();
+  public users$ = new Subject<AoeUser[]>()
+  public materialInfo$ = new Subject<MaterialInfoResponse>()
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +24,7 @@ export class AdminService {
    * @private
    */
   private handleError(_error: HttpErrorResponse): Observable<never> {
-    return throwError('Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.')
   }
 
   /**
@@ -34,9 +34,9 @@ export class AdminService {
     return this.http
       .post(`${environment.backendUrl}/userinfo`, null, {
         observe: 'response',
-        responseType: 'text',
+        responseType: 'text'
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
   /**
    * Updates list of aoe users.
@@ -49,11 +49,11 @@ export class AdminService {
           .sort((a: AoeUser, b: AoeUser) => +a.id - +b.id)
           .map((user: AoeUser) => ({
             ...user,
-            fullName: `${user.firstname} ${user.lastname}`,
-          }));
+            fullName: `${user.firstname} ${user.lastname}`
+          }))
 
-        this.users$.next(users);
-      });
+        this.users$.next(users)
+      })
   }
 
   /**
@@ -64,19 +64,19 @@ export class AdminService {
   changeMaterialOwner(payload: ChangeOwnerPost): Observable<ChangeOwnerResponse> {
     return this.http
       .post<ChangeOwnerResponse>(`${environment.backendUrl}/changeUser`, payload)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
 
   removeMaterial(materialId: string): Observable<RemoveMaterialResponse> {
     return this.http
       .delete<RemoveMaterialResponse>(`${environment.backendUrl}/removeMaterial/${materialId}`)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
 
   updateMaterialInfo(materialId: string): void {
     this.http.get<MaterialInfoResponse>(`${environment.backendUrl}/names/${materialId}`).subscribe(
       (response: MaterialInfoResponse) => this.materialInfo$.next(response),
-      () => this.materialInfo$.next(null),
-    );
+      () => this.materialInfo$.next(null)
+    )
   }
 }

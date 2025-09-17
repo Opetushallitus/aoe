@@ -1,1 +1,1 @@
-export * from './focus-remover.directive';
+export * from './focus-remover.directive'

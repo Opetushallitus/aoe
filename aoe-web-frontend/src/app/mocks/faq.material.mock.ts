@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment'
 
 /**
  * Frequently Asked Questions mock
@@ -14,37 +14,38 @@ export const FAQMaterial = {
         'Avointen oppimateriaalien kirjaston näkökulmasta huomioitavaa on vain se, että osaat ladata/tallentaa valitsemastasi työkalusta teoksesi tiedostona koneellesi ja että sinulla on oikeus lisensoida oppimateriaalisi avoimesti. Hyväksytyistä tiedostomuodoista saat lisätietoa seuraavasta kysymyksestä. Avoimesta lisenssistä lisätietoa tällä sivulla kohdassa Mitä ovat Creative Commons -lisenssit.',
         'Myös linkittäminen on mahdollista mikäli tallentaminen ei tule kyseeseen: varmista tällöin, että materiaali on avoimesti ilman sisäänkirjautumista ja muita rajoitteita saatavilla nyt ja myös oppimateriaalin tekemisen jälkeen sillä alustalla jonne se on tehty.',
         'Avoimen tieteen koordinaatio on laatinut <a href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-laadun-avoimissa-oppimateriaaleissa" target="_blank" rel="noopener nofollow">avointen oppimateriaalien laatukriteerit (linkki kriteereihin avointiede.fi-sivulle)</a>, jotka toimivat laadunarvioinnin apuna.',
-        `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`,
-      ],
+        `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`
+      ]
     },
     {
       question: 'Mitä materiaaleja voin tallentaa palveluun?',
       answer: [
         'Voit tallentaa mitä tahansa avoimia CC-lisensoituja oppimateriaaleja ladattavaksi palvelusta.',
         'Materiaaleja pystyy myös käyttämään palvelusta käsin. Aivan kaikki tiedostot eivät ole käytettäviä palvelusta käsin, mutta pyrimme kattamaan yleisimmät oppimateriaalien formaatit. Näitä ovat esimerkiksi eri videoiden, podcastien ja muiden äänitallenteiden, erimuotoisten tekstien, grafiikan, tehtävien ja esitysten sekä erilaisten sivustototeutusten tekemiseen käytetyt formaatit, muun muassa avi, mp4, mp3, pdf, docx, doc, odt, rtf, txt, markdown, h5p, ppt, pptx, odp, opt, html.',
-        'Eikö suosimasi formaatti ole listattuna tai materiaalisi on ajettava (exe)? Älä huoli, nämä ovat vain esimerkkejä. Voit ottaa halutessasi meihin yhteyttä ja varmistaa tuetaanko formattia. Kuulemme mieluusti minkälaisia erilaisia oppimateriaaleja tällä hetkellä tehdäänkään!',
-      ],
+        'Eikö suosimasi formaatti ole listattuna tai materiaalisi on ajettava (exe)? Älä huoli, nämä ovat vain esimerkkejä. Voit ottaa halutessasi meihin yhteyttä ja varmistaa tuetaanko formattia. Kuulemme mieluusti minkälaisia erilaisia oppimateriaaleja tällä hetkellä tehdäänkään!'
+      ]
     },
     {
       question: 'Onko parempi tallentaa materiaali vai linkittää se?',
       answer: [
         'Tallennetut materiaalit säilyvät Avointen oppimateriaalien kirjastossa ilman että tarvitsee huolehtia niiden avoimena pitämisestä tai olemassa olosta hankkeen päättymisen jälkeen. Tallennetut oppimateriaalit pystyy myös lataamaan palvelusta, jolloin loppukäyttäjät voivat monipuolisemmin käyttää materiaaleja, viemällä niitä esim. oppimisalustaan joka hänellä on käytössään. Materiaalin tallentaminen sopii paremmin tilanteisiin, jossa materiaalin haluaa saattaa muiden käyttöön mahdollisimman vähällä ylläpitovaivalla.',
-        'Linkitys on sopiva, jos materiaalin ylläpito on taattu. Se on soveltuvin muoto myös, jos oppimateriaali on tehty alustalle, josta sitä ei voida siirtää toisaalla (et voi siis esim. tallentaa materiaaliasi omalle koneellesi). Tällöin tulee huolehtia että materiaali on avoimesti ilman kirjautumista kenen tahansa saatavilla.',
-      ],
+        'Linkitys on sopiva, jos materiaalin ylläpito on taattu. Se on soveltuvin muoto myös, jos oppimateriaali on tehty alustalle, josta sitä ei voida siirtää toisaalla (et voi siis esim. tallentaa materiaaliasi omalle koneellesi). Tällöin tulee huolehtia että materiaali on avoimesti ilman kirjautumista kenen tahansa saatavilla.'
+      ]
     },
     {
       question: 'Miten oppimateriaalin lisääminen tapahtuu?',
       answer: [
         'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on.',
-        `Tarkemman ohjeistuksen löydät <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeistamme</a>.`,
-      ],
+        `Tarkemman ohjeistuksen löydät <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeistamme</a>.`
+      ]
     },
     {
-      question: 'Voinko tehdä materiaaleja Avointen oppimateriaalien kirjastossa / miten voin tehdä materiaaleja?',
+      question:
+        'Voinko tehdä materiaaleja Avointen oppimateriaalien kirjastossa / miten voin tehdä materiaaleja?',
       answer: [
         'Avointen oppimateriaalien kirjastossa ei itsessään voi tehdä materiaaleja, sinne voi vain tallentaa tai linkittää muualla tehtyjä materiaaleja.',
-        'Oppimateriaalien tekemiseen on useita soveltuvia työkaluja ja työkalu kannattaa valita sen mukaan, mikä soveltuu materiaaliin pedagogisesti ja vastaa muuhun tarpeeseen (esim. osaaminen, resurssit). Esimerkiksi erilaiset toimisto-ohjelmat, videotallennusohjelmat ja sivueditorit tarjoavat erilaisia ratkaisuja. Oppimateriaaleihin on myös niiden tekemiseen erikoistuneita palveluita kuten matematiikan GeoGebra. Työkalua valitessa kannattaa huomioida että materiaali on käytettävissä myös muualta käsin eli että se on tallennettavissa omalle koneellesi ja jaettavissa muille. Tämä takaa sen että oppimateriaalisi on käytettävissä vaikka käyttämäsi alusta ei enää olisikaan olemassa.',
-      ],
+        'Oppimateriaalien tekemiseen on useita soveltuvia työkaluja ja työkalu kannattaa valita sen mukaan, mikä soveltuu materiaaliin pedagogisesti ja vastaa muuhun tarpeeseen (esim. osaaminen, resurssit). Esimerkiksi erilaiset toimisto-ohjelmat, videotallennusohjelmat ja sivueditorit tarjoavat erilaisia ratkaisuja. Oppimateriaaleihin on myös niiden tekemiseen erikoistuneita palveluita kuten matematiikan GeoGebra. Työkalua valitessa kannattaa huomioida että materiaali on käytettävissä myös muualta käsin eli että se on tallennettavissa omalle koneellesi ja jaettavissa muille. Tämä takaa sen että oppimateriaalisi on käytettävissä vaikka käyttämäsi alusta ei enää olisikaan olemassa.'
+      ]
     },
     {
       question:
@@ -58,8 +59,8 @@ export const FAQMaterial = {
           <li>Oppimisalustoille kuten Moodle tai Itslearning tehdyt kurssit voi tuoda usealla eri tavalla palveluun. Mikäli oppimisalusta sallii kurssitiedoston lataamisen, voi tämän tallentaa Avointen oppimateriaalien kirjastoon, joskaan sitä ei voi käyttää Avointen oppimateriaalien kirjaston käyttöliittymästä vaan palvelusta voi vain ladata kurssitiedoston. Vaihtoehtona on tuoda oppimisalustaan tallennetut oppimateriaalit (esim. tehtävät, esitykset ja ohjeistusmateriaalit) omina tiedostoinaan Avointen oppimateriaalien kirjastoon. Tällöin kurssin oppimateriaaleja voi käyttää palvelusta käsin ja niiden käyttöönotto eri oppimisalustoissa on suoraviivaisempaa. Mikäli oppimisalustalla oleva kurssi on pitkäaikaisesti avoin kaikille, voi kurssin myös linkittää Avointen oppimateriaalien kirjastoon. Huomioithan että avoimuus tarkoittaa sitä, että materiaalia voi käyttää ilman tarvetta kirjautua oppimisalustaan. <strong>Suositelluinta on siirtää kurssin oppimateriaalit omina tiedostoinaan</strong>. Avointen oppimateriaalien kirjastossa yhdessä oppimateriaalissa voi olla usea tiedosto.</li>
           <li>Blogger ja Wordpress –palvelusta sivut ovat varmuuskopioitavissa settings-valikon kautta xml-muodossa. Selvitämme tällä hetkellä xml-muuntamista, mutta emme nykyisellään tue sen näyttämistä. Wordpressille on myös saatavissa lisäosa sivun lataamiseksi html-muodossa. Html:n (ja siihen liittyvät tiedostot) voi tallentaa zip-tiedostona ja sitä voi käyttää sivuston tavoin Avointen oppimateriaalien kirjastosta. Sekä Blogger että Wordpress –sivut voi linkittää Avointen oppimateriaalien kirjastoon mikäli ne ovat kaikille avoimesti saatavilla.</li>
         </ul>`,
-        'Jos alusta ei tue lataamista/tallentamista, on oppimateriaali mahdollista myös linkittää palveluun. Huolehdi tällöin että oppimateriaali on käytettävissä ilman sisäänkirjautumista tai muita rajoitteita.',
-      ],
+        'Jos alusta ei tue lataamista/tallentamista, on oppimateriaali mahdollista myös linkittää palveluun. Huolehdi tällöin että oppimateriaali on käytettävissä ilman sisäänkirjautumista tai muita rajoitteita.'
+      ]
     },
     {
       question: 'Miten voin huomioida oppimateriaalin saavutettavuuden?',
@@ -72,29 +73,30 @@ export const FAQMaterial = {
           <li>Tarjoa sisältöä eri muodoissa: tekstin lisäksi esimerkiksi infograafein</li>
          </ul>`,
         'Voit tutustua avointen oppimateriaalien saavutettavuuteen ytimekkäästi <a href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-saavutettavuuden-avoimissa-oppimateriaaleissa" target="_blank" rel="noopener nofollow">Avoimen tieteen koordinaation saavutettavuusoppaasta (linkki avointiede.fi-sivustolle)</a>. Lisätietoa saat esimerkiksi Kehitysvammaliiton <a href="https://papunet.net/saavutettavuus/ohjeita-ja-oppaita/" target="_blank" rel="noopener nofollow">Papunet-palvelun oppaista</a>.',
-        'Avointen oppimateriaalien kirjastossa voit myös lisätä kuvailuun tiedon siitä, miten oppimateriaalissa on huomioitu saavutettavuus. Tämä auttaa oppimateriaalien käyttäjiä löytämään itselle sopivia materiaaleja helpommin.',
-      ],
+        'Avointen oppimateriaalien kirjastossa voit myös lisätä kuvailuun tiedon siitä, miten oppimateriaalissa on huomioitu saavutettavuus. Tämä auttaa oppimateriaalien käyttäjiä löytämään itselle sopivia materiaaleja helpommin.'
+      ]
     },
     {
       question: 'Mitä voin tehdä jos materiaalini ei toimikaan?',
       answer: [
         'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota käyttäjätukeemme yhteys laittamalla sähköpostia osoitteeseen <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Viestissäsi kerro, mikä on vikana, mikä materiaali on kyseessä, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
-        'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.',
-      ],
+        'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.'
+      ]
     },
     {
-      question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaalin poistaa?',
+      question:
+        'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaalin poistaa?',
       answer: [
         `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
-        'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> ja ylläpitäjä voi poistaa materiaalin.',
-      ],
+        'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> ja ylläpitäjä voi poistaa materiaalin.'
+      ]
     },
     {
       question: 'Haluaisin siirtää materiaalini muokkausoikeuden toiselle käyttäjälle.',
       answer: [
-        `Saamme materiaalin hallintaoikeuden helposti siirrettyä toiselle käyttäjälle kun laitat sähköpostitse viestiä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Tarvitsemme vain tiedot oppimateriaaleista, jotka haluat siirtää, sekä materiaalin uuden hallinnoijan tiedot. Mikäli uusi käyttäjä ei vielä ole kirjautunut <a href="${environment.frontendUrl}/" target="_blank" rel="noopener nofollow">aoe.fi</a>:hin, hänen tulisi aluksi luoda tunnukset kirjautumalla palveluun Haka-, MPASSid- tai <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-tunnuksilla. Oppimateriaalin hallinta- ja muokkausoikeus voi olla vain yhdellä käyttäjällä kerrallaan. Oppimateriaalin hallintaoikeuden voi siirtää toiselle käyttäjälle ottamalla yhteyttä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>.`,
-      ],
-    },
+        `Saamme materiaalin hallintaoikeuden helposti siirrettyä toiselle käyttäjälle kun laitat sähköpostitse viestiä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Tarvitsemme vain tiedot oppimateriaaleista, jotka haluat siirtää, sekä materiaalin uuden hallinnoijan tiedot. Mikäli uusi käyttäjä ei vielä ole kirjautunut <a href="${environment.frontendUrl}/" target="_blank" rel="noopener nofollow">aoe.fi</a>:hin, hänen tulisi aluksi luoda tunnukset kirjautumalla palveluun Haka-, MPASSid- tai <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-tunnuksilla. Oppimateriaalin hallinta- ja muokkausoikeus voi olla vain yhdellä käyttäjällä kerrallaan. Oppimateriaalin hallintaoikeuden voi siirtää toiselle käyttäjälle ottamalla yhteyttä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>.`
+      ]
+    }
   ],
   en: [
     {
@@ -106,38 +108,38 @@ export const FAQMaterial = {
         'Open Science Coordination in Finland has produced <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-quality-oer" target="_blank" rel="noopener nofollow">quality criteria for OERs (link to the criteria at avointiede.fi)</a> that will help you evaluate the quality of your OERs.',
         'It is also advisable to read through <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">the Finnish National Agency for Education quality criteria for digital learning resources</a>, and consider what digital resources should accomplish (link in Finnish).',
         `Relevant sections of the <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">quality criteria for online implementations created</a> as part of the eAMK project can also be useful.`,
-        'This page has a dedicated section for questions regarding accessibility.',
-      ],
+        'This page has a dedicated section for questions regarding accessibility.'
+      ]
     },
     {
       question: 'Which kinds of resources can be uploaded to the service?',
       answer: [
         'Any open, Creative Commons licensed educational resources can be saved in the service for users to download.',
         'Resources can also be used on the service itself. This does not apply to all file formats, but we aim to support the most common formats utilized by open educational resources. These include the formats used with videos, podcasts and other audio recordings, various text files, graphics, exercises and presentations, and various website implementations, such as avi, mp4, mp3, pdf, docx, doc, odt, rtf, txt, markdown, h5p, ppt, pptx, odp, opt, and html.',
-        'Is your preferred format not listed here or is your resource in the form of an executable program (exe)? Don’t worry, these are only examples. Feel free to contact us to confirm whether your format of choice is supported. We will be happy to hear about the full range of open educational resources being created!',
-      ],
+        'Is your preferred format not listed here or is your resource in the form of an executable program (exe)? Don’t worry, these are only examples. Feel free to contact us to confirm whether your format of choice is supported. We will be happy to hear about the full range of open educational resources being created!'
+      ]
     },
     {
       question: 'Is it better to save a resource or link to it?',
       answer: [
         'Saved resources are stored in the Library of Open Educational Resources without the user needing to worry about them remaining open and available following the conclusion of the project in which they were created. Saved materials can also be downloaded from the service, which allows end users to utilize them in a range of ways e.g. by exporting them to each learning platform they are using. Saving is the more suitable option when the goal is to make the resource available to others with minimal effort as regards maintenance.',
-        'Linking is a viable alternative when you can trust that the resource will be maintained on the website on which it is hosted. It is also suitable when the resource in question is hosted on a platform that does not allow it to be exported (i.e. it is not possible to download the material onto your own computer, for example). When linking to a resource, please ensure that it is available openly to all, with no login required.',
-      ],
+        'Linking is a viable alternative when you can trust that the resource will be maintained on the website on which it is hosted. It is also suitable when the resource in question is hosted on a platform that does not allow it to be exported (i.e. it is not possible to download the material onto your own computer, for example). When linking to a resource, please ensure that it is available openly to all, with no login required.'
+      ]
     },
     {
       question: 'How do I go about uploading educational resources?',
       answer: [
         'Uploading resources to the service is easy. Simply log in, upload the file, and answer a few questions that help others quickly and easily ascertain the type and intended target users of your resource.',
-        `Read more from our <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a>.`,
-      ],
+        `Read more from our <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a>.`
+      ]
     },
     {
       question:
         'Can I create resources on the Library of Open Educational Resources platform / How can I create resources?',
       answer: [
         'Resources created using other tools can be saved or linked to on the service, but is not possible to create resources on the service platform itself.',
-        'There are a number of suitable tools for creating educational resources. These should be selected based on pedagogical considerations and other requirements (competences, available resources, etc.). As an example, office and video recording software and website editors offer a range of solutions. Specialized software for creating educational resources is also available, such as mathematics package GeoGebra. When selecting your tool, it is advisable to consider whether created material can be saved onto your own computer and distributed to others. This ensures that your educational resources remain usable even if the platform in question is no longer available.',
-      ],
+        'There are a number of suitable tools for creating educational resources. These should be selected based on pedagogical considerations and other requirements (competences, available resources, etc.). As an example, office and video recording software and website editors offer a range of solutions. Specialized software for creating educational resources is also available, such as mathematics package GeoGebra. When selecting your tool, it is advisable to consider whether created material can be saved onto your own computer and distributed to others. This ensures that your educational resources remain usable even if the platform in question is no longer available.'
+      ]
     },
     {
       question:
@@ -151,8 +153,8 @@ export const FAQMaterial = {
           <li>Courses created on learning platforms such as Moodle and Itslearning can be brought to the service in a number of ways. If the learning platform allows a course file to be downloaded, it can then be saved in the Library of Open Educational Resources. It cannot be used on the service, however, and can therefore only be downloaded. Alternatively, resources saved on the learning platform (such as exercises, presentations and instructional materials) can imported into the service as separate files. This approach allows course resources to be used on the service and makes using them on various learning platforms more straightforward. If a course hosted on a learning platform is open to everyone without login or time restrictions, it can also be linked to the service. It is recommended, however, that course resources are downloaded and then uploaded to the service. The Library of Open Educational Resources allows a single resource to contain multiple files.</li>
           <li>Blogger and Wordpress users can make backup copies of pages in xml format via the “Settings" menu. We are looking into the possibility of xml conversion, but viewing the format is currently not supported. A Wordpress plugin that enables users to download pages in html format is also available. Html files (and associated files) can be saved as a zip file and used on the Library of Open Educational Resources in the same way as on Wordpress. Blogger and Wordpress pages can also be linked to the service, given that they are openly accessible to everyone.</li>
         </ul>`,
-        'If a platform does not support downloading/saving but it is otherwise an optimal solution for the resource in question, the resource can also be linked to the service. In this case it is important to ensure that the resource is usable without a login or other restrictions.',
-      ],
+        'If a platform does not support downloading/saving but it is otherwise an optimal solution for the resource in question, the resource can also be linked to the service. In this case it is important to ensure that the resource is usable without a login or other restrictions.'
+      ]
     },
     {
       question: 'How do I make my educational resources accessible?',
@@ -166,29 +168,30 @@ export const FAQMaterial = {
                 </ul>`,
         'You can take a look at accessibility from the <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow">accessibility guide by the Open Science Coordination in Finland</a><a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow"> (a link to avointiede.fi)</a>.',
         'For more information, see the <a href="https://papunet.net/saavutettavuus/ohjeita-ja-oppaita/ " target="_blank" rel="noopener nofollow">quides</a> on the Finnish Association on Intellectual and Developmental Disabilities’ Papunet service (in Finnish).',
-        'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource.',
-      ],
+        'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource.'
+      ]
     },
     {
       question: 'What can I do, if my learning resource is not functioning correctly?',
       answer: [
         'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
-        'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?',
-      ],
+        'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?'
+      ]
     },
     {
-      question: 'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
+      question:
+        'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
       answer: [
         `You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.`,
-        'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> so that an admin can delete the resource.',
-      ],
+        'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> so that an admin can delete the resource.'
+      ]
     },
     {
       question: 'I would like to give the right to edit my OER to an other person.',
       answer: [
-        'We can transfer the administrative rights to another user. First you need to contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. We need information of the OERs that you wish to transfer and the name and email adress of the user who will be the new administrator. The new administrator needs to log in at aoe.fi using Haka, MPASSid or suomi.fi. Please note that the right to edit and administrate an OER can only be with one user at a time.',
-      ],
-    },
+        'We can transfer the administrative rights to another user. First you need to contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. We need information of the OERs that you wish to transfer and the name and email adress of the user who will be the new administrator. The new administrator needs to log in at aoe.fi using Haka, MPASSid or suomi.fi. Please note that the right to edit and administrate an OER can only be with one user at a time.'
+      ]
+    }
   ],
   sv: [
     {
@@ -200,37 +203,38 @@ export const FAQMaterial = {
         'Samordningen av öppen vetenskap har sammanställt <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/kvalitetskriterier-oppna-larresurser" target="_blank" rel="noopener nofollow">Kvalitetskriterier för öppna lärresurser (länk till avointiede.fi) </a>, som är avsedda som hjälp för dem som utarbetar och använder öppna lärresurser.',
         'Det lönar sig att gå igenom <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Utbildningsstyrelsens kvalitetskriterier</a> för digitala läromaterial och fundera på vad man själv vill ha ut av dem.',
         `Också projektet <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
-        'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.',
-      ],
+        'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.'
+      ]
     },
     {
       question: 'Vilka material kan lagras i tjänsten?',
       answer: [
         'Du kan lagra vilka som helst undervisningsmaterial med en öppen CC-licens i tjänsten, varifrån de sedan kan laddas ner.',
         'Materialen kan också användas direkt i tjänsten. Inte riktigt alla resurser kan användas via tjänsten, men vi försöker inkludera de vanligaste formaten för undervisningsmaterial. Till dessa hör olika format för videor, poddar och andra ljudinspelningar, texter, grafik, uppgifter och presentationer samt olika webbsideformat, bland annat avi, mp4, mp3, pdf, docx, doc, odt, rtf, txt, markdown, h5p, ppt, pptx, odp, opt, html.',
-        'Finns inte det format du tänkt använda på listan eller är din fil exekverbar (exe)? Du behöver inte oroa dig, listan innehåller bara exempel. Om du vill kan du kontakta oss och försäkra dig om huruvida ditt valda format stöds. Vi vill gärna veta vilka typer av undervisningsmaterial som skapas just nu!',
-      ],
+        'Finns inte det format du tänkt använda på listan eller är din fil exekverbar (exe)? Du behöver inte oroa dig, listan innehåller bara exempel. Om du vill kan du kontakta oss och försäkra dig om huruvida ditt valda format stöds. Vi vill gärna veta vilka typer av undervisningsmaterial som skapas just nu!'
+      ]
     },
     {
       question: 'Är det bättre att lagra materialet i tjänsten eller länka till det?',
       answer: [
         'Material som lagras i Biblioteket för öppna lärresurser blir kvar där utan att man efter att ens projekt upphört behöver göra något för att de ska finnas tillgängliga eller förbli öppna. De lagrade materialen kan också laddas ner från tjänsten, vilket betyder att slutanvändarna kan utnyttja materialen mer mångsidigt genom att exempelvis föra över dem till den lärplattform de använder. Om man vill att materialet ska kunna användas av andra samtidigt som det administrativa arbetet blir så litet som möjligt, lämpar sig lagring bättre.',
-        'Länkning fungerar om administrationen av resursen kan garanteras. Detta är också det lämpligaste sättet om undervisningsmaterialet finns på en plattform varifrån det inte kan flyttas (så att du till exempel inte kan spara det på din egen dator). I det här fallet ska man se till att materialet är öppet tillgängligt för alla utan inloggning.',
-      ],
+        'Länkning fungerar om administrationen av resursen kan garanteras. Detta är också det lämpligaste sättet om undervisningsmaterialet finns på en plattform varifrån det inte kan flyttas (så att du till exempel inte kan spara det på din egen dator). I det här fallet ska man se till att materialet är öppet tillgängligt för alla utan inloggning.'
+      ]
     },
     {
       question: 'Hur läggs material till?',
       answer: [
         'Att lägga till resurser i tjänsten är enkelt: du loggar in, laddar upp filen och besvarar några frågor, så att andra enkelt och snabbt kan avgöra hurdant ditt material är och för vem det är avsett.',
-        `Läs mer från våra <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">anvisningarna</a>.`,
-      ],
+        `Läs mer från våra <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">anvisningarna</a>.`
+      ]
     },
     {
-      question: 'Kan jag skapa material i Biblioteket för öppna lärresurser/hur ska jag skapa material?',
+      question:
+        'Kan jag skapa material i Biblioteket för öppna lärresurser/hur ska jag skapa material?',
       answer: [
         'Man kan inte skapa själva materialen i Biblioteket för öppna lärresurser utan enbart lagra eller länka material som skapats någon annanstans.',
-        'Det finns många lämpliga verktyg för att skapa undervisningsmaterial. Välj det verktyg som är mest pedagogiskt för materialet i fråga och som i övrigt motsvarar behoven (kompetens, resurser osv.) Exempelvis erbjuder olika kontorspaket, videoinspelningsprogram och webbeditorer många typer av lösningar. Det finns också tjänster som är specialiserade på undervisningsmaterial, till exempel GeoGebra för matematik. När man väljer verktyg bör man beakta att materialen ska kunna användas i andra sammanhang, det vill säga att de ska kunna sparas på din egen dator och delas med andra. Detta säkerställer att ditt material kan utnyttjas också om inte den plattform du använt längre finns.',
-      ],
+        'Det finns många lämpliga verktyg för att skapa undervisningsmaterial. Välj det verktyg som är mest pedagogiskt för materialet i fråga och som i övrigt motsvarar behoven (kompetens, resurser osv.) Exempelvis erbjuder olika kontorspaket, videoinspelningsprogram och webbeditorer många typer av lösningar. Det finns också tjänster som är specialiserade på undervisningsmaterial, till exempel GeoGebra för matematik. När man väljer verktyg bör man beakta att materialen ska kunna användas i andra sammanhang, det vill säga att de ska kunna sparas på din egen dator och delas med andra. Detta säkerställer att ditt material kan utnyttjas också om inte den plattform du använt längre finns.'
+      ]
     },
     {
       question:
@@ -244,8 +248,8 @@ export const FAQMaterial = {
             <li>Kurser som skapats i sådana lärplattformar som Moodle eller Itslearning kan föras in i tjänsten på flera olika sätt. Om lärplattformen medger nedladdning av kursfilen, kan den sedan lagras i Biblioteket för öppna lärresurser. Den kan ändå inte användas där utan man kan bara ladda ner kursfilen från tjänsten. Alternativet är att lägga in undervisningsmaterialen från lärplattformen (t.ex. uppgifter, presentationer och instruktionsmaterial) i egna filer i Biblioteket för öppna lärresurser. I så fall kan materialen användas i tjänsten och det är enklare att föra över dem till andra lärplattformar. Om en kurs i en lärplattform är långvarigt öppen för alla utan inloggning, kan man också länka kursen i Biblioteket för öppna lärresurser. Det alternativ som rekommenderas är att man lägger in undervisningsmaterialen i egna filer. I Biblioteket för öppna lärresurser kan det finnas flera filer i en enskild lärresurs.</li>
             <li>I tjänsterna Blogger och Wordpress kan sidor säkerhetskopieras i xml via Settings. Vi utreder för närvarande xml-konvertering, men i dagsläget stöds inte formatet. För tjänsten Wordpress finns också ett insticksprogram som gör det möjligt att ladda ned sidan i html. Html:n (och de filer som ingår i den) kan sparas som zip-fil och användas som en webbplats i Biblioteket för öppna lärresurser. Såväl Blogger- som Wordpress-sidor kan länkas i Biblioteket för öppna lärresurser, förutsatt att de är öppet tillgängliga för alla.</li>
         </ul>`,
-        'Om plattformen inte stöder nedladdning/lagring men detta annars vore det bästa alternativet för materialet, kan materialet även länkas i tjänsten. I så fall ska du se till att undervisningsmaterialet kan användas utan inloggning eller andra begränsningar.',
-      ],
+        'Om plattformen inte stöder nedladdning/lagring men detta annars vore det bästa alternativet för materialet, kan materialet även länkas i tjänsten. I så fall ska du se till att undervisningsmaterialet kan användas utan inloggning eller andra begränsningar.'
+      ]
     },
     {
       question: 'Hur kan jag beakta tillgängligheten i undervisningsmaterialet?',
@@ -259,28 +263,29 @@ export const FAQMaterial = {
         </ul>`,
         'Du kan läsa mer på <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/handbok-i-tillganglighet-till-oppna-larresurser" target="_blank" rel="noopener nofollow">Handbok i tillgänglighet till öppna lärresurser (länk till avointiede.fi)</a>, som är en tydlig guide om tillgänglighet från Samordningen av öppna vetenskap.',
         'Mer information finns också till exempel i <a href="https://papunet.net/saavutettavuus/pa-svenska/anvisningar-och-guider/" target="_blank" rel="noopener nofollow">guider i Förbundet Utvecklingshämnings tjänst Papunet</a>.',
-        'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet.',
-      ],
+        'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet.'
+      ]
     },
     {
       question: 'Vad kan jag göra om min lärresurs inte fungerar?',
       answer: [
         'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
-        'Tjänsten fungerar bäst med en uppdaterad webbläsare. Du har den bästa upplevelsen, när du använder Chrome eller Firefox -webbläsare och uppdaterar dem regelbundet. Du kan också kolla vilka format kan användas direkt i tjänsten på den här sidan i frågan Vilka material kan lagras i tjänsten?.',
-      ],
+        'Tjänsten fungerar bäst med en uppdaterad webbläsare. Du har den bästa upplevelsen, när du använder Chrome eller Firefox -webbläsare och uppdaterar dem regelbundet. Du kan också kolla vilka format kan användas direkt i tjänsten på den här sidan i frågan Vilka material kan lagras i tjänsten?.'
+      ]
     },
     {
-      question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
+      question:
+        'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
       answer: [
         `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
-        'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> så att en administratör kan ta bort resursen.',
-      ],
+        'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> så att en administratör kan ta bort resursen.'
+      ]
     },
     {
       question: 'Kan jag ge en annan person rätt att redigera mina lärresurserna?',
       answer: [
-        `Om du vill ge en annan person redigeringsrätter till en, alla eller några av dina lärresurser, kan du kontakta oss vid e-post <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> Vi behöver informationen om vilka lärresurser betyder du och vilken person vill du ge redigeringsrätter. Bara en person kan redigera lärresurs, så om du vill ge redigeringsrätter till en annan person, det menar att du kan inte redigera lärresursen dig själv. Ny redigerare måste först logga in till <a href="${environment.frontendUrl}/" target="_blank" rel="noopener nofollow">aoe.fi</a> och godkänna användningsvillkor.`,
-      ],
-    },
-  ],
-};
+        `Om du vill ge en annan person redigeringsrätter till en, alla eller några av dina lärresurser, kan du kontakta oss vid e-post <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> Vi behöver informationen om vilka lärresurser betyder du och vilken person vill du ge redigeringsrätter. Bara en person kan redigera lärresurs, så om du vill ge redigeringsrätter till en annan person, det menar att du kan inte redigera lärresursen dig själv. Ny redigerare måste först logga in till <a href="${environment.frontendUrl}/" target="_blank" rel="noopener nofollow">aoe.fi</a> och godkänna användningsvillkor.`
+      ]
+    }
+  ]
+}

@@ -1,3 +1,3 @@
 export interface ChangeOwnerResponse {
-  status: string;
+  status: string
 }

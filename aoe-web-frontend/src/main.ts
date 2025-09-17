@@ -1,28 +1,35 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core'
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
-import { AppModule } from './app/app.module';
-import { environment, loadCiEnv, loadDemoEnv, loadDevEnv, loadProdEnv, loadQaEnv } from './environments/environment';
+import { AppModule } from './app/app.module'
+import {
+  environment,
+  loadCiEnv,
+  loadDemoEnv,
+  loadDevEnv,
+  loadProdEnv,
+  loadQaEnv
+} from './environments/environment'
 
 if (environment.production) {
-  enableProdMode();
+  enableProdMode()
 }
 
 fetch('./assets/config/config.json')
   .then((resp) => resp.json())
   .then((config) => {
     if (config.env === 'ci') {
-      loadCiEnv();
+      loadCiEnv()
     } else if (config.env === 'dev') {
-      loadDevEnv();
+      loadDevEnv()
     } else if (config.env === 'demo') {
-      loadDemoEnv();
+      loadDemoEnv()
     } else if (config.env === 'qa') {
-      loadQaEnv();
+      loadQaEnv()
     } else if (config.env === 'prod') {
-      loadProdEnv();
+      loadProdEnv()
     }
     platformBrowserDynamic()
       .bootstrapModule(AppModule)
-      .catch((err) => console.log(err));
-  });
+      .catch((err) => console.log(err))
+  })

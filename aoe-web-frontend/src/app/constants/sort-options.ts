@@ -1,24 +1,24 @@
 export const sortOptions = {
   relevance: {
     value: 'relevance',
-    sort: null,
+    sort: null
   },
   newest: {
     value: 'newest',
     sort: {
-      updatedAt: 'desc',
-    },
+      updatedAt: 'desc'
+    }
   },
   oldest: {
     value: 'oldest',
     sort: {
-      updatedAt: 'asc',
-    },
+      updatedAt: 'asc'
+    }
   },
   popularity: {
     value: 'popularity',
     sort: {
-      popularity: 'desc',
-    },
-  },
-};
+      popularity: 'desc'
+    }
+  }
+}

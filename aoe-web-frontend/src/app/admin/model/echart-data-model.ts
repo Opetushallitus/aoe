@@ -1,9 +1,9 @@
 export interface EChartData {
-  name: string;
-  value: number[];
+  name: string
+  value: number[]
 }
 
 export interface ActivityData {
-  dates: string[];
-  total: number[];
+  dates: string[]
+  total: number[]
 }

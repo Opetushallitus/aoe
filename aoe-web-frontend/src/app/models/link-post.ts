@@ -1,10 +1,10 @@
 export interface LinkPost {
-  link: string;
+  link: string
   displayName: {
-    fi: string;
-    sv: string;
-    en: string;
-  };
-  language: string;
-  priority: number;
+    fi: string
+    sv: string
+    en: string
+  }
+  language: string
+  priority: number
 }
