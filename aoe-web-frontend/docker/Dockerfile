@@ -8,7 +8,7 @@ RUN npm ci
 ADD ./ /app/
 RUN npm run build --no-cache
 
-FROM openresty/openresty:1.19.9.1-4-bullseye@sha256:9657cdb265dd8de73173a38212058a505b88ec46011e893756e7e906e4942488
+FROM openresty/openresty:1.27.1.2-4-bullseye@sha256:95a56b64dfa3f22cfe523f8df1d129f6896d1a7189da87ad174c6cfe464b1cf5
 
 RUN apt-get update && apt-get install curl -y
 
