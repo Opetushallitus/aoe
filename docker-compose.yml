@@ -145,7 +145,7 @@ services:
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
-    image: opensearchproject/opensearch:2.10.0@sha256:c8f3ebd2a9340acbed0df8b7ba057dd013df829c5385fb03f4053473bdd8c1b6
+    image: opensearchproject/opensearch:2.19.3@sha256:7350d82989e478700cb83107db909024f2c07dfd72ee5aa7c41804f2fd27bafd
     container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
