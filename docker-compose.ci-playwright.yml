@@ -102,7 +102,7 @@ services:
     env_file:
       - path: ./aoe-semantic-apis/.env.ci
         required: true
-    command: sh -c "yarn serve"
+    command: sh -c "npm run start"
 
   aoe-data-analytics:
     profiles: [aoe]
@@ -223,6 +223,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
     ulimits:
       memlock:
         soft: -1

@@ -67,7 +67,7 @@ services:
     env_file:
       - path: ./aoe-semantic-apis/.env
         required: true
-    command: sh -c "yarn serve"
+    command: sh -c "npm run start"
 
   aoe-data-analytics:
     hostname: aoe-data-analytics
@@ -192,6 +192,7 @@ services:
       - bootstrap.memory_lock=true
       - plugins.security.disabled=true
       - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
     volumes:
       - ./docker/dev/os_data:/usr/share/opensearch/data
     ulimits:
