@@ -5,27 +5,16 @@
   "scripts": {
     "playwright:test": "playwright test",
     "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors",
-    "prettier-write": "prettier --write .",
-    "prettier-check": "prettier --check ."
+    "lint": "biome check",
+    "fix-lint": "biome check --write"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "prettier": {
-    "arrowParens": "always",
-    "bracketSameLine": true,
-    "bracketSpacing": true,
-    "htmlWhitespaceSensitivity": "ignore",
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all"
-  },
   "description": "",
   "devDependencies": {
+    "@biomejs/biome": "2.2.4",
     "@playwright/test": "1.55.0",
-    "@types/node": "22.13.13",
-    "prettier": "2.8.8"
+    "@types/node": "22.13.13"
   }
 }

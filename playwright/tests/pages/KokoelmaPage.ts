@@ -1,8 +1,8 @@
-import { Header } from './Header';
-import { Page } from '@playwright/test';
+import { Header } from './Header'
+import type { Page } from '@playwright/test'
 
 export const KokoelmaPage = (page: Page) => {
   return {
-    header: Header(page),
-  };
-};
+    header: Header(page)
+  }
+}

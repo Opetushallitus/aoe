@@ -8,7 +8,7 @@ function main {
 
   npm_ci_if_package_lock_has_changed
 
-  npm run prettier-check
+  npm run lint
   npx --no playwright install --with-deps chromium
   npx --no playwright test "$@"
   popd

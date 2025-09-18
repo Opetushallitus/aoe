@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 function generateMetadata() {
   const { GITHUB_SHA, GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env
@@ -16,7 +16,7 @@ function generateMetadata() {
     'revision.timestamp': undefined,
     'revision.link': undefined,
     'ci.link': ciLink,
-    timestamp: Date.now(),
+    timestamp: Date.now()
   }
 }
 
@@ -49,25 +49,25 @@ export default defineConfig({
     [
       'junit',
       {
-        outputFile: '../playwright-results/junit-playwright-js-unit.xml',
-      },
+        outputFile: '../playwright-results/junit-playwright-js-unit.xml'
+      }
     ],
     [
       'html',
       {
         outputFolder: '../playwright-results/html-report/',
-        open: 'never',
-      },
+        open: 'never'
+      }
     ],
     [
       'blob',
       {
-        outputDir: '../playwright-results/blob-report',
-      },
-    ],
+        outputDir: '../playwright-results/blob-report'
+      }
+    ]
   ],
   expect: {
-    timeout: process.env.CI ? 10000 : 5000,
+    timeout: process.env.CI ? 10000 : 5000
   },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -78,9 +78,9 @@ export default defineConfig({
     trace: 'on',
     screenshot: {
       mode: 'on',
-      fullPage: true,
+      fullPage: true
     },
-    ignoreHTTPSErrors: true,
+    ignoreHTTPSErrors: true
   },
 
   /* Configure projects for major browsers */
@@ -90,11 +90,11 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: './.auth/user.json',
+        storageState: './.auth/user.json'
       },
 
-      dependencies: ['setup'],
-    },
+      dependencies: ['setup']
+    }
 
     /* Test against mobile viewports. */
     // {
@@ -115,7 +115,7 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ],
+  ]
 
   /* Run your local dev server before starting the tests */
   // webServer: {
@@ -123,4 +123,4 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
+})
