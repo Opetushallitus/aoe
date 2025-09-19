@@ -322,7 +322,7 @@ services:
 
   localstack:
     profiles: [aoe]
-    image: localstack/localstack:latest@sha256:d348320d304f09a66e48d8da08174a63bcd15b5c7503cd7536a519281f0da36b
+    image: localstack/localstack:latest@sha256:0e23151d7545ed15a47ab095909b1524a2ec40e32442064ca7a8bb603503736a
     container_name: localstack 
     networks:
       default:
