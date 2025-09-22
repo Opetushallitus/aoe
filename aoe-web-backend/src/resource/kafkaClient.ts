@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { Kafka, Partitioners, Producer } from 'kafkajs'
 import { generateAuthToken } from 'aws-msk-iam-sasl-signer-js'
 
@@ -31,7 +31,3 @@ export const kafkaProducer: Producer = kafka.producer({
   createPartitioner: Partitioners.DefaultPartitioner,
   transactionTimeout: 60000
 })
-
-export default {
-  kafkaProducer
-}

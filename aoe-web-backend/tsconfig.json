@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./src",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2020", "dom"],
@@ -11,16 +10,15 @@
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
     "paths": {
-      "@/*": ["*"],
-      "@aoe/*": ["../types/aoe/*"],
-      "@api/*": ["api/*"],
-      "@config/*": ["config/*"],
-      "@domain/*": ["domain/*"],
-      "@query/*": ["query/*"],
-      "@resource/*": ["resource/*"],
-      "@search/*": ["search/*"],
-      "@services/*": ["services/*"],
-      "@util/*": ["util/*"]
+      "@/*": ["./src/*"],
+      "@aoe/*": ["./types/aoe/*"],
+      "@api/*": ["./src/api/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@query/*": ["./src/query/*"],
+      "@resource/*": ["./src/resource/*"],
+      "@search/*": ["./src/search/*"],
+      "@services/*": ["./src/services/*"],
+      "@util/*": ["./src/util/*"]
     },
     "resolveJsonModule": true,
     "rootDir": "./src",

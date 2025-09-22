@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { updateEsDocument } from '@search/es'

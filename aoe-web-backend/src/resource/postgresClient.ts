@@ -1,7 +1,7 @@
-import config from '@/config'
+import { config } from '@/config'
 import winstonLogger from '@util/winstonLogger'
 import moment from 'moment'
-import pgPromise, { IConnected, IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise'
+import pgPromise, { IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
 const PG_HOST: string = config.POSTGRESQL_OPTIONS.host

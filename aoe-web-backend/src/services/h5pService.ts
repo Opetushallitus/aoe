@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { H5PUploadResult } from '@aoe/services/h5pService'
 import {
   fs,

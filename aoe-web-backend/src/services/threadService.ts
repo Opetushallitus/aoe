@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { Request, Response } from 'express'
 import path from 'path'
 import { Worker, WorkerOptions } from 'worker_threads'

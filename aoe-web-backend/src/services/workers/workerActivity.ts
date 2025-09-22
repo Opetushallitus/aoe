@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { TypeMaterialActivity } from '@aoe/services/workers/workerActivity'
 import { kafkaProducer } from '@resource/kafkaClient'
 import winstonLogger from '@util/winstonLogger'

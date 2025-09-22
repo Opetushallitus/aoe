@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { httpsClient } from '@resource/httpsClient'
 import winstonLogger from '@util/winstonLogger'
 

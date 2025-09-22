@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial'
 import { ErrorHandler } from '@/helpers/errorHandler'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'

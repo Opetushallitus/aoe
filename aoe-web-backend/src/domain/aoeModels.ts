@@ -2,7 +2,7 @@ import { pgURL } from '@resource/postgresClient'
 import { isEncoded } from '@util/requestValidator'
 import winstonLogger from '@util/winstonLogger'
 import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize'
-import config from '@/config'
+import { config } from '@/config'
 
 export const sequelize: Sequelize = new Sequelize(pgURL, {
   dialect: 'postgres',

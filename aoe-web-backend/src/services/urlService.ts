@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 
 export async function aoeFileDownloadUrl(key: string) {
   return !key ? undefined : process.env.FILE_DOWNLOAD_URL + key

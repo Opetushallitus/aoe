@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { ErrorHandler } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
 import winstonLogger from '@util/winstonLogger'

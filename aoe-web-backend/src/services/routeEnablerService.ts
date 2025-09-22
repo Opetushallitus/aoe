@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { ErrorHandler } from '@/helpers/errorHandler'
 import { NextFunction, Request, Response } from 'express'
 

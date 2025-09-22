@@ -1,6 +1,8 @@
-import config from '@/config'
+import AWS, { S3 } from 'aws-sdk'
+import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
+
+import { config } from '@/config'
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
-import { s3 } from '@resource/awsClient'
 import { db } from '@resource/postgresClient'
 import winstonLogger from '@util/winstonLogger'
 import { AWSError } from 'aws-sdk'
@@ -10,6 +12,23 @@ import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
 import stream from 'stream'
 import { ErrorHandler } from './errorHandler'
+
+const isProd = process.env.NODE_ENV === 'production'
+const configS3: ServiceConfigurationOptions = {
+  region: config.CLOUD_STORAGE_CONFIG.region,
+  ...(!isProd
+    ? {
+        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
+        credentials: {
+          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET
+        }
+      }
+    : {})
+}
+AWS.config.update(configS3)
+export const s3: S3 = new AWS.S3()
+
 
 const officeMimeTypes = [
   // .doc

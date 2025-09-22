@@ -1,9 +1,9 @@
-import config from '@/config'
+import { config } from '@/config'
 import { RedisClientOptions } from '@redis/client'
 import winstonLogger from '@util/winstonLogger'
 import { createClient } from 'redis'
 
-const redisClient = createClient({
+export const redisClient = createClient({
   legacyMode: true,
   url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
     config.REDIS_OPTIONS.pass
@@ -31,5 +31,3 @@ const redisInit = async (): Promise<void> => {
   await redisClient.connect()
 }
 void redisInit()
-
-export default redisClient

@@ -1,4 +1,4 @@
-import config from '@/config'
+import { config } from '@/config'
 import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
 import apiRoot from '@api/routes-root'
@@ -20,7 +20,7 @@ import lusca from 'lusca'
 import passport from 'passport'
 import connectRedis from 'connect-redis'
 import session, { SessionOptions } from 'express-session'
-import clientRedis from '@resource/redisClient'
+import { redisClient } from '@resource/redisClient'
 import { db } from './resource/postgresClient'
 import { asyncHandler } from './asyncHandler'
 
@@ -30,7 +30,7 @@ const RedisStore = connectRedis(session)
 
 app.use(
   session({
-    store: new RedisStore({ client: clientRedis, logErrors: true }),
+    store: new RedisStore({ client: redisClient, logErrors: true }),
     resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
     rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
     saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,

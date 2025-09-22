@@ -49,7 +49,7 @@ if (missingEnvs.length > 0) {
   process.exit(1)
 }
 
-export default {
+export const config = {
   // General application start up configurations.
   APPLICATION_CONFIG: {
     isCloudStorageEnabled: (process.env.CLOUD_STORAGE_ENABLED === '1') as boolean,
@@ -155,5 +155,5 @@ export default {
     path: process.env.STREAM_STATUS_PATH as string,
     port: process.env.STREAM_STATUS_PORT as string,
     httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean
-  } as const
-} as const
+  }
+}
