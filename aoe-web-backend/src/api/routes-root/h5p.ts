@@ -8,7 +8,7 @@ import { Request, Response } from 'express'
  *
  * @param router express.Router
  */
-export default (router: Router): void => {
+export const h5p =  (router: Router): void => {
   const moduleRoot = '/h5p'
 
   router.get(`${moduleRoot}/play/:keyS3`, downloadAndRenderH5P)

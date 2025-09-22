@@ -13,7 +13,7 @@ import upload from './upload'
  *
  * @param router express.Router
  */
-export default (router: Router): void => {
+export const v1 = (router: Router): void => {
   collection(router)
   download(router)
   elasticSearch(router)

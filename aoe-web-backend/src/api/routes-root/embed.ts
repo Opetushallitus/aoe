@@ -10,7 +10,7 @@ import { NextFunction, Request, Response, Router } from 'express'
  *
  * @param router express.Router
  */
-export default (router: Router): void => {
+export const embed = (router: Router): void => {
   // Get all metadata of an educational material.
   // Version specified optionally with publishing date (:publishedat).
   // :publishedat format 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - regex path validation in API v2.0.

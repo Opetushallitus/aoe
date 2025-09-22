@@ -1,9 +1,10 @@
 import { config } from '@/config'
 import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
-import apiRoot from '@api/routes-root'
-import apiV1 from '@api/routes-v1'
-import apiV2 from '@api/routes-v2'
+import { h5p } from '@api/routes-root/h5p'
+import { embed } from '@api/routes-root/embed'
+import { v1 } from '@api/routes-v1/v1'
+import { v2 } from '@api/routes-v2/v2'
 import { authInit } from '@resource/oidcConfig'
 import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
@@ -54,15 +55,16 @@ app.disable('x-powered-by')
 
 // Load API root modules
 const apiRouterRoot: Router = Router()
-apiRoot(apiRouterRoot)
+h5p(apiRouterRoot)
+embed(apiRouterRoot)
 
 // Load API version 1.0
 const apiRouterV1: Router = Router()
-apiV1(apiRouterV1)
+v1(apiRouterV1)
 
 // Load API version 2.0
 const apiRouterV2: Router = Router()
-apiV2(apiRouterV2)
+v2(apiRouterV2)
 
 // Process X-Forwarded-* headers behind a proxy server at localhost (127.0.0.1)
 app.set('trust proxy', '127.0.0.1')
