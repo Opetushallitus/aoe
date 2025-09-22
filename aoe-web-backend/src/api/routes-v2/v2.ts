@@ -11,7 +11,7 @@ import search from './search'
  *
  * @param router express.Router
  */
-export const v2 =  (router: Router): void => {
+export const v2 = (router: Router): void => {
   collection(router)
   material(router)
   metadata(router)
