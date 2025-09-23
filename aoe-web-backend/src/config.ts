@@ -1,5 +1,3 @@
-import winstonLogger from '@util/winstonLogger'
-
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 // Check that mandatory environment variables are available and report missing ones on exit.
@@ -45,7 +43,7 @@ process.env.PG_USER || missingEnvs.push('PG_USER')
 process.env.PG_PASS || missingEnvs.push('PG_PASS')
 
 if (missingEnvs.length > 0) {
-  winstonLogger.error('All required environment variables are not available: %s', missingEnvs)
+  console.error('All required environment variables are not available: %s', missingEnvs)
   process.exit(1)
 }
 
