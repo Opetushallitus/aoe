@@ -142,8 +142,7 @@ export const uploadAttachmentToMaterial = async (
       res.status(200).json({ id: attachmentId })
     })
   } catch (err) {
-    winstonLogger.error('Failure in file upload', req.file, err)
-    return next(new StatusError(500, 'Failure in file upload'))
+    return next(new StatusError(500, 'Failure in file upload', err))
   }
 }
 
@@ -196,8 +195,7 @@ export const uploadMaterial = async (
               return res.status(200).json(resp)
             })
             .catch((err: Error) => {
-              winstonLogger.debug(err)
-              next(new StatusError(500, 'Error in upload'))
+              next(new StatusError(500, 'Error in upload', err))
             })
         } else {
           const file: MulterFile = req.file
@@ -286,14 +284,14 @@ export const uploadMaterial = async (
               })
             })
         }
-      } catch (e) {
+      } catch (err) {
         if (!res.headersSent) {
-          next(new StatusError(500, `Error in upload: ${e}`))
+          next(new StatusError(500, `Error in upload`, err))
         }
       }
     })
   } catch (err) {
-    next(new StatusError(500, `Error in upload: ${err}`))
+    next(new StatusError(500, `Error in upload`, err))
   }
 }
 
@@ -441,7 +439,7 @@ export const uploadFileToMaterial = async (
   } catch (err: any) {
     winstonLogger.error('Transaction for the single file upload failed: %o', err)
     await t.rollback()
-    throw new StatusError(500, `Transaction for the single file upload failed: ${err}`)
+    throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
   res.status(200).json({
     id: edumaterialid,
@@ -500,7 +498,7 @@ export const uploadFileToMaterial = async (
     )
     winstonLogger.error('Single file upstreaming or conversions failed: %o', err)
     if (!res.headersSent) {
-      next(new StatusError(500, `File upstreaming failed: ${err}`))
+      next(new StatusError(500, `File upstreaming failed`, err))
     }
   } finally {
     deleteFileFromLocalDiskStorage(file)
@@ -665,47 +663,43 @@ const insertDataToAttachmentTable = async (
   metadata: any
 ): Promise<any> => {
   const queries: any[] = []
-  const data = await db
-    .tx(async (t: any): Promise<any> => {
-      queries.push(
-        await db.none(
-          `
+  const data = await db.tx(async (t: any): Promise<any> => {
+    queries.push(
+      await db.none(
+        `
           UPDATE educationalmaterial
           SET updatedat = NOW()
           WHERE id = (
             SELECT m.educationalmaterialid FROM material m WHERE m.id = $1
           )
         `,
-          [materialID]
-        )
+        [materialID]
       )
-      queries.push(
-        await db.one(
-          `
+    )
+    queries.push(
+      await db.one(
+        `
           INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
           RETURNING id
         `,
-          [
-            location,
-            files.originalname,
-            files.size,
-            files.mimetype,
-            fileKey,
-            fileBucket,
-            materialID,
-            metadata.default,
-            metadata.kind,
-            metadata.label,
-            metadata.srclang
-          ]
-        )
+        [
+          location,
+          files.originalname,
+          files.size,
+          files.mimetype,
+          fileKey,
+          fileBucket,
+          materialID,
+          metadata.default,
+          metadata.kind,
+          metadata.label,
+          metadata.srclang
+        ]
       )
-      return t.batch(queries)
-    })
-    .catch((err: Error): void => {
-      throw err
-    })
+    )
+    return t.batch(queries)
+  })
   return data[1].id
 }
 
@@ -715,16 +709,11 @@ async function updateAttachment(
   location: string,
   attachmentId: string
 ) {
-  await db
-    .tx(async (t: ITask<IClient>) => {
-      const query =
-        'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4'
-      winstonLogger.debug(query)
-      await t.none(query, [location, fileKey, fileBucket, attachmentId])
-    })
-    .catch((err: Error) => {
-      throw err
-    })
+  await db.tx(async (t: ITask<IClient>) => {
+    const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4'
+    winstonLogger.debug(query)
+    await t.none(query, [location, fileKey, fileBucket, attachmentId])
+  })
 }
 
 async function insertDataToTempAttachmentTable(
@@ -826,10 +815,9 @@ const insertDataToRecordTable = async (
   cloudURI?: string,
   recordID?: string
 ): Promise<string | null> => {
-  try {
-    const { id } = await db.tx(async (t: any) => {
-      await t.none(
-        `
+  const { id } = await db.tx(async (t: any) => {
+    await t.none(
+      `
         UPDATE educationalmaterial SET updatedat = NOW()
         WHERE id = (
           SELECT educationalmaterialid
@@ -837,44 +825,41 @@ const insertDataToRecordTable = async (
           WHERE id = $1
         )
       `,
-        [materialID]
-      )
-      let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
-        [
-          'filepath',
-          'originalfilename',
-          'filesize',
-          'mimetype',
-          'materialid',
-          'filekey',
-          'filebucket'
-        ],
-        { table: 'record' }
-      )
-      const values = {
-        id: recordID ? recordID : undefined,
-        filepath: cloudURI,
-        originalfilename: file.originalname,
-        filesize: file.size,
-        mimetype: file.mimetype,
-        materialid: materialID,
-        filekey: cloudKey,
-        filebucket: cloudBucket
-      }
-      if (recordID) {
-        columnSet = columnSet.extend(['id'])
-      }
-      return await t.oneOrNone(`
+      [materialID]
+    )
+    let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
+      [
+        'filepath',
+        'originalfilename',
+        'filesize',
+        'mimetype',
+        'materialid',
+        'filekey',
+        'filebucket'
+      ],
+      { table: 'record' }
+    )
+    const values = {
+      id: recordID ? recordID : undefined,
+      filepath: cloudURI,
+      originalfilename: file.originalname,
+      filesize: file.size,
+      mimetype: file.mimetype,
+      materialid: materialID,
+      filekey: cloudKey,
+      filebucket: cloudBucket
+    }
+    if (recordID) {
+      columnSet = columnSet.extend(['id'])
+    }
+    return await t.oneOrNone(`
         ${pgp.helpers.insert([values], columnSet)}
         ON CONFLICT (id) DO UPDATE SET
         filepath = EXCLUDED.filepath, filekey = EXCLUDED.filekey, filebucket = EXCLUDED.filebucket
         RETURNING id
       `)
-    })
-    return id
-  } catch (err) {
-    throw err
-  }
+  })
+  return id
 }
 
 /**
@@ -1021,7 +1006,7 @@ export const downloadPreviewFile = async (
     return res.status(200).end()
   } catch (err) {
     if (!res.headersSent) {
-      next(new StatusError(400, 'Failed to download file'))
+      next(new StatusError(400, 'Failed to download file', err))
     }
   }
 }
@@ -1078,8 +1063,7 @@ export const downloadFile = async (
     next()
   } catch (err) {
     if (!res.headersSent) {
-      winstonLogger.error('downloadFile error:', err)
-      next(new StatusError(400, 'Unkown error'))
+      next(new StatusError(400, 'downloadFile error', err))
     }
   }
 }
@@ -1143,7 +1127,9 @@ export const downloadFileFromStorage = async (
         req.params.filename,
         isZip
       )
-      next(new StatusError(500, 'Downloading a single file failed in downloadFileFromStorage()'))
+      next(
+        new StatusError(500, 'Downloading a single file failed in downloadFileFromStorage()', err)
+      )
     }
   })
 }
@@ -1257,10 +1243,7 @@ export const downloadFromStorage = (
     } catch (err: unknown) {
       reject()
       next(
-        new StatusError(
-          500,
-          `Download of [${origFilename}] failed in downloadFromStorage(): ${err}`
-        )
+        new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err)
       )
     }
   })
@@ -1325,9 +1308,7 @@ export const downloadAllMaterialsCompressed = async (
   }
   res.header('Content-Disposition', 'attachment; filename=materials.zip')
   // Downstream files from the object storage and zip the bundle.
-  await downloadAndZipFromStorage(res, fileKeys, fileNames).catch((err): void => {
-    throw err
-  })
+  await downloadAndZipFromStorage(res, fileKeys, fileNames)
   // Update the download counter.
   const educationalMaterialId: number = parseInt(edumaterialid, 10)
   if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
@@ -1358,24 +1339,20 @@ const downloadAndZipFromStorage = (
       region: process.env.CLOUD_STORAGE_REGION
     } as S3ClientConfig)
     const bucket = process.env.CLOUD_STORAGE_BUCKET
-    try {
-      s3Zip
-        .archive(
-          { s3, bucket } as ArchiveOptions,
-          undefined as string | undefined,
-          keys as string[],
-          files as EntryData[]
-        )
-        .pipe(res)
-        .on('finish', (): void => {
-          resolve()
-        })
-        .on('error', (err: Error): void => {
-          reject(err)
-        })
-    } catch (err) {
-      reject(err)
-    }
+    s3Zip
+      .archive(
+        { s3, bucket } as ArchiveOptions,
+        undefined as string | undefined,
+        keys as string[],
+        files as EntryData[]
+      )
+      .pipe(res)
+      .on('finish', (): void => {
+        resolve()
+      })
+      .on('error', (err: Error): void => {
+        reject(err)
+      })
   })
 }
 

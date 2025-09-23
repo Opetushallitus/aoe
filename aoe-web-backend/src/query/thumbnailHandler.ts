@@ -79,10 +79,7 @@ export const downloadEmThumbnail = async (
     await downloadThumbnail(req, res, next, key)
   } catch (error) {
     next(
-      new StatusError(
-        500,
-        `downloadEmThumbnail() Downloading the thumbnail image failed: ${error}`
-      )
+      new StatusError(500, `downloadEmThumbnail() Downloading the thumbnail image failed`, error)
     )
   }
 }

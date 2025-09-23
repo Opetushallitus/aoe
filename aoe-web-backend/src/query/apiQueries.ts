@@ -59,8 +59,7 @@ export async function addLinkToMaterial(req: Request, res: Response, next: NextF
       res.status(200).json(response)
     })
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue adding link to material'))
+    next(new StatusError(500, 'Issue adding link to material', err))
   }
 }
 
@@ -71,8 +70,7 @@ export async function getMaterial(req: Request, res: Response, next: NextFunctio
     const data = await db.any(query)
     res.status(200).json(data)
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue getting materials '))
+    next(new StatusError(500, 'Issue getting materials ', err))
   }
 }
 
@@ -423,9 +421,8 @@ export const getEducationalMaterialMetadata = async (
       }
       next()
     })
-    .catch((error: any) => {
-      winstonLogger.error(error)
-      next(new StatusError(400, 'Issue getting material data'))
+    .catch((err: any) => {
+      next(new StatusError(400, 'Issue getting material data', err))
     })
 }
 
@@ -483,8 +480,7 @@ export async function getUserMaterial(
       res.status(200).json(data)
     })
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue getting users material'))
+    next(new StatusError(500, 'Issue getting users material', err))
   }
 }
 
@@ -554,8 +550,7 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
 
     res.status(200).json(data)
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue getting recent materials'))
+    next(new StatusError(500, 'Issue getting recent materials', err))
   }
 }
 
@@ -591,7 +586,7 @@ export async function setEducationalMaterialObsoleted(
       winstonLogger.error(err)
     })
   } catch (err) {
-    next(new StatusError(500, 'Issue deleting material'))
+    next(new StatusError(500, 'Issue deleting material', err))
   }
 }
 
@@ -636,7 +631,7 @@ export const setMaterialObsoleted = async (
       winstonLogger.error('Search index update failed: %o', err)
     })
   } catch (err) {
-    next(new StatusError(500, `Setting the material as obsoleted failed: ${err}`))
+    next(new StatusError(500, `Setting the material as obsoleted failed`, err))
   }
 }
 
@@ -673,30 +668,26 @@ export const setAttachmentObsoleted = async (
       )
     })
   } catch (err) {
-    next(new StatusError(500, `Setting an attachment file obsoleted failed: ${err}`))
+    next(new StatusError(500, `Setting an attachment file obsoleted failed`, err))
   }
 }
 
 async function setLanguage(obj: any) {
-  try {
-    if (obj) {
-      // Set 'fi' based on the availability of 'sv' and 'en'
-      if (!obj.fi || obj.fi === '') {
-        obj.fi = obj.sv || obj.en || ''
-      }
-
-      // Set 'sv' based on the availability of 'fi' and 'en'
-      if (!obj.sv || obj.sv === '') {
-        obj.sv = obj.fi || obj.en || ''
-      }
-
-      // Set 'en' based on the availability of 'fi' and 'sv'
-      if (!obj.en || obj.en === '') {
-        obj.en = obj.fi || obj.sv || ''
-      }
+  if (obj) {
+    // Set 'fi' based on the availability of 'sv' and 'en'
+    if (!obj.fi || obj.fi === '') {
+      obj.fi = obj.sv || obj.en || ''
     }
-  } catch (err) {
-    throw new Error(`Error in setLanguage(): ${err}`)
+
+    // Set 'sv' based on the availability of 'fi' and 'en'
+    if (!obj.sv || obj.sv === '') {
+      obj.sv = obj.fi || obj.en || ''
+    }
+
+    // Set 'en' based on the availability of 'fi' and 'sv'
+    if (!obj.en || obj.en === '') {
+      obj.en = obj.fi || obj.sv || ''
+    }
   }
 }
 
@@ -1353,7 +1344,7 @@ export const updateEduMaterialVersionURN = async (
     winstonLogger.error(
       `Update for educational material version failed in updateEduMaterialVersionURN(): ${error}`
     )
-    throw new Error(error)
+    throw error
   }
 }
 
@@ -1373,8 +1364,7 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
     ])
     res.status(200).json('user updated')
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue updating user'))
+    next(new StatusError(500, 'Issue updating user', err))
   }
 }
 
@@ -1384,8 +1374,7 @@ export async function updateTermsOfUsage(req: Request, res: Response, next: Next
     const data = await db.any(query, [req.session.passport.user.uid])
     res.status(200).json('terms of usage updated')
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Update failed'))
+    next(new StatusError(500, 'Update failed', err))
   }
 }
 
@@ -1395,8 +1384,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
     const data = await db.any(query, [req.session.passport.user.uid])
     res.status(200).json(data)
   } catch (err) {
-    winstonLogger.error(err)
-    next(new StatusError(500, 'Issue processing get user request'))
+    next(new StatusError(500, 'Issue processing get user request', err))
   }
 }
 

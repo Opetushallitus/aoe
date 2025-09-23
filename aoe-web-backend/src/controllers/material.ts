@@ -32,8 +32,8 @@ export async function removeEducationalMaterial(req: Request, res: Response, nex
     res.status(200).json({ status: 'success', statusCode: 200 })
     const index = process.env.ES_INDEX
     await deleteDocument(index, id)
-  } catch (error) {
-    next(new StatusError(500, `Issue removing material${error}`))
+  } catch (err) {
+    next(new StatusError(500, `Issue removing material`, err))
   }
 }
 
@@ -48,9 +48,8 @@ export async function getAoeUsers(req: Request, res: Response, next: NextFunctio
   try {
     const users = await getUsers()
     res.status(200).json({ users: users })
-  } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting users'))
+  } catch (err) {
+    next(new StatusError(500, 'Issue getting users', err))
   }
 }
 
@@ -80,9 +79,8 @@ export async function changeMaterialUser(req: Request, res: Response, next: Next
     } else {
       return res.status(200).json({ status: 'success' })
     }
-  } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue changing users'))
+  } catch (err) {
+    next(new StatusError(500, 'Issue changing users', err))
   }
 }
 
@@ -98,8 +96,7 @@ export async function getMaterialNames(req: Request, res: Response, next: NextFu
     } else {
       return res.status(200).json({ name, owner })
     }
-  } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue changing users'))
+  } catch (err) {
+    next(new StatusError(500, 'Issue changing users', err))
   }
 }

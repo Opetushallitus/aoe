@@ -3,11 +3,13 @@ import winstonLogger from '@util/winstonLogger'
 
 export class StatusError extends Error {
   statusCode: number
+  originalErr?: any
 
-  constructor(statusCode: number, message: string) {
+  constructor(statusCode: number, message: string, originalErr?: any) {
     super()
     this.statusCode = statusCode
     this.message = message
+    this.originalErr = originalErr
   }
 }
 
@@ -19,21 +21,22 @@ const genericErrorMessageSv =
   'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.'
 
 export const handleError = (err: any, res: Response): void => {
-  let { statusCode } = err
-  let { message } = err
-  winstonLogger.error(`Request default error handler: ${message}`)
-  // send generic error message
-  message = {
-    fi: genericErrorMessage,
-    en: genericErrorMessageEn,
-    sv: genericErrorMessageSv
+  const { message } = err
+
+  winstonLogger.error(message)
+  winstonLogger.error(err)
+  if (err.originalErr) {
+    //TODO: this might be redundant but lets play it safe for now
+    winstonLogger.error(err.originalErr)
   }
-  if (!statusCode) {
-    statusCode = 500
-  }
+
+  const statusCode = err.statusCode || 500
   res.status(statusCode).json({
-    status: 'error',
     statusCode,
-    message
+    message: {
+      fi: genericErrorMessage,
+      en: genericErrorMessageEn,
+      sv: genericErrorMessageSv
+    }
   })
 }

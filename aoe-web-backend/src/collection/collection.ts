@@ -91,7 +91,7 @@ export async function createCollection(
     res.status(200).json(id)
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue creating collection'))
+    next(new StatusError(500, 'Issue creating collection', error))
   }
 }
 
@@ -113,7 +113,7 @@ export async function addEducationalMaterialToCollection(
     res.status(200).json({ status: 'ok' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue adding material to collection'))
+    next(new StatusError(500, 'Issue adding material to collection', error))
   }
 }
 
@@ -135,7 +135,7 @@ export async function removeEducationalMaterialFromCollection(
     res.status(200).json({ status: 'ok' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue removing material from collection'))
+    next(new StatusError(500, 'Issue removing material from collection', error))
   }
 }
 
@@ -156,7 +156,7 @@ export async function getUserCollections(
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting collection'))
+    next(new StatusError(500, 'Issue getting collection', error))
   }
 }
 
@@ -178,7 +178,7 @@ export async function getCollection(req: Request, res: Response, next: NextFunct
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting collection'))
+    next(new StatusError(500, 'Issue getting collection', error))
   }
 }
 
@@ -206,7 +206,7 @@ export async function updateCollection(
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new StatusError(500, 'Issue updating collection'))
+    next(new StatusError(500, 'Issue updating collection', error))
   }
 }
 
@@ -218,7 +218,7 @@ export async function updateCollection(
  * get recent collections
  */
 export async function getRecentCollection(
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction
 ): Promise<any> {
@@ -226,7 +226,6 @@ export async function getRecentCollection(
     const data = await recentCollectionQuery()
     res.status(200).json(data)
   } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting recent collection'))
+    next(new StatusError(500, 'Issue getting recent collection', error))
   }
 }

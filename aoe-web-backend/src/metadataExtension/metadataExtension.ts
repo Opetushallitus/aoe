@@ -4,7 +4,6 @@ import {
   metadataExtension,
   usersMetadataExtension
 } from '@query/metadataExtensionQueries'
-import winstonLogger from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 
 export class MetadataExtension {
@@ -30,8 +29,7 @@ export async function addMetadataExtension(req: Request, res: Response, next: Ne
     await insertMetadataExtension(req.params.id, req.session.passport.user.uid, metadata)
     res.status(200).json({ status: 'success' })
   } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue adding metadata extension'))
+    next(new StatusError(500, 'Issue adding metadata extension', error))
   }
 }
 
@@ -43,8 +41,7 @@ export async function getMetadataExtension(req: Request, res: Response, next: Ne
     const data = await metadataExtension(req.params.id)
     res.status(200).json(data)
   } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting metadata extension'))
+    next(new StatusError(500, 'Issue getting metadata extension', error))
   }
 }
 
@@ -56,7 +53,6 @@ export async function getUsersMetadataExtension(req: Request, res: Response, nex
     const data = await usersMetadataExtension(req.params.id, req.session.passport.user.uid)
     res.status(200).json(data)
   } catch (error) {
-    winstonLogger.error(error)
-    next(new StatusError(500, 'Issue getting metadata extension'))
+    next(new StatusError(500, 'Issue getting metadata extension', error))
   }
 }

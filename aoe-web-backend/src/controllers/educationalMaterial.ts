@@ -171,7 +171,8 @@ export const updateEducationalMaterialMetadata = async (
     next(
       new StatusError(
         400,
-        'One of the metadata updates for the educational material failed in updateEducationalMaterialMetadata().'
+        'One of the metadata updates for the educational material failed in updateEducationalMaterialMetadata().',
+        err
       )
     )
   }
