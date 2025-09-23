@@ -1,7 +1,7 @@
 import { Response } from 'express'
 import winstonLogger from '@util/winstonLogger'
 
-export class ErrorHandler extends Error {
+export class StatusError extends Error {
   statusCode: number
 
   constructor(statusCode: number, message: string) {

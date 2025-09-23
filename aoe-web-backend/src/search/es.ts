@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { ISearchIndexMap } from '@aoe/search/es'
 import { getPopularityQuery } from '@query/analyticsQueries'
 import { db } from '@resource/postgresClient'
@@ -683,7 +683,7 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
   } catch (err) {
     winstonLogger.debug('elasticSearchQuery error')
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'There was an issue processing your request'))
+    next(new StatusError(500, 'There was an issue processing your request'))
   }
 }
 

@@ -11,7 +11,7 @@ import fs, { WriteStream } from 'fs'
 import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
 import stream from 'stream'
-import { ErrorHandler } from './errorHandler'
+import { StatusError } from './errorHandler'
 
 const isProd = process.env.NODE_ENV === 'production'
 const configS3: ServiceConfigurationOptions = {
@@ -126,7 +126,7 @@ export const downloadPdfFromAllas = async (
 ): Promise<void> => {
   try {
     if (!req.params.key) {
-      next(new ErrorHandler(400, 'key missing'))
+      next(new StatusError(400, 'key missing'))
     }
     const params = {
       Bucket: config.CLOUD_STORAGE_CONFIG.bucketPDF,
@@ -135,7 +135,7 @@ export const downloadPdfFromAllas = async (
     await downloadFromStorage(res, next, params, req.params.key)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(error.statusCode, 'Issue showing pdf'))
+    next(new StatusError(error.statusCode, 'Issue showing pdf'))
   }
 }
 

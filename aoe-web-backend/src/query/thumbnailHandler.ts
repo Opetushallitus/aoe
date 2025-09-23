@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
 import winstonLogger from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
@@ -23,7 +23,7 @@ export const uploadbase64Image = async (
       const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '')
       const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       if (matches === undefined) {
-        return next(new ErrorHandler(400, 'File not a valid base64 encoded image'))
+        return next(new StatusError(400, 'File not a valid base64 encoded image'))
       }
       const extension = mime.getExtension(matches[1])
       const fileName = `thumbnail-${Date.now()}.${extension}`
@@ -57,7 +57,7 @@ export const uploadbase64Image = async (
       return res.status(400).json({ error: 'application/json expected' })
     }
   } catch (error) {
-    next(new ErrorHandler(500, `uploadbase64Image() Thumbnail image upload failed:${error}`))
+    next(new StatusError(500, `uploadbase64Image() Thumbnail image upload failed:${error}`))
   }
 }
 
@@ -79,7 +79,7 @@ export const downloadEmThumbnail = async (
     await downloadThumbnail(req, res, next, key)
   } catch (error) {
     next(
-      new ErrorHandler(
+      new StatusError(
         500,
         `downloadEmThumbnail() Downloading the thumbnail image failed: ${error}`
       )
@@ -106,7 +106,7 @@ export const downloadCollectionThumbnail = async (
   } catch (error) {
     winstonLogger.error(error)
     next(
-      new ErrorHandler(
+      new StatusError(
         500,
         `downloadCollectionThumbnail() Downloading the thumbnail image failed: ${error}`
       )
@@ -131,7 +131,7 @@ async function downloadThumbnail(req: Request, res: Response, next: NextFunction
     }
     await downloadFromStorage(res, next, params, key)
   } catch (error) {
-    next(new ErrorHandler(500, `downloadThumbnail() Error: ${error}`))
+    next(new StatusError(500, `downloadThumbnail() Error: ${error}`))
   }
 }
 

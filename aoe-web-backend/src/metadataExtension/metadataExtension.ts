@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import {
   insertMetadataExtension,
   metadataExtension,
@@ -31,7 +31,7 @@ export async function addMetadataExtension(req: Request, res: Response, next: Ne
     res.status(200).json({ status: 'success' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue adding metadata extension'))
+    next(new StatusError(500, 'Issue adding metadata extension'))
   }
 }
 
@@ -44,7 +44,7 @@ export async function getMetadataExtension(req: Request, res: Response, next: Ne
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting metadata extension'))
+    next(new StatusError(500, 'Issue getting metadata extension'))
   }
 }
 
@@ -57,6 +57,6 @@ export async function getUsersMetadataExtension(req: Request, res: Response, nex
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting metadata extension'))
+    next(new StatusError(500, 'Issue getting metadata extension'))
   }
 }

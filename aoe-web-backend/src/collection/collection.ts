@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import {
   collectionQuery,
   deleteEducationalMaterialFromCollection,
@@ -91,7 +91,7 @@ export async function createCollection(
     res.status(200).json(id)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue creating collection'))
+    next(new StatusError(500, 'Issue creating collection'))
   }
 }
 
@@ -113,7 +113,7 @@ export async function addEducationalMaterialToCollection(
     res.status(200).json({ status: 'ok' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue adding material to collection'))
+    next(new StatusError(500, 'Issue adding material to collection'))
   }
 }
 
@@ -135,7 +135,7 @@ export async function removeEducationalMaterialFromCollection(
     res.status(200).json({ status: 'ok' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue removing material from collection'))
+    next(new StatusError(500, 'Issue removing material from collection'))
   }
 }
 
@@ -156,7 +156,7 @@ export async function getUserCollections(
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting collection'))
+    next(new StatusError(500, 'Issue getting collection'))
   }
 }
 
@@ -178,7 +178,7 @@ export async function getCollection(req: Request, res: Response, next: NextFunct
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting collection'))
+    next(new StatusError(500, 'Issue getting collection'))
   }
 }
 
@@ -206,7 +206,7 @@ export async function updateCollection(
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue updating collection'))
+    next(new StatusError(500, 'Issue updating collection'))
   }
 }
 
@@ -227,6 +227,6 @@ export async function getRecentCollection(
     res.status(200).json(data)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting recent collection'))
+    next(new StatusError(500, 'Issue getting recent collection'))
   }
 }

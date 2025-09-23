@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
 import winstonLogger from '@util/winstonLogger'
 
@@ -199,7 +199,7 @@ export const hasAccessToAOE = async (
     next()
     return
   } catch (err) {
-    throw new ErrorHandler(500, `Checking user's access rights failed: ${err}`)
+    throw new StatusError(500, `Checking user's access rights failed: ${err}`)
   }
 }
 
@@ -217,7 +217,7 @@ export const userInfo = async (req: Request, res: Response): Promise<void> => {
     res.sendStatus(200)
     return
   } catch (err) {
-    throw new ErrorHandler(500, `Checking user's access rights failed: ${err}`)
+    throw new StatusError(500, `Checking user's access rights failed: ${err}`)
   }
 }
 

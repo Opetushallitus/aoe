@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { sendVerificationEmail } from '@services/mailService'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import winstonLogger from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 
@@ -30,7 +30,7 @@ export async function updateUserSettings(req: Request, res: Response, next: Next
     return res.status(200).json({ status: 'ok' })
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue updating user settings'))
+    next(new StatusError(500, 'Issue updating user settings'))
   }
 }
 

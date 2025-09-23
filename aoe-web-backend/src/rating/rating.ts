@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '@query/ratingQueries'
 import { RatingInformation } from './interface/rating-information.interface'
 import winstonLogger from '@util/winstonLogger'
@@ -26,7 +26,7 @@ export async function addRating(req: Request, res: Response, next: NextFunction)
     await insertRatingAverage(req.body.materialId)
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue adding rating'))
+    next(new StatusError(500, 'Issue adding rating'))
   }
 }
 
@@ -41,13 +41,13 @@ export async function getRating(req: Request, res: Response, next: NextFunction)
   try {
     const response = await getRatings(req.params.materialId)
     if (!response.averages) {
-      next(new ErrorHandler(404, 'No rating found'))
+      next(new StatusError(404, 'No rating found'))
     } else {
       res.status(200).json(response)
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting rating'))
+    next(new StatusError(500, 'Issue getting rating'))
   }
 }
 
@@ -62,12 +62,12 @@ export async function getUserRating(req: Request, res: Response, next: NextFunct
   try {
     const response = await getUserRatings(req.session.passport.user.uid, req.params.materialId)
     if (!response.materialId) {
-      next(new ErrorHandler(404, 'No rating found'))
+      next(new StatusError(404, 'No rating found'))
     } else {
       res.status(200).json(response)
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting user rating'))
+    next(new StatusError(500, 'Issue getting user rating'))
   }
 }

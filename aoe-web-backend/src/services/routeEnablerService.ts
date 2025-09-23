@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { NextFunction, Request, Response } from 'express'
 
 export interface AoeRouteMessage {
@@ -64,7 +64,7 @@ export const isLoginEnabled = async (
       next()
     }
   } catch (err) {
-    next(new ErrorHandler(err, 'Issue in login'))
+    next(new StatusError(err, 'Issue in login'))
   }
 }
 
@@ -103,6 +103,6 @@ export const aoeRoutes = async (req: Request, res: Response, next: NextFunction)
       login
     })
   } catch (e) {
-    next(new ErrorHandler(e, 'Issue in messages info'))
+    next(new StatusError(e, 'Issue in messages info'))
   }
 }

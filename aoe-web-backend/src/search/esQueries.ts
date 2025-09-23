@@ -1,5 +1,5 @@
 // <reference path="es.ts" />
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import winstonLogger from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import {
@@ -272,7 +272,7 @@ export const elasticSearchQuery = async (
     const responseBody: AoeBody<AoeResult> = await aoeResponseMapper(result)
     res.status(200).json(responseBody)
   } catch (error) {
-    next(new ErrorHandler(500, `Error in elasticSearchQuery(): ${error}`))
+    next(new StatusError(500, `Error in elasticSearchQuery(): ${error}`))
   }
 }
 

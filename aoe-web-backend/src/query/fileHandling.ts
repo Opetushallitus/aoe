@@ -6,7 +6,7 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import {
   downstreamAndConvertOfficeFileToPDF,
   isOfficeMimeType,
@@ -92,29 +92,29 @@ export const uploadAttachmentToMaterial = async (
   try {
     const contentType = req.headers['content-type']
     if (!contentType) {
-      return next(new ErrorHandler(400, 'Missing content-type header'))
+      return next(new StatusError(400, 'Missing content-type header'))
     }
 
     const materialId = req.params.materialId
     if (!materialId) {
-      return next(new ErrorHandler(400, 'Missing materialId req param'))
+      return next(new StatusError(400, 'Missing materialId req param'))
     }
 
     if (!contentType.startsWith('multipart/form-data')) {
-      return next(new ErrorHandler(400, 'Wrong contentType'))
+      return next(new StatusError(400, 'Wrong contentType'))
     }
     upload.single('attachment')(req, res, async (err: any) => {
       if (err) {
         winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err)
         if (err.code === 'LIMIT_FILE_SIZE') {
-          return next(new ErrorHandler(413, err.message))
+          return next(new StatusError(413, err.message))
         } else {
-          return next(new ErrorHandler(500, 'Failure in file upload'))
+          return next(new StatusError(500, 'Failure in file upload'))
         }
       }
       const file = req.file
       if (!file) {
-        return next(new ErrorHandler(400, 'No file sent'))
+        return next(new StatusError(400, 'No file sent'))
       }
       const metadata = JSON.parse(req.body.attachmentDetails)
       winstonLogger.debug(metadata)
@@ -143,7 +143,7 @@ export const uploadAttachmentToMaterial = async (
     })
   } catch (err) {
     winstonLogger.error('Failure in file upload', req.file, err)
-    return next(new ErrorHandler(500, 'Failure in file upload'))
+    return next(new StatusError(500, 'Failure in file upload'))
   }
 }
 
@@ -161,22 +161,22 @@ export const uploadMaterial = async (
   try {
     const contentType = req.headers['content-type']
     if (!contentType) {
-      return next(new ErrorHandler(400, 'Missing content-type header'))
+      return next(new StatusError(400, 'Missing content-type header'))
     }
 
     winstonLogger.debug(req.body)
     if (!contentType.startsWith('multipart/form-data')) {
-      return next(new ErrorHandler(400, 'Wrong contentType'))
+      return next(new StatusError(400, 'Wrong contentType'))
     }
     upload.single('file')(req, res, async (err: any) => {
       try {
         if (err) {
           winstonLogger.debug(err)
           if (err.code === 'LIMIT_FILE_SIZE') {
-            next(new ErrorHandler(413, err.message))
+            next(new StatusError(413, err.message))
           } else {
             winstonLogger.error(err)
-            next(new ErrorHandler(500, 'Error in upload'))
+            next(new StatusError(500, 'Error in upload'))
           }
         }
         const resp: any = {}
@@ -197,7 +197,7 @@ export const uploadMaterial = async (
             })
             .catch((err: Error) => {
               winstonLogger.debug(err)
-              next(new ErrorHandler(500, 'Error in upload'))
+              next(new StatusError(500, 'Error in upload'))
             })
         } else {
           const file: MulterFile = req.file
@@ -275,7 +275,7 @@ export const uploadMaterial = async (
             })
             .catch((err: Error) => {
               if (!res.headersSent) {
-                next(new ErrorHandler(500, `Error in upload: ${err}`))
+                next(new StatusError(500, `Error in upload: ${err}`))
               }
               fs.unlink(file.path, (err: any) => {
                 if (err) {
@@ -288,12 +288,12 @@ export const uploadMaterial = async (
         }
       } catch (e) {
         if (!res.headersSent) {
-          next(new ErrorHandler(500, `Error in upload: ${e}`))
+          next(new StatusError(500, `Error in upload: ${e}`))
         }
       }
     })
   } catch (err) {
-    next(new ErrorHandler(500, `Error in upload: ${err}`))
+    next(new StatusError(500, `Error in upload: ${err}`))
   }
 }
 
@@ -311,9 +311,9 @@ const uploadFileToLocalDisk = (
       upload.single('file')(req, res, (err: any): void => {
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
-            throw new ErrorHandler(413, `MULTER: ${err.message}`)
+            throw new StatusError(413, `MULTER: ${err.message}`)
           } else {
-            throw new ErrorHandler(500, `MULTER: ${err}`)
+            throw new StatusError(500, `MULTER: ${err}`)
           }
         }
         resolve({
@@ -441,7 +441,7 @@ export const uploadFileToMaterial = async (
   } catch (err: any) {
     winstonLogger.error('Transaction for the single file upload failed: %o', err)
     await t.rollback()
-    throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`)
+    throw new StatusError(500, `Transaction for the single file upload failed: ${err}`)
   }
   res.status(200).json({
     id: edumaterialid,
@@ -500,7 +500,7 @@ export const uploadFileToMaterial = async (
     )
     winstonLogger.error('Single file upstreaming or conversions failed: %o', err)
     if (!res.headersSent) {
-      next(new ErrorHandler(500, `File upstreaming failed: ${err}`))
+      next(new StatusError(500, `File upstreaming failed: ${err}`))
     }
   } finally {
     deleteFileFromLocalDiskStorage(file)
@@ -1021,7 +1021,7 @@ export const downloadPreviewFile = async (
     return res.status(200).end()
   } catch (err) {
     if (!res.headersSent) {
-      next(new ErrorHandler(400, 'Failed to download file'))
+      next(new StatusError(400, 'Failed to download file'))
     }
   }
 }
@@ -1040,7 +1040,7 @@ export const downloadFile = async (
     const filename = req.params.filename
 
     if (!filename) {
-      return next(new ErrorHandler(400, 'Missing request param filename'))
+      return next(new StatusError(400, 'Missing request param filename'))
     }
 
     const materialidQuery = 'SELECT materialid FROM record WHERE filekey = $1'
@@ -1079,7 +1079,7 @@ export const downloadFile = async (
   } catch (err) {
     if (!res.headersSent) {
       winstonLogger.error('downloadFile error:', err)
-      next(new ErrorHandler(400, 'Unkown error'))
+      next(new StatusError(400, 'Unkown error'))
     }
   }
 }
@@ -1118,7 +1118,7 @@ export const downloadFileFromStorage = async (
         mimetype: string
       } | null = await db.oneOrNone(query, [fileName])
       if (!fileDetails) {
-        return next(new ErrorHandler(404, `Requested file ${fileName} not found.`))
+        return next(new StatusError(404, `Requested file ${fileName} not found.`))
       }
       // Check if Range HTTP header is present and the criteria for streaming service redirect are fulfilled.
       if (
@@ -1143,7 +1143,7 @@ export const downloadFileFromStorage = async (
         req.params.filename,
         isZip
       )
-      next(new ErrorHandler(500, 'Downloading a single file failed in downloadFileFromStorage()'))
+      next(new StatusError(500, 'Downloading a single file failed in downloadFileFromStorage()'))
     }
   })
 }
@@ -1257,7 +1257,7 @@ export const downloadFromStorage = (
     } catch (err: unknown) {
       reject()
       next(
-        new ErrorHandler(
+        new StatusError(
           500,
           `Download of [${origFilename}] failed in downloadFromStorage(): ${err}`
         )
@@ -1280,7 +1280,7 @@ export const downloadAllMaterialsCompressed = async (
   const edumaterialid = req.params.edumaterialid
 
   if (!edumaterialid) {
-    return next(new ErrorHandler(400, 'Missing edumaterialid req param'))
+    return next(new StatusError(400, 'Missing edumaterialid req param'))
   }
 
   // Queries to resolve files of the latest educational material version requested.

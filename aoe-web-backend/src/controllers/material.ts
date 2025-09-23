@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import {
   changeEducationalMaterialUser,
   getMaterialName,
@@ -33,7 +33,7 @@ export async function removeEducationalMaterial(req: Request, res: Response, nex
     const index = process.env.ES_INDEX
     await deleteDocument(index, id)
   } catch (error) {
-    next(new ErrorHandler(500, `Issue removing material${error}`))
+    next(new StatusError(500, `Issue removing material${error}`))
   }
 }
 
@@ -50,7 +50,7 @@ export async function getAoeUsers(req: Request, res: Response, next: NextFunctio
     res.status(200).json({ users: users })
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue getting users'))
+    next(new StatusError(500, 'Issue getting users'))
   }
 }
 
@@ -82,7 +82,7 @@ export async function changeMaterialUser(req: Request, res: Response, next: Next
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue changing users'))
+    next(new StatusError(500, 'Issue changing users'))
   }
 }
 
@@ -100,6 +100,6 @@ export async function getMaterialNames(req: Request, res: Response, next: NextFu
     }
   } catch (error) {
     winstonLogger.error(error)
-    next(new ErrorHandler(500, 'Issue changing users'))
+    next(new StatusError(500, 'Issue changing users'))
   }
 }

@@ -1,4 +1,4 @@
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries'
 import { updateEsDocument } from '@search/es'
 import pidResolutionService from '@services/pidResolutionService'
@@ -138,7 +138,7 @@ export const updateEducationalMaterialMetadata = async (
 
     if (!metadata || !emid) {
       return next(
-        new ErrorHandler(
+        new StatusError(
           400,
           'Metadata update for the educational material failed: edumaterialid=' +
             emid +
@@ -169,7 +169,7 @@ export const updateEducationalMaterialMetadata = async (
     }
   } catch (err) {
     next(
-      new ErrorHandler(
+      new StatusError(
         400,
         'One of the metadata updates for the educational material failed in updateEducationalMaterialMetadata().'
       )

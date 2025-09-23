@@ -1,6 +1,6 @@
 import { config } from '@/config'
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial'
-import { ErrorHandler } from '@/helpers/errorHandler'
+import { StatusError } from '@/helpers/errorHandler'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import { db, pgp } from '@resource/postgresClient'
 import { updateEsDocument } from '@search/es'
@@ -60,7 +60,7 @@ export async function addLinkToMaterial(req: Request, res: Response, next: NextF
     })
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue adding link to material'))
+    next(new StatusError(500, 'Issue adding link to material'))
   }
 }
 
@@ -72,7 +72,7 @@ export async function getMaterial(req: Request, res: Response, next: NextFunctio
     res.status(200).json(data)
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue getting materials '))
+    next(new StatusError(500, 'Issue getting materials '))
   }
 }
 
@@ -425,7 +425,7 @@ export const getEducationalMaterialMetadata = async (
     })
     .catch((error: any) => {
       winstonLogger.error(error)
-      next(new ErrorHandler(400, 'Issue getting material data'))
+      next(new StatusError(400, 'Issue getting material data'))
     })
 }
 
@@ -484,7 +484,7 @@ export async function getUserMaterial(
     })
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue getting users material'))
+    next(new StatusError(500, 'Issue getting users material'))
   }
 }
 
@@ -555,7 +555,7 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
     res.status(200).json(data)
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue getting recent materials'))
+    next(new StatusError(500, 'Issue getting recent materials'))
   }
 }
 
@@ -591,7 +591,7 @@ export async function setEducationalMaterialObsoleted(
       winstonLogger.error(err)
     })
   } catch (err) {
-    next(new ErrorHandler(500, 'Issue deleting material'))
+    next(new StatusError(500, 'Issue deleting material'))
   }
 }
 
@@ -636,7 +636,7 @@ export const setMaterialObsoleted = async (
       winstonLogger.error('Search index update failed: %o', err)
     })
   } catch (err) {
-    next(new ErrorHandler(500, `Setting the material as obsoleted failed: ${err}`))
+    next(new StatusError(500, `Setting the material as obsoleted failed: ${err}`))
   }
 }
 
@@ -673,7 +673,7 @@ export const setAttachmentObsoleted = async (
       )
     })
   } catch (err) {
-    next(new ErrorHandler(500, `Setting an attachment file obsoleted failed: ${err}`))
+    next(new StatusError(500, `Setting an attachment file obsoleted failed: ${err}`))
   }
 }
 
@@ -1374,7 +1374,7 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
     res.status(200).json('user updated')
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue updating user'))
+    next(new StatusError(500, 'Issue updating user'))
   }
 }
 
@@ -1385,7 +1385,7 @@ export async function updateTermsOfUsage(req: Request, res: Response, next: Next
     res.status(200).json('terms of usage updated')
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Update failed'))
+    next(new StatusError(500, 'Update failed'))
   }
 }
 
@@ -1396,7 +1396,7 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
     res.status(200).json(data)
   } catch (err) {
     winstonLogger.error(err)
-    next(new ErrorHandler(500, 'Issue processing get user request'))
+    next(new StatusError(500, 'Issue processing get user request'))
   }
 }
 
