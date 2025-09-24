@@ -34,7 +34,7 @@ export default (router: Router): void => {
   // :publishedat format 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - regex path validation in API v2.0.
   // :edumaterialid defined as a number between 1 to 6 digits to prevent similar endpoints collision.
   router.get(
-    '/material/:edumaterialid([0-9]{1,6})/:publishedat([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z)?',
+    '/material/:edumaterialid{/:publishedat}',
     (req: Request, res: Response, next: NextFunction) => {
       getEducationalMaterialMetadata(req, res, next, false).catch((): void => {
         winstonLogger.error('Metadata request failed for a single file download.')

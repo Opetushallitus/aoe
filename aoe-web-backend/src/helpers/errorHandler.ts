@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Request, NextFunction, Response } from 'express'
 import winstonLogger from '@util/winstonLogger'
 
 export class StatusError extends Error {
@@ -20,7 +20,7 @@ const genericErrorMessageEn =
 const genericErrorMessageSv =
   'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.'
 
-export const handleError = (err: any, res: Response): void => {
+export const handleError = (err: any, _req: Request, res: Response, _next: NextFunction): void => {
   const { message } = err
 
   winstonLogger.error(message)

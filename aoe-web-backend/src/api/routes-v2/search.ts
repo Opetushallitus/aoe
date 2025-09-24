@@ -12,12 +12,10 @@ import { NextFunction, Request, Response, Router } from 'express'
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/search'
-
   // Search for educational materials with search criteria.
   // Search options are published in the messaging system for further analytical processing.
   router.post(
-    `${moduleRoot}`,
+    `/search`,
     (req: Request, res: Response, next: NextFunction) => {
       // Bypass search requests with paging parameters included.
       if (req.body.size && req.body.timestamp) {
@@ -33,5 +31,5 @@ export default (router: Router): void => {
   )
 
   // Update search index with collection changes.
-  router.post(`${moduleRoot}/collection`, getCollectionEsData)
+  router.post(`/search/collection`, getCollectionEsData)
 }

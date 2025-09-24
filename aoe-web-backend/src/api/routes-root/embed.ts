@@ -16,13 +16,13 @@ export const embed = (router: Router): void => {
   // :publishedat format 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - regex path validation in API v2.0.
   // :edumaterialid defined as a number between 1 to 6 digits to prevent similar endpoints collision.
   router.get(
-    '/embed/material/:edumaterialid([0-9]{1,6})/:publishedat?',
+    '/embed/material/:edumaterialid{/:publishedat}',
     (req: Request, res: Response, next: NextFunction) => {
       getEducationalMaterialMetadata(req, res, next, false).catch(() => {
         winstonLogger.error('Metadata request failed for an embedded educational material.')
       })
     },
-    (req: Request, res: Response) => {
+    (_req: Request, res: Response) => {
       res.end()
     }
   )

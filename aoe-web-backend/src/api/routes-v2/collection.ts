@@ -10,12 +10,10 @@ import { Router } from 'express'
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/collection'
-
   // Upload collection thumbnail image file to the cloud object storage.
   // Case of a collection identified by request parameter name :collectionid in uploadbase64Image().
   router.post(
-    `${moduleRoot}/:collectionid([0-9]{1,6})/thumbnail`,
+    `/collection/:collectionid/thumbnail`,
     checkAuthenticated,
     hasAccessToCollectionParams,
     uploadbase64Image

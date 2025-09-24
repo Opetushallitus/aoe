@@ -1,10 +1,6 @@
 import { db } from '@resource/postgresClient'
 import { NextFunction, Request, Response } from 'express'
-import {
-  body,
-  header,
-  ValidationChain,
-} from 'express-validator'
+import { body, header, ValidationChain } from 'express-validator'
 import { addHook, sanitize } from 'isomorphic-dompurify'
 
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.

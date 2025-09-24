@@ -151,9 +151,8 @@ app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibrar
 app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder))
 app.use(lusca.xframe('SAMEORIGIN'))
 app.use(lusca.xssProtection)
-app.use((err: any, _req: Request, res: Response, _next: NextFunction): void => {
-  handleError(err, res)
-})
+
+app.use(handleError)
 
 app.set('port', 3000)
 

@@ -26,33 +26,22 @@ import { NextFunction, Request, Response, Router } from 'express'
  * @param {Router} router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/material'
-
   // MATERIAL FILE DOWNLOAD FOR LOCAL SAVING
   // Download the fysical material file by file name (:filename) to save it on a local hard drive.
-  router.get(
-    `${moduleRoot}/file/:filename([A-Za-z0-9._-]+[.][A-Za-z0-9]{2,4})/download`,
-    downloadFile
-  )
+  router.get(`/material/file/:filename/download`, downloadFile)
 
   // MATERIAL FILE DOWNLOAD FOR EMBEDDED PREVIEW
   // Fetch a material file by file name (:filename) for the embedded preview (iframe).
-  router.get(
-    `${moduleRoot}/file/:filename([A-Za-z0-9._-]+[.][A-Za-z0-9]{2,4})/preview`,
-    downloadPreviewFile
-  )
+  router.get(`/material/file/:filename/preview`, downloadPreviewFile)
 
   // THUMBNAIL FETCH FOR THE WEB VIEW
   // Fetch a thumbnail picture by file name (:filename) for the educational material web view.
-  router.get(
-    `${moduleRoot}/file/:filename([A-Za-z0-9._-]+[.][A-Za-z0-9]{2,4})/thumbnail`,
-    downloadEmThumbnail
-  )
+  router.get(`/material/file/:filename/thumbnail`, downloadEmThumbnail)
 
   // SET MATERIAL OBSOLETED
   // Materials set obsoleted are not available for the users.
   router.delete(
-    `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:materialid([0-9]{1,6})`,
+    `/material/:edumaterialid/obsolete/:materialid`,
     checkAuthenticated,
     hasAccessToMaterial,
     setMaterialObsoleted
@@ -61,7 +50,7 @@ export default (router: Router): void => {
   // SET ATTACHMENT OBSOLETED
   // Attachments set obsoleted are not available for the users.
   router.delete(
-    `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:attachmentid([0-9]{1,6})/attachment`,
+    `/material/:edumaterialid/obsolete/:attachmentid/attachment`,
     checkAuthenticated,
     hasAccessToAttachmentFile,
     setAttachmentObsoleted
@@ -71,7 +60,7 @@ export default (router: Router): void => {
   // :edumaterialid format: number between 1 to 6 digits - ID of an educational material.
   // :publishedat format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - optional version specifier.
   router.get(
-    `${moduleRoot}/file/:edumaterialid([0-9]{1,6})/all/:publishedat([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z)?`,
+    `/material/file/:edumaterialid/all{/:publishedat}`,
     (req: Request, res: Response, next: NextFunction): void => {
       downloadAllMaterialsCompressed(req, res, next).catch((err): void => {
         winstonLogger.error('Downstream from the cloud storage failed.')
@@ -83,7 +72,7 @@ export default (router: Router): void => {
   // SINGLE FILE UPLOAD TO THE EDUCATIONAL MATERIAL
   // Upload a single file (material) to an existing educational material and stream to the cloud storage.
   router.post(
-    `${moduleRoot}/file/:edumaterialid([0-9]{1,6})/upload`,
+    `/material/file/:edumaterialid/upload`,
     isAllasEnabled,
     fileUploadRules(),
     requestErrorHandler,
@@ -95,7 +84,7 @@ export default (router: Router): void => {
   // SAVE A LINK MATERIAL TO THE EDUCATIONAL MATERIAL
   // :edumaterialid format: number between 1 to 6 digits - ID of an educational material.
   router.post(
-    `${moduleRoot}/link/:edumaterialid([0-9]{1,6})`,
+    `/material/link/:edumaterialid`,
     checkAuthenticated,
     hasAccessToPublicatication,
     addLinkToMaterial
@@ -104,7 +93,7 @@ export default (router: Router): void => {
   // THUMBNAIL UPLOAD TO CLOUD STORAGE
   // Store a new thumbnail picture of an educational material (:edumaterialid) to the cloud storage.
   router.post(
-    `${moduleRoot}/:edumaterialid([0-9]{1,6})/thumbnail`,
+    `/material/:edumaterialid/thumbnail`,
     isAllasEnabled,
     checkAuthenticated,
     hasAccessToPublicatication,

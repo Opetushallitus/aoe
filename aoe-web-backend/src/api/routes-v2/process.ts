@@ -15,11 +15,9 @@ import { NextFunction, Request, Response, Router } from 'express'
  * @param router express.Router
  */
 export default (router: Router): void => {
-  const moduleRoot = '/process'
-
   // Get currently active notifications.
   router.get(
-    `${moduleRoot}/notifications`,
+    `/process/notifications`,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.accepts('json')) {
         res.sendStatus(400).end()
@@ -36,7 +34,7 @@ export default (router: Router): void => {
 
   // Get currently active and upcoming notifications.
   router.get(
-    `${moduleRoot}/notifications/all`,
+    `/process/notifications/all`,
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.accepts('json')) {
@@ -54,7 +52,7 @@ export default (router: Router): void => {
 
   // Save a new scheduled notification.
   router.post(
-    `${moduleRoot}/notifications`,
+    `/process/notifications`,
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       if (!req.is('application/json')) {
@@ -74,7 +72,7 @@ export default (router: Router): void => {
 
   // Update a notification to disabled.
   router.patch(
-    `${moduleRoot}/notifications/:id`,
+    `/process/notifications/:id`,
     hasAccessToAOE,
     (req: Request, res: Response, next: NextFunction): void => {
       setScheduledNotificationDisabled(req, res).catch((err: unknown): void => {
