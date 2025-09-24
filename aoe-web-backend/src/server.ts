@@ -4,11 +4,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import { app } from './app'
-import errorHandler from 'errorhandler'
 import { Socket } from 'net'
 import winstonLogger from '@util/winstonLogger'
-
-app.use(errorHandler())
 
 const server = app.listen(
   parseInt(process.env.PORT_LISTEN as string, 10) || 3000,
