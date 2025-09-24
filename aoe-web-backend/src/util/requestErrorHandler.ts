@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
-import { ValidationError, validationResult } from 'express-validator'
+import { validationResult } from 'express-validator'
 
 export default async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const errorFormatter = ({ location, msg, param }: ValidationError) => {
-    return `${location}[${param}]: ${msg}`
-  }
-  const result = validationResult(req).formatWith(errorFormatter)
+  const result = validationResult(req)
   if (!result.isEmpty()) {
-    return res.status(400).json({ errors: result.array() }).end()
+    return res.status(400).json({ 
+        errors: result.formatWith(error => error.msg).array() 
+    })
   }
   next()
 }

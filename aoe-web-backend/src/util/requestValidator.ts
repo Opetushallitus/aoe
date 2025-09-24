@@ -1,13 +1,9 @@
 import { db } from '@resource/postgresClient'
-import winstonLogger from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import {
   body,
   header,
-  Result,
   ValidationChain,
-  ValidationError,
-  validationResult
 } from 'express-validator'
 import { addHook, sanitize } from 'isomorphic-dompurify'
 
@@ -105,23 +101,6 @@ export const removeCollectionValidationRules = (): ValidationChain[] => {
     body('emId', 'Array emId expected').isArray(),
     body('emId.*').isInt()
   ]
-}
-
-export const rulesValidate = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
-  const errors: Result<ValidationError> = validationResult(req)
-  if (errors.isEmpty()) {
-    return next()
-  }
-  const extractedErrors: any[] = []
-  errors.array().map((err: ValidationError) => extractedErrors.push({ [err.param]: err.msg }))
-  winstonLogger.debug('body: ', req.body, 'validation errors: ', extractedErrors)
-  return res.status(422).send({
-    errors: extractedErrors
-  })
 }
 
 export const updateCollectionValidationRules = (): ValidationChain[] => {
@@ -283,19 +262,4 @@ export const validateRatingUser = async (
     })
   }
   return next()
-}
-
-export default {
-  addCollectionValidationRules,
-  createCollectionValidationRules,
-  fileUploadRules,
-  isEncoded,
-  metadataExtensionValidationRules,
-  ratingValidationRules,
-  removeCollectionValidationRules,
-  rulesValidate,
-  updateCollectionValidationRules,
-  validateNotification,
-  validateNotificationUpdate,
-  validateRatingUser
 }

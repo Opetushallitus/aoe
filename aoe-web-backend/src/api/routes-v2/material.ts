@@ -14,7 +14,7 @@ import {
 } from '@services/authService'
 import { isAllasEnabled } from '@services/routeEnablerService'
 import requestErrorHandler from '@util/requestErrorHandler'
-import requestValidator from '@util/requestValidator'
+import { fileUploadRules } from '@util/requestValidator'
 import winstonLogger from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
@@ -85,7 +85,7 @@ export default (router: Router): void => {
   router.post(
     `${moduleRoot}/file/:edumaterialid([0-9]{1,6})/upload`,
     isAllasEnabled,
-    requestValidator.fileUploadRules(),
+    fileUploadRules(),
     requestErrorHandler,
     checkAuthenticated,
     hasAccessToPublicatication,
