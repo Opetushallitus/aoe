@@ -71,10 +71,6 @@ app.set('trust proxy', '127.0.0.1')
 
 // CORS and Referer configurations for the development environments.
 if (['development', 'localhost'].includes(process.env.NODE_ENV as string)) {
-  app.all('/*', (_req: Request, res: Response, next: NextFunction): void => {
-    res.header('Referrer-Policy', 'no-referrer')
-    next()
-  })
   app.use(
     cors({
       allowedHeaders: [
