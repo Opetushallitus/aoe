@@ -67,13 +67,9 @@ export async function insertEducationalMaterialToCollection(collection: Collecti
  * remove educational materials from collection
  */
 export async function deleteEducationalMaterialFromCollection(collection: Collection) {
-  try {
-    const query =
-      'DELETE FROM collectioneducationalmaterial WHERE collectionid = $1 AND educationalmaterialid IN ($2:list)'
-    await db.none(query, [collection.collectionId, collection.emId])
-  } catch (err) {
-    throw new Error(err)
-  }
+  const query =
+    'DELETE FROM collectioneducationalmaterial WHERE collectionid = $1 AND educationalmaterialid IN ($2:list)'
+  await db.none(query, [collection.collectionId, collection.emId])
 }
 
 /**

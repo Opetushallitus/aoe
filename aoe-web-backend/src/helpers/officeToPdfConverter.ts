@@ -193,7 +193,8 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
       }
     }
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Office to PDF conversion failed', err)
+    throw err
   }
 }
 

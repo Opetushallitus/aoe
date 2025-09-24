@@ -71,7 +71,8 @@ export async function collectionFromEs(obj: any) {
       await client.search<SearchResponse<AoeCollectionResult>>(query)
     return await aoeCollectionResponseMapper(result)
   } catch (error) {
-    throw new Error(error)
+    winstonLogger.error('Collection search failed', error)
+    throw error
   }
 }
 
@@ -96,7 +97,8 @@ async function aoeCollectionResponseMapper(
     }
     return resp
   } catch (error) {
-    throw new Error(error)
+    winstonLogger.error('Collection search failed', error)
+    throw error
   }
 }
 

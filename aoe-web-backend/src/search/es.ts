@@ -64,15 +64,16 @@ const mode = new pgLib.txMode.TransactionMode({
 
 async function updateAoeIndexData(indexName: string, operation: 'create' | 'index') {
   try {
-    let i = 0
-    let n
+    let index = 0
+    let resultCount
     Es.ESupdated.value = new Date()
     do {
-      n = await metadataToEs(indexName, i, 1000, operation)
-      i++
-    } while (n)
-  } catch (error) {
-    winstonLogger.error(`Index ${indexName} creation failed due to ${JSON.stringify(error)}`)
+      resultCount = await metadataToEs(indexName, index, 1000, operation)
+      index++
+    } while (resultCount)
+  } catch (err) {
+    winstonLogger.error(`Failed to update index ${indexName}`, err)
+    throw err
   }
 }
 
@@ -123,7 +124,8 @@ const updateIndex = async (
       }
     }
   } catch (err) {
-    winstonLogger.error(`Index ${indexName} update failed due to ${JSON.stringify(err)}`)
+    winstonLogger.error(`Index ${indexName} update failed`, err)
+    throw err
   }
 }
 
@@ -683,7 +685,7 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
   } catch (err) {
     winstonLogger.debug('elasticSearchQuery error')
     winstonLogger.error(err)
-    next(new StatusError(500, 'There was an issue processing your request'))
+    next(new StatusError(500, 'There was an issue processing your request', err))
   }
 }
 
@@ -696,8 +698,8 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
 
     Es.CollectionEsUpdated.value = newDate
   } catch (error) {
-    winstonLogger.error('Error in updateEsCollectionIndex(): %o', error)
-    throw new Error(error)
+    winstonLogger.error('Error in updateEsCollectionIndex()', error)
+    throw error
   }
 }
 

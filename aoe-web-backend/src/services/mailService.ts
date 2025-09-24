@@ -162,12 +162,8 @@ export async function getNewRatings() {
 }
 
 export async function updateVerifiedEmail(user: string) {
-  try {
-    const query = 'update users set verifiedemail = true where username = $1;'
-    await db.none(query, [user])
-  } catch (error) {
-    throw new Error(error)
-  }
+  const query = 'update users set verifiedemail = true where username = $1;'
+  await db.none(query, [user])
 }
 
 export async function sendVerificationEmail(user: string, email: string) {

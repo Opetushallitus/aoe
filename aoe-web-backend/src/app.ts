@@ -98,7 +98,7 @@ authInit(app)
 
 // Initialize H5P editor
 initializeH5P().catch((err: unknown): void => {
-  winstonLogger.error('Initialization of H5P editor failed: %o', err)
+  winstonLogger.error('Initialization of H5P editor failed', err)
 })
 
 // Statistics requests forwarded to AOE Analytics Service.
@@ -122,7 +122,7 @@ const dbInit = async (): Promise<void> => {
   })
 }
 dbInit().catch((err: unknown): void => {
-  winstonLogger.error('Synchronizing database with Sequelize models failed: %o', err)
+  winstonLogger.error('Synchronizing database with Sequelize models failed', err)
   process.exit(1)
 })
 

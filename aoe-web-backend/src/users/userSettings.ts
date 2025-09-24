@@ -35,26 +35,18 @@ export async function updateUserSettings(req: Request, res: Response, next: Next
 }
 
 export async function updateEmail(user: string, email: string) {
-  try {
-    const query = 'update users set email = $1, verifiedemail = false where username = $2;'
-    await db.none(query, [email, user])
-  } catch (error) {
-    throw new Error(error)
-  }
+  const query = 'update users set email = $1, verifiedemail = false where username = $2;'
+  await db.none(query, [email, user])
 }
 
 export async function updateNotificationSettings(user: string, settings: UserSettings) {
-  try {
-    const query =
-      'update users set newratings = $1, almostexpired = $2, termsupdated = $3, allowtransfer = $4 where username = $5;'
-    await db.none(query, [
-      settings.notifications.newRatings,
-      settings.notifications.almostExpired,
-      settings.notifications.termsUpdated,
-      settings.allowTransfer,
-      user
-    ])
-  } catch (error) {
-    throw new Error(error)
-  }
+  const query =
+    'update users set newratings = $1, almostexpired = $2, termsupdated = $3, allowtransfer = $4 where username = $5;'
+  await db.none(query, [
+    settings.notifications.newRatings,
+    settings.notifications.almostExpired,
+    settings.notifications.termsUpdated,
+    settings.allowTransfer,
+    user
+  ])
 }

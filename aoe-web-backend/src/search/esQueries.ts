@@ -154,7 +154,8 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
     }
     return resp
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Elasticsearch query failed', err)
+    throw err
   }
 }
 
@@ -352,7 +353,8 @@ export function filterMapper(filters: AoeRequestFilter) {
     }
     return filter
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Elasticsearch query failed', err)
+    throw err
   }
 }
 
@@ -408,7 +410,8 @@ export function createShouldObject(
       }
     }
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Elasticsearch query failed', err)
+    throw err
   }
 }
 
@@ -431,7 +434,8 @@ export function createMustMatchObject(key: string, type: string) {
       }
     }
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Elasticsearch query failed', err)
+    throw err
   }
 }
 

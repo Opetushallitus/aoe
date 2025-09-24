@@ -44,7 +44,8 @@ export const hasAccesstoPublication = async (id: number, req: Request): Promise<
     const result = await db.oneOrNone(query, params.id)
     return req.session.passport.user.uid === result
   } catch (err) {
-    throw new Error(`Checking user\'s ownership failed: ${err}`)
+    winstonLogger.error('Checking user ownership failed', err)
+    throw err
   }
 }
 
@@ -74,9 +75,9 @@ export const insertUserToDatabase = async (userinfo: Record<string, unknown>): P
       await db.none(query, [userinfo['given_name'], userinfo['family_name'], uid])
     }
   } catch (err) {
-    winstonLogger.error('Saving a new user failed: %o', err)
-    winstonLogger.debug('USER: %o', userinfo)
-    throw new Error(err)
+    winstonLogger.error('Saving a new user failed', err)
+    winstonLogger.debug('USER', userinfo)
+    throw err
   }
 }
 

@@ -44,7 +44,7 @@ export const getScheduledNotifications = async (_req: Request, res: Response): P
     })
     await t.commit()
   } catch (err) {
-    winstonLogger.error('Getting the scheduled notifications failed: %o', err)
+    winstonLogger.error('Getting the scheduled notifications failed', err)
     await t.rollback()
     throw err
   }
@@ -94,7 +94,7 @@ export const getScheduledNotificationsAll = async (_req: Request, res: Response)
     })
     await t.commit()
   } catch (err) {
-    winstonLogger.error('Getting the currently active notifications failed: %o', err)
+    winstonLogger.error('Getting the currently active notifications failed', err)
     await t.rollback()
     throw err
   }
@@ -127,7 +127,7 @@ export const setScheduledNotification = async (req: Request, res: Response): Pro
     )
     await t.commit()
   } catch (err) {
-    winstonLogger.error('Saving a scheduled notification failed: %o', err)
+    winstonLogger.error('Saving a scheduled notification failed', err)
     await t.rollback()
     throw err
   }
@@ -168,7 +168,7 @@ export const setScheduledNotificationDisabled = async (
       affected: affectedCount
     })
   } catch (err: unknown) {
-    winstonLogger.error('Disabling a scheduled notification failed: %o', err)
+    winstonLogger.error('Disabling a scheduled notification failed', err)
     await t.rollback()
     throw err
   }
