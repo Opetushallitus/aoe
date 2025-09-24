@@ -25,23 +25,17 @@ let h5pPlayer: H5PPlayer
  * @return {Promise<void>}
  */
 export const initializeH5P = async (): Promise<void> => {
-  try {
-    h5pConfig = new H5PConfig(
-      new fsImplementations.JsonStorage(
-        path.resolve(config.MEDIA_FILE_PROCESS.h5pJsonConfiguration)
-      )
-    )
-    await h5pConfig.load()
-    h5pEditor = fs(
-      h5pConfig,
-      path.resolve(config.MEDIA_FILE_PROCESS.h5pPathLibraries),
-      path.resolve(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage),
-      path.resolve(config.MEDIA_FILE_PROCESS.h5pPathContent)
-    )
-    h5pPlayer = new H5PPlayer(h5pEditor.libraryStorage, h5pEditor.contentStorage, h5pConfig)
-  } catch (err: unknown) {
-    throw err
-  }
+  h5pConfig = new H5PConfig(
+    new fsImplementations.JsonStorage(path.resolve(config.MEDIA_FILE_PROCESS.h5pJsonConfiguration))
+  )
+  await h5pConfig.load()
+  h5pEditor = fs(
+    h5pConfig,
+    path.resolve(config.MEDIA_FILE_PROCESS.h5pPathLibraries),
+    path.resolve(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage),
+    path.resolve(config.MEDIA_FILE_PROCESS.h5pPathContent)
+  )
+  h5pPlayer = new H5PPlayer(h5pEditor.libraryStorage, h5pEditor.contentStorage, h5pConfig)
 }
 
 // Anonymous user applied for unauthenticated client users.
@@ -96,14 +90,14 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     })
     res.status(200).send(htmlH5P).end()
   } catch (err: unknown) {
-    winstonLogger.error('Processing or rendering H5P failed: %o', err)
+    winstonLogger.error('Processing or rendering H5P failed', err)
     throw err
   }
 
   // Delete the downloaded H5P archive file in HTML directory.
   fsNode.unlink(targetPath, (err: unknown): void => {
     if (err) {
-      winstonLogger.error('Deleting the H5P archive file failed: %o', err)
+      winstonLogger.error('Deleting the H5P archive file failed', err)
     }
   })
 }
