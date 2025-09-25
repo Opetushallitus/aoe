@@ -3,9 +3,10 @@
     "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2020", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "target": "es2023",
+    "lib": ["es2023", "dom"],
     "noImplicitAny": false,
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
@@ -25,8 +26,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": false,
-    "target": "es2020",
-    "typeRoots": ["./types", "./node_modules/@types"]
+    "typeRoots": ["./types"]
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*.js", "src/**/*.json", "src/**/*.ts"]

@@ -35,14 +35,7 @@ export const Urn = sequelize.define<UrnModel>(
       unique: true
     }
   },
-  {
-    indexes: [
-      {
-        unique: true,
-        fields: ['material_url']
-      }
-    ]
-  } && (commonSettings as ModelOptions)
+  commonSettings
 )
 
 const AOEUser = <AOEUserType>sequelize.define(

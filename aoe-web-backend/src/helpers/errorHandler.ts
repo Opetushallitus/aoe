@@ -3,13 +3,16 @@ import winstonLogger from '@util/winstonLogger'
 
 export class StatusError extends Error {
   statusCode: number
-  originalErr?: any
+  public cause?: unknown
 
-  constructor(statusCode: number, message: string, originalErr?: any) {
-    super()
+  constructor(statusCode: number, message: string, cause?: unknown) {
+    super(message, cause ? { cause: cause as any } : undefined)
+
+    this.name = 'StatusError'
     this.statusCode = statusCode
-    this.message = message
-    this.originalErr = originalErr
+    this.cause = cause
+
+    Error.captureStackTrace?.(this, StatusError)
   }
 }
 
@@ -20,15 +23,19 @@ const genericErrorMessageEn =
 const genericErrorMessageSv =
   'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.'
 
-export const handleError = (err: any, _req: Request, res: Response, _next: NextFunction): void => {
-  const { message } = err
-
-  winstonLogger.error(message)
-  winstonLogger.error(err)
-  if (err.originalErr) {
-    //TODO: this might be redundant but lets play it safe for now
-    winstonLogger.error(err.originalErr)
+export const handleError = (err: any, req: Request, res: Response, _next: NextFunction): void => {
+  const errorDetails = {
+    message: err.message,
+    statusCode: err.statusCode || 500,
+    method: req.method,
+    url: req.url,
+    userAgent: req.get('User-Agent'),
+    stack: err.stack,
+    cause: err.cause?.message,
+    causeStack: err.cause?.stack
   }
+
+  winstonLogger.error(errorDetails)
 
   const statusCode = err.statusCode || 500
   res.status(statusCode).json({
