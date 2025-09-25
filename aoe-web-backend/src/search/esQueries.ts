@@ -1,6 +1,6 @@
 // <reference path="es.ts" />
 import { StatusError } from '@/helpers/errorHandler'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import {
   AoeBody,
@@ -154,7 +154,7 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
     }
     return resp
   } catch (err) {
-    winstonLogger.error('Elasticsearch query failed', err)
+    error('Elasticsearch query failed', err)
     throw err
   }
 }
@@ -173,7 +173,7 @@ export function hasDownloadableFiles(materials: Array<{ filekey: string }>) {
     }
     return false
   } catch (err) {
-    winstonLogger.error('Error in hasDownloadableFiles()', err)
+    error('Error in hasDownloadableFiles()', err)
     throw err
   }
 }
@@ -353,7 +353,7 @@ export function filterMapper(filters: AoeRequestFilter) {
     }
     return filter
   } catch (err) {
-    winstonLogger.error('Elasticsearch query failed', err)
+    error('Elasticsearch query failed', err)
     throw err
   }
 }
@@ -410,7 +410,7 @@ export function createShouldObject(
       }
     }
   } catch (err) {
-    winstonLogger.error('Elasticsearch query failed', err)
+    error('Elasticsearch query failed', err)
     throw err
   }
 }
@@ -434,7 +434,7 @@ export function createMustMatchObject(key: string, type: string) {
       }
     }
   } catch (err) {
-    winstonLogger.error('Elasticsearch query failed', err)
+    error('Elasticsearch query failed', err)
     throw err
   }
 }
@@ -444,6 +444,6 @@ export async function deleteDocument(index: string, id: string) {
     const query = { index: index, id: id }
     await client.delete(query)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
   }
 }

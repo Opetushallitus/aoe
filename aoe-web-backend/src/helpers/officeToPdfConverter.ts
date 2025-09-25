@@ -4,7 +4,7 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 import { config } from '@/config'
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { AWSError } from 'aws-sdk'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
@@ -134,7 +134,7 @@ export const downloadPdfFromAllas = async (
     }
     await downloadFromStorage(res, next, params, req.params.key)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(error.statusCode, 'Issue showing pdf'))
   }
 }
@@ -154,14 +154,14 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
       const file = fs.readFileSync(filepath)
       libre.convert(file, extension, undefined, async (err: Error, data: Buffer) => {
         if (err) {
-          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()')
+          error('Converting an office file to PDF failed in convertOfficeFileToPDF()')
           return reject(err)
         }
         await fsPromise.writeFile(outputPath, data)
         return resolve(outputPath)
       })
     } catch (err) {
-      winstonLogger.error('Error in convertOfficeFileToPDF()', err)
+      error('Error in convertOfficeFileToPDF()', err)
       return reject(err)
     }
   })
@@ -193,7 +193,7 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
       }
     }
   } catch (err) {
-    winstonLogger.error('Office to PDF conversion failed', err)
+    error('Office to PDF conversion failed', err)
     throw err
   }
 }
@@ -210,7 +210,7 @@ const getFilesWithoutPDF = async (): Promise<any> => {
       return await t.any(query)
     })
   } catch (err: unknown) {
-    winstonLogger.error('Fetching files without PDFs failed', err)
+    error('Fetching files without PDFs failed', err)
     throw err
   }
 }
@@ -234,13 +234,13 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
       .createWriteStream(folderpath)
       .once('error', (err: AWSError): void => {
         if (err.name === 'NoSuchKey') {
-          winstonLogger.debug(`Requested file [${key}] not found`)
+          debug(`Requested file [${key}] not found`)
           resolve(null)
         } else if (err.name === 'TimeoutError') {
-          winstonLogger.debug('Connection closed by timeout event.')
+          debug('Connection closed by timeout event.')
           resolve(null)
         } else {
-          winstonLogger.debug('S3 connection failed', err)
+          debug('S3 connection failed', err)
           reject(err)
           throw err
         }
@@ -250,14 +250,14 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
           const path: string = await convertOfficeFileToPDF(folderpath, filename)
           return resolve(path)
         } catch (e) {
-          winstonLogger.error('Error catch when trying to convertOfficeFileToPDF()')
+          error('Error catch when trying to convertOfficeFileToPDF()')
           return reject(e)
         }
       })
     stream
       .on('error', (err): void => {
         reject(err)
-        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF()', err)
+        error('Error in downstreamAndConvertOfficeFileToPDF()', err)
       })
       .pipe(ws)
   })

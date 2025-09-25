@@ -1,6 +1,6 @@
 import { RatingInformation } from '@/rating/interface/rating-information.interface'
 import { db, pgp } from '@resource/postgresClient'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 
 const TransactionMode = pgp.txMode.TransactionMode
 const isolationLevel = pgp.txMode.isolationLevel
@@ -44,7 +44,7 @@ export async function insertRating(rating: RatingInformation, username: string):
         rating.educationalMaterialId,
         username
       ])
-      winstonLogger.debug(`RatingQueries insertRating: ${query}`, [
+      debug(`RatingQueries insertRating: ${query}`, [
         rating.ratingContent,
         rating.ratingVisual,
         rating.feedbackPositive,
@@ -57,7 +57,7 @@ export async function insertRating(rating: RatingInformation, username: string):
       return t.batch(queries)
     })
   } catch (err) {
-    winstonLogger.error(err)
+    error(err)
     throw new Error(err)
   }
 }
@@ -70,13 +70,13 @@ export async function insertRatingAverage(id: string) {
         'UPDATE educationalmaterial SET ratingcontentaverage = ' +
         '(SELECT AVG(ratingcontent) FROM rating WHERE educationalmaterialid = $1), ratingvisualaverage = ' +
         '(SELECT AVG(ratingvisual) FROM rating WHERE educationalmaterialid = $1) WHERE id = $1'
-      winstonLogger.debug(`RatingQueries insertRatingAverage: ${query}`, [id])
+      debug(`RatingQueries insertRatingAverage: ${query}`, [id])
       const response = await t.none(query, [id])
       queries.push(response)
       return t.batch(queries)
     })
   } catch (err) {
-    winstonLogger.error(err)
+    error(err)
     throw new Error(err)
   }
 }
@@ -88,7 +88,7 @@ export async function getRatings(materialId: string) {
       let query
       query =
         'SELECT ratingcontentaverage, ratingvisualaverage from educationalmaterial where id = $1 and obsoleted = 0;'
-      winstonLogger.debug(`RatingQueries getRatings: ${query}`, [materialId])
+      debug(`RatingQueries getRatings: ${query}`, [materialId])
       const averages = await t.oneOrNone(query, [materialId])
       if (!averages) {
         return {}
@@ -134,7 +134,7 @@ export async function getRatings(materialId: string) {
       ratings
     }
   } catch (err) {
-    winstonLogger.error(err)
+    error(err)
     throw new Error(err)
   }
 }
@@ -161,7 +161,7 @@ export async function getUserRatings(username: string, materialId: string) {
       }
     }
   } catch (err) {
-    winstonLogger.error(err)
+    error(err)
     throw new Error(err)
   }
 }

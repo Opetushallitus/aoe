@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { sign, verify } from 'jsonwebtoken'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error, info } from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 import AWS from 'aws-sdk'
 
@@ -60,14 +60,14 @@ export const sendSystemNotification = async (content: string): Promise<void> => 
         subject: 'AOE System Notification',
         body: { text: content }
       })
-      winstonLogger.debug('System email notification delivery completed')
+      debug('System email notification delivery completed')
     } else {
-      winstonLogger.info(
+      info(
         'System email notification not sent while email service is currently disabled'
       )
     }
   } catch (error) {
-    winstonLogger.error(`System email notification delivery failed: ${error}`)
+    error(`System email notification delivery failed: ${error}`)
   }
 }
 
@@ -89,13 +89,13 @@ export async function sendExpirationMail() {
           body: { text: mailOptions.text }
         })
 
-        winstonLogger.debug(`Message sent: ${info.MessageId}`)
+        debug(`Message sent: ${info.MessageId}`)
       }
     } else {
-      winstonLogger.debug('Material expiration email sending disabled')
+      debug('Material expiration email sending disabled')
     }
   } catch (err) {
-    winstonLogger.error('Error in sendExpirationMail()', err)
+    error('Error in sendExpirationMail()', err)
   }
 }
 
@@ -120,7 +120,7 @@ export async function sendRatingNotificationMail() {
           subject: 'Uusi arvio - Avointen oppimateriaalien kirjasto (aoe.fi)',
           text: await ratingNotificationText(holder[element])
         }
-        winstonLogger.debug(`sending rating mail to: ${mailOptions.to}`)
+        debug(`sending rating mail to: ${mailOptions.to}`)
         try {
           const info = await sendEmail({
             to: mailOptions.to,
@@ -129,16 +129,16 @@ export async function sendRatingNotificationMail() {
             body: { text: mailOptions.text }
           })
 
-          winstonLogger.debug(`Message sent: ${info.MessageId}`)
+          debug(`Message sent: ${info.MessageId}`)
         } catch (error) {
-          winstonLogger.error(error)
+          error(error)
         }
       }
     } else {
-      winstonLogger.debug('Rating notification email sending disabled')
+      debug('Rating notification email sending disabled')
     }
   } catch (error) {
-    winstonLogger.debug('Error in sendRatingNotificationMail()', error)
+    debug('Error in sendRatingNotificationMail()', error)
   }
 }
 
@@ -199,11 +199,11 @@ export async function verifyEmailToken(req: Request, res: Response, _next: NextF
         throw new Error('jsonwebtoken did not contain jwt payload')
       }
       const id = decoded.id
-      winstonLogger.debug(id)
+      debug(id)
       await updateVerifiedEmail(id)
       return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/')
     } catch (err) {
-      winstonLogger.error('Error in verifyEmailToken()', err)
+      error('Error in verifyEmailToken()', err)
       return res.sendStatus(403)
     }
   } else {

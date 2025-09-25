@@ -16,7 +16,7 @@ import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
 import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { EntryData } from 'archiver'
 import AWS, { AWSError, S3 } from 'aws-sdk'
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload'
@@ -105,7 +105,7 @@ export const uploadAttachmentToMaterial = async (
     }
     upload.single('attachment')(req, res, async (err: any) => {
       if (err) {
-        winstonLogger.error('Multer error in uploadAttachmentToMaterial()', err)
+        error('Multer error in uploadAttachmentToMaterial()', err)
         if (err.code === 'LIMIT_FILE_SIZE') {
           return next(new StatusError(413, err.message))
         } else {
@@ -117,7 +117,7 @@ export const uploadAttachmentToMaterial = async (
         return next(new StatusError(400, 'No file sent'))
       }
       const metadata = JSON.parse(req.body.attachmentDetails)
-      winstonLogger.debug(metadata)
+      debug(metadata)
       const attachmentId = await insertDataToAttachmentTable(
         file,
         materialId,
@@ -136,7 +136,7 @@ export const uploadAttachmentToMaterial = async (
       await deleteDataToTempAttachmentTable(file.filename, result[0].id)
       fs.unlink(file.path, (err: any) => {
         if (err) {
-          winstonLogger.error(err)
+          error(err)
         }
       })
       res.status(200).json({ id: attachmentId })
@@ -163,18 +163,18 @@ export const uploadMaterial = async (
       return next(new StatusError(400, 'Missing content-type header'))
     }
 
-    winstonLogger.debug(req.body)
+    debug(req.body)
     if (!contentType.startsWith('multipart/form-data')) {
       return next(new StatusError(400, 'Wrong contentType'))
     }
     upload.single('file')(req, res, async (err: any) => {
       try {
         if (err) {
-          winstonLogger.debug(err)
+          debug(err)
           if (err.code === 'LIMIT_FILE_SIZE') {
             next(new StatusError(413, err.message))
           } else {
-            winstonLogger.error(err)
+            error(err)
             next(new StatusError(500, 'Error in upload'))
           }
         }
@@ -224,7 +224,7 @@ export const uploadMaterial = async (
               res.status(200).json(resp)
               try {
                 if (typeof file !== 'undefined') {
-                  winstonLogger.debug(materialid)
+                  debug(materialid)
                   const obj: any = await uploadFileToStorage(
                     file.path,
                     file.filename,
@@ -241,7 +241,7 @@ export const uploadMaterial = async (
                   // convert file to pdf if office document
                   try {
                     if (isOfficeMimeType(file.mimetype)) {
-                      winstonLogger.debug('Convert file and send to allas')
+                      debug('Convert file and send to allas')
                       const path = await downstreamAndConvertOfficeFileToPDF(obj.Key)
                       const pdfkey = `${obj.Key.substring(0, obj.Key.lastIndexOf('.'))}.pdf`
                       const pdfobj: any = await uploadFileToStorage(
@@ -254,21 +254,21 @@ export const uploadMaterial = async (
                       }
                     }
                   } catch (e) {
-                    winstonLogger.debug('ERROR converting office file to pdf')
-                    winstonLogger.error(e)
+                    debug('ERROR converting office file to pdf')
+                    error(e)
                   }
                   await deleteDataFromTempRecordTable(file.filename, materialid)
                   fs.unlink(file.path, (err: any) => {
                     if (err) {
-                      winstonLogger.error(err)
+                      error(err)
                     }
                   })
                 }
               } catch (err) {
-                winstonLogger.debug(
+                debug(
                   `error while sending file to pouta: ${JSON.stringify((<any>req).file)}`
                 )
-                winstonLogger.error(err)
+                error(err)
               }
             })
             .catch((err: Error) => {
@@ -277,9 +277,9 @@ export const uploadMaterial = async (
               }
               fs.unlink(file.path, (err: any) => {
                 if (err) {
-                  winstonLogger.debug(`Error in uploadMaterial(): ${err}`)
+                  debug(`Error in uploadMaterial(): ${err}`)
                 } else {
-                  winstonLogger.debug('file removed')
+                  debug('file removed')
                 }
               })
             })
@@ -324,12 +324,12 @@ const uploadFileToLocalDisk = (
       if (file) {
         fs.unlink(file.path, (err) => {
           if (err) {
-            winstonLogger.error('File removal after the interrupted upload failed', err)
+            error('File removal after the interrupted upload failed', err)
           }
         })
       }
       reject(err)
-      winstonLogger.error('File upload failed', err)
+      error('File upload failed', err)
     }
   })
 }
@@ -362,7 +362,7 @@ const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
 const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
   fs.unlink(file.path, (err: any): void => {
     if (err) {
-      winstonLogger.error('Unlink removal for the uploaded file failed', err)
+      error('Unlink removal for the uploaded file failed', err)
     }
   })
 }
@@ -384,7 +384,7 @@ export const uploadFileToMaterial = async (
       return result
     })
     .catch((err) => {
-      winstonLogger.error('Multer upload failed', err)
+      error('Multer upload failed', err)
       throw err
     })
   if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
@@ -437,7 +437,7 @@ export const uploadFileToMaterial = async (
     recordID = await upsertRecord(t, file, material.id) // await insertDataToRecordTable(file, material.id);
     await t.commit()
   } catch (err: any) {
-    winstonLogger.error('Transaction for the single file upload failed', err)
+    error('Transaction for the single file upload failed', err)
     await t.rollback()
     throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
@@ -496,7 +496,7 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    winstonLogger.error('Single file upstreaming or conversions failed', err)
+    error('Single file upstreaming or conversions failed', err)
     if (!res.headersSent) {
       next(new StatusError(500, `File upstreaming failed`, err))
     }
@@ -511,7 +511,7 @@ const insertDataToEducationalMaterialTable = async (
 ): Promise<{ id: string }> => {
   const uid = req.session?.passport?.user.uid
   if (!uid) {
-    winstonLogger.error('insertDataToEducationalMaterialTable missing uid in reques')
+    error('insertDataToEducationalMaterialTable missing uid in reques')
     throw new Error('Missing uid!')
   }
   return await t.one<{ id: string }>(
@@ -711,7 +711,7 @@ async function updateAttachment(
 ) {
   await db.tx(async (t: ITask<IClient>) => {
     const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4'
-    winstonLogger.debug(query)
+    debug(query)
     await t.none(query, [location, fileKey, fileBucket, attachmentId])
   })
 }
@@ -725,7 +725,7 @@ async function insertDataToTempAttachmentTable(
     'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
     'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id'
-  winstonLogger.debug(query)
+  debug(query)
   return await db.any(query, [
     files.filename,
     files.path,
@@ -765,7 +765,7 @@ const upsertRecord = async (
   })
 
   if (!material) {
-    winstonLogger.error('usperRecord: did not find material to upsert: ', materialID)
+    error('usperRecord: did not find material to upsert: ', materialID)
     throw new Error('Did not find material to upsert')
   }
 
@@ -910,7 +910,7 @@ export const uploadFileToStorage = (
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
       .once('error', (err: Error): void => {
-        winstonLogger.error(
+        error(
           'Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s',
           fileName
         )
@@ -924,7 +924,7 @@ export const uploadFileToStorage = (
         resolve(resp)
       })
       .catch((err: Error): void => {
-        winstonLogger.error(
+        error(
           'Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s',
           fileName
         )
@@ -957,14 +957,14 @@ export async function uploadBase64FileToStorage(
         const startTime: number = Date.now()
         s3.upload(params, (err: any, data: any) => {
           if (err) {
-            winstonLogger.error(
+            error(
               'Reading file from the local file system failed in uploadBase64FileToStorage(): ' +
                 err
             )
             reject(err)
           }
           if (data) {
-            winstonLogger.debug(
+            debug(
               'Uploading file to the cloud object storage completed in ' +
                 (Date.now() - startTime) / 1000 +
                 's'
@@ -973,14 +973,14 @@ export async function uploadBase64FileToStorage(
           }
         })
       } catch (err) {
-        winstonLogger.error(
+        error(
           'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' +
             err
         )
         reject(err)
       }
     } catch (err) {
-      winstonLogger.error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
+      error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
       reject(err)
     }
   })
@@ -997,7 +997,7 @@ export const downloadPreviewFile = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  winstonLogger.debug('HTTP request headers present in downloadPreviewFile()', req.headers)
+  debug('HTTP request headers present in downloadPreviewFile()', req.headers)
   try {
     const data = await downloadFileFromStorage(req, res, next)
     if (!data) {
@@ -1057,7 +1057,7 @@ export const downloadFile = async (
       try {
         await updateDownloadCounter(educationalmaterialId.toString())
       } catch (error) {
-        winstonLogger.error('Updating download counter failed:', error)
+        error('Updating download counter failed:', error)
       }
     }
     next()
@@ -1122,7 +1122,7 @@ export const downloadFileFromStorage = async (
       const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip)
       resolve(resp)
     } catch (err) {
-      winstonLogger.error(
+      error(
         'downloadFileFromStorage(): req.params.filename=%s, isZip=%s',
         req.params.filename,
         isZip
@@ -1154,10 +1154,10 @@ export const directoryDownloadFromStorage = async (
     .createReadStream()
     .once('error', (err: AWSError): void => {
       if (err.name === 'NoSuchKey') {
-        winstonLogger.debug(`S3 requested key [${paramsS3.Key}] not found`)
+        debug(`S3 requested key [${paramsS3.Key}] not found`)
         return
       } else if (err.name === 'TimeoutError') {
-        winstonLogger.debug('S3 connection closed by timeout event.')
+        debug('S3 connection closed by timeout event.')
         return
       } else {
         throw err
@@ -1201,15 +1201,15 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              winstonLogger.debug(`Requested file ${origFilename} not found`)
+              debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
-              winstonLogger.debug('Connection closed by timeout event.')
+              debug('Connection closed by timeout event.')
               res.end()
               resolve(false)
             } else {
-              winstonLogger.debug('S3 connection failed', err)
+              debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1221,15 +1221,15 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              winstonLogger.debug(`Requested file ${origFilename} not found`)
+              debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
-              winstonLogger.debug('Connection closed by timeout event.')
+              debug('Connection closed by timeout event.')
               res.end()
               resolve(false)
             } else {
-              winstonLogger.debug('S3 connection failed', err)
+              debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1315,7 +1315,7 @@ export const downloadAllMaterialsCompressed = async (
     try {
       await updateDownloadCounter(educationalMaterialId.toString())
     } catch (err) {
-      winstonLogger.error('Updating download counter failed', err)
+      error('Updating download counter failed', err)
     }
   }
 }
@@ -1401,7 +1401,7 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     // The web site is not functional without an index file => return false.
     return false
   } catch (err) {
-    winstonLogger.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
+    debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
     return false
   }
 }

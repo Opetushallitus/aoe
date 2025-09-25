@@ -1,7 +1,7 @@
 import { getEducationalMaterialMetadata } from '@query/apiQueries'
 import { downloadFile, downloadPreviewFile } from '@query/fileHandling'
 import { runMessageQueueThread } from '@services/threadService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
 /**
@@ -25,7 +25,7 @@ export default (router: Router): void => {
     (req: Request, res: Response, next: NextFunction) => {
       if (req.query.interaction === 'load') {
         getEducationalMaterialMetadata(req, res, next, true).catch(() => {
-          winstonLogger.error('Additional metadata processing failed for a single file download.')
+          error('Additional metadata processing failed for a single file download.')
         })
       } else {
         res.status(200).end()
@@ -35,7 +35,7 @@ export default (router: Router): void => {
       if (req.query.interaction === 'load') {
         runMessageQueueThread(req, res).then((result) => {
           if (result) {
-            winstonLogger.debug('THREAD: Message queue publishing completed for', result)
+            debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

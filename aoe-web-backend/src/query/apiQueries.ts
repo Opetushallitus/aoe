@@ -8,7 +8,7 @@ import { hasDownloadableFiles } from '@search/esQueries'
 import { hasAccesstoPublication } from '@services/authService'
 import { aoeThumbnailDownloadUrl } from '@services/urlService'
 import { removeInvalidXMLCharacters } from '@util/invalidXMLCharValidator'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import * as pgLib from 'pg-promise'
 import { updateViewCounter } from './analyticsQueries'
@@ -328,7 +328,7 @@ export const getEducationalMaterialMetadata = async (
             jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
         ) {
           req.params.key = jsonObj.materials[i].filekey
-          winstonLogger.debug(
+          debug(
             'The req.params.key before it is being sent to DownloadFIleFromStorage function: %s',
             req.params.key
           )
@@ -416,7 +416,7 @@ export const getEducationalMaterialMetadata = async (
         (!req.isAuthenticated() || !(await hasAccesstoPublication(jsonObj.id, req)))
       ) {
         updateViewCounter(jsonObj.id).catch((error) => {
-          winstonLogger.error(`View counter update failed: ${error}`)
+          error(`View counter update failed: ${error}`)
         })
       }
       next()
@@ -473,7 +473,7 @@ export async function getUserMaterial(
         })
         .then(t.batch)
         .catch((error: any) => {
-          winstonLogger.error(error)
+          error(error)
           return error
         })
     }).then((data: any) => {
@@ -583,7 +583,7 @@ export async function setEducationalMaterialObsoleted(
     })
     res.status(204).send()
     updateEsDocument().catch((err: Error) => {
-      winstonLogger.error(err)
+      error(err)
     })
   } catch (err) {
     next(new StatusError(500, 'Issue deleting material', err))
@@ -628,7 +628,7 @@ export const setMaterialObsoleted = async (
     })
     res.status(200).json({ obsoleted: req.params.materialid })
     updateEsDocument().catch((err: Error): void => {
-      winstonLogger.error('Search index update failed', err)
+      error('Search index update failed', err)
     })
   } catch (err) {
     next(new StatusError(500, `Setting the material as obsoleted failed`, err))
@@ -662,7 +662,7 @@ export const setAttachmentObsoleted = async (
     })
     res.status(200).json({ status: 'deleted' })
     updateEsDocument().catch((err: Error) => {
-      winstonLogger.error(
+      error(
         'Search index update failed after setting an attachment file obsoleted: %o',
         err
       )
@@ -818,7 +818,7 @@ export async function insertEducationalMaterialName(materialname: NameObject, id
     'UPDATE SET materialname = $1, slug = $3'
   const queries = []
   await setLanguage(materialname)
-  winstonLogger.debug(`Query in insertEducationalMaterialName(): ${query}`)
+  debug(`Query in insertEducationalMaterialName(): ${query}`)
   if (materialname.fi === null) {
     queries.push(await t.any(query, ['', 'fi', '', id]))
   } else {
@@ -852,7 +852,7 @@ export const updateMaterial = async (
       const queries: any = []
       const materialname = metadata.name
       let response
-      winstonLogger.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
+      debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
       if (materialname !== undefined) {
         queries.push(await insertEducationalMaterialName(materialname, emid, t))
       }
@@ -1168,7 +1168,7 @@ export const updateMaterial = async (
           queries.push(await t.any(query, [element.language, element.id, emid]))
           if (element.link) {
             query = 'UPDATE material SET link = $1 WHERE id = $2 AND educationalmaterialid = $3'
-            winstonLogger.debug(`update link: ${query}`, [element.link, element.id, emid])
+            debug(`update link: ${query}`, [element.link, element.id, emid])
             queries.push(await t.any(query, [element.link, element.id, emid]))
           }
         }
@@ -1323,7 +1323,7 @@ export const updateMaterial = async (
       return data
     })
     .catch((err: Error) => {
-      winstonLogger.error(err)
+      error(err)
       throw err
     })
 }
@@ -1341,7 +1341,7 @@ export const updateEduMaterialVersionURN = async (
     `
     await db.none(query, [id, publishedat, urn])
   } catch (error) {
-    winstonLogger.error(
+    error(
       `Update for educational material version failed in updateEduMaterialVersionURN(): ${error}`
     )
     throw error

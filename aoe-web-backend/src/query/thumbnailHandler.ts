@@ -1,7 +1,7 @@
 import { config } from '@/config'
 import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import mime from 'mime'
 import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling'
@@ -101,7 +101,7 @@ export const downloadCollectionThumbnail = async (
     }
     await downloadThumbnail(req, res, next, key)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(
       new StatusError(
         500,
@@ -148,7 +148,7 @@ async function updateEmThumbnailData(
   fileKey: string,
   fileBucket: string
 ) {
-  winstonLogger.debug(
+  debug(
     'updateEmThumbnailData(): filepath=' +
       filepath +
       ', mimetype=' +
@@ -168,12 +168,12 @@ async function updateEmThumbnailData(
       'UPDATE thumbnail ' +
       'SET obsoleted = 1 ' +
       'WHERE educationalmaterialid = $1 AND obsoleted = 0'
-    winstonLogger.debug(`updateEmThumbnailData() Query: ${query}`)
+    debug(`updateEmThumbnailData() Query: ${query}`)
     await db.none(query, [educationalmaterialid])
     query =
       'INSERT INTO thumbnail (filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket) ' +
       'VALUES ($1, $2, $3, $4, $5, $6)'
-    winstonLogger.debug(`updateEmThumbnailData() Query: ${query}`, [
+    debug(`updateEmThumbnailData() Query: ${query}`, [
       filepath,
       mimetype,
       educationalmaterialid,
@@ -183,7 +183,7 @@ async function updateEmThumbnailData(
     ])
     await db.any(query, [filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket])
   } catch (error) {
-    winstonLogger.error(`updateEmThumbnailData(): ${error}`)
+    error(`updateEmThumbnailData(): ${error}`)
     throw error
   }
 }
@@ -207,12 +207,12 @@ async function updateCollectionThumbnailData(
   try {
     let query
     query = 'UPDATE collectionthumbnail SET obsoleted = 1 WHERE collectionid = $1 AND obsoleted = 0'
-    winstonLogger.debug(`updateCollectionThumbnailData() Query: ${query}`)
+    debug(`updateCollectionThumbnailData() Query: ${query}`)
     await db.none(query, [collectionid])
     query =
       'INSERT INTO collectionthumbnail (filepath, mimetype, collectionid, filename, fileKey, fileBucket) ' +
       'VALUES ($1, $2, $3, $4, $5, $6)'
-    winstonLogger.debug(`updateCollectionThumbnailData() Query: ${query}`, [
+    debug(`updateCollectionThumbnailData() Query: ${query}`, [
       filepath,
       mimetype,
       collectionid,
@@ -222,7 +222,7 @@ async function updateCollectionThumbnailData(
     ])
     await db.any(query, [filepath, mimetype, collectionid, filename, fileKey, fileBucket])
   } catch (error) {
-    winstonLogger.error(`updateCollectionThumbnailData(): ${error}`)
+    error(`updateCollectionThumbnailData(): ${error}`)
     throw error
   }
 }
