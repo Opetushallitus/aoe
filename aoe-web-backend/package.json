@@ -94,6 +94,6 @@
     "https": "1.0.0",
     "knip": "5.63.1",
     "tsc-alias": "1.8.16",
-    "typescript": "^5.9.2"
+    "typescript": "5.9.2"
   }
 }
