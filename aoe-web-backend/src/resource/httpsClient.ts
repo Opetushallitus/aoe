@@ -46,7 +46,7 @@ export const httpsClient = (httpsConnection: boolean, options: RequestOptions): 
         reject(error)
       })
       .on('timeout', () => {
-        winstonLogger.debug('Request timeout in HTTPS client: %s ms', options.timeout)
+        winstonLogger.debug(`Request timeout in HTTPS client: ${options.timeout} ms`)
       })
       .end()
   })

@@ -35,7 +35,7 @@ export default (router: Router): void => {
       if (req.query.interaction === 'load') {
         runMessageQueueThread(req, res).then((result) => {
           if (result) {
-            winstonLogger.debug('THREAD: Message queue publishing completed for %o', result)
+            winstonLogger.debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

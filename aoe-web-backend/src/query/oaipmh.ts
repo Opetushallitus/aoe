@@ -219,7 +219,7 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
         )
         .then(t.batch)
         .catch((err: any): void => {
-          winstonLogger.error('Fetching a metadata batch failed at OAI-PMH API endpoint: %o', err)
+          winstonLogger.error('Fetching a metadata batch failed at OAI-PMH API endpoint', err)
           throw err
         })
     })

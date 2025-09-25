@@ -28,8 +28,8 @@ const PG_URL_HOST: string = ['postgres://', PG_HOST, ':', PG_PORT].join('')
 const initOptions: IInitOptions = {
   error: (err: Error, e: IEventContext<IClient>) => {
     if (e.cn) {
-      winstonLogger.error('PG [%s] initialization error: %o', PG_URL_HOST, e.cn)
-      winstonLogger.error('PG error: %o', err)
+      winstonLogger.error(`PG [${PG_URL_HOST}] initialization error`, e.cn)
+      winstonLogger.error('PG error', err)
     }
   }
 }

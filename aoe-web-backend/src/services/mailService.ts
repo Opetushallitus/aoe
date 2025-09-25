@@ -89,13 +89,13 @@ export async function sendExpirationMail() {
           body: { text: mailOptions.text }
         })
 
-        winstonLogger.debug('Message sent: %s', info.MessageId)
+        winstonLogger.debug(`Message sent: ${info.MessageId}`)
       }
     } else {
       winstonLogger.debug('Material expiration email sending disabled')
     }
   } catch (err) {
-    winstonLogger.error('Error in sendExpirationMail(): %o', err)
+    winstonLogger.error('Error in sendExpirationMail()', err)
   }
 }
 
@@ -129,7 +129,7 @@ export async function sendRatingNotificationMail() {
             body: { text: mailOptions.text }
           })
 
-          winstonLogger.debug('Message sent: %s', info.MessageId)
+          winstonLogger.debug(`Message sent: ${info.MessageId}`)
         } catch (error) {
           winstonLogger.error(error)
         }
@@ -138,7 +138,7 @@ export async function sendRatingNotificationMail() {
       winstonLogger.debug('Rating notification email sending disabled')
     }
   } catch (error) {
-    winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error)
+    winstonLogger.debug('Error in sendRatingNotificationMail()', error)
   }
 }
 
@@ -203,7 +203,7 @@ export async function verifyEmailToken(req: Request, res: Response, _next: NextF
       await updateVerifiedEmail(id)
       return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/')
     } catch (err) {
-      winstonLogger.error('Error in verifyEmailToken(): %o', err)
+      winstonLogger.error('Error in verifyEmailToken()', err)
       return res.sendStatus(403)
     }
   } else {

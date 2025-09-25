@@ -44,7 +44,7 @@ export default (router: Router): void => {
       if (['view', 'edit'].includes(req.query.interaction as string)) {
         runMessageQueueThread(req, res).then((result): void => {
           if (result) {
-            winstonLogger.debug('THREAD: Message queue publishing completed for %o', result)
+            winstonLogger.debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

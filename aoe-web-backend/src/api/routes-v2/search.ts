@@ -21,7 +21,7 @@ export default (router: Router): void => {
       if (req.body.size && req.body.timestamp) {
         runMessageQueueThread(req).then((result) => {
           if (result) {
-            winstonLogger.debug('THREAD: Message queue publishing completed for %o', result)
+            winstonLogger.debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

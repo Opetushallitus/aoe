@@ -105,7 +105,7 @@ export const uploadAttachmentToMaterial = async (
     }
     upload.single('attachment')(req, res, async (err: any) => {
       if (err) {
-        winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err)
+        winstonLogger.error('Multer error in uploadAttachmentToMaterial()', err)
         if (err.code === 'LIMIT_FILE_SIZE') {
           return next(new StatusError(413, err.message))
         } else {
@@ -324,12 +324,12 @@ const uploadFileToLocalDisk = (
       if (file) {
         fs.unlink(file.path, (err) => {
           if (err) {
-            winstonLogger.error('File removal after the interrupted upload failed: %o', err)
+            winstonLogger.error('File removal after the interrupted upload failed', err)
           }
         })
       }
       reject(err)
-      winstonLogger.error('File upload failed: %o', err)
+      winstonLogger.error('File upload failed', err)
     }
   })
 }
@@ -362,7 +362,7 @@ const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
 const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
   fs.unlink(file.path, (err: any): void => {
     if (err) {
-      winstonLogger.error('Unlink removal for the uploaded file failed: %o', err)
+      winstonLogger.error('Unlink removal for the uploaded file failed', err)
     }
   })
 }
@@ -384,7 +384,7 @@ export const uploadFileToMaterial = async (
       return result
     })
     .catch((err) => {
-      winstonLogger.error('Multer upload failed: %o', err)
+      winstonLogger.error('Multer upload failed', err)
       throw err
     })
   if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
@@ -437,7 +437,7 @@ export const uploadFileToMaterial = async (
     recordID = await upsertRecord(t, file, material.id) // await insertDataToRecordTable(file, material.id);
     await t.commit()
   } catch (err: any) {
-    winstonLogger.error('Transaction for the single file upload failed: %o', err)
+    winstonLogger.error('Transaction for the single file upload failed', err)
     await t.rollback()
     throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
@@ -496,7 +496,7 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    winstonLogger.error('Single file upstreaming or conversions failed: %o', err)
+    winstonLogger.error('Single file upstreaming or conversions failed', err)
     if (!res.headersSent) {
       next(new StatusError(500, `File upstreaming failed`, err))
     }
@@ -997,7 +997,7 @@ export const downloadPreviewFile = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  winstonLogger.debug('HTTP request headers present in downloadPreviewFile(): %o', req.headers)
+  winstonLogger.debug('HTTP request headers present in downloadPreviewFile()', req.headers)
   try {
     const data = await downloadFileFromStorage(req, res, next)
     if (!data) {
@@ -1154,7 +1154,7 @@ export const directoryDownloadFromStorage = async (
     .createReadStream()
     .once('error', (err: AWSError): void => {
       if (err.name === 'NoSuchKey') {
-        winstonLogger.debug('S3 requested key [%s] not found.', paramsS3.Key)
+        winstonLogger.debug(`S3 requested key [${paramsS3.Key}] not found`)
         return
       } else if (err.name === 'TimeoutError') {
         winstonLogger.debug('S3 connection closed by timeout event.')
@@ -1201,7 +1201,7 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              winstonLogger.debug('Requested file %s not found.', origFilename)
+              winstonLogger.debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
@@ -1209,7 +1209,7 @@ export const downloadFromStorage = (
               res.end()
               resolve(false)
             } else {
-              winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err))
+              winstonLogger.debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1221,7 +1221,7 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              winstonLogger.debug('Requested file %s not found.', origFilename)
+              winstonLogger.debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
@@ -1229,7 +1229,7 @@ export const downloadFromStorage = (
               res.end()
               resolve(false)
             } else {
-              winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err))
+              winstonLogger.debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1315,7 +1315,7 @@ export const downloadAllMaterialsCompressed = async (
     try {
       await updateDownloadCounter(educationalMaterialId.toString())
     } catch (err) {
-      winstonLogger.error('Updating download counter failed: %o', err)
+      winstonLogger.error('Updating download counter failed', err)
     }
   }
 }
@@ -1401,7 +1401,7 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     // The web site is not functional without an index file => return false.
     return false
   } catch (err) {
-    winstonLogger.debug('Decompression of a HTML archive in unzipAndExtract() failed: %o', err)
+    winstonLogger.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
     return false
   }
 }

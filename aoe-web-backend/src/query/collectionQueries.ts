@@ -392,7 +392,7 @@ export async function insertCollectionMetadata(collection: Collection) {
       }
     })
   } catch (err) {
-    winstonLogger.error('Error in insertCollectionMetadata(): %o', err)
+    winstonLogger.error('Error in insertCollectionMetadata()', err)
     throw new Error(err)
   }
 }
@@ -468,7 +468,7 @@ export async function recentCollectionQuery() {
     })
     return data
   } catch (err) {
-    winstonLogger.error('Error in recentCollectionQuery(): %o', err)
+    winstonLogger.error('Error in recentCollectionQuery()', err)
     throw new Error(err)
   }
 }

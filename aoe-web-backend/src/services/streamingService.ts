@@ -40,7 +40,7 @@ export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> =>
     timeout: 1000
   }).then(
     ({ statusCode }) => {
-      winstonLogger.debug('Streaming service status: %s', statusCode)
+      winstonLogger.debug(`Streaming service status: ${statusCode}`)
       return statusCode === 200
     },
     (error) => {

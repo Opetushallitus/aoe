@@ -28,4 +28,4 @@ const produceKafkaMessage = async (): Promise<void> => {
 
 produceKafkaMessage()
   .then(() => parentPort.postMessage(message))
-  .catch((error) => winstonLogger.error('Message producer failed in workerSearch.ts: %o', error))
+  .catch((error) => winstonLogger.error('Message producer failed in workerSearch.ts', error))

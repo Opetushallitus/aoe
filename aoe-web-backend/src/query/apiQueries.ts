@@ -628,7 +628,7 @@ export const setMaterialObsoleted = async (
     })
     res.status(200).json({ obsoleted: req.params.materialid })
     updateEsDocument().catch((err: Error): void => {
-      winstonLogger.error('Search index update failed: %o', err)
+      winstonLogger.error('Search index update failed', err)
     })
   } catch (err) {
     next(new StatusError(500, `Setting the material as obsoleted failed`, err))

@@ -46,7 +46,7 @@ Issuer.discover(process.env.PROXY_URI)
               return done(undefined, { uid: userinfo.uid, name: nameparsed })
             })
             .catch((err: Error) => {
-              winstonLogger.error('Saving user information failed: %s', err)
+              winstonLogger.error('Saving user information failed', err)
               return done('Saving user information failed', undefined)
             })
         }
@@ -100,7 +100,7 @@ export const authInit = (app: Express): void => {
     }
     req.logout((done) => done())
     req.session.destroy((error): void => {
-      winstonLogger.debug('Logout request /logout | session termination errors: %o', error)
+      winstonLogger.debug('Logout request /logout | session termination errors', error)
       res.clearCookie('connect.sid', deleteCookie)
       res.status(200).json({ message: 'logged out' })
     })

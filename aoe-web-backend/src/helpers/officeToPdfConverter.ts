@@ -161,7 +161,7 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
         return resolve(outputPath)
       })
     } catch (err) {
-      winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err)
+      winstonLogger.error('Error in convertOfficeFileToPDF()', err)
       return reject(err)
     }
   })
@@ -210,7 +210,7 @@ const getFilesWithoutPDF = async (): Promise<any> => {
       return await t.any(query)
     })
   } catch (err: unknown) {
-    winstonLogger.error('Fetching files without PDFs failed: %o', err)
+    winstonLogger.error('Fetching files without PDFs failed', err)
     throw err
   }
 }
@@ -234,13 +234,13 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
       .createWriteStream(folderpath)
       .once('error', (err: AWSError): void => {
         if (err.name === 'NoSuchKey') {
-          winstonLogger.debug('Requested file [%s] not found.', key)
+          winstonLogger.debug(`Requested file [${key}] not found`)
           resolve(null)
         } else if (err.name === 'TimeoutError') {
           winstonLogger.debug('Connection closed by timeout event.')
           resolve(null)
         } else {
-          winstonLogger.debug('S3 connection failed: %s.', JSON.stringify(err))
+          winstonLogger.debug('S3 connection failed', err)
           reject(err)
           throw err
         }
@@ -257,7 +257,7 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
     stream
       .on('error', (err): void => {
         reject(err)
-        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err)
+        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF()', err)
       })
       .pipe(ws)
   })

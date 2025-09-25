@@ -161,7 +161,7 @@ const deleteIndex = async (index: string): Promise<boolean> => {
     winstonLogger.error(`Index ${index} still exists after 5 attempts.`)
     return false
   } catch (error: any) {
-    winstonLogger.error('Search index deletion failed: %o', error)
+    winstonLogger.error('Search index deletion failed', error)
     return false
   }
 }
@@ -426,7 +426,7 @@ async function metadataToEs(
                 })
               }
             })
-            winstonLogger.error('Error documents in metadataToEs(): %o', erroredDocuments)
+            winstonLogger.error('Error documents in metadataToEs()', erroredDocuments)
           }
           resolve(data.length)
         } else {
@@ -657,7 +657,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
           const body = data.flatMap((doc) => [{ index: { _index: index, _id: doc.id } }, doc])
           const { body: bulkResponse } = await client.bulk({ refresh: false, body })
           if (bulkResponse.errors) {
-            winstonLogger.error('Bulk response error: %o', bulkResponse.errors)
+            winstonLogger.error('Bulk response error', bulkResponse.errors)
           } else {
             if (updateCounters) {
               Es.ESCounterUpdated.value = new Date()

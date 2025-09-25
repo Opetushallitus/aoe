@@ -195,7 +195,7 @@ export async function collectionDataToEs(index: string, data: any, operation: 'c
             })
           }
         })
-        winstonLogger.error('Document errors: %o', erroredDocuments)
+        winstonLogger.error('Document errors', erroredDocuments)
       }
     }
   } catch (err) {

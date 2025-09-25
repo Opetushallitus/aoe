@@ -25,7 +25,7 @@ export const startScheduledCleaning = (): void => {
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
       winstonLogger.debug('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
-      winstonLogger.error('Scheduled removal for temporary H5P or HTML content failed: %o', err)
+      winstonLogger.error('Scheduled removal for temporary H5P or HTML content failed', err)
       await sendSystemNotification(
         'Scheduled directory cleaning at 1:00 AM (UTC) has failed and interrupted.'
       )
@@ -70,7 +70,7 @@ export const startScheduledSearchIndexUpdate = (): void => {
       await updateEsDocument(true)
       winstonLogger.debug('Scheduled index update for the search engine completed.')
     } catch (err: unknown) {
-      winstonLogger.error('Scheduled index update for the search engine failed: %o', err)
+      winstonLogger.error('Scheduled index update for the search engine failed', err)
       await sendSystemNotification(
         'Scheduled search index update at 4:30 AM has failed and interrupted.'
       )
@@ -85,7 +85,7 @@ scheduleJob(emailSchedule, async (): Promise<void> => {
     await sendRatingNotificationMail()
     await sendExpirationMail()
   } catch (err: unknown) {
-    winstonLogger.error('Sending scheduled expiration or rating notification mail failed: %o', err)
+    winstonLogger.error('Sending scheduled expiration or rating notification mail failed', err)
   }
 })
 if (config.MEDIA_FILE_PROCESS.conversionToPdfEnabled) {
