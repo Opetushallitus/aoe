@@ -174,7 +174,7 @@ export function hasDownloadableFiles(materials: Array<{ filekey: string }>) {
     return false
   } catch (err) {
     winstonLogger.error('Error in hasDownloadableFiles(): %o', err)
-    throw new Error(err)
+    throw err
   }
 }
 

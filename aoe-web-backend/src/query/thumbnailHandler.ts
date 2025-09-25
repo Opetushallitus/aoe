@@ -184,7 +184,7 @@ async function updateEmThumbnailData(
     await db.any(query, [filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket])
   } catch (error) {
     winstonLogger.error(`updateEmThumbnailData(): ${error}`)
-    throw new Error(error)
+    throw error
   }
 }
 
@@ -223,6 +223,6 @@ async function updateCollectionThumbnailData(
     await db.any(query, [filepath, mimetype, collectionid, filename, fileKey, fileBucket])
   } catch (error) {
     winstonLogger.error(`updateCollectionThumbnailData(): ${error}`)
-    throw new Error(error)
+    throw error
   }
 }

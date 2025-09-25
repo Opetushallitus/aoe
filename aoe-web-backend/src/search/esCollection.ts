@@ -154,7 +154,8 @@ export const getCollectionDataToEs = async (offset: number, limit: number) => {
       return { collections }
     })
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Failed to get collection data from database', err)
+    throw err
   }
 }
 
@@ -198,10 +199,8 @@ export async function collectionDataToEs(index: string, data: any, operation: 'c
       }
     }
   } catch (err) {
-    winstonLogger.error(
-      `Failed to add documents to OpenSearch index ${index} due to ${JSON.stringify(err)}`
-    )
-    throw new Error(err)
+    winstonLogger.error(`Failed to add documents to OpenSearch index ${index}`, err)
+    throw err
   }
 }
 
@@ -256,6 +255,7 @@ export const getCollectionDataToUpdate = async (time: Date) => {
       return { collections }
     })
   } catch (err) {
-    throw new Error(err)
+    winstonLogger.error('Failed to get collection data to update from database', err)
+    throw err
   }
 }

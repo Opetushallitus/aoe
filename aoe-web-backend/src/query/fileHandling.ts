@@ -309,9 +309,9 @@ const uploadFileToLocalDisk = (
       upload.single('file')(req, res, (err: any): void => {
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
-            throw new StatusError(413, `MULTER: ${err.message}`)
+            throw new StatusError(413, `MULTER error`, err)
           } else {
-            throw new StatusError(500, `MULTER: ${err}`)
+            throw new StatusError(500, `MULTER error`, err)
           }
         }
         resolve({

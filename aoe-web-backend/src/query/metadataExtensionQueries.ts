@@ -68,7 +68,8 @@ export async function insertMetadataExtension(
       return t.batch(queries)
     })
   } catch (error) {
-    throw new Error(error)
+    winstonLogger.error('Failed to insert metadata extension', error)
+    throw error
   }
 }
 
@@ -91,7 +92,8 @@ export async function metadataExtension(id: string) {
     })
     return data
   } catch (error) {
-    throw new Error(error)
+    winstonLogger.error('Failed to get metadata extension', error)
+    throw error
   }
 }
 
@@ -114,6 +116,7 @@ export async function usersMetadataExtension(id: string, user: string) {
     })
     return data
   } catch (error) {
-    throw new Error(error)
+    winstonLogger.error('Failed to get users metadata extension', error)
+    throw error
   }
 }
