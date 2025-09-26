@@ -70,6 +70,7 @@
     "redis": "^4.6.13",
     "s3-zip": "^3.3.0",
     "sequelize": "^6.33.0",
+    "uuid": "^13.0.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {

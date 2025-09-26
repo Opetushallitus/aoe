@@ -1,3 +1,4 @@
+import { asyncLocalStorage } from '@/asyncLocalStorage'
 import { config } from '@/config'
 import winston, { format, Logger } from 'winston'
 
@@ -20,25 +21,26 @@ const winstonLogger: Logger = winston.createLogger({
 
 // Named function exports that wrap winston logger methods
 export const debug = (message: any, ...meta: any[]): void => {
-  winstonLogger.debug(message, ...meta)
+  const requestId = asyncLocalStorage.getStore()?.requestId
+  winstonLogger.debug(message, { ...meta, requestId })
 }
 
 export const info = (message: any, ...meta: any[]): void => {
-  winstonLogger.info(message, ...meta)
+  const requestId = asyncLocalStorage.getStore()?.requestId
+  winstonLogger.info(message, { ...meta, requestId })
 }
 
 export const warn = (message: any, ...meta: any[]): void => {
-  winstonLogger.warn(message, ...meta)
+  const requestId = asyncLocalStorage.getStore()?.requestId
+  winstonLogger.warn(message, { ...meta, requestId })
 }
 
 export const error = (message: any, ...meta: any[]): void => {
-  winstonLogger.error(message, ...meta)
+  const requestId = asyncLocalStorage.getStore()?.requestId
+  winstonLogger.error(message, { ...meta, requestId })
 }
 
 export const http = (message: any, ...meta: any[]): void => {
-  winstonLogger.http(message, ...meta)
-}
-
-export const isDebugEnabled = (): boolean => {
-  return winstonLogger.isDebugEnabled()
+  const requestId = asyncLocalStorage.getStore()?.requestId
+  winstonLogger.http(message, { ...meta, requestId })
 }
