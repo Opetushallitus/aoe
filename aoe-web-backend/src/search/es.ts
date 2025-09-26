@@ -691,10 +691,7 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
   }
 }
 
-/**
- * START POINT OF SEARCH ENGINE INDEXING
- */
-async function initializeIndices(): Promise<void> {
+export async function initializeIndices(): Promise<void> {
   const recreateIndex = (process.env.CREATE_ES_INDEX === '1') as boolean
 
   try {
@@ -714,5 +711,3 @@ async function initializeIndices(): Promise<void> {
     log.error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `, error)
   }
 }
-
-initializeIndices()

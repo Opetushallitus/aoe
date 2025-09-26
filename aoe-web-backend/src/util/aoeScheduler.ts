@@ -2,11 +2,7 @@ import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { updateEsDocument } from '@search/es'
-import {
-  sendExpirationMail,
-  sendRatingNotificationMail,
-  sendSystemNotification
-} from '@services/mailService'
+import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import pidResolutionService from '@services/pidResolutionService'
 import * as log from '@util/winstonLogger'
 import { Job, scheduleJob } from 'node-schedule'
@@ -26,9 +22,6 @@ export const startScheduledCleaning = (): void => {
       log.debug('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
       log.error('Scheduled removal for temporary H5P or HTML content failed', err)
-      await sendSystemNotification(
-        'Scheduled directory cleaning at 1:00 AM (UTC) has failed and interrupted.'
-      )
       dirCleaningScheduler.cancel()
     }
   })
@@ -53,9 +46,6 @@ export const startScheduledRegistrationForPIDs = (): void => {
         'Scheduled PID registration for recently published educational materials failed: %o',
         err
       )
-      await sendSystemNotification(
-        'Scheduled PID registration at 1:15 AM (UTC) has failed and interrupted.'
-      )
       pidRegisterScheduler.cancel()
     }
   })
@@ -71,35 +61,28 @@ export const startScheduledSearchIndexUpdate = (): void => {
       log.debug('Scheduled index update for the search engine completed.')
     } catch (err: unknown) {
       log.error('Scheduled index update for the search engine failed', err)
-      await sendSystemNotification(
-        'Scheduled search index update at 4:30 AM has failed and interrupted.'
-      )
       searchUpdateScheduler.cancel()
     }
   })
   log.info('Scheduled job active for search index update at 1:30 AM (UTC)')
 }
 
-scheduleJob(emailSchedule, async (): Promise<void> => {
-  try {
-    await sendRatingNotificationMail()
-    await sendExpirationMail()
-  } catch (err: unknown) {
-    log.error('Sending scheduled expiration or rating notification mail failed', err)
-  }
-})
-if (config.MEDIA_FILE_PROCESS.conversionToPdfEnabled) {
-  // wait 10 seconds before start
+export function startScheduledMailJobs() {
+  scheduleJob(emailSchedule, async (): Promise<void> => {
+    try {
+      await sendRatingNotificationMail()
+      await sendExpirationMail()
+    } catch (err: unknown) {
+      log.error('Sending scheduled expiration or rating notification mail failed', err)
+    }
+  })
+}
+
+export function startScheduledPdfConvertAndUpstreamOfficeFiles() {
   const sleep = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
   sleep(10000).then((): void => {
     void scheduledConvertAndUpstreamOfficeFilesToCloudStorage()
   })
-}
-
-export default {
-  startScheduledCleaning,
-  startScheduledRegistrationForPIDs,
-  startScheduledSearchIndexUpdate
 }

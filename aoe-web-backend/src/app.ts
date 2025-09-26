@@ -8,7 +8,13 @@ import { v2 } from '@api/routes-v2/v2'
 import { authInit } from '@resource/oidcConfig'
 import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
-import aoeScheduler from '@util/aoeScheduler'
+import {
+  startScheduledCleaning,
+  startScheduledMailJobs,
+  startScheduledPdfConvertAndUpstreamOfficeFiles,
+  startScheduledRegistrationForPIDs,
+  startScheduledSearchIndexUpdate
+} from '@util/aoeScheduler'
 import morganLogger from '@util/morganLogger'
 import * as log from '@util/winstonLogger'
 import bodyParser from 'body-parser'
@@ -24,6 +30,7 @@ import session, { SessionOptions } from 'express-session'
 import { redisClient } from '@resource/redisClient'
 import { db } from './resource/postgresClient'
 import { asyncHandler } from './asyncHandler'
+import { initializeIndices } from './search/es'
 
 export const app: Express = express()
 
@@ -158,10 +165,10 @@ app.use(handleError)
 
 app.set('port', 3000)
 
-// TODO: To be removed after full refactoring of aoeScheduler.ts
-require('@util/aoeScheduler')
-
 // Start scheduled maintenance processes
-aoeScheduler.startScheduledCleaning()
-aoeScheduler.startScheduledRegistrationForPIDs()
-aoeScheduler.startScheduledSearchIndexUpdate()
+initializeIndices()
+startScheduledCleaning()
+startScheduledRegistrationForPIDs()
+startScheduledSearchIndexUpdate()
+startScheduledMailJobs()
+startScheduledPdfConvertAndUpstreamOfficeFiles()
