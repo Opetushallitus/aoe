@@ -10,12 +10,12 @@ import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
 import aoeScheduler from '@util/aoeScheduler'
 import morganLogger from '@util/morganLogger'
-import winstonLogger from '@util/winstonLogger'
+import { error, debug, warn, info } from '@util/winstonLogger'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import flash from 'connect-flash'
 import cors, { CorsOptions } from 'cors'
-import express, { Express, NextFunction, Request, Response, Router } from 'express'
+import express, { Express, Request, Response, Router } from 'express'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import lusca from 'lusca'
 import passport from 'passport'
@@ -98,7 +98,7 @@ authInit(app)
 
 // Initialize H5P editor
 initializeH5P().catch((err: unknown): void => {
-  winstonLogger.error('Initialization of H5P editor failed', err)
+  error('Initialization of H5P editor failed', err)
 })
 
 // Statistics requests forwarded to AOE Analytics Service.
@@ -109,7 +109,13 @@ app.use(
   createProxyMiddleware({
     target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
     logLevel: 'debug',
-    logProvider: () => winstonLogger,
+    logProvider: () => ({
+      debug,
+      info,
+      warn,
+      error,
+      log: info
+    }),
     changeOrigin: true,
     pathRewrite: (path: string) => path.replace('api/v2', 'analytics/api')
   })
@@ -122,7 +128,7 @@ const dbInit = async (): Promise<void> => {
   })
 }
 dbInit().catch((err: unknown): void => {
-  winstonLogger.error('Synchronizing database with Sequelize models failed', err)
+  error('Synchronizing database with Sequelize models failed', err)
   process.exit(1)
 })
 
