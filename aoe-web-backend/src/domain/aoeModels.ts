@@ -1,6 +1,6 @@
 import { pgURL } from '@resource/postgresClient'
 import { isEncoded } from '@util/requestValidator'
-import { debug } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize'
 import { config } from '@/config'
 
@@ -10,7 +10,7 @@ export const sequelize: Sequelize = new Sequelize(pgURL, {
     config.APPLICATION_CONFIG.nodeEnv === 'production'
       ? false
       : (sql: string): void => {
-          debug(sql)
+          log.debug(sql)
         }
 })
 

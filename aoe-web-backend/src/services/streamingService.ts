@@ -1,6 +1,6 @@
 import { config } from '@/config'
 import { httpsClient } from '@resource/httpsClient'
-import { debug } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 /**
  * Criteria check for Streaming service redirect.
@@ -40,11 +40,11 @@ export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> =>
     timeout: 1000
   }).then(
     ({ statusCode }) => {
-      debug(`Streaming service status: ${statusCode}`)
+      log.debug(`Streaming service status: ${statusCode}`)
       return statusCode === 200
     },
     (error) => {
-      debug(`Streaming service status check not passed: ${error}`)
+      log.debug(`Streaming service status check not passed: ${error}`)
       return false
     }
   )

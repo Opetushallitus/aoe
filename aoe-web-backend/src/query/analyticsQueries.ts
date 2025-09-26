@@ -1,5 +1,5 @@
 import { db } from '@resource/postgresClient'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 export const updateViewCounter = async (id: string): Promise<void> => {
   // View counter disabled in development mode.
@@ -16,7 +16,7 @@ export const updateViewCounter = async (id: string): Promise<void> => {
       await t.none(query, [id])
     })
   } catch (error) {
-    error('Failed to update counter', error)
+    log.error('Failed to update counter', error)
     throw error
   }
 }
@@ -29,7 +29,7 @@ export async function updateDownloadCounter(id: string): Promise<void> {
       await t.none(query, [id])
     })
   } catch (error) {
-    error('Failed to update counter', error)
+    log.error('Failed to update counter', error)
     throw error
   }
 }

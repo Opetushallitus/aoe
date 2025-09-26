@@ -1,7 +1,7 @@
 import { Collection } from '@/collection/collection'
 import { db, pgp } from '@resource/postgresClient'
 import { aoeCollectionThumbnailDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { ITask } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
@@ -18,13 +18,13 @@ export async function insertCollection(username: string, collection: Collection)
       query =
         'insert into collection (createdat, updatedat, createdby, collectionname) ' +
         'values (now(), now(), $1, $2) returning id'
-      debug(`CollectionQueries insertCollection: ${query}`, [username, collection.name])
+      log.debug(`CollectionQueries insertCollection: ${query}`, [username, collection.name])
       const id = await t.oneOrNone(query, [username, collection.name])
       query =
         'INSERT INTO userscollection (usersusername, collectionid) ' +
         'VALUES ($1,$2) ' +
         'ON CONFLICT (usersusername, collectionid) DO NOTHING'
-      debug(`CollectionQueries insertCollection: ${query}`, [username, id.id])
+      log.debug(`CollectionQueries insertCollection: ${query}`, [username, id.id])
       await t.none(query, [username, id.id])
       return { id }
     })
@@ -51,7 +51,7 @@ export async function insertEducationalMaterialToCollection(collection: Collecti
     const query =
       pgp.helpers.insert(values, cs) +
       ' ON CONFLICT (collectionid, educationalmaterialid) DO NOTHING;'
-    debug(`Query in insertEducationalMaterialToCollection()${query}`)
+    log.debug(`Query in insertEducationalMaterialToCollection()${query}`)
     await db.none(query)
   } catch (err) {
     throw new Error(err)
@@ -235,7 +235,7 @@ export async function collectionQuery(collectionId: string, username?: string) {
     })
     return data
   } catch (err) {
-    error(err)
+    log.error(err)
     throw new Error(err)
   }
 }
@@ -389,7 +389,7 @@ export async function insertCollectionMetadata(collection: Collection) {
       }
     })
   } catch (err) {
-    error('Error in insertCollectionMetadata()', err)
+    log.error('Error in insertCollectionMetadata()', err)
     throw new Error(err)
   }
 }
@@ -465,7 +465,7 @@ export async function recentCollectionQuery() {
     })
     return data
   } catch (err) {
-    error('Error in recentCollectionQuery()', err)
+    log.error('Error in recentCollectionQuery()', err)
     throw new Error(err)
   }
 }

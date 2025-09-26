@@ -3,7 +3,7 @@ import { ISearchIndexMap } from '@aoe/search/es'
 import { getPopularityQuery } from '@query/analyticsQueries'
 import { db } from '@resource/postgresClient'
 import { aoeThumbnailDownloadUrl } from '@services/urlService'
-import { debug, error, info, warn, isDebugEnabled } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import fs from 'fs'
 import * as pgLib from 'pg-promise'
@@ -72,7 +72,7 @@ async function updateAoeIndexData(indexName: string, operation: 'create' | 'inde
       index++
     } while (resultCount)
   } catch (err) {
-    error(`Failed to update index ${indexName}`, err)
+    log.error(`Failed to update index ${indexName}`, err)
     throw err
   }
 }
@@ -97,7 +97,7 @@ const updateIndex = async (
   try {
     await client.ping()
   } catch (error) {
-    error(`OpenSearch connection is down: ${error}`)
+    log.error(`OpenSearch connection is down: ${error}`)
     throw error
   }
 
@@ -124,7 +124,7 @@ const updateIndex = async (
       }
     }
   } catch (err) {
-    error(`Index ${indexName} update failed`, err)
+    log.error(`Index ${indexName} update failed`, err)
     throw err
   }
 }
@@ -136,7 +136,7 @@ const updateIndex = async (
 const deleteIndex = async (index: string): Promise<boolean> => {
   try {
     const deleteResponse = await client.indices.delete({ index })
-    info(
+    log.info(
       `Index ${index} deleted with status code: ${deleteResponse.statusCode} and acknowledged: ${deleteResponse.body.acknowledged}`
     )
 
@@ -150,18 +150,18 @@ const deleteIndex = async (index: string): Promise<boolean> => {
     for (let attempt = 0; attempt < 5; attempt++) {
       const exists = await indexExists(index)
       if (!exists) {
-        info(`Confirmed that index ${index} no longer exists.`)
+        log.info(`Confirmed that index ${index} no longer exists.`)
         return true
       }
-      warn(`Index ${index} still exists after attempt ${attempt}.`)
+      log.warn(`Index ${index} still exists after attempt ${attempt}.`)
 
       await new Promise((resolve) => setTimeout(resolve, 2000))
     }
 
-    error(`Index ${index} still exists after 5 attempts.`)
+    log.error(`Index ${index} still exists after 5 attempts.`)
     return false
   } catch (error: any) {
-    error('Search index deletion failed', error)
+    log.error('Search index deletion failed', error)
     return false
   }
 }
@@ -180,9 +180,9 @@ const createIndex = async (index: string): Promise<boolean> => {
     })
 
     if (response.statusCode === 200) {
-      info(`Index "${index}" created successfully.`)
+      log.info(`Index "${index}" created successfully.`)
     } else {
-      error(`Index "${index}" creation not acknowledged.`)
+      log.error(`Index "${index}" creation not acknowledged.`)
       return false
     }
 
@@ -190,15 +190,15 @@ const createIndex = async (index: string): Promise<boolean> => {
       try {
         const existsResponse = await indexExists(index)
         if (existsResponse) {
-          info(`Index "${index}" is accessible after ${attempt} attempt(s).`)
+          log.info(`Index "${index}" is accessible after ${attempt} attempt(s).`)
           return true
         } else {
-          warn(
+          log.warn(
             `Attempt ${attempt} to check index "${index}" accessibility returned: ${existsResponse}`
           )
         }
       } catch (error) {
-        warn(
+        log.warn(
           `Error checking index "${index}" accessibility on attempt ${attempt}: ${error.message}`
         )
       }
@@ -206,10 +206,10 @@ const createIndex = async (index: string): Promise<boolean> => {
       await new Promise((resolve) => setTimeout(resolve, retryDelay))
     }
 
-    error(`Index "${index}" is not accessible after ${maxRetries} retries.`)
+    log.error(`Index "${index}" is not accessible after ${maxRetries} retries.`)
     return false
   } catch (error) {
-    error(`Error creating or accessing index "${index}": ${error.message}`)
+    log.error(`Error creating or accessing index "${index}": ${error.message}`)
     return false
   }
 }
@@ -224,11 +224,11 @@ const indexExists = async (index: string): Promise<boolean> => {
       index: index
     })
     .then((data) => {
-      info(`Index ${index} exists ${data.statusCode === 200}`)
+      log.info(`Index ${index} exists ${data.statusCode === 200}`)
       return data.statusCode === 200 && data.body === true
     })
     .catch((error: any) => {
-      error(`Failed to check if index ${index} exists ${JSON.stringify(error)}`)
+      log.error(`Failed to check if index ${index} exists`, error)
       return false
     })
 }
@@ -380,13 +380,13 @@ async function metadataToEs(
         })
         .then(t.batch)
         .catch((error: any) => {
-          error(error)
+          log.error(error)
           return error
         })
     })
       .then(async (data: any) => {
         if (data.length > 0) {
-          info(`Adding ${data.length} documents to OpenSearch index ${indexName}`)
+          log.info(`Adding ${data.length} documents to OpenSearch index ${indexName}`)
           const body = data.flatMap((doc) => [
             { [operation]: { _index: indexName, _id: doc.id } },
             doc
@@ -397,15 +397,11 @@ async function metadataToEs(
             indexName,
             body
           )
-          info(
+          log.info(
             `OpenSearch index ${indexName} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`
           )
 
-          if (isDebugEnabled()) {
-            debug(
-              `OpenSearch index ${indexName} bulk completed with response body ${JSON.stringify(bulkResponse)}`
-            )
-          }
+          log.debug(`OpenSearch index ${indexName} bulk completed with response body`, bulkResponse)
 
           if (bulkResponse.errors) {
             const erroredDocuments = []
@@ -426,7 +422,7 @@ async function metadataToEs(
                 })
               }
             })
-            error('Error documents in metadataToEs()', erroredDocuments)
+            log.error('Error documents in metadataToEs()', erroredDocuments)
           }
           resolve(data.length)
         } else {
@@ -434,9 +430,7 @@ async function metadataToEs(
         }
       })
       .catch((error) => {
-        error(
-          `Failed to add documents to OpenSearch index ${indexName} due to ${JSON.stringify(error)}`
-        )
+        log.error(`Failed to add documents to OpenSearch index ${indexName}`, error)
         reject()
       })
   })
@@ -464,31 +458,25 @@ export async function performBulkOperation(
       if (statusCode === 200 && !bulkResponse.errors) {
         return { statusCode, body: bulkResponse }
       } else {
-        info(
+        log.info(
           `OpenSearch index ${index} bulk attempt ${attempt} failed with status code: ${statusCode}, took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`
         )
-        if (isDebugEnabled()) {
-          debug(
-            `OpenSearch index ${index} bulk attempt ${attempt} failure response body: ${JSON.stringify(bulkResponse)}`
-          )
-        }
+        log.debug(`OpenSearch index ${index} bulk attempt ${attempt} failure`, bulkResponse)
       }
 
       attempt++
 
       if (attempt === maxRetries) {
-        error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`)
+        log.error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`)
         return { statusCode, body: bulkResponse }
       }
     } catch (error) {
-      error(
-        `Error during bulk operation for index ${index} on attempt ${attempt}: ${JSON.stringify(error)}`
-      )
+      log.error(`Error during bulk operation for index ${index} on attempt ${attempt}`, error)
 
       attempt++
 
       if (attempt === maxRetries) {
-        error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`)
+        log.error(`OpenSearch index ${index} bulk failed after ${maxRetries} attempts.`)
         throw error
       }
     }
@@ -647,7 +635,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
         .then(t.batch) // #2 then start/end
         .catch((error: any) => {
           // #2 catch start
-          error(error)
+          log.error(error)
           return error
         }) // #2 catch end
     }) // #1 async end
@@ -657,7 +645,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
           const body = data.flatMap((doc) => [{ index: { _index: index, _id: doc.id } }, doc])
           const { body: bulkResponse } = await client.bulk({ refresh: false, body })
           if (bulkResponse.errors) {
-            error('Bulk response error', bulkResponse.errors)
+            log.error('Bulk response error', bulkResponse.errors)
           } else {
             if (updateCounters) {
               Es.ESCounterUpdated.value = new Date()
@@ -672,7 +660,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       }) // #1 then end
       .catch((error) => {
         // #1 catch start
-        error(`Search index update failed in updateEsDocument(): ${error}`)
+        log.error(`Search index update failed in updateEsDocument(): ${error}`)
         reject(error)
       }) // #1 catch end
   })
@@ -683,8 +671,8 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
     const responseBody: AoeBody<AoeCollectionResult> = await collectionFromEs(req.body)
     res.status(200).json(responseBody)
   } catch (err) {
-    debug('elasticSearchQuery error')
-    error(err)
+    log.debug('elasticSearchQuery error')
+    log.error(err)
     next(new StatusError(500, 'There was an issue processing your request', err))
   }
 }
@@ -698,7 +686,7 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
 
     Es.CollectionEsUpdated.value = newDate
   } catch (error) {
-    error('Error in updateEsCollectionIndex()', error)
+    log.error('Error in updateEsCollectionIndex()', error)
     throw error
   }
 }
@@ -723,7 +711,7 @@ async function initializeIndices(): Promise<void> {
       updateCollectionIndexData
     )
   } catch (error) {
-    error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `, error)
+    log.error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `, error)
   }
 }
 

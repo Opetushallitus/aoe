@@ -11,7 +11,7 @@ import {
   LibraryName
 } from '@lumieducation/h5p-server'
 import { directoryDownloadFromStorage } from '@query/fileHandling'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
 import fsNode, { promises } from 'node:fs'
 import path from 'path'
@@ -90,14 +90,14 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     })
     res.status(200).send(htmlH5P).end()
   } catch (err: unknown) {
-    error('Processing or rendering H5P failed', err)
+    log.error('Processing or rendering H5P failed', err)
     throw err
   }
 
   // Delete the downloaded H5P archive file in HTML directory.
   fsNode.unlink(targetPath, (err: unknown): void => {
     if (err) {
-      error('Deleting the H5P archive file failed', err)
+      log.error('Deleting the H5P archive file failed', err)
     }
   })
 }

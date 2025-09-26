@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { StatusError } from '@/helpers/errorHandler'
 import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '@query/ratingQueries'
 import { RatingInformation } from './interface/rating-information.interface'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 /**
  * Save rating information for the educational material and recount rating averages.
@@ -25,7 +25,7 @@ export async function addRating(req: Request, res: Response, next: NextFunction)
     res.status(200).json({ status: ratingInformation })
     await insertRatingAverage(req.body.materialId)
   } catch (error) {
-    error(error)
+    log.error(error)
     next(new StatusError(500, 'Issue adding rating'))
   }
 }
@@ -46,7 +46,7 @@ export async function getRating(req: Request, res: Response, next: NextFunction)
       res.status(200).json(response)
     }
   } catch (error) {
-    error(error)
+    log.error(error)
     next(new StatusError(500, 'Issue getting rating'))
   }
 }
@@ -67,7 +67,7 @@ export async function getUserRating(req: Request, res: Response, next: NextFunct
       res.status(200).json(response)
     }
   } catch (error) {
-    error(error)
-    next(new StatusError(500, 'Issue getting user rating'))
+    log.error(error)
+    next(new StatusError(500, 'Issue getting user rating', error))
   }
 }

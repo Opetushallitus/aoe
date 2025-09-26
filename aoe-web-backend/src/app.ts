@@ -10,7 +10,7 @@ import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
 import aoeScheduler from '@util/aoeScheduler'
 import morganLogger from '@util/morganLogger'
-import { error, debug, warn, info } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import bodyParser from 'body-parser'
 import compression from 'compression'
 import flash from 'connect-flash'
@@ -98,7 +98,7 @@ authInit(app)
 
 // Initialize H5P editor
 initializeH5P().catch((err: unknown): void => {
-  error('Initialization of H5P editor failed', err)
+  log.error('Initialization of H5P editor failed', err)
 })
 
 // Statistics requests forwarded to AOE Analytics Service.
@@ -110,11 +110,11 @@ app.use(
     target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
     logLevel: 'debug',
     logProvider: () => ({
-      debug,
-      info,
-      warn,
-      error,
-      log: info
+      debug: log.debug,
+      info: log.info,
+      warn: log.warn,
+      error: log.error,
+      log: log.info
     }),
     changeOrigin: true,
     pathRewrite: (path: string) => path.replace('api/v2', 'analytics/api')
@@ -128,7 +128,7 @@ const dbInit = async (): Promise<void> => {
   })
 }
 dbInit().catch((err: unknown): void => {
-  error('Synchronizing database with Sequelize models failed', err)
+  log.error('Synchronizing database with Sequelize models failed', err)
   process.exit(1)
 })
 

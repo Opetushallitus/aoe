@@ -1,7 +1,7 @@
 import { getCollectionEsData } from '@/search/es'
 import { elasticSearchQuery } from '@/search/esQueries'
 import { runMessageQueueThread } from '@services/threadService'
-import { debug } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
 /**
@@ -21,7 +21,7 @@ export default (router: Router): void => {
       if (req.body.size && req.body.timestamp) {
         runMessageQueueThread(req).then((result) => {
           if (result) {
-            debug('THREAD: Message queue publishing completed for', result)
+            log.debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

@@ -1,7 +1,7 @@
 import { downloadPdfFromAllas } from '@/helpers/officeToPdfConverter'
 import { getEducationalMaterialMetadata } from '@query/apiQueries'
 import { downloadPreviewFile } from '@query/fileHandling'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
 /**
@@ -19,7 +19,7 @@ export const embed = (router: Router): void => {
     '/embed/material/:edumaterialid{/:publishedat}',
     (req: Request, res: Response, next: NextFunction) => {
       getEducationalMaterialMetadata(req, res, next, false).catch(() => {
-        error('Metadata request failed for an embedded educational material.')
+        log.error('Metadata request failed for an embedded educational material.')
       })
     },
     (_req: Request, res: Response) => {

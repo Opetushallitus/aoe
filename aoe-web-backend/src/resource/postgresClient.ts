@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import moment from 'moment'
 import pgPromise, { IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
@@ -27,9 +27,9 @@ const PG_URL_HOST: string = ['postgres://', PG_HOST, ':', PG_PORT].join('')
 // Options and error handlers for pg-promise.
 const initOptions: IInitOptions = {
   error: (err: Error, e: IEventContext<IClient>) => {
-    error('PG error', err)
+    log.error('PG error', err)
     if (e.cn) {
-      error(`PG [${PG_URL_HOST}] initialization error`, e.cn)
+      log.error(`PG [${PG_URL_HOST}] initialization error`, e.cn)
     }
   }
 }

@@ -1,6 +1,6 @@
 import { db } from '@resource/postgresClient'
 import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService'
-import { debug, error, info, isDebugEnabled } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { createMatchAllObject } from './esQueries'
 import { AoeBody, AoeCollectionResult, MultiMatchSeachBody, SearchResponse } from './esTypes'
 import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws'
@@ -71,7 +71,7 @@ export async function collectionFromEs(obj: any) {
       await client.search<SearchResponse<AoeCollectionResult>>(query)
     return await aoeCollectionResponseMapper(result)
   } catch (error) {
-    error('Collection search failed', error)
+    log.error('Collection search failed', error)
     throw error
   }
 }
@@ -97,7 +97,7 @@ async function aoeCollectionResponseMapper(
     }
     return resp
   } catch (error) {
-    error('Collection search failed', error)
+    log.error('Collection search failed', error)
     throw error
   }
 }
@@ -154,7 +154,7 @@ export const getCollectionDataToEs = async (offset: number, limit: number) => {
       return { collections }
     })
   } catch (err) {
-    error('Failed to get collection data from database', err)
+    log.error('Failed to get collection data from database', err)
     throw err
   }
 }
@@ -163,15 +163,15 @@ export async function collectionDataToEs(index: string, data: any, operation: 'c
   try {
     if (data.length > 0) {
       const body = data.flatMap((doc) => [{ [operation]: { _index: index, _id: doc.id } }, doc])
-      info(`Adding ${data.length} documents to OpenSearch index ${index}`)
+      log.info(`Adding ${data.length} documents to OpenSearch index ${index}`)
 
       const { statusCode, body: bulkResponse } = await performBulkOperation(client, index, body)
-      info(
+      log.info(
         `OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`
       )
 
-      if (isDebugEnabled()) {
-        debug(
+      if (log.isDebugEnabled()) {
+        log.debug(
           `OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`
         )
       }
@@ -195,11 +195,11 @@ export async function collectionDataToEs(index: string, data: any, operation: 'c
             })
           }
         })
-        error('Document errors', erroredDocuments)
+        log.error('Document errors', erroredDocuments)
       }
     }
   } catch (err) {
-    error(`Failed to add documents to OpenSearch index ${index}`, err)
+    log.error(`Failed to add documents to OpenSearch index ${index}`, err)
     throw err
   }
 }
@@ -255,7 +255,7 @@ export const getCollectionDataToUpdate = async (time: Date) => {
       return { collections }
     })
   } catch (err) {
-    error('Failed to get collection data to update from database', err)
+    log.error('Failed to get collection data to update from database', err)
     throw err
   }
 }

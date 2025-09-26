@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
   if (req.isAuthenticated()) {
@@ -44,7 +44,7 @@ export const hasAccesstoPublication = async (id: number, req: Request): Promise<
     const result = await db.oneOrNone(query, params.id)
     return req.session.passport.user.uid === result
   } catch (err) {
-    error('Checking user ownership failed', err)
+    log.error('Checking user ownership failed', err)
     throw err
   }
 }
@@ -75,8 +75,8 @@ export const insertUserToDatabase = async (userinfo: Record<string, unknown>): P
       await db.none(query, [userinfo['given_name'], userinfo['family_name'], uid])
     }
   } catch (err) {
-    error('Saving a new user failed', err)
-    debug('USER', userinfo)
+    log.error('Saving a new user failed', err)
+    log.debug('USER', userinfo)
     throw err
   }
 }

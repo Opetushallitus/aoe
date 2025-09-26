@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { sendVerificationEmail } from '@services/mailService'
 import { StatusError } from '@/helpers/errorHandler'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 
 export interface UserSettings {
@@ -29,7 +29,7 @@ export async function updateUserSettings(req: Request, res: Response, next: Next
     }
     return res.status(200).json({ status: 'ok' })
   } catch (error) {
-    error(error)
+    log.error(error)
     next(new StatusError(500, 'Issue updating user settings'))
   }
 }

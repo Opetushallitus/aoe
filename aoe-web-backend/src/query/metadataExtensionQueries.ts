@@ -1,6 +1,6 @@
 import { MetadataExtension } from '@/metadataExtension/metadataExtension'
 import { db } from '@resource/postgresClient'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 export async function insertMetadataExtension(
   id: string,
@@ -12,7 +12,7 @@ export async function insertMetadataExtension(
       let query
       let response
       const queries = []
-      debug('starting insertMetadataExtension')
+      log.debug('starting insertMetadataExtension')
       query =
         'DELETE FROM accessibilityfeatureextension where educationalmaterialid = $1 and usersusername = $2;'
       response = await t.none(query, [id, username])
@@ -68,7 +68,7 @@ export async function insertMetadataExtension(
       return t.batch(queries)
     })
   } catch (error) {
-    error('Failed to insert metadata extension', error)
+    log.error('Failed to insert metadata extension', error)
     throw error
   }
 }
@@ -92,7 +92,7 @@ export async function metadataExtension(id: string) {
     })
     return data
   } catch (error) {
-    error('Failed to get metadata extension', error)
+    log.error('Failed to get metadata extension', error)
     throw error
   }
 }
@@ -116,7 +116,7 @@ export async function usersMetadataExtension(id: string, user: string) {
     })
     return data
   } catch (error) {
-    error('Failed to get users metadata extension', error)
+    log.error('Failed to get users metadata extension', error)
     throw error
   }
 }

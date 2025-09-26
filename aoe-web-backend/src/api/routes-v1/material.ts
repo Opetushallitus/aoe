@@ -2,7 +2,7 @@ import { updateEducationalMaterialMetadata } from '@/controllers/educationalMate
 import { getEducationalMaterialMetadata, setEducationalMaterialObsoleted } from '@query/apiQueries'
 import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService'
 import { runMessageQueueThread } from '@services/threadService'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
 /**
@@ -37,14 +37,14 @@ export default (router: Router): void => {
     '/material/:edumaterialid{/:publishedat}',
     (req: Request, res: Response, next: NextFunction) => {
       getEducationalMaterialMetadata(req, res, next, false).catch((): void => {
-        error('Metadata request failed for a single file download.')
+        log.error('Metadata request failed for a single file download.')
       })
     },
     (req: Request, res: Response) => {
       if (['view', 'edit'].includes(req.query.interaction as string)) {
         runMessageQueueThread(req, res).then((result): void => {
           if (result) {
-            debug('THREAD: Message queue publishing completed for', result)
+            log.debug('THREAD: Message queue publishing completed for', result)
           }
         })
       }

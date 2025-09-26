@@ -7,7 +7,7 @@ import {
   updateEducationalMaterial
 } from '@query/materialQueries'
 import { deleteDocument } from '@search/esQueries'
-import { debug } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 
 /**
@@ -21,7 +21,7 @@ export async function removeEducationalMaterial(req: Request, res: Response, nex
     if (!req.params.id) {
       return res.sendStatus(404)
     }
-    debug(
+    log.debug(
       `removeEducationalMaterial: user ${req.session.passport.user.uid} deleting educational material ${req.params.id}`
     )
     const id = req.params.id
@@ -62,7 +62,7 @@ export async function changeMaterialUser(req: Request, res: Response, next: Next
     if (!req.body.materialid || !req.body.userid) {
       return res.sendStatus(404)
     }
-    debug(
+    log.debug(
       `changeMaterialUser user: ${req.session.passport.user.uid} changing educational material ${req.body.materialid} user to ${req.body.materialid}`
     )
     const users = await changeEducationalMaterialUser(req.body.materialid, req.body.userid)

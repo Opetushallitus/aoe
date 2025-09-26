@@ -3,7 +3,7 @@ import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries'
 import { updateEsDocument } from '@search/es'
 import pidResolutionService from '@services/pidResolutionService'
 import { getEduMaterialVersionURL } from '@services/urlService'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 
 export interface EducationalMaterialMetadata {
@@ -162,7 +162,7 @@ export const updateEducationalMaterialMetadata = async (
       const pidurn = await pidResolutionService.registerPID(aoeurl)
       await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn)
     } else {
-      error(
+      log.error(
         `URN update skipped for the educational material #${emid} in updateEducationalMaterialMetadata().`
       )
     }

@@ -1,4 +1,4 @@
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import fs from 'fs'
 import path from 'path'
 
@@ -23,7 +23,7 @@ export function rmDir(dirPath, removeSelf) {
       fs.rmdirSync(dirPath)
     }
   } catch (e) {
-    error('Failed to delete files', e)
+    log.error('Failed to delete files', e)
     return
   }
 }

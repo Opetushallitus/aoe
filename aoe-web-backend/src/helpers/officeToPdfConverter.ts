@@ -4,7 +4,7 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 import { config } from '@/config'
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { AWSError } from 'aws-sdk'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
@@ -134,7 +134,7 @@ export const downloadPdfFromAllas = async (
     }
     await downloadFromStorage(res, next, params, req.params.key)
   } catch (error) {
-    error(error)
+    log.error(error)
     next(new StatusError(error.statusCode, 'Issue showing pdf'))
   }
 }
@@ -154,14 +154,14 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
       const file = fs.readFileSync(filepath)
       libre.convert(file, extension, undefined, async (err: Error, data: Buffer) => {
         if (err) {
-          error('Converting an office file to PDF failed in convertOfficeFileToPDF()')
+          log.error('Converting an office file to PDF failed in convertOfficeFileToPDF()')
           return reject(err)
         }
         await fsPromise.writeFile(outputPath, data)
         return resolve(outputPath)
       })
     } catch (err) {
-      error('Error in convertOfficeFileToPDF()', err)
+      log.error('Error in convertOfficeFileToPDF()', err)
       return reject(err)
     }
   })
@@ -193,7 +193,7 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
       }
     }
   } catch (err) {
-    error('Office to PDF conversion failed', err)
+    log.error('Office to PDF conversion failed', err)
     throw err
   }
 }
@@ -210,7 +210,7 @@ const getFilesWithoutPDF = async (): Promise<any> => {
       return await t.any(query)
     })
   } catch (err: unknown) {
-    error('Fetching files without PDFs failed', err)
+    log.error('Fetching files without PDFs failed', err)
     throw err
   }
 }
@@ -234,13 +234,13 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
       .createWriteStream(folderpath)
       .once('error', (err: AWSError): void => {
         if (err.name === 'NoSuchKey') {
-          debug(`Requested file [${key}] not found`)
+          log.debug(`Requested file [${key}] not found`)
           resolve(null)
         } else if (err.name === 'TimeoutError') {
-          debug('Connection closed by timeout event.')
+          log.debug('Connection closed by timeout event.')
           resolve(null)
         } else {
-          debug('S3 connection failed', err)
+          log.debug('S3 connection failed', err)
           reject(err)
           throw err
         }
@@ -250,14 +250,14 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
           const path: string = await convertOfficeFileToPDF(folderpath, filename)
           return resolve(path)
         } catch (e) {
-          error('Error catch when trying to convertOfficeFileToPDF()')
+          log.error('Error catch when trying to convertOfficeFileToPDF()')
           return reject(e)
         }
       })
     stream
       .on('error', (err): void => {
         reject(err)
-        error('Error in downstreamAndConvertOfficeFileToPDF()', err)
+        log.error('Error in downstreamAndConvertOfficeFileToPDF()', err)
       })
       .pipe(ws)
   })

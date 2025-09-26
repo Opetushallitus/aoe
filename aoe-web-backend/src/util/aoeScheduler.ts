@@ -8,7 +8,7 @@ import {
   sendSystemNotification
 } from '@services/mailService'
 import pidResolutionService from '@services/pidResolutionService'
-import { debug, error, info } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { Job, scheduleJob } from 'node-schedule'
 
 const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *'
@@ -23,16 +23,16 @@ export const startScheduledCleaning = (): void => {
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
-      debug('Scheduled removal for temporary H5P and HTML content completed.')
+      log.debug('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
-      error('Scheduled removal for temporary H5P or HTML content failed', err)
+      log.error('Scheduled removal for temporary H5P or HTML content failed', err)
       await sendSystemNotification(
         'Scheduled directory cleaning at 1:00 AM (UTC) has failed and interrupted.'
       )
       dirCleaningScheduler.cancel()
     }
   })
-  info('Scheduled job active for directory cleaning at 1:00 AM (UTC)')
+  log.info('Scheduled job active for directory cleaning at 1:00 AM (UTC)')
 }
 
 // 1:15 AM (UTC): scheduled PID (Permanent Identifiers) registration for recently published educational materials.
@@ -44,10 +44,12 @@ export const startScheduledRegistrationForPIDs = (): void => {
         (parseInt(process.env.PID_SERVICE_RUN_SCHEDULED, 10) as number) === 1
       ) {
         await pidResolutionService.processEntriesWithoutPID()
-        debug('Scheduled PID registration for recently published educational materials completed.')
+        log.debug(
+          'Scheduled PID registration for recently published educational materials completed.'
+        )
       }
     } catch (err: unknown) {
-      error(
+      log.error(
         'Scheduled PID registration for recently published educational materials failed: %o',
         err
       )
@@ -57,7 +59,7 @@ export const startScheduledRegistrationForPIDs = (): void => {
       pidRegisterScheduler.cancel()
     }
   })
-  info('Scheduled job active for PID registration at 1:15 AM (UTC)')
+  log.info('Scheduled job active for PID registration at 1:15 AM (UTC)')
 }
 
 // 1:30 AM (UTC): scheduled search index update.
@@ -66,16 +68,16 @@ export const startScheduledSearchIndexUpdate = (): void => {
     // Update search engine index with recent changes.
     try {
       await updateEsDocument(true)
-      debug('Scheduled index update for the search engine completed.')
+      log.debug('Scheduled index update for the search engine completed.')
     } catch (err: unknown) {
-      error('Scheduled index update for the search engine failed', err)
+      log.error('Scheduled index update for the search engine failed', err)
       await sendSystemNotification(
         'Scheduled search index update at 4:30 AM has failed and interrupted.'
       )
       searchUpdateScheduler.cancel()
     }
   })
-  info('Scheduled job active for search index update at 1:30 AM (UTC)')
+  log.info('Scheduled job active for search index update at 1:30 AM (UTC)')
 }
 
 scheduleJob(emailSchedule, async (): Promise<void> => {
@@ -83,7 +85,7 @@ scheduleJob(emailSchedule, async (): Promise<void> => {
     await sendRatingNotificationMail()
     await sendExpirationMail()
   } catch (err: unknown) {
-    error('Sending scheduled expiration or rating notification mail failed', err)
+    log.error('Sending scheduled expiration or rating notification mail failed', err)
   }
 })
 if (config.MEDIA_FILE_PROCESS.conversionToPdfEnabled) {

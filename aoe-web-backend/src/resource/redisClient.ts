@@ -1,6 +1,6 @@
 import { config } from '@/config'
 import { RedisClientOptions } from '@redis/client'
-import { error, info } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { createClient } from 'redis'
 
 export const redisClient = createClient({
@@ -10,12 +10,12 @@ export const redisClient = createClient({
   )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`
 } as RedisClientOptions)
   .on('ready', () => {
-    info(
+    log.info(
       `REDIS [${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}] Connection is operable`
     )
   })
   .on('error', (err: Error): void => {
-    error(
+    log.error(
       `REDIS [${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}] Error`,
       err
     )

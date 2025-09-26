@@ -16,7 +16,7 @@ import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
 import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { EntryData } from 'archiver'
 import AWS, { AWSError, S3 } from 'aws-sdk'
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload'
@@ -105,7 +105,7 @@ export const uploadAttachmentToMaterial = async (
     }
     upload.single('attachment')(req, res, async (err: any) => {
       if (err) {
-        error('Multer error in uploadAttachmentToMaterial()', err)
+        log.error('Multer error in uploadAttachmentToMaterial()', err)
         if (err.code === 'LIMIT_FILE_SIZE') {
           return next(new StatusError(413, err.message))
         } else {
@@ -117,7 +117,7 @@ export const uploadAttachmentToMaterial = async (
         return next(new StatusError(400, 'No file sent'))
       }
       const metadata = JSON.parse(req.body.attachmentDetails)
-      debug(metadata)
+      log.debug(metadata)
       const attachmentId = await insertDataToAttachmentTable(
         file,
         materialId,
@@ -136,7 +136,7 @@ export const uploadAttachmentToMaterial = async (
       await deleteDataToTempAttachmentTable(file.filename, result[0].id)
       fs.unlink(file.path, (err: any) => {
         if (err) {
-          error(err)
+          log.error(err)
         }
       })
       res.status(200).json({ id: attachmentId })
@@ -163,18 +163,18 @@ export const uploadMaterial = async (
       return next(new StatusError(400, 'Missing content-type header'))
     }
 
-    debug(req.body)
+    log.debug(req.body)
     if (!contentType.startsWith('multipart/form-data')) {
       return next(new StatusError(400, 'Wrong contentType'))
     }
     upload.single('file')(req, res, async (err: any) => {
       try {
         if (err) {
-          debug(err)
+          log.debug(err)
           if (err.code === 'LIMIT_FILE_SIZE') {
             next(new StatusError(413, err.message))
           } else {
-            error(err)
+            log.error(err)
             next(new StatusError(500, 'Error in upload'))
           }
         }
@@ -224,7 +224,7 @@ export const uploadMaterial = async (
               res.status(200).json(resp)
               try {
                 if (typeof file !== 'undefined') {
-                  debug(materialid)
+                  log.debug(materialid)
                   const obj: any = await uploadFileToStorage(
                     file.path,
                     file.filename,
@@ -241,7 +241,7 @@ export const uploadMaterial = async (
                   // convert file to pdf if office document
                   try {
                     if (isOfficeMimeType(file.mimetype)) {
-                      debug('Convert file and send to allas')
+                      log.debug('Convert file and send to allas')
                       const path = await downstreamAndConvertOfficeFileToPDF(obj.Key)
                       const pdfkey = `${obj.Key.substring(0, obj.Key.lastIndexOf('.'))}.pdf`
                       const pdfobj: any = await uploadFileToStorage(
@@ -254,19 +254,19 @@ export const uploadMaterial = async (
                       }
                     }
                   } catch (e) {
-                    debug('ERROR converting office file to pdf')
-                    error(e)
+                    log.debug('ERROR converting office file to pdf')
+                    log.error(e)
                   }
                   await deleteDataFromTempRecordTable(file.filename, materialid)
                   fs.unlink(file.path, (err: any) => {
                     if (err) {
-                      error(err)
+                      log.error(err)
                     }
                   })
                 }
               } catch (err) {
-                debug(`error while sending file to pouta: ${JSON.stringify((<any>req).file)}`)
-                error(err)
+                log.debug(`error while sending file to pouta: ${JSON.stringify((<any>req).file)}`)
+                log.error(err)
               }
             })
             .catch((err: Error) => {
@@ -275,9 +275,9 @@ export const uploadMaterial = async (
               }
               fs.unlink(file.path, (err: any) => {
                 if (err) {
-                  debug(`Error in uploadMaterial(): ${err}`)
+                  log.debug(`Error in uploadMaterial(): ${err}`)
                 } else {
-                  debug('file removed')
+                  log.debug('file removed')
                 }
               })
             })
@@ -322,12 +322,12 @@ const uploadFileToLocalDisk = (
       if (file) {
         fs.unlink(file.path, (err) => {
           if (err) {
-            error('File removal after the interrupted upload failed', err)
+            log.error('File removal after the interrupted upload failed', err)
           }
         })
       }
       reject(err)
-      error('File upload failed', err)
+      log.error('File upload failed', err)
     }
   })
 }
@@ -360,7 +360,7 @@ const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
 const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
   fs.unlink(file.path, (err: any): void => {
     if (err) {
-      error('Unlink removal for the uploaded file failed', err)
+      log.error('Unlink removal for the uploaded file failed', err)
     }
   })
 }
@@ -382,7 +382,7 @@ export const uploadFileToMaterial = async (
       return result
     })
     .catch((err) => {
-      error('Multer upload failed', err)
+      log.error('Multer upload failed', err)
       throw err
     })
   if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
@@ -435,7 +435,7 @@ export const uploadFileToMaterial = async (
     recordID = await upsertRecord(t, file, material.id) // await insertDataToRecordTable(file, material.id);
     await t.commit()
   } catch (err: any) {
-    error('Transaction for the single file upload failed', err)
+    log.error('Transaction for the single file upload failed', err)
     await t.rollback()
     throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
@@ -494,7 +494,7 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    error('Single file upstreaming or conversions failed', err)
+    log.error('Single file upstreaming or conversions failed', err)
     if (!res.headersSent) {
       next(new StatusError(500, `File upstreaming failed`, err))
     }
@@ -509,7 +509,7 @@ const insertDataToEducationalMaterialTable = async (
 ): Promise<{ id: string }> => {
   const uid = req.session?.passport?.user.uid
   if (!uid) {
-    error('insertDataToEducationalMaterialTable missing uid in reques')
+    log.error('insertDataToEducationalMaterialTable missing uid in reques')
     throw new Error('Missing uid!')
   }
   return await t.one<{ id: string }>(
@@ -709,7 +709,7 @@ async function updateAttachment(
 ) {
   await db.tx(async (t: ITask<IClient>) => {
     const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4'
-    debug(query)
+    log.debug(query)
     await t.none(query, [location, fileKey, fileBucket, attachmentId])
   })
 }
@@ -723,7 +723,7 @@ async function insertDataToTempAttachmentTable(
     'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
     'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id'
-  debug(query)
+  log.debug(query)
   return await db.any(query, [
     files.filename,
     files.path,
@@ -763,7 +763,7 @@ const upsertRecord = async (
   })
 
   if (!material) {
-    error('usperRecord: did not find material to upsert: ', materialID)
+    log.error('usperRecord: did not find material to upsert: ', materialID)
     throw new Error('Did not find material to upsert')
   }
 
@@ -908,7 +908,7 @@ export const uploadFileToStorage = (
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
       .once('error', (err: Error): void => {
-        error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName)
+        log.error('Readstream for a local file failed in uploadLocalFileToCloudStorage()', fileName)
         reject(err)
       })
       .pipe(passThrough)
@@ -919,7 +919,7 @@ export const uploadFileToStorage = (
         resolve(resp)
       })
       .catch((err: Error): void => {
-        error(
+        log.error(
           'Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s',
           fileName
         )
@@ -952,14 +952,14 @@ export async function uploadBase64FileToStorage(
         const startTime: number = Date.now()
         s3.upload(params, (err: any, data: any) => {
           if (err) {
-            error(
+            log.error(
               'Reading file from the local file system failed in uploadBase64FileToStorage(): ' +
                 err
             )
             reject(err)
           }
           if (data) {
-            debug(
+            log.debug(
               'Uploading file to the cloud object storage completed in ' +
                 (Date.now() - startTime) / 1000 +
                 's'
@@ -968,14 +968,14 @@ export async function uploadBase64FileToStorage(
           }
         })
       } catch (err) {
-        error(
+        log.error(
           'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' +
             err
         )
         reject(err)
       }
     } catch (err) {
-      error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
+      log.error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
       reject(err)
     }
   })
@@ -992,7 +992,7 @@ export const downloadPreviewFile = async (
   res: Response,
   next: NextFunction
 ): Promise<any> => {
-  debug('HTTP request headers present in downloadPreviewFile()', req.headers)
+  log.debug('HTTP request headers present in downloadPreviewFile()', req.headers)
   try {
     const data = await downloadFileFromStorage(req, res, next)
     if (!data) {
@@ -1052,7 +1052,7 @@ export const downloadFile = async (
       try {
         await updateDownloadCounter(educationalmaterialId.toString())
       } catch (error) {
-        error('Updating download counter failed:', error)
+        log.error('Updating download counter failed:', error)
       }
     }
     next()
@@ -1117,7 +1117,7 @@ export const downloadFileFromStorage = async (
       const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip)
       resolve(resp)
     } catch (err) {
-      error(
+      log.error(
         'downloadFileFromStorage(): req.params.filename=%s, isZip=%s',
         req.params.filename,
         isZip
@@ -1149,10 +1149,10 @@ export const directoryDownloadFromStorage = async (
     .createReadStream()
     .once('error', (err: AWSError): void => {
       if (err.name === 'NoSuchKey') {
-        debug(`S3 requested key [${paramsS3.Key}] not found`)
+        log.debug(`S3 requested key [${paramsS3.Key}] not found`)
         return
       } else if (err.name === 'TimeoutError') {
-        debug('S3 connection closed by timeout event.')
+        log.debug('S3 connection closed by timeout event.')
         return
       } else {
         throw err
@@ -1196,15 +1196,15 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              debug(`Requested file ${origFilename} not found`)
+              log.debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
-              debug('Connection closed by timeout event.')
+              log.debug('Connection closed by timeout event.')
               res.end()
               resolve(false)
             } else {
-              debug('S3 connection failed', err)
+              log.debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1216,15 +1216,15 @@ export const downloadFromStorage = (
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
-              debug(`Requested file ${origFilename} not found`)
+              log.debug(`Requested file ${origFilename} not found`)
               res.status(404)
               resolve(false)
             } else if (err.name === 'TimeoutError') {
-              debug('Connection closed by timeout event.')
+              log.debug('Connection closed by timeout event.')
               res.end()
               resolve(false)
             } else {
-              debug('S3 connection failed', err)
+              log.debug('S3 connection failed', err)
               reject(err)
               throw err
             }
@@ -1310,7 +1310,7 @@ export const downloadAllMaterialsCompressed = async (
     try {
       await updateDownloadCounter(educationalMaterialId.toString())
     } catch (err) {
-      error('Updating download counter failed', err)
+      log.error('Updating download counter failed', err)
     }
   }
 }
@@ -1396,7 +1396,7 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     // The web site is not functional without an index file => return false.
     return false
   } catch (err) {
-    debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
+    log.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
     return false
   }
 }

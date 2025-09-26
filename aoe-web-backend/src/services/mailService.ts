@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { sign, verify } from 'jsonwebtoken'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 import AWS from 'aws-sdk'
 
@@ -65,13 +65,13 @@ export async function sendExpirationMail() {
           body: { text: mailOptions.text }
         })
 
-        debug(`Message sent: ${info.MessageId}`)
+        log.debug(`Message sent: ${info.MessageId}`)
       }
     } else {
-      debug('Material expiration email sending disabled')
+      log.debug('Material expiration email sending disabled')
     }
   } catch (err) {
-    error('Error in sendExpirationMail()', err)
+    log.error('Error in sendExpirationMail()', err)
   }
 }
 
@@ -96,7 +96,7 @@ export async function sendRatingNotificationMail() {
           subject: 'Uusi arvio - Avointen oppimateriaalien kirjasto (aoe.fi)',
           text: await ratingNotificationText(holder[element])
         }
-        debug(`sending rating mail to: ${mailOptions.to}`)
+        log.debug(`sending rating mail to: ${mailOptions.to}`)
         try {
           const info = await sendEmail({
             to: mailOptions.to,
@@ -105,16 +105,16 @@ export async function sendRatingNotificationMail() {
             body: { text: mailOptions.text }
           })
 
-          debug(`Message sent: ${info.MessageId}`)
+          log.debug(`Message sent: ${info.MessageId}`)
         } catch (error) {
-          error(error)
+          log.error(error)
         }
       }
     } else {
-      debug('Rating notification email sending disabled')
+      log.debug('Rating notification email sending disabled')
     }
   } catch (error) {
-    debug('Error in sendRatingNotificationMail()', error)
+    log.debug('Error in sendRatingNotificationMail()', error)
   }
 }
 
@@ -175,11 +175,11 @@ export async function verifyEmailToken(req: Request, res: Response, _next: NextF
         throw new Error('jsonwebtoken did not contain jwt payload')
       }
       const id = decoded.id
-      debug(id)
+      log.debug(id)
       await updateVerifiedEmail(id)
       return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/')
     } catch (err) {
-      error('Error in verifyEmailToken()', err)
+      log.error('Error in verifyEmailToken()', err)
       return res.sendStatus(403)
     }
   } else {

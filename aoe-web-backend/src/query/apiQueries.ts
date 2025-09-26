@@ -8,7 +8,7 @@ import { hasDownloadableFiles } from '@search/esQueries'
 import { hasAccesstoPublication } from '@services/authService'
 import { aoeThumbnailDownloadUrl } from '@services/urlService'
 import { removeInvalidXMLCharacters } from '@util/invalidXMLCharValidator'
-import { debug, error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import * as pgLib from 'pg-promise'
 import { updateViewCounter } from './analyticsQueries'
@@ -328,7 +328,7 @@ export const getEducationalMaterialMetadata = async (
             jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
         ) {
           req.params.key = jsonObj.materials[i].filekey
-          debug(
+          log.debug(
             'The req.params.key before it is being sent to DownloadFIleFromStorage function: %s',
             req.params.key
           )
@@ -416,7 +416,7 @@ export const getEducationalMaterialMetadata = async (
         (!req.isAuthenticated() || !(await hasAccesstoPublication(jsonObj.id, req)))
       ) {
         updateViewCounter(jsonObj.id).catch((error) => {
-          error(`View counter update failed: ${error}`)
+          log.error(`View counter update failed: ${error}`)
         })
       }
       next()
@@ -473,7 +473,7 @@ export async function getUserMaterial(
         })
         .then(t.batch)
         .catch((error: any) => {
-          error(error)
+          log.error(error)
           return error
         })
     }).then((data: any) => {
@@ -583,7 +583,7 @@ export async function setEducationalMaterialObsoleted(
     })
     res.status(204).send()
     updateEsDocument().catch((err: Error) => {
-      error(err)
+      log.error(err)
     })
   } catch (err) {
     next(new StatusError(500, 'Issue deleting material', err))
@@ -628,7 +628,7 @@ export const setMaterialObsoleted = async (
     })
     res.status(200).json({ obsoleted: req.params.materialid })
     updateEsDocument().catch((err: Error): void => {
-      error('Search index update failed', err)
+      log.error('Search index update failed', err)
     })
   } catch (err) {
     next(new StatusError(500, `Setting the material as obsoleted failed`, err))
@@ -662,7 +662,7 @@ export const setAttachmentObsoleted = async (
     })
     res.status(200).json({ status: 'deleted' })
     updateEsDocument().catch((err: Error) => {
-      error('Search index update failed after setting an attachment file obsoleted: %o', err)
+      log.error('Search index update failed after setting an attachment file obsoleted: %o', err)
     })
   } catch (err) {
     next(new StatusError(500, `Setting an attachment file obsoleted failed`, err))
@@ -815,7 +815,7 @@ export async function insertEducationalMaterialName(materialname: NameObject, id
     'UPDATE SET materialname = $1, slug = $3'
   const queries = []
   await setLanguage(materialname)
-  debug(`Query in insertEducationalMaterialName(): ${query}`)
+  log.debug(`Query in insertEducationalMaterialName(): ${query}`)
   if (materialname.fi === null) {
     queries.push(await t.any(query, ['', 'fi', '', id]))
   } else {
@@ -849,7 +849,7 @@ export const updateMaterial = async (
       const queries: any = []
       const materialname = metadata.name
       let response
-      debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
+      log.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
       if (materialname !== undefined) {
         queries.push(await insertEducationalMaterialName(materialname, emid, t))
       }
@@ -1165,7 +1165,7 @@ export const updateMaterial = async (
           queries.push(await t.any(query, [element.language, element.id, emid]))
           if (element.link) {
             query = 'UPDATE material SET link = $1 WHERE id = $2 AND educationalmaterialid = $3'
-            debug(`update link: ${query}`, [element.link, element.id, emid])
+            log.debug(`update link: ${query}`, [element.link, element.id, emid])
             queries.push(await t.any(query, [element.link, element.id, emid]))
           }
         }
@@ -1320,7 +1320,7 @@ export const updateMaterial = async (
       return data
     })
     .catch((err: Error) => {
-      error(err)
+      log.error(err)
       throw err
     })
 }
@@ -1338,7 +1338,7 @@ export const updateEduMaterialVersionURN = async (
     `
     await db.none(query, [id, publishedat, urn])
   } catch (error) {
-    error(
+    log.error(
       `Update for educational material version failed in updateEduMaterialVersionURN(): ${error}`
     )
     throw error

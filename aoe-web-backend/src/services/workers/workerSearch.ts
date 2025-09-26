@@ -1,7 +1,7 @@
 import { config } from '@/config'
 import { TypeSearchRequest } from '@aoe/services/workers/workerSearch'
 import { kafkaProducer } from '@resource/kafkaClient'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import moment from 'moment'
 import { parentPort, workerData } from 'worker_threads'
 
@@ -28,4 +28,4 @@ const produceKafkaMessage = async (): Promise<void> => {
 
 produceKafkaMessage()
   .then(() => parentPort.postMessage(message))
-  .catch((error) => error('Message producer failed in workerSearch.ts', error))
+  .catch((error) => log.error('Message producer failed in workerSearch.ts', error))

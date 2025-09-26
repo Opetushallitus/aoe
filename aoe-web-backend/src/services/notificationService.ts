@@ -1,5 +1,5 @@
 import { Notification, sequelize } from '@domain/aoeModels'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
 import { Op, Transaction } from 'sequelize'
 
@@ -44,7 +44,7 @@ export const getScheduledNotifications = async (_req: Request, res: Response): P
     })
     await t.commit()
   } catch (err) {
-    error('Getting the scheduled notifications failed', err)
+    log.error('Getting the scheduled notifications failed', err)
     await t.rollback()
     throw err
   }
@@ -94,7 +94,7 @@ export const getScheduledNotificationsAll = async (_req: Request, res: Response)
     })
     await t.commit()
   } catch (err) {
-    error('Getting the currently active notifications failed', err)
+    log.error('Getting the currently active notifications failed', err)
     await t.rollback()
     throw err
   }
@@ -127,7 +127,7 @@ export const setScheduledNotification = async (req: Request, res: Response): Pro
     )
     await t.commit()
   } catch (err) {
-    error('Saving a scheduled notification failed', err)
+    log.error('Saving a scheduled notification failed', err)
     await t.rollback()
     throw err
   }
@@ -168,7 +168,7 @@ export const setScheduledNotificationDisabled = async (
       affected: affectedCount
     })
   } catch (err: unknown) {
-    error('Disabling a scheduled notification failed', err)
+    log.error('Disabling a scheduled notification failed', err)
     await t.rollback()
     throw err
   }

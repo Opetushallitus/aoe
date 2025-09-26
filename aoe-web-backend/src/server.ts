@@ -5,13 +5,15 @@ dotenv.config()
 
 import { app } from './app'
 import { Socket } from 'net'
-import { info } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 const server = app.listen(
   parseInt(process.env.PORT_LISTEN as string, 10) || 3000,
   '0.0.0.0',
   () => {
-    info(`App is running at http://0.0.0.0:${process.env.PORT_LISTEN} in ${app.get('env')} mode`)
+    log.info(
+      `App is running at http://0.0.0.0:${process.env.PORT_LISTEN} in ${app.get('env')} mode`
+    )
   }
 )
 

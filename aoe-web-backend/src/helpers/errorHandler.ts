@@ -1,5 +1,5 @@
 import { Request, NextFunction, Response } from 'express'
-import { error } from '@util/winstonLogger'
+import * as log from '@util/winstonLogger'
 
 export class StatusError extends Error {
   statusCode: number
@@ -35,7 +35,7 @@ export const handleError = (err: any, req: Request, res: Response, _next: NextFu
     causeStack: err.cause?.stack
   }
 
-  error(errorDetails)
+  log.error(errorDetails)
 
   const statusCode = err.statusCode || 500
   res.status(statusCode).json({
