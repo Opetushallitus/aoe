@@ -662,10 +662,7 @@ export const setAttachmentObsoleted = async (
     })
     res.status(200).json({ status: 'deleted' })
     updateEsDocument().catch((err: Error) => {
-      error(
-        'Search index update failed after setting an attachment file obsoleted: %o',
-        err
-      )
+      error('Search index update failed after setting an attachment file obsoleted: %o', err)
     })
   } catch (err) {
     next(new StatusError(500, `Setting an attachment file obsoleted failed`, err))

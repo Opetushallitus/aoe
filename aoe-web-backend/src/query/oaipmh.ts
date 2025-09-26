@@ -6,7 +6,7 @@ import {
   aoeThumbnailDownloadUrl,
   getEduMaterialVersionURL
 } from '@services/urlService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { Request, Response } from 'express'
 
 /**
@@ -17,13 +17,8 @@ import { Request, Response } from 'express'
  * @return {Promise<void>}
  */
 export const getMaterialMetaData = async (req: Request, res: Response): Promise<void> => {
-  winstonLogger.debug(
-    'OAI-PMH: allversions=%s dateMin=%s, dateMax=%s, materialPerPage=%d, pageNumber=%d',
-    req.body.allVersions,
-    req.body.dateMin,
-    req.body.dateMax,
-    req.body.materialPerPage,
-    req.body.pageNumber
+  debug(
+    `OAI-PMH: allversions=${req.body.allVersions} dateMin=${req.body.dateMin}, dateMax=${req.body.dateMax}, materialPerPage=${req.body.materialPerPage}, pageNumber=${req.body.pageNumber}`
   )
 
   if (
@@ -219,7 +214,7 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
         )
         .then(t.batch)
         .catch((err: any): void => {
-          winstonLogger.error('Fetching a metadata batch failed at OAI-PMH API endpoint', err)
+          error('Fetching a metadata batch failed at OAI-PMH API endpoint', err)
           throw err
         })
     })

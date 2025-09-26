@@ -1,6 +1,6 @@
 import { insertUserToDatabase } from '@services/authService'
 import { isLoginEnabled } from '@services/routeEnablerService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { CookieOptions, Express, Request, Response } from 'express'
 import { Cookie } from 'express-session'
 import openidClient, {
@@ -46,7 +46,7 @@ Issuer.discover(process.env.PROXY_URI)
               return done(undefined, { uid: userinfo.uid, name: nameparsed })
             })
             .catch((err: Error) => {
-              winstonLogger.error('Saving user information failed', err)
+              error('Saving user information failed', err)
               return done('Saving user information failed', undefined)
             })
         }
@@ -61,7 +61,7 @@ Issuer.discover(process.env.PROXY_URI)
     })
   })
   .catch((error: any): void => {
-    winstonLogger.error(error)
+    error(error)
   })
 
 /**
@@ -100,7 +100,7 @@ export const authInit = (app: Express): void => {
     }
     req.logout((done) => done())
     req.session.destroy((error): void => {
-      winstonLogger.debug('Logout request /logout | session termination errors', error)
+      debug('Logout request /logout | session termination errors', error)
       res.clearCookie('connect.sid', deleteCookie)
       res.status(200).json({ message: 'logged out' })
     })

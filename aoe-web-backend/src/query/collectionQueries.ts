@@ -1,7 +1,7 @@
 import { Collection } from '@/collection/collection'
 import { db, pgp } from '@resource/postgresClient'
 import { aoeCollectionThumbnailDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { ITask } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
@@ -18,16 +18,13 @@ export async function insertCollection(username: string, collection: Collection)
       query =
         'insert into collection (createdat, updatedat, createdby, collectionname) ' +
         'values (now(), now(), $1, $2) returning id'
-      winstonLogger.debug(`CollectionQueries insertCollection: ${query}`, [
-        username,
-        collection.name
-      ])
+      debug(`CollectionQueries insertCollection: ${query}`, [username, collection.name])
       const id = await t.oneOrNone(query, [username, collection.name])
       query =
         'INSERT INTO userscollection (usersusername, collectionid) ' +
         'VALUES ($1,$2) ' +
         'ON CONFLICT (usersusername, collectionid) DO NOTHING'
-      winstonLogger.debug(`CollectionQueries insertCollection: ${query}`, [username, id.id])
+      debug(`CollectionQueries insertCollection: ${query}`, [username, id.id])
       await t.none(query, [username, id.id])
       return { id }
     })
@@ -54,7 +51,7 @@ export async function insertEducationalMaterialToCollection(collection: Collecti
     const query =
       pgp.helpers.insert(values, cs) +
       ' ON CONFLICT (collectionid, educationalmaterialid) DO NOTHING;'
-    winstonLogger.debug(`Query in insertEducationalMaterialToCollection()${query}`)
+    debug(`Query in insertEducationalMaterialToCollection()${query}`)
     await db.none(query)
   } catch (err) {
     throw new Error(err)
@@ -238,7 +235,7 @@ export async function collectionQuery(collectionId: string, username?: string) {
     })
     return data
   } catch (err) {
-    winstonLogger.error(err)
+    error(err)
     throw new Error(err)
   }
 }
@@ -392,7 +389,7 @@ export async function insertCollectionMetadata(collection: Collection) {
       }
     })
   } catch (err) {
-    winstonLogger.error('Error in insertCollectionMetadata()', err)
+    error('Error in insertCollectionMetadata()', err)
     throw new Error(err)
   }
 }
@@ -468,7 +465,7 @@ export async function recentCollectionQuery() {
     })
     return data
   } catch (err) {
-    winstonLogger.error('Error in recentCollectionQuery()', err)
+    error('Error in recentCollectionQuery()', err)
     throw new Error(err)
   }
 }

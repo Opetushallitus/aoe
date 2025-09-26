@@ -15,7 +15,7 @@ import {
 import { isAllasEnabled } from '@services/routeEnablerService'
 import requestErrorHandler from '@util/requestErrorHandler'
 import { fileUploadRules } from '@util/requestValidator'
-import winstonLogger from '@util/winstonLogger'
+import { error } from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
 /**
@@ -63,7 +63,7 @@ export default (router: Router): void => {
     `/material/file/:edumaterialid/all{/:publishedat}`,
     (req: Request, res: Response, next: NextFunction): void => {
       downloadAllMaterialsCompressed(req, res, next).catch((err): void => {
-        winstonLogger.error('Downstream from the cloud storage failed.')
+        error('Downstream from the cloud storage failed.')
         next(err)
       })
     }

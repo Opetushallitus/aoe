@@ -1,7 +1,7 @@
 import { updateEduMaterialVersionURN } from '@query/apiQueries'
 import { getEdumaterialVersionsWithoutURN } from '@query/pidQueries'
 import { getEduMaterialVersionURL } from './urlService'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { Urn } from '@domain/aoeModels'
 
 /**
@@ -14,7 +14,7 @@ export const registerPID = async (url: string): Promise<string> => {
   })
 
   if (record) {
-    winstonLogger.error(`URL ${url} already has urn generated`)
+    error(`URL ${url} already has urn generated`)
     return null
   }
 
@@ -69,10 +69,8 @@ export const processEntriesWithoutPID = async (): Promise<void> => {
           )
         )
       }
-      winstonLogger.debug(
-        'URN registration completed: eduMaterialVersionURL=%s => registeredURN=%s',
-        eduMaterialVersionURL,
-        registeredURN
+      debug(
+        `URN registration completed: eduMaterialVersionURL=${eduMaterialVersionURL} => registeredURN=${registeredURN}`
       )
     }
   } catch (error) {

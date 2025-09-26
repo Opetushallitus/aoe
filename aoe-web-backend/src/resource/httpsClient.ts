@@ -2,7 +2,7 @@ import { IncomingMessage, RequestOptions } from 'http'
 import https from 'https'
 import http from 'http'
 
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 
 /**
  * HTTP(S) client to execute internal request to other service components.
@@ -41,12 +41,12 @@ export const httpsClient = (httpsConnection: boolean, options: RequestOptions): 
         })
     })
     request
-      .on('error', (error: Error) => {
-        winstonLogger.error(`Request handling failed in HTTPS client: ${error}`)
-        reject(error)
+      .on('error', (err: Error) => {
+        error(`Request handling failed in HTTPS client`, err)
+        reject(err)
       })
       .on('timeout', () => {
-        winstonLogger.debug(`Request timeout in HTTPS client: ${options.timeout} ms`)
+        debug(`Request timeout in HTTPS client: ${options.timeout} ms`)
       })
       .end()
   })

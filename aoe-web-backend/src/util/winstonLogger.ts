@@ -35,6 +35,10 @@ export const error = (message: any, ...meta: any[]): void => {
   winstonLogger.error(message, ...meta)
 }
 
+export const http = (message: any, ...meta: any[]): void => {
+  winstonLogger.http(message, ...meta)
+}
+
 export const isDebugEnabled = (): boolean => {
   return winstonLogger.isDebugEnabled()
 }

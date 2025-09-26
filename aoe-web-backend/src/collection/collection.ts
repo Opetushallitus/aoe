@@ -9,7 +9,7 @@ import {
   userCollections
 } from '@query/collectionQueries'
 import { updateEsCollectionIndex } from '@search/es'
-import winstonLogger from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 
 export class Collection {
@@ -90,7 +90,7 @@ export async function createCollection(
     const id = await insertCollection(req.session.passport.user.uid, collection)
     res.status(200).json(id)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue creating collection', error))
   }
 }
@@ -112,7 +112,7 @@ export async function addEducationalMaterialToCollection(
     await insertEducationalMaterialToCollection(collection)
     res.status(200).json({ status: 'ok' })
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue adding material to collection', error))
   }
 }
@@ -134,7 +134,7 @@ export async function removeEducationalMaterialFromCollection(
     await deleteEducationalMaterialFromCollection(collection)
     res.status(200).json({ status: 'ok' })
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue removing material from collection', error))
   }
 }
@@ -155,7 +155,7 @@ export async function getUserCollections(
     const data = await userCollections(req.session.passport.user.uid)
     res.status(200).json(data)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue getting collection', error))
   }
 }
@@ -177,7 +177,7 @@ export async function getCollection(req: Request, res: Response, next: NextFunct
     }
     res.status(200).json(data)
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue getting collection', error))
   }
 }
@@ -196,16 +196,16 @@ export async function updateCollection(
 ): Promise<any> {
   try {
     const collection = new Collection(req.body)
-    winstonLogger.debug(collection)
+    debug(collection)
     await insertCollectionMetadata(collection)
     res.status(200).json({ status: 'success' })
     try {
       await updateEsCollectionIndex()
     } catch (err) {
-      winstonLogger.error('Collection Es update failed data out of sync')
+      error('Collection Es update failed data out of sync')
     }
   } catch (error) {
-    winstonLogger.error(error)
+    error(error)
     next(new StatusError(500, 'Issue updating collection', error))
   }
 }

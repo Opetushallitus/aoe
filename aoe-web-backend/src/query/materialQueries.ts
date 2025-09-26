@@ -1,25 +1,23 @@
 import { db } from '@resource/postgresClient'
-import winstonLogger from '@util/winstonLogger'
+import { debug } from '@util/winstonLogger'
 
 export async function updateEducationalMaterial(emid: string) {
   return await db.tx(async (t: any) => {
     await t.none('UPDATE educationalmaterial SET obsoleted = 1 WHERE id = $1;', [emid])
-    winstonLogger.debug(`Educational material obsoleted for id: ${emid}`)
+    debug(`Educational material obsoleted for id: ${emid}`)
 
     const materialIds = await t.any(
       'UPDATE material SET obsoleted = 1 WHERE educationalmaterialid = $1 RETURNING id;',
       [emid]
     )
-    winstonLogger.debug(`Materials obsoleted: ${JSON.stringify(materialIds)}`)
+    debug(`Materials obsoleted: ${JSON.stringify(materialIds)}`)
 
     for (const { id } of materialIds) {
       const attachmentIds = await t.any(
         'UPDATE attachment SET obsoleted = 1 WHERE materialid = $1 RETURNING id;',
         [id]
       )
-      winstonLogger.debug(
-        `Attachments obsoleted for material id ${id}: ${JSON.stringify(attachmentIds)}`
-      )
+      debug(`Attachments obsoleted for material id ${id}: ${JSON.stringify(attachmentIds)}`)
     }
 
     return { id: materialIds }
@@ -37,9 +35,7 @@ export async function changeEducationalMaterialUser(emid: string, id: string) {
       username.username,
       emid
     ])
-    winstonLogger.debug(
-      `Changed educational material owner to: ${username.username} for material id: ${emid}`
-    )
+    debug(`Changed educational material owner to: ${username.username} for material id: ${emid}`)
     return true
   })
 }

@@ -723,10 +723,7 @@ async function initializeIndices(): Promise<void> {
       updateCollectionIndexData
     )
   } catch (error) {
-    error(
-      `Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `,
-      error
-    )
+    error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `, error)
   }
 }
 

@@ -265,9 +265,7 @@ export const uploadMaterial = async (
                   })
                 }
               } catch (err) {
-                debug(
-                  `error while sending file to pouta: ${JSON.stringify((<any>req).file)}`
-                )
+                debug(`error while sending file to pouta: ${JSON.stringify((<any>req).file)}`)
                 error(err)
               }
             })
@@ -910,10 +908,7 @@ export const uploadFileToStorage = (
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
       .once('error', (err: Error): void => {
-        error(
-          'Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s',
-          fileName
-        )
+        error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName)
         reject(err)
       })
       .pipe(passThrough)

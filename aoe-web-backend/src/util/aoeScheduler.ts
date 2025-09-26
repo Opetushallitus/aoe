@@ -44,9 +44,7 @@ export const startScheduledRegistrationForPIDs = (): void => {
         (parseInt(process.env.PID_SERVICE_RUN_SCHEDULED, 10) as number) === 1
       ) {
         await pidResolutionService.processEntriesWithoutPID()
-        debug(
-          'Scheduled PID registration for recently published educational materials completed.'
-        )
+        debug('Scheduled PID registration for recently published educational materials completed.')
       }
     } catch (err: unknown) {
       error(

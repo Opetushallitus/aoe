@@ -1,4 +1,4 @@
-import winstonLogger from '@util/winstonLogger'
+import { error } from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 
 export const getEdumaterialVersionsWithoutURN = async (limit: number): Promise<any> => {
@@ -12,8 +12,8 @@ export const getEdumaterialVersionsWithoutURN = async (limit: number): Promise<a
         'LIMIT $1'
       return await t.any(query, [limit])
     })
-  } catch (error) {
-    winstonLogger.error(`Request for educational material versions without PID failed: ${error}`)
-    throw new Error(error)
+  } catch (err) {
+    error(`Request for educational material versions without PID failed`, err)
+    throw err
   }
 }
