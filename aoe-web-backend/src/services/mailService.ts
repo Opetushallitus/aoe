@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { sign, verify } from 'jsonwebtoken'
-import { debug, error, info } from '@util/winstonLogger'
+import { debug, error } from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 import AWS from 'aws-sdk'
 
@@ -45,30 +45,6 @@ const sendEmail = async (email: {
   }
 
   return await ses.sendEmail(params).promise()
-}
-
-/**
- * Send system notifications like state and error messages to the service mainteiners.
- * @param content string Message to be sent as a system notification.
- */
-export const sendSystemNotification = async (content: string): Promise<void> => {
-  try {
-    if (isEnabled('SEND_SYSTEM_NOTIFICATION_EMAIL')) {
-      await sendEmail({
-        to: process.env.ADMIN_EMAIL,
-        from: process.env.EMAIL_FROM,
-        subject: 'AOE System Notification',
-        body: { text: content }
-      })
-      debug('System email notification delivery completed')
-    } else {
-      info(
-        'System email notification not sent while email service is currently disabled'
-      )
-    }
-  } catch (error) {
-    error(`System email notification delivery failed: ${error}`)
-  }
 }
 
 export async function sendExpirationMail() {

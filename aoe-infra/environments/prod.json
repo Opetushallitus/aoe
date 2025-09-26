@@ -142,7 +142,6 @@
         "BASE_URL": "https://aoe.fi/api/v1/",
 
         "EMAIL_FROM": "oppimateriaalivaranto@aoe.fi",
-        "SEND_SYSTEM_NOTIFICATION_EMAIL": "0",
         "SEND_EXPIRATION_NOTIFICATION_EMAIL": "1",
         "SEND_RATING_NOTIFICATION_EMAIL": "1",
         "SEND_VERIFICATION_EMAIL": "1",
