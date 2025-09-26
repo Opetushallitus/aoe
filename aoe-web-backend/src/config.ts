@@ -23,7 +23,6 @@ process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS ||
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID')
 process.env.KAFKA_CLIENT_REGION || missingEnvs.push('KAFKA_CLIENT_REGION')
 process.env.CONVERSION_TO_PDF_API || missingEnvs.push('CONVERSION_TO_PDF_API')
-process.env.CONVERSION_TO_PDF_ENABLED || missingEnvs.push('CONVERSION_TO_PDF_ENABLED')
 process.env.POSTGRESQL_HOST || missingEnvs.push('POSTGRESQL_HOST')
 process.env.POSTGRESQL_PORT || missingEnvs.push('POSTGRESQL_PORT')
 process.env.POSTGRESQL_DATA || missingEnvs.push('POSTGRESQL_DATA')
@@ -70,7 +69,6 @@ export const config = {
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
     conversionToPdfApi: process.env.CONVERSION_TO_PDF_API as string,
-    conversionToPdfEnabled: (process.env.CONVERSION_TO_PDF_ENABLED === '1') as boolean,
     htmlFolder: process.env.HTML_FOLDER as string,
     localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
     h5pJsonConfiguration: 'dist/services/config/h5p.json',

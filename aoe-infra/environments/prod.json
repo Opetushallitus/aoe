@@ -131,7 +131,6 @@
         "MATERIAL_FILE_UPLOAD_FOLDER": "/mnt/data/uploads",
 
         "CONVERSION_TO_PDF_API": "https://aoe.fi/api/v1/pdf/content/",
-        "CONVERSION_TO_PDF_ENABLED": "1",
 
         "FILE_DOWNLOAD_URL": "https://aoe.fi/api/v1/download/file/",
         "THUMBNAIL_DOWNLOAD_URL": "https://aoe.fi/api/v1/thumbnail/",
