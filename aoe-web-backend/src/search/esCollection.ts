@@ -170,12 +170,6 @@ export async function collectionDataToEs(index: string, data: any, operation: 'c
         `OpenSearch index ${index} bulk completed with status code: ${statusCode} , took: ${bulkResponse.took}, errors: ${bulkResponse.errors}`
       )
 
-      if (log.isDebugEnabled()) {
-        log.debug(
-          `OpenSearch index ${index} bulk completed with response body ${JSON.stringify(bulkResponse)}`
-        )
-      }
-
       if (bulkResponse.errors) {
         const erroredDocuments = []
         // The items array has the same order of the dataset we just indexed.
