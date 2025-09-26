@@ -29,7 +29,6 @@ import connectRedis from 'connect-redis'
 import session, { SessionOptions } from 'express-session'
 import { redisClient } from '@resource/redisClient'
 import { db } from './resource/postgresClient'
-import { asyncHandler } from './asyncHandler'
 import { initializeIndices } from './search/es'
 
 export const app: Express = express()
@@ -139,13 +138,10 @@ dbInit().catch((err: unknown): void => {
   process.exit(1)
 })
 
-app.get(
-  '/health',
-  asyncHandler(async (_req: Request, res: Response) => {
-    await db.any('SELECT 1')
-    res.json({ status: 'ok' })
-  })
-)
+app.get('/health', async (_req: Request, res: Response) => {
+  await db.any('SELECT 1')
+  res.json({ status: 'ok' })
+})
 
 app.use(bodyParser.json({ limit: '1mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }))
