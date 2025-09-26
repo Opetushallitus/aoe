@@ -74,7 +74,7 @@
       "allow_ecs_exec": true,
       "env_vars": {
         "NODE_ENV": "production",
-        "LOG_LEVEL": "error",
+        "LOG_LEVEL": "debug",
         "PORT_LISTEN": "8080",
         "MATERIAL_VERSION_URL": "https://dev.aoe.fi/#/materiaali/",
         "HTTP_OPTIONS_TIMEOUT": "5000",
