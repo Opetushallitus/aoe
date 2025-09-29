@@ -41,32 +41,29 @@ export async function setOppimateriaalityypit(): Promise<void> {
 
     finnish.push({
       key: result.id,
-      value:
-        !!result.prefLabel.fi
-          ? result.prefLabel.fi.toLowerCase()
-          : !!result.prefLabel.sv
-            ? result.prefLabel.sv.toLowerCase()
-            : result.prefLabel.en.toLowerCase()
+      value: !!result.prefLabel.fi
+        ? result.prefLabel.fi.toLowerCase()
+        : !!result.prefLabel.sv
+          ? result.prefLabel.sv.toLowerCase()
+          : result.prefLabel.en.toLowerCase()
     })
 
     english.push({
       key: result.id,
-      value:
-        !!result.prefLabel.en
-          ? result.prefLabel.en.toLowerCase()
-          : !!result.prefLabel.fi
-            ? result.prefLabel.fi.toLowerCase()
-            : result.prefLabel.sv.toLowerCase()
+      value: !!result.prefLabel.en
+        ? result.prefLabel.en.toLowerCase()
+        : !!result.prefLabel.fi
+          ? result.prefLabel.fi.toLowerCase()
+          : result.prefLabel.sv.toLowerCase()
     })
 
     swedish.push({
       key: result.id,
-      value:
-        !!result.prefLabel.sv
-          ? result.prefLabel.sv.toLowerCase()
-          : !!result.prefLabel.fi
-            ? result.prefLabel.fi.toLowerCase()
-            : result.prefLabel.en.toLowerCase()
+      value: !!result.prefLabel.sv
+        ? result.prefLabel.sv.toLowerCase()
+        : !!result.prefLabel.fi
+          ? result.prefLabel.fi.toLowerCase()
+          : result.prefLabel.en.toLowerCase()
     })
   })
 
