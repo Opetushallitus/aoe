@@ -25,6 +25,7 @@
     "rootDir": "./src",
     "skipLibCheck": true,
     "sourceMap": true,
+    "inlineSources": true,
     "strict": false,
     "typeRoots": ["./types"]
   },

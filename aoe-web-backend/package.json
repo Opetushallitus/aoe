@@ -30,7 +30,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "npm run build-ts",
-    "watch-start": "node --watch dist/server.js",
+    "watch-start": "node --watch --enable-source-maps dist/server.js",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
     "lint": "biome check",

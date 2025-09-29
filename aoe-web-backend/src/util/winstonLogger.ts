@@ -9,7 +9,8 @@ const winstonLogger: Logger = winston.createLogger({
   format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.errors({ stack: true }),
-    format.json()
+    format.json(),
+    process.env.NODE_ENV === 'development' ? format.prettyPrint() : undefined
   ),
   transports: [
     new winston.transports.Console({
