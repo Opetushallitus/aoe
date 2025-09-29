@@ -16,7 +16,7 @@
     "@biomejs/biome": "2.2.4",
     "@types/node": "22.13.1",
     "aws-cdk": "2.1029.3",
-    "knip": "5.64.0",
+    "knip": "5.64.1",
     "typescript": "5.7.3"
   },
   "dependencies": {
