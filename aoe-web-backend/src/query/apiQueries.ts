@@ -274,7 +274,7 @@ export const getEducationalMaterialMetadata = async (
   })
     .then(async (data: any) => {
       const jsonObj: any = {}
-      if (data[0][0] === undefined) {
+      if (!data[0][0]) {
         return res.status(200).json(jsonObj)
       }
       const uid = req?.session?.passport?.user.uid || ''
@@ -850,7 +850,7 @@ export const updateMaterial = async (
       const materialname = metadata.name
       let response
       log.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
-      if (materialname !== undefined) {
+      if (!!materialname) {
         queries.push(await insertEducationalMaterialName(materialname, emid, t))
       }
 
@@ -868,7 +868,7 @@ export const updateMaterial = async (
         await t.any(query, [
           metadata.expires,
           dnow,
-          metadata.timeRequired === undefined ? '' : metadata.timeRequired,
+          !metadata.timeRequired ? '' : metadata.timeRequired,
           !metadata.typicalAgeRange ? undefined : metadata.typicalAgeRange.typicalAgeRangeMin,
           !metadata.typicalAgeRange ? undefined : metadata.typicalAgeRange.typicalAgeRangeMax,
           emid,
@@ -892,7 +892,7 @@ export const updateMaterial = async (
       // educationalRoles
       const audienceparams = []
       const audienceArr = metadata.educationalRoles
-      if (audienceArr === undefined || audienceArr.length < 1) {
+      if (!audienceArr || audienceArr.length < 1) {
         query = 'DELETE FROM educationalaudience where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -921,7 +921,7 @@ export const updateMaterial = async (
       // educationalUse
       const educationalUseParams = []
       const educationalUseArr = metadata.educationalUses
-      if (educationalUseArr === undefined || educationalUseArr.length < 1) {
+      if (!educationalUseArr || educationalUseArr.length < 1) {
         query = 'DELETE FROM educationaluse where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -949,7 +949,7 @@ export const updateMaterial = async (
       // learningResourceType
       const learningResourceTypeParams = []
       const learningResourceTypeArr = metadata.learningResourceTypes
-      if (learningResourceTypeArr === undefined || learningResourceTypeArr.length < 1) {
+      if (!learningResourceTypeArr || learningResourceTypeArr.length < 1) {
         query = 'DELETE FROM learningresourcetype where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -978,7 +978,7 @@ export const updateMaterial = async (
       // keywords
       let params = []
       let arr = metadata.keywords
-      if (arr === undefined || arr.length < 1) {
+      if (!arr || arr.length < 1) {
         query = 'DELETE FROM keyword where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -1006,7 +1006,7 @@ export const updateMaterial = async (
       // publisher
       params = []
       arr = metadata.publisher
-      if (arr === undefined || arr.length < 1) {
+      if (!arr || arr.length < 1) {
         query = 'DELETE FROM publisher where educationalmaterialid = $1'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -1036,7 +1036,7 @@ export const updateMaterial = async (
       if (metadata.isBasedOn) {
         isBasedonArr = metadata.isBasedOn.externals
       }
-      if (isBasedonArr === undefined || isBasedonArr.length < 1) {
+      if (!isBasedonArr || isBasedonArr.length < 1) {
         query =
           'DELETE FROM isbasedonauthor where isbasedonid IN (SELECT id from isbasedon where educationalmaterialid = $1);'
         response = await t.any(query, [emid])
@@ -1076,7 +1076,7 @@ export const updateMaterial = async (
       // alignmentObjects
       const alignmentObjectArr = metadata.alignmentObjects
 
-      if (alignmentObjectArr === undefined) {
+      if (!alignmentObjectArr) {
         query = 'DELETE FROM alignmentobject where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -1126,7 +1126,7 @@ export const updateMaterial = async (
             educationalmaterialid: emid,
             objectkey: element.key,
             educationalframework:
-              element.educationalFramework === undefined ? '' : element.educationalFramework,
+              !element.educationalFramework ? '' : element.educationalFramework,
             targeturl: element.targetUrl
           }
           values.push(obj)
@@ -1147,17 +1147,17 @@ export const updateMaterial = async (
           'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1, $2, $3, $4)'
         queries.push(
           await t.any(query, [
-            element.author === undefined ? '' : element.author,
-            element.organization === undefined ? '' : element.organization.value,
+            !element.author ? '' : element.author,
+            !element.organization ? '' : element.organization.value,
             emid,
-            element.organization === undefined ? '' : element.organization.key
+            !element.organization ? '' : element.organization.key
           ])
         )
       }
 
       // File details
       const fileDetailArr = metadata.fileDetails
-      if (fileDetailArr !== undefined) {
+      if (!!fileDetailArr) {
         for (const element of fileDetailArr) {
           await insertDataToDisplayName(t, emid, element.id, element)
           query =
@@ -1173,7 +1173,7 @@ export const updateMaterial = async (
       // Accessibility features
       params = []
       arr = metadata.accessibilityFeatures
-      if (arr === undefined || arr.length < 1) {
+      if (!arr || arr.length < 1) {
         query = 'DELETE FROM accessibilityfeature where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -1203,7 +1203,7 @@ export const updateMaterial = async (
       // accessibilityHazards
       params = []
       arr = metadata.accessibilityHazards
-      if (arr === undefined || arr.length < 1) {
+      if (!arr || arr.length < 1) {
         query = 'DELETE FROM accessibilityhazard where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)
@@ -1233,7 +1233,7 @@ export const updateMaterial = async (
       // educationalLevels
       params = []
       arr = metadata.educationalLevels
-      if (arr === undefined || arr.length < 1) {
+      if (!arr || arr.length < 1) {
         query = 'DELETE FROM educationallevel where educationalmaterialid = $1;'
         response = await t.any(query, [emid])
         queries.push(response)

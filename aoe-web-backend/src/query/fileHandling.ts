@@ -341,7 +341,7 @@ const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
       }
       pdfParser(data)
         .then((info) => {
-          const isEncrypted: boolean = info.info.Encrypt !== undefined
+          const isEncrypted: boolean = !!info.info.Encrypt
           resolve(isEncrypted)
         })
         .catch((err) => {

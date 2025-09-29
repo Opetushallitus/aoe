@@ -55,7 +55,7 @@ export async function sendExpirationMail() {
   }
   try {
     const materials = await getExpiredMaterials()
-    const emails = materials.filter((m) => m.email !== undefined).map((m) => m.email)
+    const emails = materials.filter((m) => !!m.email).map((m) => m.email)
     if (isEnabled('SEND_EXPIRATION_NOTIFICATION_EMAIL')) {
       for (const email of emails) {
         const info = await sendEmail({
@@ -78,7 +78,7 @@ export async function sendExpirationMail() {
 export async function sendRatingNotificationMail() {
   try {
     const emails = await getNewRatings()
-    const emailArray = emails.filter((m) => m.email !== undefined).map((m) => m.email)
+    const emailArray = emails.filter((m) => !!m.email).map((m) => m.email)
     const holder = {}
     emails.forEach(function (d) {
       if (holder.hasOwnProperty(d.email)) {

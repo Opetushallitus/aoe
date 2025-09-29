@@ -22,7 +22,7 @@ export const uploadbase64Image = async (
       const imgdata = req.body.base64image
       const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, '')
       const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-      if (matches === undefined) {
+      if (!matches) {
         return next(new StatusError(400, 'File not a valid base64 encoded image'))
       }
       const extension = mime.getExtension(matches[1])

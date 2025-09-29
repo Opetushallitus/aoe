@@ -116,7 +116,7 @@ export async function setKoulutusasteet(): Promise<void> {
       childrenFi.splice(childrenFi.length - 1, 0, childrenFi.splice(lastLevelIndex, 1)[0])
     }
 
-    if (row.parent === undefined) {
+    if (!row.parent) {
       finnish.push({
         key: row.key,
         value: row.value.fi || row.value.sv || row.value.en,

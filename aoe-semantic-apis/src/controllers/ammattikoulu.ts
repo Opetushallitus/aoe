@@ -37,7 +37,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<void> {
       !results ||
       !(results as any).data ||
       (results as any).data.length < 1 ||
-      (results as any).sivu === undefined
+      !(results as any).sivu
     ) {
       winstonLogger.error(
         'No data from ePerusteet in setAmmattikoulunPerustutkinnot() on page %s',
@@ -362,7 +362,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
       !results ||
       !(results as any).data ||
       (results as any).data.length < 1 ||
-      (results as any).sivu === undefined
+      !(results as any).sivu
     ) {
       winstonLogger.error(
         'No data from ePerusteet in setAmmattikoulunAmmattitutkinnot() on page %s',
@@ -493,7 +493,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
       !results ||
       !(results as any).data ||
       (results as any).data.length < 1 ||
-      (results as any).sivu === undefined
+      !(results as any).sivu
     ) {
       winstonLogger.error(
         `No data from ePerusteet in setAmmattikoulunErikoisammattitutkinnot() on page ${pageNumber}`

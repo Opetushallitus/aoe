@@ -42,9 +42,9 @@ export async function setOppimateriaalityypit(): Promise<void> {
     finnish.push({
       key: result.id,
       value:
-        result.prefLabel.fi !== undefined
+        !!result.prefLabel.fi
           ? result.prefLabel.fi.toLowerCase()
-          : result.prefLabel.sv !== undefined
+          : !!result.prefLabel.sv
             ? result.prefLabel.sv.toLowerCase()
             : result.prefLabel.en.toLowerCase()
     })
@@ -52,9 +52,9 @@ export async function setOppimateriaalityypit(): Promise<void> {
     english.push({
       key: result.id,
       value:
-        result.prefLabel.en !== undefined
+        !!result.prefLabel.en
           ? result.prefLabel.en.toLowerCase()
-          : result.prefLabel.fi !== undefined
+          : !!result.prefLabel.fi
             ? result.prefLabel.fi.toLowerCase()
             : result.prefLabel.sv.toLowerCase()
     })
@@ -62,9 +62,9 @@ export async function setOppimateriaalityypit(): Promise<void> {
     swedish.push({
       key: result.id,
       value:
-        result.prefLabel.sv !== undefined
+        !!result.prefLabel.sv
           ? result.prefLabel.sv.toLowerCase()
-          : result.prefLabel.fi !== undefined
+          : !!result.prefLabel.fi
             ? result.prefLabel.fi.toLowerCase()
             : result.prefLabel.en.toLowerCase()
     })
@@ -134,7 +134,7 @@ export const getOppimateriaalityyppi = async (
       const input: KeyValue<string, string>[] = JSON.parse(redisData)
       const row: KeyValue<string, string> = input.find((e: any) => e.key === req.params.key)
 
-      if (row !== undefined) {
+      if (!!row) {
         res.status(200).json(row).end()
         return
       } else {

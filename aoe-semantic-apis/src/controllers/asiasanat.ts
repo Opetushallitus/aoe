@@ -153,7 +153,7 @@ export const getAsiasana = async (
       const input: KeyValue<string, string>[] = JSON.parse(redisData)
       const row: KeyValue<string, string> = input.find((e: any) => e.key === req.params.key)
 
-      if (row !== undefined) {
+      if (!!row) {
         res.status(200).json(row).end()
         return
       } else {
