@@ -2,16 +2,20 @@ import { asyncLocalStorage } from '@/asyncLocalStorage'
 import { config } from '@/config'
 import winston, { format, Logger } from 'winston'
 
+const formatters = [
+  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  format.errors({ stack: true }),
+  format.json()
+]
+if (process.env.NODE_ENV === 'development') {
+  formatters.push(format.prettyPrint())
+}
+
 // Configuration for logging format and transports
 const winstonLogger: Logger = winston.createLogger({
   level: config.APPLICATION_CONFIG.logLevel,
   exitOnError: false,
-  format: format.combine(
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    format.errors({ stack: true }),
-    format.json(),
-    process.env.NODE_ENV === 'development' ? format.prettyPrint() : undefined
-  ),
+  format: format.combine(...formatters),
   transports: [
     new winston.transports.Console({
       handleExceptions: true, // uncaught exceptions
