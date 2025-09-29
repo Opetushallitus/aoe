@@ -1125,8 +1125,7 @@ export const updateMaterial = async (
             source: element.source,
             educationalmaterialid: emid,
             objectkey: element.key,
-            educationalframework:
-              !element.educationalFramework ? '' : element.educationalFramework,
+            educationalframework: !element.educationalFramework ? '' : element.educationalFramework,
             targeturl: element.targetUrl
           }
           values.push(obj)
