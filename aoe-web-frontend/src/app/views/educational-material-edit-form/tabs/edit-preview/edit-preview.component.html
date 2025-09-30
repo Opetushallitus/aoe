@@ -674,14 +674,16 @@
     <hr />
   </ng-container>
 
+
   <h3>{{ "forms.educationalResource.nav.licenseDetails" | translate }}</h3>
+
 
   <dl class="row">
     <app-preview-row
       [title]="'forms.educationalResource.license.title' | translate"
       [item]="previewMaterial?.license"
       [required]="!hasLicense"
-      [routerLinkOptions]="['/muokkaa-oppimateriaalia', 5]"></app-preview-row>
+      [routerLinkOptions]="['/muokkaa-oppimateriaalia', materialId, 5]"></app-preview-row>
   </dl>
 
   <hr />
