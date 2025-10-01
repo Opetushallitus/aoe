@@ -45,29 +45,6 @@ export const isAllasEnabled = async (
   next()
 }
 
-export const isLoginEnabled = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const login = Number(process.env.LOGIN_ENABLED)
-    if (!login) {
-      const statusCode = 503
-      const message = loginErrorMessage
-      res.status(statusCode).json({
-        status: 'error',
-        statusCode,
-        message
-      })
-    } else {
-      next()
-    }
-  } catch (err) {
-    next(new StatusError(err, 'Issue in login'))
-  }
-}
-
 export const aoeRoutes = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const allasMessageObject = {
