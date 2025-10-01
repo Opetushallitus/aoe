@@ -1,7 +1,7 @@
+// oidcConfig.ts
 import { insertUserToDatabase } from '@services/authService'
-import { isLoginEnabled } from '@services/routeEnablerService'
 import * as log from '@util/winstonLogger'
-import { CookieOptions, Express, Request, Response } from 'express'
+import { Express, Response, Request } from 'express'
 import { Cookie } from 'express-session'
 import openidClient, {
   Client,
@@ -12,72 +12,57 @@ import openidClient, {
 } from 'openid-client'
 import passport from 'passport'
 
-const Issuer = openidClient.Issuer
-const Strategy = openidClient.Strategy
+const { Issuer, Strategy } = openidClient
 
 interface User {
-  uid: unknown
+  uid: string
   name: string
 }
 
-/**
- * Configuration for OpenID Connect Authorization Management
- */
-Issuer.discover(process.env.PROXY_URI)
-  .then((oidcIssuer: InstanceType<typeof Issuer>): void => {
-    const client: Client = new oidcIssuer.Client({
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
-      redirect_uri: process.env.REDIRECT_URI,
-      response_type: 'code'
-    })
-    passport.use(
-      'oidc',
-      new Strategy(
-        { client },
-        (
-          _tokenset: TokenSet,
-          userinfo: UserinfoResponse,
-          done: (err: any, user?: User) => void
-        ): void => {
-          insertUserToDatabase(userinfo)
-            .then(() => {
-              const nameparsed: string = `${userinfo.given_name} ${userinfo.family_name}`
-              return done(undefined, { uid: userinfo.uid, name: nameparsed })
-            })
-            .catch((err: Error) => {
-              log.error('Saving user information failed', err)
-              return done('Saving user information failed', undefined)
-            })
-        }
-      )
-    )
-
-    passport.serializeUser((user: Express.User, done): void => {
-      done(undefined, user)
-    })
-    passport.deserializeUser((userinfo: Record<string, unknown>, done): void => {
-      done(undefined, { user: userinfo.id })
-    })
-  })
-  .catch((error: any): void => {
-    log.error(error)
-  })
-
-/**
- * Initialize OpenID Connect authorization and attach to Express application.
- * @param app Express
- */
-export const authInit = (app: Express): void => {
+export async function registerOidcStrategy(app: Express) {
+  // set global client options
   custom.setHttpOptionsDefaults({
     timeout: Number(process.env.HTTP_OPTIONS_TIMEOUT) || 5000,
     retry: Number(process.env.HTTP_OPTIONS_RETRY) || 2
   } as HttpOptions)
 
-  // Login endpoint for the client application.
+  // Discover issuer from OIDC provider
+  const oidcIssuer = await Issuer.discover(process.env.PROXY_URI as string)
+  const client: Client = new oidcIssuer.Client({
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    redirect_uris: [process.env.REDIRECT_URI],
+    response_types: ['code']
+  })
+
+  // Register the OIDC strategy
+  passport.use(
+    'oidc',
+    new Strategy(
+      { client },
+      async (
+        _tokenset: TokenSet,
+        userinfo: UserinfoResponse,
+        done: (err: any, user?: User) => void
+      ) => {
+        try {
+          await insertUserToDatabase(userinfo)
+          const name = `${userinfo.given_name} ${userinfo.family_name}`
+          return done(null, { uid: userinfo.uid as string, name })
+        } catch (err) {
+          log.error('Saving user information failed', err)
+          return done(err)
+        }
+      }
+    )
+  )
+
+  passport.serializeUser((user: User, done): void => done(null, user))
+  passport.deserializeUser((userinfo: any, done): void => done(null, userinfo))
+
+  // Attach login route AFTER strategy is ready
   app.get(
     '/api/login',
-    isLoginEnabled,
     passport.authenticate('oidc', {
       successRedirect: '/',
       failureRedirect: '/api/login',
@@ -88,25 +73,23 @@ export const authInit = (app: Express): void => {
 
   app.post('/api/logout', (req: Request, res: Response): void => {
     const cookieRef: Cookie = req.session.cookie
-    const deleteCookie: CookieOptions = {
-      maxAge: -1,
-      signed: cookieRef.signed,
-      expires: cookieRef.expires || undefined,
-      httpOnly: cookieRef.httpOnly,
-      path: cookieRef.path,
-      domain: cookieRef.domain,
-      secure: !!cookieRef.secure, // Type conflict boolean | 'auto' | undefined => boolean | undefined
-      sameSite: cookieRef.sameSite
-    }
-    req.logout((done) => done())
+    req.logout(() => {})
     req.session.destroy((error): void => {
       log.debug('Logout request /logout | session termination errors', error)
-      res.clearCookie('connect.sid', deleteCookie)
+      res.clearCookie('connect.sid', {
+        maxAge: -1,
+        signed: cookieRef.signed,
+        expires: cookieRef.expires || undefined,
+        httpOnly: cookieRef.httpOnly,
+        path: cookieRef.path,
+        domain: cookieRef.domain,
+        secure: !!cookieRef.secure,
+        sameSite: cookieRef.sameSite
+      })
       res.status(200).json({ message: 'logged out' })
     })
   })
 
-  // Redirect endpoint and handlers after successful or failed authorization.
   app.get(
     '/api/secure/redirect',
     passport.authenticate('oidc', {
@@ -115,4 +98,6 @@ export const authInit = (app: Express): void => {
       successRedirect: process.env.SUCCESS_REDIRECT_URI
     })
   )
+
+  log.info('OIDC authentication initialized')
 }
