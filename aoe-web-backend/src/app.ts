@@ -21,7 +21,7 @@ import bodyParser from 'body-parser'
 import compression from 'compression'
 import flash from 'connect-flash'
 import cors, { CorsOptions } from 'cors'
-import express, { Express, Request, Response, Router } from 'express'
+import express, { Express, Request, Response, Router, NextFunction } from 'express'
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import lusca from 'lusca'
 import passport from 'passport'
@@ -30,11 +30,25 @@ import session, { SessionOptions } from 'express-session'
 import { redisClient } from '@resource/redisClient'
 import { db } from './resource/postgresClient'
 import { initializeIndices } from './search/es'
+import { randomUUID } from 'crypto'
+import { asyncLocalStorage } from './asyncLocalStorage'
 
 export async function initApp() {
   const app: Express = express()
 
   const RedisStore = connectRedis(session)
+
+  app.use(async (req: Request, _res: Response, next: NextFunction) => {
+    const requestId = req.headers['x-amz-cf-id'] ? String(req.headers['x-amz-cf-id']) : randomUUID()
+    await asyncLocalStorage.run(
+      {
+        requestId
+      },
+      async () => {
+        await next()
+      }
+    )
+  })
 
   app.use(
     session({
