@@ -71,7 +71,7 @@
     "@angular/language-service": "15.2.10",
     "@biomejs/biome": "2.2.4",
     "@types/dompurify": "3.2.0",
-    "@types/node": "18.19.128",
+    "@types/node": "18.19.129",
     "@types/ws": "8.18.1",
     "bootstrap": "^4.6.0",
     "sass": "1.93.2",
