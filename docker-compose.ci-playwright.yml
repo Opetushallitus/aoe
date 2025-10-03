@@ -175,7 +175,7 @@ services:
 
   redis:
     profiles: [aoe]
-    image: redis:6.2.19-alpine@sha256:7fe72c486b910f6b1a9769c937dad5d63648ddee82e056f47417542dd40825bb
+    image: redis:6.2.20-alpine@sha256:2185e741f4c1e7b0ea9ca1e163a3767c4270a73086b6bbea2049a7203212fb7f
     container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
