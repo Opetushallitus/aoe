@@ -42,7 +42,7 @@
     "@types/express": "4.17.23",
     "@types/jest": "25.2.3",
     "@types/morgan": "1.9.10",
-    "@types/node": "18.19.128",
+    "@types/node": "18.19.129",
     "knip": "5.64.1",
     "typescript": "5.9.2"
   }
