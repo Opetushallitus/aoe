@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.56.0-noble@sha256:afce7c3142e8ae183d5398848001d44b397f921babf615dcb09f2502caab7e25
+FROM mcr.microsoft.com/playwright:v1.56.0-noble@sha256:35246d87a7c88ea9b771c65d33171b2611b02a8253b4b12ce6f94376c55f99f2
 
 COPY playwright/package.json /
 COPY playwright/package-lock.json /
