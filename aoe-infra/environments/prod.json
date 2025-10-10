@@ -212,7 +212,7 @@
   },
   "redis_serverless": {
     "semantic_apis": {
-      "major_version": "8",
+      "major_version": "7",
       "storage_min": 1,
       "storage_max": 5,
       "min_ecpu_per_second": 1000,
