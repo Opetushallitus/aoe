@@ -189,6 +189,22 @@
       ],
       "matchPackageNames": ["http-proxy-middleware"]
     },
+    {
+      "groupName": "MongoDB packages and images - DISABLED",
+      "enabled": false,
+      "matchPackageNames": [
+        "mongodb",
+        "mongo",
+        "org.mongodb:mongodb-driver-sync",
+        "org.mongodb:mongodb-driver-core",
+        "org.springframework.boot:spring-boot-starter-data-mongodb"
+      ]
+    },
+    {
+      "groupName": "MongoDB Docker images - DISABLED",
+      "enabled": false,
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["mongo"]
     }
   ],
   "prConcurrentLimit": 10
