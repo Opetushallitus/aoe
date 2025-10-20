@@ -17,11 +17,11 @@ export class StatusError extends Error {
 }
 
 const genericErrorMessage =
-  'Palvelussamme on tällä hetkellä vikatilanne. Selvitämme ongelmaa ja korjaamme sen mahdollisimman pian. Ajankohtaisimmat tiedot Twitter-kanavallamme @aoe_suomi.'
+  'Palvelussamme on tällä hetkellä vikatilanne. Selvitämme ongelmaa ja korjaamme sen mahdollisimman pian.'
 const genericErrorMessageEn =
-  'We currently have an error that affects using the service. We will fix the problem as soon as possible. Find the latest information on our Twitter channel @aoe_suomi.'
+  'We currently have an error that affects using the service. We will fix the problem as soon as possible.'
 const genericErrorMessageSv =
-  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.'
+  'Vi har för närvarande ett fel som påverkar användningen av tjänsten. Vi löser problemet så snart som möjligt.'
 
 export const handleError = (err: any, req: Request, res: Response, _next: NextFunction): void => {
   const errorDetails = {
