@@ -1,4 +1,4 @@
-FROM node:20-alpine3.22@sha256:ddd498cc4378e4f69b0298f00c21c6f1d0a1d14f51261552e9d91614990630ce AS node_builder
+FROM node:20-alpine3.22@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435 AS node_builder
 
 WORKDIR /app
 COPY ./ /app
@@ -9,7 +9,7 @@ RUN npm ci && \
 mkdir -p /app/h5p && \
     unzip /app/docker/h5p.zip -d /app/h5p
 
-FROM node:20-alpine3.22@sha256:ddd498cc4378e4f69b0298f00c21c6f1d0a1d14f51261552e9d91614990630ce
+FROM node:20-alpine3.22@sha256:6178e78b972f79c335df281f4b7674a2d85071aae2af020ffa39f0a770265435
 
 # Copy source code and configuration files to the app directory
 COPY --from=node_builder /app/dist/ /app/dist/
