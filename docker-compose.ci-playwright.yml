@@ -195,7 +195,7 @@ services:
 
   aoe-postgres:
     profiles: [aoe]
-    image: postgres:15-alpine@sha256:03bdf636bf6ad23222620ef85dca7b70fe34b99fb76138821f18608477c0f6db
+    image: postgres:15-alpine@sha256:2e50ad404aead120409575d21758230cc295aec52dfa05ece9b4d0429bc38636
     container_name: aoe-postgres
     ports:
       - 5432:5432
