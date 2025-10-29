@@ -459,7 +459,7 @@ services:
 
   nginx:
     profiles: [aoe]
-    image: nginx:latest@sha256:0511d915d4e7467a27e8eecd90643dbb60e148c0ef3b7486655296f8c768cadc
+    image: nginx:latest@sha256:b619c34a163ac12f68c1982568a122c4953dbf3126b8dbf0cc2f6fdbfd85de27
     container_name: nginx
     hostname: nginx
     ports:
