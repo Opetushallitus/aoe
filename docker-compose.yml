@@ -244,7 +244,7 @@ services:
       start_period: 30s
 
   redis:
-    image: redis:6.2.21-alpine@sha256:8a5d3205cc12fa79adb8bb463eb7acceb75374bb618791eb6a89a205e6d85610
+    image: redis:6.2.21-alpine@sha256:37e002448575b32a599109664107e374c8709546905c372a34d64919043b9ceb
     container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
