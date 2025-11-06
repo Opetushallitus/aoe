@@ -183,7 +183,7 @@ services:
       - ./docker/init-scripts/aoe-user.sql:/docker-entrypoint-initdb.d/2-init.sql
 
   opensearch:
-    image: opensearchproject/opensearch:2.19.3@sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd
+    image: opensearchproject/opensearch:2.19.4@sha256:5e6dd92e9a3286fa0c8eb60fc4f04ec554a8bf927728b34b6db76747311ac365
     container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
