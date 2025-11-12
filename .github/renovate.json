@@ -14,6 +14,7 @@
 
   "forkProcessing": "disabled",
 
+  "minimumReleaseAge": "3 days",
   "prCreation": "immediate",
   "automerge": true,
   "automergeType": "pr",
