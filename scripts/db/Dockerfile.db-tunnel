@@ -1,0 +1,12 @@
+FROM node:24.11.0-bookworm@sha256:e5bbac0e9b8a6e3b96a86a82bbbcf4c533a879694fd613ed616bae5116f6f243
+
+COPY . /app
+RUN chmod u+x /app/entrypoint.sh
+
+RUN curl \
+    "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_arm64/session-manager-plugin.deb" \
+    -o "/tmp/session-manager-plugin.deb"
+RUN dpkg -i /tmp/session-manager-plugin.deb
+RUN apt-get update && apt-get install -y awscli bash socat daemonize netcat-traditional
+
+CMD ["/app/entrypoint.sh"]
