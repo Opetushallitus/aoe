@@ -61,6 +61,6 @@
   },
   "overrides": {
     "semver": "7.7.3",
-    "validator": "13.15.22"
+    "validator": "13.15.23"
   }
 }
