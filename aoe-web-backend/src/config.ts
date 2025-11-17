@@ -78,7 +78,14 @@ export const config = {
     h5pPathCore: '/app/h5p/libraries/h5p-php-library',
     h5pPathEditor: '/app/h5p/libraries/h5p-editor-php-library',
     h5pPlayApi: `${process.env.HTML_BASE_URL as string}/h5p/play/`,
-    h5pUserEmail: process.env.H5P_USER_EMAIL as string
+    h5pUserEmail: process.env.H5P_USER_EMAIL as string,
+    // Max file size (in bytes) for synchronous ZIP extraction during metadata requests
+    // Files larger than this will be skipped to prevent timeout issues
+    // Default: 52428800 bytes (50 MB)
+    maxZipExtractionSize: parseInt(
+      process.env.MAX_ZIP_EXTRACTION_SIZE || '52428800',
+      10
+    ) as number
   } as const,
 
   // Configuration for the client of Kafka message queue system.
