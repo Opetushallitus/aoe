@@ -335,13 +335,9 @@ export const getEducationalMaterialMetadata = async (
           // Skip synchronous extraction for large files to prevent timeout issues
           if (fileSize > maxSize) {
             log.warn(
-              'Skipping ZIP extraction for large file: eduMaterialId=%s, materialId=%s, filekey=%s, ' +
-                'filesize=%s MB (max allowed: %s MB). File will be available for download only.',
-              eduMaterialId,
-              jsonObj.materials[i].id,
-              jsonObj.materials[i].filekey,
-              fileSizeMB,
-              maxSizeMB
+              `Skipping ZIP extraction for large file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
+                `filekey=${jsonObj.materials[i].filekey}, filesize=${fileSizeMB} MB (max allowed: ${maxSizeMB} MB). ` +
+                `File will be available for download only.`
             )
             // Leave filepath empty so the file can still be downloaded but not previewed
             continue
@@ -349,11 +345,8 @@ export const getEducationalMaterialMetadata = async (
 
           req.params.key = jsonObj.materials[i].filekey
           log.debug(
-            'Processing ZIP/HTML file: eduMaterialId=%s, materialId=%s, filekey=%s, filesize=%s MB',
-            eduMaterialId,
-            jsonObj.materials[i].id,
-            req.params.key,
-            fileSizeMB
+            `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
+              `filekey=${req.params.key}, filesize=${fileSizeMB} MB`
           )
           const result = await downloadFileFromStorage(req, res, next, true)
           if (
