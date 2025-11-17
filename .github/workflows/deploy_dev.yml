@@ -28,7 +28,7 @@ jobs:
       contents: write
     runs-on: 'ubuntu-24.04'
     steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Send build status "in progress"
         uses: ./.github/actions/build_status
@@ -38,7 +38,7 @@ jobs:
           api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
 
       - name: Checkout all branches and tags with full history
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
       - name: Configure dev AWS credentials
@@ -65,7 +65,7 @@ jobs:
     continue-on-error: true
     runs-on: 'ubuntu-24.04'
     steps:
-      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: ./.github/actions/build_status
         with:
           task: deploy-dev
