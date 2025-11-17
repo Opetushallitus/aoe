@@ -18,3 +18,4 @@ services:
       - AWS_REGION
       - AWS_DEFAULT_REGION
       - AWS_CONFIG_FILE=/root/.aws/config
+      - ENV=${ENV}

@@ -87,6 +87,16 @@ function npm_ci_if_package_lock_has_changed {
   fi
 }
 
+function assert_env_var_is_set {
+  local var_name="$1"
+
+  if [[ -z "${!var_name+x}" || -z "${!var_name}" ]]; then
+    echo "Environment variable '$var_name' is either not set or empty, cannot continue."
+    return 1
+  fi
+}
+
+
 function require_command {
   if ! command -v "$1" > /dev/null; then
     fatal "I require $1 but it's not installed. Aborting."
@@ -159,6 +169,17 @@ function log {
 function get_secret {
   local name="$1"
   aws secretsmanager get-secret-value --secret-id "$name" --query "SecretString" --output text
+}
+
+
+function wait_until_port_is_listening {
+  require_command nc
+  local -r port="$1"
+
+  info "Waiting until port $port is listening"
+  while ! nc -z localhost "$port"; do
+    sleep 1
+  done
 }
 
 

@@ -2,12 +2,12 @@
 set -o errexit -o nounset -o pipefail
 
 BASTION_TARGET=$(aws ec2 describe-instances \
-                     --filters "Name=tag:Name,Values=*bastion*" \
+                     --filters "Name=tag:Name,Values=*bastion*" "Name=instance-state-name,Values=running" \
                      --query "Reservations[].Instances[].InstanceId" \
                      --output text)
 
 DB_WRITER_ENDPOINT=$(aws rds describe-db-cluster-endpoints \
-                        --query "DBClusterEndpoints[?(DBClusterIdentifier=='qa-web-backend' || DBClusterIdentifier=='prod-web-backend') && EndpointType=='WRITER'].Endpoint" \
+                        --query "DBClusterEndpoints[?(DBClusterIdentifier=='${ENV}-web-backend' || DBClusterIdentifier=='prod-web-backend') && EndpointType=='WRITER'].Endpoint" \
                         --output text)
 
 echo "Using bastion ${BASTION_TARGET}"
