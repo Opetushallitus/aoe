@@ -1,23 +1,16 @@
 import { updateEduMaterialVersionURN } from '@query/apiQueries'
-import { getEdumaterialVersionsWithoutURN } from '@query/pidQueries'
 import { getEduMaterialVersionURL } from './urlService'
+import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 import { Urn } from '@domain/aoeModels'
+import { ITask } from 'pg-promise'
+import { IClient } from 'pg-promise/typescript/pg-subset'
 
 /**
  * Request for PID registration using URN type.
  * @param url string Resource URL for PID registration.
  */
 export const registerPID = async (url: string): Promise<string> => {
-  const record = await Urn.findOne({
-    where: { material_url: url }
-  })
-
-  if (record) {
-    log.error(`URL ${url} already has urn generated`)
-    return null
-  }
-
   const newId = await Urn.create({ material_url: url })
   const internalId = newId.id
   const now = new Date()
@@ -37,47 +30,62 @@ export const registerPID = async (url: string): Promise<string> => {
  * attach a permanent URN typed resource PID identifier (URL).
  */
 export const processEntriesWithoutPID = async (): Promise<void> => {
-  try {
-    const limit = 5000
-    const eduMaterialVersions: {
-      educationalmaterialid: string
-      publishedat: string
-    }[] = await getEdumaterialVersionsWithoutURN(limit)
+  const limit = 5000
+  const eduMaterialVersions = await getEdumaterialVersionsWithoutURN(limit)
 
-    let eduMaterialVersionURL: string
-    let registeredURN: string
-
-    for (const eduMaterialVersion of eduMaterialVersions) {
-      eduMaterialVersionURL = await getEduMaterialVersionURL(
+  for (const eduMaterialVersion of eduMaterialVersions) {
+    try {
+      const eduMaterialVersionURL = getEduMaterialVersionURL(
         eduMaterialVersion.educationalmaterialid,
         eduMaterialVersion.publishedat
       )
-      registeredURN = await registerPID(eduMaterialVersionURL)
 
-      if (typeof registeredURN === 'string' && registeredURN.length > 0) {
-        await updateEduMaterialVersionURN(
-          eduMaterialVersion.educationalmaterialid,
-          eduMaterialVersion.publishedat,
-          registeredURN
-        )
-      } else {
-        return Promise.reject(
-          Error(
-            `PID registration for an educational material version failed in ` +
-              `processEntriesWithoutPID() [educationalmaterialid=${eduMaterialVersion.educationalmaterialid}, ` +
-              `eduMaterialVersionURL=${eduMaterialVersionURL}, registeredURN=${registeredURN}]`
-          )
-        )
+      const record = await Urn.findOne({
+        where: { material_url: eduMaterialVersionURL }
+      })
+
+      if (record) {
+        log.info(`Skipping URL ${eduMaterialVersionURL} that already has urn generated.`)
+        continue
       }
+
+      const registeredURN = await registerPID(eduMaterialVersionURL)
+
+      await updateEduMaterialVersionURN(
+        eduMaterialVersion.educationalmaterialid,
+        eduMaterialVersion.publishedat,
+        registeredURN
+      )
       log.debug(
         `URN registration completed: eduMaterialVersionURL=${eduMaterialVersionURL} => registeredURN=${registeredURN}`
       )
-    }
-  } catch (error) {
-    throw Error(
-      'PID registration for educational materials without PID failed in processEntriesWithoutPID(): ' +
+    } catch (error) {
+      log.error(
+        `PID registration for educational material with id ${eduMaterialVersion.educationalmaterialid} failed`,
         error
-    )
+      )
+    }
+  }
+}
+
+export const getEdumaterialVersionsWithoutURN = async (limit: number) => {
+  try {
+    return await db.task(async (t: ITask<IClient>) => {
+      return await t.manyOrNone<{
+        educationalmaterialid: string
+        publishedat: string
+      }>(
+        `SELECT educationalmaterialid, publishedat
+          FROM educationalmaterialversion
+          WHERE urn IS NULL
+          ORDER BY educationalmaterialid
+          LIMIT $1`,
+        [limit]
+      )
+    })
+  } catch (err) {
+    log.error(`Querying educational material versions with missing urns failed`, err)
+    throw err
   }
 }
 
@@ -100,9 +108,4 @@ const calculateLuhn = (number: string): number => {
   }
 
   return (10 - (sum % 10)) % 10
-}
-
-export default {
-  processEntriesWithoutPID,
-  registerPID
 }

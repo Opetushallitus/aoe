@@ -205,8 +205,8 @@ export const getMaterialMetaData = async (req: Request, res: Response): Promise<
             response = await db.oneOrNone(query, [q.id, q.urnpublishedat])
             q.urn = response?.urn || null
 
-            if (loadAllVersions) {
-              q.aoeUrl = await getEduMaterialVersionURL(q.id, response?.publishedat ?? null)
+            if (loadAllVersions && q.id && response?.publishedat) {
+              q.aoeUrl = getEduMaterialVersionURL(q.id, response.publishedat)
             }
 
             return q

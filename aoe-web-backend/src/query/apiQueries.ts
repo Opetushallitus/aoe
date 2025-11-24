@@ -1346,16 +1346,16 @@ export const updateEduMaterialVersionURN = async (
   urn: string
 ): Promise<void> => {
   try {
-    const query = `
+    await db.none(
+      `
       UPDATE educationalmaterialversion
       SET urn = $3
       WHERE educationalmaterialid = $1 AND publishedat = $2
-    `
-    await db.none(query, [id, publishedat, urn])
-  } catch (error) {
-    log.error(
-      `Update for educational material version failed in updateEduMaterialVersionURN(): ${error}`
+    `,
+      [id, publishedat, urn]
     )
+  } catch (error) {
+    log.error(`Failed to update educational material version URN`, error)
     throw error
   }
 }

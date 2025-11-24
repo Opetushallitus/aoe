@@ -16,11 +16,5 @@ export async function aoePdfDownloadUrl(key: string) {
   return !key ? undefined : config.MEDIA_FILE_PROCESS.conversionToPdfApi + key
 }
 
-export const getEduMaterialVersionURL = async (
-  id: string,
-  date: string
-): Promise<string | undefined> => {
-  return !id || !date || !process.env.MATERIAL_VERSION_URL
-    ? undefined
-    : `${process.env.MATERIAL_VERSION_URL + id}/${date}`
-}
+export const getEduMaterialVersionURL = (id: string, date: string): string =>
+  `${process.env.MATERIAL_VERSION_URL + id}/${date}`

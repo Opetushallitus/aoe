@@ -3,7 +3,7 @@ import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { updateEsDocument } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
-import pidResolutionService from '@services/pidResolutionService'
+import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import * as log from '@util/winstonLogger'
 import { Job, scheduleJob } from 'node-schedule'
 
@@ -30,26 +30,19 @@ export const startScheduledCleaning = (): void => {
 
 // 1:15 AM (UTC): scheduled PID (Permanent Identifiers) registration for recently published educational materials.
 export const startScheduledRegistrationForPIDs = (): void => {
+  if (!process.env.PID_SERVICE_RUN_SCHEDULED || process.env.PID_SERVICE_RUN_SCHEDULED !== 'true') {
+    return
+  }
   const pidRegisterScheduler: Job = scheduleJob(pidSchedule, async (): Promise<void> => {
     try {
-      if (
-        (parseInt(process.env.PID_SERVICE_ENABLED, 10) as number) === 1 &&
-        (parseInt(process.env.PID_SERVICE_RUN_SCHEDULED, 10) as number) === 1
-      ) {
-        await pidResolutionService.processEntriesWithoutPID()
-        log.debug(
-          'Scheduled PID registration for recently published educational materials completed.'
-        )
-      }
+      log.info('Starting to register PIDs for educational materials')
+      await processEntriesWithoutPID()
+      log.info('Finished PID registration for educational materials')
     } catch (err: unknown) {
-      log.error(
-        'Scheduled PID registration for recently published educational materials failed: %o',
-        err
-      )
+      log.error('PID registration for educational materials failed', err)
       pidRegisterScheduler.cancel()
     }
   })
-  log.info('Scheduled job active for PID registration at 1:15 AM (UTC)')
 }
 
 // 1:30 AM (UTC): scheduled search index update.

@@ -1,7 +1,8 @@
 import { StatusError } from '@/helpers/errorHandler'
 import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries'
 import { updateEsDocument } from '@search/es'
-import pidResolutionService from '@services/pidResolutionService'
+import { registerPID } from '@services/pidResolutionService'
+import { Urn } from '@domain/aoeModels'
 import { getEduMaterialVersionURL } from '@services/urlService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
@@ -153,19 +154,24 @@ export const updateEducationalMaterialMetadata = async (
     // Update the search index after educational material changes.
     await updateEsDocument()
 
-    if (
-      Number(process.env.PID_SERVICE_ENABLED) === 1 &&
-      eduMaterial[1] &&
-      eduMaterial[1].publishedat
-    ) {
-      const aoeurl: string = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat)
-      const pidurn = await pidResolutionService.registerPID(aoeurl)
-      await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn)
-    } else {
+    if (!emid || !eduMaterial[1] || !eduMaterial[1].publishedat) {
       log.error(
         `URN update skipped for the educational material #${emid} in updateEducationalMaterialMetadata().`
       )
+      return
     }
+    const aoeurl = getEduMaterialVersionURL(emid, eduMaterial[1].publishedat)
+
+    const record = await Urn.findOne({
+      where: { material_url: aoeurl }
+    })
+    if (record) {
+      log.warn(`URL ${aoeurl} already has urn generated`)
+      return
+    }
+
+    const pidurn = await registerPID(aoeurl)
+    await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn)
   } catch (err) {
     next(
       new StatusError(
