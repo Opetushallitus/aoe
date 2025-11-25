@@ -27,7 +27,7 @@ public class Material {
     private String format;
 
     @XmlElement(name = "lrmi_fi:filesize")
-    private Integer fileSize;
+    private BigInteger fileSize;
 
     @XmlElement(name = "lrmi_fi:inLanguage")
     private String inLanguage;
@@ -72,11 +72,11 @@ public class Material {
         this.format = format;
     }
 
-    public Integer getFileSize() {
+    public BigInteger getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Integer fileSize) {
+    public void setFileSize(BigInteger fileSize) {
         this.fileSize = fileSize;
     }
 

@@ -33,7 +33,7 @@ public class Material {
     private String originalfilename;
 
     @JsonProperty
-    private Integer filesize;
+    private BigInteger filesize;
 
     @JsonProperty
     private String mimetype;
@@ -93,7 +93,7 @@ public class Material {
         return originalfilename;
     }
 
-    public Integer getFilesize() {
+    public BigInteger getFilesize() {
         return filesize;
     }
 
