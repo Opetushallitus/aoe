@@ -8,6 +8,7 @@ import fi.csc.provider.adapter.NumericBooleanSerializer;
 import fi.csc.provider.model.aoe_response.sublevel_1st.sublevel_2nd.MaterialDisplayName;
 import lombok.Getter;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Getter
