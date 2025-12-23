@@ -16,7 +16,7 @@ WORKDIR /app
 ADD . .
 RUN mvn package -DskipTests
 
-FROM openjdk:17-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f68c3f62f9774
+FROM openjdk:17.0.2-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f68c3f62f9774
 
 # Copy the certs folder from the build stage
 COPY --from=build /certs /certs
