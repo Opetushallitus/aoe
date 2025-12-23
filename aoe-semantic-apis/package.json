@@ -56,7 +56,7 @@
     "@types/node-cron": "2.0.8",
     "@types/redis": "2.8.32",
     "@types/xml2js": "0.4.14",
-    "knip": "5.75.2",
+    "knip": "5.76.0",
     "typescript": "5.9.2"
   },
   "overrides": {
