@@ -43,7 +43,7 @@
     "@types/jest": "25.2.3",
     "@types/morgan": "1.9.10",
     "@types/node": "18.19.130",
-    "knip": "5.76.1",
+    "knip": "5.76.2",
     "typescript": "5.9.2"
   }
 }
