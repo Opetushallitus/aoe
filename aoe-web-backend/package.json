@@ -92,7 +92,7 @@
     "@types/pdf-parse": "1.1.5",
     "@types/s3-zip": "3.3.1",
     "https": "1.0.0",
-    "knip": "5.77.4",
+    "knip": "5.78.0",
     "tsc-alias": "1.8.16",
     "typescript": "5.9.2"
   }
