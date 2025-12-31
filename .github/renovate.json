@@ -90,7 +90,7 @@
     },
     {
       "groupName": "httpclient5",
-      "automerge": true,
+      "automerge": false,
       "dependencyDashboardApproval": false,
       "matchUpdateTypes": [
         "minor",
