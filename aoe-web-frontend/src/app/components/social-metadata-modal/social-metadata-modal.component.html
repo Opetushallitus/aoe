@@ -12,7 +12,7 @@
 
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
+    <div class="mb-3">
       <label for="keywords">{{ "forms.educationalResource.basicDetails.keywords.label" | translate }}</label>
 
       <ng-select
@@ -26,7 +26,7 @@
     </div>
     <!--/keywords-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="accessibilityFeatures">
         {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
       </label>
@@ -41,7 +41,7 @@
     </div>
     <!--/accessibility features-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="accessibilityHazards">
         {{ "forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label" | translate }}
       </label>
@@ -56,7 +56,7 @@
     </div>
     <!--/accessibility hazards-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="educationalLevels">
         {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}
       </label>

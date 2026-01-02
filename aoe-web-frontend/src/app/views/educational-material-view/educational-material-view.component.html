@@ -338,24 +338,21 @@
                     readonly
                     #embedCodeInput
                     (focus)="$event.target.select()" />
+                  <button
+                    class="btn"
+                    type="button"
+                    [ngxClipboard]="embedCodeInput"
+                    (cbOnSuccess)="embedCodeCopied = true"
+                    [ngClass]="{
+                      'btn-outline-secondary': !embedCodeCopied,
+                      'btn-success': embedCodeCopied
+                    }">
+                    <ng-container *ngIf="!embedCodeCopied; else copied">
+                      {{ "demo.educationalMaterial.embed.copy" | translate }}
+                    </ng-container>
 
-                  <div class="input-group-append">
-                    <button
-                      class="btn"
-                      type="button"
-                      [ngxClipboard]="embedCodeInput"
-                      (cbOnSuccess)="embedCodeCopied = true"
-                      [ngClass]="{
-                        'btn-outline-secondary': !embedCodeCopied,
-                        'btn-success': embedCodeCopied
-                      }">
-                      <ng-container *ngIf="!embedCodeCopied; else copied">
-                        {{ "demo.educationalMaterial.embed.copy" | translate }}
-                      </ng-container>
-
-                      <ng-template #copied>{{ "demo.educationalMaterial.embed.copied" | translate }}</ng-template>
-                    </button>
-                  </div>
+                    <ng-template #copied>{{ "demo.educationalMaterial.embed.copied" | translate }}</ng-template>
+                  </button>
                 </div>
               </div>
 

@@ -3,7 +3,7 @@
     <h1>{{ "userDetails.title" | translate }}</h1>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form-group" formGroupName="notifications">
+      <div class="mb-3" formGroupName="notifications">
         <span class="d-inline-block mb-2">{{ "userDetails.emails.subTitle" | translate }}</span>
 
         <div class="custom-control custom-checkbox">
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="email">{{ "userDetails.email.label" | translate }}</label>
 
         <input
@@ -42,7 +42,7 @@
 
       <p>{{ "userDetails.allowTransfer.helpText" | translate }}</p>
 
-      <div class="form-group">
+      <div class="mb-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="allowTransfer" formControlName="allowTransfer" />
 

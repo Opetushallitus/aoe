@@ -132,19 +132,6 @@ body {
     }
   }
 
-  .form-group {
-    display: block;
-    padding-bottom: 0 !important;
-    // margin-bottom: .8rem !important;
-  }
-
-  .form-row {
-    // margin: 10px 0 0 0 !important;
-    padding-left: 0;
-    padding-right: 0;
-    // padding-bottom: 10px;
-  }
-
   .form-buttons {
     padding-bottom: 11rem;
   }
@@ -198,10 +185,6 @@ input[type='file'] {
   box-shadow: 0 0 2px 2px transparent, inset 0 0 0 1px #fff, inset 0 0 0 2px #000, 0 0 0 1px #fff, 0 0 0 2px #000;
   border: none;
   //width: 100%; Mobile banner dropdown will crash with this.
-}
-
-.form-group {
-  padding-bottom: 0.8rem;
 }
 
 .font-weight-medium {

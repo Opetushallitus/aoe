@@ -39,7 +39,7 @@
         </div>
 
         <div class="modal-body">
-          <div class="form-group">
+          <div class="mb-3">
             <label for="image">{{ "forms.educationalResource.basicDetails.image.label" | translate }}</label>
 
             <button
@@ -61,7 +61,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="mb-3">
             <image-cropper
               [imageChangedEvent]="imageChangedEvent"
               [maintainAspectRatio]="true"
@@ -78,7 +78,7 @@
 
           <img *ngIf="croppedImage" [src]="croppedImage.base64" class="border" />
 
-          <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
+          <div class="mb-3" *ngIf="uploadResponse.status === 'progress'">
             <progressbar max="100" [value]="uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
           </div>
         </div>
@@ -106,11 +106,11 @@
 
       <ng-container *ngFor="let author of authorsArray.controls; let i = index">
         <fieldset class="border-bottom mb-2">
-          <div class="form-row" formArrayName="authors">
+          <div class="row g-3" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
               <ng-container *ngIf="author.get('author')">
-                <div class="form-group col-md">
+                <div class="mb-3 col-md">
                   <label for="{{ 'author' + i }}">
                     {{ "forms.educationalResource.basicDetails.author.inputs.author.label" | translate }}*
                   </label>
@@ -160,7 +160,7 @@
                   </div>
                 </div>
 
-                <div class="form-group col-md">
+                <div class="mb-3 col-md">
                   <label [for]="'affiliate' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.affiliate.label" | translate }}
                   </label>
@@ -185,7 +185,7 @@
 
               <!--if organization-->
               <ng-container *ngIf="!author.get('author')">
-                <div class="form-group col">
+                <div class="mb-3 col">
                   <label [for]="'organization' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.organization.label" | translate }}
                   </label>
@@ -208,7 +208,7 @@
                 </div>
               </ng-container>
 
-              <div class="form-group col-12">
+              <div class="mb-3 col-12">
                 <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">
                   {{ "forms.common.delete" | translate }}
                 </button>
@@ -218,7 +218,7 @@
         </fieldset>
       </ng-container>
 
-      <div class="form-group">
+      <div class="mb-3">
         <button type="button" class="btn btn-gray me-2" (click)="addAuthor()">
           {{ "forms.educationalResource.basicDetails.author.addAuthor" | translate }}
         </button>
@@ -230,7 +230,7 @@
 
       <h3>{{ "forms.educationalResource.basicDetails.otherDetails.title" | translate }}</h3>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="keywords">{{ "forms.educationalResource.basicDetails.keywords.label" | translate }}*</label>
 
         <button
@@ -258,8 +258,8 @@
       </div>
       <!--/keywords-->
 
-      <div class="form-row">
-        <div class="form-group col-md-6 col-lg-4">
+      <div class="row g-3">
+        <div class="mb-3 col-md-6 col-lg-4">
           <label for="learningResourceTypes">
             {{ "forms.educationalResource.basicDetails.learningResourceTypes.label" | translate }}*
           </label>
@@ -282,7 +282,7 @@
         </div>
         <!--/learning resource types-->
 
-        <div class="form-group col-md-6 col-lg-4">
+        <div class="mb-3 col-md-6 col-lg-4">
           <label for="educationalRoles">
             {{ "forms.educationalResource.basicDetails.educationalRoles.label" | translate }}
           </label>
@@ -305,7 +305,7 @@
         </div>
         <!--/educational roles-->
 
-        <div class="form-group col-md-6 col-lg-4">
+        <div class="mb-3 col-md-6 col-lg-4">
           <label for="educationalUses">
             {{ "forms.educationalResource.basicDetails.educationalUses.label" | translate }}
           </label>
@@ -330,7 +330,7 @@
       </div>
       <!--/row-->
 
-      <div class="form-group" formGroupName="description">
+      <div class="mb-3" formGroupName="description">
         <label for="description">
           {{ "forms.educationalResource.basicDetails.description.label." + lang | translate }}
         </label>
@@ -342,7 +342,7 @@
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
 
-        <div class="form-row">
+        <div class="row g-3">
           <div class="col-sm">
             <textarea
               class="form-control"
@@ -422,7 +422,7 @@
           <div class="modal-body">
             <h4>{{ "forms.educationalResource.basicDetails.description.modal.subtitle" | translate }}</h4>
 
-            <div class="form-group">
+            <div class="mb-3">
               <label for="description2">
                 {{ "forms.educationalResource.basicDetails.description.label." + otherLangs[0] | translate }}
               </label>
@@ -457,7 +457,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
               <label for="description3">
                 {{ "forms.educationalResource.basicDetails.description.label." + otherLangs[1] | translate }}
               </label>

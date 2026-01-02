@@ -32,7 +32,7 @@
         </div>
 
         <div class="modal-body">
-          <div class="form-group">
+          <div class="mb-3">
             <label for="image">{{ "forms.educationalResource.basicDetails.image.label" | translate }}</label>
 
             <div class="custom-file">
@@ -47,7 +47,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="mb-3">
             <image-cropper
               [imageChangedEvent]="imageChangedEvent"
               [maintainAspectRatio]="true"
@@ -63,7 +63,7 @@
 
           <img *ngIf="croppedImage" [src]="croppedImage" class="border" />
 
-          <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
+          <div class="mb-3" *ngIf="uploadResponse.status === 'progress'">
             <progressbar max="100" [value]="uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
           </div>
         </div>
@@ -87,7 +87,7 @@
     <!--left column-->
 
     <div class="col-md-10">
-      <div class="form-group">
+      <div class="mb-3">
         <label for="name">{{ "forms.collection.basic.name.label" | translate }} *</label>
 
         <input
@@ -109,8 +109,8 @@
       </div>
       <!--name-->
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
+      <div class="row g-3">
+        <div class="mb-3 col-md-6">
           <label for="keywords">{{ "forms.collection.basic.keywords.label" | translate }} *</label>
 
           <ng-select
@@ -127,7 +127,7 @@
         </div>
         <!--keywords-->
 
-        <div class="form-group col-md-6">
+        <div class="mb-3 col-md-6">
           <label for="educationalRoles">{{ "forms.collection.basic.educationalRoles.label" | translate }}</label>
 
           <ng-select
@@ -142,8 +142,8 @@
         <!--educationalRoles-->
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
+      <div class="row g-3">
+        <div class="mb-3 col-md-6">
           <label for="educationalUses">{{ "forms.collection.basic.educationalUses.label" | translate }}</label>
 
           <ng-select
@@ -157,7 +157,7 @@
         </div>
         <!--educationalUses-->
 
-        <div class="form-group col-md-6">
+        <div class="mb-3 col-md-6">
           <label for="languages">{{ "forms.collection.basic.languages.label" | translate }}</label>
 
           <ng-select
@@ -173,8 +173,8 @@
         <!--languages-->
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
+      <div class="row g-3">
+        <div class="mb-3 col-md-6">
           <label for="accessibilityFeatures">
             {{ "forms.collection.basic.accessibilityFeatures.label" | translate }}
           </label>
@@ -190,7 +190,7 @@
         </div>
         <!--accessibilityFeatures-->
 
-        <div class="form-group col-md-6">
+        <div class="mb-3 col-md-6">
           <label for="accessibilityHazards">
             {{ "forms.collection.basic.accessibilityHazards.label" | translate }}
           </label>
@@ -207,7 +207,7 @@
         <!--accessibilityHazards-->
       </div>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="description">{{ "forms.collection.basic.description.label" | translate }} *</label>
 
         <textarea

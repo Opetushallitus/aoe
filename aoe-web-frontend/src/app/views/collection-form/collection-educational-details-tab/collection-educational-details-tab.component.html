@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
   <h2 class="sr-only">{{ "forms.collection.educational.title" | translate }}</h2>
 
-  <div class="form-group">
+  <div class="mb-3">
     <label for="educationalLevels">{{ "forms.collection.educational.educationalLevels.label" | translate }}</label>
 
     <ng-select
@@ -23,7 +23,7 @@
   <ng-container *ngIf="hasEarlyChildhoodEducation">
     <h3>{{ "forms.collection.educational.headings.early" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="earlyChildhoodEducationSubjects">
         {{ "forms.collection.educational.earlyChildhoodEducationSubjects.label" | translate }}
       </label>
@@ -39,7 +39,7 @@
     </div>
     <!--earlyChildhoodEducationSubjects-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="earlyChildhoodEducationObjectives">
         {{ "forms.collection.educational.earlyChildhoodEducationObjectives.label" | translate }}
       </label>
@@ -55,7 +55,7 @@
     </div>
     <!--earlyChildhoodEducationObjectives-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="earlyChildhoodEducationFramework">
         {{ "forms.collection.educational.earlyChildhoodEducationFramework.label" | translate }}
       </label>
@@ -94,7 +94,7 @@
   <ng-container *ngIf="hasPrePrimaryEducation">
     <h3>{{ "forms.collection.educational.headings.prePrimary" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="prePrimaryEducationSubjects">
         {{ "forms.collection.educational.prePrimaryEducationSubjects.label" | translate }}
       </label>
@@ -110,7 +110,7 @@
     </div>
     <!--prePrimaryEducationSubjects-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="prePrimaryEducationObjectives">
         {{ "forms.collection.educational.prePrimaryEducationObjectives.label" | translate }}
       </label>
@@ -126,7 +126,7 @@
     </div>
     <!--prePrimaryEducationObjectives-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="prePrimaryEducationFramework">
         {{ "forms.collection.educational.prePrimaryEducationFramework.label" | translate }}
       </label>
@@ -165,7 +165,7 @@
   <ng-container *ngIf="hasBasicStudies">
     <h3>{{ "forms.collection.educational.headings.basic" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="basicStudySubjects">{{ "forms.collection.educational.basicStudySubjects.label" | translate }}</label>
 
       <ng-select
@@ -185,7 +185,7 @@
     <!--basicStudySubjects-->
 
     <ng-container *ngIf="hasBasicStudySubjects">
-      <div class="form-group">
+      <div class="mb-3">
         <label for="basicStudyObjectives">
           {{ "forms.collection.educational.basicStudyObjectives.label" | translate }}
         </label>
@@ -205,7 +205,7 @@
       </div>
       <!--basicStudyObjectives-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="basicStudyContents">
           {{ "forms.collection.educational.basicStudyContents.label" | translate }}
         </label>
@@ -225,7 +225,7 @@
       </div>
       <!--basicStudyContents-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="basicStudyFramework">
           {{ "forms.collection.educational.basicStudyFramework.label" | translate }}
         </label>
@@ -266,7 +266,7 @@
   <ng-container *ngIf="hasPreparatoryEducation">
     <h3>{{ "forms.collection.educational.headings.preparatory" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="preparatoryEducationSubjects">
         {{ "forms.collection.educational.preparatoryEducationSubjects.label" | translate }}
       </label>
@@ -283,7 +283,7 @@
     </div>
 
     <ng-container *ngIf="hasPreparatoryEducationSubjects">
-      <div class="form-group">
+      <div class="mb-3">
         <label for="preparatoryEducationObjectives">
           {{ "forms.collection.educational.preparatoryEducationObjectives.label" | translate }}
         </label>
@@ -305,7 +305,7 @@
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>{{ "forms.collection.educational.headings.upperSecondary" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <div class="custom-control custom-checkbox">
         <input
           type="checkbox"
@@ -337,7 +337,7 @@
     <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
       <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}</h4>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="upperSecondarySchoolSubjectsOld">
           {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label" |
           translate }}
@@ -370,7 +370,7 @@
 
       <ng-container
         *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="upperSecondarySchoolCoursesOld">
             {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label" |
             translate }}
@@ -389,7 +389,7 @@
       </ng-container>
       <!--upperSecondaryCoursesOld-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="upperSecondarySchoolObjectives">
           {{ "forms.collection.educational.upperSecondarySchoolObjectives.label" | translate }}
         </label>
@@ -405,7 +405,7 @@
       </div>
       <!--upperSecondarySchoolObjectives-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="upperSecondarySchoolFramework">
           {{ "forms.collection.educational.upperSecondarySchoolFramework.label" | translate }}
         </label>
@@ -444,7 +444,7 @@
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
       <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}</h4>
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="upperSecondarySchoolSubjectsNew">
           {{ "forms.collection.educational.upperSecondarySchoolSubjectsNew.label" | translate }}
         </label>
@@ -465,7 +465,7 @@
       <!--upperSecondarySchoolSubjectsNew-->
 
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="upperSecondarySchoolModulesNew">
             {{ "forms.collection.educational.upperSecondarySchoolModulesNew.label" | translate }}
           </label>
@@ -483,7 +483,7 @@
         </div>
         <!--upperSecondarySchoolModulesNew-->
 
-        <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
+        <div class="mb-3" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
           <label for="upperSecondarySchoolObjectivesNew">
             {{ "forms.collection.educational.upperSecondarySchoolObjectivesNew.label" | translate }}
           </label>
@@ -500,7 +500,7 @@
         </div>
         <!--upperSecondarySchoolObjectivesNew-->
 
-        <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
+        <div class="mb-3" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
           <label for="upperSecondarySchoolContentsNew">
             {{ "forms.collection.educational.upperSecondarySchoolContentsNew.label" | translate }}
           </label>
@@ -524,7 +524,7 @@
   <ng-container *ngIf="hasVocationalEducation">
     <h3>{{ "forms.collection.educational.headings.vocational" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="vocationalDegrees">{{ "forms.collection.educational.vocationalDegrees.label" | translate }}</label>
 
       <ng-select
@@ -539,7 +539,7 @@
     </div>
     <!--vocationalDegrees-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="vocationalCommonUnits">
         {{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}
       </label>
@@ -559,7 +559,7 @@
     </div>
 
     <ng-container *ngIf="hasVocationalDegrees">
-      <div class="form-group">
+      <div class="mb-3">
         <label for="vocationalUnits">{{ "forms.collection.educational.vocationalUnits.label" | translate }}</label>
 
         <ng-select
@@ -575,7 +575,7 @@
       </div>
       <!--vocationalUnits-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="vocationalRequirements">
           {{ "forms.collection.educational.vocationalEducationObjectives.label" | translate }}
         </label>
@@ -593,7 +593,7 @@
       </div>
       <!--vocationalEducationObjectives-->
 
-      <div class="form-group">
+      <div class="mb-3">
         <label for="vocationalEducationFramework">
           {{ "forms.collection.educational.vocationalEducationFramework.label" | translate }}
         </label>
@@ -633,7 +633,7 @@
   <ng-container *ngIf="hasSelfMotivatedEducation">
     <h3>{{ "forms.collection.educational.headings.selfMotivated" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="selfMotivatedEducationSubjects">
         {{ "forms.collection.educational.selfMotivatedEducationSubjects.label" | translate }}
       </label>
@@ -649,7 +649,7 @@
     </div>
     <!--selfMotivatedEducationSubjects-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="selfMotivatedEducationObjectives">
         {{ "forms.collection.educational.selfMotivatedEducationObjectives.label" | translate }}
       </label>
@@ -670,7 +670,7 @@
   <ng-container *ngIf="hasHigherEducation">
     <h3>{{ "forms.collection.educational.headings.higher" | translate }}</h3>
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="scienceBranches">{{ "forms.collection.educational.scienceBranches.label" | translate }}</label>
 
       <ng-select
@@ -690,7 +690,7 @@
     </div>
     <!--scienceBranches-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="scienceBranchObjectives">
         {{ "forms.collection.educational.scienceBranchObjectives.label" | translate }}
       </label>
@@ -706,7 +706,7 @@
     </div>
     <!--scienceBranchObjectives-->
 
-    <div class="form-group">
+    <div class="mb-3">
       <label for="higherEducationFramework">
         {{ "forms.collection.educational.higherEducationFramework.label" | translate }}
       </label>

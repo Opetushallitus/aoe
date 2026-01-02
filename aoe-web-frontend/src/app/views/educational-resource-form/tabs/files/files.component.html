@@ -1,7 +1,7 @@
 <alert type="info" dismissible="true">{{ "forms.educationalResource.files.alert" | translate }}</alert>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-  <div class="form-group">
-    <div class="form-row align-items-end">
+  <div class="mb-3">
+    <div class="row g-3 align-items-end">
       <div class="col" formGroupName="name">
         <label for="name">{{ "forms.educationalResource.files.materialName.label." + lang | translate }}&nbsp;*</label>
         <button
@@ -59,7 +59,7 @@
       </div>
       <div class="modal-body" formGroupName="name">
         <h4>{{ "forms.educationalResource.files.materialName.modal.subtitle" | translate }}</h4>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="name2">
             {{ "forms.educationalResource.files.materialName.label." + otherLangs[0] | translate }}
           </label>
@@ -86,7 +86,7 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="name3">
             {{ "forms.educationalResource.files.materialName.label." + otherLangs[1] | translate }}
           </label>
@@ -130,7 +130,7 @@
   </div>
 
   <ng-container *ngFor="let file of files.controls; let i = index">
-    <fieldset class="form-group border-bottom" formArrayName="files">
+    <fieldset class="mb-3 border-bottom" formArrayName="files">
       <ng-container [formGroupName]="i">
         <h4>
           {{ i + 1 }}{{ "forms.educationalResource.files.file.title" | translate }}
@@ -141,8 +141,8 @@
             <img src="assets/img/icons/ic_help.svg" alt="" />
           </button>
         </h4>
-        <div class="form-row align-items-end">
-          <div class="form-group col-lg" *ngIf="!file.get('link').value">
+        <div class="row g-3 align-items-end">
+          <div class="mb-3 col-lg" *ngIf="!file.get('link').value">
             <label for="{{ 'file' + i }}">
               {{ "forms.educationalResource.files.file.inputs.file.label" | translate }}&nbsp;*
             </label>
@@ -156,10 +156,10 @@
               <span class="custom-file-label">{{ file.get('file').value?.['name'] | cleanFilename }}</span>
             </div>
           </div>
-          <div class="form-group col-lg-1 text-center" *ngIf="!file.get('file').value && !file.get('link').value">
+          <div class="mb-3 col-lg-1 text-center" *ngIf="!file.get('file').value && !file.get('link').value">
             {{ "forms.educationalResource.files.file.or" | translate }}
           </div>
-          <div class="form-group col-lg" *ngIf="!file.get('file').value">
+          <div class="mb-3 col-lg" *ngIf="!file.get('file').value">
             <label for="{{ 'link' + i }}">
               {{ "forms.educationalResource.files.file.inputs.link.label" | translate }}&nbsp;*
             </label>
@@ -181,7 +181,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-lg-2">
+          <div class="mb-3 col-lg-2">
             <label [for]="'language' + i">
               {{ "forms.educationalResource.files.file.inputs.language.label" | translate }}&nbsp;*
             </label>
@@ -208,8 +208,8 @@
             </ng-container>
           </div>
         </div>
-        <div class="form-row align-items-end" formGroupName="displayName">
-          <div class="form-group col">
+        <div class="row g-3 align-items-end" formGroupName="displayName">
+          <div class="mb-3 col">
             <label for="{{ 'displayName' + i }}">
               {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}&nbsp;*
             </label>
@@ -249,7 +249,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-auto">
+          <div class="mb-3 col-auto">
             <button
               type="button"
               class="btn btn-gray"
@@ -286,7 +286,7 @@
             </div>
             <div class="modal-body">
               <h4>{{ "forms.educationalResource.files.file.inputs.displayName.modal.subtitle" | translate }}</h4>
-              <div class="form-group">
+              <div class="mb-3">
                 <label for="{{ 'displayName2' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + otherLangs[0] | translate }}
                 </label>
@@ -317,7 +317,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="mb-3">
                 <label for="{{ 'displayName3' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + otherLangs[1] | translate }}
                 </label>
@@ -369,8 +369,8 @@
             *ngFor="let subtitle of file.get('subtitles')['controls']; let j = index; let isLast = last"
             [ngClass]="{ 'border-bottom mb-2': isLast }">
             <fieldset formArrayName="subtitles">
-              <div class="form-row align-items-end" [formGroupName]="j">
-                <div class="form-group col-lg order-1">
+              <div class="row g-3 align-items-end" [formGroupName]="j">
+                <div class="mb-3 col-lg order-1">
                   <label for="{{ 'subtitle' + i + j }}">
                     {{ "forms.educationalResource.files.file.inputs.subtitles.subtitle" | translate }}&nbsp;*
                   </label>
@@ -385,7 +385,7 @@
                     <span class="custom-file-label">{{ subtitle.get("file").value.name | cleanFilename }}</span>
                   </div>
                 </div>
-                <div class="form-group col-sm-8 col-lg order-2">
+                <div class="mb-3 col-sm-8 col-lg order-2">
                   <label for="{{ 'label' + i + j }}">
                     {{ "forms.educationalResource.files.file.inputs.subtitles.label" | translate }}&nbsp;*
                   </label>
@@ -415,7 +415,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group col-sm-4 col-lg order-3">
+                <div class="mb-3 col-sm-4 col-lg order-3">
                   <label [for]="'srclang' + i + j">
                     {{ "forms.educationalResource.files.file.inputs.subtitles.srclang" | translate }}&nbsp;*
                   </label>
@@ -434,13 +434,13 @@
                     </div>
                   </ng-container>
                 </div>
-                <div class="form-group col-lg-auto order-last order-lg-4">
+                <div class="mb-3 col-lg-auto order-last order-lg-4">
                   <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                     <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
                   </button>
                 </div>
-                <div class="form-group col-lg-12 order-4">
+                <div class="mb-3 col-lg-12 order-4">
                   <div class="custom-control custom-checkbox">
                     <input
                       type="checkbox"
@@ -456,8 +456,8 @@
               </div>
             </fieldset>
           </div>
-          <div class="form-row">
-            <div class="form-group col">
+          <div class="row g-3">
+            <div class="mb-3 col">
               <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">
                 {{ "forms.educationalResource.files.file.inputs.subtitles.addSubtitle" | translate }}
               </button>
@@ -466,7 +466,7 @@
         </ng-container>
       </ng-container>
       <ng-container *ngIf="(uploadResponses$ | async)![i] as ur">
-        <div class="form-group" *ngIf="ur.visible === true">
+        <div class="mb-3" *ngIf="ur.visible === true">
           <progressbar [type]="ur.status === 'error' ? 'danger' : 'success'" [value]="+ur.message">
             {{ ur.message }} {{ ur.message <= 100 ? ' %' : '' }}
           </progressbar>
@@ -477,7 +477,7 @@
   <div *ngIf="submitted && files.errors" class="alert alert-warning" role="alert">
     <div *ngIf="files.errors?.['required']">{{ "forms.educationalResource.files.file.error" | translate }}</div>
   </div>
-  <div class="form-group">
+  <div class="mb-3">
     <button type="button" class="btn btn-gray" (click)="addFile()" [disabled]="hasUploadIssues">
       {{ "forms.educationalResource.files.file.addFile" | translate }}
     </button>

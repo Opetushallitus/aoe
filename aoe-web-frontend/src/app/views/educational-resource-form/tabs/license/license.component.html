@@ -49,7 +49,7 @@
   </ng-container>
   <h3>{{ "forms.educationalResource.license.subtitle" | translate }}</h3>
   <ng-container *ngIf="(licenses$ | async) as licenses">
-    <div class="form-group" *ngFor="let license of licenses; let i = index">
+    <div class="mb-3" *ngFor="let license of licenses; let i = index">
       <div class="custom-control custom-radio">
         <input
           type="radio"

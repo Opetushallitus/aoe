@@ -17,9 +17,9 @@
 <section>
   <h2>Tiedotteen tallennus</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
+    <div class="row g-3">
       <!-- Notification Type Select -->
-      <div class="form-group col-sm-4">
+      <div class="mb-3 col-sm-4">
         <label for="notificationType">Tiedotteen tyyppi *</label>
         <ng-select
           [items]="selectOptionNotificationType"
@@ -35,7 +35,7 @@
         </ng-container>
       </div>
       <!-- Date Since Picker -->
-      <div class="form-group col-sm-4">
+      <div class="mb-3 col-sm-4">
         <label for="showSince">Tiedote alkaa</label>
         <input
           type="text"
@@ -48,7 +48,7 @@
           [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
       </div>
       <!-- Date Until Picker -->
-      <div class="form-group col-sm-4">
+      <div class="mb-3 col-sm-4">
         <label for="showUntil">Tiedote päättyy</label>
         <input
           type="text"
@@ -62,8 +62,8 @@
       </div>
     </div>
     <!-- Notification Text Input -->
-    <div class="form-row">
-      <div class="form-group col-sm-12">
+    <div class="row g-3">
+      <div class="mb-3 col-sm-12">
         <label for="notification">Tiedotteen teksti *</label>
         <input id="notification" formControlName="notification" class="form-control" />
         <ng-container *ngIf="notification?.invalid && (notification.dirty || notification.touched)">
@@ -76,8 +76,8 @@
         </ng-container>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-sm-10 col-md-8">
+    <div class="row g-3">
+      <div class="mb-3 col-sm-10 col-md-8">
         <button type="submit" [disabled]="form.invalid" class="btn btn-blue">Tallenna</button>
         &nbsp;&nbsp;
         <button (click)="onReset($event)" class="btn btn-cancel">Tyhjennä</button>
