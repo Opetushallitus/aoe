@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core'
 @Injectable({
   providedIn: 'root'
 })
-export class DisableFormsGuard  {
+export class DisableFormsGuard {
   constructor(
     private router: Router,
     private alertSvc: AlertService,

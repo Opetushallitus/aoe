@@ -8,7 +8,7 @@ import { HttpResponse } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard  {
+export class AdminGuard {
   constructor(
     private router: Router,
     private adminService: AdminService
