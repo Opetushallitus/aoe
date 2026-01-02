@@ -17,7 +17,6 @@ import {
 } from '@util/aoeScheduler'
 import morganLogger from '@util/morganLogger'
 import * as log from '@util/winstonLogger'
-import bodyParser from 'body-parser'
 import compression from 'compression'
 import flash from 'connect-flash'
 import cors, { CorsOptions } from 'cors'
@@ -157,8 +156,8 @@ export async function initApp() {
     res.json({ status: 'ok' })
   })
 
-  app.use(bodyParser.json({ limit: '1mb' }))
-  app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }))
+  app.use(express.json({ limit: '1mb' }))
+  app.use(express.urlencoded({ extended: true, limit: '1mb' }))
   app.use('/favicon.ico', express.static('./views/favicon.ico'))
   app.use('/', apiRouterRoot)
   app.use('/api/v1/', apiRouterV1)
