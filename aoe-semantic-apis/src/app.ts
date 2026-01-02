@@ -1,6 +1,5 @@
 import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'express'
 import compression from 'compression' // compress requests
-import bodyParser from 'body-parser'
 import cron from 'node-cron'
 import cors from 'cors'
 
@@ -14,8 +13,8 @@ const expressSwagger = require('express-swagger-generator')(app)
 
 // Configuration
 app.use(compression())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.set('port', 3000)
 
 if (app.get('env') === 'development') {
