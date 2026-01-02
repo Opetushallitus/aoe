@@ -1,10 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 
-test('kirjautumaton käyttäjä voi ladata oppimateriaalia', async ({
-  page,
-  browser,
-}) => {
+test('kirjautumaton käyttäjä voi ladata oppimateriaalia', async ({ page, browser }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
@@ -17,9 +14,7 @@ test('kirjautumaton käyttäjä voi ladata oppimateriaalia', async ({
   await kirjautumatonEtusivu.goto()
   await kirjautumatonEtusivu.header.fi.click()
   await expect(kirjautumatonEtusivu.header.kirjaudu).toBeVisible()
-  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(
-    materiaaliNimi
-  )
+  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(materiaaliNimi)
   await kirjautumatonMateriaali.lataaDropdown.click()
   const tiedostoBlob = await kirjautumatonMateriaali.lataaTiedosto('blank')
   expect(await tiedostoBlob.text()).toContain('Blank PDF Document')
@@ -27,7 +22,7 @@ test('kirjautumaton käyttäjä voi ladata oppimateriaalia', async ({
 
 test('kirjautumaton käyttäjä voi katsella materiaalin tiedostoja esikatselunäkymässä, ja nähdä materiaalin sisällön.', async ({
   page,
-  browser,
+  browser
 }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
@@ -41,16 +36,14 @@ test('kirjautumaton käyttäjä voi katsella materiaalin tiedostoja esikatselun�
   await kirjautumatonEtusivu.goto()
   await kirjautumatonEtusivu.header.fi.click()
   await expect(kirjautumatonEtusivu.header.kirjaudu).toBeVisible()
-  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(
-    materiaaliNimi
-  )
+  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(materiaaliNimi)
   const preview = await kirjautumatonMateriaali.preview('blank.pdf')
   await expect(preview).toBeVisible()
 })
 
 test('kirjautumaton käyttämä voi ilman kirjautumista siirtyä materiaalin sisältöön, kun se on linkki ulkoiseen verkko-osoitteeseen.', async ({
   page,
-  browser,
+  browser
 }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
@@ -67,9 +60,7 @@ test('kirjautumaton käyttämä voi ilman kirjautumista siirtyä materiaalin sis
   await kirjautumatonEtusivu.goto()
   await kirjautumatonEtusivu.header.fi.click()
   await expect(kirjautumatonEtusivu.header.kirjaudu).toBeVisible()
-  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(
-    materiaaliNimi
-  )
+  const kirjautumatonMateriaali = await kirjautumatonEtusivu.clickMateriaali(materiaaliNimi)
   const pagePromise = newContext.waitForEvent('page')
   await kirjautumatonMateriaali.clickVerkkosivu()
   const newPage = await pagePromise

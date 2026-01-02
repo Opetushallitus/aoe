@@ -22,7 +22,17 @@
       "!**/node_modules/"
     ]
   },
-  "linter": { "enabled": true, "rules": { "recommended": true } },
+  "linter": {
+    "enabled": true,
+    "rules": { "recommended": true },
+    "includes": [
+      "**/*.ts",
+      "!**/test-results/",
+      "!**/playwright-report/",
+      "!**/.auth/",
+      "!**/node_modules/"
+    ]
+  },
   "javascript": {
     "formatter": {
       "jsxQuoteStyle": "double",

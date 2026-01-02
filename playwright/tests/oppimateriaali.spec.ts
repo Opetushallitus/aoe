@@ -7,20 +7,14 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
-  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(
-    materiaaliNimi
-  )
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
   await materiaali.header.clickOmatMateriaalit()
-  await expect(
-    omatMateriaalit.locators.julkaistutMateriaalitHeading
-  ).toBeVisible()
+  await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
   await omatMateriaalit.expectToFindMateriaali(materiaaliNimi)
 
   const materiaaliNimiMuutettu = `${materiaaliNimi}_muutettu`
-  const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(
-    materiaaliNumero
-  )
+  const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(materiaaliNumero)
   const muokkausForm = muokkaaMateriaalia.form
   await muokkausForm.oppimateriaalinNimi(materiaaliNimiMuutettu)
   const esikatseluJaTallennut = await muokkausForm
@@ -34,29 +28,24 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
 })
 
 test('käyttäjä voi päivittää materiaalista kaikki linkit kerralla ja julkaista materiaalit', async ({
-  page,
+  page
 }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusiVerkkosivuMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusiVerkkosivuMateriaali.randomMateriaaliNimi()
-  const materiaali =
-    await uusiVerkkosivuMateriaali.taytaJaTallennaUusiVerkkosivuMateriaali(
-      materiaaliNimi,
-      'https://example.com'
-    )
+  const materiaali = await uusiVerkkosivuMateriaali.taytaJaTallennaUusiVerkkosivuMateriaali(
+    materiaaliNimi,
+    'https://example.com'
+  )
 
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
   await materiaali.header.clickOmatMateriaalit()
-  await expect(
-    omatMateriaalit.locators.julkaistutMateriaalitHeading
-  ).toBeVisible()
+  await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
   await omatMateriaalit.expectToFindMateriaali(materiaaliNimi)
 
-  const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(
-    materiaaliNumero
-  )
+  const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(materiaaliNumero)
   const muokkausForm = muokkaaMateriaalia.form
   await muokkausForm.muokkaaVerkkoSivu('https://example.org')
   const esikatseluJaTallennut = await muokkausForm
@@ -74,15 +63,11 @@ test('käyttäjä voi luoda kokoelman ja julkaista sen', async ({ page }) => {
   let omatMateriaalitPage = await etusivu.header.clickOmatMateriaalit()
   const uusiMateriaali = await omatMateriaalitPage.luoUusiMateriaali()
   const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
-  const materiaaliPage = await uusiMateriaali.taytaJaTallennaUusiMateriaali(
-    materiaaliNimi
-  )
+  const materiaaliPage = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const kokoelmaName = `Testikokoelma-${materiaaliNimi}`
   await materiaaliPage.lisaaKokoelmaan(kokoelmaName)
   omatMateriaalitPage = await etusivu.header.clickOmatMateriaalit()
-  const kokoelmaEditPage = await omatMateriaalitPage.startToEditKokoelma(
-    kokoelmaName
-  )
+  const kokoelmaEditPage = await omatMateriaalitPage.startToEditKokoelma(kokoelmaName)
   const kokoelmaPage = await kokoelmaEditPage.julkaiseKokoelma()
   const kokoelmatPage = await kokoelmaPage.header.clickKokoelmat()
   await expect(await kokoelmatPage.kokoelmaByName(kokoelmaName)).toContainText(
