@@ -68,6 +68,12 @@
           <groupId>org.apache.kafka</groupId>
           <artifactId>kafka-streams</artifactId>
           <version>3.9.1</version>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.lz4</groupId>
+                  <artifactId>lz4-java</artifactId>
+              </exclusion>
+          </exclusions>
       </dependency>
       <dependency>
           <groupId>software.amazon.msk</groupId>
@@ -106,12 +112,6 @@
       <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-test</artifactId>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.kafka</groupId>
-          <artifactId>spring-kafka-test</artifactId>
-          <version>3.3.11</version>
           <scope>test</scope>
       </dependency>
       <dependency>
