@@ -18,14 +18,10 @@
  * BROWSER POLYFILLS
  */
 
-/** IE10 and IE11 requires the following for the Reflect API. */
-import 'core-js/es6/reflect'
-
-/** Evergreen browsers require these. **/
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-
-// for IE10
-import 'mutationobserver-shim'
+/**
+ * Polyfills for evergreen browsers only.
+ * IE10 and IE11 are no longer supported by Angular 16.
+ */
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
