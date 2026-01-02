@@ -7,8 +7,8 @@
     <button
       class="navbar-toggler"
       type="button"
-      data-toggle="collapse"
-      data-target="#main-navbar"
+      data-bs-toggle="collapse"
+      data-bs-target="#main-navbar"
       aria-controls="main-navbar"
       aria-expanded="false"
       [attr.aria-label]="'navigation.toggler.aria.label' | translate">
@@ -16,37 +16,37 @@
     </button>
 
     <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
           <a class="nav-link" routerLink="/etusivu" routerLinkActive="active">{{ "navigation.home" | translate }}</a>
         </li>
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+        <li class="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
           <a class="nav-link" routerLink="/kokoelmat" routerLinkActive="active">
             {{ "navigation.collections" | translate }}
           </a>
         </li>
         <li
           class="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
+          data-bs-toggle="collapse"
+          data-bs-target=".navbar-collapse.show"
           *ngIf="authService.hasUserData()">
           <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
             {{ "navigation.myMaterials" | translate }}
           </a>
         </li>
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+        <li class="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
           <a class="nav-link" routerLink="/lisatietoa" routerLinkActive="active">{{ "navigation.info" | translate }}</a>
         </li>
       </ul>
 
       <nav
-        class="nav ml-auto nav-languages flex-lg-row"
+        class="nav ms-auto nav-languages flex-lg-row"
         [attr.aria-label]="'navigation.langSelector.label' | translate">
         <ng-container *ngFor="let lang of translate.getLangs()">
           <button
             class="btn btn-link nav-link"
-            data-toggle="collapse"
-            data-target=".navbar-collapse.show"
+            data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show"
             (click)="changeLanguage(lang)"
             [ngClass]="translate.currentLang === lang ? 'active' : ''"
             [lang]="lang">

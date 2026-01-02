@@ -17,8 +17,8 @@
             <div class="row justify-content-between">
               <div class="col-auto">
                 <h3>
-                  <i class="fa fa-bars fa-fw mr-2" aria-hidden="true"></i>
-                  <span class="mr-2">{{ i + 1 }}</span>
+                  <i class="fa fa-bars fa-fw me-2" aria-hidden="true"></i>
+                  <span class="me-2">{{ i + 1 }}</span>
                   {{ materials.get(materialOrHeading.get("id").value).name[lang] }}
                 </h3>
               </div>
@@ -79,7 +79,7 @@
 
             <div class="row justify-content-between">
               <div class="col-auto">
-                <span class="mr-4">
+                <span class="me-4">
                   <img
                     src="assets/img/icons/learning-resource-types/{{
                       materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key
@@ -104,8 +104,8 @@
 
           <ng-template #heading>
             <h3>
-              <i class="fa fa-bars fa-fw mr-2" aria-hidden="true"></i>
-              <span class="mr-2">{{ i + 1 }}</span>
+              <i class="fa fa-bars fa-fw me-2" aria-hidden="true"></i>
+              <span class="me-2">{{ i + 1 }}</span>
               {{ "forms.collection.material.headingAndDescription" | translate }}
             </h3>
 
