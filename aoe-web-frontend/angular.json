@@ -184,7 +184,6 @@
       }
     }
   },
-  "defaultProject": "ng",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
@@ -196,7 +195,9 @@
   },
   "cli": {
     "packageManager": "npm",
-    "defaultCollection": "@angular-eslint/schematics",
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
