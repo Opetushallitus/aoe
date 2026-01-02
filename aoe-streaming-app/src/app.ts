@@ -1,6 +1,5 @@
 import apiRoot from './api/routes-root'
 import apiV1 from './api/routes-v1'
-import bodyParser from 'body-parser'
 import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express'
@@ -27,8 +26,8 @@ app.set('trust proxy', '127.0.0.1')
 
 // HTTP request handlers
 app.use(compression())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(morganHttpLogger)
 
 app.get('/health', (_req: Request, res: Response) => {
