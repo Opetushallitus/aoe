@@ -39,7 +39,7 @@
     "@types/express": "5.0.6",
     "@types/morgan": "1.9.10",
     "@types/node": "18.19.130",
-    "knip": "5.80.2",
+    "knip": "5.81.0",
     "typescript": "5.9.2"
   },
   "overrides": {
