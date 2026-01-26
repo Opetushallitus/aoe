@@ -4,28 +4,33 @@
     "config:best-practices",
     "workarounds:javaLTSVersions",
     ":rebaseStalePrs",
-    "npm:unpublishSafe"
+    "security:minimumReleaseAgeNpm"
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
   "dependencyDashboardApproval": true,
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
-
   "forkProcessing": "disabled",
-
   "minimumReleaseAge": "3 days",
   "prCreation": "immediate",
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
-
-  "lockFileMaintenance": { "enabled": true },
-  "schedule": ["at any time"],
-  "automergeSchedule": ["at any time"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "schedule": [
+    "at any time"
+  ],
+  "automergeSchedule": [
+    "at any time"
+  ],
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
-    "labels": ["security"],
+    "labels": [
+      "security"
+    ],
     "automerge": true,
     "dependencyDashboardApproval": false
   },
@@ -53,7 +58,9 @@
     {
       "automerge": false,
       "dependencyDashboardApproval": true,
-      "matchPackageNames": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "automerge": true,
@@ -69,11 +76,15 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "groupName": "Spring Boot",
-      "matchPackageNames": ["org.springframework.boot"],
+      "matchPackageNames": [
+        "org.springframework.boot"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -103,7 +114,9 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
+      "matchPackageNames": [
+        "/org.apache.httpcomponents.client5*/"
+      ]
     },
     {
       "groupName": "Bootstrap",
@@ -120,7 +133,9 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["bootstrap"]
+      "matchPackageNames": [
+        "bootstrap"
+      ]
     },
     {
       "groupName": "Multer",
@@ -137,7 +152,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["multer", "@types/multer"]
+      "matchPackageNames": [
+        "multer",
+        "@types/multer"
+      ]
     },
     {
       "groupName": "Async",
@@ -154,7 +172,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["async", "@types/async"]
+      "matchPackageNames": [
+        "async",
+        "@types/async"
+      ]
     },
     {
       "groupName": "Dotenv",
@@ -171,7 +192,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["dotenv", "@types/dotenv"]
+      "matchPackageNames": [
+        "dotenv",
+        "@types/dotenv"
+      ]
     },
     {
       "groupName": "Http Proxy Middleware",
@@ -188,7 +212,9 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["http-proxy-middleware"]
+      "matchPackageNames": [
+        "http-proxy-middleware"
+      ]
     },
     {
       "groupName": "MongoDB packages and images - DISABLED",
@@ -204,8 +230,12 @@
     {
       "groupName": "MongoDB Docker images - DISABLED",
       "enabled": false,
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["mongo"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "mongo"
+      ]
     }
   ],
   "prConcurrentLimit": 10
