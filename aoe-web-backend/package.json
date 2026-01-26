@@ -80,7 +80,7 @@
     "@types/connect-flash": "0.0.40",
     "@types/connect-redis": "0.0.23",
     "@types/cors": "2.8.17",
-    "@types/express-session": "1.18.1",
+    "@types/express-session": "1.18.2",
     "@types/jsonwebtoken": "9.0.10",
     "@types/lusca": "1.7.5",
     "@types/mime": "2.0.3",
