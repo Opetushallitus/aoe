@@ -8,7 +8,7 @@ import { UserData } from '@models/userdata'
 @Injectable({
   providedIn: 'root'
 })
-export class AcceptanceGuard  {
+export class AcceptanceGuard {
   constructor(
     private router: Router,
     private authService: AuthService

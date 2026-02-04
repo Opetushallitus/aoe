@@ -9,7 +9,7 @@ export interface ComponentCanDeactivate {
 @Injectable({
   providedIn: 'root'
 })
-export class UnsavedChangesGuard  {
+export class UnsavedChangesGuard {
   canDeactivate(
     component: ComponentCanDeactivate,
     currentRoute: ActivatedRouteSnapshot,
