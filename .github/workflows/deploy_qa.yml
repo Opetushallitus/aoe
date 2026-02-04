@@ -11,7 +11,7 @@ on:
 concurrency: deploy-qa
 
 env:
-  DOCKER_BUILDKIT: '1'
+  DOCKER_BUILDKIT: "1"
 
 defaults:
   run:
@@ -24,9 +24,13 @@ jobs:
       packages: read
       id-token: write
       contents: write
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-24.04"
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Checkout all branches and tags with full history
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
 
       - name: Send build status "in progress"
         uses: ./.github/actions/build_status
@@ -35,11 +39,6 @@ jobs:
           status: inProgress
           api_key: ${{ secrets.RADIATOR_AUTH_TOKEN }}
 
-      - name: Checkout all branches and tags with full history
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          ref: ${{ inputs.branch }}
-          fetch-depth: 0
       - name: Configure qa AWS credentials
         uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4
         with:
@@ -50,7 +49,7 @@ jobs:
       - name: Run CDK Deploy
         run: ./deploy-scripts/05-deploy-qa.sh deploy
 
-      - name: Tag deploy 
+      - name: Tag deploy
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
@@ -62,7 +61,7 @@ jobs:
     needs: [deploy_qa]
     if: always()
     continue-on-error: true
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
       - uses: ./.github/actions/build_status
