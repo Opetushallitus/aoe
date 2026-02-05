@@ -2,7 +2,12 @@ import { BrowserModule, HammerModule, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core'
 import { HashLocationStrategy, LocationStrategy } from '@angular/common'
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http'
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { AppComponent } from './app.component'
@@ -93,7 +98,7 @@ import {
   SearchResultsViewComponent,
   TermsOfUseViewComponent,
   UserDetailsViewComponent,
-  UserMaterialsViewComponent
+  UserMaterialsViewComponent,
 } from './views'
 import {
   BasedOnDetailsComponent,
@@ -102,7 +107,7 @@ import {
   ExtendedDetailsComponent,
   FilesComponent,
   LicenseComponent,
-  PreviewComponent
+  PreviewComponent,
 } from './views/educational-resource-form/tabs'
 import {
   EditBasedOnDetailsComponent,
@@ -111,50 +116,19 @@ import {
   EditExtendedDetailsComponent,
   EditFilesComponent,
   EditLicenseComponent,
-  EditPreviewComponent
+  EditPreviewComponent,
 } from './views/educational-material-edit-form/tabs'
 import {
   CollectionBasicDetailsTabComponent,
   CollectionEducationalDetailsTabComponent,
   CollectionMaterialsTabComponent,
-  CollectionPreviewTabComponent
+  CollectionPreviewTabComponent,
 } from './views/collection-form'
 
 const APP_CONTAINERS = [DefaultLayoutComponent]
 defineLocale('fi', fiLocale)
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
-    SharedModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
-    AccordionModule.forRoot(),
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TooltipModule.forRoot(),
-    CollapseModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    ProgressbarModule.forRoot(),
-    ImageCropperModule,
-    DragDropModule,
-    ClipboardModule,
-    ToastrModule.forRoot(),
-    HammerModule,
-    PdfJsViewerModule,
-    NgxPaginationModule
-  ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
@@ -219,27 +193,58 @@ defineLocale('fi', fiLocale)
     SocialMetadataModalComponent,
     ArchivedMaterialComponent,
     AccessibilityViewComponent,
-    PreviewRowComponent
+    PreviewRowComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    AccordionModule.forRoot(),
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TooltipModule.forRoot(),
+    CollapseModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    ImageCropperModule,
+    DragDropModule,
+    ClipboardModule,
+    ToastrModule.forRoot(),
+    HammerModule,
+    PdfJsViewerModule,
+    NgxPaginationModule,
   ],
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CredentialInterceptor,
-      multi: true
+      multi: true,
     },
     Title,
     UnsavedChangesGuard,
     DeviceDetectorService,
     AdminGuard,
     DisableFormsGuard,
-    WindowRef
+    WindowRef,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private localeService: BsLocaleService) {
