@@ -1,5 +1,9 @@
 // Bootstrap variables override
 
+$red: #f86c6b;
+$green: #4dbd74;
+$cyan: #63c2de;
+$yellow: #ffc107;
 $primary-theme-color: #1d891f; // #2a7e2b; // #1d891f;
 $secondary-theme-color: #1d7d1f;
 $blue: #1f79bf;
@@ -11,6 +15,10 @@ $dark: #2f353a;
 $theme-colors: (
   primary: $primary-theme-color,
   secondary: $secondary-theme-color,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
   blue: $blue,
   light: $light,
   gray: $gray,
