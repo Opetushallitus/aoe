@@ -21,7 +21,7 @@ services:
         condition: service_started
 
   nginx:
-    image: nginx:latest@sha256:9dd288848f4495869f76676e419ae2d767ca99fece2ec37ec0261f9fdaab5204
+    image: nginx:latest@sha256:b19d9923c62ec9545779e9f85a113d4735ca83bfd6a953b3268e681847cbe350
     container_name: nginx
     hostname: nginx
     ports:
