@@ -155,30 +155,30 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng:build"
+            "buildTarget": "ng:build"
           },
           "configurations": {
             "prod": {
-              "browserTarget": "ng:build:prod"
+              "buildTarget": "ng:build:prod"
             },
             "demo": {
-              "browserTarget": "ng:build:demo"
+              "buildTarget": "ng:build:demo"
             },
             "qa": {
-              "browserTarget": "ng:build:qa"
+              "buildTarget": "ng:build:qa"
             },
             "dev": {
-              "browserTarget": "ng:build:dev"
+              "buildTarget": "ng:build:dev"
             },
             "ci": {
-              "browserTarget": "ng:build:ci"
+              "buildTarget": "ng:build:ci"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng:build"
+            "buildTarget": "ng:build"
           }
         }
       }
