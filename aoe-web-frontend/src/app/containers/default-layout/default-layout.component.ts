@@ -14,10 +14,10 @@ import { NotificationService } from '@services/notification.service'
  * @ignore
  */
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './default-layout.component.html',
-    styleUrls: ['./default-layout.component.scss'],
-    standalone: false
+  selector: 'app-dashboard',
+  templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.scss'],
+  standalone: false
 })
 export class DefaultLayoutComponent implements OnInit {
   languages = new Map()

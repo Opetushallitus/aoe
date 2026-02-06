@@ -36,10 +36,10 @@ import { validatorParams } from '@constants/validator-params'
 import { catchError } from 'rxjs/operators'
 
 @Component({
-    selector: 'app-tabs-edit-files',
-    templateUrl: './edit-files.component.html',
-    styleUrls: ['./edit-files.component.scss'],
-    standalone: false
+  selector: 'app-tabs-edit-files',
+  templateUrl: './edit-files.component.html',
+  styleUrls: ['./edit-files.component.scss'],
+  standalone: false
 })
 export class EditFilesComponent implements OnInit, OnDestroy {
   @Input() tabId: number

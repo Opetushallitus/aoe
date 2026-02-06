@@ -19,10 +19,10 @@ import {
 } from './tabs'
 
 @Component({
-    selector: 'app-educational-material-edit-form',
-    templateUrl: './educational-material-edit-form.component.html',
-    styleUrls: ['./educational-material-edit-form.component.scss'],
-    standalone: false
+  selector: 'app-educational-material-edit-form',
+  templateUrl: './educational-material-edit-form.component.html',
+  styleUrls: ['./educational-material-edit-form.component.scss'],
+  standalone: false
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   educationalMaterialEditForm: EducationalMaterialForm

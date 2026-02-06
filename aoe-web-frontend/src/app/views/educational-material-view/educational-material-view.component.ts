@@ -22,10 +22,10 @@ import { KoodistoService } from '@services/koodisto.service'
 import { License } from '@models/koodisto/license'
 
 @Component({
-    selector: 'app-demo-material-view',
-    templateUrl: './educational-material-view.component.html',
-    styleUrls: ['./educational-material-view.component.scss'],
-    standalone: false
+  selector: 'app-demo-material-view',
+  templateUrl: './educational-material-view.component.html',
+  styleUrls: ['./educational-material-view.component.scss'],
+  standalone: false
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang

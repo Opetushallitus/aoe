@@ -7,10 +7,10 @@ import { Keyword } from '@models/keyword'
 import { EducationalLevel } from '@models/educational-level'
 
 @Component({
-    selector: 'app-educational-material-card',
-    templateUrl: './educational-material-card.component.html',
-    styleUrls: ['./educational-material-card.component.scss'],
-    standalone: false
+  selector: 'app-educational-material-card',
+  templateUrl: './educational-material-card.component.html',
+  styleUrls: ['./educational-material-card.component.scss'],
+  standalone: false
 })
 export class EducationalMaterialCardComponent implements OnInit {
   @Input() educationalMaterial: EducationalMaterialCard

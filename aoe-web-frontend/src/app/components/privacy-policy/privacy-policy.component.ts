@@ -3,9 +3,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { PrivacyPolicy } from '../../mocks/privacy-policy.mock'
 
 @Component({
-    selector: 'app-privacy-policy',
-    templateUrl: './privacy-policy.component.html',
-    standalone: false
+  selector: 'app-privacy-policy',
+  templateUrl: './privacy-policy.component.html',
+  standalone: false
 })
 export class PrivacyPolicyComponent implements OnInit {
   lang: string = this.translate.currentLang

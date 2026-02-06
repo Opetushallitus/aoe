@@ -12,10 +12,10 @@ import { TranslateService } from '@ngx-translate/core'
 import { Toast } from '@models/translations/toast'
 
 @Component({
-    selector: 'app-add-to-collection-modal',
-    templateUrl: './add-to-collection-modal.component.html',
-    styleUrls: ['./add-to-collection-modal.component.scss'],
-    standalone: false
+  selector: 'app-add-to-collection-modal',
+  templateUrl: './add-to-collection-modal.component.html',
+  styleUrls: ['./add-to-collection-modal.component.scss'],
+  standalone: false
 })
 export class AddToCollectionModalComponent implements OnInit, OnDestroy {
   materialId: number

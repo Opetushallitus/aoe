@@ -8,9 +8,9 @@ import { FAQOrganisation } from '../../mocks/faq.organisation.mock'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-    selector: 'app-help-view',
-    templateUrl: './help-view.component.html',
-    standalone: false
+  selector: 'app-help-view',
+  templateUrl: './help-view.component.html',
+  standalone: false
 })
 export class HelpViewComponent implements OnInit, OnDestroy {
   private langChangeSubscription: Subscription

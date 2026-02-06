@@ -9,11 +9,11 @@ import DOMPurify from 'isomorphic-dompurify'
 import { ToastrService } from 'ngx-toastr'
 
 @Component({
-    selector: 'app-admin-notification',
-    templateUrl: './notification.component.html',
-    styleUrls: ['./notification.component.scss'],
-    providers: [NotificationService],
-    standalone: false
+  selector: 'app-admin-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss'],
+  providers: [NotificationService],
+  standalone: false
 })
 export class NotificationComponent implements OnInit {
   form: FormGroup

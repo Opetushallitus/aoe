@@ -10,10 +10,10 @@ import { Title } from '@angular/platform-browser'
 import { MaterialService } from '@services/material.service'
 
 @Component({
-    selector: 'app-tabs-edit-license',
-    templateUrl: './edit-license.component.html',
-    styleUrls: ['./edit-license.component.scss'],
-    standalone: false
+  selector: 'app-tabs-edit-license',
+  templateUrl: './edit-license.component.html',
+  styleUrls: ['./edit-license.component.scss'],
+  standalone: false
 })
 export class EditLicenseComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

@@ -4,9 +4,9 @@ import { environment } from '../../../environments/environment'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-office-preview',
-    templateUrl: './office-preview.component.html',
-    standalone: false
+  selector: 'app-office-preview',
+  templateUrl: './office-preview.component.html',
+  standalone: false
 })
 export class OfficePreviewComponent implements OnInit, OnChanges {
   @Input() material: Material

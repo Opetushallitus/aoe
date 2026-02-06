@@ -10,10 +10,10 @@ import { ExternalReference } from '@models/material/external-reference'
 import { MaterialService } from '@services/material.service'
 
 @Component({
-    selector: 'app-tabs-edit-based-on-details',
-    templateUrl: './edit-based-on-details.component.html',
-    styleUrls: ['./edit-based-on-details.component.scss'],
-    standalone: false
+  selector: 'app-tabs-edit-based-on-details',
+  templateUrl: './edit-based-on-details.component.html',
+  styleUrls: ['./edit-based-on-details.component.scss'],
+  standalone: false
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

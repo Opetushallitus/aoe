@@ -3,8 +3,8 @@ import { Material } from '@models/material'
 import { Subtitle } from '@models/subtitle'
 
 @Pipe({
-    name: 'materialLanguage',
-    standalone: false
+  name: 'materialLanguage',
+  standalone: false
 })
 export class MaterialLanguagePipe implements PipeTransform {
   transform(materials: Material[], lang: string): Material[] {

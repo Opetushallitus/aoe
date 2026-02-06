@@ -6,8 +6,8 @@ import { Title } from '@angular/platform-browser'
 import { KoodistoService } from '@services/koodisto.service'
 
 @Component({
-    templateUrl: 'main-view.component.html',
-    standalone: false
+  templateUrl: 'main-view.component.html',
+  standalone: false
 })
 export class MainViewComponent implements OnInit {
   lang: string = this.translate.currentLang

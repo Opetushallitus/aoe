@@ -10,9 +10,9 @@ import { License } from '@models/koodisto/license'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-    selector: 'app-tabs-license',
-    templateUrl: './license.component.html',
-    standalone: false
+  selector: 'app-tabs-license',
+  templateUrl: './license.component.html',
+  standalone: false
 })
 export class LicenseComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

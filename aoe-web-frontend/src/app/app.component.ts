@@ -11,10 +11,10 @@ import { UserData } from '@models/userdata'
 export let browserRefresh: boolean = false
 
 @Component({
-    // tslint:disable-next-line
-    selector: 'body',
-    template: '<router-outlet></router-outlet>',
-    standalone: false
+  // tslint:disable-next-line
+  selector: 'body',
+  template: '<router-outlet></router-outlet>',
+  standalone: false
 })
 export class AppComponent implements OnDestroy, OnInit {
   userData: UserData

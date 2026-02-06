@@ -15,10 +15,10 @@ import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-    selector: 'app-tabs-extended-details',
-    templateUrl: './extended-details.component.html',
-    styleUrls: ['./extended-details.component.scss'],
-    standalone: false
+  selector: 'app-tabs-extended-details',
+  templateUrl: './extended-details.component.html',
+  styleUrls: ['./extended-details.component.scss'],
+  standalone: false
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

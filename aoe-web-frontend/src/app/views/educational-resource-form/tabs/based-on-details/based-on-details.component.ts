@@ -10,9 +10,9 @@ import { validatorParams } from '@constants/validator-params'
 import { ExternalReference } from '@models/material/external-reference'
 
 @Component({
-    selector: 'app-tabs-based-on-details',
-    templateUrl: './based-on-details.component.html',
-    standalone: false
+  selector: 'app-tabs-based-on-details',
+  templateUrl: './based-on-details.component.html',
+  standalone: false
 })
 export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

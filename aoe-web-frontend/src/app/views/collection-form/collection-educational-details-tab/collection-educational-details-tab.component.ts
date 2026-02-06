@@ -25,10 +25,10 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { CollectionForm } from '@models/collections/collection-form'
 
 @Component({
-    selector: 'app-collection-educational-details-tab',
-    templateUrl: './collection-educational-details-tab.component.html',
-    styleUrls: ['./collection-educational-details-tab.component.scss'],
-    standalone: false
+  selector: 'app-collection-educational-details-tab',
+  templateUrl: './collection-educational-details-tab.component.html',
+  styleUrls: ['./collection-educational-details-tab.component.scss'],
+  standalone: false
 })
 export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

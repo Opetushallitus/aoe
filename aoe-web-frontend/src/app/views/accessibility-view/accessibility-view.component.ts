@@ -6,10 +6,10 @@ import { AccessibilityTable } from '@models/mocks/accessibility-table'
 import { Accessibility } from '../../mocks/accessibility.mock'
 
 @Component({
-    selector: 'app-accessibility-view',
-    templateUrl: './accessibility-view.component.html',
-    styleUrls: ['./accessibility-view.component.scss'],
-    standalone: false
+  selector: 'app-accessibility-view',
+  templateUrl: './accessibility-view.component.html',
+  styleUrls: ['./accessibility-view.component.scss'],
+  standalone: false
 })
 export class AccessibilityViewComponent implements OnInit {
   lang: string = this.translate.currentLang

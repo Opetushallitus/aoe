@@ -26,9 +26,9 @@ import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-    selector: 'app-tabs-educational-details',
-    templateUrl: './educational-details.component.html',
-    standalone: false
+  selector: 'app-tabs-educational-details',
+  templateUrl: './educational-details.component.html',
+  standalone: false
 })
 export class EducationalDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

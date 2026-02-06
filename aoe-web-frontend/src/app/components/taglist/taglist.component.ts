@@ -5,10 +5,10 @@ import { Router } from '@angular/router'
 import { UsedFilter } from '@models/search/used-filter'
 
 @Component({
-    selector: 'app-taglist',
-    templateUrl: './taglist.component.html',
-    styleUrls: ['./taglist.component.scss'],
-    standalone: false
+  selector: 'app-taglist',
+  templateUrl: './taglist.component.html',
+  styleUrls: ['./taglist.component.scss'],
+  standalone: false
 })
 export class TaglistComponent {
   @Input() tags: any[]

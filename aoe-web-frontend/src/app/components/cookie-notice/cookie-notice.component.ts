@@ -4,9 +4,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { CookieService } from '@services/cookie.service'
 
 @Component({
-    selector: 'app-cookie-notice',
-    templateUrl: './cookie-notice.component.html',
-    standalone: false
+  selector: 'app-cookie-notice',
+  templateUrl: './cookie-notice.component.html',
+  standalone: false
 })
 export class CookieNoticeComponent implements OnInit {
   @Output() hideCookieNotice = new EventEmitter()

@@ -6,9 +6,9 @@ import { Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-acceptance-view',
-    templateUrl: './acceptance-view.component.html',
-    standalone: false
+  selector: 'app-acceptance-view',
+  templateUrl: './acceptance-view.component.html',
+  standalone: false
 })
 export class AcceptanceViewComponent implements OnInit {
   public acceptanceForm: FormGroup

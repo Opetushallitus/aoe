@@ -33,9 +33,9 @@ import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-    selector: 'app-tabs-files',
-    templateUrl: './files.component.html',
-    standalone: false
+  selector: 'app-tabs-files',
+  templateUrl: './files.component.html',
+  standalone: false
 })
 export class FilesComponent implements OnInit, OnDestroy {
   @Input() educationalMaterialID$: Observable<number>

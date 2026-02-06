@@ -16,9 +16,9 @@ import { koodistoSources } from '@constants/koodisto-sources'
 import { ignored2019Subjects, ignoredSubjects } from '@constants/ignored-subjects'
 
 @Component({
-    selector: 'app-preview',
-    templateUrl: './preview.component.html',
-    standalone: false
+  selector: 'app-preview',
+  templateUrl: './preview.component.html',
+  standalone: false
 })
 export class PreviewComponent implements OnInit, OnDestroy {
   @Input() educationalMaterialID$: Observable<number>

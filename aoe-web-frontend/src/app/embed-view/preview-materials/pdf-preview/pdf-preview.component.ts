@@ -4,9 +4,9 @@ import { Material } from '@models/material'
 import { environment } from '../../../../environments/environment'
 
 @Component({
-    selector: 'app-pdf-preview',
-    templateUrl: './pdf-preview.component.html',
-    standalone: false
+  selector: 'app-pdf-preview',
+  templateUrl: './pdf-preview.component.html',
+  standalone: false
 })
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material

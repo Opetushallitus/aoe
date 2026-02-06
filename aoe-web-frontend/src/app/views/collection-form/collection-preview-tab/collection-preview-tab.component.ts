@@ -14,10 +14,10 @@ import { CollectionService } from '@services/collection.service'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 
 @Component({
-    selector: 'app-collection-preview-tab',
-    templateUrl: './collection-preview-tab.component.html',
-    styleUrls: ['./collection-preview-tab.component.scss'],
-    standalone: false
+  selector: 'app-collection-preview-tab',
+  templateUrl: './collection-preview-tab.component.html',
+  styleUrls: ['./collection-preview-tab.component.scss'],
+  standalone: false
 })
 export class CollectionPreviewTabComponent implements OnInit {
   @Input() collection: CollectionForm
