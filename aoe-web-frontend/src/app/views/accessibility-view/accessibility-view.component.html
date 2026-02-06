@@ -14,25 +14,30 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let accessibilityRow of accessibilityTable[lang]">
-          <td>{{ accessibilityRow.topic }}</td>
-
-          <td>
-            <p *ngFor="let example of accessibilityRow.examples">{{ example }}</p>
-          </td>
-
-          <td>
-            <p *ngFor="let detail of accessibilityRow.details" [innerHTML]="detail"></p>
-          </td>
-
-          <td>
-            <p *ngFor="let how of accessibilityRow.howTo" [innerHTML]="how"></p>
-          </td>
-        </tr>
+        @for (accessibilityRow of accessibilityTable[lang]; track accessibilityRow) {
+          <tr>
+            <td>{{ accessibilityRow.topic }}</td>
+            <td>
+              @for (example of accessibilityRow.examples; track example) {
+                <p>{{ example }}</p>
+              }
+            </td>
+            <td>
+              @for (detail of accessibilityRow.details; track detail) {
+                <p [innerHTML]="detail"></p>
+              }
+            </td>
+            <td>
+              @for (how of accessibilityRow.howTo; track how) {
+                <p [innerHTML]="how"></p>
+              }
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
-    <ng-container [ngSwitch]="lang">
-      <ng-container *ngSwitchDefault>
+    @switch (lang) {
+      @default {
         <p>
           Saavutettavuuteen opastava taulukko on
           <a href="https://avointiede.fi/" rel="noopener">Avoimen tieteen koordinaation</a>
@@ -47,9 +52,8 @@
           -opasta. AOE-tiimi on poiminut oppaasta oheisen sisällön ja lisännyt taulukkoon ”Miten merkitä AOE:ssa”
           -kolumnin sisältöineen.
         </p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'en'">
+      }
+      @case ('en') {
         <p>
           This table is made by
           <a href="https://avointiede.fi/en/" rel="noopener">The National Open Science Coordination</a>
@@ -63,9 +67,8 @@
           </a>
           The team of aoe.fi have modified the original work by adding the column How to make note of the issue in AOE.
         </p>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'sv'">
+      }
+      @case ('sv') {
         <p>
           <a href="https://avointiede.fi/sv/" rel="noopener">Den nationella samordningen av öppen vetenskap</a>
           har tillverkad den här tabellen. Den är licensierat under en
@@ -80,7 +83,7 @@
           </a>
           AOE-team har tillsatt sektionen Hur kan du beteckna det på AOE.
         </p>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
 </div>

@@ -20,8 +20,8 @@
   <div class="container">
     <div class="row align-items-md-center">
       <div class="col-md-6">
-        <ng-container [ngSwitch]="lang">
-          <ng-container *ngSwitchDefault>
+        @switch (lang) {
+          @default {
             <p>
               Avointen oppimateriaalien kirjastossa voit löytää ja tallentaa avoimia oppimateriaaleja kaikilta
               koulutusasteilta. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, kaiken
@@ -36,9 +36,8 @@
                 Avointen oppimateriaalien kirjaston käyttöoppaasta.
               </a>
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'en'">
+          }
+          @case ('en') {
             <p>
               In the Library of Open Educational Resources, you can search for and share open educational resources
               (OER) from all levels of education. The service and its OERs are available for use by teachers, learners
@@ -51,9 +50,8 @@
               page for more info and see our
               <a href="https://aoe.fi/#/materiaali/606/" rel="noopener">guide for uploading OERs.</a>
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'sv'">
+          }
+          @case ('sv') {
             <p>
               I Biblioteket för öppna lärresurser kan du hitta och spara öppna lärresurser från alla utbildningsstadier.
               Tjänsten och materialen är tillgängligt för alla lärare, elever i alla åldrar och alla som är intresserade
@@ -65,8 +63,8 @@
               och se våra
               <a href="https://aoe.fi/#/materiaali/606/" rel="noopener">instruktionerna för att spara lärresurser.</a>
             </p>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
 
       <div class="col-md-6">
@@ -95,16 +93,20 @@
   </div>
 </div>
 
-<div class="content-wrapper bg-light" *ngIf="recentMaterials?.length > 0">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="text-center aoe-header-latest-materials">{{ "home.recentMaterials.title" | translate }}</h2>
+@if (recentMaterials?.length > 0) {
+  <div class="content-wrapper bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center aoe-header-latest-materials">{{ "home.recentMaterials.title" | translate }}</h2>
+        </div>
+        @for (material of recentMaterials; track material; let i = $index) {
+          <div class="col-md-6 col-lg-4 mb-3">
+            <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+          </div>
+        }
       </div>
-      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of recentMaterials; let i = index">
-        <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
-      </div>
+      <!-- .row -->
     </div>
-    <!-- .row -->
   </div>
-</div>
+}

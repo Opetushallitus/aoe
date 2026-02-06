@@ -19,7 +19,7 @@
         bindLabel="value"
         id="accessibilityFeatures"
         labelForId="accessibilityFeatures"
-        formControlName="accessibilityFeatures"></ng-select>
+      formControlName="accessibilityFeatures"></ng-select>
       <label class="notify-below-position-semi">
         <a href="{{ accessibilityLink }}" rel="noopener" target="_blank">
           {{ "accessibility.linkToMoreInformation" | translate }}
@@ -46,7 +46,7 @@
         bindLabel="value"
         id="accessibilityHazards"
         labelForId="accessibilityHazards"
-        formControlName="accessibilityHazards"></ng-select>
+      formControlName="accessibilityHazards"></ng-select>
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
@@ -75,19 +75,26 @@
                 typicalAgeRangeMinCtrl.invalid &&
                 (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
             }" />
-          <div
-            *ngIf="
-              typicalAgeRangeMinCtrl.invalid &&
-              (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
-            "
-            class="invalid-feedback">
-            <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
-            <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
-            <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
-              {{ "forms.errors.common.maxLength" | translate: { maxLength:
-              typicalAgeRangeMinCtrl.errors?.['maxlength']['requiredLength'] } }}
+          @if (
+            typicalAgeRangeMinCtrl.invalid &&
+            (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+            ) {
+            <div
+              class="invalid-feedback">
+              @if (typicalAgeRangeMinCtrl.errors.min) {
+                <div>{{ "forms.common.min" | translate }} 0</div>
+              }
+              @if (typicalAgeRangeMinCtrl.errors.pattern) {
+                <div>{{ "forms.common.pattern.numeric" | translate }}</div>
+              }
+              @if (typicalAgeRangeMinCtrl.errors.maxlength) {
+                <div>
+                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                  typicalAgeRangeMinCtrl.errors?.['maxlength']['requiredLength'] } }}
+                </div>
+              }
             </div>
-          </div>
+          }
         </div>
         <span>&lowbar;</span>
         <div class="col">
@@ -106,21 +113,26 @@
                 (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
             }" />
 
-          <div
-            *ngIf="
-              typicalAgeRangeMaxCtrl.invalid &&
-              (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
-            "
-            class="invalid-feedback">
-            <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
-
-            <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
-
-            <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
-              {{ "forms.errors.common.maxLength" | translate: { maxLength:
-              typicalAgeRangeMaxCtrl.errors?.['maxlength']['requiredLength'] } }}
+          @if (
+            typicalAgeRangeMaxCtrl.invalid &&
+            (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+            ) {
+            <div
+              class="invalid-feedback">
+              @if (typicalAgeRangeMaxCtrl.errors.min) {
+                <div>{{ "forms.common.min" | translate }} 0</div>
+              }
+              @if (typicalAgeRangeMaxCtrl.errors.pattern) {
+                <div>{{ "forms.common.pattern.numeric" | translate }}</div>
+              }
+              @if (typicalAgeRangeMaxCtrl.errors.maxlength) {
+                <div>
+                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                  typicalAgeRangeMaxCtrl.errors?.['maxlength']['requiredLength'] } }}
+                </div>
+              }
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -145,18 +157,22 @@
           'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)
         }" />
 
-      <div
-        *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)"
-        class="invalid-feedback">
-        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
-          {{ "forms.errors.textInput.characters" | translate }}
+      @if (timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)) {
+        <div
+          class="invalid-feedback">
+          @if (timeRequiredCtrl.errors.invalidCharacters) {
+            <div>
+              {{ "forms.errors.textInput.characters" | translate }}
+            </div>
+          }
+          @if (timeRequiredCtrl.errors.maxlength) {
+            <div>
+              {{ "forms.errors.common.maxLength" | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength
+              } }}
+            </div>
+          }
         </div>
-
-        <div *ngIf="timeRequiredCtrl.errors.maxlength">
-          {{ "forms.errors.common.maxLength" | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength
-          } }}
-        </div>
-      </div>
+      }
 
       <small id="timeRequired-help" class="form-text text-muted">
         {{ "forms.helpTexts.timeRequired" | translate }}
@@ -181,7 +197,7 @@
         id="publisher"
         labelForId="publisher"
         formControlName="publisher"
-        aria-describedby="publisher-help"></ng-select>
+      aria-describedby="publisher-help"></ng-select>
 
       <small id="publisher-help" class="form-text text-muted">{{ "forms.helpTexts.multipleItems" | translate }}</small>
     </div>
@@ -225,7 +241,7 @@
         id="prerequisites"
         labelForId="prerequisites"
         formControlName="prerequisites"
-        aria-describedby="prerequisites-help"></ng-select>
+      aria-describedby="prerequisites-help"></ng-select>
 
       <small id="prerequisites-help" class="form-text text-muted">
         {{ "forms.helpTexts.multipleItems" | translate }}

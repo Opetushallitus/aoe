@@ -2,34 +2,29 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <ng-container [ngSwitch]="lang">
-          <ng-container *ngSwitchDefault>
+        @switch (lang) {
+          @default {
             <h1>Olet kirjautunut ulos palvelusta</h1>
-
             <p>
               Jos käytät yhteiskäytössä olevaa tietokonetta, suosittelemme että tyhjennät selaimesi välimuistin tai
               suljet selaimen.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'en'">
+          }
+          @case ('en') {
             <h1>You have logged out of the service</h1>
-
             <p>
               If you are using a shared computer, we recommend that you delete your browser’s cache or close the
               browser.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'sv'">
+          }
+          @case ('sv') {
             <h1>Du har loggat ut ur tjänsten</h1>
-
             <p>
               Om du använder en dator som är i allmänt bruk rekommenderar vi att du stänger webbläsaren eller att du
               tömmer webbläsarens mellanminne.
             </p>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
     </div>
     <!--/.row-->

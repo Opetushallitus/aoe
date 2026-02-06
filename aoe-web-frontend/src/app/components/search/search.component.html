@@ -1,7 +1,7 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-  <ng-container *ngIf="keywordsCtrl.invalid">
+  @if (keywordsCtrl.invalid) {
     <small class="text-danger">{{ "search.errors.keywords" | translate }}</small>
-  </ng-container>
+  }
   <div class="form-group">
     <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
 
@@ -68,10 +68,12 @@
         <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
         <ng-template ng-option-tmp let-item="item">
           {{ item.value }}
-          <small *ngIf="item.parent">
-            <br />
-            {{ item.parent }}
-          </small>
+          @if (item.parent) {
+            <small>
+              <br />
+              {{ item.parent }}
+            </small>
+          }
         </ng-template>
       </ng-select>
     </div>

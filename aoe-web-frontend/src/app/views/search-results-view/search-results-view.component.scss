@@ -3,7 +3,9 @@
 
 .block-header {
   background-color: $light;
-  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
+    rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
   // border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 1.5rem 1rem;
@@ -11,8 +13,8 @@
 
 #filters {
   h2 {
-    color: $dark;
     @include resize(18px);
+    color: $dark;
     margin-bottom: 0;
   }
 
@@ -83,9 +85,13 @@
 
 #search-filters {
   background-color: $light;
-  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
+    rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
 }
 
 #button-narrow-search {
-  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
+    rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
 }

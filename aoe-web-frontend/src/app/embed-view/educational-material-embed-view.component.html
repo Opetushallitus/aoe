@@ -3,97 +3,110 @@
     <a [href]="materialUrl" target="_blank" rel="noopener noreferrer">{{ materialName }}</a>
   </h1>
   <ul class="list-unstyled materials-authors">
-    <li *ngFor="let author of educationalMaterial?.authors">
-      <ng-container *ngIf="author.authorname !== ''">
-        {{ author.authorname }}
-        <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-      </ng-container>
-      <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-    </li>
+    @for (author of educationalMaterial?.authors; track author) {
+      <li>
+        @if (author.authorname !== '') {
+          {{ author.authorname }}
+          @if (author.organization) {
+            ({{ author.organization }})
+          }
+        }
+        @if (author.authorname === '') {
+          {{ author.organization }}
+        }
+      </li>
+    }
   </ul>
   <a [href]="getLicense(educationalMaterial?.license?.key)?.link" target="_blank" rel="noopener noreferrer">
     {{ getLicense(educationalMaterial?.license?.key)?.value }}
   </a>
 </div>
 
-<div class="file-list" *ngIf="materials?.length > 0; else notFound">
-  <div class="row no-gutters">
-    <div class="col-3">
-      <ng-container *ngIf="materialLanguages.length > 1">
-        <ng-container *ngIf="materialLanguages.length <= 3; else notFound">
-          <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
-            <button
-              type="button"
-              class="btn btn-gray lang-selector-button"
-              *ngFor="let materialLang of materialLanguages"
-              [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
-              [attr.aria-selected]="materialLang === selectedLanguage"
-              [attr.aria-controls]="'fileList-' + materialLang"
-              [id]="'langSelector-' + materialLang"
-              role="tab"
-              (click)="setSelectedLanguage(materialLang)">
-              {{ materialLang }}
-              <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
-            </button>
+@if (materials?.length > 0) {
+  <div class="file-list">
+    <div class="row no-gutters">
+      <div class="col-3">
+        @if (materialLanguages.length > 1) {
+          @if (materialLanguages.length <= 3) {
+            <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
+              @for (materialLang of materialLanguages; track materialLang) {
+                <button
+                  type="button"
+                  class="btn btn-gray lang-selector-button"
+                  [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
+                  [attr.aria-selected]="materialLang === selectedLanguage"
+                  [attr.aria-controls]="'fileList-' + materialLang"
+                  [id]="'langSelector-' + materialLang"
+                  role="tab"
+                  (click)="setSelectedLanguage(materialLang)">
+                  {{ materialLang }}
+                  <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
+                </button>
+              }
+            </div>
+          } @else {
+            <alert type="warning">
+              <strong>404</strong>
+            </alert>
+          }
+        }
+        @if (materials | materialLanguage: selectedLanguage; as filteredMaterials) {
+          <div
+            class="btn-group-vertical"
+            [id]="'fileList-' + selectedLanguage"
+            role="tabpanel"
+            [attr.aria-labelledby]="'langSelector-' + selectedLanguage">
+            <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
+              @for (material of filteredMaterials; track material) {
+                <button
+                  type="button"
+                  class="btn btn-file text-dark"
+                  [ngClass]="material === previewMaterial ? 'active' : ''"
+                  [attr.aria-selected]="material === previewMaterial"
+                  [attr.aria-controls]="'filePreview-' + material.id"
+                  [id]="'fileSelector-' + material.id"
+                  role="tab"
+                  (click)="setPreviewMaterial(material)">
+                  {{ material.displayName[lang] }}
+                </button>
+              }
+            </div>
+            <!--
+            <ng-container *ngFor="let material of materials">
+              <button
+                type="button"
+                class="btn btn-file text-dark"
+                [ngClass]="material === previewMaterial ? 'active' : ''"
+                (click)="setPreviewMaterial(material)">
+                {{ material.displayName[lang] }}
+              </button>
+            </ng-container>-->
           </div>
-        </ng-container>
-      </ng-container>
-
-      <div
-        class="btn-group-vertical"
-        *ngIf="materials | materialLanguage: selectedLanguage as filteredMaterials"
-        [id]="'fileList-' + selectedLanguage"
-        role="tabpanel"
-        [attr.aria-labelledby]="'langSelector-' + selectedLanguage">
-        <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
-          <ng-container *ngFor="let material of filteredMaterials">
-            <button
-              type="button"
-              class="btn btn-file text-dark"
-              [ngClass]="material === previewMaterial ? 'active' : ''"
-              [attr.aria-selected]="material === previewMaterial"
-              [attr.aria-controls]="'filePreview-' + material.id"
-              [id]="'fileSelector-' + material.id"
-              role="tab"
-              (click)="setPreviewMaterial(material)">
-              {{ material.displayName[lang] }}
-            </button>
-          </ng-container>
-        </div>
-        <!--
-                <ng-container *ngFor="let material of materials">
-                    <button
-                        type="button"
-                        class="btn btn-file text-dark"
-                        [ngClass]="material === previewMaterial ? 'active' : ''"
-                        (click)="setPreviewMaterial(material)">
-                        {{ material.displayName[lang] }}
-                    </button>
-                </ng-container>-->
+        }
       </div>
-    </div>
-
-    <div class="col-9">
-      <div class="file-content">
-        <app-educational-material-preview
-          [material]="previewMaterial"
-          *ngIf="!previewMaterial.link"></app-educational-material-preview>
-
-        <a
-          *ngIf="previewMaterial.link"
-          [href]="previewMaterial.link"
-          class="btn btn-secondary"
-          target="_blank"
-          rel="noopener">
-          {{ "demo.educationalMaterial.preview.openInNewTab" | translate }}
-        </a>
+      <div class="col-9">
+        <div class="file-content">
+          @if (!previewMaterial.link) {
+            <app-educational-material-preview
+              [material]="previewMaterial"
+            ></app-educational-material-preview>
+          }
+          @if (previewMaterial.link) {
+            <a
+              [href]="previewMaterial.link"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener">
+              {{ "demo.educationalMaterial.preview.openInNewTab" | translate }}
+            </a>
+          }
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<ng-template #notFound>
+} @else {
   <alert type="warning">
     <strong>404</strong>
   </alert>
-</ng-template>
+}
+

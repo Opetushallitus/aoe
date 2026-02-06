@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <h3>{{ "forms.educationalResource.license.title" | translate }}</h3>
-  <ng-container [ngSwitch]="lang">
+  @switch (lang) {
     <!-- *ngSwitchDefault -->
-    <ng-container *ngSwitchCase="'fi'">
+    @case ('fi') {
       <p>
         Jotta oppimateriaalin voi tallentaa avointen oppimateriaalien palveluun, on sen oltava lisensoitu jollain
         Creative Commons -lisenssillä. Creative Commons -lisenssit kertovat millaisia käyttöoikeuksia annat muille
@@ -16,8 +16,8 @@
         muut käyttäjät saavat vapaasti käyttää oppimateriaaliasi osana oppimis-, opetus- ja koulutustarpeitaan.
       </p>
       <p>Löydät tarkat ohjeet lisensseihin Lisätietoa-osiosta.</p>
-    </ng-container>
-    <ng-container *ngSwitchCase="'en'">
+    }
+    @case ('en') {
       <p>
         In order to download your OER to the service it must be licensed with a Creative Commons (CC) license. CC
         licenses tell other users how they can use your OER: can they make their own OER based on your material? Can
@@ -30,8 +30,8 @@
         learning, teaching and educational practices.
       </p>
       <p>You will find further information about licenses in the FAQ.</p>
-    </ng-container>
-    <ng-container *ngSwitchCase="'sv'">
+    }
+    @case ('sv') {
       <p>
         För att läromaterialet ska kunna sparas i tjänsten för öppna lärresurser ska det vara licensierat med en
         Creative Commons-licens. Creative Commons-licenserna visar vilka användarrättigheter du ger till andra personer:
@@ -45,36 +45,38 @@
         andra kan fritt använda det inom ramen för sina inlärnings-, undervisnings- och utbildningsbehov.
       </p>
       <p>Du hittar noggrannare anvisningar om licenser i sidan Info.</p>
-    </ng-container>
-  </ng-container>
+    }
+  }
   <h3>{{ "forms.educationalResource.license.subtitle" | translate }}</h3>
-  <ng-container *ngIf="(licenses$ | async) as licenses">
-    <div class="form-group" *ngFor="let license of licenses; let i = index">
-      <div class="custom-control custom-radio">
-        <input
-          type="radio"
-          [id]="license.key"
-          formControlName="license"
-          [value]="license.key"
-          class="custom-control-input" />
-        <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
-        <button
-          type="button"
-          class="btn btn-sm btn-gray ml-2"
-          (click)="license.isCollapsed = !license.isCollapsed"
-          [attr.aria-expanded]="!license.isCollapsed"
-          [attr.aria-controls]="'collapseBasic' + i">
-          {{ "forms.educationalResource.license.showDetails" | translate }}
-        </button>
+  @if ((licenses$ | async); as licenses) {
+    @for (license of licenses; track license; let i = $index) {
+      <div class="form-group">
+        <div class="custom-control custom-radio">
+          <input
+            type="radio"
+            [id]="license.key"
+            formControlName="license"
+            [value]="license.key"
+            class="custom-control-input" />
+          <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
+          <button
+            type="button"
+            class="btn btn-sm btn-gray ml-2"
+            (click)="license.isCollapsed = !license.isCollapsed"
+            [attr.aria-expanded]="!license.isCollapsed"
+            [attr.aria-controls]="'collapseBasic' + i">
+            {{ "forms.educationalResource.license.showDetails" | translate }}
+          </button>
+        </div>
+        <div [id]="'collapseBasic' + i" [collapse]="license.isCollapsed" [isAnimated]="true">
+          <p>{{ license.description }}</p>
+          <a [href]="license.link" target="_blank" rel="noopener">
+            {{ "forms.educationalResource.license.readMore" | translate }}
+          </a>
+        </div>
       </div>
-      <div [id]="'collapseBasic' + i" [collapse]="license.isCollapsed" [isAnimated]="true">
-        <p>{{ license.description }}</p>
-        <a [href]="license.link" target="_blank" rel="noopener">
-          {{ "forms.educationalResource.license.readMore" | translate }}
-        </a>
-      </div>
-    </div>
-  </ng-container>
+    }
+  }
   <div class="row">
     <div class="col">
       <button type="button" class="btn btn-gray" (click)="previousTab()">

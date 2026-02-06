@@ -30,29 +30,34 @@
           <button type="submit" class="btn btn-blue">{{ "forms.common.save" | translate }}</button>
         </div>
 
-        <div *ngIf="nameCtrl.errors" class="invalid-feedback">
-          <div *ngIf="nameCtrl.errors.required">{{ "forms.common.required" | translate }}</div>
-        </div>
+        @if (nameCtrl.errors) {
+          <div class="invalid-feedback">
+            @if (nameCtrl.errors.required) {
+              <div>{{ "forms.common.required" | translate }}</div>
+            }
+          </div>
+        }
       </div>
     </div>
   </form>
 
-  <form (ngSubmit)="onAddToCollectionSubmit()" *ngIf="userCollections?.length > 0">
-    <h2>{{ "collections.modal.addToCollection.title" | translate }}</h2>
-
-    <div class="form-group">
-      <div class="custom-control custom-checkbox" *ngFor="let collection of userCollections">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          [id]="collection.id"
-          (change)="onCollectionIdChange($event, collection.id)"
-          [checked]="selectedCollections.includes(+collection.id)" />
-
-        <label class="custom-control-label" [for]="collection.id">{{ collection.name }}</label>
+  @if (userCollections?.length > 0) {
+    <form (ngSubmit)="onAddToCollectionSubmit()">
+      <h2>{{ "collections.modal.addToCollection.title" | translate }}</h2>
+      <div class="form-group">
+        @for (collection of userCollections; track collection) {
+          <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              [id]="collection.id"
+              (change)="onCollectionIdChange($event, collection.id)"
+              [checked]="selectedCollections.includes(+collection.id)" />
+            <label class="custom-control-label" [for]="collection.id">{{ collection.name }}</label>
+          </div>
+        }
       </div>
-    </div>
-
-    <button type="submit" class="btn btn-blue">{{ "forms.common.add" | translate }}</button>
-  </form>
+      <button type="submit" class="btn btn-blue">{{ "forms.common.add" | translate }}</button>
+    </form>
+  }
 </div>

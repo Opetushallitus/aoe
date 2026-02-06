@@ -1,156 +1,170 @@
-<nav *ngIf="!embedded" class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/etusivu">
-      <img [src]="brand[translate.currentLang].img" [alt]="brand[translate.currentLang].alt" />
-    </a>
-
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#main-navbar"
-      aria-controls="main-navbar"
-      aria-expanded="false"
-      [attr.aria-label]="'navigation.toggler.aria.label' | translate">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-          <a class="nav-link" routerLink="/etusivu" routerLinkActive="active">{{ "navigation.home" | translate }}</a>
-        </li>
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-          <a class="nav-link" routerLink="/kokoelmat" routerLinkActive="active">
-            {{ "navigation.collections" | translate }}
-          </a>
-        </li>
-        <li
-          class="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-          *ngIf="authService.hasUserData()">
-          <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
-            {{ "navigation.myMaterials" | translate }}
-          </a>
-        </li>
-        <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-          <a class="nav-link" routerLink="/lisatietoa" routerLinkActive="active">{{ "navigation.info" | translate }}</a>
-        </li>
-      </ul>
-
-      <nav
-        class="nav ml-auto nav-languages flex-lg-row"
-        [attr.aria-label]="'navigation.langSelector.label' | translate">
-        <ng-container *ngFor="let lang of translate.getLangs()">
-          <button
-            class="btn btn-link nav-link"
-            data-toggle="collapse"
-            data-target=".navbar-collapse.show"
-            (click)="changeLanguage(lang)"
-            [ngClass]="translate.currentLang === lang ? 'active' : ''"
-            [lang]="lang">
-            <span class="sr-only">{{ languages.get(lang)["srText"] }}</span>
-            <span aria-hidden="true">{{ languages.get(lang).label }}</span>
-          </button>
-        </ng-container>
-      </nav>
-
-      <app-nav-login></app-nav-login>
-    </div>
-  </div>
-</nav>
-
-<div *ngIf="alerts && !embedded" class="alerts">
-  <alert *ngIf="alerts.allas" [type]="alerts.allas.alertType">
-    <div class="container">{{ alerts.allas.message[translate.currentLang] }}</div>
-  </alert>
-
-  <alert *ngIf="alerts.login" [type]="alerts.login.alertType">
-    <div class="container">{{ alerts.login.message[translate.currentLang] }}</div>
-  </alert>
-</div>
-
-<!-- Service Notifications -->
-<ng-container *ngIf="!embedded">
-  <div
-    *ngFor="let notification of serviceNotifications$ | async"
-    class="alert alert-{{ notification.type === 'ERROR' ? 'danger' : 'warning' }} mb-0"
-    role="alert">
-    <div class="container">
-      <span class="service-notification" [innerHTML]="notification.text"></span>
-    </div>
-  </div>
-</ng-container>
-
-<div *ngIf="!embedded" class="app-body">
-  <!-- Main content -->
-  <main class="main">
-    <router-outlet></router-outlet>
-  </main>
-</div>
-
-<footer *ngIf="!embedded" class="app-footer">
-  <div class="container">
-    <h2 class="text-center">{{ "footer.name" | translate }}</h2>
-    <div class="row justify-content-md-center text-md-center">
-      <div class="col-sm-6 col-md">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a [href]="links.termsOfUsage[translate.currentLang].link">{{ "navigation.termsOfUse" | translate }}</a>
+@if (!embedded) {
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/etusivu">
+        <img [src]="brand[translate.currentLang].img" [alt]="brand[translate.currentLang].alt" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#main-navbar"
+        aria-controls="main-navbar"
+        aria-expanded="false"
+        [attr.aria-label]="'navigation.toggler.aria.label' | translate">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="main-navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a class="nav-link" routerLink="/etusivu" routerLinkActive="active">{{ "navigation.home" | translate }}</a>
           </li>
-          <li class="nav-item">
-            <a [href]="links.privacyPolicy[translate.currentLang].link">{{ "navigation.privacyPolicy" | translate }}</a>
-          </li>
-          <li class="nav-item">
-            <a [href]="links.accessibilityStatement[translate.currentLang].link">
-              {{ "navigation.accessibilityPolicy" | translate }}
+          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a class="nav-link" routerLink="/kokoelmat" routerLinkActive="active">
+              {{ "navigation.collections" | translate }}
             </a>
           </li>
+          @if (authService.hasUserData()) {
+            <li
+              class="nav-item"
+              data-toggle="collapse"
+              data-target=".navbar-collapse.show"
+              >
+              <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
+                {{ "navigation.myMaterials" | translate }}
+              </a>
+            </li>
+          }
+          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a class="nav-link" routerLink="/lisatietoa" routerLinkActive="active">{{ "navigation.info" | translate }}</a>
+          </li>
         </ul>
+        <nav
+          class="nav ml-auto nav-languages flex-lg-row"
+          [attr.aria-label]="'navigation.langSelector.label' | translate">
+          @for (lang of translate.getLangs(); track lang) {
+            <button
+              class="btn btn-link nav-link"
+              data-toggle="collapse"
+              data-target=".navbar-collapse.show"
+              (click)="changeLanguage(lang)"
+              [ngClass]="translate.currentLang === lang ? 'active' : ''"
+              [lang]="lang">
+              <span class="sr-only">{{ languages.get(lang)["srText"] }}</span>
+              <span aria-hidden="true">{{ languages.get(lang).label }}</span>
+            </button>
+          }
+        </nav>
+        <app-nav-login></app-nav-login>
       </div>
+    </div>
+  </nav>
+}
 
-      <div class="col-sm-6 col-md-auto">
-        <ul class="nav flex-column center-item">
-          <li class="nav-item">
-            {{ "footer.feedback" | translate }}:
-            <a href="mailto:aoe@oph.fi">aoe&#64;oph.fi</a>
-          </li>
-        </ul>
+@if (alerts && !embedded) {
+  <div class="alerts">
+    @if (alerts.allas) {
+      <alert [type]="alerts.allas.alertType">
+        <div class="container">{{ alerts.allas.message[translate.currentLang] }}</div>
+      </alert>
+    }
+    @if (alerts.login) {
+      <alert [type]="alerts.login.alertType">
+        <div class="container">{{ alerts.login.message[translate.currentLang] }}</div>
+      </alert>
+    }
+  </div>
+}
+
+<!-- Service Notifications -->
+@if (!embedded) {
+  @for (notification of serviceNotifications$ | async; track notification) {
+    <div
+      class="alert alert-{{ notification.type === 'ERROR' ? 'danger' : 'warning' }} mb-0"
+      role="alert">
+      <div class="container">
+        <span class="service-notification" [innerHTML]="notification.text"></span>
       </div>
+    </div>
+  }
+}
 
-      <div class="col-sm-6 col-md">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a href="https://finna.fi/">Finna.fi</a>
-          </li>
-          <li class="nav-item">
-            <a href="https://wiki.eduuni.fi/x/i_iLI">{{ "footer.blog" | translate }}</a>
-          </li>
-        </ul>
+@if (!embedded) {
+  <div class="app-body">
+    <!-- Main content -->
+    <main class="main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+}
+
+@if (!embedded) {
+  <footer class="app-footer">
+    <div class="container">
+      <h2 class="text-center">{{ "footer.name" | translate }}</h2>
+      <div class="row justify-content-md-center text-md-center">
+        <div class="col-sm-6 col-md">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a [href]="links.termsOfUsage[translate.currentLang].link">{{ "navigation.termsOfUse" | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a [href]="links.privacyPolicy[translate.currentLang].link">{{ "navigation.privacyPolicy" | translate }}</a>
+            </li>
+            <li class="nav-item">
+              <a [href]="links.accessibilityStatement[translate.currentLang].link">
+                {{ "navigation.accessibilityPolicy" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-auto">
+          <ul class="nav flex-column center-item">
+            <li class="nav-item">
+              {{ "footer.feedback" | translate }}:
+              <a href="mailto:aoe@oph.fi">aoe&#64;oph.fi</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="https://finna.fi/">Finna.fi</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://wiki.eduuni.fi/x/i_iLI">{{ "footer.blog" | translate }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+}
+
+@if (!embedded) {
+  <div class="logos">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col text-center">
+          <img
+            [src]="logos.oph[translate.currentLang].src"
+            [alt]="logos.oph[translate.currentLang].alt"
+            class="img-fluid w-25" />
+        </div>
       </div>
     </div>
   </div>
-</footer>
+}
 
-<div *ngIf="!embedded" class="logos">
-  <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <div class="col text-center">
-        <img
-          [src]="logos.oph[translate.currentLang].src"
-          [alt]="logos.oph[translate.currentLang].alt"
-          class="img-fluid w-25" />
-      </div>
-    </div>
+@if (showNotice && !embedded) {
+  <app-cookie-notice (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+}
+
+@if (embedded) {
+  <div>
+    The website has been embedded and blocked due to suspicious activity.
+    <br />
+    <br />
+    Check that you are visiting the original site https://aoe.fi.
   </div>
-</div>
-
-<app-cookie-notice *ngIf="showNotice && !embedded" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
-
-<div *ngIf="embedded">
-  The website has been embedded and blocked due to suspicious activity.
-  <br />
-  <br />
-  Check that you are visiting the original site https://aoe.fi.
-</div>
+}

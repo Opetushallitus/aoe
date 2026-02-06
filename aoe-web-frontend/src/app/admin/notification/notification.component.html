@@ -27,12 +27,14 @@
           bindValue="key"
           id="notificationType"
           labelForId="notificationType"
-          formControlName="notificationType"></ng-select>
-        <ng-container *ngIf="notificationType?.invalid && (notificationType.dirty || notificationType.touched)">
-          <div *ngIf="notificationType.errors?.required">
-            <small class="text-danger">Valitse tiedotteen tyyppi</small>
-          </div>
-        </ng-container>
+        formControlName="notificationType"></ng-select>
+        @if (notificationType?.invalid && (notificationType.dirty || notificationType.touched)) {
+          @if (notificationType.errors?.required) {
+            <div>
+              <small class="text-danger">Valitse tiedotteen tyyppi</small>
+            </div>
+          }
+        }
       </div>
       <!-- Date Since Picker -->
       <div class="form-group col-sm-4">
@@ -66,14 +68,18 @@
       <div class="form-group col-sm-12">
         <label for="notification">Tiedotteen teksti *</label>
         <input id="notification" formControlName="notification" class="form-control" />
-        <ng-container *ngIf="notification?.invalid && (notification.dirty || notification.touched)">
-          <div *ngIf="notification.errors?.required || notification.errors?.minLength">
-            <small class="text-danger">Kirjoita tiedotteen teksti</small>
-          </div>
-          <div *ngIf="notification.errors?.maxlength">
-            <small class="text-danger">Tiedotteen maksimipituus on 500 merkkiä</small>
-          </div>
-        </ng-container>
+        @if (notification?.invalid && (notification.dirty || notification.touched)) {
+          @if (notification.errors?.required || notification.errors?.minLength) {
+            <div>
+              <small class="text-danger">Kirjoita tiedotteen teksti</small>
+            </div>
+          }
+          @if (notification.errors?.maxlength) {
+            <div>
+              <small class="text-danger">Tiedotteen maksimipituus on 500 merkkiä</small>
+            </div>
+          }
+        }
       </div>
     </div>
     <div class="form-row">
@@ -90,29 +96,35 @@
   <h2>Aktiiviset tiedotteet</h2>
   <input type="checkbox" [(ngModel)]="isChecked" (change)="onCheckboxChange()" />
   <label>&nbsp;&nbsp;Näytä tulevat tiedotteet</label>
-  <ng-container *ngIf="(notifications$ | async) as notifications">
+  @if ((notifications$ | async); as notifications) {
     <table class="table table-sm">
       <thead>
         <tr class="table-primary">
-          <th *ngFor="let header of tableColumnHeaders" scope="col">{{ header }}</th>
+          @for (header of tableColumnHeaders; track header) {
+            <th scope="col">{{ header }}</th>
+          }
         </tr>
       </thead>
-      <tbody *ngIf="notifications.length > 0">
-        <tr *ngFor="let notification of notifications">
-          <td>{{ notification.id }}</td>
-          <td>
-            <span class="badge badge-pill badge-{{ notification.type === 'ERROR' ? 'danger' : 'success' }}">
-              {{ notification.type === 'ERROR' ? 'ERR' : notification.type }}
-            </span>
-          </td>
-          <td [innerHTML]="notification.text"></td>
-          <td>{{ notification.showSince | customDate }}</td>
-          <td>{{ notification.showUntil | customDate }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="onDelete(notification.id)">Poista</button>
-          </td>
-        </tr>
-      </tbody>
+      @if (notifications.length > 0) {
+        <tbody>
+          @for (notification of notifications; track notification) {
+            <tr>
+              <td>{{ notification.id }}</td>
+              <td>
+                <span class="badge badge-pill badge-{{ notification.type === 'ERROR' ? 'danger' : 'success' }}">
+                  {{ notification.type === 'ERROR' ? 'ERR' : notification.type }}
+                </span>
+              </td>
+              <td [innerHTML]="notification.text"></td>
+              <td>{{ notification.showSince | customDate }}</td>
+              <td>{{ notification.showUntil | customDate }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="onDelete(notification.id)">Poista</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
     </table>
-  </ng-container>
+  }
 </section>

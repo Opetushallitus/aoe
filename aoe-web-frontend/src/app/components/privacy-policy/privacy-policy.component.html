@@ -1,30 +1,29 @@
 <article>
-  <ng-container [ngSwitch]="lang">
-    <ng-container *ngSwitchDefault>
+  @switch (lang) {
+    @default {
       <h1>Tietosuojaseloste</h1>
-
       <p>Julkaistu 28.11.2019, päivitetty 1.1.2024</p>
       <p>EU:n tietosuoja-asetus 2016/679 (GDPR)</p>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'en'">
+    }
+    @case ('en') {
       <h1>Privacy Policy</h1>
-
       <p>Published on 28 November 2019, updated on 1 January 2024</p>
       <p>EU’s General Data Protection Regulation (EU) 2016/679</p>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'sv'">
+    }
+    @case ('sv') {
       <h1>Dataskyddsbeskrivnig</h1>
-
       <p>Publicerad 28.11.2019, uppdaterad 1.1.2024</p>
       <p>EU:s dataskyddsförordning 2016/679 (GDPR)</p>
-    </ng-container>
-  </ng-container>
+    }
+  }
   <ng-container>
-    <div *ngFor="let item of privacyPolicy">
-      <h2>{{ item.heading }}</h2>
-      <p *ngFor="let paragraph of item.content" [innerHTML]="paragraph"></p>
-    </div>
+    @for (item of privacyPolicy; track item) {
+      <div>
+        <h2>{{ item.heading }}</h2>
+        @for (paragraph of item.content; track paragraph) {
+          <p [innerHTML]="paragraph"></p>
+        }
+      </div>
+    }
   </ng-container>
 </article>

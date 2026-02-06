@@ -12,7 +12,7 @@
       "dom"
     ],
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "./dist/out-tsc",
     "skipLibCheck": true,
     "sourceMap": true,

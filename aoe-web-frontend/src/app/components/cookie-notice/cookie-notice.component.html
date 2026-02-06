@@ -2,29 +2,27 @@
   <div class="container">
     <div class="row align-items-center text-center text-md-left">
       <div class="col-md mb-3 mb-md-0">
-        <ng-container [ngSwitch]="lang">
-          <ng-container *ngSwitchDefault>
+        @switch (lang) {
+          @default {
             <p>
               Avointen oppimateriaalien kirjasto käyttää vain välttämättömiä evästeitä palvelun käytön
               mahdollistamiseksi. Käyttämämme evästeet ovat istuntokohtaisia tai ne vanhenevat viimeistään 24 tuntia
               käytön jälkeen.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'en'">
+          }
+          @case ('en') {
             <p>
               The Library of Open Educational Resources uses only necessary cookies to make it possible for you to use
               the service. We use session cookies and cookies that expire 24 hours after using aoe.fi.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'sv'">
+          }
+          @case ('sv') {
             <p>
               Biblioteket för öppna lärresurser använder nödvändiga cookies för att tjänsten fungerar smidigt. Använt
               cookies är session cookies eller dom föråldras efter 24 timmar.
             </p>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
 
       <div class="col-md-auto">
@@ -52,8 +50,8 @@
       </div>
 
       <div class="modal-body">
-        <ng-container [ngSwitch]="lang">
-          <ng-container *ngSwitchDefault>
+        @switch (lang) {
+          @default {
             <p>
               Kun vierailet verkkosivustollamme, evästeet tallentavat tiedon vierailustasi. Eväste (cookie) on pieni
               tekstitiedosto, jonka selain tallentaa kävijän laitteelle. Evästeitä on kahta eri päätyyppiä,
@@ -70,9 +68,8 @@
               sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen
               tietojen tarkasteluun tai kopiointiin. Evästeitä ei luovuteta kolmansille osapuolille.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'en'">
+          }
+          @case ('en') {
             <p>
               When you visit our website, cookies record that you visited. A cookie is a small text file that the
               browser stores on the visitor’s device. There are two main types of cookies, session cookies and permanent
@@ -89,9 +86,8 @@
               site visitors to personal data or contact details. Cookies are not used for reviewing or copying data on a
               visitor’s terminal device. Cookies are not transferred to third parties.
             </p>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'sv'">
+          }
+          @case ('sv') {
             <p>
               När du besöker vår webbplats lagrar cookies informationen om ditt besök. En cookie är en liten textfil,
               som webbläsaren lagrar i besökarens apparat. Det finns två huvudtyper av cookies, sessionscookies och
@@ -108,8 +104,8 @@
               sammankoppla den som besöker webbplatsen med person- eller kontaktuppgifter. Cookies används inte för att
               granska eller kopiera information i besökarens apparat. Cookies förmedlas inte vidare till tredje parter.
             </p>
-          </ng-container>
-        </ng-container>
+          }
+        }
 
         <button type="submit" class="btn btn-blue" (click)="cookie.hide()">{{ "cookies.close" | translate }}</button>
       </div>

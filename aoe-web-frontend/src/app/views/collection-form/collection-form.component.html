@@ -40,35 +40,38 @@
       </li>
     </ul>
 
-    <ng-container [ngSwitch]="tabId" *ngIf="collection">
-      <app-collection-basic-details-tab
-        *ngSwitchCase="1"
-        [collection]="collection"
-        [collectionId]="collectionId"
-        [tabId]="1"
-        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-basic-details-tab>
-
-      <app-collection-educational-details-tab
-        *ngSwitchCase="2"
-        [collection]="collection"
-        [collectionId]="collectionId"
-        [tabId]="2"
-        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-educational-details-tab>
-
-      <app-collection-materials-tab
-        *ngSwitchCase="3"
-        [collection]="collection"
-        [collectionId]="collectionId"
-        [tabId]="3"
-        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-materials-tab>
-
-      <app-collection-preview-tab
-        *ngSwitchCase="4"
-        [collection]="collection"
-        [collectionId]="collectionId"
-        [tabId]="4"
-        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-preview-tab>
-    </ng-container>
+    @if (collection) {
+      @switch (tabId) {
+        @case (1) {
+          <app-collection-basic-details-tab
+            [collection]="collection"
+            [collectionId]="collectionId"
+            [tabId]="1"
+          (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-basic-details-tab>
+        }
+        @case (2) {
+          <app-collection-educational-details-tab
+            [collection]="collection"
+            [collectionId]="collectionId"
+            [tabId]="2"
+          (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-educational-details-tab>
+        }
+        @case (3) {
+          <app-collection-materials-tab
+            [collection]="collection"
+            [collectionId]="collectionId"
+            [tabId]="3"
+          (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-materials-tab>
+        }
+        @case (4) {
+          <app-collection-preview-tab
+            [collection]="collection"
+            [collectionId]="collectionId"
+            [tabId]="4"
+          (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-preview-tab>
+        }
+      }
+    }
   </div>
 </div>
 

@@ -61,8 +61,10 @@
       </button>
     </form>
 
-    <alert type="confirm" *ngIf="authService.hasEmail() && !authService.hasVerifiedEmail()">
-      {{ "userDetails.email.confirm" | translate }}
-    </alert>
+    @if (authService.hasEmail() && !authService.hasVerifiedEmail()) {
+      <alert type="confirm">
+        {{ "userDetails.email.confirm" | translate }}
+      </alert>
+    }
   </div>
 </div>

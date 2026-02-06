@@ -3,27 +3,29 @@
     <div class="row">
       <div class="col">
         <article>
-          <ng-container [ngSwitch]="lang">
-            <ng-container *ngSwitchDefault>
+          @switch (lang) {
+            @default {
               <h1>Saavutettavuusseloste</h1>
               <p>Päivitetty 1.1.2024</p>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'en'">
+            }
+            @case ('en') {
               <h1>Accessibility statement</h1>
               <p>Updated on 1 January 2024</p>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'sv'">
+            }
+            @case ('sv') {
               <h1>Tillgänglighetsutlåtande</h1>
               <p>Uppdaterat 1.1.2024</p>
-            </ng-container>
-          </ng-container>
+            }
+          }
           <ng-container>
-            <div *ngFor="let item of accessibilityPolicy">
-              <h2>{{ item.heading }}</h2>
-              <p *ngFor="let paragraph of item.content" [innerHTML]="paragraph"></p>
-            </div>
+            @for (item of accessibilityPolicy; track item) {
+              <div>
+                <h2>{{ item.heading }}</h2>
+                @for (paragraph of item.content; track paragraph) {
+                  <p [innerHTML]="paragraph"></p>
+                }
+              </div>
+            }
           </ng-container>
         </article>
       </div>

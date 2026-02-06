@@ -1,17 +1,17 @@
 <dt class="col-sm-3">{{ title }}</dt>
 
 <dd class="col-sm-9">
-  <ng-container *ngIf="items?.length > 0; else singleItem">
-    <ng-container *ngFor="let item of items; let isLast = last">
+  @if (items?.length > 0) {
+    @for (item of items; track item; let isLast = $last) {
       {{ property ? item[property] : item }}{{ isLast ? "" : ", " }}
-    </ng-container>
-  </ng-container>
+    }
+  } @else {
+    {{ item }}
+  }
 
-  <ng-template #singleItem>{{ item }}</ng-template>
 
-  <ng-container *ngIf="required">
+  @if (required) {
     <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
-
     <a [routerLink]="routerLinkOptions">{{ "forms.educationalResource.preview.addMissingDetail" | translate }}</a>
-  </ng-container>
+  }
 </dd>

@@ -1,7 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angular/core'
 import { NavigationEnd, NavigationStart, Router } from '@angular/router'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { DOCUMENT } from '@angular/common'
 
 import { getLanguage, setLanguage } from './shared/shared.module'
 import { AuthService } from '@services/auth.service'

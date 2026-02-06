@@ -1,7 +1,6 @@
-import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Subscription } from 'rxjs'
-import { DOCUMENT } from '@angular/common'
 
 import { EmbedService } from './embed.service'
 import { environment } from '../../environments/environment'

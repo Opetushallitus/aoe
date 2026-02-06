@@ -1,21 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-md-2 text-center">
-      <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail" />
-
-      <ng-template #noThumbnail>
-        <div *ngIf="learningResourceTypesCtrl.value?.length > 0; else defaultThumbnail">
-          <img
-            src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png"
-            class="img-fluid mb-2 border" />
-        </div>
-
-        <ng-template #defaultThumbnail>
+      @if (thumbnailSrc) {
+        <img [src]="thumbnailSrc" class="img-fluid mb-2 border" />
+      } @else {
+        @if (learningResourceTypesCtrl.value?.length > 0) {
+          <div>
+            <img
+              src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png"
+              class="img-fluid mb-2 border" />
+          </div>
+        } @else {
           <div class="material-image-upload d-flex justify-content-center mb-2 border mx-auto">
             <img src="assets/img/icons/ic_camera.svg" />
           </div>
-        </ng-template>
-      </ng-template>
+        }
+      }
+
 
       <button type="button" class="btn btn-blue mb-2" (click)="openModal(thumbnail)">
         {{ "forms.educationalResource.basicDetails.uploadImage" | translate }}
@@ -73,14 +74,18 @@
               [cropperMinHeight]="228"
               (imageCropped)="imageCropped($event)"
               alignImage="left"
-              backgroundColor="#f2f2f2"></image-cropper>
+            backgroundColor="#f2f2f2"></image-cropper>
           </div>
 
-          <img *ngIf="croppedImage" [src]="croppedImage.base64" class="border" />
+          @if (croppedImage) {
+            <img [src]="croppedImage.base64" class="border" />
+          }
 
-          <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-            <progressbar max="100" [value]="+uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
-          </div>
+          @if (uploadResponse.status === 'progress') {
+            <div class="form-group">
+              <progressbar max="100" [value]="+uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
+            </div>
+          }
         </div>
 
         <div class="modal-footer">
@@ -104,24 +109,22 @@
     <div class="col-md-10">
       <h3>{{ "forms.educationalResource.basicDetails.author.title" | translate }}</h3>
 
-      <ng-container *ngFor="let author of authors.controls; let i = index">
+      @for (author of authors.controls; track author; let i = $index) {
         <fieldset class="border-bottom mb-2">
           <div class="form-row" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
-              <ng-container *ngIf="author.get('author')">
+              @if (author.get('author')) {
                 <div class="form-group col-md">
                   <label for="{{ 'author' + i }}">
                     {{ "forms.educationalResource.basicDetails.author.inputs.author.label" | translate }}&nbsp;*
                   </label>
-
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate">
                     <img src="assets/img/icons/ic_help.svg" alt="" />
                   </button>
-
                   <input
                     type="text"
                     class="form-control"
@@ -136,40 +139,39 @@
                         (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)
                     }"
                     [attr.aria-describedby]="'author-help-' + i" />
-
                   <small [id]="'author-help-' + i" class="form-text text-muted">
                     {{ "forms.educationalResource.basicDetails.author.inputs.author.helpText" | translate }}
                   </small>
-
-                  <div
-                    *ngIf="
-                      authors.at(i).get('author').invalid &&
-                      (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)
-                    "
-                    class="invalid-feedback">
-                    <div *ngIf="authors.at(i).get('author').errors.invalidCharacters">
-                      {{ "forms.errors.textInput.characters" | translate }}
+                  @if (
+                    authors.at(i).get('author').invalid &&
+                    (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)
+                    ) {
+                    <div
+                      class="invalid-feedback">
+                      @if (authors.at(i).get('author').errors.invalidCharacters) {
+                        <div>
+                          {{ "forms.errors.textInput.characters" | translate }}
+                        </div>
+                      }
+                      @if (authors.at(i).get('author').errors.maxlength) {
+                        <div>
+                          {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                          authors.at(i).get("author").errors.maxlength.requiredLength } }}
+                        </div>
+                      }
                     </div>
-
-                    <div *ngIf="authors.at(i).get('author').errors.maxlength">
-                      {{ "forms.errors.common.maxLength" | translate: { maxLength:
-                      authors.at(i).get("author").errors.maxlength.requiredLength } }}
-                    </div>
-                  </div>
+                  }
                 </div>
-
                 <div class="form-group col-md">
                   <label [for]="'affiliate' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.affiliate.label" | translate }}
                   </label>
-
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip' | translate">
                     <img src="assets/img/icons/ic_help.svg" alt="" />
                   </button>
-
                   <ng-select
                     [items]="organizations"
                     [virtualScroll]="true"
@@ -177,24 +179,21 @@
                     bindLabel="value"
                     [id]="'affiliate' + i"
                     [labelForId]="'affiliate' + i"
-                    formControlName="organization"></ng-select>
+                  formControlName="organization"></ng-select>
                 </div>
-              </ng-container>
-
+              }
               <!--if organization-->
-              <ng-container *ngIf="!author.get('author')">
+              @if (!author.get('author')) {
                 <div class="form-group col">
                   <label [for]="'organization' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.organization.label" | translate }}
                   </label>
-
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organization.tooltip' | translate">
                     <img src="assets/img/icons/ic_help.svg" alt="" />
                   </button>
-
                   <ng-select
                     [items]="organizations"
                     [virtualScroll]="true"
@@ -202,10 +201,9 @@
                     bindLabel="value"
                     [id]="'organization' + i"
                     [labelForId]="'organization' + i"
-                    formControlName="organization"></ng-select>
+                  formControlName="organization"></ng-select>
                 </div>
-              </ng-container>
-
+              }
               <div class="form-group col-12">
                 <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">
                   {{ "forms.common.delete" | translate }}
@@ -214,7 +212,7 @@
             </ng-container>
           </div>
         </fieldset>
-      </ng-container>
+      }
 
       <div class="form-group">
         <button type="button" class="btn btn-gray mr-2" (click)="addAuthor()">
@@ -248,7 +246,7 @@
           labelForId="keywords"
           formControlName="keywords"
           (paste)="(false)"
-          aria-describedby="keywords-help"></ng-select>
+        aria-describedby="keywords-help"></ng-select>
 
         <small id="keywords-help" class="form-text text-muted">
           {{ "forms.educationalResource.basicDetails.keywords.helpText" | translate }}
@@ -275,7 +273,7 @@
             bindLabel="value"
             id="learningResourceTypes"
             labelForId="learningResourceTypes"
-            formControlName="learningResourceTypes"></ng-select>
+          formControlName="learningResourceTypes"></ng-select>
         </div>
 
         <div class="form-group col-md-6 col-lg-4">
@@ -297,7 +295,7 @@
             bindLabel="value"
             id="educationalRoles"
             labelForId="educationalRoles"
-            formControlName="educationalRoles"></ng-select>
+          formControlName="educationalRoles"></ng-select>
         </div>
 
         <div class="form-group col-md-6 col-lg-4">
@@ -319,7 +317,7 @@
             bindLabel="value"
             id="educationalUses"
             labelForId="educationalUses"
-            formControlName="educationalUses"></ng-select>
+          formControlName="educationalUses"></ng-select>
         </div>
       </div>
 
@@ -348,21 +346,25 @@
                   (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
               }"></textarea>
 
-            <div
-              *ngIf="
-                descriptionCtrl.get(lang).invalid &&
-                (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
-              "
-              class="invalid-feedback">
-              <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
-                {{ "forms.errors.description.characters" | translate }}
+            @if (
+              descriptionCtrl.get(lang).invalid &&
+              (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+              ) {
+              <div
+                class="invalid-feedback">
+                @if (descriptionCtrl.get(lang).errors.invalid) {
+                  <div>
+                    {{ "forms.errors.description.characters" | translate }}
+                  </div>
+                }
+                @if (descriptionCtrl.get(lang).errors.maxlength) {
+                  <div>
+                    {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                    descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+                  </div>
+                }
               </div>
-
-              <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
-                {{ "forms.errors.common.maxLength" | translate: { maxLength:
-                descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
-              </div>
-            </div>
+            }
           </div>
 
           <div class="col-auto">
@@ -381,11 +383,12 @@
                 <img src="assets/img/icons/ic_help.svg" alt="" />
               </button>
 
-              <div
-                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid"
-                class="invalid-feedback">
-                {{ "forms.errors.common.translations" | translate }}
-              </div>
+              @if (descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid) {
+                <div
+                  class="invalid-feedback">
+                  {{ "forms.errors.common.translations" | translate }}
+                </div>
+              }
             </div>
 
             <button
@@ -433,21 +436,25 @@
                       submitted)
                 }"></textarea>
 
-              <div
-                *ngIf="
-                  descriptionCtrl.get(otherLangs[0]).invalid &&
-                  (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
-                "
-                class="invalid-feedback">
-                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
-                  {{ "forms.errors.description.characters" | translate }}
+              @if (
+                descriptionCtrl.get(otherLangs[0]).invalid &&
+                (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
+                ) {
+                <div
+                  class="invalid-feedback">
+                  @if (descriptionCtrl.get(otherLangs[0]).errors.invalid) {
+                    <div>
+                      {{ "forms.errors.description.characters" | translate }}
+                    </div>
+                  }
+                  @if (descriptionCtrl.get(otherLangs[0]).errors.maxlength) {
+                    <div>
+                      {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                      descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                    </div>
+                  }
                 </div>
-
-                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
-                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
-                  descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
-                </div>
-              </div>
+              }
             </div>
 
             <div class="form-group">
@@ -468,21 +475,25 @@
                       submitted)
                 }"></textarea>
 
-              <div
-                *ngIf="
-                  descriptionCtrl.get(otherLangs[1]).invalid &&
-                  (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
-                "
-                class="invalid-feedback">
-                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
-                  {{ "forms.errors.description.characters" | translate }}
+              @if (
+                descriptionCtrl.get(otherLangs[1]).invalid &&
+                (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
+                ) {
+                <div
+                  class="invalid-feedback">
+                  @if (descriptionCtrl.get(otherLangs[1]).errors.invalid) {
+                    <div>
+                      {{ "forms.errors.description.characters" | translate }}
+                    </div>
+                  }
+                  @if (descriptionCtrl.get(otherLangs[1]).errors.maxlength) {
+                    <div>
+                      {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                      descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+                    </div>
+                  }
                 </div>
-
-                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
-                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
-                  descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
-                </div>
-              </div>
+              }
             </div>
           </div>
 

@@ -70,54 +70,57 @@
       </li>
     </ul>
 
-    <ng-container [ngSwitch]="tabId" *ngIf="(educationalMaterialEditForm$ | async) as editForm">
-      <app-tabs-edit-files
-        *ngSwitchCase="1"
-        [tabId]="1"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
-
-      <app-tabs-edit-basic-details
-        *ngSwitchCase="2"
-        [material]="editForm"
-        [materialId]="educationalMaterialID"
-        [tabId]="2"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
-
-      <app-tabs-edit-educational-details
-        *ngSwitchCase="3"
-        [material]="editForm"
-        [materialId]="educationalMaterialID"
-        [tabId]="3"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-educational-details>
-
-      <app-tabs-edit-extended-details
-        *ngSwitchCase="4"
-        [material]="editForm"
-        [materialId]="educationalMaterialID"
-        [tabId]="4"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-extended-details>
-
-      <app-tabs-edit-license
-        *ngSwitchCase="5"
-        [material]="editForm"
-        [materialId]="educationalMaterialID"
-        [tabId]="5"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-license>
-
-      <app-tabs-edit-based-on-details
-        *ngSwitchCase="6"
-        [material]="editForm"
-        [materialId]="educationalMaterialID"
-        [tabId]="6"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-based-on-details>
-
-      <app-tabs-edit-preview
-        *ngSwitchCase="7"
-        [tabId]="7"
-        [materialId]="educationalMaterialID"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-preview>
-      <!--        [material]="editForm"-->
-    </ng-container>
+    @if ((educationalMaterialEditForm$ | async); as editForm) {
+      @switch (tabId) {
+        @case (1) {
+          <app-tabs-edit-files
+            [tabId]="1"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
+        }
+        @case (2) {
+          <app-tabs-edit-basic-details
+            [material]="editForm"
+            [materialId]="educationalMaterialID"
+            [tabId]="2"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
+        }
+        @case (3) {
+          <app-tabs-edit-educational-details
+            [material]="editForm"
+            [materialId]="educationalMaterialID"
+            [tabId]="3"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-educational-details>
+        }
+        @case (4) {
+          <app-tabs-edit-extended-details
+            [material]="editForm"
+            [materialId]="educationalMaterialID"
+            [tabId]="4"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-extended-details>
+        }
+        @case (5) {
+          <app-tabs-edit-license
+            [material]="editForm"
+            [materialId]="educationalMaterialID"
+            [tabId]="5"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-license>
+        }
+        @case (6) {
+          <app-tabs-edit-based-on-details
+            [material]="editForm"
+            [materialId]="educationalMaterialID"
+            [tabId]="6"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-based-on-details>
+        }
+        @case (7) {
+          <app-tabs-edit-preview
+            [tabId]="7"
+            [materialId]="educationalMaterialID"
+          (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-preview>
+        }
+        <!--        [material]="editForm"-->
+      }
+    }
   </div>
 </div>
 

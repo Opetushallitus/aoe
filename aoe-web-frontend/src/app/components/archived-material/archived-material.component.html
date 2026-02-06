@@ -1,28 +1,26 @@
 <article>
-  <ng-container [ngSwitch]="lang">
-    <ng-container *ngSwitchDefault>
+  @switch (lang) {
+    @default {
       <h1>Arkistoitu oppimateriaali (ID: {{ materialId }})</h1>
       <p>
         Tämä materiaali on arkistoitu. Lisätietoa saat palvelun ylläpitäjiltä
         ottamalla yhteyttä osoitteeseen aoe&#64;oph.fi ja kysymällä materiaalista
         sen id:n kera.
       </p>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'en'">
+    }
+    @case ('en') {
       <h1>Archived learning resource (ID: {{ materialId }})</h1>
       <p>
         This material has been archived. For more information contact admins
         through aoe&#64;oph.fi.
       </p>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'sv'">
+    }
+    @case ('sv') {
       <h1>Arkiverad lärresurs (ID: {{ materialId }})</h1>
       <p>
         Detta material har arkiverats. För mer information kontakta
         administratörer via aoe&#64;oph.fi.
       </p>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </article>

@@ -1,119 +1,129 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h3>{{ "forms.educationalResource.basedOnDetails.externals.title" | translate }}</h3>
 
-  <ng-container [ngSwitch]="lang">
-    <ng-container *ngSwitchDefault>
+  @switch (lang) {
+    @default {
       <p>{{ "forms.educationalResource.basedOnDetails.addNew.tooltip" | translate }}</p>
-    </ng-container>
-  </ng-container>
+    }
+  }
 
-  <div
-    formArrayName="externals"
-    *ngFor="let external of externals.controls; let i = index"
-    class="aoe-based-on-details notify-below-extra-space">
-    <div class="form-row" [formGroupName]="i">
-      <div class="form-group col-md">
-        <label [for]="'authorExt-' + i">
-          {{ "forms.educationalResource.basedOnDetails.externals.inputs.author.label" | translate }}
-        </label>
-        <ng-select
-          [items]="[]"
-          [multiple]="true"
-          [addTag]="true"
-          [id]="'authorExt-' + i"
-          [labelForId]="'authorExt-' + i"
-          formControlName="author"
-          [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
+  @for (external of externals.controls; track external; let i = $index) {
+    <div
+      formArrayName="externals"
+      class="aoe-based-on-details notify-below-extra-space">
+      <div class="form-row" [formGroupName]="i">
+        <div class="form-group col-md">
+          <label [for]="'authorExt-' + i">
+            {{ "forms.educationalResource.basedOnDetails.externals.inputs.author.label" | translate }}
+          </label>
+          <ng-select
+            [items]="[]"
+            [multiple]="true"
+            [addTag]="true"
+            [id]="'authorExt-' + i"
+            [labelForId]="'authorExt-' + i"
+            formControlName="author"
+            [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
           [attr.aria-describedby]="'author-' + i + '-help'"></ng-select>
-        <small
-          *ngIf="!external.get('author').touched || !external.get('author').invalid"
-          [id]="'author-' + i + '-help'"
-          class="form-text text-muted notify-below-position-thick">
-          {{ "forms.helpTexts.multipleItems" | translate }}
-        </small>
-        <ng-container
-          *ngIf="
+          @if (!external.get('author').touched || !external.get('author').invalid) {
+            <small
+              [id]="'author-' + i + '-help'"
+              class="form-text text-muted notify-below-position-thick">
+              {{ "forms.helpTexts.multipleItems" | translate }}
+            </small>
+          }
+          @if (
             external.get('author').invalid &&
             (external.get('author').dirty || external.get('author').touched || submitted)
-          ">
-          <div *ngIf="external.get('author').errors.required">
-            <small class="text-danger notify-below-position">{{ "forms.common.required" | translate }}</small>
-          </div>
-          <div *ngIf="external.get('author').errors.invalidCharacters">
-            <small class="text-danger notify-below-position">
-              {{ "forms.errors.textInput.characters" | translate }}
-            </small>
-          </div>
-        </ng-container>
-      </div>
-      <div class="form-group col-md">
-        <label for="{{ 'url-' + i }}">
-          {{ "forms.educationalResource.basedOnDetails.externals.inputs.link.label" | translate }}
-        </label>
-        <input
-          type="url"
-          id="{{ 'url-' + i }}"
-          class="form-control"
-          formControlName="url"
+            ) {
+            @if (external.get('author').errors.required) {
+              <div>
+                <small class="text-danger notify-below-position">{{ "forms.common.required" | translate }}</small>
+              </div>
+            }
+            @if (external.get('author').errors.invalidCharacters) {
+              <div>
+                <small class="text-danger notify-below-position">
+                  {{ "forms.errors.textInput.characters" | translate }}
+                </small>
+              </div>
+            }
+          }
+        </div>
+        <div class="form-group col-md">
+          <label for="{{ 'url-' + i }}">
+            {{ "forms.educationalResource.basedOnDetails.externals.inputs.link.label" | translate }}
+          </label>
+          <input
+            type="url"
+            id="{{ 'url-' + i }}"
+            class="form-control"
+            formControlName="url"
           [ngClass]="{
             'is-invalid':
               external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted)
           }" />
-
-        <div
-          *ngIf="external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted)"
-          class="invalid-feedback notify-below-position">
-          <div *ngIf="external.get('url').errors.required">{{ "forms.common.required" | translate }}</div>
-
-          <div *ngIf="external.get('url').errors.pattern">{{ "forms.common.pattern.url" | translate }}</div>
-
-          <div *ngIf="external.get('url').errors.maxlength">
-            {{ "forms.errors.common.maxLength" | translate: { maxLength:
-            external.get("url").errors.maxlength.requiredLength } }}
-          </div>
+          @if (external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted)) {
+            <div
+              class="invalid-feedback notify-below-position">
+              @if (external.get('url').errors.required) {
+                <div>{{ "forms.common.required" | translate }}</div>
+              }
+              @if (external.get('url').errors.pattern) {
+                <div>{{ "forms.common.pattern.url" | translate }}</div>
+              }
+              @if (external.get('url').errors.maxlength) {
+                <div>
+                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                  external.get("url").errors.maxlength.requiredLength } }}
+                </div>
+              }
+            </div>
+          }
         </div>
-      </div>
-
-      <div class="form-group col-md">
-        <label for="{{ 'name-' + i }}">
-          {{ "forms.educationalResource.basedOnDetails.externals.inputs.name.label" | translate }}
-        </label>
-
-        <input
-          type="text"
-          id="{{ 'name-' + i }}"
-          class="form-control"
-          formControlName="name"
+        <div class="form-group col-md">
+          <label for="{{ 'name-' + i }}">
+            {{ "forms.educationalResource.basedOnDetails.externals.inputs.name.label" | translate }}
+          </label>
+          <input
+            type="text"
+            id="{{ 'name-' + i }}"
+            class="form-control"
+            formControlName="name"
           [ngClass]="{
             'is-invalid':
               external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted)
           }" />
-
-        <div
-          *ngIf="
+          @if (
             external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted)
-          "
-          class="invalid-feedback notify-below-position">
-          <div *ngIf="external.get('name').errors.required">{{ "forms.common.required" | translate }}</div>
-
-          <div *ngIf="external.get('name').errors.invalidCharacters">
-            {{ "forms.errors.textInput.characters" | translate }}
-          </div>
-
-          <div *ngIf="external.get('name').errors.maxlength">
-            {{ "forms.errors.common.maxLength" | translate: { maxLength:
-            external.get("name").errors.maxlength.requiredLength } }}
-          </div>
+            ) {
+            <div
+              class="invalid-feedback notify-below-position">
+              @if (external.get('name').errors.required) {
+                <div>{{ "forms.common.required" | translate }}</div>
+              }
+              @if (external.get('name').errors.invalidCharacters) {
+                <div>
+                  {{ "forms.errors.textInput.characters" | translate }}
+                </div>
+              }
+              @if (external.get('name').errors.maxlength) {
+                <div>
+                  {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                  external.get("name").errors.maxlength.requiredLength } }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+        <div class="form-group col-auto align-self-end">
+          <button type="button" class="btn btn-danger" (click)="removeExternal(i)">
+            {{ "forms.common.delete" | translate }}
+          </button>
         </div>
       </div>
-
-      <div class="form-group col-auto align-self-end">
-        <button type="button" class="btn btn-danger" (click)="removeExternal(i)">
-          {{ "forms.common.delete" | translate }}
-        </button>
-      </div>
     </div>
-  </div>
+  }
 
   <div class="form-group">
     <button type="button" class="btn btn-gray" (click)="addExternal()">

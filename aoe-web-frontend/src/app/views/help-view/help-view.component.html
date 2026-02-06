@@ -7,9 +7,12 @@
 
       <div class="col-auto">
         <button type="button" class="btn btn-blue" (click)="isOpen = !isOpen">
-          <ng-container *ngIf="isOpen; else openAll">{{ "faq.closeAll" | translate }}</ng-container>
+          @if (isOpen) {
+            {{ "faq.closeAll" | translate }}
+          } @else {
+            {{ "faq.openAll" | translate }}
+          }
 
-          <ng-template #openAll>{{ "faq.openAll" | translate }}</ng-template>
         </button>
       </div>
     </div>
@@ -20,45 +23,55 @@
         <h2>{{ "faq.general" | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqGeneral" [isOpen]="isOpen" #group1>
-            <div accordion-heading class="row">
-              <div class="col question">{{ item.question }}</div>
-              <div class="col-auto">
-                <i class="fa" aria-hidden="true" [ngClass]="group1.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          @for (item of faqGeneral; track item) {
+            <accordion-group [isOpen]="isOpen" #group1>
+              <div accordion-heading class="row">
+                <div class="col question">{{ item.question }}</div>
+                <div class="col-auto">
+                  <i class="fa" aria-hidden="true" [ngClass]="group1.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
               </div>
-            </div>
-
-            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
-          </accordion-group>
+              @for (paragraph of item.answer; track paragraph) {
+                <p [innerHTML]="paragraph"></p>
+              }
+            </accordion-group>
+          }
         </accordion>
 
         <h2>{{ "faq.material" | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqMaterial" [isOpen]="isOpen" #group2>
-            <div accordion-heading class="row">
-              <div class="col question">{{ item.question }}</div>
-              <div class="col-auto">
-                <i class="fa" aria-hidden="true" [ngClass]="group2.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          @for (item of faqMaterial; track item) {
+            <accordion-group [isOpen]="isOpen" #group2>
+              <div accordion-heading class="row">
+                <div class="col question">{{ item.question }}</div>
+                <div class="col-auto">
+                  <i class="fa" aria-hidden="true" [ngClass]="group2.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
               </div>
-            </div>
-            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
-          </accordion-group>
+              @for (paragraph of item.answer; track paragraph) {
+                <p [innerHTML]="paragraph"></p>
+              }
+            </accordion-group>
+          }
         </accordion>
 
         <h2>{{ "faq.organization" | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqOrganisation" [isOpen]="isOpen" #group3>
-            <div accordion-heading class="row">
-              <div class="col question">{{ item.question }}</div>
-              <div class="col-auto">
-                <i class="fa" aria-hidden="true" [ngClass]="group3.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+          @for (item of faqOrganisation; track item) {
+            <accordion-group [isOpen]="isOpen" #group3>
+              <div accordion-heading class="row">
+                <div class="col question">{{ item.question }}</div>
+                <div class="col-auto">
+                  <i class="fa" aria-hidden="true" [ngClass]="group3.isOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </div>
               </div>
-            </div>
-
-            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
-          </accordion-group>
+              @for (paragraph of item.answer; track paragraph) {
+                <p [innerHTML]="paragraph"></p>
+              }
+            </accordion-group>
+          }
         </accordion>
       </div>
     </div>

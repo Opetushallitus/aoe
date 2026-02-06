@@ -9,16 +9,24 @@
     </div>
 
     <div class="col-9 col-md-6">
-      <p *ngIf="description">{{ description }}</p>
+      @if (description) {
+        <p>{{ description }}</p>
+      }
 
       <ul class="list-unstyled">
-        <li *ngFor="let author of result.authors">
-          <ng-container *ngIf="author.authorname !== ''">
-            {{ author.authorname }}
-            <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-          </ng-container>
-          <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-        </li>
+        @for (author of result.authors; track author) {
+          <li>
+            @if (author.authorname !== '') {
+              {{ author.authorname }}
+              @if (author.organization) {
+                ({{ author.organization }})
+              }
+            }
+            @if (author.authorname === '') {
+              {{ author.organization }}
+            }
+          </li>
+        }
       </ul>
     </div>
 
@@ -30,28 +38,32 @@
             {{ "search.results.open" | translate }}
           </a>
         </li>
-        <li class="nav-item" *ngIf="result.hasDownloadableFiles">
-          <a [href]="downloadUrl" download class="nav-link">
-            <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
-            {{ "search.results.download" | translate }}
-          </a>
-        </li>
+        @if (result.hasDownloadableFiles) {
+          <li class="nav-item">
+            <a [href]="downloadUrl" download class="nav-link">
+              <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
+              {{ "search.results.download" | translate }}
+            </a>
+          </li>
+        }
       </ul>
 
-      <div class="tags" *ngIf="result.educationalLevels?.length > 0">
-        <span class="sr-only" [id]="'result-educationalLevels' + result.id">
-          {{ "collections.meta.educationalLevels" | translate }}
-        </span>
-
-        <button
-          *ngFor="let level of result.educationalLevels"
-          type="button"
-          class="btn btn-light"
-          [attr.aria-labelledby]="'result-educationalLevels' + result.id"
-          (click)="filterSearch(level.educationallevelkey, level.value)">
-          {{ level.value }}
-        </button>
-      </div>
+      @if (result.educationalLevels?.length > 0) {
+        <div class="tags">
+          <span class="sr-only" [id]="'result-educationalLevels' + result.id">
+            {{ "collections.meta.educationalLevels" | translate }}
+          </span>
+          @for (level of result.educationalLevels; track level) {
+            <button
+              type="button"
+              class="btn btn-light"
+              [attr.aria-labelledby]="'result-educationalLevels' + result.id"
+              (click)="filterSearch(level.educationallevelkey, level.value)">
+              {{ level.value }}
+            </button>
+          }
+        </div>
+      }
       <!--educationalLevels-->
     </div>
   </div>

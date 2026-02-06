@@ -55,33 +55,41 @@
         </a>
       </li>
     </ul>
-    <ng-container [ngSwitch]="tabId">
-      <app-tabs-files
-        *ngSwitchCase="1"
-        [educationalMaterialID$]="educationalMaterialID$"
-        [uploadedFiles$]="uploadedFiles$"
-        (emitterAbort)="openConfirmModal($event, confirmAbort)"
-        (emitterEducationalMaterialID)="updateEducationalMaterialID($event)"
+    @switch (tabId) {
+      @case (1) {
+        <app-tabs-files
+          [educationalMaterialID$]="educationalMaterialID$"
+          [uploadedFiles$]="uploadedFiles$"
+          (emitterAbort)="openConfirmModal($event, confirmAbort)"
+          (emitterEducationalMaterialID)="updateEducationalMaterialID($event)"
         (emitterUploadActive)="setUploadActive($event)"></app-tabs-files>
-      <app-tabs-basic-details
-        *ngSwitchCase="2"
+      }
+      @case (2) {
+        <app-tabs-basic-details
         (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-basic-details>
-      <app-tabs-educational-details
-        *ngSwitchCase="3"
+      }
+      @case (3) {
+        <app-tabs-educational-details
         (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-educational-details>
-      <app-tabs-extended-details
-        *ngSwitchCase="4"
+      }
+      @case (4) {
+        <app-tabs-extended-details
         (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-extended-details>
-      <app-tabs-license *ngSwitchCase="5" (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-license>
-      <app-tabs-based-on-details
-        *ngSwitchCase="6"
+      }
+      @case (5) {
+        <app-tabs-license (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-license>
+      }
+      @case (6) {
+        <app-tabs-based-on-details
         (abortEdit)="openConfirmModal($event, confirmAbort)"></app-tabs-based-on-details>
-      <app-preview
-        *ngSwitchCase="7"
-        [educationalMaterialID$]="educationalMaterialID$"
-        [uploadedFiles$]="uploadedFiles$"
+      }
+      @case (7) {
+        <app-preview
+          [educationalMaterialID$]="educationalMaterialID$"
+          [uploadedFiles$]="uploadedFiles$"
         (abortEdit)="openConfirmModal($event, confirmAbort)"></app-preview>
-    </ng-container>
+      }
+    }
   </div>
   <ng-template #confirmAbort>
     <div class="modal-body text-center">

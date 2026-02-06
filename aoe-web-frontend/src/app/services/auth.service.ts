@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@angular/core'
-import { DOCUMENT } from '@angular/common'
+import { Inject, Injectable, DOCUMENT } from '@angular/core'
+
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
