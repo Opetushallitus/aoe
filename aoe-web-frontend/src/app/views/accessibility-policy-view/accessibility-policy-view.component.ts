@@ -4,8 +4,9 @@ import { Title } from '@angular/platform-browser'
 import { AccessibilityPolicy } from '../../mocks/accessibility-policy.mock'
 
 @Component({
-  selector: 'app-accessibility-policy-view',
-  templateUrl: './accessibility-policy-view.component.html'
+    selector: 'app-accessibility-policy-view',
+    templateUrl: './accessibility-policy-view.component.html',
+    standalone: false
 })
 export class AccessibilityPolicyViewComponent implements OnInit {
   lang: string = this.translate.currentLang

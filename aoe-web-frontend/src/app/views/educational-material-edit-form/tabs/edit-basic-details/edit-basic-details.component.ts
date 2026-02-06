@@ -31,9 +31,10 @@ import { MaterialService } from '@services/material.service'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-  selector: 'app-tabs-edit-basic-details',
-  templateUrl: './edit-basic-details.component.html',
-  styleUrls: ['./edit-basic-details.component.scss']
+    selector: 'app-tabs-edit-basic-details',
+    templateUrl: './edit-basic-details.component.html',
+    styleUrls: ['./edit-basic-details.component.scss'],
+    standalone: false
 })
 export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

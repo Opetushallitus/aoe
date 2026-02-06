@@ -12,9 +12,10 @@ import { KoodistoService } from '@services/koodisto.service'
 import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form'
 
 @Component({
-  selector: 'app-collection-view',
-  templateUrl: './collection-view.component.html',
-  styleUrls: ['./collection-view.component.scss']
+    selector: 'app-collection-view',
+    templateUrl: './collection-view.component.html',
+    styleUrls: ['./collection-view.component.scss'],
+    standalone: false
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang

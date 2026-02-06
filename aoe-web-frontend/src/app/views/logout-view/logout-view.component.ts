@@ -3,8 +3,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-logout-view',
-  templateUrl: './logout-view.component.html'
+    selector: 'app-logout-view',
+    templateUrl: './logout-view.component.html',
+    standalone: false
 })
 export class LogoutViewComponent implements OnInit {
   lang: string = this.translate.currentLang

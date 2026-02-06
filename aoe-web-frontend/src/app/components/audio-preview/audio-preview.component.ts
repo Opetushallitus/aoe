@@ -12,8 +12,9 @@ import { Material } from '@models/material'
 import { environment } from '../../../environments/environment'
 
 @Component({
-  selector: 'app-audio-preview',
-  templateUrl: './audio-preview.component.html'
+    selector: 'app-audio-preview',
+    templateUrl: './audio-preview.component.html',
+    standalone: false
 })
 export class AudioPreviewComponent implements OnInit, OnChanges {
   @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef

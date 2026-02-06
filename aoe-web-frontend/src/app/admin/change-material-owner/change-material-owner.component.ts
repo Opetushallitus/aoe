@@ -8,9 +8,10 @@ import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } f
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-  selector: 'app-admin-change-material-owner',
-  templateUrl: './change-material-owner.component.html',
-  styleUrls: ['./change-material-owner.component.scss']
+    selector: 'app-admin-change-material-owner',
+    templateUrl: './change-material-owner.component.html',
+    styleUrls: ['./change-material-owner.component.scss'],
+    standalone: false
 })
 export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   users: AoeUser[]

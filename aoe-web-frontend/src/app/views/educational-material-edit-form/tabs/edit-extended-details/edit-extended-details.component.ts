@@ -18,9 +18,10 @@ import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { MaterialService } from '@services/material.service'
 
 @Component({
-  selector: 'app-tabs-edit-extended-details',
-  templateUrl: './edit-extended-details.component.html',
-  styleUrls: ['./edit-extended-details.component.scss']
+    selector: 'app-tabs-edit-extended-details',
+    templateUrl: './edit-extended-details.component.html',
+    styleUrls: ['./edit-extended-details.component.scss'],
+    standalone: false
 })
 export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

@@ -9,9 +9,10 @@ import { MaterialInfoResponse } from '../model/material-info-response'
 import { AdminService } from '../services/admin.service'
 
 @Component({
-  selector: 'app-admin-remove-material',
-  templateUrl: './remove-material.component.html',
-  styleUrls: ['./remove-material.component.scss']
+    selector: 'app-admin-remove-material',
+    templateUrl: './remove-material.component.html',
+    styleUrls: ['./remove-material.component.scss'],
+    standalone: false
 })
 export class RemoveMaterialComponent implements OnInit, OnDestroy {
   form: FormGroup

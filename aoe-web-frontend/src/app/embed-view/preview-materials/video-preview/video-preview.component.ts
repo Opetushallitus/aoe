@@ -12,8 +12,9 @@ import { Material } from '@models/material'
 import { environment } from '../../../../environments/environment'
 
 @Component({
-  selector: 'app-video-preview',
-  templateUrl: './video-preview.component.html'
+    selector: 'app-video-preview',
+    templateUrl: './video-preview.component.html',
+    standalone: false
 })
 export class VideoPreviewComponent implements OnInit, OnChanges {
   @ViewChild('videoElement', { static: true }) private player: ElementRef

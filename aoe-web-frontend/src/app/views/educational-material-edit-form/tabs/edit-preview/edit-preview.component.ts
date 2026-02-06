@@ -15,9 +15,10 @@ import { ignoredSubjects } from '@constants/ignored-subjects'
 import { MaterialService } from '@services/material.service'
 
 @Component({
-  selector: 'app-tabs-edit-preview',
-  templateUrl: './edit-preview.component.html',
-  styleUrls: ['./edit-preview.component.scss']
+    selector: 'app-tabs-edit-preview',
+    templateUrl: './edit-preview.component.html',
+    styleUrls: ['./edit-preview.component.scss'],
+    standalone: false
 })
 export class EditPreviewComponent implements OnInit {
   @Input() tabId: number

@@ -16,9 +16,10 @@ import {
 } from './index' // @todo: this might need rework
 
 @Component({
-  selector: 'app-collection-form',
-  templateUrl: './collection-form.component.html',
-  styleUrls: ['./collection-form.component.scss']
+    selector: 'app-collection-form',
+    templateUrl: './collection-form.component.html',
+    styleUrls: ['./collection-form.component.scss'],
+    standalone: false
 })
 export class CollectionFormComponent implements OnInit, OnDestroy {
   collectionId: string

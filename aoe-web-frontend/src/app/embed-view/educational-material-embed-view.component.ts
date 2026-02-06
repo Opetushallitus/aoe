@@ -14,9 +14,10 @@ import { Subtitle } from '@models/subtitle'
 import { Language } from '@models/koodisto/language'
 
 @Component({
-  selector: 'app-educational-material-embed-view',
-  templateUrl: './educational-material-embed-view.component.html',
-  styleUrls: ['./educational-material-embed-view.component.scss']
+    selector: 'app-educational-material-embed-view',
+    templateUrl: './educational-material-embed-view.component.html',
+    styleUrls: ['./educational-material-embed-view.component.scss'],
+    standalone: false
 })
 export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy {
   materialSubscription: Subscription

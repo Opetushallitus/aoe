@@ -7,9 +7,10 @@ import { CollectionService } from '@services/collection.service'
 import { KoodistoService } from '@services/koodisto.service'
 
 @Component({
-  selector: 'app-collections-view',
-  templateUrl: './collections-view.component.html',
-  styleUrls: ['./collections-view.component.scss']
+    selector: 'app-collections-view',
+    templateUrl: './collections-view.component.html',
+    styleUrls: ['./collections-view.component.scss'],
+    standalone: false
 })
 export class CollectionsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang

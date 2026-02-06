@@ -8,9 +8,10 @@ import { UserData } from '@models/userdata'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'app-user-details-view',
-  templateUrl: './user-details-view.component.html',
-  styleUrls: ['./user-details-view.component.scss']
+    selector: 'app-user-details-view',
+    templateUrl: './user-details-view.component.html',
+    styleUrls: ['./user-details-view.component.scss'],
+    standalone: false
 })
 export class UserDetailsViewComponent implements OnDestroy, OnInit {
   submitted: boolean

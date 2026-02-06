@@ -20,8 +20,9 @@ import { Author } from '@models/material/author'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-  selector: 'app-tabs-basic-details',
-  templateUrl: './basic-details.component.html'
+    selector: 'app-tabs-basic-details',
+    templateUrl: './basic-details.component.html',
+    standalone: false
 })
 export class BasicDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

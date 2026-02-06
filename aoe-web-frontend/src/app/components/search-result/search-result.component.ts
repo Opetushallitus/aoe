@@ -6,9 +6,10 @@ import { SearchParams } from '@models/search/search-params'
 import { UsedFilter } from '@models/search/used-filter'
 
 @Component({
-  selector: 'app-search-result',
-  templateUrl: './search-result.component.html',
-  styleUrls: ['./search-result.component.scss']
+    selector: 'app-search-result',
+    templateUrl: './search-result.component.html',
+    styleUrls: ['./search-result.component.scss'],
+    standalone: false
 })
 export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult

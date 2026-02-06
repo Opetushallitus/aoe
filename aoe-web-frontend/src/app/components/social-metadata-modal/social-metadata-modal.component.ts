@@ -15,9 +15,10 @@ import { EducationalLevel } from '@models/koodisto/educational-level'
 import { Toast } from '@models/translations/toast'
 
 @Component({
-  selector: 'app-social-metadata-modal',
-  templateUrl: './social-metadata-modal.component.html',
-  styleUrls: ['./social-metadata-modal.component.scss']
+    selector: 'app-social-metadata-modal',
+    templateUrl: './social-metadata-modal.component.html',
+    styleUrls: ['./social-metadata-modal.component.scss'],
+    standalone: false
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   materialId: number

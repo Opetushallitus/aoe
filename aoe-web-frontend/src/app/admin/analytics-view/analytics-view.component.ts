@@ -34,9 +34,10 @@ import {
 import { Organization } from '@admin/model/organization'
 
 @Component({
-  selector: 'app-analytics-view',
-  templateUrl: './analytics-view.component.html',
-  styleUrls: ['./analytics-view.component.scss']
+    selector: 'app-analytics-view',
+    templateUrl: './analytics-view.component.html',
+    styleUrls: ['./analytics-view.component.scss'],
+    standalone: false
 })
 export class AnalyticsViewComponent implements OnInit {
   educationalLevels$: Observable<EducationalLevel[]> = this.koodistoService.educationalLevels$

@@ -3,8 +3,9 @@ import { TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-terms-of-use-view',
-  templateUrl: './terms-of-use-view.component.html'
+    selector: 'app-terms-of-use-view',
+    templateUrl: './terms-of-use-view.component.html',
+    standalone: false
 })
 export class TermsOfUseViewComponent implements OnInit {
   constructor(

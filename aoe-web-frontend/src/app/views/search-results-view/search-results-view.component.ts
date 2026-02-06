@@ -20,9 +20,10 @@ import { sortOptions } from '@constants/sort-options'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-  selector: 'app-search-results-view',
-  templateUrl: './search-results-view.component.html',
-  styleUrls: ['./search-results-view.component.scss']
+    selector: 'app-search-results-view',
+    templateUrl: './search-results-view.component.html',
+    styleUrls: ['./search-results-view.component.scss'],
+    standalone: false
 })
 export class SearchResultsViewComponent implements OnInit, OnDestroy {
   time = new Date()

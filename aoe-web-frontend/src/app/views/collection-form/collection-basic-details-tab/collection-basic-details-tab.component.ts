@@ -33,9 +33,10 @@ import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { UploadMessage } from '@models/upload-message'
 
 @Component({
-  selector: 'app-collection-basic-details-tab',
-  templateUrl: './collection-basic-details-tab.component.html',
-  styleUrls: ['./collection-basic-details-tab.component.scss']
+    selector: 'app-collection-basic-details-tab',
+    templateUrl: './collection-basic-details-tab.component.html',
+    styleUrls: ['./collection-basic-details-tab.component.scss'],
+    standalone: false
 })
 export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

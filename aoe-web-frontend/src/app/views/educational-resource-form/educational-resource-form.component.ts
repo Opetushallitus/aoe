@@ -18,8 +18,9 @@ import { UploadedFile } from '@models/uploaded-file'
 import { KoodistoService } from '@services/koodisto.service'
 
 @Component({
-  selector: 'app-educational-resource-form',
-  templateUrl: './educational-resource-form.component.html'
+    selector: 'app-educational-resource-form',
+    templateUrl: './educational-resource-form.component.html',
+    standalone: false
 })
 export class EducationalResourceFormComponent implements OnInit, OnDestroy {
   tabId: number

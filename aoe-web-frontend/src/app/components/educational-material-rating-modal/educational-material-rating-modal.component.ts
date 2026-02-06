@@ -9,9 +9,10 @@ import { Toast } from '@models/translations/toast'
 import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
-  selector: 'app-educational-material-rating-modal',
-  templateUrl: './educational-material-rating-modal.component.html',
-  styleUrls: ['./educational-material-rating-modal.component.scss']
+    selector: 'app-educational-material-rating-modal',
+    templateUrl: './educational-material-rating-modal.component.html',
+    styleUrls: ['./educational-material-rating-modal.component.scss'],
+    standalone: false
 })
 export class EducationalMaterialRatingModalComponent implements OnInit {
   materialId: number

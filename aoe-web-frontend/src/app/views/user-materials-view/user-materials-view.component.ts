@@ -10,9 +10,10 @@ import { CollectionService } from '@services/collection.service'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-user-materials-view',
-  templateUrl: './user-materials-view.component.html',
-  styleUrls: ['./user-materials-view.component.scss']
+    selector: 'app-user-materials-view',
+    templateUrl: './user-materials-view.component.html',
+    styleUrls: ['./user-materials-view.component.scss'],
+    standalone: false
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang

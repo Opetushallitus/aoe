@@ -18,9 +18,10 @@ import { Toast } from '@models/translations/toast'
 import { CollectionService } from '@services/collection.service'
 
 @Component({
-  selector: 'app-collection-materials-tab',
-  templateUrl: './collection-materials-tab.component.html',
-  styleUrls: ['./collection-materials-tab.component.scss']
+    selector: 'app-collection-materials-tab',
+    templateUrl: './collection-materials-tab.component.html',
+    styleUrls: ['./collection-materials-tab.component.scss'],
+    standalone: false
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

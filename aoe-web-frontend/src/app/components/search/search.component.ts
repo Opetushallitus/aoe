@@ -16,9 +16,10 @@ import { sortOptions } from '@constants/sort-options'
 import { validatorParams } from '@constants/validator-params'
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup = new FormGroup({})

@@ -6,9 +6,10 @@ import { Title } from '@angular/platform-browser'
 import { CollectionSearchResults } from '@models/search/collection-search-results'
 
 @Component({
-  selector: 'app-collection-search-results-view',
-  templateUrl: './collection-search-results-view.component.html',
-  styleUrls: ['./collection-search-results-view.component.scss']
+    selector: 'app-collection-search-results-view',
+    templateUrl: './collection-search-results-view.component.html',
+    styleUrls: ['./collection-search-results-view.component.scss'],
+    standalone: false
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription

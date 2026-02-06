@@ -7,9 +7,10 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-educational-material-ratings',
-  templateUrl: './educational-material-ratings.component.html',
-  styleUrls: ['./educational-material-ratings.component.scss']
+    selector: 'app-educational-material-ratings',
+    templateUrl: './educational-material-ratings.component.html',
+    styleUrls: ['./educational-material-ratings.component.scss'],
+    standalone: false
 })
 export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
   materialId: number | string

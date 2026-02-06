@@ -5,10 +5,11 @@ import { KoodistoService } from './services/koodisto.service'
 import { AuthService } from '@services/auth.service'
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-admin',
+    templateUrl: './admin.component.html',
+    styleUrls: ['./admin.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AdminComponent implements OnInit {
   constructor(

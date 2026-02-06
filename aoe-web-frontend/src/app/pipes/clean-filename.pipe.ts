@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core'
 import { validateFilename } from '../shared/shared.module'
 
 @Pipe({
-  name: 'cleanFilename'
+    name: 'cleanFilename',
+    standalone: false
 })
 export class CleanFilenamePipe implements PipeTransform {
   transform(value: string): string {

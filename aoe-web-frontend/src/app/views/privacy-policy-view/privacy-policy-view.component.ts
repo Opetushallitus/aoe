@@ -3,8 +3,9 @@ import { Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-  selector: 'app-privacy-policy-view',
-  templateUrl: './privacy-policy-view.component.html'
+    selector: 'app-privacy-policy-view',
+    templateUrl: './privacy-policy-view.component.html',
+    standalone: false
 })
 export class PrivacyPolicyViewComponent implements OnInit {
   serviceName: string

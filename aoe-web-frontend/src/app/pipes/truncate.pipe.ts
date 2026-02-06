@@ -4,7 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core'
  * Truncates string to given character length (default: 20)
  */
 @Pipe({
-  name: 'truncate'
+    name: 'truncate',
+    standalone: false
 })
 export class TruncatePipe implements PipeTransform {
   transform(value: string, args?: any[]): string {

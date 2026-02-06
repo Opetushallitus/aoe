@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core'
 
 @Component({
-  selector: 'app-preview-row',
-  templateUrl: './preview-row.component.html',
-  styleUrls: ['./preview-row.component.scss']
+    selector: 'app-preview-row',
+    templateUrl: './preview-row.component.html',
+    styleUrls: ['./preview-row.component.scss'],
+    standalone: false
 })
 export class PreviewRowComponent {
   @Input() title: string

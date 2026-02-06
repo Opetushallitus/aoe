@@ -25,9 +25,10 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { MaterialService } from '@services/material.service'
 
 @Component({
-  selector: 'app-tabs-edit-educational-details',
-  templateUrl: './edit-educational-details.component.html',
-  styleUrls: ['./edit-educational-details.component.scss']
+    selector: 'app-tabs-edit-educational-details',
+    templateUrl: './edit-educational-details.component.html',
+    styleUrls: ['./edit-educational-details.component.scss'],
+    standalone: false
 })
 export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm
