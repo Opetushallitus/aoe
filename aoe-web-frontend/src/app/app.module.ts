@@ -6,7 +6,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
   provideHttpClient,
-  withInterceptorsFromDi,
+  withInterceptorsFromDi
 } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
@@ -98,7 +98,7 @@ import {
   SearchResultsViewComponent,
   TermsOfUseViewComponent,
   UserDetailsViewComponent,
-  UserMaterialsViewComponent,
+  UserMaterialsViewComponent
 } from './views'
 import {
   BasedOnDetailsComponent,
@@ -107,7 +107,7 @@ import {
   ExtendedDetailsComponent,
   FilesComponent,
   LicenseComponent,
-  PreviewComponent,
+  PreviewComponent
 } from './views/educational-resource-form/tabs'
 import {
   EditBasedOnDetailsComponent,
@@ -116,13 +116,13 @@ import {
   EditExtendedDetailsComponent,
   EditFilesComponent,
   EditLicenseComponent,
-  EditPreviewComponent,
+  EditPreviewComponent
 } from './views/educational-material-edit-form/tabs'
 import {
   CollectionBasicDetailsTabComponent,
   CollectionEducationalDetailsTabComponent,
   CollectionMaterialsTabComponent,
-  CollectionPreviewTabComponent,
+  CollectionPreviewTabComponent
 } from './views/collection-form'
 
 const APP_CONTAINERS = [DefaultLayoutComponent]
@@ -193,7 +193,7 @@ defineLocale('fi', fiLocale)
     SocialMetadataModalComponent,
     ArchivedMaterialComponent,
     AccessibilityViewComponent,
-    PreviewRowComponent,
+    PreviewRowComponent
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -207,8 +207,8 @@ defineLocale('fi', fiLocale)
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
+        deps: [HttpClient]
+      }
     }),
     AccordionModule.forRoot(),
     NgSelectModule,
@@ -224,18 +224,18 @@ defineLocale('fi', fiLocale)
     ToastrModule.forRoot(),
     HammerModule,
     PdfJsViewerModule,
-    NgxPaginationModule,
+    NgxPaginationModule
   ],
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy,
+      useClass: HashLocationStrategy
     },
     CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CredentialInterceptor,
-      multi: true,
+      multi: true
     },
     Title,
     UnsavedChangesGuard,
@@ -243,8 +243,8 @@ defineLocale('fi', fiLocale)
     AdminGuard,
     DisableFormsGuard,
     WindowRef,
-    provideHttpClient(withInterceptorsFromDi()),
-  ],
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class AppModule {
   constructor(private localeService: BsLocaleService) {

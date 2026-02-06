@@ -9,7 +9,7 @@ function main {
     use_correct_node_version
 
     fixLint "aoe-semantic-apis"
-    # fixLint "aoe-web-frontend"
+    fixLint "aoe-web-frontend"
     fixLint "aoe-web-backend"
     fixLint "aoe-streaming-app"
     fixLint "aoe-infra"
