@@ -1,7 +1,7 @@
-@import 'mixins';
+@use 'mixins';
 
 .modal-title {
   color: #fff;
-  @include resize(18);
   font-weight: 400;
+  @include mixins.resize(18);
 }

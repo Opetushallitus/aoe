@@ -1,5 +1,5 @@
-@import 'mixins';
-@import 'variables';
+@use 'mixins';
+@use 'variables';
 
 .collection-material {
   margin-bottom: 2rem;
@@ -7,14 +7,14 @@
   h2,
   .h2 {
     &.title {
-      @include resize(21);
+      @include mixins.resize(21);
     }
   }
 
   h3,
   .h3 {
     &.title {
-      @include resize(18);
+      @include mixins.resize(18);
 
       a {
         color: #373737;
@@ -27,7 +27,7 @@
     margin-bottom: 0.5rem;
 
     a {
-      color: $primary-theme-color;
+      color: variables.$primary-theme-color;
     }
   }
 
@@ -41,8 +41,8 @@
     padding: 0.5rem;
 
     h3 {
-      @include resize(16);
       font-weight: 400;
+      @include mixins.resize(16);
     }
 
     .btn-group-vertical {
@@ -50,7 +50,7 @@
     }
 
     .btn-file {
-      color: $input-color;
+      color: variables.$input-color;
       font-weight: 400;
       text-align: left;
       word-break: break-all;
@@ -63,7 +63,7 @@
 }
 
 .collection-authors {
-  color: $primary-theme-color;
+  color: variables.$primary-theme-color;
   font-weight: 700;
   margin-bottom: 0;
 }

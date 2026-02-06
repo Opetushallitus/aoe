@@ -1,14 +1,14 @@
-@import 'mixins';
-@import 'variables';
+@use 'mixins';
+@use 'variables';
 
 .block-header {
-  background-color: $light;
+  background-color: variables.$light;
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 1.5rem 1rem;
 }
 
 .results-count {
-  @include resize(14);
   font-weight: 500;
+  @include mixins.resize(14);
 }

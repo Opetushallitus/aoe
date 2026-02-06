@@ -1,6 +1,6 @@
-@import 'bootstrap-variables';
+@use 'bootstrap-variables';
 
 h2 {
-  color: $body-color;
+  color: bootstrap-variables.$body-color;
   margin-bottom: 0.5rem;
 }

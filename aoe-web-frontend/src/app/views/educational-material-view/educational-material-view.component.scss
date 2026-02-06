@@ -1,10 +1,10 @@
-@import 'mixins';
+@use 'mixins';
 
 $border-color: #e0e0e0;
 
 h2 {
-  @include resize(22);
   font-weight: 400;
+  @include mixins.resize(22);
 }
 
 .version-history {
@@ -18,8 +18,8 @@ h2 {
 }
 
 #toggle-version-history {
-  @include resize(16);
   padding: 0 0.25rem;
+  @include mixins.resize(16);
 }
 
 .lang-selector-button {
@@ -38,16 +38,16 @@ h2 {
 
 .list-files {
   h2 {
-    @include resize(16);
     font-weight: 400;
+    @include mixins.resize(16);
   }
 }
 
 .ratings {
   border-bottom: 1px solid $border-color;
-  @include resize(14);
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
+  @include mixins.resize(14);
 
   h2 {
     color: #373737;
@@ -55,7 +55,7 @@ h2 {
 
   h3 {
     color: #373737;
-    @include resize(18);
+    @include mixins.resize(18);
   }
 }
 

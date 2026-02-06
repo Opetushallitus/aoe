@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:map';
+
 // Bootstrap variables override
 
 $red: #f86c6b;
@@ -7,7 +10,7 @@ $yellow: #ffc107;
 $primary-theme-color: #1d891f; // #2a7e2b; // #1d891f;
 $secondary-theme-color: #1d7d1f;
 $blue: #1f79bf;
-$blue-hover: darken($blue, 15%);
+$blue-hover: color.adjust($blue, $lightness: -15%);
 $light: #e9e9e9;
 $gray: #757575;
 $dark: #2f353a;
@@ -27,7 +30,7 @@ $theme-colors: (
 
 $spacer: 1rem !default;
 $spacers: () !default;
-$spacers: map-merge(
+$spacers: map.merge(
   (
     0: 0,
     1: (

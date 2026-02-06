@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $ng-select-highlight: #eee !default;
 $ng-select-primary-text: #333 !default;
 $ng-select-disabled-text: #f9f9f9 !default;
@@ -10,7 +12,7 @@ $ng-select-selected: #ebebeb;
   &.ng-select-opened {
     > .ng-select-container {
       background: $ng-select-bg;
-      border-color: darken($ng-select-border, 10) $ng-select-border lighten($ng-select-border, 5);
+      border-color: color.adjust($ng-select-border, $lightness: -10%) $ng-select-border color.adjust($ng-select-border, $lightness: 5%);
 
       &:hover {
         box-shadow: none;
@@ -18,11 +20,11 @@ $ng-select-selected: #ebebeb;
 
       .ng-arrow {
         top: -2px;
-        border-color: transparent transparent darken($ng-select-border, 20);
+        border-color: transparent transparent color.adjust($ng-select-border, $lightness: -20%);
         border-width: 0 5px 5px;
 
         &:hover {
-          border-color: transparent transparent darken($ng-select-border, 60);
+          border-color: transparent transparent color.adjust($ng-select-border, $lightness: -60%);
         }
       }
     }
@@ -107,7 +109,7 @@ $ng-select-selected: #ebebeb;
     &.ng-select-disabled {
       > .ng-select-container .ng-value-container .ng-value {
         background-color: $ng-select-disabled-text;
-        border: 1px solid lighten($ng-select-border, 10);
+        border: 1px solid color.adjust($ng-select-border, $lightness: 10%);
 
         .ng-value-label {
           padding: 0 5px;
@@ -142,15 +144,15 @@ $ng-select-selected: #ebebeb;
             padding: 1px 5px;
 
             &:hover {
-              background-color: darken($ng-select-selected, 5);
+              background-color: color.adjust($ng-select-selected, $lightness: -5%);
             }
 
             &.left {
-              border-right: 1px solid darken($ng-select-selected, 10);
+              border-right: 1px solid color.adjust($ng-select-selected, $lightness: -10%);
             }
 
             &.right {
-              border-left: 1px solid darken($ng-select-selected, 10);
+              border-left: 1px solid color.adjust($ng-select-selected, $lightness: -10%);
             }
           }
         }
@@ -159,7 +161,7 @@ $ng-select-selected: #ebebeb;
   }
 
   .ng-clear-wrapper {
-    color: darken($ng-select-border, 20);
+    color: color.adjust($ng-select-border, $lightness: -20%);
 
     &:hover .ng-clear {
       color: #d0021b;
@@ -175,12 +177,12 @@ $ng-select-selected: #ebebeb;
 
     &:hover {
       .ng-arrow {
-        border-top-color: darken($ng-select-border, 40);
+        border-top-color: color.adjust($ng-select-border, $lightness: -40%);
       }
     }
 
     .ng-arrow {
-      border-color: darken($ng-select-border, 20) transparent transparent;
+      border-color: color.adjust($ng-select-border, $lightness: -20%) transparent transparent;
       border-style: solid;
       border-width: 5px 5px 2.5px;
     }
@@ -206,7 +208,7 @@ $ng-select-selected: #ebebeb;
     top: 100%;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
-    border-top-color: lighten($ng-select-border, 10);
+    border-top-color: color.adjust($ng-select-border, $lightness: 10%);
     margin-top: -1px;
 
     .ng-dropdown-panel-items {
@@ -223,7 +225,7 @@ $ng-select-selected: #ebebeb;
     bottom: 100%;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    border-bottom-color: lighten($ng-select-border, 10);
+    border-bottom-color: color.adjust($ng-select-border, $lightness: 10%);
     margin-bottom: -1px;
 
     .ng-dropdown-panel-items {
@@ -293,7 +295,7 @@ $ng-select-selected: #ebebeb;
       }
 
       &.ng-option-disabled {
-        color: lighten($ng-select-primary-text, 60);
+        color: color.adjust($ng-select-primary-text, $lightness: 60%);
       }
 
       &.ng-option-child {

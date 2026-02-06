@@ -1,9 +1,4 @@
-@import 'bootstrap-variables';
-@import 'mixins';
-@import 'variables';
-@import '../../node_modules/bootstrap/scss/functions';
-@import '../../node_modules/bootstrap/scss/variables';
-@import '../../node_modules/bootstrap/scss/mixins';
+@use 'sass:color';
 
 // Custom styles
 $form-border-color: #dedede;
@@ -12,9 +7,9 @@ $navbar-bg-hover: #1d661f;
 $footer-bg-color: #666666;
 $media-body-color: #696868;
 $btn-light: #eaeaea;
-$btn-light-hover: darken($btn-light, 15%);
+$btn-light-hover: color.adjust($btn-light, $lightness: -15%);
 $btn-dark: #9a937d;
-$btn-dark-hover: darken($btn-dark, 15%);
+$btn-dark-hover: color.adjust($btn-dark, $lightness: -15%);
 $panel-body-color: #6d6d6d;
 $comment-odd-bg-color: #f2f2f2;
 
@@ -490,7 +485,7 @@ h2 {
   font-weight: 700;
 
   &:hover {
-    color: darken($input-color, 15%);
+    color: color.adjust($input-color, $lightness: -15%);
     text-decoration: underline;
   }
 }
@@ -506,7 +501,7 @@ h2 {
   vertical-align: baseline;
 
   &:hover {
-    color: darken($blue, 15%);
+    color: color.adjust($blue, $lightness: -15%);
     text-decoration: underline;
   }
 }
@@ -521,7 +516,7 @@ h2 {
   color: $black;
 
   &:hover {
-    background-color: darken($white, 15%);
+    background-color: color.adjust($white, $lightness: -15%);
   }
 }
 

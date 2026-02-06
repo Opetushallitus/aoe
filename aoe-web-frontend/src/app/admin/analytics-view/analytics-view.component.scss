@@ -1,11 +1,12 @@
-@import 'variables';
+@use 'sass:color';
+@use 'variables';
 
 .custom-caret {
-  color: $blue;
+  color: variables.$blue;
 }
 
 .custom-dimmer {
-  color: lighten(#464646, 60%) !important;
+  color: color.adjust(#464646, $lightness: 60%) !important;
 }
 
 .custom-disabled {

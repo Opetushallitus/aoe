@@ -1,5 +1,5 @@
-@import 'mixins';
+@use 'mixins';
 
 h2 {
-  @include resize(24);
+  @include mixins.resize(24);
 }

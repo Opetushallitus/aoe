@@ -1,8 +1,8 @@
-@import 'mixins';
-@import 'variables';
+@use 'mixins';
+@use 'variables';
 
 .block-header {
-  background-color: $light;
+  background-color: variables.$light;
   box-shadow:
     rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
     rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
@@ -13,14 +13,14 @@
 
 #filters {
   h2 {
-    @include resize(18px);
-    color: $dark;
+    color: variables.$dark;
     margin-bottom: 0;
+    @include mixins.resize(18px);
   }
 
   .badge {
-    @include resize(12px);
     font-weight: 400;
+    @include mixins.resize(12px);
   }
 }
 
@@ -30,9 +30,9 @@
 
   .header {
     h3 {
-      @include resize(13px);
       font-weight: 300;
       margin-bottom: 0;
+      @include mixins.resize(13px);
     }
   }
 
@@ -41,12 +41,12 @@
     padding-top: 0.5rem;
 
     .custom-control-label {
-      @include resize(12px);
       padding-top: 0.125rem;
+      @include mixins.resize(12px);
     }
 
     h5 {
-      @include resize(14px);
+      @include mixins.resize(14px);
     }
 
     .children {
@@ -56,35 +56,35 @@
 }
 
 .results-count {
-  @include resize(14px);
   font-weight: 500;
+  @include mixins.resize(14px);
 }
 
 .search-pagination::ng-deep .ngx-pagination {
-  @include resize(14px);
   margin-bottom: 0;
+  @include mixins.resize(14px);
 
   .current {
-    background-color: $blue;
+    background-color: variables.$blue;
   }
 }
 
 .search-filter {
-  @include resize(14px);
   font-weight: 500;
   margin-right: 0.25rem;
+  @include mixins.resize(14px);
 
   button {
     border-radius: 0.125rem;
-    @include resize(12px);
     line-height: 1;
     padding: 0.05rem 0.2rem;
     vertical-align: baseline;
+    @include mixins.resize(12px);
   }
 }
 
 #search-filters {
-  background-color: $light;
+  background-color: variables.$light;
   box-shadow:
     rgba(9, 30, 66, 0.25) 0 4px 8px -2px,
     rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;

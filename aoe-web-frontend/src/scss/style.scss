@@ -8,6 +8,12 @@
 // Import mixins
 @import 'mixins';
 
+// Bootstrap overrides (needed by custom styles and ngx-toastr)
+@import 'bootstrap-variables';
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+
 // If you want to add something do it here
 @import 'custom';
 
