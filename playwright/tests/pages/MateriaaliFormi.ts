@@ -72,7 +72,7 @@ export const MateriaaliFormi = (
 
   const koulutustiedot = {
     valitseKoulutusasteet: async (...asteet) => {
-      await page.getByRole('textbox').click()
+      await page.getByRole('combobox').click()
       for (const aste of asteet) {
         await page.getByRole('option', { name: aste }).click()
       }

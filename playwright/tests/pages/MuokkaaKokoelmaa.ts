@@ -4,7 +4,7 @@ import { KokoelmaPage } from './KokoelmaPage'
 
 export const MuokkaaKokoelmaa = (page: Page) => {
   async function julkaiseKokoelma() {
-    await page.getByRole('textbox', { name: 'Asiasanat *' }).click()
+    await page.getByRole('combobox', { name: 'Asiasanat *' }).click()
     await page.getByRole('option', { name: '3D-elokuvat' }).click()
     await page
       .getByRole('textbox', { name: 'Kokoelman kuvausteksti' })
