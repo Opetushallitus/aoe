@@ -1,4 +1,5 @@
-FROM node:20-alpine3.22@sha256:9a6da5b3b736cc5ccc3bc11312cb83d0dae84705f00da92ae420d76a15a9da6f
+ARG NODE_VERSION
+FROM node:${NODE_VERSION}-alpine
 
 WORKDIR /app
 

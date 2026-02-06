@@ -4,6 +4,8 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
@@ -26,6 +28,8 @@ services:
     build:
       context: aoe-streaming-app
       dockerfile: ./docker/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
     container_name: aoe-streaming-app
     restart: unless-stopped
@@ -54,6 +58,8 @@ services:
     build:
       context: aoe-semantic-apis
       dockerfile: ./docker/Dockerfile
+      args:
+        NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
     container_name: aoe-semantic-apis
     restart: unless-stopped
@@ -102,6 +108,8 @@ services:
     build:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
+      args:
+        NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:

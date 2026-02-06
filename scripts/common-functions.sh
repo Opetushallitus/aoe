@@ -19,7 +19,7 @@ readonly revision
 repo="$( cd "$( dirname "$current_file" )" && cd .. && pwd )"
 readonly repo
 
-NODE_VERSION="$(cat "$repo/.nvmrc")" && readonly NODE_VERSION
+NODE_VERSION="$(cat "$repo/.nvmrc")" && export NODE_VERSION && readonly NODE_VERSION
 
 local_compose="docker compose -f $repo/docker-compose.local-dev.yml"
 readonly local_compose
