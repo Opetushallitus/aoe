@@ -85,7 +85,7 @@
       <dependency>
           <groupId>io.netty</groupId>
           <artifactId>netty-codec-http2</artifactId>
-          <version>4.2.9.Final</version>
+          <version>4.2.10.Final</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients/4.1.1 -->
       <!-- The latest version of kafka-clients (dependency of kafka-streams) includes vulnerable version -->
