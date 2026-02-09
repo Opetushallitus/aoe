@@ -38,7 +38,7 @@
     "@types/cors": "2.8.13",
     "@types/morgan": "1.9.10",
     "@types/node": "18.19.130",
-    "knip": "5.83.0",
+    "knip": "5.83.1",
     "typescript": "5.9.3"
   },
   "overrides": {
