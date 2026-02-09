@@ -1,4 +1,4 @@
-import { BrowserModule, HammerModule, Title } from '@angular/platform-browser'
+import { BrowserModule, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core'
 import { HashLocationStrategy, LocationStrategy } from '@angular/common'
@@ -222,7 +222,6 @@ defineLocale('fi', fiLocale)
     DragDropModule,
     ClipboardModule,
     ToastrModule.forRoot(),
-    HammerModule,
     PdfJsViewerModule,
     NgxPaginationModule
   ],
