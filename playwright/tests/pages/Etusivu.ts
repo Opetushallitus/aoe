@@ -7,8 +7,8 @@ export const Etusivu = (page: Page) => {
   const locators = {
     haku: {
       hakuehto: page.getByPlaceholder('Hakuehto'),
-      hae: page.getByRole('button', { name: 'Hae' }),
-    },
+      hae: page.getByRole('button', { name: 'Hae' })
+    }
   }
 
   const goto = async () => {
@@ -57,6 +57,6 @@ export const Etusivu = (page: Page) => {
     hae,
     valitseKoulutusaste,
     valitseOppimateriaalinTyyppi,
-    valitseOppiaine,
+    valitseOppiaine
   }
 }

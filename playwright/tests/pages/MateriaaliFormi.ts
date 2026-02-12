@@ -4,12 +4,12 @@ import { Materiaali } from './Materiaali'
 
 export const MateriaaliFormi = (
   page: Page,
-  isEditingAsForSomeReasonTheLabelIsDifferentIfEditing = false,
+  isEditingAsForSomeReasonTheLabelIsDifferentIfEditing = false
 ) => {
   const locators = {
     tallenna: page.getByRole('button', { name: 'Tallenna' }),
     seuraava: page.getByRole('button', { name: 'Seuraava' }),
-    edellinen: page.getByRole('button', { name: 'Edellinen' }),
+    edellinen: page.getByRole('button', { name: 'Edellinen' })
   }
   const tiedostot = {
     oppimateriaalinNimi: async (materiaaliNimi: string) => {
@@ -29,9 +29,7 @@ export const MateriaaliFormi = (
       await page
         .locator(fileLocator)
         .setInputFiles(path.join(__dirname, '../../test-files/blank.pdf'))
-      await expect(page.locator(fileLocator)).toHaveValue(
-        'C:\\fakepath\\blank.pdf',
-      )
+      await expect(page.locator(fileLocator)).toHaveValue('C:\\fakepath\\blank.pdf')
     },
     lisaaVerkkosivu: async (verkkosivu: string) => {
       const linkLocator = '#link0'
@@ -46,7 +44,7 @@ export const MateriaaliFormi = (
     seuraava: async () => {
       await locators.seuraava.click()
       return perustiedot
-    },
+    }
   }
 
   const perustiedot = {
@@ -59,9 +57,7 @@ export const MateriaaliFormi = (
       await page.getByRole('option', { name: type }).click()
     },
     lisaaOppimateriaalinTyyppi: async (_type = 'teksti') => {
-      await page
-        .locator('#learningResourceTypes > .ng-select-container')
-        .click()
+      await page.locator('#learningResourceTypes > .ng-select-container').click()
       await page.getByRole('option', { name: 'teksti' }).click()
     },
     seuraava: async () => {
@@ -71,7 +67,7 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return tiedostot
-    },
+    }
   }
 
   const koulutustiedot = {
@@ -96,7 +92,7 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return perustiedot
-    },
+    }
   }
 
   const tarkemmatTiedot = {
@@ -107,7 +103,7 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return koulutustiedot
-    },
+    }
   }
 
   const lisenssitiedot = {
@@ -121,7 +117,7 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return tarkemmatTiedot
-    },
+    }
   }
 
   const hyodynnetytMateriaalit = {
@@ -133,14 +129,12 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return lisenssitiedot
-    },
+    }
   }
 
   const esikatseluJaTallennus = {
     tallenna: async (materiaaliNimi: string) => {
-      await expect(
-        page.getByRole('button', { name: 'Tallenna' }),
-      ).toBeDisabled()
+      await expect(page.getByRole('button', { name: 'Tallenna' })).toBeDisabled()
       await page.getByText('Vakuutan että').click()
       await page.getByRole('button', { name: 'Tallenna' }).click()
       const materiaali = Materiaali(page)
@@ -150,7 +144,7 @@ export const MateriaaliFormi = (
     edellinen: async () => {
       await locators.edellinen.click()
       return hyodynnetytMateriaalit
-    },
+    }
   }
 
   const randomMateriaaliNimi = (prefix = 'Blank resource') => {
@@ -160,6 +154,6 @@ export const MateriaaliFormi = (
 
   return {
     form: tiedostot,
-    randomMateriaaliNimi,
+    randomMateriaaliNimi
   }
 }

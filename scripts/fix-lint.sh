@@ -13,6 +13,7 @@ function main {
     fixLint "aoe-web-backend"
     fixLint "aoe-streaming-app"
     fixLint "aoe-infra"
+    fixLint "playwright"
     popd
 }
 

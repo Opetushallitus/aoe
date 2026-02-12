@@ -4,14 +4,12 @@ import { Materiaali } from './Materiaali'
 export const HakuTulokset = (page: Page) => {
   const expectToFindMateriaali = async (materiaaliNimi: string) => {
     await expect(
-      page.locator('article.search-result h1 a', { hasText: materiaaliNimi }),
+      page.locator('article.search-result h1 a', { hasText: materiaaliNimi })
     ).toBeVisible({ timeout: 30000 })
   }
 
   const clickMateriaali = async (materiaaliNimi: string) => {
-    await page
-      .locator('article.search-result h1 a', { hasText: materiaaliNimi })
-      .click()
+    await page.locator('article.search-result h1 a', { hasText: materiaaliNimi }).click()
     return Materiaali(page)
   }
 
@@ -22,6 +20,6 @@ export const HakuTulokset = (page: Page) => {
   return {
     expectToFindMateriaali,
     expectNoResults,
-    clickMateriaali,
+    clickMateriaali
   }
 }

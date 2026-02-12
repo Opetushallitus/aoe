@@ -29,7 +29,7 @@ export const OmatOppimateriaalit = (page: Page) => {
     return MuokkaaMateriaalia(page)
   }
   const startToEditKokoelma = async (kokoelmaName: string) => {
-        await page.getByRole('link', { name: `Oppimateriaalin kansikuva ${kokoelmaName}` }).click()
+    await page.getByRole('link', { name: `Oppimateriaalin kansikuva ${kokoelmaName}` }).click()
     await page.getByRole('link', { name: 'Muokkaa' }).click({ timeout: 10000 })
     return MuokkaaKokoelmaa(page)
   }
