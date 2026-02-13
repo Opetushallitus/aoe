@@ -16,7 +16,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "npm run build-ts && npm run lint",
+    "build": "npm run build-ts",
     "build-ts": "npx tsc",
     "lint": "biome check",
     "fix-lint": "biome check --write",
