@@ -14,7 +14,7 @@ RUN --mount=type=secret,id=trust_store_password,required=true \
 
 WORKDIR /app
 ADD . .
-RUN mvn package -DskipTests
+RUN mvn --no-transfer-progress package -DskipTests
 
 FROM openjdk:17.0.2-slim@sha256:aaa3b3cb27e3e520b8f116863d0580c438ed55ecfa0bc126b41f68c3f62f9774
 
