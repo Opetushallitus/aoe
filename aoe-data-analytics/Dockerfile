@@ -1,9 +1,9 @@
 FROM maven:3.8.5-openjdk-17-slim@sha256:502e781d39f0b40fbd02eb23f5b7663618b76ba52034da218c64e92f6c5647be as build
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y curl openssl --no-install-recommends && \
-    apt-get clean
+RUN apt-get -q -o=Dpkg::Use-Pty=0 update && \
+    apt-get -q -o=Dpkg::Use-Pty=0 upgrade -y && \
+    apt-get -q -o=Dpkg::Use-Pty=0 install -y curl openssl --no-install-recommends && \
+    apt-get -q -o=Dpkg::Use-Pty=0 clean
 
 COPY ./import_rds_certs.sh /certs/import_rds_certs.sh
 #COPY import_rds_certs.sh /certs/import_rds_certs.sh
