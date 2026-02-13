@@ -30,7 +30,7 @@ function start_services {
     export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
 
   fi
-  $compose --profile aoe up --no-build -d
+  $compose --profile aoe up --no-build --quiet-pull -d
 }
 
 function run_playwright_tests {
