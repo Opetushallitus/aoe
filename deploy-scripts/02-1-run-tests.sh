@@ -20,7 +20,7 @@ function clean {
 }
 
 function run_playwright_tests {
-  $compose up --abort-on-container-exit --exit-code-from test-runner --no-build --quiet-pull
+  $compose up --abort-on-container-exit --no-build --quiet-pull --exit-code-from test-runner
 }
 
 function main {
