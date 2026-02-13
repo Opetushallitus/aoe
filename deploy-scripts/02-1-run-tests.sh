@@ -34,7 +34,7 @@ function start_services {
 }
 
 function run_playwright_tests {
-  $compose --profile test run --no-build test-runner
+  $compose --profile test run test-runner
 }
 
 function main {
