@@ -11,7 +11,7 @@ trap clean EXIT
 
 compose="docker compose -p aoe_ci -f docker-compose.ci-playwright.yml"
 
-TRUST_STORE_PASSWORD=ci-super-secret
+export TRUST_STORE_PASSWORD=ci-super-secret
 
 readonly compose
 
