@@ -28,7 +28,6 @@ function main {
   cd "$repo"
   use_correct_node_version
   require_command "docker"
-  $compose --profile test build
 
   if running_on_gh_actions; then
     export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
