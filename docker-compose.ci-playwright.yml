@@ -2,7 +2,6 @@ name: aoe-ci
 services:
 
   aoe-web-frontend:
-    profiles: [aoe]
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
@@ -21,7 +20,7 @@ services:
     user: "root:5606"
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
     ports:
       - 8282:80
       - 33344:8080
@@ -31,7 +30,6 @@ services:
       - ENV=ci
 
   test-runner:
-    profiles: [test]
     build:
       context: .
       dockerfile: Dockerfile.playwright-test-runner 
@@ -46,9 +44,11 @@ services:
       - GITHUB_SERVER_URL
       - GITHUB_REPOSITORY
       - GITHUB_RUN_ID
+    depends_on:
+      nginx:
+        condition: service_started
 
   aoe-streaming-app:
-    profiles: [aoe]
     hostname: aoe-streaming-app
     build:
       context: aoe-streaming-app
@@ -70,7 +70,6 @@ services:
           condition: service_started
 
   aoe-data-services:
-    profiles: [aoe]
     hostname: aoe-data-services
     build:
       context: aoe-data-services
@@ -79,14 +78,13 @@ services:
     restart: unless-stopped
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
     ports:
       - 8002:8002
     env_file:
       - path: ./aoe-data-services/.env.ci
 
   aoe-semantic-apis:
-    profiles: [aoe]
     hostname: aoe-semantic-apis
     build:
       context: aoe-semantic-apis
@@ -111,7 +109,6 @@ services:
     command: sh -c "npm run start"
 
   aoe-data-analytics:
-    profiles: [aoe]
     hostname: aoe-data-analytics
     build:
       context: aoe-data-analytics
@@ -141,7 +138,6 @@ services:
         max-file: '3'
 
   aoe-web-backend:
-    profiles: [aoe]
     build:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
@@ -182,7 +178,6 @@ services:
       - ./aoe-web-backend/.env.ci
 
   redis:
-    profiles: [aoe]
     image: redis:6.2.21-alpine@sha256:1bc63a4b0f4b8634f26f174b26f87d454bd85f81ca5e3faae75a4a050165f4d1
     container_name: redis
     privileged: true
@@ -202,7 +197,6 @@ services:
       - 6379:6379
 
   aoe-postgres:
-    profiles: [aoe]
     image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
     container_name: aoe-postgres
     ports:
@@ -222,7 +216,6 @@ services:
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
-    profiles: [aoe]
     image: opensearchproject/opensearch:2.19.4@sha256:4f31f473cc452422deb6794cabdc4786cf90683eb2154b578c9ec33d30cea548
     container_name: opensearch
     environment:
@@ -246,7 +239,6 @@ services:
       - 9600:9600
 
   aoe-mongodb:
-    profiles: [aoe]
     image: mongo:4.0
     container_name: aoe-mongodb
     environment:
@@ -262,7 +254,6 @@ services:
       - 27017:27017
 
   zookeeper:
-    profiles: [aoe]
     image: confluentinc/cp-zookeeper:7.9.5@sha256:61e960bcbe5796d2987edc61fab297387f63d6f831754576cd107543d2cdc8bb
     container_name: zookeeper
     environment:
@@ -279,7 +270,6 @@ services:
       - 2181:2181
 
   kafka:
-    profiles: [aoe]
     image: confluentinc/cp-kafka:7.9.5@sha256:c4c6b755551da17fff056b9c8b39700f99020083bd2d69a171ece4784f33e640
     container_name: kafka
     depends_on:
@@ -304,7 +294,6 @@ services:
       start_period: 30s
 
   kafka2:
-    profiles: [aoe]
     image: confluentinc/cp-kafka:7.9.5@sha256:c4c6b755551da17fff056b9c8b39700f99020083bd2d69a171ece4784f33e640
     container_name: kafka2
     depends_on:
@@ -329,7 +318,6 @@ services:
       start_period: 30s
 
   localstack:
-    profiles: [aoe]
     image: localstack/localstack:4.13.1@sha256:46302bcb91a7e8008e6394be8afafdbfa40fb77a54d4046a38be35992042d5de
     container_name: localstack 
     networks:
@@ -352,7 +340,6 @@ services:
       - ./docker/dev/localstack/S3:/host-directory
 
   aoe-oidc-server:
-    profiles: [aoe]
     hostname: aoe-oidc-server
     image: ghcr.io/soluto/oidc-server-mock:9.0.1@sha256:4cf0fe8752cdf78266e5178ee6551762e398ec0c6be6abea154fab32646db6b0
     container_name: aoe-oidc-server
@@ -466,7 +453,6 @@ services:
         }
 
   nginx:
-    profiles: [aoe]
     image: nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
     container_name: nginx
     hostname: nginx
@@ -483,10 +469,12 @@ services:
           - demo.aoe.fi
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
       aoe-web-frontend:
-        condition: service_started
+        condition: service_healthy
       aoe-semantic-apis:
+        condition: service_started
+      aoe-streaming-app:
         condition: service_started
 
 networks:

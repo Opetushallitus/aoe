@@ -16,25 +16,11 @@ TRUST_STORE_PASSWORD=ci-super-secret
 readonly compose
 
 function clean {
-  $compose --profile aoe down
-}
-
-function start_services {
-
-  if running_on_gh_actions; then
-    export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
-    export AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
-    export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
-    export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
-    export AOE_SEMANTIC_APIS_TAG="${github_registry}aoe-semantic-apis:${revision}"
-    export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
-
-  fi
-  $compose --profile aoe up --no-build --quiet-pull -d
+  $compose down
 }
 
 function run_playwright_tests {
-  $compose --profile test run test-runner
+  $compose up --abort-on-container-exit --exit-code-from test-runner
 }
 
 function main {
@@ -43,10 +29,8 @@ function main {
   use_correct_node_version
   require_command "docker"
   $compose --profile test build
-  start_services
 
   run_playwright_tests
-  clean
 }
 
 main "$@"
