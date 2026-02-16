@@ -111,6 +111,7 @@
       "timeRequired": "Kesto",
       "datePublished": "Julkaisupäivämäärä",
       "publisher": "Julkaisija",
+      "owner": "Omistaja",
       "license": "Lisenssi",
       "keywords": "Avainsanat",
       "expandMetadata": {

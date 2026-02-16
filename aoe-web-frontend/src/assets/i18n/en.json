@@ -111,6 +111,7 @@
       "timeRequired": "Time required",
       "datePublished": "Date published",
       "publisher": "Publisher",
+      "owner": "Owner",
       "license": "License",
       "keywords": "Keywords",
       "expandMetadata": {

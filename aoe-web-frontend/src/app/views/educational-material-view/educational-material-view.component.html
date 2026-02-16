@@ -145,6 +145,15 @@
                     </li>
                   }
                 </ul>
+                  @if (educationalMaterial?.ownerName) {
+                      <div class="d-none">
+                          <strong>{{ "demo.educationalMaterial.owner" | translate }}:</strong>
+                          <span data-testid="material-owner">
+                              {{ educationalMaterial.ownerName.firstname }}
+                              {{ educationalMaterial.ownerName.lastname }}
+                          </span>
+                      </div>
+                  }
                 <div class="datetimes">
                   @if (educationalMaterial.publishedAt) {
                     <span class="datetime-item d-block d-md-inline-block">

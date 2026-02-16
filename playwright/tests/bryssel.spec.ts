@@ -32,7 +32,7 @@ test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
   ).toBeVisible()
 })
 test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browser }) => {
-  // Seed the second user by logging in as aoeuser2 in a fresh browser context
+  // Seed the second user by logging in as tuomas.jukola in a fresh browser context
   const seedContext = await browser.newContext({
     storageState: undefined,
     ignoreHTTPSErrors: true
@@ -41,12 +41,12 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
   await seedPage.goto('/', { waitUntil: 'domcontentloaded' })
   await seedPage.waitForTimeout(1000)
   await seedPage.getByRole('button', { name: 'Log in' }).click()
-  await seedPage.getByRole('textbox', { name: 'Username' }).fill('aoeuser2')
+  await seedPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
   await seedPage.getByRole('textbox', { name: 'Password' }).fill('password123')
   await seedPage.getByRole('button', { name: 'Login' }).click()
   await seedPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
   await seedPage.locator('#user-details-dropdown').click()
-  await expect(seedPage.getByText('Test_first Test_last')).toBeVisible()
+  await expect(seedPage.getByText('Tuomas Jukola')).toBeVisible()
   await seedContext.close()
 
   // Create a material as admin (aoeuser)
@@ -63,14 +63,18 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
   await brysselPage.goto()
   const materiaalienHallinta = await brysselPage.clickBrysselMateriaalinHallinta()
 
-  // Verify current owner is the admin user
-  const alkuperainenOmistaja = await materiaalienHallinta.getOmistajanNimi(materiaaliNumero)
-  expect(alkuperainenOmistaja).toContain('AOE_first AOE_last')
+  // Verify current owner on material page
+  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await expect(page.getByTestId('material-owner')).toContainText('AOE_first AOE_last')
+
+  // Return to admin panel → Material Management
+  await brysselPage.goto()
+  const materiaalienHallintaUudelleen = await brysselPage.clickBrysselMateriaalinHallinta()
 
   // Transfer ownership to the second user
-  await materiaalienHallinta.vaihdaOmistaja(materiaaliNumero, 'Test_first')
+  await materiaalienHallintaUudelleen.vaihdaOmistaja(materiaaliNumero, 'Tuomas')
 
-  // Verify the owner changed by re-querying the material info
-  const uusiOmistaja = await materiaalienHallinta.getOmistajanNimi(materiaaliNumero)
-  expect(uusiOmistaja).toContain('Test_first Test_last')
+  // Verify the owner changed on material page
+  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await expect(page.getByTestId('material-owner')).toContainText('Tuomas Jukola')
 })
