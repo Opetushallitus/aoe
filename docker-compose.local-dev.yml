@@ -408,6 +408,53 @@ services:
                 "ValueType": "string"
               }
             ]
+          },
+          {
+            "SubjectId": "tuomas-jukola",
+            "Username": "tuomas.jukola",
+            "Password": "password123",
+            "Claims": [
+              {
+                "Type": "sub",
+                "Value": "tuomas-jukola",
+                "ValueType": "string"
+              },
+              {
+                "Type": "locale",
+                "Value": "fi",
+                "ValueType": "string"
+              },
+              {
+                "Type": "uid",
+                "Value": "d48ddf28-d9c9-5e6g-c3cf-b862g9b5g57f",
+                "ValueType": "string"
+              },
+              {
+                "Type": "id",
+                "Value": "2",
+                "ValueType": "string"
+              },
+              {
+                "Type": "name",
+                "Value": "Tuomas Jukola",
+                "ValueType": "string"
+              },
+              {
+                "Type": "given_name",
+                "Value": "Tuomas",
+                "ValueType": "string"
+              },
+              {
+                "Type": "family_name",
+                "Value": "Jukola",
+                "ValueType": "string"
+              },
+              {
+                "Type": "email",
+                "Value": "tuomas.jukola@aoe.fi",
+                "ValueType": "string"
+              }
+            ]
           }
         ]
       CLIENTS_CONFIGURATION_INLINE: |
