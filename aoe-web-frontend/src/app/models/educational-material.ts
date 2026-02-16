@@ -107,6 +107,10 @@ export interface EducationalMaterial {
     }
   ]
   owner: boolean
+  ownerName?: {
+    firstname: string
+    lastname: string
+  }
   ratingContentAverage: string
   ratingVisualAverage: string
   hasDownloadableFiles: boolean

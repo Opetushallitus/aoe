@@ -13,6 +13,7 @@ import { NextFunction, Request, Response } from 'express'
 import * as pgLib from 'pg-promise'
 import { updateViewCounter } from './analyticsQueries'
 import { downloadFileFromStorage, insertDataToDisplayName } from './fileHandling'
+import { getOwnerName } from './materialQueries'
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {
@@ -373,6 +374,7 @@ export const getEducationalMaterialMetadata = async (
         }
       }
       jsonObj.owner = owner
+      jsonObj.ownerName = await getOwnerName(String(eduMaterialId))
       jsonObj.name = data[1]
       jsonObj.createdAt = data[0][0].createdat
       jsonObj.updatedAt = data[0][0].updatedat

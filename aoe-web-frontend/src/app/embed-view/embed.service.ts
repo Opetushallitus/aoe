@@ -297,6 +297,7 @@ export class EmbedService {
               name: r.materialname
             })),
             owner: material.owner,
+            ownerName: material.ownerName,
             ratingContentAverage: material.ratingContentAverage,
             ratingVisualAverage: material.ratingVisualAverage,
             hasDownloadableFiles: material.hasDownloadableFiles,
