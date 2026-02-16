@@ -2,10 +2,10 @@ import { expect, type Page } from '@playwright/test'
 import { Materiaali } from './Materiaali'
 
 export const HakuTulokset = (page: Page) => {
-  const expectToFindMateriaali = async (materiaaliNimi: string) => {
+  const expectToFindMateriaali = async (materiaaliNimi: string, timeout = 30000) => {
     await expect(
       page.locator('article.search-result h1 a', { hasText: materiaaliNimi })
-    ).toBeVisible({ timeout: 30000 })
+    ).toBeVisible({ timeout })
   }
 
   const clickMateriaali = async (materiaaliNimi: string) => {

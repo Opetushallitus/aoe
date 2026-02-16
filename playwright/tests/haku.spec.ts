@@ -7,14 +7,11 @@ test('käyttäjä voi etsiä luodun oppimateriaalin etusivun haulla', async ({
   julkaistuMateriaaliNimi
 }) => {
   const etusivu = Etusivu(page)
-  const hakuTulosLinkki = page.locator('article.search-result h1 a', {
-    hasText: julkaistuMateriaaliNimi
-  })
 
   await expect(async () => {
     await etusivu.goto()
-    await etusivu.hae(julkaistuMateriaaliNimi)
-    await expect(hakuTulosLinkki).toBeVisible({ timeout: 5000 })
+    const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
+    await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
   }).toPass({ timeout: 60_000, intervals: [5000] })
 
   const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
@@ -27,15 +24,12 @@ test('käyttäjä voi etsiä oppimateriaalia koulutusasteen perusteella', async 
   julkaistuMateriaaliNimi
 }) => {
   const etusivu = Etusivu(page)
-  const hakuTulosLinkki = page.locator('article.search-result h1 a', {
-    hasText: julkaistuMateriaaliNimi
-  })
 
   await expect(async () => {
     await etusivu.goto()
     await etusivu.valitseKoulutusaste('korkeakoulutus')
-    await etusivu.hae(julkaistuMateriaaliNimi)
-    await expect(hakuTulosLinkki).toBeVisible({ timeout: 5000 })
+    const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
+    await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
   }).toPass({ timeout: 60_000, intervals: [5000] })
 })
 
@@ -44,15 +38,12 @@ test('käyttäjä voi etsiä oppimateriaalia oppimateriaalin tyypin perusteella'
   julkaistuMateriaaliNimi
 }) => {
   const etusivu = Etusivu(page)
-  const hakuTulosLinkki = page.locator('article.search-result h1 a', {
-    hasText: julkaistuMateriaaliNimi
-  })
 
   await expect(async () => {
     await etusivu.goto()
     await etusivu.valitseOppimateriaalinTyyppi('teksti')
-    await etusivu.hae(julkaistuMateriaaliNimi)
-    await expect(hakuTulosLinkki).toBeVisible({ timeout: 5000 })
+    const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
+    await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
   }).toPass({ timeout: 60_000, intervals: [5000] })
 })
 
@@ -61,14 +52,11 @@ test('käyttäjä voi etsiä oppimateriaalia tieteenalan perusteella', async ({
   julkaistuMateriaaliNimi
 }) => {
   const etusivu = Etusivu(page)
-  const hakuTulosLinkki = page.locator('article.search-result h1 a', {
-    hasText: julkaistuMateriaaliNimi
-  })
 
   await expect(async () => {
     await etusivu.goto()
     await etusivu.valitseOppiaine('Matematiikka Luonnontieteet')
-    await etusivu.hae(julkaistuMateriaaliNimi)
-    await expect(hakuTulosLinkki).toBeVisible({ timeout: 5000 })
+    const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
+    await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
   }).toPass({ timeout: 60_000, intervals: [5000] })
 })
