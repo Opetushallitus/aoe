@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { tiedoteTest } from './fixtures/tiedoteTest'
 import { BrysselEtusivu } from './pages/BrysselEtusivu'
+import { siivoaTiedote } from './pages/BrysselTiedotteet'
 import { Etusivu } from './pages/Etusivu'
 
 test('käyttäjä voi hakea analytiikka sivulta oppimateriaaalien käyttömääriä', async ({ page }) => {
@@ -11,6 +13,7 @@ test('käyttäjä voi hakea analytiikka sivulta oppimateriaaalien käyttömäär
 
   await expect(analytiikka.kayttomaaraChart).toBeVisible()
 })
+
 test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
@@ -31,6 +34,7 @@ test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
     )
   ).toBeVisible()
 })
+
 test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browser }) => {
   // Seed the second user by logging in as tuomas.jukola in a fresh browser context
   const seedContext = await browser.newContext({
@@ -78,111 +82,91 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
   await page.goto(`/#/materiaali/${materiaaliNumero}`)
   await expect(page.getByTestId('material-owner')).toContainText('Tuomas Jukola')
 })
-test('Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti', async ({ page }) => {
-  const brysselPage = BrysselEtusivu(page)
-  await brysselPage.goto()
-  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
 
-  const tiedoteTeksti = `Testitiedote INFO ${Date.now()}`
-  await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+tiedoteTest(
+  'Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti',
+  async ({ page, tiedotteet }) => {
+    const tiedoteTeksti = `Testitiedote INFO ${Date.now()}`
+    await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
 
-  // Verify notification appears in admin table
-  await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
+    await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
 
-  // Verify notification appears publicly as warning banner
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
-  const notification = page.locator('.alert-warning .service-notification', {
-    hasText: tiedoteTeksti
-  })
-  await expect(notification).toBeVisible()
+    await page.goto('/')
+    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
+    const notification = page.locator('.alert-warning .service-notification', {
+      hasText: tiedoteTeksti
+    })
+    await expect(notification).toBeVisible()
 
-  // Cleanup: delete the notification
-  await brysselPage.goto()
-  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
-  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
-})
-test('Pääkäyttäjä voi luoda ERROR-tiedotteen ja se näkyy julkisesti', async ({ page }) => {
-  const brysselPage = BrysselEtusivu(page)
-  await brysselPage.goto()
-  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+    await siivoaTiedote(page, tiedoteTeksti)
+  }
+)
 
-  const tiedoteTeksti = `Testitiedote ERROR ${Date.now()}`
-  await tiedotteet.luoTiedote('Tekninen häiriö tai käyttöä rajoittava tapahtuma', tiedoteTeksti)
+tiedoteTest(
+  'Pääkäyttäjä voi luoda ERROR-tiedotteen ja se näkyy julkisesti',
+  async ({ page, tiedotteet }) => {
+    const tiedoteTeksti = `Testitiedote ERROR ${Date.now()}`
+    await tiedotteet.luoTiedote('Tekninen häiriö tai käyttöä rajoittava tapahtuma', tiedoteTeksti)
 
-  // Verify notification appears in admin table
-  await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
+    await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
 
-  // Verify notification appears publicly as danger banner
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
-  const notification = page.locator('.alert-danger .service-notification', {
-    hasText: tiedoteTeksti
-  })
-  await expect(notification).toBeVisible()
+    await page.goto('/')
+    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
+    const notification = page.locator('.alert-danger .service-notification', {
+      hasText: tiedoteTeksti
+    })
+    await expect(notification).toBeVisible()
 
-  // Cleanup
-  await brysselPage.goto()
-  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
-  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
-})
-test('Pääkäyttäjä voi poistaa tiedotteen ja se katoaa julkisesta näkymästä', async ({ page }) => {
-  const brysselPage = BrysselEtusivu(page)
-  await brysselPage.goto()
-  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+    await siivoaTiedote(page, tiedoteTeksti)
+  }
+)
 
-  const tiedoteTeksti = `Poistettava tiedote ${Date.now()}`
-  await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+tiedoteTest(
+  'Pääkäyttäjä voi poistaa tiedotteen ja se katoaa julkisesta näkymästä',
+  async ({ page, tiedotteet }) => {
+    const tiedoteTeksti = `Poistettava tiedote ${Date.now()}`
+    await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
 
-  // Verify it's visible publicly
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).toBeVisible()
+    await page.goto('/')
+    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
+    await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).toBeVisible()
 
-  // Delete it
-  await brysselPage.goto()
-  const tiedotteetDelete = await brysselPage.clickBrysselPalvelunHallinta()
-  await tiedotteetDelete.poistaTiedote(tiedoteTeksti)
+    const brysselPage = BrysselEtusivu(page)
+    await brysselPage.goto()
+    const tiedotteetDelete = await brysselPage.clickBrysselPalvelunHallinta()
+    await tiedotteetDelete.poistaTiedote(tiedoteTeksti)
 
-  // Verify it's gone publicly
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
-  await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).not.toBeVisible()
-})
-test('Tuleva tiedote ei näy julkisesti', async ({ page }) => {
-  const brysselPage = BrysselEtusivu(page)
-  await brysselPage.goto()
-  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+    await page.goto('/')
+    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
+    await expect(
+      page.locator('.service-notification', { hasText: tiedoteTeksti })
+    ).not.toBeVisible()
+  }
+)
 
+tiedoteTest('Tuleva tiedote ei näy julkisesti', async ({ page, tiedotteet }) => {
   const tiedoteTeksti = `Tuleva tiedote ${Date.now()}`
   await tiedotteet.luoTulevaTiedote(
     'Yleinen tiedote tai ohjeistus palvelun käyttäjille',
     tiedoteTeksti
   )
 
-  // Check "Näytä tulevat tiedotteet" to see it in admin table
   await tiedotteet.naytaTulevatTiedotteet()
   await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
 
-  // Verify it's NOT visible publicly
-  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.goto('/')
+  await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
   await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).not.toBeVisible()
 
-  // Cleanup
-  await brysselPage.goto()
-  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
-  await tiedotteetCleanup.naytaTulevatTiedotteet()
-  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
+  await siivoaTiedote(page, tiedoteTeksti)
 })
-test('Tiedotelomakkeen validointi toimii', async ({ page }) => {
-  const brysselPage = BrysselEtusivu(page)
-  await brysselPage.goto()
-  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
 
-  // Submit button disabled with empty form
+tiedoteTest('Tiedotelomakkeen validointi toimii', async ({ page, tiedotteet }) => {
   await expect(tiedotteet.submitButton).toBeDisabled()
 
-  // Fill only text — still disabled
   await tiedotteet.notificationTextInput.pressSequentially('Testiteksti')
   await expect(tiedotteet.submitButton).toBeDisabled()
 
-  // Clear text, select only type — still disabled
   await tiedotteet.notificationTextInput.clear()
   await tiedotteet.notificationTypeSelect.click()
   await page
@@ -190,7 +174,6 @@ test('Tiedotelomakkeen validointi toimii', async ({ page }) => {
     .click()
   await expect(tiedotteet.submitButton).toBeDisabled()
 
-  // Fill both — button enabled
   await tiedotteet.notificationTextInput.pressSequentially('Testiteksti')
   await expect(tiedotteet.submitButton).toBeEnabled()
 })
