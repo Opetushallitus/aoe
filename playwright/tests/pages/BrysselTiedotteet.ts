@@ -51,12 +51,12 @@ export const BrysselTiedotteet = (page: Page) => {
     await page.getByRole('option', { name: tyyppi }).click()
     await locators.notificationTextInput.pressSequentially(teksti)
 
-    // Set showSince to a far future date
+    // Set showSince to a future date: open datepicker, go to month view, advance one year, pick month and day
     await locators.showSinceInput.click()
     await page.locator('bs-datepicker-navigation-view button.current').first().click()
-    await page.getByText('2030').click()
-    await page.getByText('Jan').click()
-    await page.locator('bs-days-calendar-view span').filter({ hasText: /^15$/ }).first().click()
+    await page.locator('bs-datepicker-navigation-view button.next').click()
+    await page.getByText('tammikuu').click()
+    await page.getByText('15', { exact: true }).click()
 
     await locators.submitButton.click()
     await expect(page.getByText('Tiedotteen tallennus onnistui')).toBeVisible()

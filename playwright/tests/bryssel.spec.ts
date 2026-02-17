@@ -141,3 +141,25 @@ test('Pääkäyttäjä voi poistaa tiedotteen ja se katoaa julkisesta näkymäst
   await page.goto('/', { waitUntil: 'domcontentloaded' })
   await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).not.toBeVisible()
 })
+test('Tuleva tiedote ei näy julkisesti', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+
+  const tiedoteTeksti = `Tuleva tiedote ${Date.now()}`
+  await tiedotteet.luoTulevaTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+
+  // Check "Näytä tulevat tiedotteet" to see it in admin table
+  await tiedotteet.naytaTulevatTiedotteet()
+  await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
+
+  // Verify it's NOT visible publicly
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).not.toBeVisible()
+
+  // Cleanup
+  await brysselPage.goto()
+  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
+  await tiedotteetCleanup.naytaTulevatTiedotteet()
+  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
+})
