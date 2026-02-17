@@ -47,22 +47,6 @@ services:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.9.5@sha256:61e960bcbe5796d2987edc61fab297387f63d6f831754576cd107543d2cdc8bb
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
-    healthcheck:
-      test: ['CMD', 'nc', '-z', 'localhost', '2181']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-    ports:
-      - 2181:2181
-
   kafka:
     image: confluentinc/cp-kafka:7.9.5@sha256:c4c6b755551da17fff056b9c8b39700f99020083bd2d69a171ece4784f33e640
     container_name: kafka
