@@ -47,21 +47,6 @@ services:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
 
-  mongodb:
-    image: mongo:4.0
-    container_name: aoe-mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: aoerootuser
-      MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
-      MONGO_INITDB_DATABASE: aoe
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-    volumes:
-      - ./docker/dev/mongo_data:/data/db
-      - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-    ports:
-      - 27017:27017
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.9.5@sha256:61e960bcbe5796d2987edc61fab297387f63d6f831754576cd107543d2cdc8bb
     container_name: zookeeper
