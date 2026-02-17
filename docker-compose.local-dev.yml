@@ -462,18 +462,6 @@ services:
           }
         }
 
-  nginx:
-    image: nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
-    container_name: nginx
-    hostname: nginx
-    ports:
-      - 443:443
-      - 80:80
-    volumes:
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/nginx/nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt:ro
-      - ./docker/nginx/nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key:ro
-
 networks:
   default:
     name: aoe_local-dev
