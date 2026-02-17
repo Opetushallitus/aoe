@@ -131,12 +131,14 @@ services:
     build:
       context: aoe-data-services
       dockerfile: ./Dockerfile
-    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
+    image: ${AOE_DATA_SERVICES_TAG:-aoe-data-services:latest}
     container_name: aoe-data-services
+    ports:
+      - 8002:8002
     restart: unless-stopped
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
 
   aoe-semantic-apis:
     hostname: aoe-semantic-apis

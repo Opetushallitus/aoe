@@ -15,14 +15,6 @@ services:
       - path: ./aoe-streaming-app/.env
 
   aoe-data-services:
-    hostname: aoe-data-services
-    build:
-      context: aoe-data-services
-      dockerfile: ./Dockerfile
-    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
-    restart: unless-stopped
-    ports:
-      - 8002:8002
     env_file:
       - path: ./aoe-data-services/.env
 
