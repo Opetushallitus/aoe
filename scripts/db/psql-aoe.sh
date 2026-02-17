@@ -19,8 +19,6 @@ function initialize {
 
 function connect_psql {
   echo "Connecting to DB 'aoe' on ${ENV}"
-  echo $USERNAME
-  echo $PGPASSWORD
   psql -h 127.0.0.1 -p "${SSH_TUNNEL_PORT}" -U "${USERNAME}" -d "aoe"
 }
 
