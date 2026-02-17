@@ -189,8 +189,9 @@ services:
       - node.name=opensearch-node
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - plugins.security.disabled=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
+      - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD='Asfsadfsad!@2'
     volumes:
       - ./docker/dev/os_data:/usr/share/opensearch/data
     ulimits:
@@ -198,10 +199,13 @@ services:
         soft: -1
         hard: -1
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9200/_cluster/health']
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 9200:9200
+      - 9600:9600
 
   mongodb:
     image: mongo:4.0

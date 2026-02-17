@@ -63,27 +63,9 @@ services:
       - ./docker/dev/postgres_data:/var/lib/postgresql/data
 
   opensearch:
-    image: opensearchproject/opensearch:2.19.4@sha256:4f31f473cc452422deb6794cabdc4786cf90683eb2154b578c9ec33d30cea548
-    container_name: opensearch
     environment:
-      - cluster.name=opensearch-cluster
-      - node.name=opensearch-node
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    ports:
-      - 9200:9200
-      - 9600:9600
 
   mongodb:
     image: mongo:4.0
