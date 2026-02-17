@@ -61,7 +61,7 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
   // Navigate to admin panel → Material Management
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
-  const materiaalienHallinta = await brysselPage.clickBrysselMateriaalinHallinta()
+  await brysselPage.clickBrysselMateriaalinHallinta()
 
   // Verify current owner on material page
   await page.goto(`/#/materiaali/${materiaaliNumero}`)
@@ -91,7 +91,9 @@ test('Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti', async
 
   // Verify notification appears publicly as warning banner
   await page.goto('/', { waitUntil: 'domcontentloaded' })
-  const notification = page.locator('.alert-warning .service-notification', { hasText: tiedoteTeksti })
+  const notification = page.locator('.alert-warning .service-notification', {
+    hasText: tiedoteTeksti
+  })
   await expect(notification).toBeVisible()
 
   // Cleanup: delete the notification
@@ -112,7 +114,9 @@ test('Pääkäyttäjä voi luoda ERROR-tiedotteen ja se näkyy julkisesti', asyn
 
   // Verify notification appears publicly as danger banner
   await page.goto('/', { waitUntil: 'domcontentloaded' })
-  const notification = page.locator('.alert-danger .service-notification', { hasText: tiedoteTeksti })
+  const notification = page.locator('.alert-danger .service-notification', {
+    hasText: tiedoteTeksti
+  })
   await expect(notification).toBeVisible()
 
   // Cleanup
@@ -147,7 +151,10 @@ test('Tuleva tiedote ei näy julkisesti', async ({ page }) => {
   const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
 
   const tiedoteTeksti = `Tuleva tiedote ${Date.now()}`
-  await tiedotteet.luoTulevaTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+  await tiedotteet.luoTulevaTiedote(
+    'Yleinen tiedote tai ohjeistus palvelun käyttäjille',
+    tiedoteTeksti
+  )
 
   // Check "Näytä tulevat tiedotteet" to see it in admin table
   await tiedotteet.naytaTulevatTiedotteet()
@@ -178,7 +185,9 @@ test('Tiedotelomakkeen validointi toimii', async ({ page }) => {
   // Clear text, select only type — still disabled
   await tiedotteet.notificationTextInput.clear()
   await tiedotteet.notificationTypeSelect.click()
-  await page.getByRole('option', { name: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' }).click()
+  await page
+    .getByRole('option', { name: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' })
+    .click()
   await expect(tiedotteet.submitButton).toBeDisabled()
 
   // Fill both — button enabled

@@ -1,12 +1,14 @@
-import type { Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 import { BrysselAnalyytiikka } from './BrysselAnalytiikka'
 import { BrysselMateriaalienHallinta } from './BrysselMateriaalienHallinta'
 import { BrysselTiedotteet } from './BrysselTiedotteet'
 
 export const BrysselEtusivu = (page: Page) => {
   const goto = async () => {
-    await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await page.goto('/#/bryssel', { waitUntil: 'domcontentloaded' })
+    await page.goto('/')
+    await expect(page.getByRole('main')).toBeVisible()
+    await page.goto('/#/bryssel')
+    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible()
   }
 
   const clickBrysselAnalytiikka = async () => {

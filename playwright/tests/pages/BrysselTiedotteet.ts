@@ -24,7 +24,9 @@ export const BrysselTiedotteet = (page: Page) => {
   }
 
   async function luoTiedote(
-    tyyppi: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' | 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
+    tyyppi:
+      | 'Yleinen tiedote tai ohjeistus palvelun käyttäjille'
+      | 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
     teksti: string
   ) {
     await locators.notificationTypeSelect.click()
@@ -44,7 +46,9 @@ export const BrysselTiedotteet = (page: Page) => {
   }
 
   async function luoTulevaTiedote(
-    tyyppi: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' | 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
+    tyyppi:
+      | 'Yleinen tiedote tai ohjeistus palvelun käyttäjille'
+      | 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
     teksti: string
   ) {
     await locators.notificationTypeSelect.click()
