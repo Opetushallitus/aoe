@@ -115,13 +115,16 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
+    image: ${AOE_STREAMING_APP_TAG:-aoe-streaming-app:latest}
     container_name: aoe-streaming-app
     restart: unless-stopped
-
+    environment:
+      - PORT=3001
+    ports:
+      - 3001:3001
     depends_on:
-        localstack:
-          condition: service_started
+      localstack:
+        condition: service_started
 
   aoe-data-services:
     hostname: aoe-data-services

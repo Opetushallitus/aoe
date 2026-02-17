@@ -9,20 +9,8 @@ services:
       - ENV=demo
 
   aoe-streaming-app:
-    hostname: aoe-streaming-app
-    build:
-      context: aoe-streaming-app
-      dockerfile: ./docker/Dockerfile
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
-    container_name: aoe-streaming-app
-    restart: unless-stopped
     environment:
       - NODE_ENV=development
-      - PORT=3001
-    ports:
-      - 3001:3001
     env_file:
       - path: ./aoe-streaming-app/.env
 
