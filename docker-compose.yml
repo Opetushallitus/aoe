@@ -52,7 +52,7 @@ services:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_BACKEND_TAG:-aoe-web-backend:latest}
     healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
       interval: 10s
       timeout: 5s
       retries: 5
