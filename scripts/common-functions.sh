@@ -181,3 +181,15 @@ function wait_until_port_is_listening {
     sleep 1
   done
 }
+
+
+function wait_for_container_to_be_healthy {
+  require_command docker
+  local -r container_name="$1"
+
+  info "Waiting for docker container $container_name to be healthy"
+  until [ "$(docker inspect -f "{{.State.Health.Status}}" "$container_name" 2>/dev/null || echo "not-running")" == "healthy" ]; do
+
+    sleep 2;
+  done;
+}
