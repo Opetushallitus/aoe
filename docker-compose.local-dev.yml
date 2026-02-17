@@ -47,28 +47,6 @@ services:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
 
-  localstack:
-    image: localstack/localstack:4.13.1@sha256:46302bcb91a7e8008e6394be8afafdbfa40fb77a54d4046a38be35992042d5de
-    container_name: localstack
-    networks:
-      default:
-        aliases:
-          - aoe.s3.localhost.localstack.cloud
-          - aoepdf.s3.localhost.localstack.cloud
-          - aoethumbnail.s3.localhost.localstack.cloud
-    environment:
-      - SERVICES=s3
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - DEBUG="1"
-      - HOSTNAME_EXTERNAL=localhost
-    ports:
-      - 4566:4566
-    volumes:
-      - ./docker/init-scripts/aws-shutdown.sh:/etc/localstack/init/shutdown.d/aws-shutdown.sh
-      - ./docker/init-scripts/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
-      - ./docker/dev/localstack/S3:/host-directory
-
 networks:
   default:
     name: aoe_local-dev
