@@ -163,3 +163,25 @@ test('Tuleva tiedote ei näy julkisesti', async ({ page }) => {
   await tiedotteetCleanup.naytaTulevatTiedotteet()
   await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
 })
+test('Tiedotelomakkeen validointi toimii', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+
+  // Submit button disabled with empty form
+  await expect(tiedotteet.submitButton).toBeDisabled()
+
+  // Fill only text — still disabled
+  await tiedotteet.notificationTextInput.pressSequentially('Testiteksti')
+  await expect(tiedotteet.submitButton).toBeDisabled()
+
+  // Clear text, select only type — still disabled
+  await tiedotteet.notificationTextInput.clear()
+  await tiedotteet.notificationTypeSelect.click()
+  await page.getByRole('option', { name: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' }).click()
+  await expect(tiedotteet.submitButton).toBeDisabled()
+
+  // Fill both — button enabled
+  await tiedotteet.notificationTextInput.pressSequentially('Testiteksti')
+  await expect(tiedotteet.submitButton).toBeEnabled()
+})
