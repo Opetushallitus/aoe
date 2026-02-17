@@ -88,9 +88,16 @@ services:
       dockerfile: ./Dockerfile
       secrets:
         - trust_store_password
-    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
+    image: ${AOE_DATA_ANALYTICS_TAG:-aoe-data-analytics:latest}
     container_name: aoe-data-analytics
+    entrypoint: ['java', '-Xms512m', '-Xmx512m', '-Djava.security.egd=file:/dev/./urandom', '-jar', 'aoe-data-analytics.jar']
     restart: unless-stopped
+    ports:
+      - 8080:8080
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
     depends_on:
       kafka:
         condition: service_healthy

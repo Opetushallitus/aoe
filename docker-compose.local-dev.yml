@@ -61,33 +61,8 @@ services:
     command: sh -c "npm run start"
 
   aoe-data-analytics:
-    hostname: aoe-data-analytics
-    build:
-      context: aoe-data-analytics
-      dockerfile: ./Dockerfile
-      secrets:
-        - trust_store_password
-    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
-    container_name: aoe-data-analytics
-    restart: unless-stopped
-
-    entrypoint:
-      [
-        'java',
-        '-Xms512m',
-        '-Xmx512m',
-        '-Djava.security.egd=file:/dev/./urandom',
-        '-jar',
-        'aoe-data-analytics.jar',
-      ]
-    ports:
-      - 8080:8080
     env_file:
       - path: ./aoe-data-analytics/.env
-    logging:
-      options:
-        max-size: '10m'
-        max-file: '3'
 
   aoe-web-backend:
     build:
