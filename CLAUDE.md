@@ -266,12 +266,9 @@ CDK stacks in `/lib/` directory:
 - AWS CDK for infrastructure
 - Biome for linting (all services)
 - Playwright for E2E testing
-- Jest for unit testing
 
 ## Testing
 
-Run tests in individual service directories:
-- Node.js services: `npm test` (Jest)
 - Spring Boot services: `mvn test` (JUnit)
 - E2E tests: `./run-tests.sh` (from repo root)
 
