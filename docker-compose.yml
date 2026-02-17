@@ -52,7 +52,7 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
+    image: ${AOE_WEB_BACKEND_TAG:-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
@@ -60,6 +60,8 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    ports:
+      - 3000:3000
     volumes:
       - ./docker/dev/web/thumbnail/:/app/thumbnail:rw
       - ./docker/dev/web/uploads:/app/uploads:rw

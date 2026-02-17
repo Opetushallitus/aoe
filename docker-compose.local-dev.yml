@@ -91,30 +91,11 @@ services:
 
   aoe-web-backend:
     build:
-      context: aoe-web-backend
       dockerfile: ./docker/Dockerfile.local
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
-    container_name: aoe-web-backend
-    healthcheck:
-      test:
-        ['CMD', 'wget', '--spider', '-q', 'http://aoe-web-backend:3000/health']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
     volumes:
-      - ./docker/dev/web/thumbnail/:/app/thumbnail:rw
-      - ./docker/dev/web/uploads:/app/uploads:rw
-      - ./docker/dev/web/webdata:/webdata:rw
-      - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
       - ./aoe-web-backend/src:/app/src:rw
-
     environment:
       - NODE_ENV=development
-    ports:
-      - 3000:3000
     env_file:
       - ./aoe-web-backend/.env
 
