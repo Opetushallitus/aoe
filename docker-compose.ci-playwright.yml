@@ -101,25 +101,6 @@ services:
     env_file:
       - ./aoe-web-backend/.env.ci
 
-  redis:
-    image: redis:6.2.21-alpine@sha256:1bc63a4b0f4b8634f26f174b26f87d454bd85f81ca5e3faae75a4a050165f4d1
-    container_name: redis
-    privileged: true
-    command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
-    restart: unless-stopped
-    environment:
-      REDIS_REPLICATION_MODE: master
-    volumes:
-      - ./docker/dev/redis_data:/data
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 10s
-    ports:
-      - 6379:6379
-
   postgres:
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/1-init.sql
