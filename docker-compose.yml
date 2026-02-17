@@ -146,6 +146,8 @@ services:
   postgres:
     image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
     container_name: aoe-postgres
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: aoeuser
       POSTGRES_PASSWORD: aoepassword
