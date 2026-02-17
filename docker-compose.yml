@@ -323,18 +323,20 @@ services:
             "CheckSessionCookieSameSiteMode": "Lax"
           }
         }
-      OVERRIDE_STANDARD_IDENTITY_RESOURCES:  true
+
+      OVERRIDE_STANDARD_IDENTITY_RESOURCES: true
       IDENTITY_RESOURCES_INLINE: |
         [
           {
             "Name": "profile",
-            "ClaimTypes": [ "name", "given_name", "family_name", "uid", "id" ]  
+            "ClaimTypes": [ "name", "given_name", "family_name", "uid", "id" ]
           },
          {
             "Name": "openid",
-            "ClaimTypes": [ "sub" ]  
+            "ClaimTypes": [ "sub" ]
           }
         ]
+
       USERS_CONFIGURATION_INLINE: |
         [
           {
@@ -373,7 +375,6 @@ services:
                 "ValueType": "string"
               },
               { 'Type': 'some-custom-identity-user-claim', 'Value': "Jack's Custom User Claim", 'ValueType': 'string' },
-
               {
                 "Type": "family_name",
                 "Value": "AOE_last",
@@ -439,19 +440,21 @@ services:
           {
             "ClientId": "aoe-client",
             "ClientSecrets": ["aoe-secret"],
-            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect"],
+            "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect",
+            "http://localhost:33344/api/secure/redirect"],
             "AllowedScopes": ["openid", "offline_access", "profile"],
-            "AllowOfflineAccess" : "true", 
+            "AllowOfflineAccess" : "true",
             "AllowedGrantTypes": ["authorization_code"]
           }
         ]
       ASPNETCORE_URLS: http://+:80
       ASPNET_SERVICES_OPTIONS_INLINE: |
-        { 
-          "ForwardedHeadersOptions": { 
+        {
+          "ForwardedHeadersOptions": {
             "ForwardedHeaders" : "All"
           }
         }
+
 volumes:
   postgres_data:
 
