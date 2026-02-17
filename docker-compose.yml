@@ -71,7 +71,7 @@ services:
       aoe-oidc-server:
         condition: service_healthy
       postgres:
-        condition: service_started
+        condition: service_healthy
       kafka:
         condition: service_healthy
       kafka2:
@@ -99,7 +99,7 @@ services:
       mongodb:
         condition: service_started
       postgres:
-        condition: service_started
+        condition: service_healthy
 
   aoe-streaming-app:
     hostname: aoe-streaming-app
@@ -151,7 +151,7 @@ services:
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U aoeuser" ]
+      test: [ "CMD-SHELL", "pg_isready -h localhost -U aoeuser -d aoe" ]
       interval: 10s
       timeout: 5s
       retries: 5
