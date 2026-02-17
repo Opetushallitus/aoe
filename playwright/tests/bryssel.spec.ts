@@ -120,3 +120,24 @@ test('Pääkäyttäjä voi luoda ERROR-tiedotteen ja se näkyy julkisesti', asyn
   const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
   await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
 })
+test('Pääkäyttäjä voi poistaa tiedotteen ja se katoaa julkisesta näkymästä', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+
+  const tiedoteTeksti = `Poistettava tiedote ${Date.now()}`
+  await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+
+  // Verify it's visible publicly
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).toBeVisible()
+
+  // Delete it
+  await brysselPage.goto()
+  const tiedotteetDelete = await brysselPage.clickBrysselPalvelunHallinta()
+  await tiedotteetDelete.poistaTiedote(tiedoteTeksti)
+
+  // Verify it's gone publicly
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).not.toBeVisible()
+})
