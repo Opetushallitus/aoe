@@ -12,15 +12,22 @@ export const BrysselTiedotteet = (page: Page) => {
     notificationTable: page.locator('table')
   }
 
+  const datepicker = page.locator('bs-datepicker-container')
+
   async function selectTodayInDatepicker() {
     const today = String(new Date().getDate())
-    await page.getByText(today, { exact: true }).click()
+    await datepicker.getByText(today, { exact: true }).click()
   }
 
   async function selectFutureEndDate() {
-    // Navigate to next month and pick day 15
-    await page.locator('bs-datepicker-navigation-view button.next').click()
-    await page.getByText('15', { exact: true }).click()
+    const futureDate = new Date()
+    futureDate.setDate(futureDate.getDate() + 2)
+    const futureDay = String(futureDate.getDate())
+    // If adding 2 days crosses into next month, navigate forward
+    if (futureDate.getMonth() !== new Date().getMonth()) {
+      await datepicker.locator('bs-datepicker-navigation-view button.next').click()
+    }
+    await datepicker.getByText(futureDay, { exact: true }).click()
   }
 
   async function luoTiedote(
@@ -55,12 +62,9 @@ export const BrysselTiedotteet = (page: Page) => {
     await page.getByRole('option', { name: tyyppi }).click()
     await locators.notificationTextInput.pressSequentially(teksti)
 
-    // Set showSince to a future date: open datepicker, go to month view, advance one year, pick month and day
+    // Set showSince to a future date (today + 2 days)
     await locators.showSinceInput.click()
-    await page.locator('bs-datepicker-navigation-view button.current').first().click()
-    await page.locator('bs-datepicker-navigation-view button.next').click()
-    await page.getByText('tammikuu').click()
-    await page.getByText('15', { exact: true }).click()
+    await selectFutureEndDate()
 
     await locators.submitButton.click()
     await expect(page.getByText('Tiedotteen tallennus onnistui')).toBeVisible()

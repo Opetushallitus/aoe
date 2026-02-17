@@ -599,7 +599,7 @@ CREATE TABLE notification
     nf_created_at TIMESTAMP with time zone,
     nf_show_since TIMESTAMP with time zone,
     nf_show_until TIMESTAMP with time zone,
-    nf_disabled   BOOLEAN,
+    nf_disabled   BOOLEAN DEFAULT false,
     nf_username   VARCHAR(255)  NOT NULL
         REFERENCES aoeuser
             ON UPDATE CASCADE
