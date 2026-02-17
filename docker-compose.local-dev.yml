@@ -1,7 +1,6 @@
 include:
   - ./docker-compose.yml
 
-name: aoe-local
 services:
 
   aoe-web-frontend:

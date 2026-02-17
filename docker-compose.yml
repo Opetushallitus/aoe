@@ -8,7 +8,6 @@ services:
       args:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend:latest}
-    container_name: aoe-web-frontend
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
@@ -27,7 +26,6 @@ services:
 
   nginx:
     image: nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
-    container_name: nginx
     hostname: nginx
     ports:
       - 443:443
@@ -53,7 +51,6 @@ services:
       args:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_BACKEND_TAG:-aoe-web-backend:latest}
-    container_name: aoe-web-backend
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health" ]
       interval: 10s
@@ -89,7 +86,6 @@ services:
       secrets:
         - trust_store_password
     image: ${AOE_DATA_ANALYTICS_TAG:-aoe-data-analytics:latest}
-    container_name: aoe-data-analytics
     entrypoint: ['java', '-Xms512m', '-Xmx512m', '-Djava.security.egd=file:/dev/./urandom', '-jar', 'aoe-data-analytics.jar']
     restart: unless-stopped
     ports:
@@ -116,7 +112,6 @@ services:
       args:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_STREAMING_APP_TAG:-aoe-streaming-app:latest}
-    container_name: aoe-streaming-app
     restart: unless-stopped
     environment:
       - PORT=3001
@@ -127,12 +122,10 @@ services:
         condition: service_started
 
   aoe-data-services:
-    hostname: aoe-data-services
     build:
       context: aoe-data-services
       dockerfile: ./Dockerfile
     image: ${AOE_DATA_SERVICES_TAG:-aoe-data-services:latest}
-    container_name: aoe-data-services
     ports:
       - 8002:8002
     restart: unless-stopped
@@ -141,14 +134,12 @@ services:
         condition: service_healthy
 
   aoe-semantic-apis:
-    hostname: aoe-semantic-apis
     build:
       context: aoe-semantic-apis
       dockerfile: ./docker/Dockerfile
       args:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_SEMANTIC_APIS_TAG:-aoe-semantic-apis:latest}
-    container_name: aoe-semantic-apis
     restart: unless-stopped
     depends_on:
       redis:
@@ -164,7 +155,6 @@ services:
 
   postgres:
     image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
-    container_name: postgres
     ports:
       - 5432:5432
     environment:
@@ -183,7 +173,6 @@ services:
 
   opensearch:
     image: opensearchproject/opensearch:2.19.4@sha256:4f31f473cc452422deb6794cabdc4786cf90683eb2154b578c9ec33d30cea548
-    container_name: opensearch
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch-node
@@ -209,7 +198,6 @@ services:
 
   mongodb:
     image: mongo:4.0
-    container_name: aoe-mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: aoerootuser
       MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
@@ -224,7 +212,6 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.9.5@sha256:61e960bcbe5796d2987edc61fab297387f63d6f831754576cd107543d2cdc8bb
-    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -240,7 +227,6 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.9.5@sha256:c4c6b755551da17fff056b9c8b39700f99020083bd2d69a171ece4784f33e640
-    container_name: kafka
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -264,7 +250,6 @@ services:
 
   kafka2:
     image: confluentinc/cp-kafka:7.9.5@sha256:c4c6b755551da17fff056b9c8b39700f99020083bd2d69a171ece4784f33e640
-    container_name: kafka2
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -290,7 +275,6 @@ services:
 
   redis:
     image: redis:6.2.21-alpine@sha256:1bc63a4b0f4b8634f26f174b26f87d454bd85f81ca5e3faae75a4a050165f4d1
-    container_name: redis
     privileged: true
     command: [ "redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands" ]
     restart: unless-stopped
@@ -309,7 +293,6 @@ services:
 
   localstack:
     image: localstack/localstack:4.13.1@sha256:46302bcb91a7e8008e6394be8afafdbfa40fb77a54d4046a38be35992042d5de
-    container_name: localstack
     networks:
       default:
         aliases:
@@ -332,7 +315,6 @@ services:
   aoe-oidc-server:
     hostname: aoe-oidc-server
     image: ghcr.io/soluto/oidc-server-mock:9.0.1@sha256:4cf0fe8752cdf78266e5178ee6551762e398ec0c6be6abea154fab32646db6b0
-    container_name: aoe-oidc-server
     restart: on-failure:2
     expose:
       - 80

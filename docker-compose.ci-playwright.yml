@@ -1,21 +1,16 @@
 include:
   - ./docker-compose.yml
 
-name: aoe-ci
 services:
 
   aoe-web-frontend:
-    networks:
-      - default
     environment:
       - ENV=ci
 
   test-runner:
     build:
       context: .
-      dockerfile: Dockerfile.playwright-test-runner 
-    networks:
-      - default
+      dockerfile: Dockerfile.playwright-test-runner
     volumes:
       - ./screenshots:/screenshots
       - ./playwright-results:/playwright-results
