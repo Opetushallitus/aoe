@@ -1,25 +1,10 @@
+include:
+  - ./docker-compose.yml
+
 name: aoe-local
 services:
+
   aoe-web-frontend:
-    build:
-      context: aoe-web-frontend
-      dockerfile: ./docker/Dockerfile
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
-    container_name: aoe-web-frontend
-    restart: unless-stopped
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - ./docker/dev/webdata:/usr/share/nginx/html/webdata
-    user: 'root:5606'
-    ports:
-      - 8282:80
-      - 33344:8080
     environment:
       - ENV=demo
 

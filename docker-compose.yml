@@ -7,7 +7,7 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
+    image: ${AOE_WEB_FRONTEND_TAG:-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
     healthcheck:
@@ -18,9 +18,12 @@ services:
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
+    ports:
+      - 8282:80
+      - 33344:8080
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
 
   nginx:
     image: nginx:latest@sha256:341bf0f3ce6c5277d6002cf6e1fb0319fa4252add24ab6a0e262e0056d313208
