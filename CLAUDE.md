@@ -20,7 +20,7 @@ The system is organized as a monorepo with the following services:
   - Kafka for event streaming
   - OIDC authentication via openid-client and Passport
 
-- **aoe-web-frontend**: Angular 15 SPA
+- **aoe-web-frontend**: Angular 20 SPA
   - Uses Angular CLI for builds
   - CoreUI components
   - TypeScript
@@ -42,7 +42,6 @@ The system is organized as a monorepo with the following services:
 
 - **aoe-data-services**: Spring Boot service (OAI-PMH provider)
   - Java-based, built with Maven
-  - Located in oaipmh-provider subdirectory
 
 - **aoe-infra**: AWS CDK infrastructure as code
   - TypeScript-based CDK stacks
@@ -80,7 +79,9 @@ This script:
 
 Access local environment at: https://demo.aoe.fi/ (requires host file entries)
 
-Mock OIDC credentials: aoeuser/password123
+Mock OIDC credentials:
+- aoeuser/password123
+- tuomas.jukola/password123
 
 ### Environment Setup
 
@@ -92,6 +93,12 @@ Fetch .env files from AWS S3:
 Update .env files in AWS S3 (after editing local .env files):
 ```bash
 ./scripts/update_secrets.sh
+```
+
+### Linting All Services
+
+```bash
+./scripts/fix-lint.sh      # Fix lint across all services with Biome
 ```
 
 ### Backend (aoe-web-backend)
@@ -125,7 +132,7 @@ npm run fix-lint       # Fix linting issues with Biome
 
 ```bash
 cd aoe-semantic-apis
-npm run build          # Compile TypeScript and lint
+npm run build          # Compile TypeScript
 npm run build-ts       # Compile TypeScript only
 npm start              # Run compiled server
 npm run lint           # Check with Biome
@@ -140,7 +147,6 @@ cd aoe-streaming-app
 npm run build          # Compile TypeScript and lint
 npm run build-ts       # Compile TypeScript only
 npm start              # Run compiled server
-npm test               # Run Jest tests
 npm run lint           # Check with Biome
 npm run fix-lint       # Fix linting issues
 npm run knip           # Find unused dependencies
@@ -170,6 +176,7 @@ mvn test               # Run tests
 ### Playwright Tests
 
 ```bash
+./run-tests.sh           # Run Playwright tests from repo root
 cd playwright
 npm run playwright:test  # Run Playwright tests
 npm run codegen          # Generate test code interactively
@@ -197,7 +204,6 @@ npx cdk diff                # Compare deployed vs current state
 npx cdk synth               # Synthesize CloudFormation
 npx cdk destroy -c environment=dev --all  # Destroy stacks
 npm run build               # Compile TypeScript
-npm test                    # Run Jest tests
 ```
 
 ## Code Structure Patterns
@@ -240,7 +246,7 @@ CDK stacks in `/lib/` directory:
 
 ### Backend
 - Express 5 (aoe-web-backend, aoe-semantic-apis, aoe-streaming-app)
-- TypeScript 5.9 / 4.9
+- TypeScript 5.9
 - PostgreSQL with pg-promise
 - OpenSearch client
 - Redis client v4 (backend) / v3 (semantic-apis)
@@ -249,8 +255,8 @@ CDK stacks in `/lib/` directory:
 - Spring Boot 3 with Java 17 (data-analytics, data-services)
 
 ### Frontend
-- Angular 15
-- RxJS 6
+- Angular 20
+- RxJS 7
 - ngx-translate for i18n
 - Bootstrap 4.6
 - CoreUI components
@@ -267,7 +273,7 @@ CDK stacks in `/lib/` directory:
 Run tests in individual service directories:
 - Node.js services: `npm test` (Jest)
 - Spring Boot services: `mvn test` (JUnit)
-- E2E tests: `cd playwright && npm run playwright:test`
+- E2E tests: `./run-tests.sh` (from repo root)
 
 ## AWS Environments
 
