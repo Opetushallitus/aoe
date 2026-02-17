@@ -104,9 +104,9 @@ services:
         condition: service_healthy
       kafka2:
         condition: service_healthy
-      aoe-mongodb:
+      mongodb:
         condition: service_started
-      aoe-postgres:
+      postgres:
         condition: service_started
     entrypoint: ["java", "-Xms512m", "-Xmx512m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "aoe-data-analytics.jar"]
     ports:
@@ -145,7 +145,7 @@ services:
     ports:
       - 6379:6379
 
-  aoe-postgres:
+  postgres:
     image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
     container_name: aoe-postgres
     ports:
@@ -187,7 +187,7 @@ services:
       - 9200:9200
       - 9600:9600
 
-  aoe-mongodb:
+  mongodb:
     image: mongo:4.0
     container_name: aoe-mongodb
     environment:

@@ -96,7 +96,7 @@ services:
         condition: service_healthy
       kafka2:
         condition: service_healthy
-      mongo:
+      mongodb:
         condition: service_started
       postgres:
         condition: service_started
@@ -181,7 +181,7 @@ services:
       timeout: 5s
       retries: 5
 
-  mongo:
+  mongodb:
     image: mongo:4.0
     container_name: aoe-mongodb
     environment:
