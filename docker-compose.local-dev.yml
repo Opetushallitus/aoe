@@ -46,10 +46,3 @@ services:
     environment:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
-
-volumes:
-  postgres_data:
-
-secrets:
-  trust_store_password:
-    environment: TRUST_STORE_PASSWORD

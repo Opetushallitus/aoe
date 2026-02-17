@@ -80,10 +80,3 @@ services:
       default:
         aliases:
           - demo.aoe.fi
-
-volumes:
-  postgres_data:
-
-secrets:
-  trust_store_password:
-    environment: TRUST_STORE_PASSWORD
