@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test'
 import { BrysselAnalyytiikka } from './BrysselAnalytiikka'
 import { BrysselMateriaalienHallinta } from './BrysselMateriaalienHallinta'
+import { BrysselTiedotteet } from './BrysselTiedotteet'
 
 export const BrysselEtusivu = (page: Page) => {
   const goto = async () => {
@@ -33,10 +34,16 @@ export const BrysselEtusivu = (page: Page) => {
     return BrysselMateriaalienHallinta(page)
   }
 
+  const clickBrysselPalvelunHallinta = async () => {
+    await page.getByTestId('hallinnoi-palvelua').click()
+    return BrysselTiedotteet(page)
+  }
+
   return {
     goto,
     page,
     clickBrysselAnalytiikka,
-    clickBrysselMateriaalinHallinta
+    clickBrysselMateriaalinHallinta,
+    clickBrysselPalvelunHallinta
   }
 }
