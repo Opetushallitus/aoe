@@ -99,3 +99,24 @@ test('Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti', async
   const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
   await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
 })
+test('Pääkäyttäjä voi luoda ERROR-tiedotteen ja se näkyy julkisesti', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+
+  const tiedoteTeksti = `Testitiedote ERROR ${Date.now()}`
+  await tiedotteet.luoTiedote('Tekninen häiriö tai käyttöä rajoittava tapahtuma', tiedoteTeksti)
+
+  // Verify notification appears in admin table
+  await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
+
+  // Verify notification appears publicly as danger banner
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const notification = page.locator('.alert-danger .service-notification', { hasText: tiedoteTeksti })
+  await expect(notification).toBeVisible()
+
+  // Cleanup
+  await brysselPage.goto()
+  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
+  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
+})
