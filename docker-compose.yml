@@ -485,6 +485,10 @@ services:
           }
         }
 
+networks:
+  default:
+    name: aoe_default
+
 volumes:
   postgres_data:
 

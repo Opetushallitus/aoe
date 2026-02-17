@@ -47,10 +47,6 @@ services:
       - DISABLE_SECURITY_PLUGIN=true
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
 
-networks:
-  default:
-    name: aoe_local-dev
-
 volumes:
   postgres_data:
 

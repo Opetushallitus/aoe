@@ -81,10 +81,6 @@ services:
         aliases:
           - demo.aoe.fi
 
-networks:
-  default:
-    name: aoe_ci
-
 volumes:
   postgres_data:
 
