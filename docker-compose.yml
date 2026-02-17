@@ -145,7 +145,7 @@ services:
 
   postgres:
     image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
-    container_name: aoe-postgres
+    container_name: postgres
     ports:
       - 5432:5432
     environment:
@@ -153,10 +153,11 @@ services:
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -h localhost -U aoeuser -d aoe" ]
+      test: ["CMD-SHELL", "pg_isready -h localhost -U aoeuser -d aoe"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 30
+      start_period: 30s
     volumes:
       - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/dev/postgres_data:/var/lib/postgresql/data

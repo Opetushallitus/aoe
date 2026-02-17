@@ -162,11 +162,11 @@ tmux send-keys "$local_up_cmd localstack" C-m
 
 # Pane 2: MongoDB
 tmux select-pane -t 2
-tmux send-keys "$local_up_cmd aoe-mongodb" C-m
+tmux send-keys "$local_up_cmd mongodb" C-m
 
 # Pane 3: PostgreSQL
 tmux select-pane -t 3
-tmux send-keys "$local_up_cmd aoe-postgres" C-m
+tmux send-keys "$local_up_cmd postgres" C-m
 
 # Pane 4: oidc
 tmux select-pane -t 4
