@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 
 export const BrysselTiedotteet = (page: Page) => {
   const locators = {
-    notificationTypeSelect: page.locator('#notificationType'),
+    notificationTypeSelect: page.locator('ng-select#notificationType'),
     notificationTextInput: page.locator('#notification'),
     showSinceInput: page.locator('#showSince'),
     showUntilInput: page.locator('#showUntil'),
@@ -12,13 +12,33 @@ export const BrysselTiedotteet = (page: Page) => {
     notificationTable: page.locator('table')
   }
 
+  async function selectTodayInDatepicker() {
+    const today = String(new Date().getDate())
+    await page.getByText(today, { exact: true }).click()
+  }
+
+  async function selectFutureEndDate() {
+    // Navigate to next month and pick day 15
+    await page.locator('bs-datepicker-navigation-view button.next').click()
+    await page.getByText('15', { exact: true }).click()
+  }
+
   async function luoTiedote(
     tyyppi: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' | 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
     teksti: string
   ) {
     await locators.notificationTypeSelect.click()
     await page.getByRole('option', { name: tyyppi }).click()
-    await locators.notificationTextInput.fill(teksti)
+    await locators.notificationTextInput.pressSequentially(teksti)
+
+    // Set start date to today
+    await locators.showSinceInput.click()
+    await selectTodayInDatepicker()
+
+    // Set end date to a future date
+    await locators.showUntilInput.click()
+    await selectFutureEndDate()
+
     await locators.submitButton.click()
     await expect(page.getByText('Tiedotteen tallennus onnistui')).toBeVisible()
   }
@@ -29,7 +49,7 @@ export const BrysselTiedotteet = (page: Page) => {
   ) {
     await locators.notificationTypeSelect.click()
     await page.getByRole('option', { name: tyyppi }).click()
-    await locators.notificationTextInput.fill(teksti)
+    await locators.notificationTextInput.pressSequentially(teksti)
 
     // Set showSince to a far future date
     await locators.showSinceInput.click()
