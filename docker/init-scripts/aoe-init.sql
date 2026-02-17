@@ -596,8 +596,8 @@ CREATE TABLE notification
     nf_id         BIGSERIAL PRIMARY KEY,
     nf_text       VARCHAR(1500) NOT NULL,
     nf_type       VARCHAR(255)  NOT NULL,
-    nf_created_at TIMESTAMP with time zone,
-    nf_show_since TIMESTAMP with time zone,
+    nf_created_at TIMESTAMP with time zone DEFAULT CURRENT_TIMESTAMP,
+    nf_show_since TIMESTAMP with time zone DEFAULT CURRENT_TIMESTAMP,
     nf_show_until TIMESTAMP with time zone,
     nf_disabled   BOOLEAN DEFAULT false,
     nf_username   VARCHAR(255)  NOT NULL
@@ -676,6 +676,8 @@ ALTER TABLE accessibilityhazard
     ADD CONSTRAINT constraint_accessibilityhazard UNIQUE (accessibilityhazardkey, educationalmaterialid);
 ALTER TABLE EducationalLevel
     ADD CONSTRAINT constraint_EducationalLevel UNIQUE (EducationalLevelKey, educationalmaterialid);
+
+CREATE INDEX idx_material_publishedat_updatedat ON educationalmaterial USING btree (publishedat, updatedat);
 
 ALTER TABLE Rating
     ADD CONSTRAINT FKRatingUsers FOREIGN KEY (UsersUserName) REFERENCES Users (UserName);
