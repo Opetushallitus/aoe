@@ -78,3 +78,24 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
   await page.goto(`/#/materiaali/${materiaaliNumero}`)
   await expect(page.getByTestId('material-owner')).toContainText('Tuomas Jukola')
 })
+test('Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()
+
+  const tiedoteTeksti = `Testitiedote INFO ${Date.now()}`
+  await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
+
+  // Verify notification appears in admin table
+  await expect(tiedotteet.notificationTable.getByText(tiedoteTeksti)).toBeVisible()
+
+  // Verify notification appears publicly as warning banner
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  const notification = page.locator('.alert-warning .service-notification', { hasText: tiedoteTeksti })
+  await expect(notification).toBeVisible()
+
+  // Cleanup: delete the notification
+  await brysselPage.goto()
+  const tiedotteetCleanup = await brysselPage.clickBrysselPalvelunHallinta()
+  await tiedotteetCleanup.poistaTiedote(tiedoteTeksti)
+})
