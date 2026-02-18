@@ -272,6 +272,14 @@ CDK stacks in `/lib/` directory:
 - Spring Boot services: `mvn test` (JUnit)
 - E2E tests: `./run-tests.sh` (from repo root)
 
+### Playwright: `pressSequentially()` vs `fill()`
+
+Some Angular components use `(keyup)` event handlers on input fields to trigger logic (e.g. debounced backend lookups). Playwright's `fill()` sets the value programmatically without firing keyboard events, so these handlers never trigger. **Use `pressSequentially()` instead of `fill()`** for inputs that have `(keyup)`, `(keydown)`, or `(keypress)` bindings.
+
+Known affected inputs:
+- `#materialId` in `admin/remove-material/` — `(keyup)="getMaterialInfo($event)"`
+- `#materialId` in `admin/change-material-owner/` — `(keyup)="getMaterialInfo($event)"`
+
 ## AWS Environments
 
 Three environments configured:

@@ -30,7 +30,7 @@ export const BrysselMateriaalienHallinta = (page: Page) => {
     await syotaMateriaaliId(materiaaliNumero)
 
     // Type into ng-select search input to find the new owner
-    await changeOwnerForm.locator('ng-select input[type="text"]').fill(uusiOmistajaHaku)
+    await changeOwnerForm.locator('ng-select input[type="text"]').pressSequentially(uusiOmistajaHaku)
     // Select the first matching option from the dropdown (appended to body)
     await page.locator('ng-dropdown-panel .ng-option').first().click()
 
