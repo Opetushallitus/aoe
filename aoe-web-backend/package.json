@@ -72,7 +72,7 @@
     "winston": "^3.3.3"
   },
   "overrides": {
-    "qs": "6.14.2"
+    "qs": "6.15.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.15",
