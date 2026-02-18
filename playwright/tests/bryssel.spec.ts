@@ -84,7 +84,7 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browse
 })
 
 tiedoteTest(
-  'Pääkäyttäjä voi luoda INFO-tiedotteen ja se näkyy julkisesti',
+  'Pääkäyttäjä voi luoda INFO-tiedotteen, se näkyy julkisesti ja sen voi poistaa',
   async ({ page, tiedotteet }) => {
     const tiedoteTeksti = `Testitiedote INFO ${Date.now()}`
     await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
@@ -98,7 +98,16 @@ tiedoteTest(
     })
     await expect(notification).toBeVisible()
 
-    await siivoaTiedote(page, tiedoteTeksti)
+    const brysselPage = BrysselEtusivu(page)
+    await brysselPage.goto()
+    const tiedotteetDelete = await brysselPage.clickBrysselPalvelunHallinta()
+    await tiedotteetDelete.poistaTiedote(tiedoteTeksti)
+
+    await page.goto('/')
+    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
+    await expect(
+      page.locator('.service-notification', { hasText: tiedoteTeksti })
+    ).not.toBeVisible()
   }
 )
 
@@ -118,29 +127,6 @@ tiedoteTest(
     await expect(notification).toBeVisible()
 
     await siivoaTiedote(page, tiedoteTeksti)
-  }
-)
-
-tiedoteTest(
-  'Pääkäyttäjä voi poistaa tiedotteen ja se katoaa julkisesta näkymästä',
-  async ({ page, tiedotteet }) => {
-    const tiedoteTeksti = `Poistettava tiedote ${Date.now()}`
-    await tiedotteet.luoTiedote('Yleinen tiedote tai ohjeistus palvelun käyttäjille', tiedoteTeksti)
-
-    await page.goto('/')
-    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
-    await expect(page.locator('.service-notification', { hasText: tiedoteTeksti })).toBeVisible()
-
-    const brysselPage = BrysselEtusivu(page)
-    await brysselPage.goto()
-    const tiedotteetDelete = await brysselPage.clickBrysselPalvelunHallinta()
-    await tiedotteetDelete.poistaTiedote(tiedoteTeksti)
-
-    await page.goto('/')
-    await expect(page.getByText('Mitä haluat oppia?')).toBeVisible()
-    await expect(
-      page.locator('.service-notification', { hasText: tiedoteTeksti })
-    ).not.toBeVisible()
   }
 )
 
