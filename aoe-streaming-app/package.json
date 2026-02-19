@@ -33,7 +33,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.0",
+    "@biomejs/biome": "2.4.1",
     "@types/compression": "1.7.2",
     "@types/cors": "2.8.13",
     "@types/morgan": "1.9.10",
