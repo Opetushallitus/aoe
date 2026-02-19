@@ -20,6 +20,7 @@ WORKDIR /app
 
 RUN apk add --no-cache \
     fontconfig \
+    curl \
     libreoffice \
     ttf-dejavu \
     ttf-freefont \

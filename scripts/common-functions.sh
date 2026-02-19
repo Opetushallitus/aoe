@@ -24,7 +24,7 @@ NODE_VERSION="$(cat "$repo/.nvmrc")" && export NODE_VERSION && readonly NODE_VER
 local_compose="docker compose -f $repo/docker-compose.local-dev.yml"
 readonly local_compose
 
-local_up_cmd="$local_compose up --build --no-log-prefix"
+local_up_cmd="$local_compose up --build --no-deps --no-log-prefix"
 readonly local_up_cmd
 
 function docker_run_with_aws_env {
@@ -188,8 +188,7 @@ function wait_for_container_to_be_healthy {
   local -r container_name="$1"
 
   info "Waiting for docker container $container_name to be healthy"
-  until [ "$(docker inspect -f "{{.State.Health.Status}}" "$container_name" 2>/dev/null || echo "not-running")" == "healthy" ]; do
-
-    sleep 2;
+  until [ "$(docker inspect -f "{{.State.Health.Status}}" "aoe-${container_name}-1" 2>/dev/null || echo "not-running")" == "healthy" ]; do
+    sleep 10;
   done;
 }
