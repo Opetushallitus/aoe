@@ -15,7 +15,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.4",
     "@types/node": "24.9.1",
-    "aws-cdk": "2.1106.1",
+    "aws-cdk": "2.1108.0",
     "knip": "5.84.1",
     "typescript": "5.9.3"
   },
