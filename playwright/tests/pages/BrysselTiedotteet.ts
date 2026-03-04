@@ -14,7 +14,9 @@ export const BrysselTiedotteet = (page: Page) => {
   const datepicker = page.locator('bs-datepicker-container')
 
   function currentMonthDay(day: string) {
-    return datepicker.locator('span[bsdatepickerdaydecorator]:not(.is-other-month)', { hasText: new RegExp(`^${day}$`) })
+    return datepicker.locator('span[bsdatepickerdaydecorator]:not(.is-other-month)', {
+      hasText: new RegExp(`^${day}$`)
+    })
   }
 
   async function selectTodayInDatepicker() {

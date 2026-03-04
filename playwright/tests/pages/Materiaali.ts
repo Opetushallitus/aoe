@@ -7,8 +7,14 @@ export const Materiaali = (page: Page) => {
     lataaDropdown: page.getByRole('button', { name: 'Lataa' }),
     lisaaArvioButton: page.getByRole('button', { name: 'Lisää arvio' }),
     katsoKaikkiArviotLink: page.getByRole('link', { name: 'Katso kaikki arviot' }),
-    sisaltoAverage: page.locator('div').filter({ has: page.getByText('Sisältö:', { exact: true }) }).first(),
-    ulkoasuAverage: page.locator('div').filter({ has: page.getByText('Ulkoasu:', { exact: true }) }).first(),
+    sisaltoAverage: page
+      .locator('div')
+      .filter({ has: page.getByText('Sisältö:', { exact: true }) })
+      .first(),
+    ulkoasuAverage: page
+      .locator('div')
+      .filter({ has: page.getByText('Ulkoasu:', { exact: true }) })
+      .first(),
     preview: async (tiedosto: string) => {
       const materiaaliNumero = await getMateriaaliNumero()
       return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
