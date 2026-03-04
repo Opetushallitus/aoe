@@ -5,6 +5,10 @@ import { blob as blobConsumer } from 'node:stream/consumers'
 export const Materiaali = (page: Page) => {
   const locators = {
     lataaDropdown: page.getByRole('button', { name: 'Lataa' }),
+    lisaaArvioButton: page.getByRole('button', { name: 'Lisää arvio' }),
+    katsoKaikkiArviotLink: page.getByRole('link', { name: 'Katso kaikki arviot' }),
+    sisaltoAverage: page.locator('div').filter({ has: page.getByText('Sisältö:', { exact: true }) }).first(),
+    ulkoasuAverage: page.locator('div').filter({ has: page.getByText('Ulkoasu:', { exact: true }) }).first(),
     preview: async (tiedosto: string) => {
       const materiaaliNumero = await getMateriaaliNumero()
       return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
@@ -47,6 +51,28 @@ export const Materiaali = (page: Page) => {
     await page.getByRole('button', { name: 'Lisää', exact: true }).click()
   }
 
+  const lisaaArvio = async (arvio: {
+    ratingContent: string
+    ratingVisual: string
+    feedbackPositive: string
+    feedbackSuggest: string
+    feedbackPurpose: string
+  }) => {
+    await locators.lisaaArvioButton.click()
+    await page.getByLabel('Sisältö (1-5)').waitFor({ state: 'visible' })
+    await page.getByLabel('Sisältö (1-5)').fill(arvio.ratingContent)
+    await page.getByLabel('Ulkoasu (1-5)').fill(arvio.ratingVisual)
+    await page.getByLabel('Mitä hyvää materiaalissa on?').fill(arvio.feedbackPositive)
+    await page.getByLabel('Mitä voisi vielä kehittää?').fill(arvio.feedbackSuggest)
+    await page.getByLabel('Miten hyödynsin materiaalia?').fill(arvio.feedbackPurpose)
+    await page.getByRole('button', { name: 'Tallenna' }).click()
+    await expect(page.getByRole('heading', { name: 'Lisää arvio' })).not.toBeVisible()
+  }
+
+  const clickKatsoKaikkiArviot = async () => {
+    await locators.katsoKaikkiArviotLink.click()
+  }
+
   return {
     header: Header(page),
     ...locators,
@@ -55,6 +81,8 @@ export const Materiaali = (page: Page) => {
     lataaTiedosto,
     lataaKaikkiTiedostot,
     clickVerkkosivu,
-    lisaaKokoelmaan
+    lisaaKokoelmaan,
+    lisaaArvio,
+    clickKatsoKaikkiArviot
   }
 }
