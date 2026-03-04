@@ -13,9 +13,13 @@ export const BrysselTiedotteet = (page: Page) => {
 
   const datepicker = page.locator('bs-datepicker-container')
 
+  function currentMonthDay(day: string) {
+    return datepicker.locator('span[bsdatepickerdaydecorator]:not(.is-other-month)', { hasText: new RegExp(`^${day}$`) })
+  }
+
   async function selectTodayInDatepicker() {
     const today = String(new Date().getDate())
-    await datepicker.getByText(today, { exact: true }).click()
+    await currentMonthDay(today).click()
   }
 
   async function selectFutureEndDate() {
@@ -26,7 +30,7 @@ export const BrysselTiedotteet = (page: Page) => {
     if (futureDate.getMonth() !== now.getMonth()) {
       await datepicker.locator('bs-datepicker-navigation-view button.next').click()
     }
-    await datepicker.getByText(futureDay, { exact: true }).click()
+    await currentMonthDay(futureDay).click()
   }
 
   type NotificationType =
