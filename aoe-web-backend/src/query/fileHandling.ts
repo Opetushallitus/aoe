@@ -152,11 +152,7 @@ export const uploadAttachmentToMaterial = async (
  * @param {e.NextFunction} next
  * @return {Promise<any>}
  */
-export const uploadMaterial = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
+export const uploadMaterial = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contentType = req.headers['content-type']
     if (!contentType) {
@@ -442,7 +438,11 @@ export const uploadFileToMaterial = async (
   res.status(200).json({
     id: edumaterialid,
     material: [
-      { id: material.id, createFrom: file.originalname, educationalmaterialid: edumaterialid }
+      {
+        id: material.id,
+        createFrom: file.originalname,
+        educationalmaterialid: edumaterialid
+      }
     ]
   })
 
@@ -634,7 +634,7 @@ const insertDataToMaterialTable = async (
   location: any,
   languages: any,
   priority: number
-): Promise<any> => {
+) => {
   const query = `
     INSERT INTO material (link, educationalmaterialid, materiallanguagekey, priority)
     VALUES ($1, $2, $3, $4)
@@ -714,11 +714,7 @@ async function updateAttachment(
   })
 }
 
-async function insertDataToTempAttachmentTable(
-  files: any,
-  metadata: any,
-  attachmentId: string
-): Promise<any> {
+async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string) {
   const query =
     'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
@@ -894,7 +890,11 @@ export const uploadFileToStorage = (
 ): Promise<SendData> => {
   const s3: S3 = new AWS.S3()
   const passThrough: PassThrough = new stream.PassThrough()
-  let putObjectS3: S3.PutObjectRequest = { Bucket: bucketName, Key: fileName, Body: passThrough }
+  let putObjectS3: S3.PutObjectRequest = {
+    Bucket: bucketName,
+    Key: fileName,
+    Body: passThrough
+  }
   if (materialMeta) {
     putObjectS3 = {
       ...putObjectS3,

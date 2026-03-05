@@ -444,11 +444,7 @@ export const getEducationalMaterialMetadata = async (
     })
 }
 
-export async function getUserMaterial(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> {
+export async function getUserMaterial(req: Request, res: Response, next: NextFunction) {
   try {
     db.task(async (t: any) => {
       const params: any = []
@@ -706,11 +702,7 @@ async function setLanguage(obj: any) {
   }
 }
 
-const insertDataToDescription = async (
-  t: any,
-  educationalmaterialid: string,
-  description: any
-): Promise<any> => {
+const insertDataToDescription = async (t: any, educationalmaterialid: string, description: any) => {
   const queries = []
   const query =
     'INSERT ' +

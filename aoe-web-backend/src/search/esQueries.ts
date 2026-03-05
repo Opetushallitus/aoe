@@ -123,7 +123,10 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
                   .filter((object) => {
                     return object.alignmenttype === 'teaches'
                   })
-                  .map((object) => ({ key: object.objectkey, value: object.targetname }))
+                  .map((object) => ({
+                    key: object.objectkey,
+                    value: object.targetname
+                  }))
               : undefined),
             (rObj.hasDownloadableFiles = obj.materials
               ? hasDownloadableFiles(obj.materials)
@@ -178,11 +181,7 @@ export function hasDownloadableFiles(materials: Array<{ filekey: string }>) {
   }
 }
 
-export const elasticSearchQuery = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
+export const elasticSearchQuery = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let from = Number(process.env.ES_FROM_DEFAULT) || 0
     let size = Number(process.env.ES_SIZE_DEFAULT) || 100

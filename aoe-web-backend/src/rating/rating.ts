@@ -11,7 +11,7 @@ import * as log from '@util/winstonLogger'
  * @param res  Response<any>
  * @param next NextFunction
  */
-export async function addRating(req: Request, res: Response, next: NextFunction): Promise<any> {
+export async function addRating(req: Request, res: Response, next: NextFunction) {
   try {
     const ratingInformation: RatingInformation = {
       educationalMaterialId: req.body.materialId,
@@ -37,7 +37,7 @@ export async function addRating(req: Request, res: Response, next: NextFunction)
  * @param res  Response<any>
  * @param next NextFunction
  */
-export async function getRating(req: Request, res: Response, next: NextFunction): Promise<any> {
+export async function getRating(req: Request, res: Response, next: NextFunction) {
   try {
     const response = await getRatings(req.params.materialId)
     if (!response.averages) {
@@ -58,7 +58,7 @@ export async function getRating(req: Request, res: Response, next: NextFunction)
  * @param res  Response<any>
  * @param next NextFunction
  */
-export async function getUserRating(req: Request, res: Response, next: NextFunction): Promise<any> {
+export async function getUserRating(req: Request, res: Response, next: NextFunction) {
   try {
     const response = await getUserRatings(req.session.passport.user.uid, req.params.materialId)
     if (!response.materialId) {

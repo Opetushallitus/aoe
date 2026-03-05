@@ -11,11 +11,7 @@ import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling'
  * @param res
  * @param next
  */
-export const uploadbase64Image = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
+export const uploadbase64Image = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contentType = req.headers['content-type']
     if (contentType.startsWith('application/json')) {
@@ -66,11 +62,7 @@ export const uploadbase64Image = async (
  * @param res
  * @param next
  */
-export const downloadEmThumbnail = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
+export const downloadEmThumbnail = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const key = req.params.filename || req.params.id
     if (!key) {
@@ -93,7 +85,7 @@ export const downloadCollectionThumbnail = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+) => {
   try {
     const key = req.params.id
     if (!key) {

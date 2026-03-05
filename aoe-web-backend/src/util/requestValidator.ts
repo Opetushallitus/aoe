@@ -238,11 +238,7 @@ export const validateNotificationUpdate = (): ValidationChain[] => {
   ]
 }
 
-export const validateRatingUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
+export const validateRatingUser = async (req: Request, res: Response, next: NextFunction) => {
   const { usersusername } = await db.task(async (t: any) => {
     const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1'
     const educationalMateriaId: number = parseInt(req.body.materialId, 10)

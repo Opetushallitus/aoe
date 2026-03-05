@@ -268,7 +268,7 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
  * @param {string} id
  * @return {Promise<any>}
  */
-export const updatePdfKey = async (key: string, id: string): Promise<void> => {
+export const updatePdfKey = async (key: string, id: string) => {
   await db.tx(async (t: any): Promise<void> => {
     const query = `
       UPDATE record SET pdfkey = $1

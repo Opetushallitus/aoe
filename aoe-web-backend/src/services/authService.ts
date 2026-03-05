@@ -81,11 +81,7 @@ export const insertUserToDatabase = async (userinfo: Record<string, unknown>): P
   }
 }
 
-export async function hasAccessToPublicatication(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> {
+export async function hasAccessToPublicatication(req: Request, res: Response, next: NextFunction) {
   const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1'
   const eduMaterial = await db.oneOrNone(query, [req.params.edumaterialid])
   if (req.session.passport.user.uid === eduMaterial.usersusername) {
@@ -94,11 +90,7 @@ export async function hasAccessToPublicatication(
   res.sendStatus(401)
 }
 
-export const hasAccessToMaterial = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const hasAccessToMaterial = async (req: Request, res: Response, next: NextFunction) => {
   const materialid = req.params.materialid || req.params.materialId
   const query = `
     SELECT em.usersusername
