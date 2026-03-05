@@ -13,7 +13,7 @@
     "knip": "knip"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
+    "@biomejs/biome": "2.4.5",
     "@types/node": "24.11.0",
     "aws-cdk": "2.1108.0",
     "knip": "5.85.0",
