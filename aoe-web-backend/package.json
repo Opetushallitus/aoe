@@ -33,8 +33,6 @@
     "watch-start": "node --watch --enable-source-maps dist/server.js",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
-    "lint": "biome check",
-    "fix-lint": "biome check --write",
     "knip": "knip"
   },
   "dependencies": {
@@ -75,7 +73,6 @@
     "qs": "6.15.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
     "@types/compression": "1.7.5",
     "@types/connect-flash": "0.0.40",
     "@types/connect-redis": "0.0.23",

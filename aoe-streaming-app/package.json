@@ -18,8 +18,6 @@
     "start": "node dist/server.js",
     "build": "npm run build-ts",
     "build-ts": "npx tsc",
-    "lint": "biome check",
-    "fix-lint": "biome check --write",
     "watch-ts": "npx tsc -w",
     "knip": "knip"
   },
@@ -33,7 +31,6 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
     "@types/compression": "1.7.2",
     "@types/cors": "2.8.13",
     "@types/morgan": "1.9.10",

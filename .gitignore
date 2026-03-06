@@ -12,3 +12,5 @@
 /playwright-results
 /screenshots
 /node_modules
+
+.package-lock.json.checksum

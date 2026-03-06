@@ -4,11 +4,12 @@
   "description": "## Teknologiat Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "biome check",
+    "fix-lint": "biome check --write"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "playwright": "1.58.2"
+    "@biomejs/biome": "^2.4.6"
   }
 }

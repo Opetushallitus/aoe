@@ -1,9 +1,16 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
-  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**/*.ts"]
+    "includes": [
+      "aoe-web-backend/**/*.ts",
+      "aoe-web-frontend/**/*.ts",
+      "aoe-semantic-apis/**/*.ts",
+      "aoe-streaming-app/**/*.ts",
+      "aoe-infra/**/*.ts",
+      "playwright/**/*.ts"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -16,8 +23,7 @@
     "bracketSameLine": false,
     "bracketSpacing": true,
     "expand": "auto",
-    "useEditorconfig": true,
-    "includes": ["**/*.ts"]
+    "useEditorconfig": true
   },
   "linter": {
     "enabled": true,
@@ -29,8 +35,7 @@
       },
       "style": { "useBlockStatements": "error", "useTemplate": "error" },
       "suspicious": { "noDoubleEquals": "error", "noVar": "error" }
-    },
-    "includes": ["**/*.ts"]
+    }
   },
   "javascript": {
     "formatter": {
@@ -49,5 +54,23 @@
   "assist": {
     "enabled": true,
     "actions": { "source": { "organizeImports": "off" } }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["aoe-web-frontend/**/*.ts"],
+      "javascript": {
+        "parser": {
+          "unsafeParameterDecoratorsEnabled": true
+        }
+      }
+    },
+    {
+      "includes": ["playwright/**/*.ts"],
+      "linter": {
+        "rules": {
+          "recommended": true
+        }
+      }
+    }
+  ]
 }

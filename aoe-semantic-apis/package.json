@@ -27,8 +27,6 @@
     "start": "node dist/server.js",
     "build": "npm run build-ts",
     "build-ts": "npx tsc",
-    "lint": "biome check",
-    "fix-lint": "biome check --write",
     "watch-ts": "tsc -w",
     "knip": "knip"
   },
@@ -45,7 +43,6 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
     "@types/compression": "1.7.2",
     "@types/cors": "2.8.12",
     "@types/node": "24.11.0",

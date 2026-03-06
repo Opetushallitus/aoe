@@ -4,16 +4,13 @@
   "main": "index.js",
   "scripts": {
     "playwright:test": "playwright test",
-    "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors",
-    "lint": "biome check",
-    "fix-lint": "biome check --write"
+    "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "@biomejs/biome": "2.4.5",
     "@playwright/test": "1.58.2",
     "@types/node": "24.11.0"
   }
