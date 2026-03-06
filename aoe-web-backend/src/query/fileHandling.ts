@@ -1379,6 +1379,7 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
   }
   try {
     const targetUnzipFolder = zipFilePath.slice(0, -4)
+    fs.mkdirSync(targetUnzipFolder, { recursive: true })
     const zip = new StreamZip.async({ file: zipFilePath })
     await zip.extract(null, targetUnzipFolder)
     await zip.close()
