@@ -1185,14 +1185,13 @@ export const downloadFromStorage = (
     try {
       const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
       const fileStream: Readable = s3.getObject(paramsS3).createReadStream()
-      const writeStream: WriteStream = fs
-        .createWriteStream(folderpath)
-        // Wait for 'finish' event for writable stream.
-        .once('finish', async (): Promise<void> => {
-          const response: string | boolean = await unZipAndExtract(folderpath)
-          resolve(response)
-        })
       if (isZip) {
+        const writeStream: WriteStream = fs
+          .createWriteStream(folderpath)
+          .once('finish', async (): Promise<void> => {
+            const response: string | boolean = await unZipAndExtract(folderpath)
+            resolve(response)
+          })
         fileStream
           .once('error', (err: AWSError): void => {
             if (err.name === 'NoSuchKey') {
