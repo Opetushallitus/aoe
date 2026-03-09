@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/compression": "1.7.2",
     "@types/cors": "2.8.12",
-    "@types/node": "24.11.0",
+    "@types/node": "24.12.0",
     "@types/node-cron": "2.0.8",
     "@types/redis": "2.8.32",
     "@types/xml2js": "0.4.14",
