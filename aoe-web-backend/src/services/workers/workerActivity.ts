@@ -2,11 +2,10 @@ import { config } from '@/config'
 import { TypeMaterialActivity } from '@aoe/services/workers/workerActivity'
 import { kafkaProducer } from '@resource/kafkaClient'
 import * as log from '@util/winstonLogger'
-import moment from 'moment'
 import { parentPort, workerData } from 'worker_threads'
 
 const message: TypeMaterialActivity = {
-  timestamp: moment.utc().toISOString() as string,
+  timestamp: new Date(Date.now()).toISOString(),
   eduMaterialId: null,
   interaction: workerData.query.interaction
 }

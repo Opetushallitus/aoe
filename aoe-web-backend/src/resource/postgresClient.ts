@@ -1,6 +1,5 @@
 import { config } from '@/config'
 import * as log from '@util/winstonLogger'
-import moment from 'moment'
 import pgPromise, { IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
@@ -41,7 +40,7 @@ export const pgp: IMain = pgPromise(initOptions)
 
 // Converter for TYPE_TIMESTAMP
 const TYPE_TIMESTAMP = 1114
-pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, (str: string) => moment.utc(str).toISOString())
+pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, (str: string) => new Date(`${str}Z`).toISOString())
 
 // Initialize DB connection
 export const db: IDatabase<IClient, IClient> = pgp(PG_URL_FULL)

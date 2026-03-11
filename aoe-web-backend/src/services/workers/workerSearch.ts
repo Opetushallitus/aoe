@@ -2,13 +2,12 @@ import { config } from '@/config'
 import { TypeSearchRequest } from '@aoe/services/workers/workerSearch'
 import { kafkaProducer } from '@resource/kafkaClient'
 import * as log from '@util/winstonLogger'
-import moment from 'moment'
 import { parentPort, workerData } from 'worker_threads'
 
 const message: TypeSearchRequest = {
   timestamp: workerData.body.timestamp
     ? workerData.body.timestamp
-    : (moment.utc().toISOString() as string),
+    : new Date(Date.now()).toISOString(),
   keywords: workerData.body.keywords,
   filters: workerData.body.filters
 }
