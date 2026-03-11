@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 01-build.sh
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Send build status "in progress"
         if: github.ref == 'refs/heads/main'
@@ -43,7 +43,7 @@ jobs:
     name: 02-lint.sh
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run 02-lint.sh
         run: ./deploy-scripts/02-lint.sh
 
@@ -58,7 +58,7 @@ jobs:
     runs-on: 'ubuntu-24.04'
     steps:
       - name: Fetch history for all branches and tags
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
       - name: Push image
@@ -89,7 +89,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run 02-1-run-tests.sh
         run: ./deploy-scripts/02-1-run-tests.sh
 
@@ -107,7 +107,7 @@ jobs:
     continue-on-error: true
     runs-on: 'ubuntu-24.04'
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: ./.github/actions/build_status
         with:
           task: build-image
