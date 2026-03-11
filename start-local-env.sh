@@ -4,14 +4,6 @@ set -o errexit -o nounset -o pipefail
 # shellcheck source=./scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
 
-FETCH_SECRETS_SCRIPT="$repo"/scripts/fetch_secrets.sh
-RUN_PSQL_LOCAL_SCRIPT="$repo"/scripts/psql-local.sh
-
-AOE_WEB_BACKEND_ENV="$repo"/aoe-web-backend/.env
-AOE_STREAMING_APP_ENV="$repo"/aoe-streaming-app/.env
-AOE_DATA_ANALYTICS_ENV="$repo"/aoe-data-analytics/.env
-AOE_SEMANTIC_APIS_ENV="$repo"/aoe-semantic-apis/.env
-AOE_DATA_SERVICES_ENV="$repo"/aoe-data-services/.env
 
 generate_cert() {
   CERT_NAME="nginx-selfsigned"
@@ -51,41 +43,6 @@ generate_cert() {
 
 generate_cert
 
-check_env_files() {
-   missing_files=()
-   # Check each variable and add to missing_files if the file is missing
-   for env_var in AOE_WEB_BACKEND_ENV AOE_STREAMING_APP_ENV AOE_DATA_ANALYTICS_ENV AOE_SEMANTIC_APIS_ENV AOE_DATA_SERVICES_ENV; do
-      file_path="${!env_var}"
-      if [ ! -f "$file_path" ]; then
-         missing_files+=("$env_var")
-      else
-        echo "Found ${!env_var}"
-      fi
-   done
-
-   # Print results and exit if any files are missing
-   if [ ${#missing_files[@]} -ne 0 ]; then
-     echo "Missing or non-existent environment files: ${missing_files[*]}"
-     return 1  # Exit with a non-zero status to indicate failure
-   else
-     echo "All required environment files exist."
-     return 0
-   fi
-}
-
-
-if ! check_env_files; then
-    echo "Secrets not found, logging in to AWS SSO.."
-    require_aws_session_for_env dev
-
-    echo "running fetch-secrets.sh..."
-    bash "$FETCH_SECRETS_SCRIPT"
-
-    if ! check_env_files; then
-        echo "Failed to fetch secrets. Please check the fetch_secrets.sh script and your AWS credentials."
-        exit 1
-    fi
-fi
 
 export TRUST_STORE_PASSWORD=myPassword
 

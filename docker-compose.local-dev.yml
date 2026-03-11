@@ -10,13 +10,13 @@ services:
     container_name: aoe-web-frontend
     restart: unless-stopped
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
       - ./docker/dev/webdata:/usr/share/nginx/html/webdata
-    user: 'root:5606'
+    user: "root:5606"
     ports:
       - 8282:80
       - 33344:8080
@@ -39,7 +39,7 @@ services:
     ports:
       - 3001:3001
     env_file:
-      - path: ./aoe-streaming-app/.env
+      - path: ./aoe-streaming-app/.env.ci
 
   aoe-data-services:
     hostname: aoe-data-services
@@ -51,7 +51,7 @@ services:
     ports:
       - 8002:8002
     env_file:
-      - path: ./aoe-data-services/.env
+      - path: ./aoe-data-services/.env.ci
 
   aoe-semantic-apis:
     hostname: aoe-semantic-apis
@@ -71,7 +71,7 @@ services:
     ports:
       - 3002:3002
     env_file:
-      - path: ./aoe-semantic-apis/.env
+      - path: ./aoe-semantic-apis/.env.ci
         required: true
     command: sh -c "npm run start"
 
@@ -88,21 +88,21 @@ services:
 
     entrypoint:
       [
-        'java',
-        '-Xms512m',
-        '-Xmx512m',
-        '-Djava.security.egd=file:/dev/./urandom',
-        '-jar',
-        'aoe-data-analytics.jar',
+        "java",
+        "-Xms512m",
+        "-Xmx512m",
+        "-Djava.security.egd=file:/dev/./urandom",
+        "-jar",
+        "aoe-data-analytics.jar",
       ]
     ports:
       - 8080:8080
     env_file:
-      - path: ./aoe-data-analytics/.env
+      - path: ./aoe-data-analytics/.env.ci
     logging:
       options:
-        max-size: '10m'
-        max-file: '3'
+        max-size: "10m"
+        max-file: "3"
 
   aoe-web-backend:
     build:
@@ -114,7 +114,7 @@ services:
     container_name: aoe-web-backend
     healthcheck:
       test:
-        ['CMD', 'wget', '--spider', '-q', 'http://aoe-web-backend:3000/health']
+        ["CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -131,7 +131,7 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - ./aoe-web-backend/.env
+      - ./aoe-web-backend/.env.ci
 
   redis:
     image: redis:6.2.21-alpine@sha256:46884be93652d02a96a176ccf173d1040bef365c5706aa7b6a1931caec8bfeef
@@ -139,20 +139,20 @@ services:
     privileged: true
     command:
       [
-        'redis-server',
-        '--requirepass',
-        'dev_password',
-        '--user',
-        'devuser',
-        'on',
-        '>devuser_password',
-        '~*',
-        '+@all',
-        '--user',
-        'default',
-        'off',
-        'nopass',
-        'nocommands',
+        "redis-server",
+        "--requirepass",
+        "dev_password",
+        "--user",
+        "devuser",
+        "on",
+        ">devuser_password",
+        "~*",
+        "+@all",
+        "--user",
+        "default",
+        "off",
+        "nopass",
+        "nocommands",
       ]
     restart: unless-stopped
     environment:
@@ -162,8 +162,8 @@ services:
     healthcheck:
       test:
         [
-          'CMD-SHELL',
-          'redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG',
+          "CMD-SHELL",
+          "redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG",
         ]
       interval: 30s
       timeout: 10s
@@ -182,7 +182,7 @@ services:
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U aoeuser']
+      test: ["CMD-SHELL", "pg_isready -U aoeuser"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -199,7 +199,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - plugins.security.disabled=true
-      - 'OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m'
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Asfsadfsad!@2
     volumes:
       - ./docker/dev/os_data:/usr/share/opensearch/data
@@ -208,7 +208,7 @@ services:
         soft: -1
         hard: -1
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9200/_cluster/health']
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -239,7 +239,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
     healthcheck:
-      test: ['CMD', 'nc', '-z', 'localhost', '2181']
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -263,7 +263,7 @@ services:
     ports:
       - 29092:29092
     healthcheck:
-      test: ['CMD', 'nc', '-z', 'localhost', '9092']
+      test: ["CMD", "nc", "-z", "localhost", "9092"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -285,7 +285,7 @@ services:
     ports:
       - 39092:39092
     healthcheck:
-      test: ['CMD', 'nc', '-z', 'localhost', '9092']
+      test: ["CMD", "nc", "-z", "localhost", "9092"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -323,10 +323,10 @@ services:
     healthcheck:
       test:
         [
-          'CMD',
-          'curl',
-          '-f',
-          'http://localhost:80/.well-known/openid-configuration',
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:80/.well-known/openid-configuration",
         ]
       interval: 30s
       timeout: 10s

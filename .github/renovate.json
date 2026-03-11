@@ -172,30 +172,7 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": [
-        "async",
-        "@types/async"
-      ]
-    },
-    {
-      "groupName": "Dotenv",
-      "automerge": true,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": [
-        "dotenv",
-        "@types/dotenv"
-      ]
+      "matchPackageNames": ["async", "@types/async"]
     },
     {
       "groupName": "Http Proxy Middleware",

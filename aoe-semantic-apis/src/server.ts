@@ -1,5 +1,3 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import config from './config'
 import app from './app'
 import { winstonLogger } from './util'

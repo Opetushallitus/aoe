@@ -1,6 +1,4 @@
 // Load environment variables
-import dotenv from 'dotenv'
-dotenv.config()
 
 import app from './app'
 import { Server } from 'net'

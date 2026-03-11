@@ -1,8 +1,3 @@
-import dotenv from 'dotenv'
-
-// Load the environment variables before anything else.
-dotenv.config()
-
 import { initApp } from './app'
 import { Socket } from 'net'
 import * as log from '@util/winstonLogger'
