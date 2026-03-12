@@ -1361,6 +1361,10 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
     let results: string[] = []
     // Read contents of directory
     fs.readdirSync(dir).forEach((dirInner) => {
+      // Skip macOS resource fork directories
+      if (dirInner === '__MACOSX') {
+        return
+      }
       // Obtain absolute path
       dirInner = path.resolve(dir, dirInner)
       // Get stats to determine if path is a directory or a file
@@ -1369,8 +1373,8 @@ const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> =
       if (stat.isDirectory()) {
         results = results.concat(searchRecursive(dirInner, pattern))
       }
-      // If path is a file and ends with pattern then push it onto results
-      if (stat.isFile() && dirInner.endsWith(pattern)) {
+      // If path is a file and the filename matches the pattern exactly
+      if (stat.isFile() && path.basename(dirInner) === pattern) {
         results.push(dirInner)
       }
     })
