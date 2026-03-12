@@ -5,7 +5,7 @@ import { updateEsDocument } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import * as log from '@util/winstonLogger'
-import { Job, scheduleJob } from 'node-schedule'
+import { Cron } from 'croner'
 
 const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *'
 const pidSchedule = process.env.PID_CRON_SCHEDULE || '0 15 1 * * *'
@@ -13,7 +13,7 @@ const fileCleaningSchedule = process.env.FILE_CLEANING_CRON_SCHEDULE || '0 0 1 *
 const indexUpdateSchedule = process.env.INDEX_UPDATE_CRON_SCHEDULE || '0 30 1 * * *'
 
 export const startScheduledCleaning = (): void => {
-  const dirCleaningScheduler: Job = scheduleJob(fileCleaningSchedule, async (): Promise<void> => {
+  const dirCleaningScheduler = new Cron(fileCleaningSchedule, async (): Promise<void> => {
     // Remove temporary content from the resource directories (H5P, HTML).
     try {
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
@@ -22,7 +22,7 @@ export const startScheduledCleaning = (): void => {
       log.debug('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
       log.error('Scheduled removal for temporary H5P or HTML content failed', err)
-      dirCleaningScheduler.cancel()
+      dirCleaningScheduler.stop()
     }
   })
   log.info('Scheduled job active for directory cleaning at 1:00 AM (UTC)')
@@ -33,35 +33,35 @@ export const startScheduledRegistrationForPIDs = (): void => {
   if (!process.env.PID_SERVICE_RUN_SCHEDULED || process.env.PID_SERVICE_RUN_SCHEDULED !== 'true') {
     return
   }
-  const pidRegisterScheduler: Job = scheduleJob(pidSchedule, async (): Promise<void> => {
+  const pidRegisterScheduler = new Cron(pidSchedule, async (): Promise<void> => {
     try {
       log.info('Starting to register PIDs for educational materials')
       await processEntriesWithoutPID()
       log.info('Finished PID registration for educational materials')
     } catch (err: unknown) {
       log.error('PID registration for educational materials failed', err)
-      pidRegisterScheduler.cancel()
+      pidRegisterScheduler.stop()
     }
   })
 }
 
 // 1:30 AM (UTC): scheduled search index update.
 export const startScheduledSearchIndexUpdate = (): void => {
-  const searchUpdateScheduler: Job = scheduleJob(indexUpdateSchedule, async (): Promise<void> => {
+  const searchUpdateScheduler = new Cron(indexUpdateSchedule, async (): Promise<void> => {
     // Update search engine index with recent changes.
     try {
       await updateEsDocument(true)
       log.debug('Scheduled index update for the search engine completed.')
     } catch (err: unknown) {
       log.error('Scheduled index update for the search engine failed', err)
-      searchUpdateScheduler.cancel()
+      searchUpdateScheduler.stop()
     }
   })
   log.info('Scheduled job active for search index update at 1:30 AM (UTC)')
 }
 
 export function startScheduledMailJobs() {
-  scheduleJob(emailSchedule, async (): Promise<void> => {
+  new Cron(emailSchedule, async (): Promise<void> => {
     try {
       await sendRatingNotificationMail()
       await sendExpirationMail()
