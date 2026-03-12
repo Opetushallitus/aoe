@@ -4,14 +4,20 @@ import { MaterialService } from '@services/material.service'
 import { EducationalMaterialCard } from '@models/educational-material-card'
 import { Title } from '@angular/platform-browser'
 import { KoodistoService } from '@services/koodisto.service'
-import { SearchComponent } from '../../components/search/search.component';
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { RouterLink } from '@angular/router';
-import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component';
+import { SearchComponent } from '../../components/search/search.component'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { RouterLink } from '@angular/router'
+import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component'
 
 @Component({
-    templateUrl: 'main-view.component.html',
-    imports: [SearchComponent, FocusRemoverDirective, RouterLink, EducationalMaterialCardComponent, TranslatePipe]
+  templateUrl: 'main-view.component.html',
+  imports: [
+    SearchComponent,
+    FocusRemoverDirective,
+    RouterLink,
+    EducationalMaterialCardComponent,
+    TranslatePipe
+  ]
 })
 export class MainViewComponent implements OnInit {
   lang: string = this.translate.getCurrentLang()

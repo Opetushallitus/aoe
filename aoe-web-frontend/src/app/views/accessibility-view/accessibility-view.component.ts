@@ -4,13 +4,13 @@ import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { AccessibilityTable } from '@models/mocks/accessibility-table'
 import { Accessibility } from '../../mocks/accessibility.mock'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 
 @Component({
-    selector: 'app-accessibility-view',
-    templateUrl: './accessibility-view.component.html',
-    styleUrls: ['./accessibility-view.component.scss'],
-    imports: [FocusRemoverDirective, TranslatePipe]
+  selector: 'app-accessibility-view',
+  templateUrl: './accessibility-view.component.html',
+  styleUrls: ['./accessibility-view.component.scss'],
+  imports: [FocusRemoverDirective, TranslatePipe]
 })
 export class AccessibilityViewComponent implements OnInit {
   lang: string = this.translate.getCurrentLang()

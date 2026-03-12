@@ -3,18 +3,25 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
 import { Material } from '@models/material'
 import { mimeTypes } from '@constants/mimetypes'
-import { VideoPreviewComponent } from '../video-preview/video-preview.component';
-import { AudioPreviewComponent } from '../audio-preview/audio-preview.component';
-import { PdfPreviewComponent } from '../pdf-preview/pdf-preview.component';
-import { HtmlPreviewComponent } from '../html-preview/html-preview.component';
-import { OfficePreviewComponent } from '../office-preview/office-preview.component';
-import { ImagePreviewComponent } from '../image-preview/image-preview.component';
+import { VideoPreviewComponent } from '../video-preview/video-preview.component'
+import { AudioPreviewComponent } from '../audio-preview/audio-preview.component'
+import { PdfPreviewComponent } from '../pdf-preview/pdf-preview.component'
+import { HtmlPreviewComponent } from '../html-preview/html-preview.component'
+import { OfficePreviewComponent } from '../office-preview/office-preview.component'
+import { ImagePreviewComponent } from '../image-preview/image-preview.component'
 
 @Component({
-    selector: 'app-educational-material-preview',
-    templateUrl: './educational-material-preview.component.html',
-    styleUrls: ['./educational-material-preview.component.scss'],
-    imports: [VideoPreviewComponent, AudioPreviewComponent, PdfPreviewComponent, HtmlPreviewComponent, OfficePreviewComponent, ImagePreviewComponent]
+  selector: 'app-educational-material-preview',
+  templateUrl: './educational-material-preview.component.html',
+  styleUrls: ['./educational-material-preview.component.scss'],
+  imports: [
+    VideoPreviewComponent,
+    AudioPreviewComponent,
+    PdfPreviewComponent,
+    HtmlPreviewComponent,
+    OfficePreviewComponent,
+    ImagePreviewComponent
+  ]
 })
 export class EducationalMaterialPreviewComponent implements OnInit {
   @Input() material: Material

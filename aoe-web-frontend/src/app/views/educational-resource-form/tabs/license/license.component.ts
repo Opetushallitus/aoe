@@ -8,14 +8,14 @@ import { environment } from '@environments/environment'
 import { KoodistoService } from '@services/koodisto.service'
 import { License } from '@models/koodisto/license'
 import { Title } from '@angular/platform-browser'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { CollapseDirective } from 'ngx-bootstrap/collapse';
-import { AsyncPipe } from '@angular/common';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { CollapseDirective } from 'ngx-bootstrap/collapse'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
-    selector: 'app-tabs-license',
-    templateUrl: './license.component.html',
-    imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
+  selector: 'app-tabs-license',
+  templateUrl: './license.component.html',
+  imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class LicenseComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

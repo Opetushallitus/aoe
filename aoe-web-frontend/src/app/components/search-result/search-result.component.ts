@@ -4,15 +4,15 @@ import { environment } from '../../../environments/environment'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { SearchParams } from '@models/search/search-params'
 import { UsedFilter } from '@models/search/used-filter'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { RouterLink } from '@angular/router'
+import { DatePipe } from '@angular/common'
 
 @Component({
-    selector: 'app-search-result',
-    templateUrl: './search-result.component.html',
-    styleUrls: ['./search-result.component.scss'],
-    imports: [FocusRemoverDirective, RouterLink, DatePipe, TranslatePipe]
+  selector: 'app-search-result',
+  templateUrl: './search-result.component.html',
+  styleUrls: ['./search-result.component.scss'],
+  imports: [FocusRemoverDirective, RouterLink, DatePipe, TranslatePipe]
 })
 export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult

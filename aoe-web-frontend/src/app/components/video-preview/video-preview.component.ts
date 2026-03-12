@@ -10,12 +10,12 @@ import {
 
 import { Material } from '@models/material'
 import { environment } from '../../../environments/environment'
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-video-preview',
-    templateUrl: './video-preview.component.html',
-    imports: [TranslatePipe]
+  selector: 'app-video-preview',
+  templateUrl: './video-preview.component.html',
+  imports: [TranslatePipe]
 })
 export class VideoPreviewComponent implements OnInit, OnChanges {
   @ViewChild('videoElement', { static: true }) private player: ElementRef

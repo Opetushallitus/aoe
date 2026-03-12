@@ -13,14 +13,25 @@ import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { EducationalLevel } from '@models/koodisto/educational-level'
 import { Toast } from '@models/translations/toast'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import {
+  NgSelectComponent,
+  NgOptgroupTemplateDirective,
+  NgOptionTemplateDirective
+} from '@ng-select/ng-select'
 
 @Component({
-    selector: 'app-social-metadata-modal',
-    templateUrl: './social-metadata-modal.component.html',
-    styleUrls: ['./social-metadata-modal.component.scss'],
-    imports: [FocusRemoverDirective, ReactiveFormsModule, NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective, TranslatePipe]
+  selector: 'app-social-metadata-modal',
+  templateUrl: './social-metadata-modal.component.html',
+  styleUrls: ['./social-metadata-modal.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgOptgroupTemplateDirective,
+    NgOptionTemplateDirective,
+    TranslatePipe
+  ]
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   materialId: number

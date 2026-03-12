@@ -4,13 +4,13 @@ import { SearchService } from '@services/search.service'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { CollectionSearchResults } from '@models/search/collection-search-results'
-import { CollectionSearchResultComponent } from '../../components/collection-search-result/collection-search-result.component';
+import { CollectionSearchResultComponent } from '../../components/collection-search-result/collection-search-result.component'
 
 @Component({
-    selector: 'app-collection-search-results-view',
-    templateUrl: './collection-search-results-view.component.html',
-    styleUrls: ['./collection-search-results-view.component.scss'],
-    imports: [CollectionSearchResultComponent, TranslatePipe]
+  selector: 'app-collection-search-results-view',
+  templateUrl: './collection-search-results-view.component.html',
+  styleUrls: ['./collection-search-results-view.component.scss'],
+  imports: [CollectionSearchResultComponent, TranslatePipe]
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription

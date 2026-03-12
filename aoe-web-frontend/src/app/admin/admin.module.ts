@@ -36,7 +36,7 @@ defineLocale('fi', fiLocale)
     NgSelectModule,
     ReactiveFormsModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
+      echarts: () => import('echarts')
     }),
     AdminComponent,
     CustomDatePipe,
@@ -47,9 +47,9 @@ defineLocale('fi', fiLocale)
     NotificationComponent,
     ManageServiceComponent,
     AnalyticsViewComponent,
-    LineChartComponent,
+    LineChartComponent
   ],
-  providers: [AuthGuard, AdminGuard],
+  providers: [AuthGuard, AdminGuard]
 })
 export class AdminModule {
   constructor(private localeService: BsLocaleService) {

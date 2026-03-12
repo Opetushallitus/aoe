@@ -7,7 +7,15 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
@@ -27,19 +35,29 @@ import { AttachmentPostResponse } from '@models/attachment-post-response'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
 import { catchError } from 'rxjs/operators'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { NgClass } from '@angular/common';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
-import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { NgClass } from '@angular/common'
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { AlertComponent } from 'ngx-bootstrap/alert'
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
+import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
 
 @Component({
-    selector: 'app-tabs-edit-files',
-    templateUrl: './edit-files.component.html',
-    styleUrls: ['./edit-files.component.scss'],
-    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgClass, NgSelectComponent, AlertComponent, ProgressbarComponent, TranslatePipe, CleanFilenamePipe]
+  selector: 'app-tabs-edit-files',
+  templateUrl: './edit-files.component.html',
+  styleUrls: ['./edit-files.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TooltipDirective,
+    NgClass,
+    NgSelectComponent,
+    AlertComponent,
+    ProgressbarComponent,
+    TranslatePipe,
+    CleanFilenamePipe
+  ]
 })
 export class EditFilesComponent implements OnInit, OnDestroy {
   @Input() tabId: number

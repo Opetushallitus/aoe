@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { RouterLink } from '@angular/router'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-preview-row',
-    templateUrl: './preview-row.component.html',
-    styleUrls: ['./preview-row.component.scss'],
-    imports: [FocusRemoverDirective, RouterLink, TranslatePipe]
+  selector: 'app-preview-row',
+  templateUrl: './preview-row.component.html',
+  styleUrls: ['./preview-row.component.scss'],
+  imports: [FocusRemoverDirective, RouterLink, TranslatePipe]
 })
 export class PreviewRowComponent {
   @Input() title: string

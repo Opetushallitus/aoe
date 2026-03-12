@@ -4,9 +4,9 @@ import { Title } from '@angular/platform-browser'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 
 @Component({
-    selector: 'app-archived-material',
-    templateUrl: './archived-material.component.html',
-    styleUrls: ['./archived-material.component.scss']
+  selector: 'app-archived-material',
+  templateUrl: './archived-material.component.html',
+  styleUrls: ['./archived-material.component.scss']
 })
 export class ArchivedMaterialComponent implements OnInit {
   @Input() materialId: string

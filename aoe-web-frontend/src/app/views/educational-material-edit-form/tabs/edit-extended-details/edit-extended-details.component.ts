@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Title } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
@@ -16,17 +22,26 @@ import { EducationalMaterialForm } from '@models/educational-material-form'
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { MaterialService } from '@services/material.service'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgClass } from '@angular/common';
-import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { NgClass } from '@angular/common'
+import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker'
 
 @Component({
-    selector: 'app-tabs-edit-extended-details',
-    templateUrl: './edit-extended-details.component.html',
-    styleUrls: ['./edit-extended-details.component.scss'],
-    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgSelectComponent, NgClass, BsDatepickerInputDirective, BsDatepickerDirective, TranslatePipe]
+  selector: 'app-tabs-edit-extended-details',
+  templateUrl: './edit-extended-details.component.html',
+  styleUrls: ['./edit-extended-details.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TooltipDirective,
+    NgSelectComponent,
+    NgClass,
+    BsDatepickerInputDirective,
+    BsDatepickerDirective,
+    TranslatePipe
+  ]
 })
 export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

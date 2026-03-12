@@ -10,12 +10,12 @@ import {
 
 import { Material } from '@models/material'
 import { environment } from '../../../environments/environment'
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-audio-preview',
-    templateUrl: './audio-preview.component.html',
-    imports: [TranslatePipe]
+  selector: 'app-audio-preview',
+  templateUrl: './audio-preview.component.html',
+  imports: [TranslatePipe]
 })
 export class AudioPreviewComponent implements OnInit, OnChanges {
   @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef

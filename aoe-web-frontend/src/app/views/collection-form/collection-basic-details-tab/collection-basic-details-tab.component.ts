@@ -7,7 +7,13 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { KeyValue, NgClass } from '@angular/common'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
@@ -31,15 +37,23 @@ import { Language } from '@models/koodisto/language'
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { UploadMessage } from '@models/upload-message'
-import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
-import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
+import { NgSelectComponent } from '@ng-select/ng-select'
 
 @Component({
-    selector: 'app-collection-basic-details-tab',
-    templateUrl: './collection-basic-details-tab.component.html',
-    styleUrls: ['./collection-basic-details-tab.component.scss'],
-    imports: [ReactiveFormsModule, FocusRemoverDirective, ImageCropperModule, ProgressbarComponent, NgClass, NgSelectComponent, TranslatePipe]
+  selector: 'app-collection-basic-details-tab',
+  templateUrl: './collection-basic-details-tab.component.html',
+  styleUrls: ['./collection-basic-details-tab.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    ImageCropperModule,
+    ProgressbarComponent,
+    NgClass,
+    NgSelectComponent,
+    TranslatePipe
+  ]
 })
 export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

@@ -16,16 +16,26 @@ import {
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
 import { Toast } from '@models/translations/toast'
 import { CollectionService } from '@services/collection.service'
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { NgClass, DatePipe } from '@angular/common';
+import { AlertComponent } from 'ngx-bootstrap/alert'
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { NgClass, DatePipe } from '@angular/common'
 
 @Component({
-    selector: 'app-collection-materials-tab',
-    templateUrl: './collection-materials-tab.component.html',
-    styleUrls: ['./collection-materials-tab.component.scss'],
-    imports: [ReactiveFormsModule, AlertComponent, CdkDropList, CdkDrag, FocusRemoverDirective, TooltipDirective, NgClass, DatePipe, TranslatePipe]
+  selector: 'app-collection-materials-tab',
+  templateUrl: './collection-materials-tab.component.html',
+  styleUrls: ['./collection-materials-tab.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    AlertComponent,
+    CdkDropList,
+    CdkDrag,
+    FocusRemoverDirective,
+    TooltipDirective,
+    NgClass,
+    DatePipe,
+    TranslatePipe
+  ]
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

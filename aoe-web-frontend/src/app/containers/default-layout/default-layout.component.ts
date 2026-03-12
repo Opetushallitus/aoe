@@ -9,21 +9,32 @@ import { AlertService } from '@services/alert.service'
 import { AlertsResponse } from '@models/alerts/alerts-response'
 import { ServiceNotification } from '@models/service-notification'
 import { NotificationService } from '@services/notification.service'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NgClass, AsyncPipe } from '@angular/common';
-import { NavLoginComponent } from '../../components/nav-login/nav-login.component';
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { CookieNoticeComponent } from '../../components/cookie-notice/cookie-notice.component';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
+import { NgClass, AsyncPipe } from '@angular/common'
+import { NavLoginComponent } from '../../components/nav-login/nav-login.component'
+import { AlertComponent } from 'ngx-bootstrap/alert'
+import { CookieNoticeComponent } from '../../components/cookie-notice/cookie-notice.component'
 
 /**
  * @ignore
  */
 @Component({
-    selector: 'app-dashboard',
-    templateUrl: './default-layout.component.html',
-    styleUrls: ['./default-layout.component.scss'],
-    imports: [FocusRemoverDirective, RouterLink, RouterLinkActive, NgClass, NavLoginComponent, AlertComponent, RouterOutlet, CookieNoticeComponent, AsyncPipe, TranslatePipe]
+  selector: 'app-dashboard',
+  templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    RouterLink,
+    RouterLinkActive,
+    NgClass,
+    NavLoginComponent,
+    AlertComponent,
+    RouterOutlet,
+    CookieNoticeComponent,
+    AsyncPipe,
+    TranslatePipe
+  ]
 })
 export class DefaultLayoutComponent implements OnInit {
   languages = new Map()

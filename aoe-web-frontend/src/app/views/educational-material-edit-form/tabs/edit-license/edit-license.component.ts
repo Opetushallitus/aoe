@@ -8,15 +8,15 @@ import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { MaterialService } from '@services/material.service'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { CollapseDirective } from 'ngx-bootstrap/collapse';
-import { AsyncPipe } from '@angular/common';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { CollapseDirective } from 'ngx-bootstrap/collapse'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
-    selector: 'app-tabs-edit-license',
-    templateUrl: './edit-license.component.html',
-    styleUrls: ['./edit-license.component.scss'],
-    imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
+  selector: 'app-tabs-edit-license',
+  templateUrl: './edit-license.component.html',
+  styleUrls: ['./edit-license.component.scss'],
+  imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class EditLicenseComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

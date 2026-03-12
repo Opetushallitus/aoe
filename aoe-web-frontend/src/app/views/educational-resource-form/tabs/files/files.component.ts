@@ -7,7 +7,15 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { forkJoin, Observable, Subscription } from 'rxjs'
@@ -24,18 +32,29 @@ import { UploadedFile } from '@models/uploaded-file'
 import { SubtitleKind } from '@models/material/subtitle'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { NgClass, AsyncPipe } from '@angular/common';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
-import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe';
+import { AlertComponent } from 'ngx-bootstrap/alert'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { NgClass, AsyncPipe } from '@angular/common'
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
+import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
 
 @Component({
-    selector: 'app-tabs-files',
-    templateUrl: './files.component.html',
-    imports: [AlertComponent, ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgClass, NgSelectComponent, ProgressbarComponent, AsyncPipe, TranslatePipe, CleanFilenamePipe]
+  selector: 'app-tabs-files',
+  templateUrl: './files.component.html',
+  imports: [
+    AlertComponent,
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TooltipDirective,
+    NgClass,
+    NgSelectComponent,
+    ProgressbarComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CleanFilenamePipe
+  ]
 })
 export class FilesComponent implements OnInit, OnDestroy {
   @Input() educationalMaterialID$: Observable<number>

@@ -4,14 +4,20 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { AuthService } from '@services/auth.service'
 import { Title } from '@angular/platform-browser'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { TermsOfUseComponent } from '../../components/terms-of-use/terms-of-use.component';
-import { PrivacyPolicyComponent } from '../../components/privacy-policy/privacy-policy.component';
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { TermsOfUseComponent } from '../../components/terms-of-use/terms-of-use.component'
+import { PrivacyPolicyComponent } from '../../components/privacy-policy/privacy-policy.component'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 
 @Component({
-    selector: 'app-acceptance-view',
-    templateUrl: './acceptance-view.component.html',
-    imports: [TermsOfUseComponent, PrivacyPolicyComponent, ReactiveFormsModule, FocusRemoverDirective, TranslatePipe]
+  selector: 'app-acceptance-view',
+  templateUrl: './acceptance-view.component.html',
+  imports: [
+    TermsOfUseComponent,
+    PrivacyPolicyComponent,
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TranslatePipe
+  ]
 })
 export class AcceptanceViewComponent implements OnInit {
   public acceptanceForm: FormGroup

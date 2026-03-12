@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
@@ -23,16 +29,29 @@ import { validatorParams } from '@constants/validator-params'
 import { EducationalLevel } from '@models/koodisto/educational-level'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { CollectionForm } from '@models/collections/collection-form'
-import { NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
-import { NgClass } from '@angular/common';
-import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import {
+  NgSelectComponent,
+  NgOptgroupTemplateDirective,
+  NgOptionTemplateDirective
+} from '@ng-select/ng-select'
+import { NgClass } from '@angular/common'
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 
 @Component({
-    selector: 'app-collection-educational-details-tab',
-    templateUrl: './collection-educational-details-tab.component.html',
-    styleUrls: ['./collection-educational-details-tab.component.scss'],
-    imports: [ReactiveFormsModule, NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective, NgClass, FocusRemoverDirective, TooltipDirective, TranslatePipe]
+  selector: 'app-collection-educational-details-tab',
+  templateUrl: './collection-educational-details-tab.component.html',
+  styleUrls: ['./collection-educational-details-tab.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgOptgroupTemplateDirective,
+    NgOptionTemplateDirective,
+    NgClass,
+    FocusRemoverDirective,
+    TooltipDirective,
+    TranslatePipe
+  ]
 })
 export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

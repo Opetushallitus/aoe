@@ -11,20 +11,22 @@ import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object
 import { koodistoSources } from '@constants/koodisto-sources'
 
 @NgModule({
-    imports: [
-        AlertModule.forRoot(),
-        CommonModule,
-        TranslateModule,
-        TruncatePipe, SafePipe, MaterialLanguagePipe
-    ],
-    exports: [
-        CommonModule,
-        TranslateModule,
-        TruncatePipe,
-        SafePipe,
-        MaterialLanguagePipe,
-        AlertModule
-    ]
+  imports: [
+    AlertModule.forRoot(),
+    CommonModule,
+    TranslateModule,
+    TruncatePipe,
+    SafePipe,
+    MaterialLanguagePipe
+  ],
+  exports: [
+    CommonModule,
+    TranslateModule,
+    TruncatePipe,
+    SafePipe,
+    MaterialLanguagePipe,
+    AlertModule
+  ]
 })
 export class SharedModule {}
 

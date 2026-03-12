@@ -3,15 +3,15 @@ import { SearchParams } from '@models/search/search-params'
 import { environment } from '@environments/environment'
 import { Router } from '@angular/router'
 import { UsedFilter } from '@models/search/used-filter'
-import { NgClass } from '@angular/common';
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { TranslatePipe } from '@ngx-translate/core';
+import { NgClass } from '@angular/common'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-    selector: 'app-taglist',
-    templateUrl: './taglist.component.html',
-    styleUrls: ['./taglist.component.scss'],
-    imports: [NgClass, FocusRemoverDirective, TranslatePipe]
+  selector: 'app-taglist',
+  templateUrl: './taglist.component.html',
+  styleUrls: ['./taglist.component.scss'],
+  imports: [NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class TaglistComponent {
   @Input() tags: any[]

@@ -2,12 +2,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { Material } from '@models/material'
 import { environment } from '../../../../environments/environment'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 
 @Component({
-    selector: 'app-office-preview',
-    templateUrl: './office-preview.component.html',
-    imports: [PdfJsViewerModule]
+  selector: 'app-office-preview',
+  templateUrl: './office-preview.component.html',
+  imports: [PdfJsViewerModule]
 })
 export class OfficePreviewComponent implements OnInit, OnChanges {
   @Input() material: Material

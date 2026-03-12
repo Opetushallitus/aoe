@@ -8,7 +8,13 @@ import {
   TooltipComponentOption,
   YAXisComponentOption
 } from 'echarts'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import {
   ActivityData,
   EChartData,
@@ -32,16 +38,31 @@ import {
   OptionInterval
 } from '@admin/model/statistics-select-options'
 import { Organization } from '@admin/model/organization'
-import { NgSelectComponent, NgMultiLabelTemplateDirective, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
-import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
-import { LineChartComponent } from '../charts/line-chart/line-chart.component';
-import { AsyncPipe } from '@angular/common';
+import {
+  NgSelectComponent,
+  NgMultiLabelTemplateDirective,
+  NgOptgroupTemplateDirective,
+  NgOptionTemplateDirective
+} from '@ng-select/ng-select'
+import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker'
+import { LineChartComponent } from '../charts/line-chart/line-chart.component'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
-    selector: 'app-analytics-view',
-    templateUrl: './analytics-view.component.html',
-    styleUrls: ['./analytics-view.component.scss'],
-    imports: [ReactiveFormsModule, NgSelectComponent, BsDatepickerInputDirective, BsDatepickerDirective, NgMultiLabelTemplateDirective, NgOptgroupTemplateDirective, NgOptionTemplateDirective, LineChartComponent, AsyncPipe]
+  selector: 'app-analytics-view',
+  templateUrl: './analytics-view.component.html',
+  styleUrls: ['./analytics-view.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    NgSelectComponent,
+    BsDatepickerInputDirective,
+    BsDatepickerDirective,
+    NgMultiLabelTemplateDirective,
+    NgOptgroupTemplateDirective,
+    NgOptionTemplateDirective,
+    LineChartComponent,
+    AsyncPipe
+  ]
 })
 export class AnalyticsViewComponent implements OnInit {
   educationalLevels$: Observable<EducationalLevel[]> = this.koodistoService.educationalLevels$

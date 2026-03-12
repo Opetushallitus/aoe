@@ -1,5 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule
+} from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { UserCollection } from '@models/collections/user-collection'
 import { CollectionService } from '@services/collection.service'
@@ -10,14 +17,14 @@ import { AddToCollectionResponse } from '@models/collections/add-to-collection-r
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Toast } from '@models/translations/toast'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { NgClass } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { NgClass } from '@angular/common'
 
 @Component({
-    selector: 'app-add-to-collection-modal',
-    templateUrl: './add-to-collection-modal.component.html',
-    styleUrls: ['./add-to-collection-modal.component.scss'],
-    imports: [FocusRemoverDirective, ReactiveFormsModule, NgClass, FormsModule, TranslatePipe]
+  selector: 'app-add-to-collection-modal',
+  templateUrl: './add-to-collection-modal.component.html',
+  styleUrls: ['./add-to-collection-modal.component.scss'],
+  imports: [FocusRemoverDirective, ReactiveFormsModule, NgClass, FormsModule, TranslatePipe]
 })
 export class AddToCollectionModalComponent implements OnInit, OnDestroy {
   materialId: number

@@ -8,17 +8,24 @@ import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate
 import { UserCollection } from '@models/collections/user-collection'
 import { CollectionService } from '@services/collection.service'
 import { Title } from '@angular/platform-browser'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { RouterLink } from '@angular/router';
-import { AlertComponent } from 'ngx-bootstrap/alert';
-import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component';
-import { DatePipe } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { RouterLink } from '@angular/router'
+import { AlertComponent } from 'ngx-bootstrap/alert'
+import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component'
+import { DatePipe } from '@angular/common'
 
 @Component({
-    selector: 'app-user-materials-view',
-    templateUrl: './user-materials-view.component.html',
-    styleUrls: ['./user-materials-view.component.scss'],
-    imports: [FocusRemoverDirective, RouterLink, AlertComponent, EducationalMaterialCardComponent, DatePipe, TranslatePipe]
+  selector: 'app-user-materials-view',
+  templateUrl: './user-materials-view.component.html',
+  styleUrls: ['./user-materials-view.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    RouterLink,
+    AlertComponent,
+    EducationalMaterialCardComponent,
+    DatePipe,
+    TranslatePipe
+  ]
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()

@@ -8,14 +8,14 @@ import { environment } from '@environments/environment'
 import { textInputValidator } from '@shared/shared.module'
 import { validatorParams } from '@constants/validator-params'
 import { ExternalReference } from '@models/material/external-reference'
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgClass } from '@angular/common';
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { NgClass } from '@angular/common'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 
 @Component({
-    selector: 'app-tabs-based-on-details',
-    templateUrl: './based-on-details.component.html',
-    imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
+  selector: 'app-tabs-based-on-details',
+  templateUrl: './based-on-details.component.html',
+  imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

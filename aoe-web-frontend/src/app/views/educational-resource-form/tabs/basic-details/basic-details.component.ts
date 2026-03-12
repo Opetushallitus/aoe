@@ -1,6 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
 import { KeyValue, NgClass } from '@angular/common'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
@@ -18,15 +25,24 @@ import { EducationalRole } from '@models/koodisto/educational-role'
 import { EducationalUse } from '@models/koodisto/educational-use'
 import { Author } from '@models/material/author'
 import { validatorParams } from '@constants/validator-params'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
+import { NgSelectComponent } from '@ng-select/ng-select'
 
 @Component({
-    selector: 'app-tabs-basic-details',
-    templateUrl: './basic-details.component.html',
-    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, ImageCropperModule, ProgressbarComponent, NgClass, NgSelectComponent, TranslatePipe]
+  selector: 'app-tabs-basic-details',
+  templateUrl: './basic-details.component.html',
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TooltipDirective,
+    ImageCropperModule,
+    ProgressbarComponent,
+    NgClass,
+    NgSelectComponent,
+    TranslatePipe
+  ]
 })
 export class BasicDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

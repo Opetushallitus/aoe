@@ -17,21 +17,34 @@ import {
   EditLicenseComponent,
   EditPreviewComponent
 } from './tabs'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { EditFilesComponent as EditFilesComponent_1 } from './tabs/edit-files/edit-files.component';
-import { EditBasicDetailsComponent as EditBasicDetailsComponent_1 } from './tabs/edit-basic-details/edit-basic-details.component';
-import { EditEducationalDetailsComponent as EditEducationalDetailsComponent_1 } from './tabs/edit-educational-details/edit-educational-details.component';
-import { EditExtendedDetailsComponent as EditExtendedDetailsComponent_1 } from './tabs/edit-extended-details/edit-extended-details.component';
-import { EditLicenseComponent as EditLicenseComponent_1 } from './tabs/edit-license/edit-license.component';
-import { EditBasedOnDetailsComponent as EditBasedOnDetailsComponent_1 } from './tabs/edit-based-on-details/edit-based-on-details.component';
-import { EditPreviewComponent as EditPreviewComponent_1 } from './tabs/edit-preview/edit-preview.component';
-import { AsyncPipe } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { EditFilesComponent as EditFilesComponent_1 } from './tabs/edit-files/edit-files.component'
+import { EditBasicDetailsComponent as EditBasicDetailsComponent_1 } from './tabs/edit-basic-details/edit-basic-details.component'
+import { EditEducationalDetailsComponent as EditEducationalDetailsComponent_1 } from './tabs/edit-educational-details/edit-educational-details.component'
+import { EditExtendedDetailsComponent as EditExtendedDetailsComponent_1 } from './tabs/edit-extended-details/edit-extended-details.component'
+import { EditLicenseComponent as EditLicenseComponent_1 } from './tabs/edit-license/edit-license.component'
+import { EditBasedOnDetailsComponent as EditBasedOnDetailsComponent_1 } from './tabs/edit-based-on-details/edit-based-on-details.component'
+import { EditPreviewComponent as EditPreviewComponent_1 } from './tabs/edit-preview/edit-preview.component'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
-    selector: 'app-educational-material-edit-form',
-    templateUrl: './educational-material-edit-form.component.html',
-    styleUrls: ['./educational-material-edit-form.component.scss'],
-    imports: [FocusRemoverDirective, RouterLinkActive, RouterLink, EditFilesComponent_1, EditBasicDetailsComponent_1, EditEducationalDetailsComponent_1, EditExtendedDetailsComponent_1, EditLicenseComponent_1, EditBasedOnDetailsComponent_1, EditPreviewComponent_1, AsyncPipe, TranslatePipe]
+  selector: 'app-educational-material-edit-form',
+  templateUrl: './educational-material-edit-form.component.html',
+  styleUrls: ['./educational-material-edit-form.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    RouterLinkActive,
+    RouterLink,
+    EditFilesComponent_1,
+    EditBasicDetailsComponent_1,
+    EditEducationalDetailsComponent_1,
+    EditExtendedDetailsComponent_1,
+    EditLicenseComponent_1,
+    EditBasedOnDetailsComponent_1,
+    EditPreviewComponent_1,
+    AsyncPipe,
+    TranslatePipe
+  ]
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   educationalMaterialEditForm: EducationalMaterialForm

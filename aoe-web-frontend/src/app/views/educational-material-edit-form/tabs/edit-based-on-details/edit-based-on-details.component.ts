@@ -8,15 +8,15 @@ import { validatorParams } from '@constants/validator-params'
 import { EducationalMaterialForm } from '@models/educational-material-form'
 import { ExternalReference } from '@models/material/external-reference'
 import { MaterialService } from '@services/material.service'
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgClass } from '@angular/common';
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { NgSelectComponent } from '@ng-select/ng-select'
+import { NgClass } from '@angular/common'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 
 @Component({
-    selector: 'app-tabs-edit-based-on-details',
-    templateUrl: './edit-based-on-details.component.html',
-    styleUrls: ['./edit-based-on-details.component.scss'],
-    imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
+  selector: 'app-tabs-edit-based-on-details',
+  templateUrl: './edit-based-on-details.component.html',
+  styleUrls: ['./edit-based-on-details.component.scss'],
+  imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

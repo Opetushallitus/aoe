@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
@@ -24,15 +30,28 @@ import { EducationalLevel } from '@models/koodisto/educational-level'
 import { educationalLevelKeys } from '@constants/educational-level-keys'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { TooltipDirective } from 'ngx-bootstrap/tooltip';
-import { NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
-import { NgClass } from '@angular/common';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import {
+  NgSelectComponent,
+  NgOptgroupTemplateDirective,
+  NgOptionTemplateDirective
+} from '@ng-select/ng-select'
+import { NgClass } from '@angular/common'
 
 @Component({
-    selector: 'app-tabs-educational-details',
-    templateUrl: './educational-details.component.html',
-    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective, NgClass, TranslatePipe]
+  selector: 'app-tabs-educational-details',
+  templateUrl: './educational-details.component.html',
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    TooltipDirective,
+    NgSelectComponent,
+    NgOptgroupTemplateDirective,
+    NgOptionTemplateDirective,
+    NgClass,
+    TranslatePipe
+  ]
 })
 export class EducationalDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

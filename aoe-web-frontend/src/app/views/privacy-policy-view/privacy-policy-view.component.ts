@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
-import { PrivacyPolicyComponent } from '../../components/privacy-policy/privacy-policy.component';
+import { PrivacyPolicyComponent } from '../../components/privacy-policy/privacy-policy.component'
 
 @Component({
-    selector: 'app-privacy-policy-view',
-    templateUrl: './privacy-policy-view.component.html',
-    imports: [PrivacyPolicyComponent]
+  selector: 'app-privacy-policy-view',
+  templateUrl: './privacy-policy-view.component.html',
+  imports: [PrivacyPolicyComponent]
 })
 export class PrivacyPolicyViewComponent implements OnInit {
   serviceName: string

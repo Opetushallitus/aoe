@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Router, RouterLink } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop'
@@ -14,14 +20,24 @@ import { UploadedFile } from '@models/uploaded-file'
 import { Subtitle } from '@models/subtitle'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { ignored2019Subjects, ignoredSubjects } from '@constants/ignored-subjects'
-import { PreviewRowComponent } from '../../../../components/preview-row/preview-row.component';
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { PreviewRowComponent } from '../../../../components/preview-row/preview-row.component'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { AsyncPipe, DatePipe } from '@angular/common'
 
 @Component({
-    selector: 'app-preview',
-    templateUrl: './preview.component.html',
-    imports: [PreviewRowComponent, FocusRemoverDirective, RouterLink, CdkDropList, CdkDrag, ReactiveFormsModule, AsyncPipe, DatePipe, TranslatePipe]
+  selector: 'app-preview',
+  templateUrl: './preview.component.html',
+  imports: [
+    PreviewRowComponent,
+    FocusRemoverDirective,
+    RouterLink,
+    CdkDropList,
+    CdkDrag,
+    ReactiveFormsModule,
+    AsyncPipe,
+    DatePipe,
+    TranslatePipe
+  ]
 })
 export class PreviewComponent implements OnInit, OnDestroy {
   @Input() educationalMaterialID$: Observable<number>

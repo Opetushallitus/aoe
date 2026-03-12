@@ -14,17 +14,26 @@ import {
   CollectionMaterialsTabComponent,
   CollectionPreviewTabComponent
 } from './index'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { CollectionBasicDetailsTabComponent as CollectionBasicDetailsTabComponent_1 } from './collection-basic-details-tab/collection-basic-details-tab.component';
-import { CollectionEducationalDetailsTabComponent as CollectionEducationalDetailsTabComponent_1 } from './collection-educational-details-tab/collection-educational-details-tab.component';
-import { CollectionMaterialsTabComponent as CollectionMaterialsTabComponent_1 } from './collection-materials-tab/collection-materials-tab.component';
-import { CollectionPreviewTabComponent as CollectionPreviewTabComponent_1 } from './collection-preview-tab/collection-preview-tab.component'; // @todo: this might need rework
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { CollectionBasicDetailsTabComponent as CollectionBasicDetailsTabComponent_1 } from './collection-basic-details-tab/collection-basic-details-tab.component'
+import { CollectionEducationalDetailsTabComponent as CollectionEducationalDetailsTabComponent_1 } from './collection-educational-details-tab/collection-educational-details-tab.component'
+import { CollectionMaterialsTabComponent as CollectionMaterialsTabComponent_1 } from './collection-materials-tab/collection-materials-tab.component'
+import { CollectionPreviewTabComponent as CollectionPreviewTabComponent_1 } from './collection-preview-tab/collection-preview-tab.component' // @todo: this might need rework
 
 @Component({
-    selector: 'app-collection-form',
-    templateUrl: './collection-form.component.html',
-    styleUrls: ['./collection-form.component.scss'],
-    imports: [FocusRemoverDirective, RouterLinkActive, RouterLink, CollectionBasicDetailsTabComponent_1, CollectionEducationalDetailsTabComponent_1, CollectionMaterialsTabComponent_1, CollectionPreviewTabComponent_1, TranslatePipe]
+  selector: 'app-collection-form',
+  templateUrl: './collection-form.component.html',
+  styleUrls: ['./collection-form.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    RouterLinkActive,
+    RouterLink,
+    CollectionBasicDetailsTabComponent_1,
+    CollectionEducationalDetailsTabComponent_1,
+    CollectionMaterialsTabComponent_1,
+    CollectionPreviewTabComponent_1,
+    TranslatePipe
+  ]
 })
 export class CollectionFormComponent implements OnInit, OnDestroy {
   collectionId: string

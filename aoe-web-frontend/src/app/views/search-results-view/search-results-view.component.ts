@@ -1,5 +1,12 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms'
 import { Title } from '@angular/platform-browser'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { DeviceDetectorService } from 'ngx-device-detector'
@@ -18,18 +25,29 @@ import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/se
 import { UsedFilter } from '@models/search/used-filter'
 import { sortOptions } from '@constants/sort-options'
 import { validatorParams } from '@constants/validator-params'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { NgClass, NgTemplateOutlet, SlicePipe } from '@angular/common';
-import { CollapseDirective } from 'ngx-bootstrap/collapse';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { SearchResultComponent } from '../../components/search-result/search-result.component';
-import { TruncatePipe } from '../../pipes/truncate.pipe';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { NgClass, NgTemplateOutlet, SlicePipe } from '@angular/common'
+import { CollapseDirective } from 'ngx-bootstrap/collapse'
+import { NgxPaginationModule } from 'ngx-pagination'
+import { SearchResultComponent } from '../../components/search-result/search-result.component'
+import { TruncatePipe } from '../../pipes/truncate.pipe'
 
 @Component({
-    selector: 'app-search-results-view',
-    templateUrl: './search-results-view.component.html',
-    styleUrls: ['./search-results-view.component.scss'],
-    imports: [ReactiveFormsModule, FocusRemoverDirective, NgClass, CollapseDirective, NgTemplateOutlet, NgxPaginationModule, SearchResultComponent, SlicePipe, TranslatePipe, TruncatePipe]
+  selector: 'app-search-results-view',
+  templateUrl: './search-results-view.component.html',
+  styleUrls: ['./search-results-view.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    FocusRemoverDirective,
+    NgClass,
+    CollapseDirective,
+    NgTemplateOutlet,
+    NgxPaginationModule,
+    SearchResultComponent,
+    SlicePipe,
+    TranslatePipe,
+    TruncatePipe
+  ]
 })
 export class SearchResultsViewComponent implements OnInit, OnDestroy {
   time = new Date()

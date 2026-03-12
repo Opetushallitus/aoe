@@ -13,15 +13,24 @@ import {
 } from '@models/educational-material-put'
 import { ignoredSubjects } from '@constants/ignored-subjects'
 import { MaterialService } from '@services/material.service'
-import { PreviewRowComponent } from '../../../../components/preview-row/preview-row.component';
-import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
-import { DatePipe } from '@angular/common';
+import { PreviewRowComponent } from '../../../../components/preview-row/preview-row.component'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
+import { DatePipe } from '@angular/common'
 
 @Component({
-    selector: 'app-tabs-edit-preview',
-    templateUrl: './edit-preview.component.html',
-    styleUrls: ['./edit-preview.component.scss'],
-    imports: [PreviewRowComponent, FocusRemoverDirective, RouterLink, CdkDropList, CdkDrag, ReactiveFormsModule, DatePipe, TranslatePipe]
+  selector: 'app-tabs-edit-preview',
+  templateUrl: './edit-preview.component.html',
+  styleUrls: ['./edit-preview.component.scss'],
+  imports: [
+    PreviewRowComponent,
+    FocusRemoverDirective,
+    RouterLink,
+    CdkDropList,
+    CdkDrag,
+    ReactiveFormsModule,
+    DatePipe,
+    TranslatePipe
+  ]
 })
 export class EditPreviewComponent implements OnInit {
   @Input() tabId: number

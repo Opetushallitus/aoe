@@ -10,18 +10,28 @@ import { Collection } from '@models/collections/collection'
 import { Language } from '@models/koodisto/language'
 import { KoodistoService } from '@services/koodisto.service'
 import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form'
-import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
-import { TaglistComponent } from '../../components/taglist/taglist.component';
-import { CollapseDirective } from 'ngx-bootstrap/collapse';
-import { NgClass, DatePipe } from '@angular/common';
-import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component';
-import { MaterialLanguagePipe } from '../../pipes/material-language.pipe';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
+import { TaglistComponent } from '../../components/taglist/taglist.component'
+import { CollapseDirective } from 'ngx-bootstrap/collapse'
+import { NgClass, DatePipe } from '@angular/common'
+import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component'
+import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
 
 @Component({
-    selector: 'app-collection-view',
-    templateUrl: './collection-view.component.html',
-    styleUrls: ['./collection-view.component.scss'],
-    imports: [FocusRemoverDirective, RouterLink, TaglistComponent, CollapseDirective, NgClass, EducationalMaterialPreviewComponent, DatePipe, TranslatePipe, MaterialLanguagePipe]
+  selector: 'app-collection-view',
+  templateUrl: './collection-view.component.html',
+  styleUrls: ['./collection-view.component.scss'],
+  imports: [
+    FocusRemoverDirective,
+    RouterLink,
+    TaglistComponent,
+    CollapseDirective,
+    NgClass,
+    EducationalMaterialPreviewComponent,
+    DatePipe,
+    TranslatePipe,
+    MaterialLanguagePipe
+  ]
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()
