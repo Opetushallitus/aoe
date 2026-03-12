@@ -62,7 +62,7 @@
     "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "20.3.16",
+    "@angular/build": "^20.3.16",
     "@angular/cli": "20.3.16",
     "@angular/compiler-cli": "20.3.16",
     "@angular/language-service": "20.3.16",
@@ -74,7 +74,7 @@
   },
   "overrides": {
     "semver": "7.7.4",
-    "webpack-dev-middleware": "5.3.4",
+
     "dompurify": "3.3.2",
     "esbuild": "0.27.3",
     "xml2js": "0.6.2",
