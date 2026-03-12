@@ -48,7 +48,6 @@
     "loader-utils": "^3.2.1",
     "ng2-pdfjs-viewer": "^20",
     "ngx-bootstrap": "20.0.2",
-    "ngx-clipboard": "16.0.0",
     "ngx-cookie-service": "20.1.1",
     "ngx-device-detector": "^10.1.0",
     "ngx-echarts": "^20.0.1",
@@ -74,7 +73,6 @@
   },
   "overrides": {
     "semver": "7.7.4",
-
     "dompurify": "3.3.2",
     "esbuild": "0.27.3",
     "xml2js": "0.6.2",

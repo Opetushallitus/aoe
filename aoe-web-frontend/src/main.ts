@@ -31,7 +31,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
 import { ImageCropperModule } from 'ngx-image-cropper'
 import { DragDropModule } from '@angular/cdk/drag-drop'
-import { ClipboardModule } from 'ngx-clipboard'
 import { ToastrModule } from 'ngx-toastr'
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 import { NgxPaginationModule } from 'ngx-pagination'
@@ -73,7 +72,6 @@ fetch('./assets/config/config.json')
           ProgressbarModule.forRoot(),
           ImageCropperModule,
           DragDropModule,
-          ClipboardModule,
           ToastrModule.forRoot(),
           PdfJsViewerModule,
           NgxPaginationModule

@@ -345,8 +345,7 @@
                     <button
                       class="btn"
                       type="button"
-                      [ngxClipboard]="embedCodeInput"
-                      (cbOnSuccess)="embedCodeCopied = true"
+                      (click)="copyEmbedCode()"
                       [ngClass]="{
                         'btn-outline-secondary': !embedCodeCopied,
                         'btn-success': embedCodeCopied

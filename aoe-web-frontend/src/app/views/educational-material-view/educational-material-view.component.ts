@@ -31,7 +31,6 @@ import {
 } from 'ngx-bootstrap/dropdown'
 import { NgClass, DatePipe } from '@angular/common'
 import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component'
-import { ClipboardModule } from 'ngx-clipboard'
 import { TaglistComponent } from '../../components/taglist/taglist.component'
 import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion'
 import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
@@ -52,7 +51,6 @@ import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
     RouterLinkActive,
     NgClass,
     EducationalMaterialPreviewComponent,
-    ClipboardModule,
     TaglistComponent,
     AccordionComponent,
     AccordionPanelComponent,
@@ -322,6 +320,12 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
     this.socialMetadataModalRef = this.modalService.show(SocialMetadataModalComponent, {
       initialState
+    })
+  }
+
+  copyEmbedCode(): void {
+    navigator.clipboard.writeText(this.embedCode).then(() => {
+      this.embedCodeCopied = true
     })
   }
 
