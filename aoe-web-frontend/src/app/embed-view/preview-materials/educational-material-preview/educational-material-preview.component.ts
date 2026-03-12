@@ -13,7 +13,7 @@ import { mimeTypes } from '@constants/mimetypes'
 export class EducationalMaterialPreviewComponent implements OnInit {
   @Input() material: Material
   @Input() isCollection = false
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
 
   constructor(private translate: TranslateService) {}
 

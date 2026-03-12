@@ -10,7 +10,7 @@ import { CookieService } from '@services/cookie.service'
 })
 export class CookieNoticeComponent implements OnInit {
   @Output() hideCookieNotice = new EventEmitter()
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
 
   constructor(
     private cookieService: CookieService,

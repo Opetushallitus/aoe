@@ -44,7 +44,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   @Input() tabId: number
   @Output() abortForm = new EventEmitter()
   form: FormGroup
-  lang = this.translate.currentLang
+  lang = this.translate.getCurrentLang()
   submitted = false
   keywordSubscription: Subscription
   keywords: KeyValue<string, string>[]

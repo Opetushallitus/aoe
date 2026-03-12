@@ -17,7 +17,7 @@ import { ExternalReference } from '@models/material/external-reference'
 export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   savedData: any
 
   form: FormGroup

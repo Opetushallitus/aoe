@@ -12,7 +12,7 @@ import { Accessibility } from '../../mocks/accessibility.mock'
   standalone: false
 })
 export class AccessibilityViewComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   accessibilityTable: AccessibilityTable = Accessibility
 
   constructor(

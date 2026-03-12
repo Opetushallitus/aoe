@@ -29,7 +29,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   @Input() tabId: number
   @Output() abortForm = new EventEmitter()
   form: FormGroup
-  lang = this.translate.currentLang
+  lang = this.translate.getCurrentLang()
   submitted = false
   materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>()
   removedFromCollectionToast: Toast

@@ -10,7 +10,7 @@ import { KoodistoService } from '@services/koodisto.service'
   standalone: false
 })
 export class MainViewComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   recentMaterials: EducationalMaterialCard[]
   serviceName: string
 

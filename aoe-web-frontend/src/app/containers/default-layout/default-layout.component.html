@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="/etusivu">
-        <img [src]="brand[translate.currentLang].img" [alt]="brand[translate.currentLang].alt" />
+        <img [src]="brand[translate.getCurrentLang()].img" [alt]="brand[translate.getCurrentLang()].alt" />
       </a>
       <button
         class="navbar-toggler"
@@ -48,7 +48,7 @@
               data-toggle="collapse"
               data-target=".navbar-collapse.show"
               (click)="changeLanguage(lang)"
-              [ngClass]="translate.currentLang === lang ? 'active' : ''"
+              [ngClass]="translate.getCurrentLang() === lang ? 'active' : ''"
               [lang]="lang">
               <span class="sr-only">{{ languages.get(lang)["srText"] }}</span>
               <span aria-hidden="true">{{ languages.get(lang).label }}</span>
@@ -65,12 +65,12 @@
   <div class="alerts">
     @if (alerts.allas) {
       <alert [type]="alerts.allas.alertType">
-        <div class="container">{{ alerts.allas.message[translate.currentLang] }}</div>
+        <div class="container">{{ alerts.allas.message[translate.getCurrentLang()] }}</div>
       </alert>
     }
     @if (alerts.login) {
       <alert [type]="alerts.login.alertType">
-        <div class="container">{{ alerts.login.message[translate.currentLang] }}</div>
+        <div class="container">{{ alerts.login.message[translate.getCurrentLang()] }}</div>
       </alert>
     }
   </div>
@@ -106,13 +106,13 @@
         <div class="col-sm-6 col-md">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a [href]="links.termsOfUsage[translate.currentLang].link">{{ "navigation.termsOfUse" | translate }}</a>
+              <a [href]="links.termsOfUsage[translate.getCurrentLang()].link">{{ "navigation.termsOfUse" | translate }}</a>
             </li>
             <li class="nav-item">
-              <a [href]="links.privacyPolicy[translate.currentLang].link">{{ "navigation.privacyPolicy" | translate }}</a>
+              <a [href]="links.privacyPolicy[translate.getCurrentLang()].link">{{ "navigation.privacyPolicy" | translate }}</a>
             </li>
             <li class="nav-item">
-              <a [href]="links.accessibilityStatement[translate.currentLang].link">
+              <a [href]="links.accessibilityStatement[translate.getCurrentLang()].link">
                 {{ "navigation.accessibilityPolicy" | translate }}
               </a>
             </li>
@@ -147,8 +147,8 @@
       <div class="row justify-content-center align-items-center">
         <div class="col text-center">
           <img
-            [src]="logos.oph[translate.currentLang].src"
-            [alt]="logos.oph[translate.currentLang].alt"
+            [src]="logos.oph[translate.getCurrentLang()].src"
+            [alt]="logos.oph[translate.getCurrentLang()].alt"
             class="img-fluid w-25" />
         </div>
       </div>

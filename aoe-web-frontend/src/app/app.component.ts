@@ -28,7 +28,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private authService: AuthService
   ) {
     translate.addLangs(['fi', 'en', 'sv'])
-    translate.setDefaultLang('fi')
+    translate.setFallbackLang('fi')
 
     const lang = getLanguage()
 

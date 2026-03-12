@@ -54,7 +54,7 @@ export class MaterialService {
     UploadMessage[]
   >([])
 
-  public lang: string = this.translate.currentLang
+  public lang: string = this.translate.getCurrentLang()
   public material$$: Subject<EducationalMaterial> = new Subject<EducationalMaterial>()
   public uploadedFiles$: Observable<UploadedFile[] | null> = this.uploadedFiles$$.asObservable()
   public uploadResponses$: Observable<UploadMessage[]> = this.uploadResponses$$.asObservable()

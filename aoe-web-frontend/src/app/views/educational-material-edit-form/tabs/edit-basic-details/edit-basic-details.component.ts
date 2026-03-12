@@ -41,7 +41,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   @Input() materialId: number
   @Input() tabId: number
   form: FormGroup
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   otherLangs: string[]
   translationsModalRef: BsModalRef
   thumbnailModalRef: BsModalRef

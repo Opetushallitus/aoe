@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser'
   standalone: false
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   publishedMaterialSubscription: Subscription
   publishedMaterials: EducationalMaterialCard[]
   unpublishedMaterialSubscription: Subscription

@@ -28,9 +28,9 @@ export class HelpViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setTitle()
 
-    this.faqGeneral = FAQGeneral[this.translate.currentLang]
-    this.faqMaterial = FAQMaterial[this.translate.currentLang]
-    this.faqOrganisation = FAQOrganisation[this.translate.currentLang]
+    this.faqGeneral = FAQGeneral[this.translate.getCurrentLang()]
+    this.faqMaterial = FAQMaterial[this.translate.getCurrentLang()]
+    this.faqOrganisation = FAQOrganisation[this.translate.getCurrentLang()]
 
     this.langChangeSubscription = this.translate.onLangChange.subscribe(
       (event: LangChangeEvent) => {

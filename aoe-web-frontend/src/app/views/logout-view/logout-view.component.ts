@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser'
   standalone: false
 })
 export class LogoutViewComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   serviceName: string
 
   constructor(

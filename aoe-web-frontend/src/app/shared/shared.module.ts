@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule, KeyValue } from '@angular/common'
-import { HttpClient } from '@angular/common/http'
 import { AbstractControl, ValidatorFn } from '@angular/forms'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
+import { TranslateModule } from '@ngx-translate/core'
 import { AlertModule } from 'ngx-bootstrap/alert'
 
 import { TruncatePipe } from '../pipes/truncate.pipe'
@@ -16,13 +14,7 @@ import { koodistoSources } from '@constants/koodisto-sources'
   imports: [
     AlertModule.forRoot(),
     CommonModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+    TranslateModule
   ],
   declarations: [TruncatePipe, SafePipe, MaterialLanguagePipe],
   exports: [
@@ -47,14 +39,6 @@ export const textInputRe: RegExp =
  */
 export const descriptionRe: RegExp =
   /[^\wåäöáđšâõǩǥčŋŧžʒǯǧʼ\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i
-
-/**
- * @ignore
- */
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(httpClient)
-}
 
 /**
  * Save language to local storage.

@@ -48,7 +48,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   form: FormGroup
   educationalMaterialEditForm: EducationalMaterialForm = null
   educationalMaterialID: number
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   otherLangs: string[]
   translationsModalRef: BsModalRef
   submitted: boolean = false

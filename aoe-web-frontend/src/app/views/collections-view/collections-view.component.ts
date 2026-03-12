@@ -13,7 +13,7 @@ import { KoodistoService } from '@services/koodisto.service'
   standalone: false
 })
 export class CollectionsViewComponent implements OnInit, OnDestroy {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   recentCollectionSubscription: Subscription
   recentCollections: CollectionCard[]
   serviceName: string

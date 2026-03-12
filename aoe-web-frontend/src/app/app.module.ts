@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core'
 import { HashLocationStrategy, LocationStrategy } from '@angular/common'
 import {
   HTTP_INTERCEPTORS,
-  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi
 } from '@angular/common/http'
@@ -27,7 +26,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse'
 import { ModalModule } from 'ngx-bootstrap/modal'
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
+import { provideTranslateService } from '@ngx-translate/core'
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { ImageCropperModule } from 'ngx-image-cropper'
 import { CookieService } from 'ngx-cookie-service'
@@ -39,7 +39,7 @@ import { NgxPaginationModule } from 'ngx-pagination'
 import { DeviceDetectorService } from 'ngx-device-detector'
 
 // shared
-import { HttpLoaderFactory, SharedModule } from './shared/shared.module'
+import { SharedModule } from './shared/shared.module'
 
 // components
 import { EducationalMaterialPreviewComponent } from '@components/educational-material-preview/educational-material-preview.component'
@@ -203,13 +203,6 @@ defineLocale('fi', fiLocale)
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     SharedModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
     AccordionModule.forRoot(),
     NgSelectModule,
     FormsModule,
@@ -242,7 +235,10 @@ defineLocale('fi', fiLocale)
     AdminGuard,
     DisableFormsGuard,
     WindowRef,
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' })
+    })
   ]
 })
 export class AppModule {

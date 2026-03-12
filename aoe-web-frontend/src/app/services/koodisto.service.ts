@@ -73,7 +73,7 @@ export class KoodistoService {
     private http: HttpClient,
     private translate: TranslateService
   ) {
-    this.lang = this.translate.currentLang
+    this.lang = this.translate.getCurrentLang()
   }
 
   private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
@@ -91,7 +91,7 @@ export class KoodistoService {
    * Updates languages.
    */
   updateLanguages(): void {
-    const lang: string = this.translate.currentLang
+    const lang: string = this.translate.getCurrentLang()
     this.http.get<Language[]>(`${this.apiUri}/kielet/${lang}`, this.httpOptions).subscribe(
       (languages: Language[]): void => {
         this.languagesBehaviorSubject.next(languages)
@@ -104,7 +104,7 @@ export class KoodistoService {
    * Updates learning resource types.
    */
   updateLearningResourceTypes(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<LearningResourceType[]>(`${this.apiUri}/oppimateriaalityypit/${lang}`, this.httpOptions)
@@ -120,7 +120,7 @@ export class KoodistoService {
    * Updates educational roles.
    */
   updateEducationalRoles(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<EducationalRole[]>(`${this.apiUri}/kohderyhmat/${lang}`, this.httpOptions)
@@ -136,7 +136,7 @@ export class KoodistoService {
    * Updates educational uses.
    */
   updateEducationalUses(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<EducationalUse[]>(`${this.apiUri}/kayttokohteet/${lang}`, this.httpOptions)
@@ -152,7 +152,7 @@ export class KoodistoService {
    * Updates educational levels.
    */
   updateEducationalLevels(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions)
@@ -177,7 +177,7 @@ export class KoodistoService {
    * Updates basic study subjects.
    */
   updateBasicStudySubjects(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/oppiaineet/${lang}`, this.httpOptions)
@@ -194,7 +194,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateBasicStudyObjectives(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/tavoitteet/${ids}/${lang}`, this.httpOptions)
@@ -211,7 +211,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateBasicStudyContents(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -230,7 +230,7 @@ export class KoodistoService {
    * Updates preparatory education subjects.
    */
   updatePreparatorySubjects(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/tuva-oppiaineet/${lang}`, this.httpOptions)
       .subscribe(
@@ -246,7 +246,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updatePreparatoryObjectives(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -265,7 +265,7 @@ export class KoodistoService {
    * Updates upper secondary school subjects (old).
    */
   updateUpperSecondarySchoolSubjectsOld(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -285,7 +285,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateUpperSecondarySchoolCoursesOld(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -304,7 +304,7 @@ export class KoodistoService {
    * Updates upper secondary school subjects (new).
    */
   updateUpperSecondarySchoolSubjectsNew(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-oppiaineet/${lang}`, this.httpOptions)
@@ -321,7 +321,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateUpperSecondarySchoolModulesNew(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -341,7 +341,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateUpperSecondarySchoolObjectivesNew(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -362,7 +362,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateUpperSecondarySchoolContentsNew(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -381,7 +381,7 @@ export class KoodistoService {
    * Updates vocational degrees.
    */
   updateVocationalDegrees(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -401,7 +401,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateVocationalUnits(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -420,7 +420,7 @@ export class KoodistoService {
    * Updates Vocational Common Units.
    */
   updateVocationalCommonUnits(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -440,7 +440,7 @@ export class KoodistoService {
    * @param {string} ids
    */
   updateVocationalRequirements(ids: string): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(
@@ -494,7 +494,7 @@ export class KoodistoService {
    * Updates science branches.
    */
   updateScienceBranches(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/tieteenalat/${lang}`, this.httpOptions)
@@ -510,7 +510,7 @@ export class KoodistoService {
    * Updates accessibility features.
    */
   updateAccessibilityFeatures(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AccessibilityFeature[]>(
@@ -529,7 +529,7 @@ export class KoodistoService {
    * Updates accessibility hazards.
    */
   updateAccessibilityHazards(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<AccessibilityHazard[]>(`${this.apiUri}/saavutettavuudenesteet/${lang}`, this.httpOptions)
@@ -545,7 +545,7 @@ export class KoodistoService {
    * Updates licenses.
    */
   updateLicenses(selectedLanguage?: string): Observable<void> {
-    const lang: string = selectedLanguage || this.translate.currentLang
+    const lang: string = selectedLanguage || this.translate.getCurrentLang()
     return this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`).pipe(
       map((licenses: License[]): void => {
         const extendedLicenses = licenses.map((license: License) => ({
@@ -562,7 +562,7 @@ export class KoodistoService {
    * Updates keywords.
    */
   updateKeywords(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<KeyValue<string, string>[]>(`${this.apiUri}/asiasanat/${lang}`, this.httpOptions)
@@ -578,7 +578,7 @@ export class KoodistoService {
    * Updates organizations.
    */
   updateOrganizations(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http
       .get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
@@ -594,7 +594,7 @@ export class KoodistoService {
    * Updates educational subject filters.
    */
   updateEducationalSubjects(): void {
-    const lang: string = this.translate.currentLang
+    const lang: string = this.translate.getCurrentLang()
     this.http
       .get<SubjectFilter[]>(
         `${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`,

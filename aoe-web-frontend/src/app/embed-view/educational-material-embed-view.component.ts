@@ -41,7 +41,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     private renderer: Renderer2
   ) {
     translate.addLangs(['fi', 'en', 'sv'])
-    translate.setDefaultLang('fi')
+    translate.setFallbackLang('fi')
 
     const lang = getLanguage()
 

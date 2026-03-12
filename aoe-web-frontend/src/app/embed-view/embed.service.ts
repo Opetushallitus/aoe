@@ -30,7 +30,7 @@ export class EmbedService {
     })
   }
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
 
   public material$ = new Subject<EducationalMaterial>()
   public uploadedFiles$ = new Subject<UploadedFile[]>()
@@ -315,7 +315,7 @@ export class EmbedService {
    * Updates licenses.
    */
   updateLicenses(): void {
-    const lang = this.translate.currentLang
+    const lang = this.translate.getCurrentLang()
 
     this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions).subscribe(
       (licenses: License[]) => {

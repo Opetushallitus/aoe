@@ -25,7 +25,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   @Input() uploadedFiles$: Observable<UploadedFile[]>
   @Output() abortEdit: EventEmitter<any> = new EventEmitter()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   savedData: any
   canDeactivate: boolean = false
   educationalMaterialID: number

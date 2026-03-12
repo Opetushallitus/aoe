@@ -23,7 +23,7 @@ import { validatorParams } from '@constants/validator-params'
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   savedData: any
   accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`
 

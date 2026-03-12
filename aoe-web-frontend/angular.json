@@ -35,7 +35,10 @@
             "stylePreprocessorOptions": {
               "includePaths": ["./node_modules", "./src/scss"]
             },
-            "scripts": ["node_modules/jquery/dist/jquery.js", "node_modules/bootstrap/dist/js/bootstrap.bundle.js"],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -194,10 +197,11 @@
     }
   },
   "cli": {
+    "cache": {
+      "enabled": false
+    },
     "packageManager": "npm",
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

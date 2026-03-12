@@ -58,7 +58,7 @@ export class EditPreviewComponent implements OnInit {
       hasLicense: this.fb.control(false, [Validators.requiredTrue]),
       confirm: this.fb.control(false, [Validators.requiredTrue])
     })
-    this.lang = this.translate.currentLang
+    this.lang = this.translate.getCurrentLang()
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang
       this.setTitle()

@@ -10,7 +10,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 })
 export class OfficePreviewComponent implements OnInit, OnChanges {
   @Input() material: Material
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   materialUrl: string
   downloadUrl: string
   @ViewChild('officeViewer', { static: true }) public pdfViewer

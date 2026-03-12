@@ -39,7 +39,7 @@ export class KoodistoService {
     private http: HttpClient,
     private translate: TranslateService
   ) {
-    this.lang = this.translate.currentLang
+    this.lang = this.translate.getCurrentLang()
   }
 
   private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
@@ -54,7 +54,7 @@ export class KoodistoService {
   }
 
   updateEducationalLevels(): Observable<EducationalLevel[]> {
-    // const lang: string = this.translate.currentLang;
+    // const lang: string = this.translate.getCurrentLang();
     const lang = 'fi'
     return this.http
       .get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions)
@@ -80,7 +80,7 @@ export class KoodistoService {
   }
 
   updateEducationalSubjects(): Observable<EducationalSubject[]> {
-    // const lang: string = this.translate.currentLang;
+    // const lang: string = this.translate.getCurrentLang();
     const lang = 'fi'
     return this.http
       .get<EducationalSubject[]>(
@@ -101,7 +101,7 @@ export class KoodistoService {
   }
 
   updateOrganizations(): void {
-    const lang: string = this.translate.currentLang
+    const lang: string = this.translate.getCurrentLang()
     this.http
       .get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
       .subscribe(

@@ -18,7 +18,7 @@ import { CollectionFormMaterialAndHeading } from '@models/collections/collection
   standalone: false
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   collectionId: string
   collectionSubscription: Subscription
   collection: Collection

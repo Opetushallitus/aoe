@@ -25,7 +25,7 @@ export class CollectionPreviewTabComponent implements OnInit {
   @Input() tabId: number
   @Output() abortForm = new EventEmitter()
   form: FormGroup
-  lang = this.translate.currentLang
+  lang = this.translate.getCurrentLang()
   submitted = false
   canDeactivate = false
   previewCollection: CollectionForm

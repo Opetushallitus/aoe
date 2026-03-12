@@ -8,13 +8,13 @@ import { TermsOfUse } from '../../mocks/terms-of-use.mock'
   standalone: false
 })
 export class TermsOfUseComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   termsOfUse: { heading: string; content: string[] }[]
 
   constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.termsOfUse = TermsOfUse[this.translate.currentLang]
+    this.termsOfUse = TermsOfUse[this.translate.getCurrentLang()]
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang
       this.termsOfUse = TermsOfUse[event.lang]

@@ -28,7 +28,7 @@ import { License } from '@models/koodisto/license'
   standalone: false
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   materialId: number
   materialVersionDate: string
   educationalMaterialSubscription: Subscription

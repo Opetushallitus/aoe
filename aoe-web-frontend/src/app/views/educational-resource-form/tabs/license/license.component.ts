@@ -17,7 +17,7 @@ import { Title } from '@angular/platform-browser'
 export class LicenseComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   savedData: any
   licenses$: Observable<License[]> = this.koodistoService.licenses$
   form: FormGroup

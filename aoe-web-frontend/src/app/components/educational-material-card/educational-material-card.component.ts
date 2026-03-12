@@ -14,7 +14,7 @@ import { EducationalLevel } from '@models/educational-level'
 })
 export class EducationalMaterialCardComponent implements OnInit {
   @Input() educationalMaterial: EducationalMaterialCard
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
 
   materialName: string
   description: string

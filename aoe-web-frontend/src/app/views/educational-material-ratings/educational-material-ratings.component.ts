@@ -16,7 +16,7 @@ export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
   materialId: number | string
   ratingSubscription: Subscription
   ratings: Ratings
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
 
   constructor(
     private route: ActivatedRoute,

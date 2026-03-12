@@ -8,13 +8,13 @@ import { PrivacyPolicy } from '../../mocks/privacy-policy.mock'
   standalone: false
 })
 export class PrivacyPolicyComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   privacyPolicy: { heading: string; content: string[] }[]
 
   constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.privacyPolicy = PrivacyPolicy[this.translate.currentLang]
+    this.privacyPolicy = PrivacyPolicy[this.translate.getCurrentLang()]
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang

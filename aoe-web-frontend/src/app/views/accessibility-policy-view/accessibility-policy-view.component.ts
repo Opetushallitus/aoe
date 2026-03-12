@@ -9,7 +9,7 @@ import { AccessibilityPolicy } from '../../mocks/accessibility-policy.mock'
   standalone: false
 })
 export class AccessibilityPolicyViewComponent implements OnInit {
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   accessibilityPolicy: { heading: string; content: string[] }[]
 
   constructor(
@@ -19,7 +19,7 @@ export class AccessibilityPolicyViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitle()
-    this.accessibilityPolicy = AccessibilityPolicy[this.translate.currentLang]
+    this.accessibilityPolicy = AccessibilityPolicy[this.translate.getCurrentLang()]
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang

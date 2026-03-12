@@ -20,7 +20,7 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
   @Input() materialId: number
   @Input() tabId: number
   form: FormGroup
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   submitted: boolean = false
   licenseSubscription: Subscription
   licenses$: Observable<License[]> = this.koodistoService.licenses$

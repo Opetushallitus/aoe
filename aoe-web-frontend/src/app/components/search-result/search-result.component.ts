@@ -15,7 +15,7 @@ export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult
   @Output() executeFilteredSearch = new EventEmitter()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   materialName: string
   description: string
   downloadUrl: string

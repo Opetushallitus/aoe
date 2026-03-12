@@ -27,7 +27,7 @@ import { validatorParams } from '@constants/validator-params'
 export class BasicDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()
 
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   otherLangs: string[]
   savedData: any
   submitted = false

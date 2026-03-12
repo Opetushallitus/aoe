@@ -55,7 +55,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   concurrentTasks: { observable: Observable<any>; metadata: any }[] = []
   educationalMaterialID: number
   form: FormGroup
-  lang: string = this.translate.currentLang
+  lang: string = this.translate.getCurrentLang()
   languages: Language[]
   lastIndexOfUploadedFiles: number = 0
   modalRef: BsModalRef
