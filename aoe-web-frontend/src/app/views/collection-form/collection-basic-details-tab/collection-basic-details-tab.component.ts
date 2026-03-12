@@ -7,13 +7,13 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { KeyValue } from '@angular/common'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import { KeyValue, NgClass } from '@angular/common'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { ImageCroppedEvent } from 'ngx-image-cropper'
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
 import { Subscription } from 'rxjs'
 import { environment } from '../../../../environments/environment'
 import {
@@ -31,12 +31,15 @@ import { Language } from '@models/koodisto/language'
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { UploadMessage } from '@models/upload-message'
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-collection-basic-details-tab',
-  templateUrl: './collection-basic-details-tab.component.html',
-  styleUrls: ['./collection-basic-details-tab.component.scss'],
-  standalone: false
+    selector: 'app-collection-basic-details-tab',
+    templateUrl: './collection-basic-details-tab.component.html',
+    styleUrls: ['./collection-basic-details-tab.component.scss'],
+    imports: [ReactiveFormsModule, FocusRemoverDirective, ImageCropperModule, ProgressbarComponent, NgClass, NgSelectComponent, TranslatePipe]
 })
 export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

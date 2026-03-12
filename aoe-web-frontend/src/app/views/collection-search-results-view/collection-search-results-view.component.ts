@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { SearchService } from '@services/search.service'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { CollectionSearchResults } from '@models/search/collection-search-results'
+import { CollectionSearchResultComponent } from '../../components/collection-search-result/collection-search-result.component';
 
 @Component({
-  selector: 'app-collection-search-results-view',
-  templateUrl: './collection-search-results-view.component.html',
-  styleUrls: ['./collection-search-results-view.component.scss'],
-  standalone: false
+    selector: 'app-collection-search-results-view',
+    templateUrl: './collection-search-results-view.component.html',
+    styleUrls: ['./collection-search-results-view.component.scss'],
+    imports: [CollectionSearchResultComponent, TranslatePipe]
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import { Router, RouterLink } from '@angular/router'
 import { Title } from '@angular/platform-browser'
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { EducationalMaterialForm } from '@models/educational-material-form'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import {
@@ -13,12 +13,15 @@ import {
 } from '@models/educational-material-put'
 import { ignoredSubjects } from '@constants/ignored-subjects'
 import { MaterialService } from '@services/material.service'
+import { PreviewRowComponent } from '../../../../components/preview-row/preview-row.component';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-tabs-edit-preview',
-  templateUrl: './edit-preview.component.html',
-  styleUrls: ['./edit-preview.component.scss'],
-  standalone: false
+    selector: 'app-tabs-edit-preview',
+    templateUrl: './edit-preview.component.html',
+    styleUrls: ['./edit-preview.component.scss'],
+    imports: [PreviewRowComponent, FocusRemoverDirective, RouterLink, CdkDropList, CdkDrag, ReactiveFormsModule, DatePipe, TranslatePipe]
 })
 export class EditPreviewComponent implements OnInit {
   @Input() tabId: number

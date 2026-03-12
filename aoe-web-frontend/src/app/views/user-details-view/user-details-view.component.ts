@@ -1,17 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { AuthService } from '@services/auth.service'
 import { UserSettings } from '@models/users/user-settings'
 import { UserData } from '@models/userdata'
 import { Subscription } from 'rxjs'
+import { NgClass } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { AlertComponent } from 'ngx-bootstrap/alert';
 
 @Component({
-  selector: 'app-user-details-view',
-  templateUrl: './user-details-view.component.html',
-  styleUrls: ['./user-details-view.component.scss'],
-  standalone: false
+    selector: 'app-user-details-view',
+    templateUrl: './user-details-view.component.html',
+    styleUrls: ['./user-details-view.component.scss'],
+    imports: [ReactiveFormsModule, NgClass, FocusRemoverDirective, AlertComponent, TranslatePipe]
 })
 export class UserDetailsViewComponent implements OnDestroy, OnInit {
   submitted: boolean

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
 import { environment } from '@environments/environment'
 import { addCustomItem, addPrerequisites, textInputValidator } from '@shared/shared.module'
@@ -13,12 +13,17 @@ import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgClass } from '@angular/common';
+import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 
 @Component({
-  selector: 'app-tabs-extended-details',
-  templateUrl: './extended-details.component.html',
-  styleUrls: ['./extended-details.component.scss'],
-  standalone: false
+    selector: 'app-tabs-extended-details',
+    templateUrl: './extended-details.component.html',
+    styleUrls: ['./extended-details.component.scss'],
+    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgSelectComponent, NgClass, BsDatepickerInputDirective, BsDatepickerDirective, TranslatePipe]
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

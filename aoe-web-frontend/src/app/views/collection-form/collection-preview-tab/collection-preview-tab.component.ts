@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { CollectionForm, CollectionFormMaterial } from '@models/collections/collection-form'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { Router } from '@angular/router'
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
+import { Router, RouterLink } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { environment } from '@environments/environment'
 import {
@@ -12,12 +12,13 @@ import {
 } from '@models/collections/update-collection-put'
 import { CollectionService } from '@services/collection.service'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
 
 @Component({
-  selector: 'app-collection-preview-tab',
-  templateUrl: './collection-preview-tab.component.html',
-  styleUrls: ['./collection-preview-tab.component.scss'],
-  standalone: false
+    selector: 'app-collection-preview-tab',
+    templateUrl: './collection-preview-tab.component.html',
+    styleUrls: ['./collection-preview-tab.component.scss'],
+    imports: [FocusRemoverDirective, RouterLink, ReactiveFormsModule, TranslatePipe]
 })
 export class CollectionPreviewTabComponent implements OnInit {
   @Input() collection: CollectionForm

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr'
 import { Subject, Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -7,12 +7,13 @@ import { validatorParams } from '@constants/validator-params'
 import { RemoveMaterialResponse } from '../model/remove-material-response'
 import { MaterialInfoResponse } from '../model/material-info-response'
 import { AdminService } from '../services/admin.service'
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-remove-material',
-  templateUrl: './remove-material.component.html',
-  styleUrls: ['./remove-material.component.scss'],
-  standalone: false
+    selector: 'app-admin-remove-material',
+    templateUrl: './remove-material.component.html',
+    styleUrls: ['./remove-material.component.scss'],
+    imports: [ReactiveFormsModule, NgClass]
 })
 export class RemoveMaterialComponent implements OnInit, OnDestroy {
   form: FormGroup

@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
-import { KeyValue } from '@angular/common'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { KeyValue, NgClass } from '@angular/common'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
-import { ImageCroppedEvent } from 'ngx-image-cropper'
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
 
 import { environment } from '@environments/environment'
 import { addCustomItem, descriptionValidator, textInputValidator } from '@shared/shared.module'
@@ -18,11 +18,15 @@ import { EducationalRole } from '@models/koodisto/educational-role'
 import { EducationalUse } from '@models/koodisto/educational-use'
 import { Author } from '@models/material/author'
 import { validatorParams } from '@constants/validator-params'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-tabs-basic-details',
-  templateUrl: './basic-details.component.html',
-  standalone: false
+    selector: 'app-tabs-basic-details',
+    templateUrl: './basic-details.component.html',
+    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, ImageCropperModule, ProgressbarComponent, NgClass, NgSelectComponent, TranslatePipe]
 })
 export class BasicDetailsComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

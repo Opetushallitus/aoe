@@ -25,7 +25,16 @@ import { AdminGuard, AuthGuard } from '../guards'
 import { CustomDatePipe } from '@admin/pipes/custom-date.pipe'
 
 @NgModule({
-  declarations: [
+  imports: [
+    AdminRoutingModule,
+    BsDatepickerModule,
+    CommonModule,
+    FormsModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
     AdminComponent,
     CustomDatePipe,
     RemoveMaterialComponent,
@@ -35,19 +44,8 @@ import { CustomDatePipe } from '@admin/pipes/custom-date.pipe'
     NotificationComponent,
     ManageServiceComponent,
     AnalyticsViewComponent,
-    LineChartComponent
+    LineChartComponent,
   ],
-  imports: [
-    AdminRoutingModule,
-    BsDatepickerModule,
-    CommonModule,
-    FormsModule,
-    NgSelectModule,
-    ReactiveFormsModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
-  ],
-  providers: [AuthGuard, AdminGuard]
+  providers: [AuthGuard, AdminGuard],
 })
 export class AdminModule {}

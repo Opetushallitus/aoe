@@ -1,19 +1,22 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
 import { EducationalMaterialForm } from '@models/educational-material-form'
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Observable, Subscription } from 'rxjs'
 import { License } from '@models/koodisto/license'
 import { KoodistoService } from '@services/koodisto.service'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { MaterialService } from '@services/material.service'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { CollapseDirective } from 'ngx-bootstrap/collapse';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-tabs-edit-license',
-  templateUrl: './edit-license.component.html',
-  styleUrls: ['./edit-license.component.scss'],
-  standalone: false
+    selector: 'app-tabs-edit-license',
+    templateUrl: './edit-license.component.html',
+    styleUrls: ['./edit-license.component.scss'],
+    imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class EditLicenseComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

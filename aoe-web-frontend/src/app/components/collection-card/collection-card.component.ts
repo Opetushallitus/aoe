@@ -7,15 +7,20 @@ import {
 import { getValuesWithinLimits } from '../../shared/shared.module'
 import { Observable } from 'rxjs'
 import { KoodistoService } from '@services/koodisto.service'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Language } from '@models/koodisto/language'
 import { map } from 'rxjs/operators'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { RouterLink } from '@angular/router';
+import { TaglistComponent } from '../taglist/taglist.component';
+import { AsyncPipe } from '@angular/common';
+import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 @Component({
-  selector: 'app-collection-card',
-  templateUrl: './collection-card.component.html',
-  styleUrls: ['./collection-card.component.scss'],
-  standalone: false
+    selector: 'app-collection-card',
+    templateUrl: './collection-card.component.html',
+    styleUrls: ['./collection-card.component.scss'],
+    imports: [FocusRemoverDirective, RouterLink, TaglistComponent, AsyncPipe, TranslatePipe, TruncatePipe]
 })
 export class CollectionCardComponent implements OnInit {
   @Input() collection: CollectionCard

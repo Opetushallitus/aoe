@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { ToastrService } from 'ngx-toastr'
 import { Subscription } from 'rxjs'
 import { environment } from '@environments/environment'
@@ -14,12 +14,14 @@ import { LearningResourceType } from '@models/koodisto/learning-resource-type'
 import { UsedFilter } from '@models/search/used-filter'
 import { sortOptions } from '@constants/sort-options'
 import { validatorParams } from '@constants/validator-params'
+import { NgSelectComponent, NgMultiLabelTemplateDirective, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  standalone: false
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    imports: [ReactiveFormsModule, NgSelectComponent, NgMultiLabelTemplateDirective, NgOptgroupTemplateDirective, NgOptionTemplateDirective, FocusRemoverDirective, TranslatePipe]
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup = new FormGroup({})

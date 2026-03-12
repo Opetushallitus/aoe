@@ -7,19 +7,12 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms'
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { forkJoin, Observable, Subscription } from 'rxjs'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { environment } from '@environments/environment'
 import { textInputRe, textInputValidator, validateFilename } from '@shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
@@ -31,11 +24,18 @@ import { UploadedFile } from '@models/uploaded-file'
 import { SubtitleKind } from '@models/material/subtitle'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
+import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe';
 
 @Component({
-  selector: 'app-tabs-files',
-  templateUrl: './files.component.html',
-  standalone: false
+    selector: 'app-tabs-files',
+    templateUrl: './files.component.html',
+    imports: [AlertComponent, ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgClass, NgSelectComponent, ProgressbarComponent, AsyncPipe, TranslatePipe, CleanFilenamePipe]
 })
 export class FilesComponent implements OnInit, OnDestroy {
   @Input() educationalMaterialID$: Observable<number>

@@ -4,19 +4,23 @@ import { Subscription } from 'rxjs'
 
 import { EmbedService } from './embed.service'
 import { environment } from '../../environments/environment'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { getLanguage, setLanguage } from '../shared/shared.module'
 import { EducationalMaterial } from '@models/educational-material'
 import { Material } from '@models/material'
 import { License } from '@models/koodisto/license'
 import { Subtitle } from '@models/subtitle'
 import { Language } from '@models/koodisto/language'
+import { NgClass } from '@angular/common';
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { EducationalMaterialPreviewComponent } from './preview-materials/educational-material-preview/educational-material-preview.component';
+import { MaterialLanguagePipe } from '../pipes/material-language.pipe';
 
 @Component({
-  selector: 'app-educational-material-embed-view',
-  templateUrl: './educational-material-embed-view.component.html',
-  styleUrls: ['./educational-material-embed-view.component.scss'],
-  standalone: false
+    selector: 'app-educational-material-embed-view',
+    templateUrl: './educational-material-embed-view.component.html',
+    styleUrls: ['./educational-material-embed-view.component.scss'],
+    imports: [NgClass, AlertComponent, EducationalMaterialPreviewComponent, TranslatePipe, MaterialLanguagePipe]
 })
 export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy {
   materialSubscription: Subscription

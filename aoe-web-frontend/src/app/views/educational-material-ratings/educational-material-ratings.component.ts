@@ -1,16 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { Ratings } from '@models/backend/ratings'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterLink } from '@angular/router'
 import { RatingsService } from '@services/ratings.service'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-educational-material-ratings',
-  templateUrl: './educational-material-ratings.component.html',
-  styleUrls: ['./educational-material-ratings.component.scss'],
-  standalone: false
+    selector: 'app-educational-material-ratings',
+    templateUrl: './educational-material-ratings.component.html',
+    styleUrls: ['./educational-material-ratings.component.scss'],
+    imports: [FocusRemoverDirective, RouterLink, DatePipe, TranslatePipe]
 })
 export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
   materialId: number | string

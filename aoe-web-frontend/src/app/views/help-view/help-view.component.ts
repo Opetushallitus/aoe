@@ -1,16 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Subscription } from 'rxjs'
 
 import { FAQGeneral } from '../../mocks/faq.general.mock'
 import { FAQMaterial } from '../../mocks/faq.material.mock'
 import { FAQOrganisation } from '../../mocks/faq.organisation.mock'
 import { Title } from '@angular/platform-browser'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-help-view',
-  templateUrl: './help-view.component.html',
-  standalone: false
+    selector: 'app-help-view',
+    templateUrl: './help-view.component.html',
+    imports: [FocusRemoverDirective, AccordionComponent, AccordionPanelComponent, NgClass, TranslatePipe]
 })
 export class HelpViewComponent implements OnInit, OnDestroy {
   private langChangeSubscription: Subscription

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 
 import { AuthService } from '@services/auth.service'
 import { Title } from '@angular/platform-browser'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
+import { TermsOfUseComponent } from '../../components/terms-of-use/terms-of-use.component';
+import { PrivacyPolicyComponent } from '../../components/privacy-policy/privacy-policy.component';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
 
 @Component({
-  selector: 'app-acceptance-view',
-  templateUrl: './acceptance-view.component.html',
-  standalone: false
+    selector: 'app-acceptance-view',
+    templateUrl: './acceptance-view.component.html',
+    imports: [TermsOfUseComponent, PrivacyPolicyComponent, ReactiveFormsModule, FocusRemoverDirective, TranslatePipe]
 })
 export class AcceptanceViewComponent implements OnInit {
   public acceptanceForm: FormGroup

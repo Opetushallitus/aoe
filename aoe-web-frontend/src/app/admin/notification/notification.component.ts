@@ -2,18 +2,22 @@ import { Component, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Notification } from '@admin/model'
 import { NotificationService } from '@admin/services/notification.service'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NotificationOption, NotificationType } from '@admin/model/enumeration/NotificationType'
 import { HttpErrorResponse } from '@angular/common/http'
 import DOMPurify from 'isomorphic-dompurify'
 import { ToastrService } from 'ngx-toastr'
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
+import { AsyncPipe } from '@angular/common';
+import { CustomDatePipe } from '@admin/pipes/custom-date.pipe';
 
 @Component({
-  selector: 'app-admin-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss'],
-  providers: [NotificationService],
-  standalone: false
+    selector: 'app-admin-notification',
+    templateUrl: './notification.component.html',
+    styleUrls: ['./notification.component.scss'],
+    providers: [NotificationService],
+    imports: [ReactiveFormsModule, NgSelectComponent, BsDatepickerInputDirective, BsDatepickerDirective, FormsModule, AsyncPipe, CustomDatePipe]
 })
 export class NotificationComponent implements OnInit {
   form: FormGroup

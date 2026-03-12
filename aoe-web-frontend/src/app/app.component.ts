@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angular/core'
-import { NavigationEnd, NavigationStart, Router } from '@angular/router'
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
 import { getLanguage, setLanguage } from './shared/shared.module'
@@ -10,10 +10,10 @@ import { UserData } from '@models/userdata'
 export let browserRefresh: boolean = false
 
 @Component({
-  // tslint:disable-next-line
-  selector: 'body',
-  template: '<router-outlet></router-outlet>',
-  standalone: false
+    // tslint:disable-next-line
+    selector: 'body',
+    template: '<router-outlet></router-outlet>',
+    imports: [RouterOutlet]
 })
 export class AppComponent implements OnDestroy, OnInit {
   userData: UserData

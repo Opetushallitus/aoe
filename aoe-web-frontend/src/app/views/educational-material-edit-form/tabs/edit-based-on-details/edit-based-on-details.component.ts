@@ -1,19 +1,22 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { textInputValidator } from '../../../../shared/shared.module'
 import { validatorParams } from '@constants/validator-params'
 import { EducationalMaterialForm } from '@models/educational-material-form'
 import { ExternalReference } from '@models/material/external-reference'
 import { MaterialService } from '@services/material.service'
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgClass } from '@angular/common';
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
 
 @Component({
-  selector: 'app-tabs-edit-based-on-details',
-  templateUrl: './edit-based-on-details.component.html',
-  styleUrls: ['./edit-based-on-details.component.scss'],
-  standalone: false
+    selector: 'app-tabs-edit-based-on-details',
+    templateUrl: './edit-based-on-details.component.html',
+    styleUrls: ['./edit-based-on-details.component.scss'],
+    imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

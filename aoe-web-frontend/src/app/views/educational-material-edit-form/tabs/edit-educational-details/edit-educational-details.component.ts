@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Title } from '@angular/platform-browser'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import {
@@ -23,12 +23,16 @@ import { EducationalMaterialForm } from '@models/educational-material-form'
 import { EducationalLevel } from '@models/koodisto/educational-level'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { MaterialService } from '@services/material.service'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-tabs-edit-educational-details',
-  templateUrl: './edit-educational-details.component.html',
-  styleUrls: ['./edit-educational-details.component.scss'],
-  standalone: false
+    selector: 'app-tabs-edit-educational-details',
+    templateUrl: './edit-educational-details.component.html',
+    styleUrls: ['./edit-educational-details.component.scss'],
+    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective, NgClass, TranslatePipe]
 })
 export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

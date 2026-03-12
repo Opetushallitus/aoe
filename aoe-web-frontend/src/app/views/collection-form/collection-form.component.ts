@@ -1,25 +1,30 @@
 import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router, RouterLinkActive, RouterLink } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { CollectionService } from '@services/collection.service'
 import { ToastrService } from 'ngx-toastr'
 import { CollectionForm } from '@models/collections/collection-form'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { Toast } from '@models/translations/toast'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { environment } from '../../../environments/environment'
 import {
   CollectionBasicDetailsTabComponent,
   CollectionEducationalDetailsTabComponent,
   CollectionMaterialsTabComponent,
   CollectionPreviewTabComponent
-} from './index' // @todo: this might need rework
+} from './index'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { CollectionBasicDetailsTabComponent as CollectionBasicDetailsTabComponent_1 } from './collection-basic-details-tab/collection-basic-details-tab.component';
+import { CollectionEducationalDetailsTabComponent as CollectionEducationalDetailsTabComponent_1 } from './collection-educational-details-tab/collection-educational-details-tab.component';
+import { CollectionMaterialsTabComponent as CollectionMaterialsTabComponent_1 } from './collection-materials-tab/collection-materials-tab.component';
+import { CollectionPreviewTabComponent as CollectionPreviewTabComponent_1 } from './collection-preview-tab/collection-preview-tab.component'; // @todo: this might need rework
 
 @Component({
-  selector: 'app-collection-form',
-  templateUrl: './collection-form.component.html',
-  styleUrls: ['./collection-form.component.scss'],
-  standalone: false
+    selector: 'app-collection-form',
+    templateUrl: './collection-form.component.html',
+    styleUrls: ['./collection-form.component.scss'],
+    imports: [FocusRemoverDirective, RouterLinkActive, RouterLink, CollectionBasicDetailsTabComponent_1, CollectionEducationalDetailsTabComponent_1, CollectionMaterialsTabComponent_1, CollectionPreviewTabComponent_1, TranslatePipe]
 })
 export class CollectionFormComponent implements OnInit, OnDestroy {
   collectionId: string

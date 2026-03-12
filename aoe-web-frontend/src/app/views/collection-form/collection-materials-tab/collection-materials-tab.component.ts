@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { ToastrService } from 'ngx-toastr'
 import { environment } from '../../../../environments/environment'
 import { descriptionValidator, textInputValidator } from '../../../shared/shared.module'
@@ -16,12 +16,16 @@ import {
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
 import { Toast } from '@models/translations/toast'
 import { CollectionService } from '@services/collection.service'
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { FocusRemoverDirective } from '../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-collection-materials-tab',
-  templateUrl: './collection-materials-tab.component.html',
-  styleUrls: ['./collection-materials-tab.component.scss'],
-  standalone: false
+    selector: 'app-collection-materials-tab',
+    templateUrl: './collection-materials-tab.component.html',
+    styleUrls: ['./collection-materials-tab.component.scss'],
+    imports: [ReactiveFormsModule, AlertComponent, CdkDropList, CdkDrag, FocusRemoverDirective, TooltipDirective, NgClass, DatePipe, TranslatePipe]
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm

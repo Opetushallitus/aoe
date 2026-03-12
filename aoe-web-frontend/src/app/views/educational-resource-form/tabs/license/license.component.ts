@@ -1,18 +1,21 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
 import { environment } from '@environments/environment'
 import { KoodistoService } from '@services/koodisto.service'
 import { License } from '@models/koodisto/license'
 import { Title } from '@angular/platform-browser'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { CollapseDirective } from 'ngx-bootstrap/collapse';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-tabs-license',
-  templateUrl: './license.component.html',
-  standalone: false
+    selector: 'app-tabs-license',
+    templateUrl: './license.component.html',
+    imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class LicenseComponent implements OnInit, OnDestroy {
   @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>()

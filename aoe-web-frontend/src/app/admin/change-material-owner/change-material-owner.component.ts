@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr'
 import { Subject, Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { AdminService } from '../services/admin.service'
 import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } from '../model'
 import { validatorParams } from '@constants/validator-params'
+import { NgClass } from '@angular/common';
+import { NgSelectComponent, NgOptionTemplateDirective } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-admin-change-material-owner',
-  templateUrl: './change-material-owner.component.html',
-  styleUrls: ['./change-material-owner.component.scss'],
-  standalone: false
+    selector: 'app-admin-change-material-owner',
+    templateUrl: './change-material-owner.component.html',
+    styleUrls: ['./change-material-owner.component.scss'],
+    imports: [ReactiveFormsModule, NgClass, NgSelectComponent, NgOptionTemplateDirective]
 })
 export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   users: AoeUser[]

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { KeyValue } from '@angular/common'
 import { HttpErrorResponse } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 import { BsModalRef } from 'ngx-bootstrap/modal'
 import { ToastrService } from 'ngx-toastr'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { SocialMetadataService } from '@services/social-metadata.service'
 import { SocialMetadata } from '@models/social-metadata/social-metadata'
 import { KoodistoService } from '@services/koodisto.service'
@@ -13,12 +13,14 @@ import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { EducationalLevel } from '@models/koodisto/educational-level'
 import { Toast } from '@models/translations/toast'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-social-metadata-modal',
-  templateUrl: './social-metadata-modal.component.html',
-  styleUrls: ['./social-metadata-modal.component.scss'],
-  standalone: false
+    selector: 'app-social-metadata-modal',
+    templateUrl: './social-metadata-modal.component.html',
+    styleUrls: ['./social-metadata-modal.component.scss'],
+    imports: [FocusRemoverDirective, ReactiveFormsModule, NgSelectComponent, NgOptgroupTemplateDirective, NgOptionTemplateDirective, TranslatePipe]
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   materialId: number

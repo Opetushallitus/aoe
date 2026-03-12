@@ -4,16 +4,21 @@ import { AuthService } from '@services/auth.service'
 import { MaterialService } from '@services/material.service'
 import { EducationalMaterialCard } from '@models/educational-material-card'
 import { Subscription } from 'rxjs'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { UserCollection } from '@models/collections/user-collection'
 import { CollectionService } from '@services/collection.service'
 import { Title } from '@angular/platform-browser'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { RouterLink } from '@angular/router';
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-user-materials-view',
-  templateUrl: './user-materials-view.component.html',
-  styleUrls: ['./user-materials-view.component.scss'],
-  standalone: false
+    selector: 'app-user-materials-view',
+    templateUrl: './user-materials-view.component.html',
+    styleUrls: ['./user-materials-view.component.scss'],
+    imports: [FocusRemoverDirective, RouterLink, AlertComponent, EducationalMaterialCardComponent, DatePipe, TranslatePipe]
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()

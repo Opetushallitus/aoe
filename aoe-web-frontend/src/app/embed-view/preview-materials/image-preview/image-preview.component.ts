@@ -4,9 +4,8 @@ import { Material } from '@models/material'
 import { environment } from '../../../../environments/environment'
 
 @Component({
-  selector: 'app-image-preview',
-  templateUrl: './image-preview.component.html',
-  standalone: false
+    selector: 'app-image-preview',
+    templateUrl: './image-preview.component.html'
 })
 export class ImagePreviewComponent implements OnInit, OnChanges {
   @Input() material: Material

@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { RatingsService } from '@services/ratings.service'
 import { Rating } from '@models/backend/ratings'
-import { TranslateService } from '@ngx-translate/core'
+import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { ToastrService } from 'ngx-toastr'
 import { Toast } from '@models/translations/toast'
 import { HttpErrorResponse } from '@angular/common/http'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-educational-material-rating-modal',
-  templateUrl: './educational-material-rating-modal.component.html',
-  styleUrls: ['./educational-material-rating-modal.component.scss'],
-  standalone: false
+    selector: 'app-educational-material-rating-modal',
+    templateUrl: './educational-material-rating-modal.component.html',
+    styleUrls: ['./educational-material-rating-modal.component.scss'],
+    imports: [FocusRemoverDirective, ReactiveFormsModule, NgClass, TranslatePipe]
 })
 export class EducationalMaterialRatingModalComponent implements OnInit {
   materialId: number

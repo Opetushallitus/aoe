@@ -2,11 +2,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 
 import { Material } from '@models/material'
 import { environment } from '../../../../environments/environment'
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 @Component({
-  selector: 'app-pdf-preview',
-  templateUrl: './pdf-preview.component.html',
-  standalone: false
+    selector: 'app-pdf-preview',
+    templateUrl: './pdf-preview.component.html',
+    imports: [PdfJsViewerModule]
 })
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material

@@ -7,13 +7,13 @@ import {
   Output,
   TemplateRef
 } from '@angular/core'
-import { KeyValue } from '@angular/common'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { KeyValue, NgClass } from '@angular/common'
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
-import { ImageCroppedEvent } from 'ngx-image-cropper'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
 import { Subscription } from 'rxjs'
 import {
   addCustomItem,
@@ -29,12 +29,16 @@ import { Author } from '@models/material/author'
 import { KoodistoService } from '@services/koodisto.service'
 import { MaterialService } from '@services/material.service'
 import { validatorParams } from '@constants/validator-params'
+import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { ProgressbarComponent } from 'ngx-bootstrap/progressbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
-  selector: 'app-tabs-edit-basic-details',
-  templateUrl: './edit-basic-details.component.html',
-  styleUrls: ['./edit-basic-details.component.scss'],
-  standalone: false
+    selector: 'app-tabs-edit-basic-details',
+    templateUrl: './edit-basic-details.component.html',
+    styleUrls: ['./edit-basic-details.component.scss'],
+    imports: [ReactiveFormsModule, FocusRemoverDirective, TooltipDirective, ImageCropperModule, ProgressbarComponent, NgClass, NgSelectComponent, TranslatePipe]
 })
 export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm

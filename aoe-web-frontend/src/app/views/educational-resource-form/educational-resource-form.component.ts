@@ -1,5 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { environment } from '@environments/environment'
 import {
@@ -11,16 +11,25 @@ import {
   LicenseComponent,
   PreviewComponent
 } from './tabs'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { MaterialService } from '@services/material.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { UploadedFile } from '@models/uploaded-file'
 import { KoodistoService } from '@services/koodisto.service'
+import { NgClass } from '@angular/common';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { FilesComponent as FilesComponent_1 } from './tabs/files/files.component';
+import { BasicDetailsComponent as BasicDetailsComponent_1 } from './tabs/basic-details/basic-details.component';
+import { EducationalDetailsComponent as EducationalDetailsComponent_1 } from './tabs/educational-details/educational-details.component';
+import { ExtendedDetailsComponent as ExtendedDetailsComponent_1 } from './tabs/extended-details/extended-details.component';
+import { LicenseComponent as LicenseComponent_1 } from './tabs/license/license.component';
+import { BasedOnDetailsComponent as BasedOnDetailsComponent_1 } from './tabs/based-on-details/based-on-details.component';
+import { PreviewComponent as PreviewComponent_1 } from './tabs/preview/preview.component';
 
 @Component({
-  selector: 'app-educational-resource-form',
-  templateUrl: './educational-resource-form.component.html',
-  standalone: false
+    selector: 'app-educational-resource-form',
+    templateUrl: './educational-resource-form.component.html',
+    imports: [NgClass, FocusRemoverDirective, RouterLink, RouterLinkActive, FilesComponent_1, BasicDetailsComponent_1, EducationalDetailsComponent_1, ExtendedDetailsComponent_1, LicenseComponent_1, BasedOnDetailsComponent_1, PreviewComponent_1, TranslatePipe]
 })
 export class EducationalResourceFormComponent implements OnInit, OnDestroy {
   tabId: number

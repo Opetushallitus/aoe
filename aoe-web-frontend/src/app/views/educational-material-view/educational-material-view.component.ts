@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, ParamMap } from '@angular/router'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { ActivatedRoute, ParamMap, RouterLink, RouterLinkActive } from '@angular/router'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
 import { EducationalMaterial } from '@models/educational-material'
 import { Material } from '@models/material'
@@ -20,12 +20,23 @@ import { SocialMetadataService } from '@services/social-metadata.service'
 import { Language } from '@models/koodisto/language'
 import { KoodistoService } from '@services/koodisto.service'
 import { License } from '@models/koodisto/license'
+import { ArchivedMaterialComponent } from '../../components/archived-material/archived-material.component';
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from 'ngx-bootstrap/dropdown';
+import { NgClass, DatePipe } from '@angular/common';
+import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import { TaglistComponent } from '../../components/taglist/taglist.component';
+import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion';
+import { MaterialLanguagePipe } from '../../pipes/material-language.pipe';
 
 @Component({
-  selector: 'app-demo-material-view',
-  templateUrl: './educational-material-view.component.html',
-  styleUrls: ['./educational-material-view.component.scss'],
-  standalone: false
+    selector: 'app-demo-material-view',
+    templateUrl: './educational-material-view.component.html',
+    styleUrls: ['./educational-material-view.component.scss'],
+    imports: [ArchivedMaterialComponent, AlertComponent, FocusRemoverDirective, RouterLink, TooltipDirective, BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective, RouterLinkActive, NgClass, EducationalMaterialPreviewComponent, ClipboardModule, TaglistComponent, AccordionComponent, AccordionPanelComponent, DatePipe, TranslatePipe, MaterialLanguagePipe]
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()

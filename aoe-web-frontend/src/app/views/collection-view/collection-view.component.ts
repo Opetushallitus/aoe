@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, ParamMap, Router } from '@angular/router'
+import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { CollectionService } from '@services/collection.service'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Material } from '@models/material'
 import { MaterialService } from '@services/material.service'
 import { Title } from '@angular/platform-browser'
@@ -10,12 +10,18 @@ import { Collection } from '@models/collections/collection'
 import { Language } from '@models/koodisto/language'
 import { KoodistoService } from '@services/koodisto.service'
 import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { TaglistComponent } from '../../components/taglist/taglist.component';
+import { CollapseDirective } from 'ngx-bootstrap/collapse';
+import { NgClass, DatePipe } from '@angular/common';
+import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component';
+import { MaterialLanguagePipe } from '../../pipes/material-language.pipe';
 
 @Component({
-  selector: 'app-collection-view',
-  templateUrl: './collection-view.component.html',
-  styleUrls: ['./collection-view.component.scss'],
-  standalone: false
+    selector: 'app-collection-view',
+    templateUrl: './collection-view.component.html',
+    styleUrls: ['./collection-view.component.scss'],
+    imports: [FocusRemoverDirective, RouterLink, TaglistComponent, CollapseDirective, NgClass, EducationalMaterialPreviewComponent, DatePipe, TranslatePipe, MaterialLanguagePipe]
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()

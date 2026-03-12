@@ -3,9 +3,8 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { TermsOfUse } from '../../mocks/terms-of-use.mock'
 
 @Component({
-  selector: 'app-terms-of-use',
-  templateUrl: './terms-of-use.component.html',
-  standalone: false
+    selector: 'app-terms-of-use',
+    templateUrl: './terms-of-use.component.html'
 })
 export class TermsOfUseComponent implements OnInit {
   lang: string = this.translate.getCurrentLang()

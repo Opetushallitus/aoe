@@ -1,16 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
+import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
 import { CollectionCard } from '@models/collections/collection-card'
 import { CollectionService } from '@services/collection.service'
 import { KoodistoService } from '@services/koodisto.service'
+import { CollectionCardComponent } from '../../components/collection-card/collection-card.component';
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-collections-view',
-  templateUrl: './collections-view.component.html',
-  styleUrls: ['./collections-view.component.scss'],
-  standalone: false
+    selector: 'app-collections-view',
+    templateUrl: './collections-view.component.html',
+    styleUrls: ['./collections-view.component.scss'],
+    imports: [CollectionCardComponent, FocusRemoverDirective, RouterLink, TranslatePipe]
 })
 export class CollectionsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.getCurrentLang()
