@@ -8,7 +8,7 @@ import { AdminRoutingModule } from './admin-routing.module'
 // 3rd party components
 import { NgSelectModule } from '@ng-select/ng-select'
 import { NgxEchartsModule } from 'ngx-echarts'
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'
+import { BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker'
 
 // components
 import { AdminComponent } from './admin.component'
@@ -23,6 +23,9 @@ import { LineChartComponent } from './charts/line-chart/line-chart.component'
 // guards
 import { AdminGuard, AuthGuard } from '../guards'
 import { CustomDatePipe } from '@admin/pipes/custom-date.pipe'
+import { defineLocale, fiLocale } from 'ngx-bootstrap/chronos'
+
+defineLocale('fi', fiLocale)
 
 @NgModule({
   imports: [
@@ -48,4 +51,8 @@ import { CustomDatePipe } from '@admin/pipes/custom-date.pipe'
   ],
   providers: [AuthGuard, AdminGuard],
 })
-export class AdminModule {}
+export class AdminModule {
+  constructor(private localeService: BsLocaleService) {
+    this.localeService.use('fi')
+  }
+}
