@@ -81,8 +81,8 @@ export const config = {
     h5pUserEmail: process.env.H5P_USER_EMAIL as string,
     // Max file size (in bytes) for synchronous ZIP extraction during metadata requests
     // Files larger than this will be skipped to prevent timeout issues
-    // Default: 52428800 bytes (50 MB)
-    maxZipExtractionSize: parseInt(process.env.MAX_ZIP_EXTRACTION_SIZE || '52428800', 10) as number
+    // Default: 104,857,600 bytes (100 MB)
+    maxZipExtractionSize: parseInt(process.env.MAX_ZIP_EXTRACTION_SIZE || '104857600', 10) as number
   } as const,
 
   // Configuration for the client of Kafka message queue system.
