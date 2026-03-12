@@ -20,11 +20,17 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "schedule": ["at any time"],
-  "automergeSchedule": ["at any time"],
+  "schedule": [
+    "at any time"
+  ],
+  "automergeSchedule": [
+    "at any time"
+  ],
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
-    "labels": ["security"],
+    "labels": [
+      "security"
+    ],
     "automerge": true,
     "dependencyDashboardApproval": false
   },
@@ -52,13 +58,17 @@
     {
       "automerge": false,
       "dependencyDashboardApproval": true,
-      "matchPackageNames": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchPackagePatterns": ["^@angular"],
-      "groupName": "Angular framework"
+      "groupName": "Angular framework",
+      "matchPackageNames": [
+        "/^@angular/"
+      ]
     },
     {
       "automerge": true,
@@ -74,11 +84,15 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["*"]
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "groupName": "Spring Boot",
-      "matchPackageNames": ["org.springframework.boot"],
+      "matchPackageNames": [
+        "org.springframework.boot"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -108,7 +122,9 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
+      "matchPackageNames": [
+        "/org.apache.httpcomponents.client5*/"
+      ]
     },
     {
       "groupName": "Bootstrap",
@@ -125,7 +141,9 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["bootstrap"]
+      "matchPackageNames": [
+        "bootstrap"
+      ]
     },
     {
       "groupName": "Multer",
@@ -142,7 +160,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["multer", "@types/multer"]
+      "matchPackageNames": [
+        "multer",
+        "@types/multer"
+      ]
     },
     {
       "groupName": "Async",
@@ -159,7 +180,10 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["async", "@types/async"]
+      "matchPackageNames": [
+        "async",
+        "@types/async"
+      ]
     },
     {
       "groupName": "Http Proxy Middleware",
@@ -176,75 +200,128 @@
         "bump",
         "replacement"
       ],
-      "matchPackageNames": ["http-proxy-middleware"]
+      "matchPackageNames": [
+        "http-proxy-middleware"
+      ]
     },
     {
       "groupName": "Compression",
-      "matchPackageNames": ["compression", "@types/compression"]
+      "matchPackageNames": [
+        "compression",
+        "@types/compression"
+      ]
     },
     {
       "groupName": "Connect Flash",
-      "matchPackageNames": ["connect-flash", "@types/connect-flash"]
+      "matchPackageNames": [
+        "connect-flash",
+        "@types/connect-flash"
+      ]
     },
     {
       "groupName": "Connect Redis",
-      "matchPackageNames": ["connect-redis", "@types/connect-redis"]
+      "matchPackageNames": [
+        "connect-redis",
+        "@types/connect-redis"
+      ]
     },
     {
       "groupName": "CORS",
-      "matchPackageNames": ["cors", "@types/cors"]
+      "matchPackageNames": [
+        "cors",
+        "@types/cors"
+      ]
     },
     {
       "groupName": "Express Session",
-      "matchPackageNames": ["express-session", "@types/express-session"]
+      "matchPackageNames": [
+        "express-session",
+        "@types/express-session"
+      ]
     },
     {
       "groupName": "jsonwebtoken",
-      "matchPackageNames": ["jsonwebtoken", "@types/jsonwebtoken"]
+      "matchPackageNames": [
+        "jsonwebtoken",
+        "@types/jsonwebtoken"
+      ]
     },
     {
       "groupName": "Lusca",
-      "matchPackageNames": ["lusca", "@types/lusca"]
+      "matchPackageNames": [
+        "lusca",
+        "@types/lusca"
+      ]
     },
     {
       "groupName": "Mime",
-      "matchPackageNames": ["mime", "@types/mime"]
+      "matchPackageNames": [
+        "mime",
+        "@types/mime"
+      ]
     },
     {
       "groupName": "Morgan",
-      "matchPackageNames": ["morgan", "@types/morgan"]
+      "matchPackageNames": [
+        "morgan",
+        "@types/morgan"
+      ]
     },
     {
       "groupName": "Node Cron",
-      "matchPackageNames": ["node-cron", "@types/node-cron"]
+      "matchPackageNames": [
+        "node-cron",
+        "@types/node-cron"
+      ]
     },
     {
       "groupName": "Node Schedule",
-      "matchPackageNames": ["node-schedule", "@types/node-schedule"]
+      "matchPackageNames": [
+        "node-schedule",
+        "@types/node-schedule"
+      ]
     },
     {
       "groupName": "Passport",
-      "matchPackageNames": ["passport", "@types/passport"]
+      "matchPackageNames": [
+        "passport",
+        "@types/passport"
+      ]
     },
     {
       "groupName": "PDF Parse",
-      "matchPackageNames": ["pdf-parse", "@types/pdf-parse"]
+      "matchPackageNames": [
+        "pdf-parse",
+        "@types/pdf-parse"
+      ]
     },
     {
       "groupName": "Redis",
-      "matchPackageNames": ["redis", "@types/redis"]
+      "matchPackageNames": [
+        "redis",
+        "@types/redis"
+      ]
     },
     {
       "groupName": "S3 Zip",
-      "matchPackageNames": ["s3-zip", "@types/s3-zip"]
+      "matchPackageNames": [
+        "s3-zip",
+        "@types/s3-zip"
+      ]
     },
     {
       "groupName": "WS",
-      "matchPackageNames": ["ws", "@types/ws"]
+      "matchPackageNames": [
+        "ws",
+        "@types/ws"
+      ]
     },
     {
       "groupName": "xml2js",
-      "matchPackageNames": ["xml2js", "@types/xml2js"]
+      "matchPackageNames": [
+        "xml2js",
+        "@types/xml2js"
+      ]
     },
     {
       "groupName": "MongoDB packages and images - DISABLED",
@@ -260,8 +337,12 @@
     {
       "groupName": "MongoDB Docker images - DISABLED",
       "enabled": false,
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["mongo"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "mongo"
+      ]
     }
   ],
   "prConcurrentLimit": 10
