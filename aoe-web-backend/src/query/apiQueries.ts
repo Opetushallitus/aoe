@@ -356,7 +356,10 @@ export const getEducationalMaterialMetadata = async (
 
           // Check if files are already extracted on disk before downloading from S3
           const cachedResult = findExistingIndexHtml(jsonObj.materials[i]['originalfilename'])
-          const result = cachedResult !== false ? cachedResult : await downloadFileFromStorage(req, res, next, true)
+          const result =
+            cachedResult !== false
+              ? cachedResult
+              : await downloadFileFromStorage(req, res, next, true)
           if (
             result !== false &&
             (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
