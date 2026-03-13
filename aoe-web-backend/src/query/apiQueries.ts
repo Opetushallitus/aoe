@@ -12,7 +12,11 @@ import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import * as pgLib from 'pg-promise'
 import { updateViewCounter } from './analyticsQueries'
-import { downloadFileFromStorage, insertDataToDisplayName } from './fileHandling'
+import {
+  downloadFileFromStorage,
+  findExistingIndexHtml,
+  insertDataToDisplayName
+} from './fileHandling'
 import { getOwnerName } from './materialQueries'
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
@@ -349,7 +353,10 @@ export const getEducationalMaterialMetadata = async (
             `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
               `filekey=${req.params.key}, filesize=${fileSizeMB} MB`
           )
-          const result = await downloadFileFromStorage(req, res, next, true)
+
+          // Check if files are already extracted on disk before downloading from S3
+          const cachedResult = findExistingIndexHtml(jsonObj.materials[i]['originalfilename'])
+          const result = cachedResult !== false ? cachedResult : await downloadFileFromStorage(req, res, next, true)
           if (
             result !== false &&
             (jsonObj.materials[i]['mimetype'] === 'application/zip' ||

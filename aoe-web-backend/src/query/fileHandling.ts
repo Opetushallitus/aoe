@@ -1355,49 +1355,65 @@ const downloadAndZipFromStorage = (
  * @param {string} zipFilePath
  * @returns {Promise<boolean | string>}
  */
-const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> => {
-  const searchRecursive = (dir: string, pattern: string) => {
-    // This is where we store pattern matches of all files inside the directory
-    let results: string[] = []
-    // Read contents of directory
-    fs.readdirSync(dir).forEach((dirInner) => {
-      // Skip macOS resource fork directories
-      if (dirInner === '__MACOSX') {
-        return
-      }
-      // Obtain absolute path
-      dirInner = path.resolve(dir, dirInner)
-      // Get stats to determine if path is a directory or a file
-      const stat = fs.statSync(dirInner)
-      // If path is a directory, scan it and combine results
-      if (stat.isDirectory()) {
-        results = results.concat(searchRecursive(dirInner, pattern))
-      }
-      // If path is a file and the filename matches the pattern exactly
-      if (stat.isFile() && path.basename(dirInner) === pattern) {
-        results.push(dirInner)
-      }
-    })
-    return results
+const searchRecursive = (dir: string, pattern: string): string[] => {
+  let results: string[] = []
+  fs.readdirSync(dir).forEach((dirInner) => {
+    // Skip macOS resource fork directories
+    if (dirInner === '__MACOSX') {
+      return
+    }
+    dirInner = path.resolve(dir, dirInner)
+    const stat = fs.statSync(dirInner)
+    if (stat.isDirectory()) {
+      results = results.concat(searchRecursive(dirInner, pattern))
+    }
+    if (stat.isFile() && path.basename(dirInner) === pattern) {
+      results.push(dirInner)
+    }
+  })
+  return results
+}
+
+/**
+ * Search for an already-extracted index.html on disk for a given original filename.
+ * Returns the path to index.html if found, or false if the extracted folder doesn't exist.
+ */
+export const findExistingIndexHtml = (originalFilename: string): string | false => {
+  const zipPath = `${process.env.HTML_FOLDER}/${originalFilename}`
+  const extractedFolder = zipPath.slice(0, -4)
+  try {
+    if (!fs.existsSync(extractedFolder)) {
+      return false
+    }
+    const indexHtmlPaths = searchRecursive(extractedFolder, 'index.html')
+    if (indexHtmlPaths.length) {
+      return indexHtmlPaths[0] || false
+    }
+    const indexHtmPaths = searchRecursive(extractedFolder, 'index.htm')
+    if (indexHtmPaths.length) {
+      return indexHtmPaths[0] || false
+    }
+    return false
+  } catch {
+    return false
   }
+}
+
+const unZipAndExtract = async (zipFilePath: string): Promise<boolean | string> => {
   try {
     const targetUnzipFolder = zipFilePath.slice(0, -4)
     fs.mkdirSync(targetUnzipFolder, { recursive: true })
     const zip = new StreamZip.async({ file: zipFilePath })
     await zip.extract(null, targetUnzipFolder)
     await zip.close()
-    // After the decompression search recursively for index.html in the target unzip folder.
-    // Return the full path of index.html.
     const indexHtmlPaths: string[] = searchRecursive(targetUnzipFolder, 'index.html')
     if (Array.isArray(indexHtmlPaths) && indexHtmlPaths.length) {
       return indexHtmlPaths[0] || false
     }
-    // If index.html not found, search recursively for index.htm in the target unzip folder.
     const indexHtmPaths = searchRecursive(targetUnzipFolder, 'index.htm')
     if (Array.isArray(indexHtmPaths) && indexHtmPaths.length) {
       return indexHtmPaths[0] || false
     }
-    // The web site is not functional without an index file => return false.
     return false
   } catch (err) {
     log.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
