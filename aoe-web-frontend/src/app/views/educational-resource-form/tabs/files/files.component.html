@@ -1,7 +1,7 @@
 <alert type="info" dismissible="true">{{ "forms.educationalResource.files.alert" | translate }}</alert>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div class="form-group">
-    <div class="form-row align-items-end">
+    <div class="row g-2 align-items-end">
       <div class="col" formGroupName="name">
         <label for="name">{{ "forms.educationalResource.files.materialName.label." + lang | translate }}&nbsp;*</label>
         <button
@@ -57,11 +57,9 @@
         <h5 class="modal-title">{{ "forms.educationalResource.files.materialName.modal.title" | translate }}</h5>
         <button
           type="button"
-          class="close"
+          class="btn-close"
           [attr.aria-label]="'forms.common.close' | translate"
-          (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+          (click)="modalRef.hide()"></button>
       </div>
       <div class="modal-body" formGroupName="name">
         <h4>{{ "forms.educationalResource.files.materialName.modal.subtitle" | translate }}</h4>
@@ -157,21 +155,18 @@
             <img src="assets/img/icons/ic_help.svg" alt="" />
           </button>
         </h4>
-        <div class="form-row align-items-end">
+        <div class="row g-2 align-items-end">
           @if (!file.get('link').value) {
             <div class="form-group col-lg">
               <label for="{{ 'file' + i }}">
                 {{ "forms.educationalResource.files.file.inputs.file.label" | translate }}&nbsp;*
               </label>
-              <div class="custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="{{ 'file' + i }}"
-                  [lang]="lang"
-                  (change)="onFileChange($event, i)" />
-                <span class="custom-file-label">{{ file.get('file').value?.['name'] | cleanFilename }}</span>
-              </div>
+              <input
+                type="file"
+                class="form-control"
+                id="{{ 'file' + i }}"
+                [lang]="lang"
+                (change)="onFileChange($event, i)" />
             </div>
           }
           @if (!file.get('file').value && !file.get('link').value) {
@@ -236,7 +231,7 @@
             }
           </div>
         </div>
-        <div class="form-row align-items-end" formGroupName="displayName">
+        <div class="row g-2 align-items-end" formGroupName="displayName">
           <div class="form-group col">
             <label for="{{ 'displayName' + i }}">
               {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}&nbsp;*
@@ -314,11 +309,9 @@
               </h5>
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 [attr.aria-label]="'forms.common.close' | translate"
-                (click)="modalRef.hide()">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                (click)="modalRef.hide()"></button>
             </div>
             <div class="modal-body">
               <h4>{{ "forms.educationalResource.files.file.inputs.displayName.modal.subtitle" | translate }}</h4>
@@ -415,21 +408,18 @@
               class="border-top pt-1"
               [ngClass]="{ 'border-bottom mb-2': isLast }">
               <fieldset formArrayName="subtitles">
-                <div class="form-row align-items-end" [formGroupName]="j">
+                <div class="row g-2 align-items-end" [formGroupName]="j">
                   <div class="form-group col-lg order-1">
                     <label for="{{ 'subtitle' + i + j }}">
                       {{ "forms.educationalResource.files.file.inputs.subtitles.subtitle" | translate }}&nbsp;*
                     </label>
-                    <div class="custom-file">
-                      <input
-                        type="file"
-                        class="custom-file-input"
-                        id="{{ 'subtitle' + i + j }}"
-                        accept=".vtt"
-                        [lang]="lang"
-                        (change)="onSubtitleChange($event, i, j)" />
-                      <span class="custom-file-label">{{ subtitle.get("file").value.name | cleanFilename }}</span>
-                    </div>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="{{ 'subtitle' + i + j }}"
+                      accept=".vtt"
+                      [lang]="lang"
+                      (change)="onSubtitleChange($event, i, j)" />
                   </div>
                   <div class="form-group col-sm-8 col-lg order-2">
                     <label for="{{ 'label' + i + j }}">
@@ -491,18 +481,18 @@
                   <div class="form-group col-lg-auto order-last order-lg-4">
                     <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                       <i class="fa fa-trash" aria-hidden="true"></i>
-                      <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
+                      <span class="visually-hidden">{{ "forms.common.delete" | translate }}</span>
                     </button>
                   </div>
                   <div class="form-group col-lg-12 order-4">
-                    <div class="custom-control custom-checkbox">
+                    <div class="form-check">
                       <input
                         type="checkbox"
-                        class="custom-control-input"
+                        class="form-check-input"
                         id="{{ 'default' + i + j }}"
                         formControlName="default"
                         (change)="updateDefaultSubtitle($event, i, j)" />
-                      <label class="custom-control-label" for="{{ 'default' + i + j }}">
+                      <label class="form-check-label" for="{{ 'default' + i + j }}">
                         {{ "forms.educationalResource.files.file.inputs.subtitles.default" | translate }}
                       </label>
                     </div>
@@ -511,7 +501,7 @@
               </fieldset>
             </div>
           }
-          <div class="form-row">
+          <div class="row g-2">
             <div class="form-group col">
               <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">
                 {{ "forms.educationalResource.files.file.inputs.subtitles.addSubtitle" | translate }}

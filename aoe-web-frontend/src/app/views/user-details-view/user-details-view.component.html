@@ -6,24 +6,24 @@
       <div class="form-group" formGroupName="notifications">
         <span class="d-inline-block mb-2">{{ "userDetails.emails.subTitle" | translate }}</span>
 
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="newRatings" formControlName="newRatings" />
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="newRatings" formControlName="newRatings" />
 
-          <label class="custom-control-label" for="newRatings">{{ "userDetails.emails.newRatings" | translate }}</label>
+          <label class="form-check-label" for="newRatings">{{ "userDetails.emails.newRatings" | translate }}</label>
         </div>
 
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="almostExpired" formControlName="almostExpired" />
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="almostExpired" formControlName="almostExpired" />
 
-          <label class="custom-control-label" for="almostExpired">
+          <label class="form-check-label" for="almostExpired">
             {{ "userDetails.emails.almostExpired" | translate }}
           </label>
         </div>
 
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="termsUpdated" formControlName="termsUpdated" />
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="termsUpdated" formControlName="termsUpdated" />
 
-          <label class="custom-control-label" for="termsUpdated">
+          <label class="form-check-label" for="termsUpdated">
             {{ "userDetails.emails.termsUpdated" | translate }}
           </label>
         </div>
@@ -43,10 +43,10 @@
       <p>{{ "userDetails.allowTransfer.helpText" | translate }}</p>
 
       <div class="form-group">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="allowTransfer" formControlName="allowTransfer" />
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="allowTransfer" formControlName="allowTransfer" />
 
-          <label class="custom-control-label" for="allowTransfer">
+          <label class="form-check-label" for="allowTransfer">
             {{ "userDetails.allowTransfer.label" | translate }}
           </label>
         </div>

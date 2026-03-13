@@ -37,6 +37,7 @@ import { CookieNoticeComponent } from '../../components/cookie-notice/cookie-not
   ]
 })
 export class DefaultLayoutComponent implements OnInit {
+  isNavbarCollapsed = true
   languages = new Map()
   alerts: AlertsResponse
   serviceNotifications$: Observable<ServiceNotification[]> = this.notificationService.notifications$

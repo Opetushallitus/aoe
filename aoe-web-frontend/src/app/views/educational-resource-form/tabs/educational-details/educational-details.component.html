@@ -2,7 +2,7 @@
   <div class="form-group">
     <label for="educationalLevels">
       {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}&nbsp;*
-      <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+      <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
     </label>
 
     <button
@@ -55,13 +55,13 @@
       </small>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
+      <div class="form-check">
         <input
           type="checkbox"
-          class="custom-control-input"
+          class="form-check-input"
           id="suitsAllEarlyChildhoodSubjects"
           formControlName="suitsAllEarlyChildhoodSubjects" />
-        <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects">
+        <label class="form-check-label" for="suitsAllEarlyChildhoodSubjects">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>
@@ -163,13 +163,13 @@
       </small>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
+      <div class="form-check">
         <input
           type="checkbox"
-          class="custom-control-input"
+          class="form-check-input"
           id="suitsAllPrePrimarySubjects"
           formControlName="suitsAllPrePrimarySubjects" />
-        <label class="custom-control-label" for="suitsAllPrePrimarySubjects">
+        <label class="form-check-label" for="suitsAllPrePrimarySubjects">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>
@@ -270,13 +270,13 @@
       </ng-select>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
+      <div class="form-check">
         <input
           type="checkbox"
-          class="custom-control-input"
+          class="form-check-input"
           id="suitsAllBasicStudySubjects"
           formControlName="suitsAllBasicStudySubjects" />
-        <label class="custom-control-label" for="suitsAllBasicStudySubjects">
+        <label class="form-check-label" for="suitsAllBasicStudySubjects">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>
@@ -322,7 +322,7 @@
     <div class="form-group">
       <label for="basicStudyObjectives">
         {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label" | translate }}&nbsp;*
-        <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+        <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
       </label>
       <ng-select
         [items]="basicStudyObjectives"
@@ -340,7 +340,7 @@
     <div class="form-group">
       <label for="basicStudyContents">
         {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label" | translate }}&nbsp;*
-        <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+        <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
       </label>
       <ng-select
         [items]="basicStudyContents"
@@ -451,13 +451,13 @@
       }
       <!--upperSecondaryCoursesOld-->
       <div class="form-group">
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
           <input
             type="checkbox"
-            class="custom-control-input"
+            class="form-check-input"
             id="suitsAllUpperSecondarySubjects"
             formControlName="suitsAllUpperSecondarySubjects" />
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">
+          <label class="form-check-label" for="suitsAllUpperSecondarySubjects">
             {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
           </label>
         </div>
@@ -506,13 +506,13 @@
         </ng-select>
       </div>
       <div class="form-group">
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
           <input
             type="checkbox"
-            class="custom-control-input"
+            class="form-check-input"
             id="suitsAllUpperSecondarySubjectsNew"
             formControlName="suitsAllUpperSecondarySubjectsNew" />
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">
+          <label class="form-check-label" for="suitsAllUpperSecondarySubjectsNew">
             {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
           </label>
         </div>
@@ -523,7 +523,7 @@
           <label for="upperSecondarySchoolModulesNew">
             {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label" |
             translate }}&nbsp;*
-            <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+            <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
           </label>
           <ng-select
             [items]="upperSecondarySchoolModulesNew"
@@ -541,7 +541,7 @@
             <label for="upperSecondarySchoolObjectivesNew">
               {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label"
               | translate }}&nbsp;*
-              <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+              <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
             </label>
             <ng-select
               [items]="upperSecondarySchoolObjectivesNew"
@@ -559,7 +559,7 @@
             <label for="upperSecondarySchoolContentsNew">
               {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label" |
               translate }}&nbsp;*
-              <span class="sr-only">({{ "forms.common.required" | translate }})</span>
+              <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
             </label>
             <ng-select
               [items]="upperSecondarySchoolContentsNew"
@@ -677,13 +677,13 @@
       (change)="vocationalDegreesChange()"></ng-select>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
+      <div class="form-check">
         <input
           type="checkbox"
-          class="custom-control-input"
+          class="form-check-input"
           id="suitsAllVocationalDegrees"
           formControlName="suitsAllVocationalDegrees" />
-        <label class="custom-control-label" for="suitsAllVocationalDegrees">
+        <label class="form-check-label" for="suitsAllVocationalDegrees">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>
@@ -818,13 +818,13 @@
       </small>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
+      <div class="form-check">
         <input
           type="checkbox"
-          class="custom-control-input"
+          class="form-check-input"
           id="suitsAllSelfMotivatedSubjects"
           formControlName="suitsAllSelfMotivatedSubjects" />
-        <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects">
+        <label class="form-check-label" for="suitsAllSelfMotivatedSubjects">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>
@@ -886,9 +886,9 @@
       </ng-select>
     </div>
     <div class="form-group">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="suitsAllBranches" formControlName="suitsAllBranches" />
-        <label class="custom-control-label" for="suitsAllBranches">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="suitsAllBranches" formControlName="suitsAllBranches" />
+        <label class="form-check-label" for="suitsAllBranches">
           {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
         </label>
       </div>

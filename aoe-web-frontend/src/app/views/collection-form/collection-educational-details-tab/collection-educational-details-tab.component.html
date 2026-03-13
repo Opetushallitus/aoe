@@ -1,6 +1,6 @@
 @if (collection) {
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <h2 class="sr-only">{{ "forms.collection.educational.title" | translate }}</h2>
+    <h2 class="visually-hidden">{{ "forms.collection.educational.title" | translate }}</h2>
     <div class="form-group">
       <label for="educationalLevels">{{ "forms.collection.educational.educationalLevels.label" | translate }}</label>
       <ng-select
@@ -284,24 +284,24 @@
     @if (hasUpperSecondarySchool) {
       <h3>{{ "forms.collection.educational.headings.upperSecondary" | translate }}</h3>
       <div class="form-group">
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
           <input
             type="checkbox"
-            class="custom-control-input"
+            class="form-check-input"
             id="currentUpperSecondarySchoolSelected"
             formControlName="currentUpperSecondarySchoolSelected" />
-          <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
+          <label class="form-check-label" for="currentUpperSecondarySchoolSelected">
             {{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}
           </label>
         </div>
         <!--current-->
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
           <input
             type="checkbox"
-            class="custom-control-input"
+            class="form-check-input"
             id="newUpperSecondarySchoolSelected"
             formControlName="newUpperSecondarySchoolSelected" />
-          <label class="custom-control-label" for="newUpperSecondarySchoolSelected">
+          <label class="form-check-label" for="newUpperSecondarySchoolSelected">
             {{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}
           </label>
         </div>

@@ -5,7 +5,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-search">
       <div class="mb-4">
         <div class="input-group mb-2">
-          <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
+          <label class="visually-hidden" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
           <input
             type="search"
             [maxLength]="255"
@@ -14,12 +14,10 @@
             [placeholder]="'search.inputs.keywords.placeholder' | translate"
             formControlName="keywords" />
 
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-blue" id="button-search">
-              <i class="fa fa-search" aria-hidden="true"></i>
-              <span class="sr-only">{{ "search.inputs.submit.sr-text" | translate }}</span>
-            </button>
-          </div>
+          <button type="submit" class="btn btn-blue" id="button-search">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span class="visually-hidden">{{ "search.inputs.submit.sr-text" | translate }}</span>
+          </button>
         </div>
 
         @if (keywordsCtrl.invalid) {
@@ -28,14 +26,14 @@
 
         @if (usedFilters.length > 0) {
           <div class="selected-search-filters">
-            <span id="used-filters-label" class="mr-1">{{ "search.filters.usedFilters" | translate }}</span>
+            <span id="used-filters-label" class="me-1">{{ "search.filters.usedFilters" | translate }}</span>
             @for (filter of usedFilters; track filter) {
               <span
                 class="badge badge-gray search-filter"
                 aria-labelledby="used-filters-label">
                 <button type="button" class="btn btn-light" (click)="onSubmit(filter)">
                   <span aria-hidden="true">&times;</span>
-                  <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
+                  <span class="visually-hidden">{{ "forms.common.delete" | translate }}</span>
                 </button>
                 {{ filter.value }}
               </span>
@@ -63,7 +61,7 @@
 
                 <div class="col-auto">
                   @if (filtersCount > 0) {
-                    <span class="badge badge-pill badge-blue mr-2">{{ filtersCount }}</span>
+                    <span class="badge rounded-pill badge-blue me-2">{{ filtersCount }}</span>
                   }
 
                   <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFilters ? 'fa-plus' : 'fa-minus'"></i>
@@ -96,7 +94,7 @@
                       </div>
                       <div class="col-auto">
                         @if (languagesCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">
+                          <span class="badge rounded-pill badge-blue me-2">
                             {{ languagesCount }}
                           </span>
                         }
@@ -117,10 +115,10 @@
                       language of languagesArray.controls | slice: 0:filtersShown.get('languages'); track
                       language; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="languages-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="languages-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="languages-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="languages-{{ i }}">
                           {{ getLanguageLabel(searchFilters.languages[i]) }}
                         </label>
                       </div>
@@ -154,7 +152,7 @@
                     </div>
                     <div class="col-auto">
                       @if (educationalLevelsCount > 0) {
-                        <span class="badge badge-pill badge-blue mr-2">
+                        <span class="badge rounded-pill badge-blue me-2">
                           {{ educationalLevelsCount }}
                         </span>
                       }
@@ -174,14 +172,14 @@
                       <div class="children" formArrayName="levels">
                         @for (child of level.get('levels').controls; track child; let j = $index) {
                           <div
-                            class="custom-control custom-checkbox"
+                            class="form-check"
                             >
                             <input
                               type="checkbox"
-                              class="custom-control-input"
+                              class="form-check-input"
                               id="educationalLevels-{{ i }}-{{ j }}"
                               [formControlName]="j" />
-                            <label class="custom-control-label" for="educationalLevels-{{ i }}-{{ j }}">
+                            <label class="form-check-label" for="educationalLevels-{{ i }}-{{ j }}">
                               {{ educationalLevels[i].children[j].value }}
                             </label>
                           </div>
@@ -209,7 +207,7 @@
                       </div>
                       <div class="col-auto">
                         @if (subjectsCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ subjectsCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ subjectsCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedSubjects ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -223,10 +221,10 @@
                     [isAnimated]="true">
                     @for (subject of subjectsArray.controls | slice: 0:filtersShown.get('subjects'); track subject; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="subjects-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="subjects-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="subjects-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="subjects-{{ i }}">
                           {{ searchFilters.subjects[i].value }}
                         </label>
                       </div>
@@ -261,7 +259,7 @@
                       </div>
                       <div class="col-auto">
                         @if (teachesCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ teachesCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ teachesCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedTeaches ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -275,10 +273,10 @@
                     [isAnimated]="true">
                     @for (teach of teachesArray.controls | slice: 0:filtersShown.get('teaches'); track teach; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="teaches-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="teaches-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="teaches-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="teaches-{{ i }}">
                           {{ searchFilters.teaches[i].value | truncate: [teachesTruncates.get(i)] }}
                         </label>
                         @if (searchFilters.teaches[i].value.length > teachesTruncates.get(i)) {
@@ -320,7 +318,7 @@
                     </div>
                     <div class="col-auto">
                       @if (learningResourceTypesCount > 0) {
-                        <span class="badge badge-pill badge-blue mr-2">
+                        <span class="badge rounded-pill badge-blue me-2">
                           {{ learningResourceTypesCount }}
                         </span>
                       }
@@ -336,14 +334,14 @@
                   [isAnimated]="true">
                   @for (type of learningResourceTypesArray.controls; track type; let i = $index) {
                     <div
-                      class="custom-control custom-checkbox"
+                      class="form-check"
                       >
                       <input
                         type="checkbox"
-                        class="custom-control-input"
+                        class="form-check-input"
                         id="learningResourceTypes-{{ i }}"
                         [formControlName]="i" />
-                      <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
+                      <label class="form-check-label" for="learningResourceTypes-{{ i }}">
                         {{ learningResourceTypes[i].value }}
                       </label>
                     </div>
@@ -368,7 +366,7 @@
                       </div>
                       <div class="col-auto">
                         @if (authorsCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ authorsCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ authorsCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedAuthors ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -382,10 +380,10 @@
                     [isAnimated]="true">
                     @for (author of authorsArray.controls | slice: 0:filtersShown.get('authors'); track author; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="authors-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="authors-{{ i }}">{{ searchFilters.authors[i] }}</label>
+                        <input type="checkbox" class="form-check-input" id="authors-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="authors-{{ i }}">{{ searchFilters.authors[i] }}</label>
                       </div>
                     }
                     @if (showAllAuthors) {
@@ -418,7 +416,7 @@
                       </div>
                       <div class="col-auto">
                         @if (organizationsCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">
+                          <span class="badge rounded-pill badge-blue me-2">
                             {{ organizationsCount }}
                           </span>
                         }
@@ -439,14 +437,14 @@
                       organization of organizationsArray.controls | slice: 0:filtersShown.get('organizations'); track
                       organization; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
                         <input
                           type="checkbox"
-                          class="custom-control-input"
+                          class="form-check-input"
                           id="organizations-{{ i }}"
                           [formControlName]="i" />
-                        <label class="custom-control-label" for="organizations-{{ i }}">
+                        <label class="form-check-label" for="organizations-{{ i }}">
                           {{ searchFilters.organizations[i].value }}
                         </label>
                       </div>
@@ -483,7 +481,7 @@
                       </div>
                       <div class="col-auto">
                         @if (educationalRolesCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">
+                          <span class="badge rounded-pill badge-blue me-2">
                             {{ educationalRolesCount }}
                           </span>
                         }
@@ -501,14 +499,14 @@
                       role of educationalRolesArray.controls | slice: 0:filtersShown.get('roles'); track
                       role; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
                         <input
                           type="checkbox"
-                          class="custom-control-input"
+                          class="form-check-input"
                           id="educationalRoles-{{ i }}"
                           [formControlName]="i" />
-                        <label class="custom-control-label" for="educationalRoles-{{ i }}">
+                        <label class="form-check-label" for="educationalRoles-{{ i }}">
                           {{ searchFilters.roles[i].value }}
                         </label>
                       </div>
@@ -543,7 +541,7 @@
                       </div>
                       <div class="col-auto">
                         @if (keywordsCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ keywordsCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ keywordsCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -557,10 +555,10 @@
                     [isAnimated]="true">
                     @for (keyword of keywordsArray.controls | slice: 0:filtersShown.get('keywords'); track keyword; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="keywords-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="keywords-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="keywords-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="keywords-{{ i }}">
                           {{ searchFilters.keywords[i].value }}
                         </label>
                       </div>
@@ -595,7 +593,7 @@
                       </div>
                       <div class="col-auto">
                         @if (usesCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ usesCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ usesCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedUses ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -609,10 +607,10 @@
                     [isAnimated]="true">
                     @for (use of usesArray.controls | slice: 0:filtersShown.get('uses'); track use; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="uses-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="uses-{{ i }}">{{ searchFilters.uses[i].value }}</label>
+                        <input type="checkbox" class="form-check-input" id="uses-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="uses-{{ i }}">{{ searchFilters.uses[i].value }}</label>
                       </div>
                     }
                     @if (showAllUses) {
@@ -645,7 +643,7 @@
                       </div>
                       <div class="col-auto">
                         @if (hazardsCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ hazardsCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ hazardsCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedHazards ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -659,10 +657,10 @@
                     [isAnimated]="true">
                     @for (hazards of hazardsArray.controls | slice: 0:filtersShown.get('hazards'); track hazards; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="hazards-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="hazards-{{ i }}">{{ searchFilters.hazards[i].value }}</label>
+                        <input type="checkbox" class="form-check-input" id="hazards-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="hazards-{{ i }}">{{ searchFilters.hazards[i].value }}</label>
                       </div>
                     }
                     @if (showAllHazards) {
@@ -695,7 +693,7 @@
                       </div>
                       <div class="col-auto">
                         @if (featuresCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ featuresCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ featuresCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFeatures ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -709,10 +707,10 @@
                     [isAnimated]="true">
                     @for (feature of featuresArray.controls | slice: 0:filtersShown.get('features'); track feature; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="features-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="features-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="features-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="features-{{ i }}">
                           {{ searchFilters.features[i].value }}
                         </label>
                       </div>
@@ -747,7 +745,7 @@
                       </div>
                       <div class="col-auto">
                         @if (licensesCount > 0) {
-                          <span class="badge badge-pill badge-blue mr-2">{{ licensesCount }}</span>
+                          <span class="badge rounded-pill badge-blue me-2">{{ licensesCount }}</span>
                         }
                         <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLicenses ? 'fa-plus' : 'fa-minus'"></i>
                       </div>
@@ -761,10 +759,10 @@
                     [isAnimated]="true">
                     @for (license of licensesArray.controls | slice: 0:filtersShown.get('licenses'); track license; let i = $index) {
                       <div
-                        class="custom-control custom-checkbox"
+                        class="form-check"
                         >
-                        <input type="checkbox" class="custom-control-input" id="licenses-{{ i }}" [formControlName]="i" />
-                        <label class="custom-control-label" for="licenses-{{ i }}">
+                        <input type="checkbox" class="form-check-input" id="licenses-{{ i }}" [formControlName]="i" />
+                        <label class="form-check-label" for="licenses-{{ i }}">
                           {{ searchFilters.licenses[i].value }}
                         </label>
                       </div>
@@ -790,13 +788,13 @@
             @if (results?.hits > 0) {
               <div class="filter">
                 <div class="spinner-border" role="status">
-                  <span class="sr-only">{{ "search.results.loading" | translate }}</span>
+                  <span class="visually-hidden">{{ "search.results.loading" | translate }}</span>
                 </div>
               </div>
             }
           }
 
-          <button type="submit" class="btn btn-blue btn-block" id="button-narrow-search">
+          <button type="submit" class="btn btn-blue w-100" id="button-narrow-search">
             {{ "search.filters.submit" | translate }}
           </button>
         </div>
@@ -811,7 +809,7 @@
               <div id="results" #resultsContainer>
                 <div class="block-header">
                   <div class="row justify-content-md-between align-items-md-center mb-2">
-                    <div class="col-md-4 text-center text-md-left">
+                    <div class="col-md-4 text-center text-md-start">
                       <div class="results-count mb-2 mb-md-0">
                         {{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits
                         }} / {{ results.hits }} {{ "search.results.results" | translate }}
@@ -819,7 +817,7 @@
                     </div>
                     <div class="col-md-auto">
                       <div class="form-group mb-0">
-                        <label for="sort" class="sr-only">{{ "search.sort.label" | translate }}</label>
+                        <label for="sort" class="visually-hidden">{{ "search.sort.label" | translate }}</label>
                         <select
                           class="form-control aoe-select-search-sort"
                           id="sort"
@@ -867,7 +865,7 @@
                 </div>
                 <div class="block-header">
                   <div class="row justify-content-md-between align-items-md-center mb-2">
-                    <div class="col-md-4 text-center text-md-left">
+                    <div class="col-md-4 text-center text-md-start">
                       <div class="results-count mb-2 mb-md-0">
                         {{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits
                         }} / {{ results.hits }} {{ "search.results.results" | translate }}
@@ -875,7 +873,7 @@
                     </div>
                     <div class="col-md-auto">
                       <div class="form-group mb-0">
-                        <label for="sort2" class="sr-only">{{ "search.sort.label" | translate }}</label>
+                        <label for="sort2" class="visually-hidden">{{ "search.sort.label" | translate }}</label>
                         <select
                           class="form-control aoe-select-search-sort"
                           id="sort2"
@@ -912,7 +910,7 @@
           <ng-template #loadingTemplate>
             <div class="d-flex align-items-center">
               <strong>{{ "search.results.loading" | translate }}</strong>
-              <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+              <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
             </div>
           </ng-template>
         </div>

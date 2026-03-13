@@ -51,17 +51,17 @@
   @if ((licenses$ | async); as licenses) {
     @for (license of licenses; track license; let i = $index) {
       <div class="form-group">
-        <div class="custom-control custom-radio">
+        <div class="form-check">
           <input
             type="radio"
             [id]="license.key"
             formControlName="license"
             [value]="license.key"
-            class="custom-control-input" />
-          <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
+            class="form-check-input" />
+          <label class="form-check-label" [for]="license.key">{{ license.value }}</label>
           <button
             type="button"
-            class="btn btn-sm btn-gray ml-2"
+            class="btn btn-sm btn-gray ms-2"
             (click)="license.isCollapsed = !license.isCollapsed"
             [attr.aria-expanded]="!license.isCollapsed"
             [attr.aria-controls]="'collapseBasic' + i">

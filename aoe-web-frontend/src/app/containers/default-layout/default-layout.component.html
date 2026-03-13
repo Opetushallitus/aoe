@@ -1,56 +1,78 @@
 @if (!embedded) {
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
+  <nav
+    class="navbar navbar-expand-lg navbar-dark bg-primary"
+    id="main-navigation"
+  >
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="/etusivu">
-        <img [src]="brand[translate.getCurrentLang()].img" [alt]="brand[translate.getCurrentLang()].alt" />
+        <img
+          [src]="brand[translate.getCurrentLang()].img"
+          [alt]="brand[translate.getCurrentLang()].alt"
+        />
       </a>
       <button
         class="navbar-toggler"
         type="button"
-        data-toggle="collapse"
-        data-target="#main-navbar"
+        (click)="isNavbarCollapsed = !isNavbarCollapsed"
         aria-controls="main-navbar"
-        aria-expanded="false"
-        [attr.aria-label]="'navigation.toggler.aria.label' | translate">
+        [attr.aria-expanded]="!isNavbarCollapsed"
+        [attr.aria-label]="'navigation.toggler.aria.label' | translate"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="main-navbar">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <a class="nav-link" routerLink="/etusivu" routerLinkActive="active">{{ "navigation.home" | translate }}</a>
+      <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item" (click)="isNavbarCollapsed = true">
+            <a
+              class="nav-link"
+              routerLink="/etusivu"
+              routerLinkActive="active"
+              >{{ 'navigation.home' | translate }}</a
+            >
           </li>
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <a class="nav-link" routerLink="/kokoelmat" routerLinkActive="active">
-              {{ "navigation.collections" | translate }}
+          <li class="nav-item" (click)="isNavbarCollapsed = true">
+            <a
+              class="nav-link"
+              routerLink="/kokoelmat"
+              routerLinkActive="active"
+            >
+              {{ 'navigation.collections' | translate }}
             </a>
           </li>
           @if (authService.hasUserData()) {
-            <li
-              class="nav-item"
-              data-toggle="collapse"
-              data-target=".navbar-collapse.show"
+            <li class="nav-item" (click)="isNavbarCollapsed = true">
+              <a
+                class="nav-link"
+                routerLink="/omat-oppimateriaalit"
+                routerLinkActive="active"
               >
-              <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
-                {{ "navigation.myMaterials" | translate }}
+                {{ 'navigation.myMaterials' | translate }}
               </a>
             </li>
           }
-          <li class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-            <a class="nav-link" routerLink="/lisatietoa" routerLinkActive="active">{{ "navigation.info" | translate }}</a>
+          <li class="nav-item" (click)="isNavbarCollapsed = true">
+            <a
+              class="nav-link"
+              routerLink="/lisatietoa"
+              routerLinkActive="active"
+              >{{ 'navigation.info' | translate }}</a
+            >
           </li>
         </ul>
         <nav
-          class="nav ml-auto nav-languages flex-lg-row"
-          [attr.aria-label]="'navigation.langSelector.label' | translate">
+          class="nav ms-auto nav-languages flex-lg-row"
+          [attr.aria-label]="'navigation.langSelector.label' | translate"
+        >
           @for (lang of translate.getLangs(); track lang) {
             <button
               class="btn btn-link nav-link"
-              data-toggle="collapse"
-              data-target=".navbar-collapse.show"
-              (click)="changeLanguage(lang)"
+              (click)="changeLanguage(lang); isNavbarCollapsed = true"
               [ngClass]="translate.getCurrentLang() === lang ? 'active' : ''"
-              [lang]="lang">
-              <span class="sr-only">{{ languages.get(lang)["srText"] }}</span>
+              [lang]="lang"
+            >
+              <span class="visually-hidden">{{
+                languages.get(lang)['srText']
+              }}</span>
               <span aria-hidden="true">{{ languages.get(lang).label }}</span>
             </button>
           }
@@ -65,12 +87,16 @@
   <div class="alerts">
     @if (alerts.allas) {
       <alert [type]="alerts.allas.alertType">
-        <div class="container">{{ alerts.allas.message[translate.getCurrentLang()] }}</div>
+        <div class="container">
+          {{ alerts.allas.message[translate.getCurrentLang()] }}
+        </div>
       </alert>
     }
     @if (alerts.login) {
       <alert [type]="alerts.login.alertType">
-        <div class="container">{{ alerts.login.message[translate.getCurrentLang()] }}</div>
+        <div class="container">
+          {{ alerts.login.message[translate.getCurrentLang()] }}
+        </div>
       </alert>
     }
   </div>
@@ -80,10 +106,16 @@
 @if (!embedded) {
   @for (notification of serviceNotifications$ | async; track notification) {
     <div
-      class="alert alert-{{ notification.type === 'ERROR' ? 'danger' : 'warning' }} mb-0"
-      role="alert">
+      class="alert alert-{{
+        notification.type === 'ERROR' ? 'danger' : 'warning'
+      }} mb-0"
+      role="alert"
+    >
       <div class="container">
-        <span class="service-notification" [innerHTML]="notification.text"></span>
+        <span
+          class="service-notification"
+          [innerHTML]="notification.text"
+        ></span>
       </div>
     </div>
   }
@@ -101,19 +133,28 @@
 @if (!embedded) {
   <footer class="app-footer">
     <div class="container">
-      <h2 class="text-center">{{ "footer.name" | translate }}</h2>
+      <h2 class="text-center">{{ 'footer.name' | translate }}</h2>
       <div class="row justify-content-md-center text-md-center">
         <div class="col-sm-6 col-md">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a [href]="links.termsOfUsage[translate.getCurrentLang()].link">{{ "navigation.termsOfUse" | translate }}</a>
+              <a [href]="links.termsOfUsage[translate.getCurrentLang()].link">{{
+                'navigation.termsOfUse' | translate
+              }}</a>
             </li>
             <li class="nav-item">
-              <a [href]="links.privacyPolicy[translate.getCurrentLang()].link">{{ "navigation.privacyPolicy" | translate }}</a>
+              <a
+                [href]="links.privacyPolicy[translate.getCurrentLang()].link"
+                >{{ 'navigation.privacyPolicy' | translate }}</a
+              >
             </li>
             <li class="nav-item">
-              <a [href]="links.accessibilityStatement[translate.getCurrentLang()].link">
-                {{ "navigation.accessibilityPolicy" | translate }}
+              <a
+                [href]="
+                  links.accessibilityStatement[translate.getCurrentLang()].link
+                "
+              >
+                {{ 'navigation.accessibilityPolicy' | translate }}
               </a>
             </li>
           </ul>
@@ -121,7 +162,7 @@
         <div class="col-sm-6 col-md-auto">
           <ul class="nav flex-column center-item">
             <li class="nav-item">
-              {{ "footer.feedback" | translate }}:
+              {{ 'footer.feedback' | translate }}:
               <a href="mailto:aoe@oph.fi">aoe&#64;oph.fi</a>
             </li>
           </ul>
@@ -132,7 +173,9 @@
               <a href="https://finna.fi/">Finna.fi</a>
             </li>
             <li class="nav-item">
-              <a href="https://wiki.eduuni.fi/x/i_iLI">{{ "footer.blog" | translate }}</a>
+              <a href="https://wiki.eduuni.fi/x/i_iLI">{{
+                'footer.blog' | translate
+              }}</a>
             </li>
           </ul>
         </div>
@@ -149,7 +192,8 @@
           <img
             [src]="logos.oph[translate.getCurrentLang()].src"
             [alt]="logos.oph[translate.getCurrentLang()].alt"
-            class="img-fluid w-25" />
+            class="img-fluid w-25"
+          />
         </div>
       </div>
     </div>
@@ -157,7 +201,9 @@
 }
 
 @if (showNotice && !embedded) {
-  <app-cookie-notice (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+  <app-cookie-notice
+    (hideCookieNotice)="hideCookieNotice()"
+  ></app-cookie-notice>
 }
 
 @if (embedded) {

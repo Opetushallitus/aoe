@@ -1,4 +1,4 @@
-<strong class="h3 d-block mb-2" [id]="elementId" [ngClass]="{ 'sr-only': card }">{{ title }}</strong>
+<strong class="h3 d-block mb-2" [id]="elementId" [ngClass]="{ 'visually-hidden': card }">{{ title }}</strong>
 
 <div class="tags" [ngClass]="{ 'is-card': card }">
   @for (tag of tags; track tag) {

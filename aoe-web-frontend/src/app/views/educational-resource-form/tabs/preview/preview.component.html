@@ -1,6 +1,6 @@
 <h3>{{ "forms.educationalResource.preview.title" | translate }}</h3>
 
-<dl class="row">
+<dl class="row g-0">
   @if (hasName) {
     @if (savedData?.name?.fi) {
       <app-preview-row
@@ -20,7 +20,7 @@
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.name" | translate }}</dt>
     <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+      <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
       <a [routerLink]="['/lisaa-oppimateriaali', 1]">
         {{ "forms.educationalResource.preview.addMissingDetail" | translate }}
       </a>
@@ -78,7 +78,7 @@
           <td>
             @for (subtitle of upload.subtitles; track subtitle; let isLast = $last) {
               <span
-                [class.font-weight-bold]="subtitle.default">
+                [class.fw-bold]="subtitle.default">
                 {{ subtitle.label }} ({{ subtitle.srclang }})
                 @if (!isLast) {
                   <br />
@@ -94,10 +94,10 @@
     </tbody>
   </table>
 } @else {
-  <dl class="row">
+  <dl class="row g-0">
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.material" | translate }}</dt>
     <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+      <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
       <a [routerLink]="['/lisaa-oppimateriaali', 1]">{{ "forms.educationalResource.files.file.error" | translate }}</a>
     </dd>
   </dl>
@@ -106,7 +106,7 @@
 
 <h3>{{ "forms.educationalResource.nav.basicDetails" | translate }}</h3>
 
-<dl class="row">
+<dl class="row g-0">
   @if (hasAuthor) {
     @for (author of savedData.authors; track author) {
       <dt class="col-sm-3">{{ "forms.educationalResource.basicDetails.author.inputs.author.label" | translate }}</dt>
@@ -125,7 +125,7 @@
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.author" | translate }}</dt>
     <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+      <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
       <a [routerLink]="['/lisaa-oppimateriaali', 2]">
         {{ "forms.educationalResource.preview.addMissingDetail" | translate }}
       </a>
@@ -141,7 +141,7 @@
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.keywords" | translate }}</dt>
     <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+      <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
       <a [routerLink]="['/lisaa-oppimateriaali', 2]">
         {{ "forms.educationalResource.preview.addMissingDetail" | translate }}
       </a>
@@ -157,7 +157,7 @@
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.learningResourceTypes" | translate }}</dt>
     <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+      <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
       <a [routerLink]="['/lisaa-oppimateriaali', 2]">
         {{ "forms.educationalResource.preview.addMissingDetail" | translate }}
       </a>
@@ -202,7 +202,7 @@
 
 <h3>{{ "forms.educationalResource.nav.educationalDetails" | translate }}</h3>
 
-<dl class="row">
+<dl class="row g-0">
   <app-preview-row
     [title]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
     [items]="savedData?.educationalLevels"
@@ -537,7 +537,7 @@
 
 <h3>{{ "forms.educationalResource.nav.extendedDetails" | translate }}</h3>
 
-<dl class="row">
+<dl class="row g-0">
   @if (savedData?.accessibilityFeatures?.length > 0) {
     <app-preview-row
       [title]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate"
@@ -589,12 +589,12 @@
 
 @if (savedData?.isBasedOn) {
   <h3>{{ "forms.educationalResource.nav.basedOnDetails" | translate }}</h3>
-  <dl class="row">
+  <dl class="row g-0">
     @if (savedData?.isBasedOn.externals) {
       @for (external of savedData.isBasedOn.externals; track external; let i = $index) {
         <dt class="col-sm-3">{{ i + 1 }}. materiaali</dt>
         <dd class="col-sm-9">
-          <dl class="row">
+          <dl class="row g-0">
             <dt class="col-sm-3">
               {{ "forms.educationalResource.basedOnDetails.externals.inputs.name.label" | translate }}
             </dt>
@@ -626,7 +626,7 @@
 
 <h3>{{ "forms.educationalResource.nav.licenseDetails" | translate }}</h3>
 
-<dl class="row">
+<dl class="row g-0">
   <app-preview-row
     [title]="'forms.educationalResource.license.title' | translate"
     [item]="savedData?.license"
@@ -637,9 +637,9 @@
 <hr />
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm" />
-    <label class="custom-control-label" for="confirm">
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="confirm" formControlName="confirm" />
+    <label class="form-check-label" for="confirm">
       {{ "forms.educationalResource.preview.confirm" | translate }}
     </label>
 

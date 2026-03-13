@@ -1,7 +1,7 @@
 @if (educationalMaterialEditForm) {
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <div class="form-row align-items-end">
+      <div class="row g-2 align-items-end">
         <div class="col" formGroupName="name">
           <label for="name">{{ "forms.educationalResource.files.materialName.label." + lang | translate }}*</label>
           <button
@@ -56,11 +56,9 @@
           <h5 class="modal-title">{{ "forms.educationalResource.files.materialName.modal.title" | translate }}</h5>
           <button
             type="button"
-            class="close"
+            class="btn-close"
             [attr.aria-label]="'forms.common.close' | translate"
-            (click)="translationsModalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+            (click)="translationsModalRef.hide()"></button>
         </div>
         <div class="modal-body" formGroupName="name">
           <h4>{{ "forms.educationalResource.files.materialName.modal.subtitle" | translate }}</h4>
@@ -153,7 +151,7 @@
             [formGroupName]="i"
             >
             <h4>{{ i + 1 }}{{ "forms.educationalResource.files.file.title" | translate }}</h4>
-            <div class="form-row">
+            <div class="row g-2">
               @if (material.get('file').value) {
                 <div class="form-group col-lg">
                   <ng-container>
@@ -167,29 +165,24 @@
                         class="form-control-plaintext"
                         id="{{ 'file' + i }}"
                         formControlName="file" />
-                      <div class="input-group-append">
-                        <button
-                          class="btn btn-outline-gray"
-                          type="button"
-                          (click)="showReplaceInput[i] = !showReplaceInput[i]">
-                          {{ "forms.common.replaceFile" | translate }}
-                        </button>
-                      </div>
+                      <button
+                        class="btn btn-outline-gray"
+                        type="button"
+                        (click)="showReplaceInput[i] = !showReplaceInput[i]">
+                        {{ "forms.common.replaceFile" | translate }}
+                      </button>
                     </div>
                   </ng-container>
                   @if (showReplaceInput[i]) {
                     <label for="{{ 'newFile' + i }}">
                       {{ "forms.educationalResource.files.file.inputs.file.label" | translate }}*
                     </label>
-                    <div class="custom-file">
-                      <input
-                        type="file"
-                        class="custom-file-input"
-                        id="{{ 'newFile' + i }}"
-                        [lang]="lang"
-                        (change)="onFileChange($event, i)" />
-                      <span class="custom-file-label">{{ material.get("newFile").value.name | cleanFilename }}</span>
-                    </div>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="{{ 'newFile' + i }}"
+                      [lang]="lang"
+                      (change)="onFileChange($event, i)" />
                   }
                 </div>
               } @else {
@@ -204,15 +197,13 @@
                       class="form-control-plaintext"
                       id="{{ 'link' + i }}"
                       formControlName="link" />
-                    <div class="input-group-append">
-                      <button
-                        class="btn btn-outline-gray"
-                        data-testid="replaceLinkButton"
-                        type="button"
-                        (click)="showReplaceInput[i] = !showReplaceInput[i]">
-                        {{ "forms.common.replaceLink" | translate }}
-                      </button>
-                    </div>
+                    <button
+                      class="btn btn-outline-gray"
+                      data-testid="replaceLinkButton"
+                      type="button"
+                      (click)="showReplaceInput[i] = !showReplaceInput[i]">
+                      {{ "forms.common.replaceLink" | translate }}
+                    </button>
                   </div>
                   @if (showReplaceInput[i]) {
                     <label for="{{ 'newLink' + i }}">
@@ -279,7 +270,7 @@
               </div>
               <!--/language-->
             </div>
-            <div class="form-row align-items-end" formGroupName="displayName">
+            <div class="row g-2 align-items-end" formGroupName="displayName">
               <div class="form-group col">
                 <label for="{{ 'displayName' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}*
@@ -360,11 +351,9 @@
                   </h5>
                   <button
                     type="button"
-                    class="close"
+                    class="btn-close"
                     [attr.aria-label]="'forms.common.close' | translate"
-                    (click)="translationsModalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                    (click)="translationsModalRef.hide()"></button>
                 </div>
                 <div class="modal-body">
                   <h4>{{ "forms.educationalResource.files.file.inputs.displayName.modal.subtitle" | translate }}</h4>
@@ -465,7 +454,7 @@
                   class="border-top pt-1"
                   [ngClass]="{ 'border-bottom mb-2': isLast }">
                   <fieldset formArrayName="subtitles">
-                    <div class="form-row align-items-end" [formGroupName]="j">
+                    <div class="row g-2 align-items-end" [formGroupName]="j">
                       <div class="form-group col-lg order-1">
                         @if (subtitle.get('subtitle').value) {
                           <ng-container>
@@ -479,49 +468,37 @@
                                 class="form-control-plaintext"
                                 id="{{ 'subtitle' + i + j }}"
                                 formControlName="subtitle" />
-                              <div class="input-group-append">
-                                <button
-                                  class="btn btn-outline-gray"
-                                  type="button"
-                                  (click)="showReplaceSubtitleInput[i][j] = !showReplaceSubtitleInput[i][j]">
-                                  {{ "forms.common.replaceFile" | translate }}
-                                </button>
-                              </div>
+                              <button
+                                class="btn btn-outline-gray"
+                                type="button"
+                                (click)="showReplaceSubtitleInput[i][j] = !showReplaceSubtitleInput[i][j]">
+                                {{ "forms.common.replaceFile" | translate }}
+                              </button>
                             </div>
                           </ng-container>
                           @if (showReplaceSubtitleInput[i][j]) {
                             <label for="{{ 'replaceSubtitle' + i }}">
                               {{ "forms.educationalResource.files.file.inputs.subtitles.subtitle" | translate }}*
                             </label>
-                            <div class="custom-file">
-                              <input
-                                type="file"
-                                class="custom-file-input"
-                                id="{{ 'replaceSubtitle' + i }}"
-                                accept=".vtt"
-                                [lang]="lang"
-                                (change)="onSubtitleChange($event, i, j)" />
-                              <span class="custom-file-label">
-                                {{ subtitle.get("newSubtitle").value.name | cleanFilename }}
-                              </span>
-                            </div>
+                            <input
+                              type="file"
+                              class="form-control"
+                              id="{{ 'replaceSubtitle' + i }}"
+                              accept=".vtt"
+                              [lang]="lang"
+                              (change)="onSubtitleChange($event, i, j)" />
                           }
                         } @else {
                           <label for="{{ 'newSubtitle' + i }}">
                             {{ "forms.educationalResource.files.file.inputs.subtitles.subtitle" | translate }}*
                           </label>
-                          <div class="custom-file">
-                            <input
-                              type="file"
-                              class="custom-file-input"
-                              id="{{ 'newSubtitle' + i }}"
-                              accept=".vtt"
-                              [lang]="lang"
-                              (change)="onSubtitleChange($event, i, j)" />
-                            <span class="custom-file-label">
-                              {{ subtitle.get("newSubtitle").value.name | cleanFilename }}
-                            </span>
-                          </div>
+                          <input
+                            type="file"
+                            class="form-control"
+                            id="{{ 'newSubtitle' + i }}"
+                            accept=".vtt"
+                            [lang]="lang"
+                            (change)="onSubtitleChange($event, i, j)" />
                         }
                       </div>
                       <!--/subtitle-->
@@ -588,19 +565,19 @@
                       <div class="form-group col-lg-auto order-last order-lg-4">
                         <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                           <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
-                          <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
+                          <span class="visually-hidden">{{ "forms.common.delete" | translate }}</span>
                         </button>
                       </div>
                       <!--/actions-->
                       <div class="form-group col-lg-12 order-4">
-                        <div class="custom-control custom-checkbox">
+                        <div class="form-check">
                           <input
                             type="checkbox"
-                            class="custom-control-input"
+                            class="form-check-input"
                             id="{{ 'default' + i + j }}"
                             formControlName="default"
                             (change)="updateDefaultSubtitle($event, i, j)" />
-                          <label class="custom-control-label" for="{{ 'default' + i + j }}">
+                          <label class="form-check-label" for="{{ 'default' + i + j }}">
                             {{ "forms.educationalResource.files.file.inputs.subtitles.default" | translate }}
                           </label>
                         </div>
@@ -625,21 +602,18 @@
         } @else {
           <ng-container [formGroupName]="i">
             <h2>{{ i + 1 }}{{ "forms.educationalResource.files.file.title" | translate }}</h2>
-            <div class="form-row">
+            <div class="row g-2">
               @if (!material.get('newLink').value) {
                 <div class="form-group col-lg">
                   <label for="{{ 'newMaterialFile' + i }}">
                     {{ "forms.educationalResource.files.file.inputs.file.label" | translate }}*
                   </label>
-                  <div class="custom-file">
-                    <input
-                      type="file"
-                      class="custom-file-input"
-                      id="{{ 'newMaterialFile' + i }}"
-                      [lang]="lang"
-                      (change)="onFileChange($event, i)" />
-                    <span class="custom-file-label">{{ material.get("newFile").value.name | cleanFilename }}</span>
-                  </div>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="{{ 'newMaterialFile' + i }}"
+                    [lang]="lang"
+                    (change)="onFileChange($event, i)" />
                 </div>
               }
               <!--/file-->
@@ -712,7 +686,7 @@
               </div>
               <!--/language-->
             </div>
-            <div class="form-row align-items-end" formGroupName="displayName">
+            <div class="row g-2 align-items-end" formGroupName="displayName">
               <div class="form-group col">
                 <label for="{{ 'newMaterialDisplayName' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}*
@@ -793,11 +767,9 @@
                   </h5>
                   <button
                     type="button"
-                    class="close"
+                    class="btn-close"
                     [attr.aria-label]="'forms.common.close' | translate"
-                    (click)="translationsModalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                    (click)="translationsModalRef.hide()"></button>
                 </div>
                 <div class="modal-body">
                   <h4>{{ "forms.educationalResource.files.file.inputs.displayName.modal.subtitle" | translate }}</h4>
@@ -899,23 +871,18 @@
                   class="border-top pt-1"
                   [ngClass]="{ 'border-bottom mb-2': isLast }">
                   <fieldset formArrayName="subtitles">
-                    <div class="form-row align-items-end" [formGroupName]="j">
+                    <div class="row g-2 align-items-end" [formGroupName]="j">
                       <div class="form-group col-lg order-1">
                         <label for="{{ 'newMaterialSubtitle' + i }}">
                           {{ "forms.educationalResource.files.file.inputs.subtitles.subtitle" | translate }}*
                         </label>
-                        <div class="custom-file">
-                          <input
-                            type="file"
-                            class="custom-file-input"
-                            id="{{ 'newMaterialSubtitle' + i }}"
-                            accept=".vtt"
-                            [lang]="lang"
-                            (change)="onSubtitleChange($event, i, j)" />
-                          <span class="custom-file-label">
-                            {{ subtitle.get("newSubtitle").value.name | cleanFilename }}
-                          </span>
-                        </div>
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="{{ 'newMaterialSubtitle' + i }}"
+                          accept=".vtt"
+                          [lang]="lang"
+                          (change)="onSubtitleChange($event, i, j)" />
                       </div>
                       <!--/subtitle-->
                       <div class="form-group col-sm-8 col-lg order-2">
@@ -981,19 +948,19 @@
                       <div class="form-group col-lg-auto order-last order-lg-4">
                         <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                           <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
-                          <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
+                          <span class="visually-hidden">{{ "forms.common.delete" | translate }}</span>
                         </button>
                       </div>
                       <!--/actions-->
                       <div class="form-group col-lg-12 order-4">
-                        <div class="custom-control custom-checkbox">
+                        <div class="form-check">
                           <input
                             type="checkbox"
-                            class="custom-control-input"
+                            class="form-check-input"
                             id="{{ 'newMaterialDefault' + i + j }}"
                             formControlName="default"
                             (change)="updateDefaultSubtitle($event, i, j)" />
-                          <label class="custom-control-label" for="{{ 'newMaterialDefault' + i + j }}">
+                          <label class="form-check-label" for="{{ 'newMaterialDefault' + i + j }}">
                             {{ "forms.educationalResource.files.file.inputs.subtitles.default" | translate }}
                           </label>
                         </div>

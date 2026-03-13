@@ -1,13 +1,11 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">{{ "demo.educationalMaterial.userReviews.modal.title" | translate }}</h1>
+  <h1 class="modal-title float-start">{{ "demo.educationalMaterial.userReviews.modal.title" | translate }}</h1>
 
   <button
     type="button"
-    class="close pull-right"
+    class="btn-close float-end"
     [attr.aria-label]="'forms.common.close' | translate"
-    (click)="bsModalRef.hide()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+    (click)="bsModalRef.hide()"></button>
 </div>
 
 <div class="modal-body">

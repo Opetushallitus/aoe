@@ -50,7 +50,7 @@
 
       @if (result.educationalLevels?.length > 0) {
         <div class="tags">
-          <span class="sr-only" [id]="'result-educationalLevels' + result.id">
+          <span class="visually-hidden" [id]="'result-educationalLevels' + result.id">
             {{ "collections.meta.educationalLevels" | translate }}
           </span>
           @for (level of result.educationalLevels; track level) {
@@ -70,7 +70,7 @@
 
   <div class="row justify-content-between">
     <div class="col-auto">
-      <span class="mr-4">
+      <span class="me-4">
         <img
           src="assets/img/icons/learning-resource-types/{{result.learningResourceTypes[0].learningresourcetypekey}}.svg"
           class="img-icon"

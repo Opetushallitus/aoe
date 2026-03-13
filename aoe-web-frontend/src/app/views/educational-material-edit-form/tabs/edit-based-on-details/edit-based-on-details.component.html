@@ -4,7 +4,7 @@
     <p>{{ "forms.educationalResource.basedOnDetails.addNew.tooltip" | translate }}</p>
     @for (external of externalsArray.controls; track external; let i = $index) {
       <div formArrayName="externals">
-        <div class="form-row" [formGroupName]="i">
+        <div class="row g-2" [formGroupName]="i">
           <div class="form-group col-md">
             <label [for]="'authorExt-' + i">
               {{ "forms.educationalResource.basedOnDetails.externals.inputs.author.label" | translate }}

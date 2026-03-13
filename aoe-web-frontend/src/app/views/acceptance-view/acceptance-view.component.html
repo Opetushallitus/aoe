@@ -7,9 +7,9 @@
     <app-privacy-policy></app-privacy-policy>
 
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
-      <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance" />
-        <label class="custom-control-label" for="acceptance">{{ "acceptance.acceptance" | translate }}</label>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="acceptance" formControlName="acceptance" />
+        <label class="form-check-label" for="acceptance">{{ "acceptance.acceptance" | translate }}</label>
       </div>
 
       <button type="submit" class="btn btn-blue" [disabled]="acceptanceForm.invalid">

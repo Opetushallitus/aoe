@@ -24,7 +24,7 @@
 
 @if (materials?.length > 0) {
   <div class="file-list">
-    <div class="row no-gutters">
+    <div class="row g-0">
       <div class="col-3">
         @if (materialLanguages.length > 1) {
           @if (materialLanguages.length <= 3) {
@@ -40,7 +40,7 @@
                   role="tab"
                   (click)="setSelectedLanguage(materialLang)">
                   {{ materialLang }}
-                  <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
+                  <span class="visually-hidden">({{ getLanguageValue(materialLang) }})</span>
                 </button>
               }
             </div>

@@ -32,11 +32,9 @@
 
           <button
             type="button"
-            class="close"
+            class="btn-close"
             [attr.aria-label]="'forms.common.close' | translate"
-            (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+            (click)="modalRef.hide()"></button>
         </div>
 
         <div class="modal-body">
@@ -50,16 +48,13 @@
               <img src="assets/img/icons/ic_help.svg" alt="" />
             </button>
 
-            <div class="custom-file">
-              <input
-                type="file"
-                class="custom-file-input"
-                id="image"
-                accept="image/png,image/jpeg"
-                [lang]="lang"
-                (change)="fileChangeEvent($event)" />
-              <span class="custom-file-label"></span>
-            </div>
+            <input
+              type="file"
+              class="form-control"
+              id="image"
+              accept="image/png,image/jpeg"
+              [lang]="lang"
+              (change)="fileChangeEvent($event)" />
           </div>
 
           <div class="form-group">
@@ -111,7 +106,7 @@
 
       @for (author of authors.controls; track author; let i = $index) {
         <fieldset class="border-bottom mb-2">
-          <div class="form-row" formArrayName="authors">
+          <div class="row g-2" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
               @if (author.get('author')) {
@@ -215,7 +210,7 @@
       }
 
       <div class="form-group">
-        <button type="button" class="btn btn-gray mr-2" (click)="addAuthor()">
+        <button type="button" class="btn btn-gray me-2" (click)="addAuthor()">
           {{ "forms.educationalResource.basicDetails.author.addAuthor" | translate }}
         </button>
 
@@ -253,7 +248,7 @@
         </small>
       </div>
 
-      <div class="form-row">
+      <div class="row g-2">
         <div class="form-group col-md-6 col-lg-4">
           <label for="learningResourceTypes">
             {{ "forms.educationalResource.basicDetails.learningResourceTypes.label" | translate }}&nbsp;*
@@ -333,7 +328,7 @@
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
 
-        <div class="form-row">
+        <div class="row g-2">
           <div class="col-sm">
             <textarea
               class="form-control"
@@ -408,11 +403,9 @@
 
             <button
               type="button"
-              class="close"
+              class="btn-close"
               [attr.aria-label]="'forms.common.close' | translate"
-              (click)="modalRef.hide()">
-              <span aria-hidden="true">&times;</span>
-            </button>
+              (click)="modalRef.hide()"></button>
           </div>
 
           <div class="modal-body">
@@ -519,11 +512,9 @@
 
             <button
               type="button"
-              class="close"
+              class="btn-close"
               [attr.aria-label]="'forms.common.close' | translate"
-              (click)="exampleDescriptionModalRef.hide()">
-              <span aria-hidden="true">&times;</span>
-            </button>
+              (click)="exampleDescriptionModalRef.hide()"></button>
           </div>
 
           <div class="modal-body">

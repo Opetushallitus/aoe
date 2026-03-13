@@ -3,7 +3,7 @@
     <small class="text-danger">{{ "search.errors.keywords" | translate }}</small>
   }
   <div class="form-group">
-    <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
+    <label class="visually-hidden" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
 
     <input
       type="search"
@@ -14,9 +14,9 @@
       formControlName="keywords" />
   </div>
 
-  <div class="form-row" formGroupName="filters">
+  <div class="row g-2" formGroupName="filters">
     <div class="form-group col-md-6 col-lg">
-      <label class="sr-only" for="educationalLevels">
+      <label class="visually-hidden" for="educationalLevels">
         {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}
       </label>
 
@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group col-md-6 col-lg">
-      <label class="sr-only" for="educationalSubjects">
+      <label class="visually-hidden" for="educationalSubjects">
         {{ "search.filters.educationalSubjecs.title" | translate }}
       </label>
 
@@ -79,7 +79,7 @@
     </div>
 
     <div class="form-group col-md-6 col-lg">
-      <label class="sr-only" for="learningResourceTypes">
+      <label class="visually-hidden" for="learningResourceTypes">
         {{ "forms.educationalResource.basicDetails.learningResourceTypes.label" | translate }}
       </label>
 
@@ -101,9 +101,9 @@
     </div>
 
     <div class="col-md-6 col-lg-auto">
-      <button type="submit" class="btn btn-search btn-block" id="button-search">
+      <button type="submit" class="btn btn-search w-100" id="button-search">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <span class="sr-only">{{ "search.inputs.submit.sr-text" | translate }}</span>
+        <span class="visually-hidden">{{ "search.inputs.submit.sr-text" | translate }}</span>
       </button>
     </div>
   </div>

@@ -1,15 +1,15 @@
 @if (collection) {
-  <h2 class="sr-only">{{ "forms.collection.preview.title" | translate }}</h2>
+  <h2 class="visually-hidden">{{ "forms.collection.preview.title" | translate }}</h2>
   <ng-container>
     <h3>{{ "forms.collection.preview.headings.basic" | translate }}</h3>
-    <dl class="row">
+    <dl class="row g-0">
       @if (hasName) {
         <dt class="col-sm-3">{{ "forms.collection.basic.name.label" | translate }}</dt>
         <dd class="col-sm-9">{{ previewCollection.name }}</dd>
       } @else {
         <dt class="col-sm-3">{{ "forms.collection.preview.required.name" | translate }}</dt>
         <dd class="col-sm-9">
-          <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+          <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
           <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">
             {{ "forms.collection.preview.addMissingDetail" | translate }}
           </a>
@@ -27,7 +27,7 @@
       } @else {
         <dt class="col-sm-3">{{ "forms.collection.preview.required.keywords" | translate }}</dt>
         <dd class="col-sm-9">
-          <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+          <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
           <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">
             {{ "forms.collection.preview.addMissingDetail" | translate }}
           </a>
@@ -86,7 +86,7 @@
       } @else {
         <dt class="col-sm-3">{{ "forms.collection.preview.required.description" | translate }}</dt>
         <dd class="col-sm-9">
-          <span class="bg-danger p-1 mr-2">{{ "forms.common.required" | translate }}</span>
+          <span class="bg-danger p-1 me-2">{{ "forms.common.required" | translate }}</span>
           <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">
             {{ "forms.collection.preview.addMissingDetail" | translate }}
           </a>
@@ -100,7 +100,7 @@
   <!--basic details-->
   <ng-container>
     <h3>{{ "forms.collection.preview.headings.educational" | translate }}</h3>
-    <dl class="row">
+    <dl class="row g-0">
       @if (previewCollection.educationalLevels?.length > 0) {
         <dt class="col-sm-3">{{ "forms.collection.educational.educationalLevels.label" | translate }}</dt>
         <dd class="col-sm-9">
@@ -384,7 +384,7 @@
               @if (materialOrHeading.id) {
                 {{ materials.get(materialOrHeading.id).name[lang] }}
               } @else {
-                <p class="font-weight-bold">{{ materialOrHeading.heading }}</p>
+                <p class="fw-bold">{{ materialOrHeading.heading }}</p>
                 @if (materialOrHeading.description) {
                   <p>{{ materialOrHeading.description }}</p>
                 }

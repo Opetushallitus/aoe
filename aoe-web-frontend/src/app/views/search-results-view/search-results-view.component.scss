@@ -40,7 +40,7 @@
     padding-left: 1rem;
     padding-top: 0.5rem;
 
-    .custom-control-label {
+    .form-check-label {
       padding-top: 0.125rem;
       @include mixins.resize(12px);
     }

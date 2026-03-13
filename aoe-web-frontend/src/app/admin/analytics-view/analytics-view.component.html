@@ -35,7 +35,7 @@
 <section>
   <h2>Oppimateriaalien käyttömäärät</h2>
   <form [formGroup]="formGroupUsage" (ngSubmit)="submitFormUsage(activitySubmit)">
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-4">
         <!-- Activity Type Select -->
         <label for="form-usage-select-activity">Käyttötapa *</label>
@@ -58,7 +58,7 @@
         }
       </div>
     </div>
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-4">
         <!-- Interval Type Select -->
         <label for="form-usage-select-interval">Aikajanan tarkkuus *</label>
@@ -120,7 +120,7 @@
         }
       </div>
     </div>
-    <div class="form-row">
+    <div class="row g-2">
       @if (organizations$ | async; as organizations) {
         <div class="form-group col-sm-4">
           <!-- Organizations Select -->
@@ -229,7 +229,7 @@
 <section>
   <h2>Oppimateriaalien julkaisumäärät</h2>
   <form [formGroup]="formGroupPublished" (ngSubmit)="submitFormPublished(publishedSubmit)">
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-4">
         <!-- Date Since Picker -->
         <label for="form-published-select-date-since">Tarkastelu alkaa *</label>
@@ -272,7 +272,7 @@
         }
       </div>
     </div>
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-4">
         <!-- Category Select -->
         <label for="form-published-select-category">Valitse luokitus *</label>
@@ -428,7 +428,7 @@
 <section>
   <h2>Vanhentuneiden oppimateriaalien määrät</h2>
   <form [id]="formGroupExpired" [formGroup]="formGroupExpired" (ngSubmit)="submitFormExpired(expiredSubmit)">
-    <div class="form-row">
+    <div class="row g-2">
       @if (educationalLevels$ | async; as educationalLevels) {
         <div class="form-group col-sm-6 col-md-4">
           <!-- Educational Levels Select -->

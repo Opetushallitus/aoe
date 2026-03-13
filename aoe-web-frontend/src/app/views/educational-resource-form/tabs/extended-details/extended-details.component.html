@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="tab-extended-details">
-  <div class="form-row">
+  <div class="row g-2">
     <div class="form-group col-sm-6 col-md-4">
       <label for="accessibilityFeatures">
         {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
@@ -61,7 +61,7 @@
       </button>
       <div class="row typical-age-range-row" formGroupName="typicalAgeRange">
         <div class="col">
-          <label for="typicalAgeRangeMin" class="sr-only">
+          <label for="typicalAgeRangeMin" class="visually-hidden">
             {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (min)
           </label>
           <input
@@ -98,7 +98,7 @@
         </div>
         <span>&lowbar;</span>
         <div class="col">
-          <label for="typicalAgeRangeMax" class="sr-only">
+          <label for="typicalAgeRangeMax" class="visually-hidden">
             {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (max)
           </label>
           <input

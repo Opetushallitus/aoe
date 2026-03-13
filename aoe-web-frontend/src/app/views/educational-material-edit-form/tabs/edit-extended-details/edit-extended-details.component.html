@@ -1,6 +1,6 @@
 @if (material) {
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-6 col-md-4">
         <label for="accessibilityFeatures">
           {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
@@ -56,9 +56,9 @@
           [tooltip]="'forms.educationalResource.extendedDetails.typicalAgeRange.tooltip' | translate">
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
-        <div class="form-row" formGroupName="typicalAgeRange">
+        <div class="row g-2" formGroupName="typicalAgeRange">
           <div class="col">
-            <label for="typicalAgeRangeMin" class="sr-only">
+            <label for="typicalAgeRangeMin" class="visually-hidden">
               {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (min)
             </label>
             <input
@@ -95,7 +95,7 @@
           </div>
           <div class="col-auto">&ndash;</div>
           <div class="col">
-            <label for="typicalAgeRangeMax" class="sr-only">
+            <label for="typicalAgeRangeMax" class="visually-hidden">
               {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (max)
             </label>
             <input

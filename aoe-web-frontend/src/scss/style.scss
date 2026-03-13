@@ -1,20 +1,13 @@
-// If you want to override variables do it here
+// Variables must be imported before Bootstrap to override defaults
 @import 'variables';
 
-// Import styles
-@import '../../node_modules/@coreui/coreui/scss/coreui';
+// Bootstrap 5
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+// Third-party component styles
 @import 'ng-select';
+@import 'ngx-toastr/toastr-bs5-alert';
 
-// Import mixins
+// Project mixins and customizations
 @import 'mixins';
-
-// Bootstrap overrides (needed by custom styles and ngx-toastr)
-@import 'bootstrap-variables';
-@import '../../node_modules/bootstrap/scss/functions';
-@import '../../node_modules/bootstrap/scss/variables';
-@import '../../node_modules/bootstrap/scss/mixins';
-
-// If you want to add something do it here
 @import 'custom';
-
-@import 'ngx-toastr/toastr-bs4-alert';

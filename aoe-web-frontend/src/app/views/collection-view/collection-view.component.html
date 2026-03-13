@@ -2,7 +2,7 @@
   <div class="container">
     @if (collectionIsLoading) {
       <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="visually-hidden">Loading...</span>
       </div>
     } @else {
       @if (collection) {
@@ -10,7 +10,7 @@
           <div class="col-lg-6">
             <h1>{{ collection.name }}</h1>
           </div>
-          <div class="col-lg-6 text-lg-right">
+          <div class="col-lg-6 text-lg-end">
             <div class="material-actions">
               @if (collection.owner) {
                 <a class="btn btn-link" [routerLink]="['/kokoelma', collectionId, 'muokkaa']">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="row mb-4">
-          <div class="col-md-2 col-lg-3 text-center text-md-left">
+          <div class="col-md-2 col-lg-3 text-center text-md-start">
             <img
               [src]="collection.thumbnail"
               class="img-fluid mb-4"
@@ -496,7 +496,7 @@
                       <div>
                         @if (collectionMaterials.get(materialOrHeading.id).length > 0) {
                           <div class="list-files mb-4">
-                            <div class="row no-gutters">
+                            <div class="row g-0">
                               <div class="col-3">
                                 @if (materialLanguages.get(materialOrHeading.id).length > 1) {
                                   <h3 [id]="'selectLanguage' + materialOrHeading.id">
@@ -535,7 +535,7 @@
                             ">
                                     <h3
                                       [id]="'selectMaterial' + materialOrHeading.id"
-                                      [ngClass]="materials.length === 1 ? 'sr-only' : ''">
+                                      [ngClass]="materials.length === 1 ? 'visually-hidden' : ''">
                                       {{ "materialPreview.selectMaterial" | translate }}
                                     </h3>
                                     <div
@@ -599,7 +599,7 @@
                       </div>
                     } @else {
                       <div class="spinner-border" role="status">
-                        <span class="sr-only">{{ "collections.loading" | translate }}</span>
+                        <span class="visually-hidden">{{ "collections.loading" | translate }}</span>
                       </div>
                     }
                   } @else {

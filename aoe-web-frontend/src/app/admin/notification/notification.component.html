@@ -17,7 +17,7 @@
 <section>
   <h2>Tiedotteen tallennus</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
+    <div class="row g-2">
       <!-- Notification Type Select -->
       <div class="form-group col-sm-4">
         <label for="notificationType">Tiedotteen tyyppi *</label>
@@ -64,7 +64,7 @@
       </div>
     </div>
     <!-- Notification Text Input -->
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-12">
         <label for="notification">Tiedotteen teksti *</label>
         <input id="notification" formControlName="notification" class="form-control" />
@@ -82,7 +82,7 @@
         }
       </div>
     </div>
-    <div class="form-row">
+    <div class="row g-2">
       <div class="form-group col-sm-10 col-md-8">
         <button type="submit" [disabled]="form.invalid" class="btn btn-blue">Tallenna</button>
         &nbsp;&nbsp;
@@ -111,7 +111,7 @@
             <tr>
               <td>{{ notification.id }}</td>
               <td>
-                <span class="badge badge-pill badge-{{ notification.type === 'ERROR' ? 'danger' : 'success' }}">
+                <span class="badge rounded-pill badge-{{ notification.type === 'ERROR' ? 'danger' : 'success' }}">
                   {{ notification.type === 'ERROR' ? 'ERR' : notification.type }}
                 </span>
               </td>

@@ -26,7 +26,7 @@
                 <h3>{{ "userMaterials.unpublished.unnamed" | translate }} #{{ material.id }}</h3>
               }
             </div>
-            <a [routerLink]="['/muokkaa-oppimateriaalia', material.id, 1]" class="btn btn-blue btn-block">
+            <a [routerLink]="['/muokkaa-oppimateriaalia', material.id, 1]" class="btn btn-blue w-100">
               {{ "userMaterials.edit" | translate }}
             </a>
           </div>
@@ -54,7 +54,7 @@
               </alert>
             }
             <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
-            <a [routerLink]="['/muokkaa-oppimateriaalia', material.id, 1]" class="btn btn-blue btn-block">
+            <a [routerLink]="['/muokkaa-oppimateriaalia', material.id, 1]" class="btn btn-blue w-100">
               {{ "userMaterials.edit" | translate }}
             </a>
           </div>
@@ -74,9 +74,9 @@
           <div class="col-md-6 col-lg-4 mb-3">
             <div class="card-educational-material private">
               <a [routerLink]="['/kokoelma', collection.id]">
-                <div class="row no-gutters">
+                <div class="row g-0">
                   <div
-                    class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                    class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-start text-md-center text-lg-start mb-3 mb-lg-0">
                     <img
                       [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                       class="img-fluid"
@@ -88,7 +88,7 @@
                 </div>
               </a>
             </div>
-            <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
+            <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue w-100">
               {{ "userMaterials.edit" | translate }}
             </a>
           </div>
@@ -106,9 +106,9 @@
           <div class="col-md-6 col-lg-4 mb-3">
             <div class="card-educational-material">
               <a [routerLink]="['/kokoelma', collection.id]">
-                <div class="row no-gutters">
+                <div class="row g-0">
                   <div
-                    class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                    class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-start text-md-center text-lg-start mb-3 mb-lg-0">
                     <img
                       [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                       class="img-fluid"
@@ -120,7 +120,7 @@
                 </div>
               </a>
             </div>
-            <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
+            <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue w-100">
               {{ "userMaterials.edit" | translate }}
             </a>
           </div>
