@@ -59,10 +59,10 @@
     "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular/build": "20.3.19",
-    "@angular/cli": "20.3.19",
-    "@angular/compiler-cli": "20.3.17",
-    "@angular/language-service": "20.3.17",
+    "@angular/build": "20.3.20",
+    "@angular/cli": "20.3.20",
+    "@angular/compiler-cli": "20.3.18",
+    "@angular/language-service": "20.3.18",
     "@types/node": "24.12.0",
     "@types/ws": "8.18.1",
     "bootstrap": "4.6.2",
