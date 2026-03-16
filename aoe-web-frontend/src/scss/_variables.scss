@@ -21,6 +21,7 @@ $blue: #1f79bf;
 $blue-hover: color.adjust($blue, $lightness: -15%);
 
 $primary-theme-color: #1d891f;
+$primary: $primary-theme-color;
 $secondary-theme-color: #1d7d1f;
 $light: #e9e9e9;
 $gray: #757575;
