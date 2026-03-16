@@ -11,8 +11,8 @@
     <div
       formArrayName="externals"
       class="aoe-based-on-details">
-      <div class="row g-2" [formGroupName]="i">
-        <div class="form-group col-md">
+      <div class="based-on-grid" [formGroupName]="i">
+        <div class="form-group">
           <label [for]="'authorExt-' + i">
             {{ "forms.educationalResource.basedOnDetails.externals.inputs.author.label" | translate }}
           </label>
@@ -50,7 +50,7 @@
             }
           }
         </div>
-        <div class="form-group col-md">
+        <div class="form-group">
           <label for="{{ 'url-' + i }}">
             {{ "forms.educationalResource.basedOnDetails.externals.inputs.link.label" | translate }}
           </label>
@@ -81,7 +81,7 @@
             </div>
           }
         </div>
-        <div class="form-group col-md">
+        <div class="form-group">
           <label for="{{ 'name-' + i }}">
             {{ "forms.educationalResource.basedOnDetails.externals.inputs.name.label" | translate }}
           </label>
@@ -116,11 +116,9 @@
             </div>
           }
         </div>
-        <div class="form-group col-auto">
-          <button type="button" class="btn btn-danger" style="margin-top: 25px" (click)="removeExternal(i)">
-            {{ "forms.common.delete" | translate }}
-          </button>
-        </div>
+        <button type="button" class="btn btn-danger btn-delete-col" (click)="removeExternal(i)">
+          {{ "forms.common.delete" | translate }}
+        </button>
       </div>
     </div>
   }
