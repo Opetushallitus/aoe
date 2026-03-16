@@ -18,7 +18,7 @@
           [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched || submitted) }" />
         @if (name.invalid && (name.dirty || name.touched || submitted)) {
           <div
-            class="invalid-feedback notify-below-position">
+            class="invalid-feedback">
             @if (name.errors?.['invalidCharacters']) {
               <div>{{ "forms.errors.textInput.characters" | translate }}</div>
             }
@@ -44,7 +44,7 @@
         </button>
         @if (names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid) {
           <div
-            class="invalid-feedback notify-below-position">
+            class="invalid-feedback">
             {{ "forms.errors.common.translations" | translate }}
           </div>
         }
@@ -80,7 +80,7 @@
             names.get(otherLangs[0]).invalid &&
             (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted)) {
             <div
-              class="invalid-feedback notify-below-position">
+              class="invalid-feedback">
               @if (names.get(otherLangs[0]).errors?.['invalidCharacters']) {
                 <div>
                   {{ "forms.errors.textInput.characters" | translate }}
@@ -112,7 +112,7 @@
             names.get(otherLangs[1]).invalid &&
             (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted)) {
             <div
-              class="invalid-feedback notify-below-position">
+              class="invalid-feedback">
               @if (names.get(otherLangs[1]).errors?.['invalidCharacters']) {
                 <div>
                   {{ "forms.errors.textInput.characters" | translate }}
@@ -189,7 +189,7 @@
                   file.get('link').invalid && (file.get('link').dirty || file.get('link').touched || submitted)}" />
               @if (file.get('link').invalid && (file.get('link').dirty || file.get('link').touched || submitted)) {
                 <div
-                  class="invalid-feedback notify-below-position">
+                  class="invalid-feedback">
                   @if (file.get('link').errors?.['pattern']) {
                     <div>{{ "forms.common.pattern.url" | translate }}</div>
                   }
@@ -225,7 +225,7 @@
               (file.get('language').dirty || file.get('language').touched || submitted)) {
               @if (file.get('language').errors?.['required']) {
                 <div>
-                  <small class="text-danger notify-below-position">{{ "forms.common.required" | translate }}</small>
+                  <small class="text-danger">{{ "forms.common.required" | translate }}</small>
                 </div>
               }
             }
@@ -259,7 +259,7 @@
               files.at(i).get('displayName.' + lang).touched ||
               submitted)) {
               <div
-                class="invalid-feedback notify-below-position">
+                class="invalid-feedback">
                 @if (files.at(i).get('displayName.' + lang).errors?.['required']) {
                   <div>
                     {{ "forms.common.required" | translate }}
@@ -297,7 +297,7 @@
               files.at(i).get('displayName.' + otherLangs[0]).invalid ||
               files.at(i).get('displayName.' + otherLangs[1]).invalid) {
               <div
-                class="invalid-feedback notify-below-position">
+                class="invalid-feedback">
                 {{ "forms.errors.common.translations" | translate }}
               </div>
             }
@@ -336,7 +336,7 @@
                   files.at(i).get('displayName.' + otherLangs[0]).touched ||
                   submitted)) {
                   <div
-                    class="invalid-feedback notify-below-position">
+                    class="invalid-feedback">
                     @if (files.at(i).get('displayName.' + otherLangs[0]).errors?.['invalidCharacters']) {
                       <div>
                         {{ "forms.errors.textInput.characters" | translate }}
@@ -372,7 +372,7 @@
                   files.at(i).get('displayName.' + otherLangs[1]).touched ||
                   submitted)) {
                   <div
-                    class="invalid-feedback notify-below-position">
+                    class="invalid-feedback">
                     @if (files.at(i).get('displayName.' + otherLangs[1]).errors?.['invalidCharacters']) {
                       <div>
                         {{ "forms.errors.textInput.characters" | translate }}
@@ -438,19 +438,19 @@
                       subtitle.get('label').invalid &&
                       (subtitle.get('label')['dirty'] || subtitle.get('label').touched || submitted)) {
                       <div
-                        class="invalid-feedback notify-below-position">
+                        class="invalid-feedback">
                         @if (subtitle.get('label').errors?.['required']) {
-                          <div class="notify-below-position">
+                          <div>
                             {{ "forms.common.required" | translate }}
                           </div>
                         }
                         @if (subtitle.get('label').errors?.['invalidCharacters']) {
-                          <div class="notify-below-position">
+                          <div>
                             {{ "forms.errors.textInput.characters" | translate }}
                           </div>
                         }
                         @if (subtitle.get('label').errors?.['maxlength']) {
-                          <div class="notify-below-position">
+                          <div>
                             {{ "forms.errors.common.maxLength" | translate: { maxLength:
                             subtitle.get("label").errors?.['maxlength']['requiredLength'] } }}
                           </div>
@@ -472,8 +472,8 @@
                     @if (subtitle.get('srclang').invalid &&
                       (subtitle.get('srclang')['dirty'] || subtitle.get('srclang').touched || submitted)) {
                       @if (subtitle.get('srclang').errors?.['required']) {
-                        <div class="notify-below-position">
-                          <small class="text-danger notify-below-position">{{ "forms.common.required" | translate }}</small>
+                        <div>
+                          <small class="text-danger">{{ "forms.common.required" | translate }}</small>
                         </div>
                       }
                     }
