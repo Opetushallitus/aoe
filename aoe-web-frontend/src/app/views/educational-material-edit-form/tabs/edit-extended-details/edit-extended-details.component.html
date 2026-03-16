@@ -46,7 +46,7 @@
         formControlName="accessibilityHazards"></ng-select>
       </div>
       <!--/accessibility hazards-->
-      <div class="form-group col-sm-6 col-md-4">
+      <div class="form-group col-sm-6 col-md-4 typical-age-range">
         <span class="group-label">
           {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }}
         </span>
@@ -56,7 +56,7 @@
           [tooltip]="'forms.educationalResource.extendedDetails.typicalAgeRange.tooltip' | translate">
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
-        <div class="row g-2" formGroupName="typicalAgeRange">
+        <div class="row flex-nowrap align-items-center g-2 typical-age-range-row" formGroupName="typicalAgeRange">
           <div class="col">
             <label for="typicalAgeRangeMin" class="visually-hidden">
               {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (min)
