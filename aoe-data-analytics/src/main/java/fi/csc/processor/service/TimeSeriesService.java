@@ -66,7 +66,7 @@ public class TimeSeriesService {
     private Aggregation buildAggregationConfiguration(Interval interval, IntervalTotalRequest intervalTotalRequest) {
         List<Criteria> cumulativeCriteria = new ArrayList<>();
         cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
-        cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));
+        cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil().plusDays(1)));
         if (intervalTotalRequest.getInteraction() != null) {
             cumulativeCriteria.add(Criteria.where("interaction").is(intervalTotalRequest.getInteraction()));
         }

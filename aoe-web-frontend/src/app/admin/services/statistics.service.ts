@@ -120,7 +120,7 @@ export class StatisticsService {
     switch (selectedInterval) {
       case IntervalEnum.DAY:
         // YYYY-MM-DD
-        while (dateToBeAdded < endDate) {
+        while (dateToBeAdded <= endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.DAY)
           datesArray.push(formattedDate)
           dateToBeAdded.setDate(dateToBeAdded.getDate() + 1)
@@ -128,7 +128,7 @@ export class StatisticsService {
         break
       case IntervalEnum.WEEK:
         // YYYY-ww
-        while (dateToBeAdded < endDate) {
+        while (dateToBeAdded <= endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.WEEK)
           if (datesArray.indexOf(formattedDate) === -1) {
             datesArray.push(formattedDate)
@@ -138,7 +138,7 @@ export class StatisticsService {
         break
       case IntervalEnum.MONTH:
         // YYYY-MM
-        while (dateToBeAdded < endDate) {
+        while (dateToBeAdded <= endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.MONTH)
           if (datesArray.indexOf(formattedDate) === -1) {
             datesArray.push(formattedDate)

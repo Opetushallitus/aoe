@@ -2,10 +2,6 @@ import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 
 export const updateViewCounter = async (id: string): Promise<void> => {
-  // View counter disabled in development mode.
-  if (['development', 'localhost'].includes(process.env.NODE_ENV)) {
-    return
-  }
   try {
     await db.tx(async (t: any) => {
       const query = `
