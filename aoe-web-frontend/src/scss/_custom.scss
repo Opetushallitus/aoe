@@ -520,6 +520,11 @@ h2 {
 }
 
 // Buttons
+.btn-danger,
+.bg-danger {
+  color: #fff;
+}
+
 .btn-cancel {
   color: $input-color;
   font-weight: 700;
