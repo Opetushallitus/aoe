@@ -51,7 +51,7 @@ $enable-rounded: false;
 // =============================================================================
 
 $body-bg: #fff;
-$body-color: #23282c;
+$body-color: #3c4b64;
 
 $grid-breakpoints: (
   xs: 0,
@@ -84,11 +84,13 @@ $font-family-nunito: 'Nunito', sans-serif;
 
 $font-size-base: 0.875rem;
 
-$headings-font-weight: 400;
+$headings-font-weight: 500;
 $headings-line-height: 1.2;
 $headings-color: #373737;
 
-$text-muted: $gray-600;
+$text-muted: #768192;
+
+$small-font-size: 80%;
 
 // =============================================================================
 // Components
