@@ -279,6 +279,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   onFileChange(event: Event, i: number): void {
     if ((event.target as HTMLInputElement).files.length > 0) {
       const file: File = (event.target as HTMLInputElement).files[0]
+      ;(event.target as HTMLInputElement).classList.add('has-file')
 
       if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i)

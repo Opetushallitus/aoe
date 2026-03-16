@@ -226,6 +226,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event
+    ;(event.target as HTMLInputElement).classList.add('has-file')
   }
 
   imageCropped(event: ImageCroppedEvent): void {

@@ -193,6 +193,12 @@ input[type='file'].form-control {
   color: transparent;
   overflow: hidden;
 
+  &.has-file {
+    color: var(--bs-body-color);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &::file-selector-button {
     visibility: hidden;
     width: 0;
