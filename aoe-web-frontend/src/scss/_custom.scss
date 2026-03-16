@@ -2,6 +2,11 @@
 @use 'sass:map';
 
 // Custom styles
+
+.badge-blue {
+  background-color: $blue;
+  color: #fff;
+}
 $form-border-color: #dedede;
 $input-label-color: #464646;
 $navbar-bg-hover: #1d661f;
@@ -642,7 +647,7 @@ h2 {
   display: block;
   padding: 1rem 1rem 0.5rem;
 
-  a:hover {
+  a {
     text-decoration: none !important;
   }
 
