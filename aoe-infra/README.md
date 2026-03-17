@@ -1,99 +1,85 @@
 # AOE AWS infrastructure
 
-Infrastructure for aoe.fi - project
+Infrastructure for aoe.fi project, managed with AWS CDK.
 
 ## Getting started
 
-If you wish to run the CDK - commands from your local machine, install the global depencencies: `nodejs 20, npm, npx` and install the project dependencies with `npm install` in the `/infra` - directory.
+Install project dependencies with `npm install` in the `aoe-infra/` directory.
 
-## AWS vault
+## Authentication
 
-When deploying to the target environment from your local machine, use `aws-vault exec <target-aws-profile>` and then proceed with cdk - commands. AWS vault targets the destination account explicitly.
+```bash
+aws sso login --sso-session oph-federation
+```
 
-Alternatively, you can use aws cli v2:
-
-`aws sso login --sso-session oph-org-sso` where `oph-org-sso` profile must match the profile configured in your `~/.aws/config`
-
-With aws sso login spell above, you must define `--profile <target-account-aws-profile>`
+Then use `--profile <target-account-aws-profile>` with CDK commands.
 
 Example: `npx cdk deploy -c environment=dev DataAnalyticsAuroraStack --profile aoe-dev`
 
-## cdk command examples for deploying the project stacks
+## CDK commands
 
-- `npx cdk deploy -c environment=<dev/qa/prod/utility> --all` deploy all stacks to the target environment
-- `npx cdk destroy -c environment=<dev/qa/prod/utility> --all` destroy all stacks to the target environment (note: you need to empty S3 - buckets etc. manually)
-- `npx npx cdk deploy -c environment=dev WebBackendAuroraStack` deploy only WebBackendAuroraStack (and any change in it's dependencies)
-- `npx npx cdk destroy -c environment=dev WebBackendAuroraStack` destroy only WebBackendAuroraStack (and any change in it's dependencies)
+Deploy/destroy stacks:
 
-## Generic cdk commands
+- `npx cdk deploy -c environment=<dev/qa/prod/utility> --all` deploy all stacks
+- `npx cdk destroy -c environment=<dev/qa/prod/utility> --all` destroy all stacks (empty S3 buckets manually first)
+- `npx cdk deploy -c environment=dev WebBackendAuroraStack` deploy a single stack
+
+Other commands:
 
 - `npx cdk diff` compare deployed stack with current state
-- `npx npm run build` compile typescript to js
-- `npx npm run watch` watch for changes and compile
-- `npx npm run test` perform the jest unit tests
-- `npx cdk synth` emits the synthesized CloudFormation template
+- `npx cdk synth` emit synthesized CloudFormation template
+- `npm run build` compile TypeScript
+- `npm run watch` watch for changes and compile
 
 ## Environment variables
 
-Environment variables have been split into two places;
-
-- `environments/<environment>.json` contains environment specific non-sensitive configuration
-- AWS Parameter Store contains variables with sensitive information. Parameters in the parameter store are expected to be prefixed with `/<environment>/<serviceName>/`
+- `environments/<environment>.json` contains environment-specific non-sensitive configuration
+- AWS Parameter Store contains sensitive variables, prefixed with `/<environment>/<serviceName>/`
 
 ## Subnetting
 
-Project uses a /16 network which has been split into /18 per VPC (=per environment), which in turn is designed to be split into 16x /22 networks with 1022 IP - addresses available per subnet.
+Project uses a /16 network split into /18 per VPC (per environment), further split into 16x /22 subnets with 1022 IP addresses each.
 
 ## Adding a new service
 
-First, add a new Security Group and Security Group rules to the `security-groups.ts`, add the service/environment specific configuration into `environments/<environment>.json` then create a new stack instance of `ecs-service.ts` in the `/bin/infra.ts`
+1. Add Security Group and rules in `security-groups.ts`
+2. Add service/environment config in `environments/<environment>.json`
+3. Create a new stack instance of `ecs-service.ts` in `/bin/infra.ts`
 
 ## Adding a new database
 
-Then,
+1. Add Security Group and rules in `security-groups.ts`
+2. Add a new secret in `secrets-manager-stack.ts`
+3. Add database config in `environments/<environment>.json`
+4. Create a new stack instance of `aurora-serverless-database.ts` in `/bin/infra.ts`
 
-- add a new Security Group and Security Group rules to the `security-groups.ts`,
-- add a new secret in the `secrets-manager-stack.ts`
-- add the service/environment specific database configuration into `environments/<environment>.json`
-- create a new stack instance of `aurora-serverless-database.ts` in the `/bin/infra.ts`
+Aurora stack creation only creates the master user with a password stored in AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application users must be created and granted separately.
 
-Aurora stack creation only creates database master user with a password stored in the AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application user must be created (and granted) separately.
+## Configuring Monitoring
 
-### Configuring Monitoring
+Alerts use SNS Topic, AWS ChatBot and Slack:
 
-Sending Alerts is done with an SNS Topic, AWS ChatBot and Slack. To get started with sending alerts to Slack:
+1. Create plain text parameters `/monitor/slack_channel_id` and `/monitor/slack_workspace_id` in AWS Parameter Store
+2. Invite AWS ChatBot to the Slack channel
+3. In the AWS account's ChatBot service, configure a new Slack client and authorize
+4. Create the Monitor stack with the Slack channel name
+5. Use the exported SNS topic for sending alerts
 
-- Create plain text parameters `/monitor/slack_channel_id` and `/monitor/slack_workspace_id` into your AWS System's Manager Parameter Store that contain Slack Workspace ID and Channel ID
-- Invite AWS ChatBot to the Slack channel
-- Head to the AWS account's ChatBot - service, hit "Configure New Client", Select "Slack" from the drop down menu and proceed to authorize the AWS account to the AWS ChatBot - Slack app.
-- Create the Monitor - Stack with the Slack channel name of your choise.
-- You can now use the exported SNS topic for sending alerts.
+## Database dump for transfer
 
-### Database dump for transfer
+```bash
+pg_dump -Fc --clean -U aoe_db_admin -d aoe > transfer.dump
+```
 
-Following options are recommended for dumping the database:
+## Database restore in AWS
 
-    pg_dump -Fc --clean -U aoe_db_admin -d aoe > transfer.dump
+Secrets are stored in AWS Secrets Manager.
 
-There exists a production script at production db host (`opmat-db.xxx.xx`)in following path:
-
-    /opt/aoe/postgresql/
-
-The script for generating transfer dump is following:
-
-    ./pg_backup_dump_for_transfer.sh
-
-Backup is generated under `/data/backup` directory with name `transfer-<datestamp>.dump`. Copy it to your personal home directory and transfer it out from there.
-
-### Database restore in AWS
-
-Secrets are stored in AWS Secrets Manager. Database restore to empty RDS-environment is done in following way:
-
-Connect to database `postgres` from bastion:
+Connect to database from bastion:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com postgres
 
-If you need to drop old database with connections open, use following command:
+If you need to drop an existing database:
 
     DROP DATABASE aoe WITH (FORCE);
 
@@ -103,15 +89,13 @@ Create database and users:
     CREATE ROLE reporter WITH PASSWORD '<reporter password>';
     CREATE ROLE aoe_admin  WITH PASSWORD '<aoe_admin password>';
 
-From bastion, run restore:
+Restore from bastion:
 
     pg_restore -U aoe_db_admin -W -h <rds instance>.rds.amazonaws.com -d aoe < transfer.dump
 
-Connect to database `aoe` from bastion:
+Connect to the `aoe` database and grant access:
 
     psql -U aoe_db_admin -W -h <rds instance>.amazonaws.com aoe
-
-Grant access:
 
     ALTER ROLE reporter WITH LOGIN;
     ALTER ROLE aoe_admin WITH LOGIN;
@@ -122,5 +106,3 @@ Grant access:
     GRANT CONNECT ON DATABASE aoe TO reporter;
     GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
     GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO reporter;
-
-Exit `psql`.

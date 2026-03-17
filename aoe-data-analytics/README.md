@@ -1,21 +1,19 @@
 # AOE Data Analytics
 
-Microservices for querying analytics and statistics from databases.
-
-Logical application components are separated in the modular structure of the project.
+Kafka Streams consumer that processes analytics events and writes to MongoDB and PostgreSQL.
 
 ## Status Check
-Status check endpoint provided by Actuator at
-<pre>[api]/actuator/health</pre>
 
-## Compile Project
-Compile the project with all its modules at root
-<pre>mvn package</pre>
-OR repackage
-<pre>mvn clean package spring-boot:repackage</pre>
+Actuator health endpoint at `[api]/actuator/health`
 
-## Run Project
-Run the project with all its modules at root
-<pre>mvn spring-boot:run</pre>
-OR individually
-<pre>mvn spring-boot:run -pl [module]</pre>
+## Build
+
+```bash
+mvn clean package
+```
+
+## Run
+
+```bash
+mvn spring-boot:run
+```
