@@ -589,8 +589,7 @@ h2 {
   color: $white;
 }
 
-.btn-close {
-  color: $white;
+.modal-header .btn-close {
   filter: invert(1);
 }
 
