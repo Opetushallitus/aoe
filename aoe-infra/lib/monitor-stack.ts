@@ -29,6 +29,7 @@ export class MonitorStack extends cdk.Stack {
     })
 
     this.topic.grantPublish(new iam.ServicePrincipal('cloudwatch.amazonaws.com'))
+    this.topic.grantPublish(new iam.ServicePrincipal('events.amazonaws.com'))
 
     this.slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
       slackChannelConfigurationName: `${props.slackChannelName}`,
