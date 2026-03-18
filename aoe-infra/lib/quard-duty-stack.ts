@@ -156,16 +156,22 @@ export class GuardDutyS3Stack extends cdk.Stack {
 
       malwareEventRule.addTarget(
         new targets.SnsTopic(props.alarmSnsTopic, {
-          message: events.RuleTargetInput.fromMultilineText(
-            [
-              '🚨 GuardDuty Malware Alert! 🚨',
-              `Scan Status: ${events.EventField.fromPath('$.detail.scanStatus')}`,
-              `Threat Detected: ${events.EventField.fromPath('$.detail.scanResultDetails.threats[0].name')}`,
-              `S3 Bucket: ${events.EventField.fromPath('$.detail.s3ObjectDetails.bucketName')}`,
-              `S3 Object: ${events.EventField.fromPath('$.detail.s3ObjectDetails.objectKey')}`,
-              `Region: ${events.EventField.fromPath('$.region')}`
-            ].join('\n')
-          )
+          message: events.RuleTargetInput.fromObject({
+            version: '1.0',
+            source: 'custom',
+            content: {
+              textType: 'client-markdown',
+              title: ':rotating_light: GuardDuty Malware Alert',
+              description: [
+                `**Threat Detected:** ${events.EventField.fromPath('$.detail.scanResultDetails.threats[0].name')}`,
+                `**S3 Bucket:** ${events.EventField.fromPath('$.detail.s3ObjectDetails.bucketName')}`,
+                `**S3 Object:** ${events.EventField.fromPath('$.detail.s3ObjectDetails.objectKey')}`,
+                `**Scan Status:** ${events.EventField.fromPath('$.detail.scanStatus')}`,
+                `**Region:** ${events.EventField.fromPath('$.region')}`
+              ].join('\n'),
+              keywords: ['GuardDuty', 'Malware', 'S3']
+            }
+          })
         })
       )
     }
