@@ -3,6 +3,24 @@ interface IMessageBase {
   timestamp: string
 }
 
+// Search analytics
+
+export interface ISearchKeywords {
+  keywords: string
+}
+
+export interface ISearchFilters {
+  filters: {
+    educationalLevels: string[]
+    educationalSubjects: string[]
+    learningResourceTypes: string[]
+  }
+}
+
+export type TypeSearchRequest = Partial<IMessageBase> & (ISearchKeywords | ISearchFilters)
+
+// Material activity analytics
+
 interface IActivityMetadata {
   eduMaterialId: string
   interaction: string

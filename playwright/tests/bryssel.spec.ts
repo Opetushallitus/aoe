@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { tiedoteTest } from './fixtures/tiedoteTest'
+import type { BrysselAnalyytiikka } from './pages/BrysselAnalytiikka'
 import { BrysselEtusivu } from './pages/BrysselEtusivu'
 import { siivoaTiedote } from './pages/BrysselTiedotteet'
 import { Etusivu } from './pages/Etusivu'
@@ -12,6 +13,50 @@ test('käyttäjä voi hakea analytiikka sivulta oppimateriaaalien käyttömäär
   await analytiikka.taytaJaHaeOppimateriaalienKayttomaarat(['Haku', 'Katselu'], 'Kuukausi')
 
   await expect(analytiikka.kayttomaaraChart).toBeVisible()
+})
+
+test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
+  const haeKatselumaaratYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
+    const responsePromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/materialactivity/') && response.url().includes('/total')
+    )
+    await analytiikka.taytaJaHaeOppimateriaalienKayttomaarat(['Katselu'], 'Päivä')
+    const response = await responsePromise
+    const body = await response.json()
+    const totals = body.values.map((v: { dayTotal: number }) => v.dayTotal)
+    return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
+  }
+  // Helper: query Katselu analytics and return the total view count from the API response
+
+  // 1. Go to analytics and record the initial view count
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await haeKatselumaaratYhteensa(analytiikka)
+
+  // 2. Create a material
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka katselu')
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  const materiaaliNumero = await materiaali.getMateriaaliNumero()
+
+  // 3. View the material to trigger a Kafka view event
+  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
+
+  // 4. Wait for Kafka to process the event
+  await page.waitForTimeout(3000)
+
+  // 5. Go back to analytics and verify the view count increased
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await haeKatselumaaratYhteensa(analytiikkaUudelleen)
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
 })
 
 test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
@@ -156,7 +201,9 @@ tiedoteTest('Tiedotelomakkeen validointi toimii', async ({ page, tiedotteet }) =
   await tiedotteet.notificationTextInput.clear()
   await tiedotteet.notificationTypeSelect.click()
   await page
-    .getByRole('option', { name: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille' })
+    .getByRole('option', {
+      name: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille'
+    })
     .click()
   await expect(tiedotteet.submitButton).toBeDisabled()
 

@@ -1,7 +1,7 @@
 import { updateEducationalMaterialMetadata } from '@/controllers/educationalMaterial'
 import { getEducationalMaterialMetadata, setEducationalMaterialObsoleted } from '@query/apiQueries'
 import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService'
-import { runMessageQueueThread } from '@services/threadService'
+import { publishAnalyticsEvent } from '@services/analyticsService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
@@ -42,9 +42,9 @@ export default (router: Router): void => {
     },
     (req: Request, res: Response) => {
       if (['view', 'edit'].includes(req.query.interaction as string)) {
-        runMessageQueueThread(req, res).then((result): void => {
+        publishAnalyticsEvent(req, res).then((result): void => {
           if (result) {
-            log.debug('THREAD: Message queue publishing completed for', result)
+            log.debug('Analytics event published for', result)
           }
         })
       }

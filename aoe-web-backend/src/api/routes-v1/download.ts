@@ -1,6 +1,6 @@
 import { getEducationalMaterialMetadata } from '@query/apiQueries'
 import { downloadFile, downloadPreviewFile } from '@query/fileHandling'
-import { runMessageQueueThread } from '@services/threadService'
+import { publishAnalyticsEvent } from '@services/analyticsService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
@@ -33,9 +33,9 @@ export default (router: Router): void => {
     },
     (req: Request, res: Response) => {
       if (req.query.interaction === 'load') {
-        runMessageQueueThread(req, res).then((result) => {
+        publishAnalyticsEvent(req, res).then((result) => {
           if (result) {
-            log.debug('THREAD: Message queue publishing completed for', result)
+            log.debug('Analytics event published for', result)
           }
         })
       }

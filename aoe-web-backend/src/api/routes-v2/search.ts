@@ -1,6 +1,6 @@
 import { getCollectionEsData } from '@/search/es'
 import { elasticSearchQuery } from '@/search/esQueries'
-import { runMessageQueueThread } from '@services/threadService'
+import { publishAnalyticsEvent } from '@services/analyticsService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response, Router } from 'express'
 
@@ -19,9 +19,9 @@ export default (router: Router): void => {
     (req: Request, res: Response, next: NextFunction) => {
       // Bypass search requests with paging parameters included.
       if (req.body.size && req.body.timestamp) {
-        runMessageQueueThread(req).then((result) => {
+        publishAnalyticsEvent(req).then((result) => {
           if (result) {
-            log.debug('THREAD: Message queue publishing completed for', result)
+            log.debug('Analytics event published for', result)
           }
         })
       }
