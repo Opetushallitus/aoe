@@ -350,8 +350,8 @@ export class AnalyticsViewComponent implements OnInit {
       total: []
     }
     return new Promise((resolve, reject) => {
-      this.statisticsService.getPublishedMaterials(payload, category).subscribe(
-        (response) => {
+      this.statisticsService.getPublishedMaterials(payload, category).subscribe({
+        next: (response) => {
           values.portionNames = response.values.map((item: PortionResponse): string => {
             for (let i = 0; i < categoryItems.length; i++) {
               if (item.key === categoryItems[i].key) {
@@ -363,11 +363,11 @@ export class AnalyticsViewComponent implements OnInit {
           values.total = response.values.map((item: PortionResponse) => item.value) as number[]
           resolve(values)
         },
-        (err): void => {
+        error: (err): void => {
           this.toastr.error(err)
           reject(err)
         }
-      )
+      })
     })
   }
 
@@ -380,8 +380,8 @@ export class AnalyticsViewComponent implements OnInit {
       total: []
     }
     return new Promise((resolve, reject): void => {
-      this.statisticsService.getExpiredMaterials(payload).subscribe(
-        (response) => {
+      this.statisticsService.getExpiredMaterials(payload).subscribe({
+        next: (response) => {
           values.portionNames = response.values.map((level: PortionResponse): string => {
             for (let i = 0; i < educationalLevelNames.length; i++) {
               if (level.key === educationalLevelNames[i].key) {
@@ -393,11 +393,11 @@ export class AnalyticsViewComponent implements OnInit {
           values.total = response.values.map((value: PortionResponse) => value.value) as number[]
           resolve(values)
         },
-        (err): void => {
+        error: (err): void => {
           this.toastr.error(err)
           reject(err)
         }
-      )
+      })
     })
   }
 
@@ -665,8 +665,8 @@ export class AnalyticsViewComponent implements OnInit {
   ): Promise<ActivityData> {
     const values: ActivityData = { dates: [], total: [] }
     return new Promise((resolve, reject): void => {
-      this.statisticsService.getIntervalTotals(payload, interval, activity).subscribe(
-        (response) => {
+      this.statisticsService.getIntervalTotals(payload, interval, activity).subscribe({
+        next: (response) => {
           switch (interval) {
             case 'day':
               values.dates = response.values.map(
@@ -702,11 +702,11 @@ export class AnalyticsViewComponent implements OnInit {
               reject()
           }
         },
-        (err): void => {
+        error: (err): void => {
           this.toastr.error(err)
           reject()
         }
-      )
+      })
     })
   }
 
