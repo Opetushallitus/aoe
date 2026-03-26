@@ -42,7 +42,7 @@
     "aws-sdk": "^2.789.0",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
-    "connect-redis": "^4.0.4",
+    "connect-redis": "^9.0.0",
     "cors": "^2.8.5",
     "croner": "^10.0.1",
     "express": "^5.2.1",
@@ -62,7 +62,7 @@
     "passport": "^0.7.0",
     "pdf-parse": "^1.1.1",
     "pg-promise": "^12.6.2",
-    "redis": "^4.6.13",
+    "redis": "^5.11.0",
     "s3-zip": "^3.3.0",
     "sequelize": "^6.33.0",
     "winston": "^3.3.3"
@@ -73,7 +73,6 @@
   "devDependencies": {
     "@types/compression": "1.8.1",
     "@types/connect-flash": "0.0.40",
-    "@types/connect-redis": "0.0.23",
     "@types/cors": "2.8.19",
     "@types/express-session": "1.18.2",
     "@types/jsonwebtoken": "9.0.10",

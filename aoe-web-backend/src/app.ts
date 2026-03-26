@@ -24,7 +24,7 @@ import express, { Express, Request, Response, Router, NextFunction } from 'expre
 import { createProxyMiddleware } from 'http-proxy-middleware'
 import lusca from 'lusca'
 import passport from 'passport'
-import connectRedis from 'connect-redis'
+import { RedisStore } from 'connect-redis'
 import session, { SessionOptions } from 'express-session'
 import { redisClient } from '@resource/redisClient'
 import { db } from './resource/postgresClient'
@@ -34,8 +34,6 @@ import { asyncLocalStorage } from './asyncLocalStorage'
 
 export async function initApp() {
   const app: Express = express()
-
-  const RedisStore = connectRedis(session)
 
   app.use(async (req: Request, _res: Response, next: NextFunction) => {
     const requestId = req.headers['x-amz-cf-id'] ? String(req.headers['x-amz-cf-id']) : randomUUID()
@@ -51,7 +49,7 @@ export async function initApp() {
 
   app.use(
     session({
-      store: new RedisStore({ client: redisClient, logErrors: true }),
+      store: new RedisStore({ client: redisClient }),
       resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
       rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
       saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,

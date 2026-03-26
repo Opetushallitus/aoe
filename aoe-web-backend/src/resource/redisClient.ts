@@ -1,14 +1,12 @@
 import { config } from '@/config'
-import { RedisClientOptions } from '@redis/client'
 import * as log from '@util/winstonLogger'
 import { createClient } from 'redis'
 
 export const redisClient = createClient({
-  legacyMode: true,
   url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
     config.REDIS_OPTIONS.pass
   )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`
-} as RedisClientOptions)
+})
   .on('ready', () => {
     log.info(
       `REDIS [${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}] Connection is operable`
