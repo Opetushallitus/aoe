@@ -282,6 +282,7 @@
           bindValue="value"
           labelForId="form-published-select-category"
           id="form-published-select-category"
+          data-testid="julkaisu-luokitus"
         formControlName="category"></ng-select>
         @if (formPublishedCategoryCtrl?.invalid && (formPublishedCategoryCtrl.dirty || formPublishedCategoryCtrl.touched)) {
           @if (formPublishedCategoryCtrl.errors?.required) {
@@ -414,14 +415,14 @@
         </div>
       }
     </div>
-    <button type="submit" [disabled]="formGroupPublished.invalid" class="btn btn-blue" #publishedSubmit>
+    <button type="submit" [disabled]="formGroupPublished.invalid" class="btn btn-blue" data-testid="julkaisu-button" #publishedSubmit>
       Hae tiedot
     </button>
     &nbsp;&nbsp;
     <button (click)="resetFormPublished($event)" class="btn btn-cancel">Tyhjennä</button>
   </form>
   <br />
-  <app-line-chart [options]="eChartsOptionPublished"></app-line-chart>
+  <app-line-chart data-testid="julkaisu-chart" [options]="eChartsOptionPublished"></app-line-chart>
   <br />
 </section>
 <br />
@@ -441,6 +442,7 @@
             groupBy="children"
             id="form-expired-select-ducational-levels"
             labelForId="form-expired-select-ducational-levels"
+            data-testid="vanhentunut-opetusasteet"
             formControlName="educationalLevels">
             <ng-template ng-multi-label-tmp let-items="items">
               <div class="ng-value">
@@ -479,12 +481,12 @@
         }
       </div>
     </div>
-    <button type="submit" [disabled]="formGroupExpired.invalid" class="btn btn-blue" #expiredSubmit>Hae tiedot</button>
+    <button type="submit" [disabled]="formGroupExpired.invalid" class="btn btn-blue" data-testid="vanhentunut-button" #expiredSubmit>Hae tiedot</button>
     &nbsp;&nbsp;
     <button (click)="resetFormExpired($event)" class="btn btn-cancel">Tyhjennä</button>
   </form>
   <br />
-  <app-line-chart [options]="eChartsOptionExpired"></app-line-chart>
+  <app-line-chart data-testid="vanhentunut-chart" [options]="eChartsOptionExpired"></app-line-chart>
   <br />
 </section>
 <br />

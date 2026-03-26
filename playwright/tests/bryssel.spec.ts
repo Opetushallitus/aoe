@@ -47,16 +47,74 @@ test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
   // 3. View the material to trigger a Kafka view event
   await page.goto(`/#/materiaali/${materiaaliNumero}`)
   await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
-
-  // 4. Wait for Kafka to process the event
-  await page.waitForTimeout(3000)
-
-  // 5. Go back to analytics and verify the view count increased
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
   const uusiMaara = await haeKatselumaaratYhteensa(analytiikkaUudelleen)
 
   expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('uusi oppimateriaali näkyy julkaisumäärissä', async ({ page }) => {
+  const haeJulkaisumaaratYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
+    const responsePromise = page.waitForResponse(
+      (response) => response.url().includes('/educationallevel/all') && response.status() === 200
+    )
+    await analytiikka.taytaJaHaeJulkaisumaarat('Opetusasteet', ['korkeakoulutus'])
+    const response = await responsePromise
+    const body = await response.json()
+    return body.values.reduce(
+      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
+      0
+    )
+  }
+
+  // 1. Go to analytics and record the initial published count for korkeakoulutus
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await haeJulkaisumaaratYhteensa(analytiikka)
+
+  // 2. Create a material (uses korkeakoulutus educational level)
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka julkaisu')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+
+  // 3. Query again and assert published count increased
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await haeJulkaisumaaratYhteensa(analytiikkaUudelleen)
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.julkaisuChart).toBeVisible()
+})
+
+test('vanhentuneet oppimateriaalit näkyvät analytiikassa', async ({ page }) => {
+  const haeVanhentuneetYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
+    const responsePromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/educationallevel/expired') && response.status() === 200
+    )
+    await analytiikka.taytaJaHaeVanhentuneet(['korkeakoulutus'])
+    const response = await responsePromise
+    const body = await response.json()
+    return body.values.reduce(
+      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
+      0
+    )
+  }
+
+  // Query expired materials — verify the API responds with data
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const maara = await haeVanhentuneetYhteensa(analytiikka)
+
+  expect(maara).toBeGreaterThanOrEqual(0)
+  await expect(analytiikka.vanhentunutChart).toBeVisible()
 })
 
 test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {

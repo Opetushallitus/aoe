@@ -55,7 +55,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
       .nth(1)
     await subSelect.click()
     for (const valinta of valinnat) {
-      await page.getByRole('option', { name: valinta, exact: true }).click()
+      await page.getByRole('option', { name: valinta }).click()
     }
     await page.getByTestId('analytiikka').click()
     await locators.julkaisuButton.click()
@@ -64,7 +64,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
   const taytaJaHaeVanhentuneet = async (opetusasteet: string[]) => {
     await locators.vanhentunutOpetusasteet.click()
     for (const aste of opetusasteet) {
-      await page.getByRole('option', { name: aste, exact: true }).click()
+      await page.getByRole('option', { name: aste }).click()
     }
     await page.getByTestId('analytiikka').click()
     await locators.vanhentunutButton.click()
