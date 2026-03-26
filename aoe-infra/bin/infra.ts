@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
-import * as utility from '../environments/utility.json'
-import * as dev from '../environments/dev.json'
-import * as qa from '../environments/qa.json'
-import * as prod from '../environments/prod.json'
+import { dev } from '../environments/dev'
+import { qa } from '../environments/qa'
+import { prod } from '../environments/prod'
+import { EnvironmentConfig } from '../environments/types'
 import { VpcStack } from '../lib/vpc-stack'
 import { SecurityGroupStack } from '../lib/security-groups'
 import { AuroraCommonStack } from '../lib/aurora-serverless-common'
@@ -29,6 +29,8 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
 import { EfsStack } from '../lib/efs-stack'
+import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
+import { InstanceType } from 'aws-cdk-lib/aws-ec2'
 import { DocumentdbStack } from '../lib/documentdb-stack'
 import { MskStack } from '../lib/msk-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
@@ -43,7 +45,10 @@ const app = new cdk.App()
 const environmentName: string = app.node.tryGetContext('environment')
 const utilityAccountId: string = '637423428507'
 const envEU = { region: 'eu-west-1' }
-const envEUAccount = { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'eu-west-1' }
+const envEUAccount = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: 'eu-west-1'
+}
 const envUS = { region: 'us-east-1' }
 
 function getRevisionFromEnv() {
@@ -53,13 +58,9 @@ function getRevisionFromEnv() {
   throw new Error('Missing revision env variable')
 }
 
-// Allow any in this case, since we don't want to explicitely type json data
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-let environmentConfig: any
+let environmentConfig: EnvironmentConfig
 
-if (environmentName === 'utility') {
-  environmentConfig = utility
-} else if (environmentName === 'dev') {
+if (environmentName === 'dev') {
   environmentConfig = dev
 } else if (environmentName === 'qa') {
   environmentConfig = qa
@@ -74,9 +75,10 @@ if (environmentName === 'utility') {
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
+  const config = environmentConfig as EnvironmentConfig
   const revision = getRevisionFromEnv()
 
-  const domain = environmentConfig.aws.domain
+  const domain = config.aws.domain
 
   const GithubAction = new GithubActionsStack(app, 'GithubActionsStack', {
     env: envEU,
@@ -108,14 +110,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const Network = new VpcStack(app, 'VpcStack', {
     env: envEU,
     stackName: `${environmentName}-vpc`,
-    vpc_cidr: environmentConfig.aws.vpc_cidr,
-    availability_zones: environmentConfig.aws.availability_zones
+    vpc_cidr: config.aws.vpc_cidr,
+    availability_zones: config.aws.availability_zones
   })
 
   const HostedZones = new HostedZoneStack(app, 'HostedZoneStack', {
     env: envEU,
     stackName: `${environmentName}-hosted-zone`,
-    domain: environmentConfig.aws.domain,
+    domain: config.aws.domain,
     vpc: Network.vpc
   })
 
@@ -148,14 +150,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
     env: envEU,
     stackName: `${environmentName}-web-backend-aurora`,
-    auroraVersion: environmentConfig.aurora_databases.web_backend.version,
+    auroraVersion: config.aurora_databases.web_backend.version,
     environment: environmentName,
     clusterName: 'web-backend',
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webBackendAuroraSecurityGroup,
-    performanceInsights: environmentConfig.aurora_databases.web_backend.performance_insights,
-    minSizeAcu: environmentConfig.aurora_databases.web_backend.min_size_acu,
-    maxSizeAcu: environmentConfig.aurora_databases.web_backend.max_size_acu,
+    performanceInsights: config.aurora_databases.web_backend.performance_insights,
+    minSizeAcu: config.aurora_databases.web_backend.min_size_acu,
+    maxSizeAcu: config.aurora_databases.web_backend.max_size_acu,
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
     subnetGroup: AuroraCommons.auroraSubnetGroup,
@@ -165,12 +167,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
     env: envEU,
     stackName: `${environmentName}-open-search`,
-    collectionName: environmentConfig.open_search.collectionName,
-    description: environmentConfig.open_search.collectionDescription,
+    collectionName: config.open_search.collectionName,
+    description: config.open_search.collectionDescription,
     securityGroupIds: [SecurityGroups.openSearchSecurityGroup.securityGroupId],
     vpc: Network.vpc,
     kmsKey: Kms.openSearchKmsKey,
-    standbyReplicas: environmentConfig.open_search.standbyReplicas
+    standbyReplicas: config.open_search.standbyReplicas
   })
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
@@ -183,11 +185,11 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     securityGroupId: SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId,
     redisKmsKeyId: Kms.redisKmsKey.keyId,
     secretsManagerKmsKeyId: Kms.secretsManagerKey,
-    redisMajorVersion: environmentConfig.redis_serverless.semantic_apis.redis_major_version,
-    storageMin: environmentConfig.redis_serverless.semantic_apis.storage_min,
-    storageMax: environmentConfig.redis_serverless.semantic_apis.storage_max,
-    minEcpuPerSecond: environmentConfig.redis_serverless.semantic_apis.min_ecpu_per_second,
-    maxEcpuPerSecond: environmentConfig.redis_serverless.semantic_apis.max_ecpu_per_second
+    redisMajorVersion: config.redis_serverless.semantic_apis.major_version,
+    storageMin: config.redis_serverless.semantic_apis.storage_min,
+    storageMax: config.redis_serverless.semantic_apis.storage_max,
+    minEcpuPerSecond: config.redis_serverless.semantic_apis.min_ecpu_per_second,
+    maxEcpuPerSecond: config.redis_serverless.semantic_apis.max_ecpu_per_second
   })
 
   const Alb = new AlbStack(app, 'AlbStack', {
@@ -218,7 +220,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
     crossRegionReferences: true,
-    requireTestAuth: environmentConfig.cloudfront.require_test_authentication
+    requireTestAuth: config.cloudfront.require_test_authentication
   })
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
@@ -231,9 +233,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
     env: envEU,
     environment: environmentName,
-    aoeBucketName: environmentConfig.S3.aoeBucketName,
-    aoePdfBucketName: environmentConfig.S3.aoePdfBucketName,
-    aoeThumbnailBucketName: environmentConfig.S3.aoeThumbnailBucketName
+    aoeBucketName: config.S3.aoeBucketName,
+    aoePdfBucketName: config.S3.aoePdfBucketName,
+    aoeThumbnailBucketName: config.S3.aoeThumbnailBucketName
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
@@ -286,30 +288,30 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.efsSecurityGroup,
     accessPointPath: '/data',
-    throughputMode: environmentConfig.EFS.throughputMode
+    throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
   const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
     environment: environmentName,
-    instances: environmentConfig.document_db.instances,
-    instanceType: environmentConfig.document_db.instanceType,
+    instances: config.document_db.instances,
+    instanceType: new InstanceType(config.document_db.instanceType),
     env: envEU,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.documentDbSecurityGroup,
-    engineVersion: environmentConfig.document_db.engineVersion,
+    engineVersion: config.document_db.engineVersion,
     user: Secrets.documentDbPassword,
     kmsKey: Kms.documentDbKmsKey
   })
 
   const mskKafka = new MskStack(app, 'AOEMskKafka', {
     env: envEU,
-    clusterName: environmentConfig.msk.clusterName,
-    instanceType: environmentConfig.msk.instanceType,
+    clusterName: config.msk.clusterName,
+    instanceType: config.msk.instanceType,
     kmsKey: Kms.mskKmsKey,
-    numberOfBrokerNodes: environmentConfig.msk.numberOfBrokerNodes,
+    numberOfBrokerNodes: config.msk.numberOfBrokerNodes,
     securityGroup: SecurityGroups.mskSecurityGroup,
-    version: environmentConfig.msk.version,
-    volumeSize: environmentConfig.msk.volumeSize,
+    version: config.msk.version,
+    volumeSize: config.msk.volumeSize,
     vpc: Network.vpc,
     alarmSnsTopic: Monitor.topic
   })
@@ -350,14 +352,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.dataAnalyticsServiceSecurityGroup,
     revision,
-    allowEcsExec: environmentConfig.services.data_analytics.allow_ecs_exec,
-    taskCpu: environmentConfig.services.data_analytics.cpu_limit,
-    taskMemory: environmentConfig.services.data_analytics.memory_limit,
-    minimumCount: environmentConfig.services.data_analytics.min_count,
-    maximumCount: environmentConfig.services.data_analytics.max_count,
+    allowEcsExec: config.services.data_analytics.allow_ecs_exec,
+    taskCpu: config.services.data_analytics.cpu_limit,
+    taskMemory: config.services.data_analytics.memory_limit,
+    minimumCount: config.services.data_analytics.min_count,
+    maximumCount: config.services.data_analytics.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
-      ...environmentConfig.services.data_analytics.env_vars,
+      ...config.services.data_analytics.env_vars,
       ...{
         MONGODB_PRIMARY_HOST: docDb.clusterEndpoint.hostname,
         MONGODB_PRIMARY_PORT: docDb.clusterEndpoint.port,
@@ -394,13 +396,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.streamingServiceSecurityGroup,
     revision,
-    allowEcsExec: environmentConfig.services.streaming.allow_ecs_exec,
-    taskCpu: environmentConfig.services.streaming.cpu_limit,
-    taskMemory: environmentConfig.services.streaming.memory_limit,
-    minimumCount: environmentConfig.services.streaming.min_count,
-    maximumCount: environmentConfig.services.streaming.max_count,
+    allowEcsExec: config.services.streaming.allow_ecs_exec,
+    taskCpu: config.services.streaming.cpu_limit,
+    taskMemory: config.services.streaming.memory_limit,
+    minimumCount: config.services.streaming.min_count,
+    maximumCount: config.services.streaming.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: environmentConfig.services.streaming.env_vars,
+    env_vars: config.services.streaming.env_vars,
     parameter_store_secrets: [],
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,
@@ -425,14 +427,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.dataServicesSecurityGroup,
     revision,
-    allowEcsExec: environmentConfig.services.data_services.allow_ecs_exec,
-    taskCpu: environmentConfig.services.data_services.cpu_limit,
-    taskMemory: environmentConfig.services.data_services.memory_limit,
-    minimumCount: environmentConfig.services.data_services.min_count,
-    maximumCount: environmentConfig.services.data_services.max_count,
+    allowEcsExec: config.services.data_services.allow_ecs_exec,
+    taskCpu: config.services.data_services.cpu_limit,
+    taskMemory: config.services.data_services.memory_limit,
+    minimumCount: config.services.data_services.min_count,
+    maximumCount: config.services.data_services.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
-      ...environmentConfig.services.data_services.env_vars,
+      ...config.services.data_services.env_vars,
       ...{
         AOE_IDENTIFY_BASEURL: `https://${domain}/meta/oaipmh`,
         AOE_IDENTIFY_V2_BASEURL: `https://${domain}/meta/v2/oaipmh`
@@ -493,14 +495,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webBackendsServiceSecurityGroup,
     revision,
-    allowEcsExec: environmentConfig.services.web_backend.allow_ecs_exec,
-    taskCpu: environmentConfig.services.web_backend.cpu_limit,
-    taskMemory: environmentConfig.services.web_backend.memory_limit,
-    minimumCount: environmentConfig.services.web_backend.min_count,
-    maximumCount: environmentConfig.services.web_backend.max_count,
+    allowEcsExec: config.services.web_backend.allow_ecs_exec,
+    taskCpu: config.services.web_backend.cpu_limit,
+    taskMemory: config.services.web_backend.memory_limit,
+    minimumCount: config.services.web_backend.min_count,
+    maximumCount: config.services.web_backend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
-      ...environmentConfig.services.web_backend.env_vars,
+      ...config.services.web_backend.env_vars,
       ...{
         REDIS_HOST: SemanticApisRedis.endpointAddress,
         REDIS_PORT: SemanticApisRedis.endpointPort,
@@ -569,11 +571,11 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
     revision: revision,
-    allowEcsExec: environmentConfig.services.web_frontend.allow_ecs_exec,
-    taskCpu: environmentConfig.services.web_frontend.cpu_limit,
-    taskMemory: environmentConfig.services.web_frontend.memory_limit,
-    minimumCount: environmentConfig.services.web_frontend.min_count,
-    maximumCount: environmentConfig.services.web_frontend.max_count,
+    allowEcsExec: config.services.web_frontend.allow_ecs_exec,
+    taskCpu: config.services.web_frontend.cpu_limit,
+    taskMemory: config.services.web_frontend.memory_limit,
+    minimumCount: config.services.web_frontend.min_count,
+    maximumCount: config.services.web_frontend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
       ENV: environmentName
@@ -602,14 +604,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     securityGroup: SecurityGroups.semanticApisServiceSecurityGroup,
     revision,
-    allowEcsExec: environmentConfig.services.semantic_apis.allow_ecs_exec,
-    taskCpu: environmentConfig.services.semantic_apis.cpu_limit,
-    taskMemory: environmentConfig.services.semantic_apis.memory_limit,
-    minimumCount: environmentConfig.services.semantic_apis.min_count,
-    maximumCount: environmentConfig.services.semantic_apis.max_count,
+    allowEcsExec: config.services.semantic_apis.allow_ecs_exec,
+    taskCpu: config.services.semantic_apis.cpu_limit,
+    taskMemory: config.services.semantic_apis.memory_limit,
+    minimumCount: config.services.semantic_apis.min_count,
+    maximumCount: config.services.semantic_apis.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
-      ...environmentConfig.services.semantic_apis.env_vars,
+      ...config.services.semantic_apis.env_vars,
       ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
       REDIS_PORT: SemanticApisRedis.endpointPort
     },
