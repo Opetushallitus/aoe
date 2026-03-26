@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { environment } from '../../../environments/environment'
-import { catchError } from 'rxjs/operators'
+import { catchError, map } from 'rxjs/operators'
 import {
+  StatisticsExpiredResponse,
+  StatisticsExpiredResponseSchema,
   StatisticsIntervalResponse,
+  StatisticsIntervalResponseSchema,
   StatisticsPortionsPost,
-  StatisticsPortionsResponse,
+  StatisticsPublishedResponse,
+  StatisticsPublishedResponseSchema,
   StatisticsTimespanPost
 } from '../model'
 import { CategoryEnum, IntervalEnum } from '@admin/model/enumeration/AnalyticsEnums'
@@ -39,17 +43,16 @@ export class StatisticsService {
     activity: string
   ): Observable<StatisticsIntervalResponse> {
     return this.http
-      .post<StatisticsIntervalResponse>(
-        `${environment.statisticsBackendUrl}/${activity}/${interval}/total`,
-        payload,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          })
-        }
+      .post(`${environment.statisticsBackendUrl}/${activity}/${interval}/total`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        })
+      })
+      .pipe(
+        map((data) => StatisticsIntervalResponseSchema.parse(data)),
+        catchError(this.handleError)
       )
-      .pipe(catchError(this.handleError))
   }
 
   /**
@@ -57,38 +60,36 @@ export class StatisticsService {
    * @param {StatisticsPortionsPost} payload
    * @returns {Observable<StatisticsPortionsResponse>}
    */
-  getExpiredMaterials(payload: StatisticsPortionsPost): Observable<StatisticsPortionsResponse> {
+  getExpiredMaterials(payload: StatisticsPortionsPost): Observable<StatisticsExpiredResponse> {
     return this.http
-      .post<StatisticsPortionsResponse>(
-        `${environment.statisticsBackendUrl}/educationallevel/expired`,
-        payload,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          })
-        }
+      .post(`${environment.statisticsBackendUrl}/educationallevel/expired`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        })
+      })
+      .pipe(
+        map((data) => StatisticsExpiredResponseSchema.parse(data)),
+        catchError(this.handleError)
       )
-      .pipe(catchError(this.handleError))
   }
 
   getPublishedMaterials(
     payload: StatisticsPortionsPost,
     categoryEnum: CategoryEnum
-  ): Observable<StatisticsPortionsResponse> {
+  ): Observable<StatisticsPublishedResponse> {
     const category: string = categoryEnum.slice(0, -1).toLowerCase() // Cut out the last plural character 's'.
     return this.http
-      .post<StatisticsPortionsResponse>(
-        `${environment.statisticsBackendUrl}/${category}/all`,
-        payload,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          })
-        }
+      .post(`${environment.statisticsBackendUrl}/${category}/all`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        })
+      })
+      .pipe(
+        map((data) => StatisticsPublishedResponseSchema.parse(data)),
+        catchError(this.handleError)
       )
-      .pipe(catchError(this.handleError))
   }
 
   dateToString(date: Date, interval: IntervalEnum): string {

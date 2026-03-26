@@ -24,7 +24,6 @@ import {
   PortionResponse,
   StatisticsIntervalResponse,
   StatisticsPortionsPost,
-  StatisticsPortionsResponse,
   StatisticsTimespanPost
 } from '../model'
 import { ToastrService } from 'ngx-toastr'
@@ -84,10 +83,26 @@ export class AnalyticsViewComponent implements OnInit {
   today: Date
 
   selectOptionActivity: OptionActivity[] = [
-    { key: 0, value: ActivityEnum.SEARCH, label: { fi: 'Haku', sv: '', en: '' } },
-    { key: 1, value: ActivityEnum.VIEW, label: { fi: 'Katselu', sv: '', en: '' } },
-    { key: 2, value: ActivityEnum.LOAD, label: { fi: 'Lataus', sv: '', en: '' } },
-    { key: 3, value: ActivityEnum.EDIT, label: { fi: 'Muokkaus', sv: '', en: '' } }
+    {
+      key: 0,
+      value: ActivityEnum.SEARCH,
+      label: { fi: 'Haku', sv: '', en: '' }
+    },
+    {
+      key: 1,
+      value: ActivityEnum.VIEW,
+      label: { fi: 'Katselu', sv: '', en: '' }
+    },
+    {
+      key: 2,
+      value: ActivityEnum.LOAD,
+      label: { fi: 'Lataus', sv: '', en: '' }
+    },
+    {
+      key: 3,
+      value: ActivityEnum.EDIT,
+      label: { fi: 'Muokkaus', sv: '', en: '' }
+    }
   ]
   selectOptionCategory: OptionCategory[] = [
     {
@@ -100,12 +115,24 @@ export class AnalyticsViewComponent implements OnInit {
       value: CategoryEnum.EDUCATIONAL_SUBJECT,
       label: { fi: 'Oppiaineet', sv: '', en: '' }
     },
-    { key: 2, value: CategoryEnum.ORGANIZATION, label: { fi: 'Organisaatiot', sv: '', en: '' } }
+    {
+      key: 2,
+      value: CategoryEnum.ORGANIZATION,
+      label: { fi: 'Organisaatiot', sv: '', en: '' }
+    }
   ]
   selectOptionInterval: OptionInterval[] = [
     { key: 0, value: IntervalEnum.DAY, label: { fi: 'Päivä', sv: '', en: '' } },
-    { key: 1, value: IntervalEnum.WEEK, label: { fi: 'Viikko', sv: '', en: '' } },
-    { key: 2, value: IntervalEnum.MONTH, label: { fi: 'Kuukausi', sv: '', en: '' } }
+    {
+      key: 1,
+      value: IntervalEnum.WEEK,
+      label: { fi: 'Viikko', sv: '', en: '' }
+    },
+    {
+      key: 2,
+      value: IntervalEnum.MONTH,
+      label: { fi: 'Kuukausi', sv: '', en: '' }
+    }
   ]
 
   constructor(
@@ -318,10 +345,13 @@ export class AnalyticsViewComponent implements OnInit {
     category: CategoryEnum,
     categoryItems: { key: string; value: string }[]
   ): Promise<{ portionNames: string[]; total: number[] }> {
-    const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] }
-    return new Promise((resolve, reject): void => {
+    const values: { portionNames: string[]; total: number[] } = {
+      portionNames: [],
+      total: []
+    }
+    return new Promise((resolve, reject) => {
       this.statisticsService.getPublishedMaterials(payload, category).subscribe(
-        (response: StatisticsPortionsResponse): void => {
+        (response) => {
           values.portionNames = response.values.map((item: PortionResponse): string => {
             for (let i = 0; i < categoryItems.length; i++) {
               if (item.key === categoryItems[i].key) {
@@ -345,10 +375,13 @@ export class AnalyticsViewComponent implements OnInit {
     payload: StatisticsPortionsPost,
     educationalLevelNames: { key: string; value: string }[]
   ): Promise<{ portionNames: string[]; total: number[] }> {
-    const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] }
+    const values: { portionNames: string[]; total: number[] } = {
+      portionNames: [],
+      total: []
+    }
     return new Promise((resolve, reject): void => {
       this.statisticsService.getExpiredMaterials(payload).subscribe(
-        (response: StatisticsPortionsResponse): void => {
+        (response) => {
           values.portionNames = response.values.map((level: PortionResponse): string => {
             for (let i = 0; i < educationalLevelNames.length; i++) {
               if (level.key === educationalLevelNames[i].key) {
@@ -633,7 +666,7 @@ export class AnalyticsViewComponent implements OnInit {
     const values: ActivityData = { dates: [], total: [] }
     return new Promise((resolve, reject): void => {
       this.statisticsService.getIntervalTotals(payload, interval, activity).subscribe(
-        (response: StatisticsIntervalResponse): void => {
+        (response) => {
           switch (interval) {
             case 'day':
               values.dates = response.values.map(

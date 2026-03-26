@@ -32,7 +32,7 @@ public class StatisticsService {
             values = Arrays.stream(educationalLevelTotalRequest.getEducationalLevels())
                 .map(e -> {
                     Long total = this.educationalMaterialRepositoryPrimary.countByEducationalLevelBetweenPublishDates(
-                            e, educationalLevelTotalRequest.getSince(), educationalLevelTotalRequest.getUntil());
+                            e, educationalLevelTotalRequest.getSince(), educationalLevelTotalRequest.getUntil().plusDays(1));
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
@@ -76,7 +76,7 @@ public class StatisticsService {
             values = Arrays.stream(educationalSubjectTotalRequest.getEducationalSubjects())
                 .map(e -> {
                     Long total = this.educationalMaterialRepositoryPrimary.countByEducationalSubjectBetweenPublishDates(
-                            e, educationalSubjectTotalRequest.getSince(), educationalSubjectTotalRequest.getUntil());
+                            e, educationalSubjectTotalRequest.getSince(), educationalSubjectTotalRequest.getUntil().plusDays(1));
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
@@ -103,7 +103,7 @@ public class StatisticsService {
             values = Arrays.stream(organizationTotalRequest.getOrganizations())
                 .map(e -> {
                     Long total = this.educationalMaterialRepositoryPrimary.countByOrganizationBetweenPublishDates(
-                            e, organizationTotalRequest.getSince(), organizationTotalRequest.getUntil());
+                            e, organizationTotalRequest.getSince(), organizationTotalRequest.getUntil().plusDays(1));
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
