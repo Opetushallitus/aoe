@@ -1,17 +1,5 @@
 import winston, { format, Logform } from 'winston'
 import { ConsoleTransportOptions } from 'winston/lib/winston/transports'
-
-// Custom logging levels
-const loggingLevels = {
-  levels: {
-    info: 0,
-    error: 1,
-    warn: 2,
-    http: 3,
-    debug: 4
-  }
-}
-
 // Options for console logging
 const logLevel: string | undefined = process.env.LOG_LEVEL
 const consoleOptions: ConsoleTransportOptions = {
@@ -30,6 +18,5 @@ export default winston.createLogger({
         `[${log.level.toUpperCase()}] ${log.timestamp} ${log.message}`
     )
   ),
-  levels: loggingLevels.levels,
   transports: [new winston.transports.Console(consoleOptions)]
 })

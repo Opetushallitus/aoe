@@ -57,7 +57,7 @@ export const getAsync = async (key: string): Promise<string | null> => {
     return value?.toString() ?? null
   } catch (err) {
     winstonLogger.error('REDIS get failed for key %s: %o', key, err)
-    return null
+    throw err
   }
 }
 
