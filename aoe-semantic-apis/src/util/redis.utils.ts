@@ -1,5 +1,4 @@
-import * as redis from 'redis'
-import { promisify } from 'util'
+import { createClient } from 'redis'
 import config from '../config'
 import { winstonLogger } from '../util'
 
@@ -27,32 +26,34 @@ import {
 import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio'
 import { setTuvaOppiaineetTavoitteet } from '../controllers/tuva'
 
-export const client = redis
-  .createClient({
-    url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
-      config.REDIS_OPTIONS.pass
-    )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`
-  })
-  .on('ready', () => {
-    winstonLogger.info(
-      'REDIS [%s://%s:%d] Connection is operable',
-      config.REDIS_OPTIONS.protocol,
-      config.REDIS_OPTIONS.host,
-      config.REDIS_OPTIONS.port
-    )
-  })
-  .on('error', (err: Error): void => {
-    winstonLogger.error(
-      'REDIS [%s://%s:%d] Error: %o',
-      config.REDIS_OPTIONS.protocol,
-      config.REDIS_OPTIONS.host,
-      config.REDIS_OPTIONS.port,
-      err
-    )
-  })
+export const client = createClient({
+  url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
+    config.REDIS_OPTIONS.pass
+  )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`
+})
 
-export const getAsync = promisify(client.get).bind(client)
-export const setAsync = promisify(client.set).bind(client)
+client.on('ready', () => {
+  winstonLogger.info(
+    'REDIS [%s://%s:%d] Connection is operable',
+    config.REDIS_OPTIONS.protocol,
+    config.REDIS_OPTIONS.host,
+    config.REDIS_OPTIONS.port
+  )
+})
+
+client.on('error', (err: Error): void => {
+  winstonLogger.error(
+    'REDIS [%s://%s:%d] Error: %o',
+    config.REDIS_OPTIONS.protocol,
+    config.REDIS_OPTIONS.host,
+    config.REDIS_OPTIONS.port,
+    err
+  )
+})
+
+export const getAsync = async (key: string) => (await client.get(key)).toString()
+export const setAsync = async (key: string, value: string) =>
+  (await client.set(key, value)).toString()
 
 export async function updateRedis(): Promise<void> {
   winstonLogger.info('Starting Redis update ...')

@@ -21,14 +21,15 @@ if (app.get('env') === 'development') {
   app.use(cors())
 }
 
-client.on('error', (error: any) => {
-  winstonLogger.error(error)
-})
-
-client.on('ready', async () => {
-  winstonLogger.info('Pushing data to REDIS')
-  await updateRedis()
-})
+client
+  .connect()
+  .then(async () => {
+    winstonLogger.info('Pushing data to REDIS')
+    await updateRedis()
+  })
+  .catch((error: any) => {
+    winstonLogger.error(error)
+  })
 
 // set cron jobs to run every sunday 03:00
 cron.schedule('0 0 3 * * 0', async () => {
