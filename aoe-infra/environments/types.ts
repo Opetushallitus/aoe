@@ -52,7 +52,7 @@ export interface EnvironmentConfig {
     aoeThumbnailBucketName: string
   }
   EFS: {
-    throughputMode: 'BURSTING' | 'ELASTIC' | 'PROVISIONED'
+    throughputMode: 'bursting' | 'elastic' | 'provisioned'
   }
   redis_serverless: {
     semantic_apis: {

@@ -214,7 +214,7 @@ export const dev: EnvironmentConfig = {
     aoeThumbnailBucketName: 'aoethumbnail'
   },
   EFS: {
-    throughputMode: 'BURSTING'
+    throughputMode: 'bursting'
   },
   redis_serverless: {
     semantic_apis: {
