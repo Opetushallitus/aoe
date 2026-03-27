@@ -51,9 +51,23 @@ client.on('error', (err: Error): void => {
   )
 })
 
-export const getAsync = async (key: string) => (await client.get(key)).toString()
-export const setAsync = async (key: string, value: string) =>
-  (await client.set(key, value)).toString()
+export const getAsync = async (key: string): Promise<string | null> => {
+  try {
+    const value = await client.get(key)
+    return value?.toString() ?? null
+  } catch (err) {
+    winstonLogger.error('REDIS get failed for key %s: %o', key, err)
+    return null
+  }
+}
+
+export const setAsync = async (key: string, value: string): Promise<void> => {
+  try {
+    await client.set(key, value)
+  } catch (err) {
+    winstonLogger.error('REDIS set failed for key %s: %o', key, err)
+  }
+}
 
 export async function updateRedis(): Promise<void> {
   winstonLogger.info('Starting Redis update ...')
