@@ -22,7 +22,7 @@ export async function getDataFromApi(
     if (headers.Accept === 'application/json') {
       return await response.json()
     } else {
-      return response.text()
+      return await response.text()
     }
   } catch (err) {
     winstonLogger.error(`Error getting data from ${api}: %o`, err)

@@ -28,7 +28,8 @@
     "build": "npm run build-ts",
     "build-ts": "npx tsc",
     "watch-ts": "tsc -w",
-    "knip": "knip"
+    "knip": "knip",
+    "test": "node --test 'src/**/*.test.ts'"
   },
   "dependencies": {
     "compression": "^1.7.4",

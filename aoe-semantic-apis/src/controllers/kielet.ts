@@ -26,7 +26,7 @@ export async function setKielet(): Promise<void> {
     params
   )
 
-  if (!results || (results as any).length < 1) {
+  if (!results || results.length < 1) {
     winstonLogger.error('No data from virkailija.opintopolku.fi in setKielet()')
     return
   }
@@ -101,24 +101,11 @@ export async function setKielet(): Promise<void> {
     await setAsync(`${rediskey}.en`, JSON.stringify(english))
     await setAsync(`${rediskey}.sv`, JSON.stringify(swedish))
   } catch (err) {
-    throw Error(err)
+    throw err
   }
 }
 
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<KeyValue<string, string>[]>}
- */
-export const getKielet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<KeyValue<string, string>[]> => {
+export const getKielet = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
 

@@ -19,6 +19,13 @@ function clean {
   $compose down
 }
 
+function run_unit_tests {
+  pushd "$repo/aoe-semantic-apis"
+  npm_ci_if_package_lock_has_changed
+  npm test
+  popd
+}
+
 function run_playwright_tests {
   $compose up --abort-on-container-exit --quiet-pull --exit-code-from test-runner
 }
@@ -38,6 +45,7 @@ function main {
     export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
   fi
 
+  run_unit_tests
   run_playwright_tests
 }
 
