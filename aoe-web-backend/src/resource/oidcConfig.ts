@@ -5,12 +5,17 @@ import { Express, Response, Request } from 'express'
 import { Cookie } from 'express-session'
 import { setTimeout as delay } from 'node:timers/promises'
 import * as client from 'openid-client'
-import { Strategy } from 'openid-client/passport'
 import passport from 'passport'
 
 interface User {
   uid: string
   name: string
+}
+
+declare module 'express-session' {
+  interface SessionData {
+    oidcState?: string
+  }
 }
 
 function createCustomFetch(timeout: number, maxRetries: number): client.CustomFetch {
@@ -54,43 +59,59 @@ export async function registerOidcStrategy(app: Express) {
     }
   )
 
-  passport.use(
-    'oidc',
-    new Strategy(
-      {
-        config,
-        scope: 'openid profile offline_access',
-        callbackURL: process.env.REDIRECT_URI
-      },
-      async (tokens, done) => {
-        try {
-          const claims = tokens.claims()
-          if (!claims) {
-            return done(new Error('No ID token claims in token response'))
-          }
-          const userinfo = await client.fetchUserInfo(config, tokens.access_token, claims.sub)
-          await insertUserToDatabase(userinfo)
-          const name = `${userinfo.given_name} ${userinfo.family_name}`
-          return done(null, { uid: userinfo.uid, name })
-        } catch (err) {
-          log.error('Saving user information failed', err)
-          return done(err)
-        }
-      }
-    )
-  )
-
   passport.serializeUser((user: User, done): void => done(null, user))
   passport.deserializeUser((userinfo: any, done): void => done(null, userinfo))
 
-  app.get(
-    '/api/login',
-    passport.authenticate('oidc', {
-      successRedirect: '/',
-      failureRedirect: '/api/login',
-      failureFlash: true
+  app.get('/api/login', (req: Request, res: Response) => {
+    const state = client.randomState()
+    req.session.oidcState = state
+
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: process.env.CLIENT_ID as string,
+      redirect_uri: process.env.REDIRECT_URI as string,
+      scope: 'openid profile offline_access',
+      state
     })
-  )
+
+    const authUrl = client.buildAuthorizationUrl(config, params)
+    res.redirect(authUrl.href)
+  })
+
+  app.get('/api/secure/redirect', async (req: Request, res: Response) => {
+    try {
+      const tokens = await client.authorizationCodeGrant(
+        config,
+        new URL(req.url, process.env.REDIRECT_URI),
+        {
+          expectedState: req.session.oidcState
+        }
+      )
+
+      const claims = tokens.claims()
+      if (!claims) {
+        throw new Error('No ID token claims in token response')
+      }
+
+      const userinfo = await client.fetchUserInfo(config, tokens.access_token, claims.sub)
+      await insertUserToDatabase(userinfo)
+
+      const name = `${userinfo.given_name} ${userinfo.family_name}`
+      const user: User = { uid: userinfo.uid as string, name }
+
+      req.login(user, (err) => {
+        if (err) {
+          log.error('Login failed', err)
+          return res.redirect(process.env.FAILURE_REDIRECT_URI as string)
+        }
+        delete req.session.oidcState
+        res.redirect(process.env.SUCCESS_REDIRECT_URI as string)
+      })
+    } catch (err) {
+      log.error('OIDC callback failed', err)
+      res.redirect(process.env.FAILURE_REDIRECT_URI as string)
+    }
+  })
 
   app.post('/api/logout', (req: Request, res: Response): void => {
     const cookieRef: Cookie = req.session.cookie
@@ -110,15 +131,6 @@ export async function registerOidcStrategy(app: Express) {
       res.status(200).json({ message: 'logged out' })
     })
   })
-
-  app.get(
-    '/api/secure/redirect',
-    passport.authenticate('oidc', {
-      failureRedirect: process.env.FAILURE_REDIRECT_URI,
-      failureFlash: true,
-      successRedirect: process.env.SUCCESS_REDIRECT_URI
-    })
-  )
 
   log.info('OIDC authentication initialized')
 }

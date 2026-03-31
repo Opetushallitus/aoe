@@ -466,7 +466,8 @@ services:
             "http://localhost:33344/api/secure/redirect"],
             "AllowedScopes": ["openid", "offline_access", "profile"],
             "AllowOfflineAccess" : "true",
-            "AllowedGrantTypes": ["authorization_code"]
+            "AllowedGrantTypes": ["authorization_code"],
+            "RequirePkce": false
           }
         ]
       ASPNETCORE_URLS: http://+:80
