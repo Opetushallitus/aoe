@@ -17,10 +17,15 @@ function createCustomFetch(timeout: number, maxRetries: number): client.CustomFe
   return async (url, options) => {
     for (let attempt = 0; ; attempt++) {
       try {
-        return await fetch(url, {
+        const res = await fetch(url, {
           ...(options as RequestInit),
           signal: AbortSignal.timeout(timeout)
         })
+        if (!res.ok) {
+          const body = await res.clone().text()
+          log.error(`OIDC fetch error: ${res.status} ${body}`)
+        }
+        return res
       } catch (err) {
         if (attempt < maxRetries) {
           await delay(1000 * 2 ** attempt)
