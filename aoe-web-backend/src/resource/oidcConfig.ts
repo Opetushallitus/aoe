@@ -3,115 +3,73 @@ import { insertUserToDatabase } from '@services/authService'
 import * as log from '@util/winstonLogger'
 import { Express, Response, Request } from 'express'
 import { Cookie } from 'express-session'
-import { setTimeout as delay } from 'node:timers/promises'
-import * as client from 'openid-client'
+import openidClient, {
+  Client,
+  custom,
+  HttpOptions,
+  TokenSet,
+  UserinfoResponse
+} from 'openid-client'
 import passport from 'passport'
+
+const { Issuer, Strategy } = openidClient
 
 interface User {
   uid: string
   name: string
 }
 
-declare module 'express-session' {
-  interface SessionData {
-    oidcState?: string
-  }
-}
-
-function createCustomFetch(timeout: number, maxRetries: number): client.CustomFetch {
-  return async (url, options) => {
-    for (let attempt = 0; ; attempt++) {
-      try {
-        const res = await fetch(url, {
-          ...(options as RequestInit),
-          signal: AbortSignal.timeout(timeout)
-        })
-        if (!res.ok) {
-          const body = await res.clone().text()
-          log.error(`OIDC fetch error: ${res.status} ${body}`)
-        }
-        return res
-      } catch (err) {
-        if (attempt < maxRetries) {
-          await delay(1000 * 2 ** attempt)
-          continue
-        }
-        throw err
-      }
-    }
-  }
-}
-
 export async function registerOidcStrategy(app: Express) {
-  const customFetch = createCustomFetch(
-    Number(process.env.HTTP_OPTIONS_TIMEOUT) || 5000,
-    Number(process.env.HTTP_OPTIONS_RETRY) || 2
-  )
+  // set global client options
+  custom.setHttpOptionsDefaults({
+    timeout: Number(process.env.HTTP_OPTIONS_TIMEOUT) || 5000,
+    retry: Number(process.env.HTTP_OPTIONS_RETRY) || 2
+  } as HttpOptions)
 
-  const config = await client.discovery(
-    new URL(process.env.PROXY_URI as string),
-    process.env.CLIENT_ID as string,
-    process.env.CLIENT_SECRET as string,
-    undefined,
-    {
-      [client.customFetch]: customFetch,
-      execute: process.env.NODE_ENV === 'development' ? [client.allowInsecureRequests] : []
-    }
+  // Discover issuer from OIDC provider
+  const oidcIssuer = await Issuer.discover(process.env.PROXY_URI as string)
+  const client: Client = new oidcIssuer.Client({
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    redirect_uris: [process.env.REDIRECT_URI],
+    response_types: ['code']
+  })
+
+  // Register the OIDC strategy
+  passport.use(
+    'oidc',
+    new Strategy(
+      { client },
+      async (
+        _tokenset: TokenSet,
+        userinfo: UserinfoResponse,
+        done: (err: any, user?: User) => void
+      ) => {
+        try {
+          await insertUserToDatabase(userinfo)
+          const name = `${userinfo.given_name} ${userinfo.family_name}`
+          return done(null, { uid: userinfo.uid as string, name })
+        } catch (err) {
+          log.error('Saving user information failed', err)
+          return done(err)
+        }
+      }
+    )
   )
 
   passport.serializeUser((user: User, done): void => done(null, user))
   passport.deserializeUser((userinfo: any, done): void => done(null, userinfo))
 
-  app.get('/api/login', (req: Request, res: Response) => {
-    const state = client.randomState()
-    req.session.oidcState = state
-
-    const params = new URLSearchParams({
-      response_type: 'code',
-      client_id: process.env.CLIENT_ID as string,
-      redirect_uri: process.env.REDIRECT_URI as string,
-      scope: 'openid profile offline_access',
-      state
+  // Attach login route AFTER strategy is ready
+  app.get(
+    '/api/login',
+    passport.authenticate('oidc', {
+      successRedirect: '/',
+      failureRedirect: '/api/login',
+      failureFlash: true,
+      scope: 'openid profile offline_access'
     })
-
-    const authUrl = client.buildAuthorizationUrl(config, params)
-    res.redirect(authUrl.href)
-  })
-
-  app.get('/api/secure/redirect', async (req: Request, res: Response) => {
-    try {
-      const tokens = await client.authorizationCodeGrant(
-        config,
-        new URL(req.url, process.env.REDIRECT_URI),
-        {
-          expectedState: req.session.oidcState
-        }
-      )
-
-      const claims = tokens.claims()
-      if (!claims) {
-        throw new Error('No ID token claims in token response')
-      }
-
-      const userinfo = await client.fetchUserInfo(config, tokens.access_token, claims.sub)
-      await insertUserToDatabase(userinfo)
-
-      const name = `${userinfo.given_name} ${userinfo.family_name}`
-      const user: User = { uid: userinfo.uid as string, name }
-
-      req.login(user, (err) => {
-        if (err) {
-          log.error('Login failed', err)
-          return res.redirect(process.env.FAILURE_REDIRECT_URI as string)
-        }
-        delete req.session.oidcState
-        res.redirect(process.env.SUCCESS_REDIRECT_URI as string)
-      })
-    } catch (err) {
-      log.error('OIDC callback failed', err)
-      res.redirect(process.env.FAILURE_REDIRECT_URI as string)
-    }
-  })
+  )
 
   app.post('/api/logout', (req: Request, res: Response): void => {
     const cookieRef: Cookie = req.session.cookie
@@ -131,6 +89,15 @@ export async function registerOidcStrategy(app: Express) {
       res.status(200).json({ message: 'logged out' })
     })
   })
+
+  app.get(
+    '/api/secure/redirect',
+    passport.authenticate('oidc', {
+      failureRedirect: process.env.FAILURE_REDIRECT_URI,
+      failureFlash: true,
+      successRedirect: process.env.SUCCESS_REDIRECT_URI
+    })
+  )
 
   log.info('OIDC authentication initialized')
 }

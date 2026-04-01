@@ -435,8 +435,7 @@ services:
             "RedirectUris": ["https://demo.aoe.fi/api/secure/redirect"],
             "AllowedScopes": ["openid", "offline_access", "profile"],
             "AllowOfflineAccess" : "true", 
-            "AllowedGrantTypes": ["authorization_code"],
-            "RequirePkce": false
+            "AllowedGrantTypes": ["authorization_code"]
           }
         ]
       ASPNETCORE_URLS: http://+:80
