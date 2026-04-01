@@ -23,7 +23,13 @@ function createCustomFetch(timeout: number, maxRetries: number): client.CustomFe
         })
         if (!res.ok) {
           const body = await res.clone().text()
-          log.error(`OIDC fetch error: ${res.status} ${body}`)
+          const errorObject = {
+            status: res.status,
+            statusText: res.statusText,
+            url,
+            body
+          }
+          log.error(`OIDC client fetch error: `, errorObject)
         }
         return res
       } catch (err) {
