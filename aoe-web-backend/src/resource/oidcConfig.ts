@@ -15,6 +15,10 @@ interface User {
 
 function createCustomFetch(timeout: number, maxRetries: number): client.CustomFetch {
   return async (url, options) => {
+    const requestBody = (options as RequestInit).body
+    if (requestBody) {
+      log.info('OIDC client fetch request:', { url, body: requestBody.toString() })
+    }
     for (let attempt = 0; ; attempt++) {
       try {
         const res = await fetch(url, {
