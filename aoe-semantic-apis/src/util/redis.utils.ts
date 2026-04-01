@@ -66,6 +66,7 @@ export const setAsync = async (key: string, value: string): Promise<void> => {
     await client.set(key, value)
   } catch (err) {
     winstonLogger.error('REDIS set failed for key %s: %o', key, err)
+    throw err
   }
 }
 
