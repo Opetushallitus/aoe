@@ -15,10 +15,6 @@ interface User {
 
 function createCustomFetch(timeout: number, maxRetries: number): client.CustomFetch {
   return async (url, options) => {
-    const requestBody = (options as RequestInit).body
-    if (requestBody) {
-      log.info('OIDC client fetch request:', { url, body: requestBody.toString() })
-    }
     for (let attempt = 0; ; attempt++) {
       try {
         const res = await fetch(url, {
@@ -57,7 +53,7 @@ export async function registerOidcStrategy(app: Express) {
     new URL(process.env.PROXY_URI as string),
     process.env.CLIENT_ID as string,
     process.env.CLIENT_SECRET as string,
-    undefined,
+    client.ClientSecretBasic(process.env.CLIENT_SECRET as string),
     {
       [client.customFetch]: customFetch,
       execute: process.env.NODE_ENV === 'development' ? [client.allowInsecureRequests] : []
