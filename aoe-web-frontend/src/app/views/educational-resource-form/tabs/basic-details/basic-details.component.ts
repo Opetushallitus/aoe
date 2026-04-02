@@ -13,7 +13,7 @@ import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
-import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper'
 
 import { environment } from '@environments/environment'
 import { addCustomItem, descriptionValidator, textInputValidator } from '@shared/shared.module'
@@ -37,7 +37,7 @@ import { NgSelectComponent } from '@ng-select/ng-select'
     ReactiveFormsModule,
     FocusRemoverDirective,
     TooltipDirective,
-    ImageCropperModule,
+    ImageCropperComponent,
     ProgressbarComponent,
     NgClass,
     NgSelectComponent,

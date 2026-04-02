@@ -20,7 +20,7 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper'
 import { Subscription } from 'rxjs'
 import {
   addCustomItem,
@@ -49,7 +49,7 @@ import { NgSelectComponent } from '@ng-select/ng-select'
     ReactiveFormsModule,
     FocusRemoverDirective,
     TooltipDirective,
-    ImageCropperModule,
+    ImageCropperComponent,
     ProgressbarComponent,
     NgClass,
     NgSelectComponent,

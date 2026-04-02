@@ -29,7 +29,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
 import { CollapseModule } from 'ngx-bootstrap/collapse'
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker'
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar'
-import { ImageCropperModule } from 'ngx-image-cropper'
+import { ImageCropperComponent } from 'ngx-image-cropper'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { ToastrModule } from 'ngx-toastr'
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
@@ -70,7 +70,7 @@ fetch('./assets/config/config.json')
           CollapseModule.forRoot(),
           BsDatepickerModule.forRoot(),
           ProgressbarModule.forRoot(),
-          ImageCropperModule,
+          ImageCropperComponent,
           DragDropModule,
           ToastrModule.forRoot(),
           PdfJsViewerModule,

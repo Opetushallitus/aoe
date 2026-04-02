@@ -19,7 +19,7 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper'
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper'
 import { Subscription } from 'rxjs'
 import { environment } from '../../../../environments/environment'
 import {
@@ -48,7 +48,7 @@ import { NgSelectComponent } from '@ng-select/ng-select'
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,
-    ImageCropperModule,
+    ImageCropperComponent,
     ProgressbarComponent,
     NgClass,
     NgSelectComponent,

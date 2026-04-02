@@ -9,7 +9,9 @@ export const MateriaaliFormi = (
   const locators = {
     tallenna: page.getByRole('button', { name: 'Tallenna' }),
     seuraava: page.getByRole('button', { name: 'Seuraava' }),
-    edellinen: page.getByRole('button', { name: 'Edellinen' })
+    edellinen: page.getByRole('button', { name: 'Edellinen' }),
+    lataaKansikuva: page.getByRole('button', { name: 'Lataa kansikuva' }),
+    tallennaMuutokset: page.getByRole('button', { name: 'Tallenna muutokset' })
   }
   const tiedostot = {
     oppimateriaalinNimi: async (materiaaliNimi: string) => {
@@ -48,6 +50,14 @@ export const MateriaaliFormi = (
   }
 
   const perustiedot = {
+    lataaKansikuva: async (imagePath?: string) => {
+      const filePath = imagePath ?? path.join(__dirname, '../../test-files/test-thumbnail.png')
+      await locators.lataaKansikuva.click()
+      await page.locator('#image').setInputFiles(filePath)
+      await expect(page.locator('.modal-body img.border')).toBeVisible({ timeout: 10000 })
+      await locators.tallennaMuutokset.click()
+      await expect(page.locator('form img.img-fluid.border')).toBeVisible()
+    },
     lisaaHenkilo: async (name = 'Tester, Testi') => {
       await page.getByRole('button', { name: 'Lisää henkilö' }).click()
       await page.getByRole('textbox', { name: 'Tekijän nimi *' }).fill(name)
