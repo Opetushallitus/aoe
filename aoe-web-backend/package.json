@@ -68,7 +68,7 @@
     "winston": "^3.3.3"
   },
   "overrides": {
-    "qs": "6.15.0"
+    "qs": "6.15.1"
   },
   "devDependencies": {
     "@types/compression": "1.8.1",
