@@ -219,16 +219,8 @@
       "matchPackageNames": ["node-cron", "@types/node-cron"]
     },
     {
-      "groupName": "Node Schedule",
-      "matchPackageNames": ["node-schedule", "@types/node-schedule"]
-    },
-    {
       "groupName": "Passport",
       "matchPackageNames": ["passport", "@types/passport"]
-    },
-    {
-      "groupName": "PDF Parse",
-      "matchPackageNames": ["pdf-parse", "@types/pdf-parse"]
     },
     {
       "groupName": "Redis",

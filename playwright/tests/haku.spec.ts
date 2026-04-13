@@ -12,7 +12,7 @@ test('käyttäjä voi etsiä luodun oppimateriaalin etusivun haulla', async ({
     await etusivu.goto()
     const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
     await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
-  }).toPass({ timeout: 60_000, intervals: [5000] })
+  }).toPass({ timeout: 30_000, intervals: [5000] })
 
   const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
   const avattuMateriaali = await hakuTulokset.clickMateriaali(julkaistuMateriaaliNimi)
@@ -30,7 +30,7 @@ test('käyttäjä voi etsiä oppimateriaalia koulutusasteen perusteella', async 
     await etusivu.valitseKoulutusaste('korkeakoulutus')
     const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
     await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
-  }).toPass({ timeout: 60_000, intervals: [5000] })
+  }).toPass({ timeout: 30_000, intervals: [5000] })
 })
 
 test('käyttäjä voi etsiä oppimateriaalia oppimateriaalin tyypin perusteella', async ({
@@ -44,7 +44,7 @@ test('käyttäjä voi etsiä oppimateriaalia oppimateriaalin tyypin perusteella'
     await etusivu.valitseOppimateriaalinTyyppi('teksti')
     const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
     await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
-  }).toPass({ timeout: 60_000, intervals: [5000] })
+  }).toPass({ timeout: 30_000, intervals: [5000] })
 })
 
 test('käyttäjä voi etsiä oppimateriaalia tieteenalan perusteella', async ({
@@ -58,5 +58,5 @@ test('käyttäjä voi etsiä oppimateriaalia tieteenalan perusteella', async ({
     await etusivu.valitseOppiaine('Matematiikka Luonnontieteet')
     const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
     await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
-  }).toPass({ timeout: 60_000, intervals: [5000] })
+  }).toPass({ timeout: 30_000, intervals: [5000] })
 })

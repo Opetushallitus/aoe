@@ -26,7 +26,6 @@ import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
 import { promisify } from 'node:util'
 import path from 'path'
-import pdfParser from 'pdf-parse'
 import { ColumnSet, ITask } from 'pg-promise'
 import s3Zip, { ArchiveOptions } from 's3-zip'
 import { Transaction } from 'sequelize'
@@ -328,29 +327,11 @@ const uploadFileToLocalDisk = (
   })
 }
 
-const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filePath, (err, data: Buffer) => {
-      if (err) {
-        reject(err)
-        return
-      }
-      pdfParser(data)
-        .then((info) => {
-          const isEncrypted: boolean = !!info.info.Encrypt
-          resolve(isEncrypted)
-        })
-        .catch((err) => {
-          if (err.name === 'PasswordException') {
-            resolve(true)
-            return
-          } else {
-            reject(err)
-            return
-          }
-        })
-    })
-  })
+const ENCRYPT_MARKER = Buffer.from('/Encrypt')
+
+const detectEncyptedPDF = async (filePath: string): Promise<boolean> => {
+  const data = await fs.promises.readFile(filePath)
+  return data.includes(ENCRYPT_MARKER)
 }
 
 const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
