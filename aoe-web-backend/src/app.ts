@@ -125,16 +125,9 @@ export async function initApp() {
     checkAuthenticated,
     createProxyMiddleware({
       target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
-      logLevel: 'debug',
-      logProvider: () => ({
-        debug: log.debug,
-        info: log.info,
-        warn: log.warn,
-        error: log.error,
-        log: log.info
-      }),
+      logger: log,
       changeOrigin: true,
-      pathRewrite: (path: string) => path.replace('api/v2', 'analytics/api')
+      pathRewrite: (path: string) => `/analytics/api/statistics${path}`
     })
   )
 

@@ -208,7 +208,7 @@
     },
     {
       "groupName": "Mime",
-      "matchPackageNames": ["mime", "@types/mime"]
+      "matchPackageNames": ["mime"]
     },
     {
       "groupName": "Morgan",
