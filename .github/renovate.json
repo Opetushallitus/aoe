@@ -58,8 +58,10 @@
     {
       "automerge": true,
       "dependencyDashboardApproval": false,
-      "matchPackagePatterns": ["^@angular"],
-      "groupName": "Angular framework"
+      "groupName": "Angular framework",
+      "matchPackageNames": [
+        "/^@angular/"
+      ]
     },
     {
       "automerge": true,
