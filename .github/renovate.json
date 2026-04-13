@@ -4,7 +4,8 @@
     "config:best-practices",
     "workarounds:javaLTSVersions",
     ":rebaseStalePrs",
-    "security:minimumReleaseAgeNpm"
+    "security:minimumReleaseAgeNpm",
+    ":pinAllExceptPeerDependencies"
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
