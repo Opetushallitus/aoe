@@ -51,5 +51,8 @@ Thumbs.db
 # Educational Materials
 /src/files
 
+# Generated runtime config
+/src/assets/config/config.json
+
 # Angular cache
 .angular/

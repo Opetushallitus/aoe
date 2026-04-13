@@ -3,7 +3,7 @@ services:
   aoe-web-frontend:
     build:
       context: aoe-web-frontend
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/Dockerfile.local
       args:
         NODE_VERSION: ${NODE_VERSION}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
@@ -15,7 +15,8 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ./docker/dev/webdata:/usr/share/nginx/html/webdata
+      - ./aoe-web-frontend/src:/app/src:rw
+      - ./aoe-web-frontend/public:/app/public:rw
     user: "root:5606"
     ports:
       - 8282:80

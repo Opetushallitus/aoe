@@ -1,0 +1,12 @@
+ARG NODE_VERSION
+FROM node:${NODE_VERSION}-bookworm
+
+WORKDIR /app
+
+COPY package.json package-lock.json angular.json tsconfig.json ./
+RUN npm ci
+
+# Source code mounted as volume at runtime
+EXPOSE 8080
+
+CMD sh -c 'mkdir -p src/assets/config && echo "{\"env\":\"${ENV}\"}" > src/assets/config/config.json && npx ng serve --host 0.0.0.0 --port 8080'

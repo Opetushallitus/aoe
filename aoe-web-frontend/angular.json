@@ -157,7 +157,8 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "buildTarget": "ng:build"
+            "buildTarget": "ng:build",
+            "allowedHosts": ["demo.aoe.fi"]
           },
           "configurations": {
             "prod": {
