@@ -21,6 +21,8 @@ readonly repo
 
 NODE_VERSION="$(cat "$repo/.nvmrc")" && export NODE_VERSION && readonly NODE_VERSION
 
+PLAYWRIGHT_VERSION="$(jq -r '.packages."node_modules/@playwright/test".version' "$repo/playwright/package-lock.json")" && export PLAYWRIGHT_VERSION && readonly PLAYWRIGHT_VERSION
+
 local_compose="docker compose -f $repo/docker-compose.local-dev.yml"
 readonly local_compose
 

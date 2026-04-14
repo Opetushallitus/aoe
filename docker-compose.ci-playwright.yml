@@ -32,7 +32,9 @@ services:
   test-runner:
     build:
       context: .
-      dockerfile: Dockerfile.playwright-test-runner 
+      dockerfile: Dockerfile.playwright-test-runner
+      args:
+        PLAYWRIGHT_VERSION: ${PLAYWRIGHT_VERSION}
     networks:
       - default
     volumes:
