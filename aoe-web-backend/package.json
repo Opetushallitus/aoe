@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@lumieducation/h5p-server": "10.0.4",
-    "@opensearch-project/opensearch": "2.13.0",
+    "@opensearch-project/opensearch": "3.5.1",
     "aws-msk-iam-sasl-signer-js": "1.0.3",
     "aws-sdk": "2.1693.0",
     "compression": "1.8.1",
