@@ -11,7 +11,7 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "1.58.2",
+    "@playwright/test": "1.59.1",
     "@types/node": "24.12.2",
     "typescript": "6.0.2"
   }
