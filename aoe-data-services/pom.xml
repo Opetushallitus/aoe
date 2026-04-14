@@ -60,16 +60,13 @@
           <scope>provided</scope>
       </dependency>
       <dependency>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>jaxb2-maven-plugin</artifactId>
-          <version>3.3.0</version>
-          <exclusions>
-              <!-- Exclude Guava 0.9.9 - Version 20.0 provided by springfox-swagger2 -->
-              <exclusion>
-                  <groupId>org.sonatype.sisu</groupId>
-                  <artifactId>sisu-guava</artifactId>
-              </exclusion>
-          </exclusions>
+          <groupId>jakarta.xml.bind</groupId>
+          <artifactId>jakarta.xml.bind-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.glassfish.jaxb</groupId>
+          <artifactId>jaxb-runtime</artifactId>
+          <scope>runtime</scope>
       </dependency>
       <dependency>
           <groupId>org.springframework.boot</groupId>
