@@ -180,7 +180,7 @@ services:
       - ./aoe-web-backend/.env.ci
 
   redis:
-    image: redis:6.2.21-alpine@sha256:5cb97148754ce2ad8a8364a1c0fb266d355d203dde69a75656129fee4d9b73da
+    image: redis:6.2.21-alpine@sha256:2da4679295e9402100d6ddafe65705f0fefc4173ff7bd0968c1c09f14e940779
     container_name: redis
     privileged: true
     command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
