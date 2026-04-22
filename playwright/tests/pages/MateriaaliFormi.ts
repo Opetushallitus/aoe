@@ -25,13 +25,13 @@ export const MateriaaliFormi = (
           .fill(materiaaliNimi)
       }
     },
-    lisaaTiedosto: async (nth = 0) => {
+    lisaaTiedosto: async (fileName = 'blank.pdf', nth = 0) => {
       const fileLocator = `#file${nth}`
       await page.locator(fileLocator).click()
       await page
         .locator(fileLocator)
-        .setInputFiles(path.join(__dirname, '../../test-files/blank.pdf'))
-      await expect(page.locator(fileLocator)).toHaveValue('C:\\fakepath\\blank.pdf')
+        .setInputFiles(path.join(__dirname, `../../test-files/${fileName}`))
+      await expect(page.locator(fileLocator)).toHaveValue(`C:\\fakepath\\${fileName}`)
     },
     lisaaVerkkosivu: async (verkkosivu: string) => {
       const linkLocator = '#link0'
@@ -46,6 +46,12 @@ export const MateriaaliFormi = (
     seuraava: async () => {
       await locators.seuraava.click()
       return perustiedot
+    },
+    siirryEsikatseluun: async () => {
+      while (await locators.seuraava.isVisible()) {
+        await locators.seuraava.click()
+      }
+      return esikatseluJaTallennus
     }
   }
 
@@ -54,7 +60,9 @@ export const MateriaaliFormi = (
       const filePath = imagePath ?? path.join(__dirname, '../../test-files/test-thumbnail.png')
       await locators.lataaKansikuva.click()
       await page.locator('#image').setInputFiles(filePath)
-      await expect(page.locator('.modal-body img.border')).toBeVisible({ timeout: 10000 })
+      await expect(page.locator('.modal-body img.border')).toBeVisible({
+        timeout: 10000
+      })
       await locators.tallennaMuutokset.click()
       await expect(page.locator('form img.img-fluid.border')).toBeVisible()
     },
@@ -81,7 +89,7 @@ export const MateriaaliFormi = (
   }
 
   const koulutustiedot = {
-    valitseKoulutusasteet: async (...asteet) => {
+    valitseKoulutusasteet: async (...asteet: string[]) => {
       await page.getByRole('combobox').click()
       for (const aste of asteet) {
         await page.getByRole('option', { name: aste }).click()

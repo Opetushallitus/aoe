@@ -18,7 +18,9 @@ export const Materiaali = (page: Page) => {
     preview: async (tiedosto: string) => {
       const materiaaliNumero = await getMateriaaliNumero()
       return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
-    }
+    },
+    versiohistoriaToggle: page.getByRole('button', { name: 'Versiohistoria' }),
+    versiohistoriaItems: page.locator('#version-history .dropdown-item-version-history')
   }
 
   const expectHeading = async (materiaali: string) => {
@@ -43,6 +45,44 @@ export const Materiaali = (page: Page) => {
 
   const lataaKaikkiTiedostot = async () => {
     return lataaTiedosto('Lataa kaikki tiedostot')
+  }
+
+  const expectVersiohistoriaPiilotettu = async () => {
+    await expect(locators.versiohistoriaToggle).toBeHidden()
+  }
+
+  const expectVersiohistoriaNakyvissa = async () => {
+    await expect(locators.versiohistoriaToggle).toBeVisible()
+  }
+
+  const avaaVersiohistoria = async () => {
+    if (!(await locators.versiohistoriaItems.first().isVisible())) {
+      await locators.versiohistoriaToggle.click()
+    }
+    await expect(locators.versiohistoriaItems.first()).toBeVisible()
+    return locators.versiohistoriaItems
+  }
+
+  const valitseVersio = async (index: number) => {
+    await avaaVersiohistoria()
+    await locators.versiohistoriaItems.nth(index).click()
+    await page.waitForURL(/\/#\/materiaali\/\d+\/\d+/, { waitUntil: 'domcontentloaded' })
+  }
+
+  // The tablist renders file names with the extension stripped (e.g. 'blank.pdf' -> 'blank'),
+  // so callers can pass either the real file name or the bare stem.
+  const tabNameForFile = (fileName: string) => fileName.replace(/\.[^.]+$/, '')
+
+  const expectTiedosto = async (fileName: string) => {
+    await expect(
+      page.getByRole('tab', { name: tabNameForFile(fileName), exact: true })
+    ).toBeVisible()
+  }
+
+  const expectEiTiedostoa = async (fileName: string) => {
+    await expect(
+      page.getByRole('tab', { name: tabNameForFile(fileName), exact: true })
+    ).toHaveCount(0)
   }
 
   const clickVerkkosivu = async () => {
@@ -89,6 +129,12 @@ export const Materiaali = (page: Page) => {
     clickVerkkosivu,
     lisaaKokoelmaan,
     lisaaArvio,
-    clickKatsoKaikkiArviot
+    clickKatsoKaikkiArviot,
+    expectVersiohistoriaPiilotettu,
+    expectVersiohistoriaNakyvissa,
+    avaaVersiohistoria,
+    valitseVersio,
+    expectTiedosto,
+    expectEiTiedostoa
   }
 }

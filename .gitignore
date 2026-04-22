@@ -13,4 +13,6 @@
 /screenshots
 /node_modules
 
+superpowers/
+
 .package-lock.json.checksum
