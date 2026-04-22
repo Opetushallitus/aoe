@@ -137,7 +137,7 @@ services:
 
 
   postgres:
-    image: postgres:15-alpine@sha256:1c52f5ad23db5d7648a63634444af76de48e63b860fccbe3e3a5458b2812eaed
+    image: postgres:15-alpine@sha256:eb72e44fdca6270e882be90645eaf7af032f55a45dbf096ba4dd9d08195b08e3
     container_name: aoe-postgres
     environment:
       POSTGRES_USER: aoeuser
