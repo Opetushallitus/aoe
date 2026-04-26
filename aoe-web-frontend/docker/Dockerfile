@@ -9,7 +9,7 @@ RUN npm ci
 ADD ./ /app/
 RUN npm run build
 
-FROM openresty/openresty:1.27.1.2-4-bullseye@sha256:95a56b64dfa3f22cfe523f8df1d129f6896d1a7189da87ad174c6cfe464b1cf5
+FROM openresty/openresty:1.29.2.3-4-bullseye@sha256:3aa2b3eb634ea01b2ac7518af1d2c0799b46ab9c39eb6712f2b2afa99e7f0d11
 
 RUN apt-get -q -o=Dpkg::Use-Pty=0 update && apt-get -q -o=Dpkg::Use-Pty=0 install curl -y
 
