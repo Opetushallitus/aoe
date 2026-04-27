@@ -70,3 +70,11 @@ sso_account_id = 381492241240
 sso_role_name = AdministratorAccess
 region = eu-west-1
 output = json
+
+## Testien ajaminen
+
+Testit ajetaan normaalisti komennolla `./run-tests.sh` ja Playwrightin UI:n saa näkyviin
+`--ui`-flagilla. Lokaalisti ajettaessa testit käyttävät oletuksena useampaa workeria, jolloin
+testien tulokset eivät ole luotettavia. Testit voi pakottaa ajamaan yhdellä workerilla joko
+Playwrightin UI:ssa tai käyttämällä `--workers=1`-flagia komentorivillä. CI ajaa testit aina
+yhdellä workerilla.

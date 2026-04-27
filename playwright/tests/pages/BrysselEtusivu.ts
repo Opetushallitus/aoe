@@ -8,14 +8,14 @@ export const BrysselEtusivu = (page: Page) => {
     await page.goto('/')
     await expect(page.getByRole('main')).toBeVisible()
     await page.goto('/#/bryssel')
-    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible()
+    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible({ timeout: 500 })
   }
 
   const clickBrysselAnalytiikka = async () => {
     await page.getByRole('main').getByRole('link', { name: 'Analytiikka' }).click()
     const hyvaksyKayttoehdot = page.getByText('Olen lukenut')
     try {
-      await hyvaksyKayttoehdot.click({ timeout: 500 })
+      await hyvaksyKayttoehdot.click({ timeout: 1000 })
       await page.getByRole('button', { name: 'Tallenna' }).click()
       await page.getByRole('main').getByRole('link', { name: 'Analytiikka' }).click()
     } catch (_e) {
