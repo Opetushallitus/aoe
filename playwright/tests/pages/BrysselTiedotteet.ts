@@ -83,7 +83,7 @@ export const BrysselTiedotteet = (page: Page) => {
 }
 
 export async function siivoaTiedote(page: Page, teksti: string) {
-  const { BrysselEtusivu } = await import('./BrysselEtusivu')
+  const { BrysselEtusivu } = await import('./BrysselEtusivu.js')
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const tiedotteet = await brysselPage.clickBrysselPalvelunHallinta()

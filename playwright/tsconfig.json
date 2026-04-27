@@ -9,6 +9,6 @@
     "types": ["node"],
     "outDir": "dist"
   },
-  "include": ["tests/**/*.ts"],
+  "include": ["playwright.config.ts", "tests/**/*.ts"],
   "exclude": ["node_modules"]
 }
