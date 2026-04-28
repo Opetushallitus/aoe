@@ -106,7 +106,7 @@ test('OAI-PMH ListRecords returns the expected contract shape for a newly create
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusi = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusi.randomMateriaaliNimi()
-  await uusi.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  await uusi.taytaJaTallennaUusiMateriaali(materiaaliNimi, ['korkeakoulutus'], false)
 
   const untilDate = isoSecondsZ(new Date(Date.now() + 120_000))
 

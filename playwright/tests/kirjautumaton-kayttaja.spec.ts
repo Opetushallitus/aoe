@@ -41,6 +41,30 @@ test('kirjautumaton käyttäjä voi katsella materiaalin tiedostoja esikatselun�
   await expect(preview).toBeVisible()
 })
 
+test('kirjautumaton käyttäjä voi nähdä materiaalin lisenssin materiaalisivulla', async ({
+  page,
+  browser
+}) => {
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+
+  const newContext = await browser.newContext({ storageState: undefined })
+  const kirjautumatonEtusivu = Etusivu(await newContext.newPage())
+  await kirjautumatonEtusivu.goto()
+  await kirjautumatonEtusivu.header.fi.click()
+  await expect(kirjautumatonEtusivu.header.kirjaudu).toBeVisible()
+  await kirjautumatonEtusivu.clickMateriaali(materiaaliNimi)
+
+  await expect(kirjautumatonEtusivu.page.getByRole('heading', { name: 'Lisenssi' })).toBeVisible()
+  await expect(kirjautumatonEtusivu.page.getByRole('link', { name: 'CC BY 4.0' })).toBeVisible()
+
+  await newContext.close()
+})
+
 test('kirjautumaton käyttämä voi ilman kirjautumista siirtyä materiaalin sisältöön, kun se on linkki ulkoiseen verkko-osoitteeseen.', async ({
   page,
   browser

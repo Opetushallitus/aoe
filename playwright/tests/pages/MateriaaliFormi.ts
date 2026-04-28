@@ -33,6 +33,10 @@ export const MateriaaliFormi = (
         .setInputFiles(path.join(__dirname, `../../test-files/${fileName}`))
       await expect(page.locator(fileLocator)).toHaveValue(`C:\\fakepath\\${fileName}`)
     },
+    valitseTiedostonKieli: async (kieli: string, nth = 0) => {
+      await page.locator(`ng-select#language${nth}`).click()
+      await page.getByRole('option', { name: kieli, exact: true }).click()
+    },
     lisaaVerkkosivu: async (verkkosivu: string) => {
       const linkLocator = '#link0'
       await page.locator(linkLocator).fill(verkkosivu)
@@ -78,6 +82,14 @@ export const MateriaaliFormi = (
       await page.locator('#learningResourceTypes > .ng-select-container').click()
       await page.getByRole('option', { name: 'teksti' }).click()
     },
+    lisaaPaaasiallinenKohderyhma: async (kohderyhma = 'Oppija') => {
+      await page.locator('#educationalRoles > .ng-select-container').click()
+      await page.getByRole('option', { name: kohderyhma, exact: true }).click()
+    },
+    lisaaPaaasiallinenKayttotarkoitus: async (kayttotarkoitus = 'Kurssimateriaali') => {
+      await page.locator('#educationalUses > .ng-select-container').click()
+      await page.getByRole('option', { name: kayttotarkoitus, exact: true }).click()
+    },
     seuraava: async () => {
       await locators.seuraava.click()
       return koulutustiedot
@@ -90,10 +102,12 @@ export const MateriaaliFormi = (
 
   const koulutustiedot = {
     valitseKoulutusasteet: async (...asteet: string[]) => {
+      await page.keyboard.press('Escape')
       await page.getByRole('combobox').click()
       for (const aste of asteet) {
         await page.getByRole('option', { name: aste }).click()
       }
+      await page.keyboard.press('Escape')
       //await page.locator('.ng-arrow-wrapper').first().click();
     },
     valitseTieteenala: async (...tieteenalat: string[]) => {
@@ -102,6 +116,23 @@ export const MateriaaliFormi = (
       for (const tieteenala of tieteenalat) {
         await page.getByRole('option', { name: tieteenala }).click()
       }
+      await page.keyboard.press('Escape')
+    },
+    valitseTutkintoonValmistavanKoulutuksenOppiaine: async (...oppiaineet: string[]) => {
+      await page.keyboard.press('Escape')
+      await page.locator('ng-select#preparatoryEducationSubjects').click()
+      for (const oppiaine of oppiaineet) {
+        await page.getByRole('option', { name: oppiaine, exact: true }).click()
+      }
+      await page.keyboard.press('Escape')
+    },
+    valitseAmmatillisenKoulutuksenYhteinenTutkinnonOsa: async (...tutkinnonOsat: string[]) => {
+      await page.keyboard.press('Escape')
+      await page.locator('ng-select#vocationalCommonUnits').click()
+      for (const tutkinnonOsa of tutkinnonOsat) {
+        await page.getByRole('option', { name: tutkinnonOsa, exact: true }).click()
+      }
+      await page.keyboard.press('Escape')
     },
     seuraava: async () => {
       await locators.seuraava.click()
@@ -114,6 +145,22 @@ export const MateriaaliFormi = (
   }
 
   const tarkemmatTiedot = {
+    valitseSaavutettavuudenOminaisuudet: async (...ominaisuudet: string[]) => {
+      await page.keyboard.press('Escape')
+      await page.locator('ng-select#accessibilityFeatures').click()
+      for (const ominaisuus of ominaisuudet) {
+        await page.getByRole('option', { name: ominaisuus, exact: true }).click()
+      }
+      await page.keyboard.press('Escape')
+    },
+    valitseSaavutettavuudenEsteet: async (...esteet: string[]) => {
+      await page.keyboard.press('Escape')
+      await page.locator('ng-select#accessibilityHazards').click()
+      for (const este of esteet) {
+        await page.getByRole('option', { name: este, exact: true }).click()
+      }
+      await page.keyboard.press('Escape')
+    },
     seuraava: async () => {
       await locators.seuraava.click()
       return lisenssitiedot
