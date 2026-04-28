@@ -23,7 +23,7 @@ Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat
 
 #### Ajaminen Dockerilla
 
-Koko AOE:n saa paikallisesti ajoon `./start-local-env.sh` skiptin avulla.
+Koko AOE:n saa paikallisesti ajoon `./start-local-env.sh` skriptin avulla.
 Skripti käynnistää docker compose:n avulla kaikki AOE palvelut, frontin ja riippuvuudet docker kontteihin.
 
 Ympäristössä on myös NGINX, jonka kautta kaikki web sovelluksen https-pyynnöt menevät.
