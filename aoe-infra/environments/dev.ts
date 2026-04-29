@@ -138,7 +138,18 @@ export const dev: EnvironmentConfig = {
         STREAM_STATUS_HOST: 'streaming-app.dev.aoe.local',
         STREAM_STATUS_PORT: '8080',
         STREAM_STATUS_PATH: '/stream/api/v1/material/',
-        STREAM_STATUS_HOST_HTTPS_ENABLED: '0'
+        STREAM_STATUS_HOST_HTTPS_ENABLED: '0',
+        EXTERNAL_API_CALLERID_OID: '1.2.246.562.10.2013112012294919827487',
+        EXTERNAL_API_CALLERID_SERVICE: 'aoe',
+        EXTERNAL_API_OPINTOPOLKU_KOODISTOT:
+          'https://virkailija.opintopolku.fi/koodisto-service/rest/json',
+        EXTERNAL_API_FINTO_ASIASANAT: 'http://api.finto.fi/rest/v1',
+        EXTERNAL_API_SUOMI_KOODISTOT:
+          'https://koodistot.suomi.fi/codelist-api/api/v1/coderegistries',
+        EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT:
+          'https://virkailija.opintopolku.fi/organisaatio-service/rest',
+        EXTERNAL_API_OPINTOPOLKU_EPERUSTEET:
+          'https://virkailija.opintopolku.fi/eperusteet-service/api'
       }
     },
     streaming: {
