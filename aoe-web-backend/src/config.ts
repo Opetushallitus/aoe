@@ -40,6 +40,16 @@ process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH')
 process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED')
 process.env.PG_USER || missingEnvs.push('PG_USER')
 process.env.PG_PASS || missingEnvs.push('PG_PASS')
+process.env.EXTERNAL_API_CALLERID_OID || missingEnvs.push('EXTERNAL_API_CALLERID_OID')
+process.env.EXTERNAL_API_CALLERID_SERVICE || missingEnvs.push('EXTERNAL_API_CALLERID_SERVICE')
+process.env.EXTERNAL_API_OPINTOPOLKU_EPERUSTEET ||
+  missingEnvs.push('EXTERNAL_API_OPINTOPOLKU_EPERUSTEET')
+process.env.EXTERNAL_API_OPINTOPOLKU_KOODISTOT ||
+  missingEnvs.push('EXTERNAL_API_OPINTOPOLKU_KOODISTOT')
+process.env.EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT ||
+  missingEnvs.push('EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT')
+process.env.EXTERNAL_API_FINTO_ASIASANAT || missingEnvs.push('EXTERNAL_API_FINTO_ASIASANAT')
+process.env.EXTERNAL_API_SUOMI_KOODISTOT || missingEnvs.push('EXTERNAL_API_SUOMI_KOODISTOT')
 
 if (missingEnvs.length > 0) {
   console.error('All required environment variables are not available: %s', missingEnvs)
@@ -155,5 +165,16 @@ export const config = {
     path: process.env.STREAM_STATUS_PATH as string,
     port: process.env.STREAM_STATUS_PORT as string,
     httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean
-  }
+  },
+
+    // External APIs.
+  EXTERNAL_API: {
+    oid: process.env.EXTERNAL_API_CALLERID_OID as string,
+    service: process.env.EXTERNAL_API_CALLERID_SERVICE as string,
+    ePerusteet: process.env.EXTERNAL_API_OPINTOPOLKU_EPERUSTEET as string,
+    opintopolkuKoodistot: process.env.EXTERNAL_API_OPINTOPOLKU_KOODISTOT as string,
+    organisaatiot: process.env.EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT as string,
+    asiasanat: process.env.EXTERNAL_API_FINTO_ASIASANAT as string,
+    suomiKoodistot: process.env.EXTERNAL_API_SUOMI_KOODISTOT as string
+  } as const
 }

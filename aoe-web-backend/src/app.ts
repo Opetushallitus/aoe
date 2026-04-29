@@ -3,6 +3,7 @@ import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
 import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
+import { refV1 } from '@api/ref-routes-v1/v1'
 import { v1 } from '@api/routes-v1/v1'
 import { v2 } from '@api/routes-v2/v2'
 import { registerOidcStrategy } from '@resource/oidcConfig'
@@ -12,6 +13,7 @@ import {
   startScheduledCleaning,
   startScheduledMailJobs,
   startScheduledPdfConvertAndUpstreamOfficeFiles,
+  startScheduledReferenceDataUpdate,
   startScheduledRegistrationForPIDs,
   startScheduledSearchIndexUpdate
 } from '@util/aoeScheduler'
@@ -75,6 +77,10 @@ export async function initApp() {
   const apiRouterRoot: Router = Router()
   h5p(apiRouterRoot)
   embed(apiRouterRoot)
+
+  // Load reference API version 1.0
+  const refRouterV1: Router = Router()
+  refV1(refRouterV1)
 
   // Load API version 1.0
   const apiRouterV1: Router = Router()
@@ -150,6 +156,7 @@ export async function initApp() {
   app.use(express.json({ limit: '1mb' }))
   app.use(express.urlencoded({ extended: true, limit: '1mb' }))
   app.use('/favicon.ico', express.static('./views/favicon.ico'))
+  app.use('/ref/api/v1', refRouterV1)
   app.use('/', apiRouterRoot)
   app.use('/api/v1/', apiRouterV1)
   app.use('/api/v2/', apiRouterV2)
@@ -170,6 +177,7 @@ export async function initApp() {
   startScheduledCleaning()
   startScheduledRegistrationForPIDs()
   startScheduledSearchIndexUpdate()
+  startScheduledReferenceDataUpdate()
   startScheduledMailJobs()
   startScheduledPdfConvertAndUpstreamOfficeFiles()
 

@@ -4,6 +4,7 @@ import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/
 import { updateEsDocument } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
+import { updateReferenceData } from '@util/ref/redis.utils'
 import * as log from '@util/winstonLogger'
 import { Cron } from 'croner'
 
@@ -11,6 +12,8 @@ const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *'
 const pidSchedule = process.env.PID_CRON_SCHEDULE || '0 15 1 * * *'
 const fileCleaningSchedule = process.env.FILE_CLEANING_CRON_SCHEDULE || '0 0 1 * * *'
 const indexUpdateSchedule = process.env.INDEX_UPDATE_CRON_SCHEDULE || '0 30 1 * * *'
+const referenceDataUpdateSchedule =
+  process.env.REFERENCE_DATA_UPDATE_CRON_SCHEDULE || '0 0 3 * * 0'
 
 export const startScheduledCleaning = (): void => {
   const dirCleaningScheduler = new Cron(fileCleaningSchedule, async (): Promise<void> => {
@@ -58,6 +61,25 @@ export const startScheduledSearchIndexUpdate = (): void => {
     }
   })
   log.info('Scheduled job active for search index update at 1:30 AM (UTC)')
+}
+
+export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
+  if (!process.env.REFERENCE_DATA_RUN_SCHEDULED || process.env.REFERENCE_DATA_RUN_SCHEDULED !== 'true') {
+    return
+  }
+
+  await updateReferenceData()
+
+  const referenceDataSceduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {
+    try {
+      await updateReferenceData()
+      log.debug('Scheduled reference data update completed.')
+    } catch (err: unknown) {
+      log.error('Scheduled reference data update failed', err)
+      referenceDataSceduler.stop()
+    }
+  })
+  log.info('Scheduled job active for reference data update at 3:00 AM Sunday (UTC)')
 }
 
 export function startScheduledMailJobs() {
