@@ -149,7 +149,8 @@ export const dev: EnvironmentConfig = {
         EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT:
           'https://virkailija.opintopolku.fi/organisaatio-service/rest',
         EXTERNAL_API_OPINTOPOLKU_EPERUSTEET:
-          'https://virkailija.opintopolku.fi/eperusteet-service/api'
+          'https://virkailija.opintopolku.fi/eperusteet-service/api',
+        REFERENCE_DATA_RUN_SCHEDULED: "true" // AOE-94-7
       }
     },
     streaming: {
