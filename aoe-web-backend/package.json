@@ -66,7 +66,7 @@
     "sequelize": "6.37.8",
     "striptags": "3.2.0",
     "winston": "3.19.0",
-    "xml2js": "^0.6.2"
+    "xml2js": "0.6.2"
   },
   "overrides": {
     "qs": "6.15.1"
@@ -83,7 +83,7 @@
     "@types/node": "24.12.2",
     "@types/passport": "1.0.17",
     "@types/s3-zip": "3.3.1",
-    "@types/xml2js": "^0.4.14",
+    "@types/xml2js": "0.4.14",
     "https": "1.0.0",
     "knip": "6.7.0",
     "tsc-alias": "1.8.16",
