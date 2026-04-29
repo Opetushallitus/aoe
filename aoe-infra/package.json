@@ -11,6 +11,7 @@
     "knip": "knip"
   },
   "devDependencies": {
+    "@types/aws-lambda": "8.10.161",
     "@types/node": "24.12.2",
     "aws-cdk": "2.1119.0",
     "knip": "6.7.0",
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "aws-cdk-lib": "2.251.0",
+    "@aws-sdk/client-sns": "3.1038.0",
     "constructs": "10.6.0",
     "lodash": "4.18.1",
     "source-map-support": "0.5.21"

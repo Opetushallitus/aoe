@@ -1,5 +1,7 @@
 bin/*.js
 lib/*.js
+environments/*.js
+lambda/**/*.js
 *.d.ts
 node_modules
 

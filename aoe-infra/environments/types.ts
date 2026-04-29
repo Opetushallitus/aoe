@@ -21,6 +21,9 @@ export interface EnvironmentConfig {
     streaming: ServiceConfig
     semantic_apis: ServiceConfig
   }
+  features: {
+    enableErrorForwarding: boolean // AOE-90
+  }
   msk: {
     clusterName: string
     instanceType: string

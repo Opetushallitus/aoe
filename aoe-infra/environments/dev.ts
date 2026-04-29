@@ -195,6 +195,9 @@ export const dev: EnvironmentConfig = {
       }
     }
   },
+  features: {
+    enableErrorForwarding: true
+  },
   msk: {
     clusterName: 'AOEKafkaCluster',
     instanceType: 'kafka.t3.small',

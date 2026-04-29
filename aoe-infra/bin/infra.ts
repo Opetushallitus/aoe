@@ -542,6 +542,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic,
+    errorLogForwarding: {
+      enabled: config.features.enableErrorForwarding
+    },
     efs: {
       volume: {
         name: 'data',
