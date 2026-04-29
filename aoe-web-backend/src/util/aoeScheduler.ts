@@ -12,8 +12,7 @@ const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *'
 const pidSchedule = process.env.PID_CRON_SCHEDULE || '0 15 1 * * *'
 const fileCleaningSchedule = process.env.FILE_CLEANING_CRON_SCHEDULE || '0 0 1 * * *'
 const indexUpdateSchedule = process.env.INDEX_UPDATE_CRON_SCHEDULE || '0 30 1 * * *'
-const referenceDataUpdateSchedule =
-  process.env.REFERENCE_DATA_UPDATE_CRON_SCHEDULE || '0 0 3 * * 0'
+const referenceDataUpdateSchedule = process.env.REFERENCE_DATA_UPDATE_CRON_SCHEDULE || '0 0 3 * * 0'
 
 export const startScheduledCleaning = (): void => {
   const dirCleaningScheduler = new Cron(fileCleaningSchedule, async (): Promise<void> => {
@@ -64,7 +63,10 @@ export const startScheduledSearchIndexUpdate = (): void => {
 }
 
 export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
-  if (!process.env.REFERENCE_DATA_RUN_SCHEDULED || process.env.REFERENCE_DATA_RUN_SCHEDULED !== 'true') {
+  if (
+    !process.env.REFERENCE_DATA_RUN_SCHEDULED ||
+    process.env.REFERENCE_DATA_RUN_SCHEDULED !== 'true'
+  ) {
     return
   }
 

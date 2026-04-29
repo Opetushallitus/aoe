@@ -167,7 +167,7 @@ export const config = {
     httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean
   },
 
-    // External APIs.
+  // External APIs.
   EXTERNAL_API: {
     oid: process.env.EXTERNAL_API_CALLERID_OID as string,
     service: process.env.EXTERNAL_API_CALLERID_SERVICE as string,

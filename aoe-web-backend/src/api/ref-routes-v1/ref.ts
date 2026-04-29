@@ -30,7 +30,10 @@ import {
   getPerusopetuksenSisaltoalueet,
   getPerusopetuksenTavoitteet
 } from '@/controllers/ref/perusopetus'
-import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from '@/controllers/ref/saavutettavuuden-esteet'
+import {
+  getSaavutettavuudenEste,
+  getSaavutettavuudenEsteet
+} from '@/controllers/ref/saavutettavuuden-esteet'
 import {
   getSaavutettavuudenTukitoiminnot,
   getSaavutettavuudenTukitoiminto
