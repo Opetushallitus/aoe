@@ -71,6 +71,10 @@ export const setAsync = async (key: string, value: string): Promise<void> => {
 }
 
 export async function updateRedis(): Promise<void> {
+  if (process.env.REFERENCE_DATA_RUN_SCHEDULED === 'false') {
+    return
+  }
+
   winstonLogger.info('Starting Redis update ...')
   await setAsiasanat().catch((err) =>
     winstonLogger.error('Setting YSO asiasanat failed in setAsiasanat(): %o', err)

@@ -24,7 +24,6 @@ if (app.get('env') === 'development') {
 client
   .connect()
   .then(async () => {
-    winstonLogger.info('Pushing data to REDIS')
     await updateRedis()
   })
   .catch((error: any) => {
@@ -34,7 +33,6 @@ client
 // set cron jobs to run every sunday 03:00
 cron.schedule('0 0 3 * * 0', async () => {
   await updateRedis()
-  winstonLogger.info('Scheduled update completed for all semantic datasets.')
 })
 
 // Prefixed routes
