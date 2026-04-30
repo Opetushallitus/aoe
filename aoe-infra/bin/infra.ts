@@ -624,7 +624,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: config.features.enableSemanticApisInWebBackend ? [] : ['/ref/api/v1*'],
+    listenerPathPatterns: config.features.enableSemanticApisInWebBackend ? ['/semantic-apis/ref/api/v1*'] : ['/ref/api/v1*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
