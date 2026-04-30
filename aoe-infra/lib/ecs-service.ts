@@ -263,12 +263,14 @@ export class EcsServiceStack extends Stack {
       loadBalancingAlgorithmType: TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS
     })
 
-    new ApplicationListenerRule(this, 'serviceDefaultRule', {
-      listener: props.listener,
-      priority: props.albPriority,
-      conditions: [ListenerCondition.pathPatterns(props.listenerPathPatterns)],
-      targetGroups: [targetGroup]
-    })
+    if (props.listenerPathPatterns.length > 0) {
+      new ApplicationListenerRule(this, 'serviceDefaultRule', {
+        listener: props.listener,
+        priority: props.albPriority,
+        conditions: [ListenerCondition.pathPatterns(props.listenerPathPatterns)],
+        targetGroups: [targetGroup]
+      })
+    }
 
     const scalingTarget = ecsService.autoScaleTaskCount({
       minCapacity: props.minimumCount,
