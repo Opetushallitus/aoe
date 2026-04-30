@@ -214,7 +214,7 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
       swedishModules.length < JSON.parse(await getAsync(`${rediskeyModules}.sv`))?.length
     ) {
       winstonLogger.error(
-        'Creating new sets of subjects and modules failed in setLukionOppiaineetModuulit()'
+        'Creating new sets of subjects and modules failed in setLukionOppiaineetModuulit(): one of subject or module value sets was smaller than currently in Redis'
       )
       return
     }

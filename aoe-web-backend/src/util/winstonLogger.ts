@@ -5,6 +5,7 @@ import winston, { format, Logger } from 'winston'
 const formatters = [
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   format.errors({ stack: true }),
+  format.splat(),
   format.json()
 ]
 if (process.env.NODE_ENV === 'development') {
@@ -27,25 +28,25 @@ const winstonLogger: Logger = winston.createLogger({
 // Named function exports that wrap winston logger methods
 export const debug = (message: any, ...meta: any[]): void => {
   const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.debug(message, { ...meta, requestId })
+  winstonLogger.debug(message, ...meta, { requestId })
 }
 
 export const info = (message: any, ...meta: any[]): void => {
   const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.info(message, { ...meta, requestId })
+  winstonLogger.info(message, ...meta, { requestId })
 }
 
 export const warn = (message: any, ...meta: any[]): void => {
   const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.warn(message, { ...meta, requestId })
+  winstonLogger.warn(message, ...meta, { requestId })
 }
 
 export const error = (message: any, ...meta: any[]): void => {
   const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.error(message, { ...meta, requestId })
+  winstonLogger.error(message, ...meta, { requestId })
 }
 
 export const http = (message: any, ...meta: any[]): void => {
   const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.http(message, { ...meta, requestId })
+  winstonLogger.http(message, ...meta, { requestId })
 }

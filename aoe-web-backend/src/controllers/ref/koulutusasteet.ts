@@ -24,7 +24,7 @@ export async function setKoulutusasteet(): Promise<void> {
     { Accept: 'application/json' },
     params
   )
-  winstonLogger.info('... API fetch done!')
+  winstonLogger.info('setKoulutusasteet() API fetch done!')
 
   if (!results || !(results as any).results || (results as any).results.length < 1) {
     winstonLogger.error('No data from koodistot.suomi.fi in setKoulutusasteet()')

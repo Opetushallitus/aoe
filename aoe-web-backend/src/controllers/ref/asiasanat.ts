@@ -19,13 +19,14 @@ const params = 'data'
  */
 export async function setAsiasanat(): Promise<void> {
   winstonLogger.info('Getting asiasanat from API in setAsiasanat()')
-  const results: Record<string, unknown>[] = await getDataFromApi(
+
+  const results: string = await getDataFromApi(
     config.EXTERNAL_API.asiasanat || 'not-defined',
     `/${endpoint}/`,
     { Accept: 'application/rdf+xml' },
     params
   )
-  winstonLogger.info('... API fetch done!')
+  winstonLogger.info('setAsiasanat() API fetch done!')
 
   if (!results || results?.length < 500) {
     winstonLogger.error('No data from api.finto.fi')
@@ -86,16 +87,16 @@ export async function setAsiasanat(): Promise<void> {
       english.length < JSON.parse(await getAsync(`${rediskey}.en`))?.length ||
       swedish.length < JSON.parse(await getAsync(`${rediskey}.sv`))?.length
     ) {
-      winstonLogger.error('Creating new sets of YSO asiasanat failed in setAsiasanat()')
+      winstonLogger.error('Creating new sets of YSO asiasanat failed in setAsiasanat(): one of language values sets was smaller than currently in Redis')
       return
     } else {
       winstonLogger.info('Pushing asiasanat to Redis...')
       await setAsync(`${rediskey}.fi`, JSON.stringify(finnish))
-      winstonLogger.info('... finnish done!')
+      winstonLogger.info('setAsiasanat() finnish done!')
       await setAsync(`${rediskey}.en`, JSON.stringify(english))
-      winstonLogger.info('... english done!')
+      winstonLogger.info('setAsiasanat() english done!')
       await setAsync(`${rediskey}.sv`, JSON.stringify(swedish))
-      winstonLogger.info('... swedish done! Finished!')
+      winstonLogger.info('setAsiasanat() swedish done! Finished!')
     }
   } catch (err) {
     throw Error(err)
