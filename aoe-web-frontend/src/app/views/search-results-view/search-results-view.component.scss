@@ -72,6 +72,8 @@
 .search-filter {
   font-weight: 500;
   margin-right: 0.25rem;
+  background-color: variables.$light;
+  color: variables.$dark;
   @include mixins.resize(14px);
 
   button {
