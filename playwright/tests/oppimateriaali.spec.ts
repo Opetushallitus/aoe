@@ -1,16 +1,14 @@
 import { expect, type Page, test } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
+import type { TaytaOpts } from './pages/UusiOppimateriaali'
 
-const lisaaJaMuokkaaOppimateriaalia = async (page: Page, koulutusasteet = ['korkeakoulutus']) => {
+const lisaaJaMuokkaaOppimateriaalia = async (page: Page, opts: TaytaOpts = {}) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
-  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(
-    materiaaliNimi,
-    koulutusasteet
-  )
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, opts)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
   await materiaali.header.clickOmatMateriaalit()
   await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
@@ -31,24 +29,50 @@ const lisaaJaMuokkaaOppimateriaalia = async (page: Page, koulutusasteet = ['kork
 }
 
 test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => {
-  test.setTimeout(750000)
+  const TwoMinutesInMs = 2 * 60 * 1000
+  test.setTimeout(TwoMinutesInMs)
   await test.step(`lisää oppimateriaali koulutusasteelle perusopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['perusopetuksen vuosiluokat 1-2'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: { koulutusasteet: ['perusopetuksen vuosiluokat 1-2'] }
+    })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle varhaiskasvatus ja esiopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['varhaiskasvatus', 'esiopetus'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: { koulutusasteet: ['varhaiskasvatus', 'esiopetus'] }
+    })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle lukiokoulutus ja ammatillinen koulutus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['lukiokoulutus', 'ammatillinen koulutus'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: {
+        koulutusasteet: ['lukiokoulutus', 'ammatillinen koulutus'],
+        ammatillinenTutkinnonOsa: 'Huippuosaajana toimiminen'
+      }
+    })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle TUVA`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['tutkintoon valmentava koulutus, TUVA'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: {
+        koulutusasteet: ['tutkintoon valmentava koulutus, TUVA'],
+        tuvaOppiaine: 'Perustaitojen vahvistaminen'
+      }
+    })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle korkeakoulutus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['korkeakoulutus'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: {
+        koulutusasteet: ['korkeakoulutus'],
+        tieteenala: 'Metsätiede'
+      },
+      tarkemmatTiedot: {
+        ominaisuudet: ['tekstitys', 'selkokieli'],
+        esteet: ['ei äänihaittaa']
+      }
+    })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle taiteen perusopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, ['taiteen perusopetus'])
+    await lisaaJaMuokkaaOppimateriaalia(page, {
+      koulutustiedot: { koulutusasteet: ['taiteen perusopetus'] }
+    })
   })
 })
 
@@ -58,48 +82,17 @@ test('käyttäjä voi lisätä oppimateriaaleja eri kielillä', async ({ page })
 
   const materiaalienNimet: string[] = []
 
-  const lisaaOppimateriaaliKielella = async (kieli: string) => {
-    const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
-    const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
-    const { form, randomMateriaaliNimi } = uusiMateriaali
-    const materiaaliNimi = randomMateriaaliNimi(`Materiaali ${kieli}`)
-    materiaalienNimet.push(materiaaliNimi)
-
-    await form.oppimateriaalinNimi(materiaaliNimi)
-    await form.lisaaTiedosto()
-    await form.valitseTiedostonKieli(kieli)
-
-    const perustiedot = await form.seuraava()
-    await perustiedot.lisaaHenkilo()
-    await perustiedot.lisaaAsiasana()
-    await perustiedot.lisaaOppimateriaalinTyyppi()
-    await perustiedot.lisaaPaaasiallinenKohderyhma()
-    await perustiedot.lisaaPaaasiallinenKayttotarkoitus()
-
-    const koulutustiedot = await perustiedot.seuraava()
-    await koulutustiedot.valitseKoulutusasteet('korkeakoulutus')
-
-    const tarkemmatTiedot = await koulutustiedot.seuraava()
-    const lisenssitiedot = await tarkemmatTiedot.seuraava()
-    await lisenssitiedot.valitseLisenssi()
-
-    const hyodynnetytMateriaalit = await lisenssitiedot.seuraava()
-    const esikatseluJaTallennus = await hyodynnetytMateriaalit.seuraava()
-    await esikatseluJaTallennus.tallenna(materiaaliNimi)
+  for (const kieli of ['inarinsaame', 'viro', 'ruotsi', 'suomi']) {
+    await test.step(`lisää oppimateriaali kielellä ${kieli}`, async () => {
+      const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+      const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+      const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi(`Materiaali ${kieli}`)
+      materiaalienNimet.push(materiaaliNimi)
+      await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, {
+        tiedostot: { kieli }
+      })
+    })
   }
-
-  await test.step(`lisää oppimateriaali kielellä inarinsaame`, async () => {
-    await lisaaOppimateriaaliKielella('inarinsaame')
-  })
-  await test.step(`lisää oppimateriaali kielellä viro`, async () => {
-    await lisaaOppimateriaaliKielella('viro')
-  })
-  await test.step(`lisää oppimateriaali kielellä ruotsi`, async () => {
-    await lisaaOppimateriaaliKielella('ruotsi')
-  })
-  await test.step(`lisää oppimateriaali kielellä suomi`, async () => {
-    await lisaaOppimateriaaliKielella('suomi')
-  })
 
   await test.step(`tarkasta materiaalien löytyminen`, async () => {
     const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()

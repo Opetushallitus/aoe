@@ -2,38 +2,67 @@ import type { Page } from '@playwright/test'
 import { Header } from './Header'
 import { MateriaaliFormi } from './MateriaaliFormi'
 
+export type TaytaOpts = {
+  tiedostot?: { kieli?: string }
+  perustiedot?: { kohderyhma?: string; kayttotarkoitus?: string }
+  koulutustiedot?: {
+    koulutusasteet?: string[]
+    tieteenala?: string
+    tuvaOppiaine?: string
+    ammatillinenTutkinnonOsa?: string
+  }
+  tarkemmatTiedot?: {
+    ominaisuudet?: string[]
+    esteet?: string[]
+  }
+}
+
+export type TaytaVerkkosivuOpts = {
+  koulutustiedot?: { koulutusasteet?: string[] }
+}
+
 export const UusiOppimateriaali = (page: Page) => {
-  const taytaJaTallennaUusiMateriaali = async (
-    materiaaliNimi: string,
-    koulutusasteet = ['korkeakoulutus'],
-    additionalFields = true
-  ) => {
+  const taytaJaTallennaUusiMateriaali = async (materiaaliNimi: string, opts: TaytaOpts = {}) => {
     const { form } = MateriaaliFormi(page)
     await form.oppimateriaalinNimi(materiaaliNimi)
     await form.lisaaTiedosto()
+    if (opts.tiedostot?.kieli) {
+      await form.valitseTiedostonKieli(opts.tiedostot.kieli)
+    }
     const perustiedot = await form.seuraava()
     await perustiedot.lisaaHenkilo()
     await perustiedot.lisaaAsiasana()
     await perustiedot.lisaaOppimateriaalinTyyppi()
+    if (opts.perustiedot?.kohderyhma) {
+      await perustiedot.lisaaPaaasiallinenKohderyhma(opts.perustiedot.kohderyhma)
+    }
+    if (opts.perustiedot?.kayttotarkoitus) {
+      await perustiedot.lisaaPaaasiallinenKayttotarkoitus(opts.perustiedot.kayttotarkoitus)
+    }
     const koulutustiedot = await perustiedot.seuraava()
+    const koulutusasteet = opts.koulutustiedot?.koulutusasteet ?? ['korkeakoulutus']
     await koulutustiedot.valitseKoulutusasteet(...koulutusasteet)
-    if (additionalFields && koulutusasteet.includes('tutkintoon valmentava koulutus, TUVA')) {
+    if (opts.koulutustiedot?.tuvaOppiaine) {
       await koulutustiedot.valitseTutkintoonValmistavanKoulutuksenOppiaine(
-        'Perustaitojen vahvistaminen'
+        opts.koulutustiedot.tuvaOppiaine
       )
     }
-    if (additionalFields && koulutusasteet.includes('korkeakoulutus')) {
-      await koulutustiedot.valitseTieteenala('Metsätiede')
+    if (opts.koulutustiedot?.tieteenala) {
+      await koulutustiedot.valitseTieteenala(opts.koulutustiedot.tieteenala)
     }
-    if (additionalFields && koulutusasteet.includes('ammatillinen koulutus')) {
+    if (opts.koulutustiedot?.ammatillinenTutkinnonOsa) {
       await koulutustiedot.valitseAmmatillisenKoulutuksenYhteinenTutkinnonOsa(
-        'Huippuosaajana toimiminen'
+        opts.koulutustiedot.ammatillinenTutkinnonOsa
       )
     }
     const tarkemmatTiedot = await koulutustiedot.seuraava()
-    if (additionalFields) {
-      await tarkemmatTiedot.valitseSaavutettavuudenOminaisuudet('tekstitys', 'selkokieli')
-      await tarkemmatTiedot.valitseSaavutettavuudenEsteet('ei äänihaittaa')
+    if (opts.tarkemmatTiedot?.ominaisuudet) {
+      await tarkemmatTiedot.valitseSaavutettavuudenOminaisuudet(
+        ...opts.tarkemmatTiedot.ominaisuudet
+      )
+    }
+    if (opts.tarkemmatTiedot?.esteet) {
+      await tarkemmatTiedot.valitseSaavutettavuudenEsteet(...opts.tarkemmatTiedot.esteet)
     }
     const lisenssitiedot = await tarkemmatTiedot.seuraava()
     await lisenssitiedot.valitseLisenssi()
@@ -44,7 +73,7 @@ export const UusiOppimateriaali = (page: Page) => {
   const taytaJaTallennaUusiVerkkosivuMateriaali = async (
     materiaaliNimi: string,
     verkkosivu: string,
-    koulutusasteet = ['korkeakoulutus']
+    opts: TaytaVerkkosivuOpts = {}
   ) => {
     const { form } = MateriaaliFormi(page)
     await form.oppimateriaalinNimi(materiaaliNimi)
@@ -54,6 +83,7 @@ export const UusiOppimateriaali = (page: Page) => {
     await perustiedot.lisaaAsiasana()
     await perustiedot.lisaaOppimateriaalinTyyppi()
     const koulutustiedot = await perustiedot.seuraava()
+    const koulutusasteet = opts.koulutustiedot?.koulutusasteet ?? ['korkeakoulutus']
     await koulutustiedot.valitseKoulutusasteet(...koulutusasteet)
     const tarkemmatTiedot = await koulutustiedot.seuraava()
     const lisenssitiedot = await tarkemmatTiedot.seuraava()

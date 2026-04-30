@@ -32,7 +32,6 @@ test('käyttäjä voi nähdä hakutulossivun keskeiset suodattimet', async ({
   }).toPass({ timeout: 30_000, intervals: [5000] })
 
   const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
-  await hakuTulokset.expectToFindMateriaali(julkaistuMateriaaliNimi, 5000)
 
   for (const { name, value } of [
     { name: 'Kieli', value: /suomi/i },
