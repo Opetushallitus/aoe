@@ -150,7 +150,7 @@ export const dev: EnvironmentConfig = {
           'https://virkailija.opintopolku.fi/organisaatio-service/rest',
         EXTERNAL_API_OPINTOPOLKU_EPERUSTEET:
           'https://virkailija.opintopolku.fi/eperusteet-service/api',
-        REFERENCE_DATA_RUN_SCHEDULED: 'true' // AOE-94-7
+        REFERENCE_DATA_RUN_SCHEDULED: 'true' // AOE-94
       }
     },
     streaming: {
@@ -181,7 +181,7 @@ export const dev: EnvironmentConfig = {
         REDIS_USERNAME: 'app',
         REDIS_EXPIRE_TIME: '86400',
         REDIS_USE_TLS: 'true',
-        REFERENCE_DATA_RUN_SCHEDULED: 'false',
+        REFERENCE_DATA_RUN_SCHEDULED: 'false', // AOE-94
         EXTERNAL_API_CALLERID_OID: '1.2.246.562.10.2013112012294919827487',
         EXTERNAL_API_CALLERID_SERVICE: 'aoe',
         EXTERNAL_API_OPINTOPOLKU_KOODISTOT:
@@ -197,7 +197,8 @@ export const dev: EnvironmentConfig = {
     }
   },
   features: {
-    enableErrorForwarding: true
+    enableErrorForwarding: true,
+    enableSemanticApisInWebBackend: true
   },
   msk: {
     clusterName: 'AOEKafkaCluster',

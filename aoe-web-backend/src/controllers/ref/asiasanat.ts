@@ -87,7 +87,9 @@ export async function setAsiasanat(): Promise<void> {
       english.length < JSON.parse(await getAsync(`${rediskey}.en`))?.length ||
       swedish.length < JSON.parse(await getAsync(`${rediskey}.sv`))?.length
     ) {
-      winstonLogger.error('Creating new sets of YSO asiasanat failed in setAsiasanat(): one of language values sets was smaller than currently in Redis')
+      winstonLogger.error(
+        'Creating new sets of YSO asiasanat failed in setAsiasanat(): one of language values sets was smaller than currently in Redis'
+      )
       return
     } else {
       winstonLogger.info('Pushing asiasanat to Redis...')

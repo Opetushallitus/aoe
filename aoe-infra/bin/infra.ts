@@ -525,10 +525,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns:
-      environmentName === 'dev'
-        ? ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*']
-        : ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
+    listenerPathPatterns: config.features.enableSemanticApisInWebBackend
+      ? ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*']
+      : ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
@@ -625,8 +624,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns:
-      environmentName === 'dev' ? [] : ['/ref/api/v1*'],
+    listenerPathPatterns: config.features.enableSemanticApisInWebBackend ? [] : ['/ref/api/v1*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
