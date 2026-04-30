@@ -72,13 +72,13 @@ export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
 
   await updateReferenceData()
 
-  const referenceDataSceduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {
+  const referenceDataScheduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {
     try {
       await updateReferenceData()
       log.debug('Scheduled reference data update completed.')
     } catch (err: unknown) {
       log.error('Scheduled reference data update failed', err)
-      referenceDataSceduler.stop()
+      referenceDataScheduler.stop()
     }
   })
   log.info('Scheduled job active for reference data update at 3:00 AM Sunday (UTC)')
