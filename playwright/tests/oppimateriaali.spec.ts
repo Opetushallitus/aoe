@@ -1,14 +1,14 @@
-import { expect, type Page, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import type { TaytaOpts } from './pages/UusiOppimateriaali'
 
-const lisaaJaMuokkaaOppimateriaalia = async (page: Page, opts: TaytaOpts = {}) => {
+test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
-  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, opts)
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
   await materiaali.header.clickOmatMateriaalit()
   await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
@@ -26,23 +26,36 @@ const lisaaJaMuokkaaOppimateriaalia = async (page: Page, opts: TaytaOpts = {}) =
     .then((n) => n.seuraava())
     .then((n) => n.seuraava())
   await esikatseluJaTallennut.tallenna(materiaaliNimiMuutettu)
-}
+})
 
-test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => {
+test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ page }) => {
   const TwoMinutesInMs = 2 * 60 * 1000
   test.setTimeout(TwoMinutesInMs)
+
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const materiaalienNimet: string[] = []
+
+  const lisaaMateriaali = async (nimi: string, opts: TaytaOpts) => {
+    const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+    const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+    const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi(`Materiaali ${nimi}`)
+    materiaalienNimet.push(materiaaliNimi)
+    await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, opts)
+  }
+
   await test.step(`lisää oppimateriaali koulutusasteelle perusopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
+    await lisaaMateriaali('perusopetus', {
       koulutustiedot: { koulutusasteet: ['perusopetuksen vuosiluokat 1-2'] }
     })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle varhaiskasvatus ja esiopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
+    await lisaaMateriaali('varhaiskasvatus ja esiopetus', {
       koulutustiedot: { koulutusasteet: ['varhaiskasvatus', 'esiopetus'] }
     })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle lukiokoulutus ja ammatillinen koulutus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
+    await lisaaMateriaali('lukiokoulutus ja ammatillinen koulutus', {
       koulutustiedot: {
         koulutusasteet: ['lukiokoulutus', 'ammatillinen koulutus'],
         ammatillinenTutkinnonOsa: 'Huippuosaajana toimiminen'
@@ -50,7 +63,7 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
     })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle TUVA`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
+    await lisaaMateriaali('TUVA', {
       koulutustiedot: {
         koulutusasteet: ['tutkintoon valmentava koulutus, TUVA'],
         tuvaOppiaine: 'Perustaitojen vahvistaminen'
@@ -58,11 +71,8 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
     })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle korkeakoulutus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
-      koulutustiedot: {
-        koulutusasteet: ['korkeakoulutus'],
-        tieteenala: 'Metsätiede'
-      },
+    await lisaaMateriaali('korkeakoulutus', {
+      koulutustiedot: { koulutusasteet: ['korkeakoulutus'], tieteenala: 'Metsätiede' },
       tarkemmatTiedot: {
         ominaisuudet: ['tekstitys', 'selkokieli'],
         esteet: ['ei äänihaittaa']
@@ -70,9 +80,17 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
     })
   })
   await test.step(`lisää oppimateriaali koulutusasteelle taiteen perusopetus`, async () => {
-    await lisaaJaMuokkaaOppimateriaalia(page, {
+    await lisaaMateriaali('taiteen perusopetus', {
       koulutustiedot: { koulutusasteet: ['taiteen perusopetus'] }
     })
+  })
+
+  await test.step(`tarkasta materiaalien löytyminen`, async () => {
+    const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+    await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
+    for (const materiaaliNimi of materiaalienNimet) {
+      await omatMateriaalit.expectToFindMateriaali(materiaaliNimi)
+    }
   })
 })
 
