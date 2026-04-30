@@ -525,7 +525,10 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
+    listenerPathPatterns:
+      environmentName === 'dev'
+        ? ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*']
+        : ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
@@ -622,7 +625,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/ref/api/v1*'],
+    listenerPathPatterns:
+      environmentName === 'dev' ? [] : ['/ref/api/v1*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
