@@ -85,7 +85,7 @@
     "@types/s3-zip": "3.3.1",
     "@types/xml2js": "0.4.14",
     "https": "1.0.0",
-    "knip": "6.7.0",
+    "knip": "6.8.0",
     "tsc-alias": "1.8.16",
     "typescript": "5.9.3"
   }
