@@ -25,6 +25,7 @@ export interface EnvironmentConfig {
   features: {
     enableErrorForwarding: boolean // AOE-90
     enableSemanticApisInWebBackend: boolean // AOE-94
+    deploySemanticApisService: boolean // AOE-94
   }
   msk: {
     clusterName: string

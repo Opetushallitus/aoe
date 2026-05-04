@@ -129,7 +129,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
     env: envEU,
     stackName: `${environmentName}-security-groups`,
-    vpc: Network.vpc
+    vpc: Network.vpc,
+    deploySemanticApisService: config.features.deploySemanticApisService
   })
 
   new BastionStack(app, 'BastionStack', {
@@ -601,42 +602,44 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic
   })
 
-  new EcsServiceStack(app, 'SemanticApisEcsService', {
-    env: envEU,
-    stackName: `${environmentName}-semantic-apis-service`,
-    serviceName: 'semantic-apis',
-    environment: environmentName,
-    cluster: FargateCluster.fargateCluster,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.semanticApisServiceSecurityGroup,
-    revision,
-    allowEcsExec: config.services.semantic_apis.allow_ecs_exec,
-    taskCpu: config.services.semantic_apis.cpu_limit,
-    taskMemory: config.services.semantic_apis.memory_limit,
-    minimumCount: config.services.semantic_apis.min_count,
-    maximumCount: config.services.semantic_apis.max_count,
-    cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {
-      ...{ ENV: environmentName },
-      ...config.services.semantic_apis.env_vars,
-      ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
-      REDIS_PORT: SemanticApisRedis.endpointPort
-    },
-    parameter_store_secrets: [],
-    secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
-    utilityAccountId: utilityAccountId,
-    listener: Alb.albListener,
-    listenerPathPatterns: config.features.enableSemanticApisInWebBackend
-      ? ['/semantic-apis/ref/api/v1*']
-      : ['/ref/api/v1*'],
-    healthCheckPath: '/health',
-    healthCheckGracePeriod: 180,
-    healthCheckInterval: 5,
-    healthCheckTimeout: 2,
-    albPriority: 100,
-    privateDnsNamespace: namespace.privateDnsNamespace,
-    alarmSnsTopic: Monitor.topic
-  })
+  if (config.features.deploySemanticApisService) {
+    new EcsServiceStack(app, 'SemanticApisEcsService', {
+      env: envEU,
+      stackName: `${environmentName}-semantic-apis-service`,
+      serviceName: 'semantic-apis',
+      environment: environmentName,
+      cluster: FargateCluster.fargateCluster,
+      vpc: Network.vpc,
+      securityGroup: SecurityGroups.semanticApisServiceSecurityGroup!,
+      revision,
+      allowEcsExec: config.services.semantic_apis.allow_ecs_exec,
+      taskCpu: config.services.semantic_apis.cpu_limit,
+      taskMemory: config.services.semantic_apis.memory_limit,
+      minimumCount: config.services.semantic_apis.min_count,
+      maximumCount: config.services.semantic_apis.max_count,
+      cpuArchitecture: CpuArchitecture.X86_64,
+      env_vars: {
+        ...{ ENV: environmentName },
+        ...config.services.semantic_apis.env_vars,
+        ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
+        REDIS_PORT: SemanticApisRedis.endpointPort
+      },
+      parameter_store_secrets: [],
+      secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
+      utilityAccountId: utilityAccountId,
+      listener: Alb.albListener,
+      listenerPathPatterns: config.features.enableSemanticApisInWebBackend
+        ? ['/semantic-apis/ref/api/v1*']
+        : ['/ref/api/v1*'],
+      healthCheckPath: '/health',
+      healthCheckGracePeriod: 180,
+      healthCheckInterval: 5,
+      healthCheckTimeout: 2,
+      albPriority: 100,
+      privateDnsNamespace: namespace.privateDnsNamespace,
+      alarmSnsTopic: Monitor.topic
+    })
+  }
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,
