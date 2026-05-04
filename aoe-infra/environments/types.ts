@@ -21,6 +21,7 @@ export interface EnvironmentConfig {
     streaming: ServiceConfig
     semantic_apis: ServiceConfig
   }
+  // Infra feature flags
   features: {
     enableErrorForwarding: boolean // AOE-90
     enableSemanticApisInWebBackend: boolean // AOE-94

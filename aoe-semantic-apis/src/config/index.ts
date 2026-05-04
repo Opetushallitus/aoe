@@ -1,6 +1,7 @@
 import { winstonLogger } from '../util'
 
 const missingEnvs: string[] = []
+process.env.ENV || missingEnvs.push('ENV')
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL')
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN')
 process.env.EXTERNAL_API_CALLERID_OID || missingEnvs.push('EXTERNAL_API_CALLERID_OID')
@@ -22,6 +23,8 @@ if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs)
   process.exit(1)
 }
+
+const environment = process.env.ENV
 
 export default {
   // Application properties.
@@ -48,5 +51,9 @@ export default {
     username: process.env.REDIS_USERNAME as string,
     port: (parseInt(process.env.REDIS_PORT as string, 10) as number) || 6379,
     protocol: process.env.REDIS_USE_TLS !== 'true' ? 'redis' : 'rediss'
+  },
+
+  FEATURES: {
+    dataRunScheduled: ['prod'].includes(environment || '') // AOE-94
   }
 } as any

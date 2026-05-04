@@ -502,6 +502,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     maximumCount: config.services.web_backend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
+      ...{ ENV: environmentName },
       ...config.services.web_backend.env_vars,
       ...{
         REDIS_HOST: SemanticApisRedis.endpointAddress,
@@ -616,6 +617,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     maximumCount: config.services.semantic_apis.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
+      ...{ ENV: environmentName },
       ...config.services.semantic_apis.env_vars,
       ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
       REDIS_PORT: SemanticApisRedis.endpointPort

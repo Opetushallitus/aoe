@@ -71,7 +71,7 @@ export const setAsync = async (key: string, value: string): Promise<void> => {
 }
 
 export async function updateRedis(): Promise<void> {
-  if (process.env.REFERENCE_DATA_RUN_SCHEDULED === 'false') {
+  if (config.FEATURES.dataRunScheduled === false) {
     return
   }
 

@@ -2,6 +2,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 // Check that mandatory environment variables are available and report missing ones on exit.
 const missingEnvs: string[] = []
+process.env.ENV || missingEnvs.push('ENV')
 process.env.NODE_ENV || missingEnvs.push('NODE_ENV')
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN')
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL')
@@ -55,6 +56,8 @@ if (missingEnvs.length > 0) {
   console.error('All required environment variables are not available: %s', missingEnvs)
   process.exit(1)
 }
+
+const environment = process.env.ENV
 
 export const config = {
   // General application start up configurations.
@@ -176,5 +179,8 @@ export const config = {
     organisaatiot: process.env.EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT as string,
     asiasanat: process.env.EXTERNAL_API_FINTO_ASIASANAT as string,
     suomiKoodistot: process.env.EXTERNAL_API_SUOMI_KOODISTOT as string
+  } as const,
+  FEATURES: {
+    dataRunScheduled: ['demo', 'dev', 'qa'].includes(environment) // AOE-94
   } as const
 }

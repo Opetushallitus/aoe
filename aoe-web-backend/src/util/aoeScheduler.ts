@@ -63,10 +63,7 @@ export const startScheduledSearchIndexUpdate = (): void => {
 }
 
 export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
-  if (
-    !process.env.REFERENCE_DATA_RUN_SCHEDULED ||
-    process.env.REFERENCE_DATA_RUN_SCHEDULED !== 'true'
-  ) {
+  if (!config.FEATURES.dataRunScheduled) {
     return
   }
 
@@ -74,6 +71,7 @@ export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
 
   const referenceDataScheduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {
     try {
+      log.debug('Starting reference data update')
       await updateReferenceData()
       log.debug('Scheduled reference data update completed.')
     } catch (err: unknown) {
