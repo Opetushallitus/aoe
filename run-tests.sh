@@ -3,7 +3,7 @@ set -o errexit -o nounset -o pipefail
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
 
 function run_unit_tests {
-  pushd "$repo/aoe-semantic-apis"
+  pushd "$repo/aoe-web-backend"
   npm_ci_if_package_lock_has_changed
   npm test
   popd

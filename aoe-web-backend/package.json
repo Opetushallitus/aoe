@@ -33,7 +33,8 @@
     "watch-start": "node --watch --enable-source-maps dist/server.js",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
-    "knip": "knip"
+    "knip": "knip",
+    "test": "node --test 'src/**/*.test.ts'"
   },
   "dependencies": {
     "@lumieducation/h5p-server": "10.0.4",
