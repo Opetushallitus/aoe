@@ -181,6 +181,6 @@ export const config = {
     suomiKoodistot: process.env.EXTERNAL_API_SUOMI_KOODISTOT as string
   } as const,
   FEATURES: {
-    dataRunScheduled: ['demo', 'dev', 'qa'].includes(environment) // AOE-94
+    dataRunScheduled: true // AOE-94
   } as const
 }

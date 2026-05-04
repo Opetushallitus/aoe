@@ -54,6 +54,6 @@ export default {
   },
 
   FEATURES: {
-    dataRunScheduled: ['prod'].includes(environment || '') // AOE-94
+    dataRunScheduled: false // AOE-94
   }
 } as any
