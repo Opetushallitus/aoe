@@ -29,6 +29,7 @@ const maxFieldLength = 4000
 
 export const handler = async (event: CloudWatchLogsEvent): Promise<void> => {
   const payload = decodeCloudWatchLogsPayload(event)
+  console.info('Error forwarder got called', payload)
 
   if (payload.messageType === 'CONTROL_MESSAGE') {
     return
