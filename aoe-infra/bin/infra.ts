@@ -38,6 +38,7 @@ import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
+import { EmptyEcsServiceStack } from '../lib/empty-ecs-service'
 
 const app = new cdk.App()
 
@@ -604,6 +605,43 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
 
   if (config.features.deploySemanticApisService) {
     new EcsServiceStack(app, 'SemanticApisEcsService', {
+      env: envEU,
+      stackName: `${environmentName}-semantic-apis-service`,
+      serviceName: 'semantic-apis',
+      environment: environmentName,
+      cluster: FargateCluster.fargateCluster,
+      vpc: Network.vpc,
+      securityGroup: SecurityGroups.semanticApisServiceSecurityGroup!,
+      revision,
+      allowEcsExec: config.services.semantic_apis.allow_ecs_exec,
+      taskCpu: config.services.semantic_apis.cpu_limit,
+      taskMemory: config.services.semantic_apis.memory_limit,
+      minimumCount: config.services.semantic_apis.min_count,
+      maximumCount: config.services.semantic_apis.max_count,
+      cpuArchitecture: CpuArchitecture.X86_64,
+      env_vars: {
+        ...{ ENV: environmentName },
+        ...config.services.semantic_apis.env_vars,
+        ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
+        REDIS_PORT: SemanticApisRedis.endpointPort
+      },
+      parameter_store_secrets: [],
+      secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
+      utilityAccountId: utilityAccountId,
+      listener: Alb.albListener,
+      listenerPathPatterns: config.features.enableSemanticApisInWebBackend
+        ? ['/semantic-apis/ref/api/v1*']
+        : ['/ref/api/v1*'],
+      healthCheckPath: '/health',
+      healthCheckGracePeriod: 180,
+      healthCheckInterval: 5,
+      healthCheckTimeout: 2,
+      albPriority: 100,
+      privateDnsNamespace: namespace.privateDnsNamespace,
+      alarmSnsTopic: Monitor.topic
+    })
+  } else {
+    new EmptyEcsServiceStack(app, 'SemanticApisEcsService', {
       env: envEU,
       stackName: `${environmentName}-semantic-apis-service`,
       serviceName: 'semantic-apis',
