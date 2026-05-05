@@ -13,11 +13,9 @@ service / database, Security Groups and  SG rules must first be defined here)
 
 interface SecurityGroupStackProps extends StackProps {
   vpc: ec2.IVpc
-  deploySemanticApisService: boolean
 }
 
 export class SecurityGroupStack extends cdk.Stack {
-  public readonly semanticApisServiceSecurityGroup?: ec2.SecurityGroup
   public readonly albSecurityGroup: ec2.SecurityGroup
   public readonly webBackendAuroraSecurityGroup: ec2.SecurityGroup
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup
@@ -90,17 +88,6 @@ export class SecurityGroupStack extends cdk.Stack {
       }
     )
 
-    if (props.deploySemanticApisService) {
-      this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(
-        this,
-        'SemanticApisServiceSecurityGroup',
-        {
-          vpc: props.vpc,
-          allowAllOutbound: true
-        }
-      )
-    }
-
     this.webBackendAuroraSecurityGroup = new ec2.SecurityGroup(
       this,
       'WebBackendAuroraSecurityGroupSecurityGroup',
@@ -163,13 +150,6 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(443)
     )
 
-    if (this.semanticApisServiceSecurityGroup) {
-      this.semanticApisRedisSecurityGroup.addIngressRule(
-        this.semanticApisServiceSecurityGroup,
-        ec2.Port.tcp(6379)
-      )
-    }
-
     this.semanticApisRedisSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(6379)
@@ -186,18 +166,6 @@ export class SecurityGroupStack extends cdk.Stack {
       this.webBackendsServiceSecurityGroup,
       ec2.Port.tcp(6379)
     )
-
-    if (this.semanticApisServiceSecurityGroup) {
-      this.semanticApisServiceSecurityGroup.addIngressRule(
-        this.albSecurityGroup,
-        ec2.Port.tcp(8080)
-      )
-
-      this.semanticApisServiceSecurityGroup.addIngressRule(
-        this.bastionSecurityGroup,
-        ec2.Port.tcp(8080)
-      )
-    }
 
     this.dataServicesSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
