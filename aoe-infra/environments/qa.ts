@@ -195,7 +195,6 @@ export const qa: EnvironmentConfig = {
     }
   },
   features: {
-    enableErrorForwarding: true,
     enableSemanticApisInWebBackend: true
   },
   msk: {
