@@ -165,7 +165,7 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
       description: buildSlackDescription(alert)
     },
     metadata: {
-      threadId: `${alert.environment}-${alert.service}-errors`,
+      threadId: `${alert.environment}-${alert.service}-errors-${new Date().toISOString().slice(0, 10)}`,
       summary: truncate(safeInline(alert.message), MAX_INLINE_LENGTH)
     }
   }
