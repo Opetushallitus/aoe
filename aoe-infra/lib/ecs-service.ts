@@ -121,7 +121,7 @@ export class EcsServiceStack extends Stack {
 
       const errorForwarder = new lambda.Function(this, 'ErrorForwarder', {
         functionName: errorForwarderFunctionName,
-        runtime: lambda.Runtime.NODEJS_20_X,
+        runtime: lambda.Runtime.NODEJS_24_X,
         handler: 'index.handler',
         code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'error-forwarder'), {
           exclude: ['*.d.ts', '*.ts']
