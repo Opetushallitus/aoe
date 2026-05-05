@@ -123,7 +123,9 @@ export class EcsServiceStack extends Stack {
         functionName: errorForwarderFunctionName,
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: 'index.handler',
-        code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'error-forwarder')),
+        code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'error-forwarder'), {
+          exclude: ['*.d.ts', '*.ts']
+        }),
         timeout: Duration.seconds(30),
         memorySize: 128,
         logGroup: errorForwarderLogGroup,

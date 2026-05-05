@@ -43,7 +43,11 @@ export class MonitorStack extends cdk.Stack {
       throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
     }
     this.topic.addSubscription(
-      new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL'])
+      new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL'], {
+        filterPolicyWithMessageBody: {
+          AlarmName: sns.FilterOrPolicy.filter(sns.SubscriptionFilter.existsFilter())
+        }
+      })
     )
   }
 }
