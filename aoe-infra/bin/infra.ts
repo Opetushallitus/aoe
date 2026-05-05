@@ -131,7 +131,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: `${environmentName}-security-groups`,
     vpc: Network.vpc,
-    deploySemanticApisService: config.features.deploySemanticApisService
+    deploySemanticApisService: true
+    // deploySemanticApisService: config.features.deploySemanticApisService
   })
 
   new BastionStack(app, 'BastionStack', {
