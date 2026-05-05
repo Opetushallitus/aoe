@@ -196,8 +196,7 @@ export const prod: EnvironmentConfig = {
   },
   features: {
     enableErrorForwarding: false,
-    enableSemanticApisInWebBackend: true,
-    deploySemanticApisService: true
+    enableSemanticApisInWebBackend: true
   },
   msk: {
     clusterName: 'AOEKafkaCluster',
