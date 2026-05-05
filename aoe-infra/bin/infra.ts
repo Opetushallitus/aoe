@@ -38,7 +38,7 @@ import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
-import { EmptyEcsServiceStack } from '../lib/empty-ecs-service'
+import { EmptyEcrStack } from '../lib/empty-ecr-stack'
 
 const app = new cdk.App()
 
@@ -527,9 +527,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: config.features.enableSemanticApisInWebBackend
-      ? ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*']
-      : ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
+    listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*'],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
@@ -616,11 +614,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  new EcrStack(app, 'SemanticApisEcrStack', {
+  new EmptyEcrStack(app, 'SemanticApisEcrStack', {
     env: envEU,
-    stackName: 'aoe-semantic-apis-ecr',
-    serviceName: 'aoe-semantic-apis',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
+    stackName: 'aoe-semantic-apis-ecr'
   })
   new EcrStack(app, 'StreamingAppEcrStack', {
     env: envEU,

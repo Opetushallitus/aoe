@@ -228,7 +228,6 @@ export class SecurityGroupStack extends cdk.Stack {
 
     // Output all security group IDs so that they can be consumed from ECS service/RDS stacks
     //  new CfnOutput(this, 'albSecurityGroupId', { value: this.albSecurityGroup.securityGroupId });
-    //  new CfnOutput(this, 'semanticApisServiceSecurityGroup', { value: this.semanticApisServiceSecurityGroup.securityGroupId });
     //  new CfnOutput(this, 'testAuroraSecurityGroup2Id', { value: this.testAuroraSecurityGroup.securityGroupId });
   }
 }

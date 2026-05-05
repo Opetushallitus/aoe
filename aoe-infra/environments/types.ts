@@ -19,12 +19,9 @@ export interface EnvironmentConfig {
     web_frontend: ServiceConfig
     web_backend: ServiceConfig
     streaming: ServiceConfig
-    semantic_apis: ServiceConfig
   }
   // Infra feature flags
-  features: {
-    enableSemanticApisInWebBackend: boolean // AOE-94
-  }
+  features: {}
   msk: {
     clusterName: string
     instanceType: string

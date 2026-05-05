@@ -166,37 +166,9 @@ export const prod: EnvironmentConfig = {
         STORAGE_REGION: 'eu-west-1',
         STORAGE_MAX_RANGE: '10000000'
       }
-    },
-    semantic_apis: {
-      cpu_limit: '2048',
-      memory_limit: '4096',
-      min_count: 1,
-      max_count: 1,
-      allow_ecs_exec: true,
-      env_vars: {
-        NODE_ENV: 'production',
-        LOG_LEVEL: 'error',
-        PORT_LISTEN: '8080',
-        REDIS_USERNAME: 'app',
-        REDIS_EXPIRE_TIME: '86400',
-        REDIS_USE_TLS: 'true',
-        EXTERNAL_API_CALLERID_OID: '1.2.246.562.10.2013112012294919827487',
-        EXTERNAL_API_CALLERID_SERVICE: 'aoe',
-        EXTERNAL_API_OPINTOPOLKU_KOODISTOT:
-          'https://virkailija.opintopolku.fi/koodisto-service/rest/json',
-        EXTERNAL_API_FINTO_ASIASANAT: 'http://api.finto.fi/rest/v1',
-        EXTERNAL_API_SUOMI_KOODISTOT:
-          'https://koodistot.suomi.fi/codelist-api/api/v1/coderegistries',
-        EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT:
-          'https://virkailija.opintopolku.fi/organisaatio-service/rest',
-        EXTERNAL_API_OPINTOPOLKU_EPERUSTEET:
-          'https://virkailija.opintopolku.fi/eperusteet-service/api'
-      }
     }
   },
-  features: {
-    enableSemanticApisInWebBackend: true
-  },
+  features: {},
   msk: {
     clusterName: 'AOEKafkaCluster',
     instanceType: 'kafka.t3.small',
