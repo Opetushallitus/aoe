@@ -29,18 +29,16 @@ type SlackNotification = {
   }
 }
 
-const sns = new SNSClient({})
+const MAX_FIELD_LENGTH = 4000
+const MAX_INLINE_LENGTH = 500
+const MAX_STACK_LENGTH = 3500
 
-const topicArn = process.env.ERROR_TOPIC_ARN
 const environment = process.env.ENVIRONMENT || 'unknown'
 const serviceName = process.env.SERVICE_NAME || 'web-backend'
-const maxFieldLength = 4000
-const maxInlineLength = 500
-const maxStackLength = 3500
+const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'eu-west-1'
 
 export const handler = async (event: CloudWatchLogsEvent): Promise<void> => {
   const payload = decodeCloudWatchLogsPayload(event)
-  console.log('Error forwarder got called', payload)
 
   if (payload.messageType === 'CONTROL_MESSAGE') {
     return
@@ -50,12 +48,10 @@ export const handler = async (event: CloudWatchLogsEvent): Promise<void> => {
     .map((logEvent) => toErrorAlert(payload, logEvent))
     .filter((alert): alert is ErrorAlert => alert !== undefined)
 
-  let sentErrors = 0
   for (const alert of alerts) {
     await publishAlert(alert)
-    sentErrors++
   }
-  console.log(`Published ${sentErrors} errors to SNS.`)
+  console.info(`Published ${alerts.length} errors to SNS.`)
 }
 
 function decodeCloudWatchLogsPayload(event: CloudWatchLogsEvent): CloudWatchLogsDecodedData {
@@ -113,25 +109,18 @@ function sanitizeValue(value: unknown): unknown {
 
   if (value && typeof value === 'object') {
     return Object.fromEntries(
-      Object.entries(value).map(([key, nestedValue]) => [
-        key,
-        shouldRedactKey(key) ? '[REDACTED]' : sanitizeValue(nestedValue)
-      ])
+      Object.entries(value).map(([key, nestedValue]) => [key, sanitizeValue(nestedValue)])
     )
   }
 
   if (typeof value === 'string') {
-    return truncate(redactSensitiveText(value))
+    return truncate(value)
   }
 
   return value
 }
 
-function shouldRedactKey(key: string): boolean {
-  return /authorization|cookie|password|pass|secret|token|client_secret|jwt/i.test(key)
-}
-
-function truncate(value: string, maxLength: number = maxFieldLength): string {
+function truncate(value: string, maxLength: number = MAX_FIELD_LENGTH): string {
   if (value.length <= maxLength) {
     return value
   }
@@ -140,6 +129,7 @@ function truncate(value: string, maxLength: number = maxFieldLength): string {
 }
 
 async function publishAlert(alert: ErrorAlert): Promise<void> {
+  const topicArn = process.env.ERROR_TOPIC_ARN
   if (!topicArn) {
     console.warn('ERROR_TOPIC_ARN is not set; skipping error alert publish')
     return
@@ -161,6 +151,7 @@ async function publishAlert(alert: ErrorAlert): Promise<void> {
     }
   }
 
+  const sns = new SNSClient({})
   await sns.send(new PublishCommand(message))
 }
 
@@ -175,42 +166,27 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
     },
     metadata: {
       threadId: `${alert.environment}-${alert.service}-errors`,
-      summary: truncate(safeInline(alert.message), maxInlineLength)
+      summary: truncate(safeInline(alert.message), MAX_INLINE_LENGTH)
     }
   }
 }
 
 function buildSlackDescription(alert: ErrorAlert): string {
-  const lines = [`*Error:* \`${safeInline(alert.message)}\``]
+  const lines = ['*Error:*', formatCodeBlock(alert.message)]
   const route = formatRoute(alert)
   const requestId = stringifyField(alert.requestId)
-  const statusCode = stringifyField(alert.statusCode)
-  const stack = stringifyField(alert.stack)
-  const cause = stringifyField(alert.cause)
-  const causeStack = stringifyField(alert.causeStack)
+  const cloudWatchLogsUrl = buildCloudWatchLogsUrl(alert)
 
   if (route) {
     lines.push(`*Route:* \`${safeInline(route)}\``)
-  }
-
-  if (statusCode) {
-    lines.push(`*Status:* \`${safeInline(statusCode)}\``)
   }
 
   if (requestId) {
     lines.push(`*Request ID:* \`${safeInline(requestId)}\``)
   }
 
-  if (stack) {
-    lines.push('', '*Stack:*', formatCodeBlock(stack))
-  }
-
-  if (cause) {
-    lines.push('', '*Cause:*', formatCodeBlock(cause))
-  }
-
-  if (causeStack) {
-    lines.push('', '*Cause stack:*', formatCodeBlock(causeStack))
+  if (cloudWatchLogsUrl) {
+    lines.push(`CloudWatch: <${cloudWatchLogsUrl}|Open log stream>`)
   }
 
   return lines.join('\n')
@@ -228,41 +204,54 @@ function formatRoute(alert: ErrorAlert): string | undefined {
 }
 
 function formatCodeBlock(value: string): string {
-  const redactedValue = truncate(redactSensitiveText(value), maxStackLength).replace(/```/g, "'''")
-  return `\`\`\`\n${redactedValue}\n\`\`\``
+  const formattedValue = truncate(normalizeStack(value), MAX_STACK_LENGTH).replace(/```/g, "'''")
+  return `\`\`\`\n${formattedValue}\n\`\`\``
+}
+
+function buildCloudWatchLogsUrl(alert: ErrorAlert): string | undefined {
+  const logGroup = stringifyField(alert.logGroup)
+  const logStream = stringifyField(alert.logStream)
+
+  if (!logGroup || !logStream) {
+    return undefined
+  }
+
+  return [
+    `https://${region}.console.aws.amazon.com/cloudwatch/home?region=${region}`,
+    '#logsV2:log-groups/log-group/',
+    encodeCloudWatchLogsPath(logGroup),
+    '/log-events/',
+    encodeCloudWatchLogsPath(logStream)
+  ].join('')
+}
+
+function encodeCloudWatchLogsPath(value: string): string {
+  return encodeURIComponent(value).replace(/%/g, '$25')
+}
+
+function normalizeStack(value: string): string {
+  return value
+    .trim()
+    .replace(/\s+at\s+/g, '\n    at ')
+    .replace(/^\s+/, '')
 }
 
 function safeInline(value: string): string {
-  return truncate(redactSensitiveText(value), maxInlineLength)
-    .replace(/`/g, "'")
-    .replace(/\s+/g, ' ')
-    .trim()
+  return truncate(value, MAX_INLINE_LENGTH).replace(/`/g, "'").replace(/\s+/g, ' ').trim()
 }
 
 function stringifyField(value: unknown): string | undefined {
   if (typeof value === 'string') {
-    return redactSensitiveText(value)
+    return value
   }
 
   if (value === undefined || value === null) {
     return undefined
   }
 
-  return redactSensitiveText(JSON.stringify(value))
+  return JSON.stringify(value)
 }
 
 function truncateSubject(subject: string): string {
   return subject.length <= 100 ? subject : subject.slice(0, 100)
-}
-
-function redactSensitiveText(value: string): string {
-  return value
-    .replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, '[REDACTED_EMAIL]')
-    .replace(/\b\d{6}[+-A]\d{3}[0-9A-Z]\b/gi, '[REDACTED]')
-    .replace(/\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/g, '[REDACTED]')
-    .replace(/\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+/gi, '$1 [REDACTED]')
-    .replace(
-      /\b(authorization|cookie|password|pass|secret|token|client_secret|jwt|hetu)\s*[=:]\s*[^\s&"'`]+/gi,
-      '$1=[REDACTED]'
-    )
 }

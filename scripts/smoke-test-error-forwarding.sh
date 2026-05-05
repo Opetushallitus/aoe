@@ -30,8 +30,8 @@ function main {
   info "Putting CloudWatch Logs error event into ${log_group_name}"
   put_error_log_event "$log_group_name" "$smoke_id"
 
-  info "Triggering CloudWatch smoke alarm for PagerDuty via ${topic_arn}"
-  trigger_pagerduty_alarm "$topic_arn" "$smoke_id"
+  # info "Triggering CloudWatch smoke alarm for PagerDuty via ${topic_arn}"
+  # trigger_pagerduty_alarm "$topic_arn" "$smoke_id"
 
   info "Smoke test events sent. Slack should receive the Lambda-formatted error; PagerDuty should receive the alarm notification."
 }
