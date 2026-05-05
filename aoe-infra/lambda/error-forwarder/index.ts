@@ -6,36 +6,13 @@ import type {
 } from 'aws-lambda'
 import { gunzipSync } from 'node:zlib'
 
-type LogFields = Record<string, unknown>
+import { LogFields, ErrorAlert, SlackNotification } from './types'
 
-type ErrorAlert = {
-  environment: string
-  service: string
-  message: string
-  log: LogFields
-} & Record<string, unknown>
-
-type SlackNotification = {
-  version: '1.0'
-  source: 'custom'
-  content: {
-    textType: 'client-markdown'
-    title: string
-    description: string
-  }
-  metadata: {
-    threadId: string
-    summary: string
-  }
-}
-
-const MAX_FIELD_LENGTH = 4000
+const MAX_FIELD_LENGTH = 3500
 const MAX_INLINE_LENGTH = 500
-const MAX_STACK_LENGTH = 3500
 
 const environment = process.env.ENVIRONMENT || 'unknown'
 const serviceName = process.env.SERVICE_NAME || 'web-backend'
-const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'eu-west-1'
 
 export const handler = async (event: CloudWatchLogsEvent): Promise<void> => {
   const payload = decodeCloudWatchLogsPayload(event)
@@ -69,7 +46,6 @@ function toErrorAlert(
     return undefined
   }
 
-  const sanitizedLog = sanitizeValue(parsedMessage) as LogFields
   const timestamp = new Date(logEvent.timestamp).toISOString()
 
   return {
@@ -79,17 +55,8 @@ function toErrorAlert(
     logGroup: payload.logGroup,
     logStream: payload.logStream,
     logEventId: logEvent.id,
-    level: sanitizedLog.level,
-    message: stringifyField(sanitizedLog.message) || logEvent.message,
-    statusCode: sanitizedLog.statusCode,
-    method: sanitizedLog.method,
-    url: sanitizedLog.url,
-    requestId: sanitizedLog.requestId,
-    userAgent: sanitizedLog.userAgent,
-    stack: sanitizedLog.stack,
-    cause: sanitizedLog.cause,
-    causeStack: sanitizedLog.causeStack,
-    log: sanitizedLog
+    level: parsedMessage.level,
+    message: stringifyField(parsedMessage.message) || logEvent.message
   }
 }
 
@@ -102,30 +69,12 @@ function parseLogMessage(message: string): LogFields {
   }
 }
 
-function sanitizeValue(value: unknown): unknown {
-  if (Array.isArray(value)) {
-    return value.map((item) => sanitizeValue(item))
-  }
-
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, nestedValue]) => [key, sanitizeValue(nestedValue)])
-    )
-  }
-
-  if (typeof value === 'string') {
-    return truncate(value)
-  }
-
-  return value
-}
-
 function truncate(value: string, maxLength: number = MAX_FIELD_LENGTH): string {
   if (value.length <= maxLength) {
     return value
   }
 
-  return `${value.slice(0, maxLength)}...[truncated]`
+  return `${value.slice(0, maxLength)}...`
 }
 
 async function publishAlert(alert: ErrorAlert): Promise<void> {
@@ -137,13 +86,9 @@ async function publishAlert(alert: ErrorAlert): Promise<void> {
 
   const message: PublishCommandInput = {
     TopicArn: topicArn,
-    Subject: truncateSubject(`[${environment}] ${serviceName} error`),
+    Subject: truncate(`[${environment}] ${serviceName} error`, 100),
     Message: JSON.stringify(buildSlackNotification(alert), undefined, 2),
     MessageAttributes: {
-      environment: {
-        DataType: 'String',
-        StringValue: environment
-      },
       service: {
         DataType: 'String',
         StringValue: serviceName
@@ -161,54 +106,34 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
     source: 'custom',
     content: {
       textType: 'client-markdown',
-      title: truncateSubject(`:warning: ${alert.environment} ${alert.service} error`),
+      title: truncate(`:warning: ${alert.environment} ${alert.service} error`, 100),
       description: buildSlackDescription(alert)
     },
     metadata: {
       threadId: `${alert.environment}-${alert.service}-errors-${new Date().toISOString().slice(0, 10)}`,
-      summary: truncate(safeInline(alert.message), MAX_INLINE_LENGTH)
+      summary: truncate(alert.message, MAX_INLINE_LENGTH)
     }
   }
 }
 
 function buildSlackDescription(alert: ErrorAlert): string {
   const lines = ['*Error:*', formatCodeBlock(alert.message)]
-  const route = formatRoute(alert)
-  const requestId = stringifyField(alert.requestId)
   const cloudWatchLogsUrl = buildCloudWatchLogsUrl(alert)
 
-  if (route) {
-    lines.push(`*Route:* \`${safeInline(route)}\``)
-  }
-
-  if (requestId) {
-    lines.push(`*Request ID:* \`${safeInline(requestId)}\``)
-  }
-
   if (cloudWatchLogsUrl) {
-    lines.push(`CloudWatch: <${cloudWatchLogsUrl}|Open log stream>`)
+    lines.push(`<${cloudWatchLogsUrl}|Open error in CloudWatch>`)
   }
 
   return lines.join('\n')
 }
 
-function formatRoute(alert: ErrorAlert): string | undefined {
-  const method = stringifyField(alert.method)
-  const url = stringifyField(alert.url)
-
-  if (method && url) {
-    return `${method} ${url}`
-  }
-
-  return method || url
-}
-
 function formatCodeBlock(value: string): string {
-  const formattedValue = truncate(normalizeStack(value), MAX_STACK_LENGTH).replace(/```/g, "'''")
+  const formattedValue = truncate(value, MAX_FIELD_LENGTH)
   return `\`\`\`\n${formattedValue}\n\`\`\``
 }
 
 function buildCloudWatchLogsUrl(alert: ErrorAlert): string | undefined {
+  const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'eu-west-1'
   const logGroup = stringifyField(alert.logGroup)
   const logStream = stringifyField(alert.logStream)
 
@@ -229,17 +154,6 @@ function encodeCloudWatchLogsPath(value: string): string {
   return encodeURIComponent(value).replace(/%/g, '$25')
 }
 
-function normalizeStack(value: string): string {
-  return value
-    .trim()
-    .replace(/\s+at\s+/g, '\n    at ')
-    .replace(/^\s+/, '')
-}
-
-function safeInline(value: string): string {
-  return truncate(value, MAX_INLINE_LENGTH).replace(/`/g, "'").replace(/\s+/g, ' ').trim()
-}
-
 function stringifyField(value: unknown): string | undefined {
   if (typeof value === 'string') {
     return value
@@ -250,8 +164,4 @@ function stringifyField(value: unknown): string | undefined {
   }
 
   return JSON.stringify(value)
-}
-
-function truncateSubject(subject: string): string {
-  return subject.length <= 100 ? subject : subject.slice(0, 100)
 }
