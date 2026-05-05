@@ -84,9 +84,6 @@ interface EcsServiceStackProps extends StackProps {
     volume: Volume
   }
   alarmSnsTopic: sns.Topic
-  errorLogForwarding?: {
-    enabled: boolean
-  }
 }
 
 export class EmptyEcsServiceStack extends Stack {

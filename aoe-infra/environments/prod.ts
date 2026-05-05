@@ -195,7 +195,6 @@ export const prod: EnvironmentConfig = {
     }
   },
   features: {
-    enableErrorForwarding: false,
     enableSemanticApisInWebBackend: true
   },
   msk: {

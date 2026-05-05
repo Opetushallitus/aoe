@@ -84,9 +84,6 @@ interface EcsServiceStackProps extends StackProps {
     volume: Volume
   }
   alarmSnsTopic: sns.Topic
-  errorLogForwarding?: {
-    enabled: boolean
-  }
 }
 
 export class EcsServiceStack extends Stack {
@@ -103,53 +100,51 @@ export class EcsServiceStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY
     })
 
-    if (props.errorLogForwarding?.enabled) {
-      const errorForwarderRole = new iam.Role(this, 'ErrorForwarderRole', {
-        roleName: `${props.environment}-${props.serviceName}-error-forwarder-role`,
-        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-        managedPolicies: [
-          iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
-        ]
-      })
+    const errorForwarderRole = new iam.Role(this, 'ErrorForwarderRole', {
+      roleName: `${props.environment}-${props.serviceName}-error-forwarder-role`,
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
+      ]
+    })
 
-      const errorForwarderFunctionName = `${props.environment}-${props.serviceName}-error-forwarder`
-      const errorForwarderLogGroup = new logs.LogGroup(this, 'ErrorForwarderLogGroup', {
-        logGroupName: `/aws/lambda/${errorForwarderFunctionName}`,
-        retention: logs.RetentionDays.THREE_MONTHS,
-        removalPolicy: RemovalPolicy.DESTROY
-      })
+    const errorForwarderFunctionName = `${props.environment}-${props.serviceName}-error-forwarder`
+    const errorForwarderLogGroup = new logs.LogGroup(this, 'ErrorForwarderLogGroup', {
+      logGroupName: `/aws/lambda/${errorForwarderFunctionName}`,
+      retention: logs.RetentionDays.THREE_MONTHS,
+      removalPolicy: RemovalPolicy.DESTROY
+    })
 
-      const errorForwarder = new lambda.Function(this, 'ErrorForwarder', {
-        functionName: errorForwarderFunctionName,
-        runtime: lambda.Runtime.NODEJS_24_X,
-        handler: 'index.handler',
-        code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'error-forwarder'), {
-          exclude: ['*.d.ts', '*.ts']
-        }),
-        timeout: Duration.seconds(30),
-        memorySize: 128,
-        logGroup: errorForwarderLogGroup,
-        role: errorForwarderRole,
-        environment: {
-          ENVIRONMENT: props.environment,
-          SERVICE_NAME: props.serviceName,
-          ERROR_TOPIC_ARN: props.alarmSnsTopic.topicArn
-        }
-      })
+    const errorForwarder = new lambda.Function(this, 'ErrorForwarder', {
+      functionName: errorForwarderFunctionName,
+      runtime: lambda.Runtime.NODEJS_24_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'error-forwarder'), {
+        exclude: ['*.d.ts', '*.ts']
+      }),
+      timeout: Duration.seconds(30),
+      memorySize: 128,
+      logGroup: errorForwarderLogGroup,
+      role: errorForwarderRole,
+      environment: {
+        ENVIRONMENT: props.environment,
+        SERVICE_NAME: props.serviceName,
+        ERROR_TOPIC_ARN: props.alarmSnsTopic.topicArn
+      }
+    })
 
-      errorForwarderRole.addToPolicy(
-        new iam.PolicyStatement({
-          actions: ['sns:Publish'],
-          resources: [props.alarmSnsTopic.topicArn]
-        })
-      )
-
-      new logs.SubscriptionFilter(this, 'ErrorLogSubscription', {
-        logGroup: ServiceLogGroup,
-        destination: new logsDestinations.LambdaDestination(errorForwarder),
-        filterPattern: logs.FilterPattern.literal('{ $.level = "error" }')
+    errorForwarderRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ['sns:Publish'],
+        resources: [props.alarmSnsTopic.topicArn]
       })
-    }
+    )
+
+    new logs.SubscriptionFilter(this, 'ErrorLogSubscription', {
+      logGroup: ServiceLogGroup,
+      destination: new logsDestinations.LambdaDestination(errorForwarder),
+      filterPattern: logs.FilterPattern.literal('{ $.level = "error" }')
+    })
 
     const secrets = {
       // SSM Parameter Store secure strings

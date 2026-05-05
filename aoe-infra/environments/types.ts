@@ -23,7 +23,6 @@ export interface EnvironmentConfig {
   }
   // Infra feature flags
   features: {
-    enableErrorForwarding: boolean // AOE-90
     enableSemanticApisInWebBackend: boolean // AOE-94
   }
   msk: {
