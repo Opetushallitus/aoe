@@ -38,7 +38,6 @@ import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
-import { EmptyEcrStack } from '../lib/empty-ecr-stack'
 
 const app = new cdk.App()
 
