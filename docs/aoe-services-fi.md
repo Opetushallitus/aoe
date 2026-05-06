@@ -78,6 +78,8 @@ User-agentit, jotka vastaavat `KAFKA_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim.
 | 1:15 AM                 | Luo URNit julkaisemattomille materiaaleille (jos käytössä)                  |
 | 1:30 AM                 | Indeksoi OpenSearch uudelleen viimeisimpien materiaalimuutosten perusteella |
 | 10:00 AM                | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta        |
+| Sunnuntaisin 3:00AM     | Päivitä viitetietorajapintojen tiedot Redikseen.                            |
+| Käynnistyksessä (+10 s) | Päivitä viitetietorajapintojen tiedot Redikseen.                            |
 | Käynnistyksessä (+10 s) | Muunna odottavat Office-tiedostot PDF:iksi ja lataa S3:een                  |
 
 #### Viitetietorajapinnat
