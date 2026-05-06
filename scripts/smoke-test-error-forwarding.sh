@@ -22,7 +22,7 @@ function main {
   log_group_name="${LOG_GROUP_NAME:-/service/web-backend}"
 
   info "Putting CloudWatch Logs error event into ${log_group_name}"
-  # put_error_log_event "$log_group_name" "$smoke_id"
+  put_error_log_event "$log_group_name" "$smoke_id"
 
   info "Triggering deployed web-backend error alarm for PagerDuty"
   trigger_web_backend_error_alarm "$smoke_id"

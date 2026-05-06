@@ -340,7 +340,7 @@ export class EcsServiceStack extends Stack {
         metricValue: '1'
       })
 
-      const errorAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
+      const errorThresholdAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
         alarmName: `${props.environment}-${props.serviceName}-ErrorLogAlarm`,
         metric: errorMetricFilter.metric({
           statistic: cloudwatch.Stats.SUM,
@@ -352,8 +352,8 @@ export class EcsServiceStack extends Stack {
         treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
       })
 
-      errorAlarm.addAlarmAction(new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic))
-      errorAlarm.addOkAction(new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic))
+      errorThresholdAlarm.addAlarmAction(alarmSnsAction)
+      errorThresholdAlarm.addOkAction(alarmSnsAction)
     }
 
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
