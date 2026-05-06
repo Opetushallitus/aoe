@@ -41,7 +41,6 @@ function main {
     export AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
     export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
     export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
-    export AOE_SEMANTIC_APIS_TAG="${github_registry}aoe-semantic-apis:${revision}"
     export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
   fi
 
