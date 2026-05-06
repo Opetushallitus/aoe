@@ -59,7 +59,7 @@ function getRevisionFromEnv() {
   throw new Error('Missing revision env variable')
 }
 
-let environmentConfig: EnvironmentConfig
+let environmentConfig: EnvironmentConfig | undefined
 
 if (environmentName === 'dev') {
   environmentConfig = dev
@@ -67,6 +67,8 @@ if (environmentName === 'dev') {
   environmentConfig = qa
 } else if (environmentName === 'prod') {
   environmentConfig = prod
+} else if (environmentName === 'utility') {
+  // utility does not have config
 } else {
   console.error(
     'You must define a valid environment name in CDK context! Valid environment names are dev, qa, prod and utility'
@@ -76,7 +78,12 @@ if (environmentName === 'dev') {
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
-  const config = environmentConfig as EnvironmentConfig
+  if (!environmentConfig) {
+    console.error(`Missing config for environment ${environmentName}`)
+    process.exit(1)
+  }
+
+  const config = environmentConfig
   const revision = getRevisionFromEnv()
 
   const domain = config.aws.domain
@@ -613,10 +620,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: 'aoe-web-backend-ecr',
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
-  })
-  new EmptyEcrStack(app, 'SemanticApisEcrStack', {
-    env: envEU,
-    stackName: 'aoe-semantic-apis-ecr'
   })
   new EcrStack(app, 'StreamingAppEcrStack', {
     env: envEU,
