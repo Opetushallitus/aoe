@@ -15,12 +15,6 @@ function main {
 
   require_aws_session_for_env "$ENV"
 
-  local account_id
-  account_id="$(aws sts get-caller-identity --query Account --output text)"
-
-  local topic_arn
-  topic_arn="${TOPIC_ARN:-arn:aws:sns:${AWS_REGION}:${account_id}:${ENV}-cloudwatch-slack}"
-
   local smoke_id
   smoke_id="error-forwarding-smoke-$(date +%s)"
 
@@ -28,12 +22,12 @@ function main {
   log_group_name="${LOG_GROUP_NAME:-/service/web-backend}"
 
   info "Putting CloudWatch Logs error event into ${log_group_name}"
-  put_error_log_event "$log_group_name" "$smoke_id"
+  # put_error_log_event "$log_group_name" "$smoke_id"
 
-  # info "Triggering CloudWatch smoke alarm for PagerDuty via ${topic_arn}"
-  # trigger_pagerduty_alarm "$topic_arn" "$smoke_id"
+  info "Triggering deployed web-backend error alarm for PagerDuty"
+  trigger_web_backend_error_alarm "$smoke_id"
 
-  info "Smoke test events sent. Slack should receive the Lambda-formatted error; PagerDuty should receive the alarm notification."
+  info "Smoke test events sent. Slack should receive the Lambda-formatted error; PagerDuty should receive the web-backend error alarm notification."
 }
 
 function put_error_log_event {
@@ -59,7 +53,7 @@ function put_error_log_event {
   "method": "GET",
   "url": "/smoke-test/error-forwarding",
   "requestId": "${smoke_id}",
-  "stack": "Error: Smoke test ${smoke_id}\\n    at smoke-test-error-forwarding.sh (${created_at})\\n    authorization=Bearer smoke-test-secret\\n    email=smoke.test@example.com\\n    hetu=010170-1234"
+  "stack": "Error: Smoke test ${smoke_id}\\n    at smoke-test-error-forwarding.sh (${created_at})"
 }
 EOF
 )"
@@ -76,30 +70,20 @@ EOF
     --log-events "$log_events"
 }
 
-function trigger_pagerduty_alarm {
-  local topic_arn="$1"
-  local smoke_id="$2"
+function trigger_web_backend_error_alarm {
+  local smoke_id="$1"
   local alarm_name
-  alarm_name="${ALARM_NAME:-AOE-${ENV}-error-forwarding-smoke-test}"
+  alarm_name="${ALARM_NAME:-$(get_web_backend_error_alarm_name)}"
 
-  aws cloudwatch put-metric-alarm \
-    --alarm-name "$alarm_name" \
-    --alarm-description "Smoke test alarm for AOE error forwarding to PagerDuty." \
-    --namespace "AOE/SmokeTest" \
-    --metric-name "ErrorForwardingSmokeTest" \
-    --dimensions "Name=Environment,Value=${ENV}" \
-    --statistic Sum \
-    --period 60 \
-    --evaluation-periods 1 \
-    --threshold 1 \
-    --comparison-operator GreaterThanOrEqualToThreshold \
-    --treat-missing-data notBreaching \
-    --actions-enabled \
-    --alarm-actions "$topic_arn"
+  if [ "$alarm_name" == "None" ] || [ -z "$alarm_name" ]; then
+    fatal "Could not find web-backend ErrorCount alarm for ${ENV}"
+  fi
+
+  info "Using CloudWatch alarm ${alarm_name}"
 
   aws cloudwatch set-alarm-state \
     --alarm-name "$alarm_name" \
-    --state-value OK \
+    --state-value INSUFFICIENT_DATA \
     --state-reason "Preparing smoke test ${smoke_id}"
 
   sleep 1
@@ -107,7 +91,16 @@ function trigger_pagerduty_alarm {
   aws cloudwatch set-alarm-state \
     --alarm-name "$alarm_name" \
     --state-value ALARM \
-    --state-reason "Smoke test ${smoke_id}: synthetic CloudWatch alarm state change."
+    --state-reason "Smoke test ${smoke_id}: synthetic web-backend error alarm state change."
+}
+
+function get_web_backend_error_alarm_name {
+  aws cloudwatch describe-alarms-for-metric \
+    --namespace "AOE/WebBackend" \
+    --metric-name "ErrorCount" \
+    --dimensions "Name=Service,Value=web-backend" "Name=Environment,Value=${ENV}" \
+    --query "MetricAlarms[0].AlarmName" \
+    --output text
 }
 
 main "$@"

@@ -329,6 +329,39 @@ export class EcsServiceStack extends Stack {
     memoryUtilizationAlarm.addAlarmAction(alarmSnsAction)
     memoryUtilizationAlarm.addOkAction(alarmSnsAction)
 
+    // Let's keep this only for web-backend for now. Include more services once this is stable.
+    if (props.serviceName === 'web-backend') {
+      const errorMetricFilter = new logs.MetricFilter(this, 'ErrorLogMetricFilter', {
+        logGroup: ServiceLogGroup,
+        filterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
+        metricNamespace: 'AOE/WebBackend',
+        metricName: 'ErrorCount',
+        metricValue: '1',
+        dimensions: {
+          Service: props.serviceName,
+          Environment: props.environment
+        }
+      })
+
+      const errorAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
+        metric: errorMetricFilter.metric({
+          statistic: cloudwatch.Stats.SUM,
+          period: Duration.minutes(5),
+          dimensionsMap: {
+            Service: props.serviceName,
+            Environment: props.environment
+          }
+        }),
+        threshold: 100, // Decrease this to something like 5 once recurring errors have been fixed.
+        evaluationPeriods: 1,
+        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+      })
+
+      errorAlarm.addAlarmAction(new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic))
+      errorAlarm.addOkAction(new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic))
+    }
+
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
       dashboardName: `ECS-${props.serviceName}-Monitoring`
     })
