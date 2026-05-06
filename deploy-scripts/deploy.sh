@@ -24,8 +24,10 @@ function main {
 function deploy {
   pushd "$repo"/aoe-infra
 
-  PAGERDUTY_EVENT_URL=$( get_secret "/pagerduty/event_url")
-  export PAGERDUTY_EVENT_URL
+  if [[ "$ENV" != "utility" ]]; then
+    PAGERDUTY_EVENT_URL=$( get_secret "/pagerduty/event_url")
+    export PAGERDUTY_EVENT_URL
+  fi
 
   ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
   popd
