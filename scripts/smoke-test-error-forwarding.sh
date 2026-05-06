@@ -96,9 +96,8 @@ function trigger_web_backend_error_alarm {
 
 function get_web_backend_error_alarm_name {
   aws cloudwatch describe-alarms-for-metric \
-    --namespace "AOE/WebBackend" \
+    --namespace "AOE/WebBackend/${ENV}" \
     --metric-name "ErrorCount" \
-    --dimensions "Name=Service,Value=web-backend" "Name=Environment,Value=${ENV}" \
     --query "MetricAlarms[0].AlarmName" \
     --output text
 }

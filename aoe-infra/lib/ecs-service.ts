@@ -331,26 +331,20 @@ export class EcsServiceStack extends Stack {
 
     // Let's keep this only for web-backend for now. Include more services once this is stable.
     if (props.serviceName === 'web-backend') {
+      const errorMetricNamespace = `AOE/WebBackend/${props.environment}`
       const errorMetricFilter = new logs.MetricFilter(this, 'ErrorLogMetricFilter', {
         logGroup: ServiceLogGroup,
         filterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
-        metricNamespace: 'AOE/WebBackend',
+        metricNamespace: errorMetricNamespace,
         metricName: 'ErrorCount',
-        metricValue: '1',
-        dimensions: {
-          Service: props.serviceName,
-          Environment: props.environment
-        }
+        metricValue: '1'
       })
 
       const errorAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
+        alarmName: `${props.environment}-${props.serviceName}-ErrorLogAlarm`,
         metric: errorMetricFilter.metric({
           statistic: cloudwatch.Stats.SUM,
-          period: Duration.minutes(5),
-          dimensionsMap: {
-            Service: props.serviceName,
-            Environment: props.environment
-          }
+          period: Duration.minutes(5)
         }),
         threshold: 100, // Decrease this to something like 5 once recurring errors have been fixed.
         evaluationPeriods: 1,
