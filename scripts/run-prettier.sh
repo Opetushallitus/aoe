@@ -8,7 +8,6 @@ function main {
     pushd "$repo"
     use_correct_node_version
 
-    runPrettier "aoe-semantic-apis"
     runPrettier "aoe-web-frontend"
     runPrettier "aoe-web-backend"
     runPrettier "aoe-streaming-app"

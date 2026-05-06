@@ -6,7 +6,6 @@
     "includes": [
       "aoe-web-backend/**/*.ts",
       "aoe-web-frontend/**/*.ts",
-      "aoe-semantic-apis/**/*.ts",
       "aoe-streaming-app/**/*.ts",
       "aoe-infra/**/*.ts",
       "playwright/**/*.ts"

@@ -79,8 +79,7 @@ function rename_services_panes_to_match_the_script_they_run_window_3 {
   tmux select-pane -t 2.1 -T aoe-data-services
   tmux select-pane -t 2.2 -T aoe-streaming-app
   tmux select-pane -t 2.3 -T aoe-data-analytics
-  tmux select-pane -t 2.4 -T aoe-semantic-apis
-  tmux select-pane -t 2.5 -T aoe-web-frontend
+  tmux select-pane -t 2.4 -T aoe-web-frontend
 }
 
 init
@@ -164,7 +163,6 @@ tmux split-window -v   # Pane 3
 
 tmux select-pane -t 2.3
 tmux split-window -v   # Pane 4
-tmux split-window -v   # Pane 5
 
 tmux select-pane -t 2.0
 tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
@@ -179,9 +177,6 @@ tmux select-pane -t 2.3
 tmux send-keys "$repo/scripts/run-data-analytics.sh" C-m
 
 tmux select-pane -t 2.4
-tmux send-keys "$repo/scripts/run-semantic-apis.sh" C-m
-
-tmux select-pane -t 2.5
 tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
 
 tmux select-window -t 1

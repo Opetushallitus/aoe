@@ -20,7 +20,7 @@ function clean {
 }
 
 function run_unit_tests {
-  pushd "$repo/aoe-semantic-apis"
+  pushd "$repo/aoe-web-backend"
   npm_ci_if_package_lock_has_changed
   npm test
   popd

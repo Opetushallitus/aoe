@@ -1,6 +1,6 @@
 # AOE ECS Services Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 6 microservices on AWS ECS Fargate. Four are built with Node.js/TypeScript and two with Java/Spring Boot.
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 5 microservices on AWS ECS Fargate. Three are built with Node.js/TypeScript and two with Java/Spring Boot.
 
 ## Request Routing
 
@@ -8,8 +8,7 @@ All traffic enters through an Application Load Balancer. Path-based rules route 
 
 | Path Pattern | Service | Container Port | ALB Priority |
 |---|---|---|---|
-| `/api/*`, `/h5p/*`, `/embed/*`, `/content/*` | web-backend | 3000 | 120 |
-| `/ref/api/v1*` | semantic-apis | 3002 | 100 |
+| `/api/*`, `/h5p/*`, `/embed/*`, `/content/*`, `/ref/api/v1*` | web-backend | 3000 | 120 |
 | `/stream/api/v1*` | streaming-app | 3001 | 110 |
 | `/meta/oaipmh*`, `/meta/v2/oaipmh*` | data-services | 8001 | 130 |
 | `/analytics/api/*` | data-analytics | 8080 | 140 |
@@ -29,7 +28,7 @@ The user-facing single-page application. Educators and learners use it to browse
 |---|---|---|
 | web-backend (v1) | `/api/v1` | Materials, collections, user data, ratings, file downloads, authentication |
 | web-backend (v2) | `/api/v2` | Search, material uploads, thumbnails, notifications |
-| semantic-apis | `/ref/api/v1` | Reference data for all form dropdowns and filters — educational levels, subjects, keywords, licenses, accessibility features, organizations, languages (30+ categories) |
+| web-backend (reference data) | `/ref/api/v1` | Reference data for all form dropdowns and filters — educational levels, subjects, keywords, licenses, accessibility features, organizations, languages (30+ categories) |
 | data-analytics (via proxy) | `/api/v2/statistics/prod` | Admin dashboard statistics — material activity and search request totals by time interval, distributions by educational level/subject/organization |
 | web-backend (embed) | `/embed` | Material data for the embeddable iframe view |
 
@@ -81,7 +80,6 @@ Events are published asynchronously via worker threads. User-agents matching `KA
 | **streaming-app** | When a file download has a `Range` header and the file meets streaming criteria (enabled, MIME type in `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, file size >= `STREAM_FILESIZE_MIN`), the backend first does a HEAD request to the streaming service to check it's alive (1s timeout). If yes, it responds with **HTTP 302** redirecting the browser to `/stream/api/v1/material/{filename}`. Otherwise it serves the file directly from S3. |
 | **data-analytics** | The path `/api/v2/statistics` is proxied via `http-proxy-middleware` to `http://aoe-data-analytics:8080/analytics/api`. The frontend calls this for admin dashboard statistics. |
 | **data-services** | No direct calls. Data-services calls the backend, not the other way around. |
-| **semantic-apis** | No direct calls. Only the frontend calls semantic-apis. |
 
 **Authentication:** OIDC via Passport.js. Discovers the issuer at `PROXY_URI`, redirects users for login with `openid profile offline_access` scopes, handles the callback at `/api/secure/redirect`, and auto-creates new users in PostgreSQL.
 
@@ -93,38 +91,12 @@ Events are published asynchronously via worker threads. User-agents matching `KA
 | 1:15 AM | Generate URNs for unpublished materials (if enabled) |
 | 1:30 AM | Re-index OpenSearch with recent material changes |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES |
+| On Sundays at 3:00 AM | Update reference data endpoints data into Redis | 
+| On startup (+10s) | Update reference data endpoints data into Redis | 
 | On startup (+10s) | Convert pending office files to PDF and upload to S3 |
 
----
 
-### 3. aoe-streaming-app
-
-**Node.js / Express 5** (TypeScript) | Port 3001
-
-A stateless media streaming proxy between S3 and the browser. It exists to separate I/O-heavy streaming from the main backend and to support HTTP Range requests for video/audio seeking.
-
-**The browser never calls this service directly.** The flow is:
-
-1. Browser requests a file download from web-backend
-2. Web-backend checks: is streaming enabled, is there a `Range` header, is the MIME type audio/video, is the file large enough?
-3. If all criteria pass, web-backend responds with **HTTP 302** → `/stream/api/v1/material/{filename}`
-4. Browser follows the redirect to the streaming service
-5. Streaming service does a HEAD to S3 for file metadata, then streams the file back with Range support
-
-**Range handling:** Client sends `Range: bytes=start-end`. The service caps chunks at `STORAGE_MAX_RANGE` (default 5MB). If the requested range exceeds the limit, the end is adjusted down. Response is HTTP 206 Partial Content with `Content-Range` header.
-
-**Only connection:** AWS S3 (read-only, GET and HEAD). No databases, no caches, no queues.
-
-**Endpoints:**
-- `GET /stream/api/v1/material/:filename` — stream a file from S3
-- `HEAD /stream/api/v1/material/:filename` — return file metadata (used by web-backend's health check)
-- `GET /health` — health check
-
----
-
-### 4. aoe-semantic-apis
-
-**Node.js / Express 5** (TypeScript) | Port 3002
+#### Reference Data Endpoints
 
 A metadata aggregation and caching layer. Fetches reference data from Finnish educational APIs, normalizes it into key-value pairs with multi-language labels (fi/sv/en), and caches everything in Redis. The frontend reads this cached data for all form dropdowns and search filters.
 
@@ -154,19 +126,42 @@ Hierarchical resources (with parent IDs): `/oppiaineet/{lang}`, `/tavoitteet/{id
 
 Combined filter endpoint: `/filters-oppiaineet-tieteenalat-tutkinnot/{lang}`
 
-#### Future: Merge into web-backend
+#### Future: Remove Redis
 
-This service is a candidate for removal. The goal is to simplify the architecture by reducing the number of independently deployed services and eliminating Java from the stack entirely.
+Instead of caching in Redis, the reference data would be stored in PostgreSQL — the data only refreshes once a week, so there is no need for an in-memory cache. The backend would expose the same `/ref/api/v1` endpoints so the frontend requires no changes.
 
-The plan is to move the reference data fetching and serving logic into the web-backend. The external API integrations (Opintopolku, Finto, Suomi.fi) would become a scheduled job in the backend, similar to the existing nightly OpenSearch reindex. Instead of caching in Redis, the reference data would be stored in PostgreSQL — the data only refreshes once a week, so there is no need for an in-memory cache. The backend would expose the same `/ref/api/v1` endpoints so the frontend requires no changes.
+**What this removes:** One CDK stack and the only consumer of Redis for non-session data.
 
-**What this removes:** One ECS service, one CDK stack, one container image, one deployment pipeline, and the only consumer of Redis for non-session data.
-
-**What this requires:** Reimplementing the external API fetching (including RDF+XML parsing for Finto) and the REST endpoints in TypeScript within the backend. A new PostgreSQL table (or tables) for storing the normalized reference data.
+**What this requires:** A new PostgreSQL table (or tables) for storing the normalized reference data.
 
 ---
 
-### 5. aoe-data-analytics
+### 3. aoe-streaming-app
+
+**Node.js / Express 5** (TypeScript) | Port 3001
+
+A stateless media streaming proxy between S3 and the browser. It exists to separate I/O-heavy streaming from the main backend and to support HTTP Range requests for video/audio seeking.
+
+**The browser never calls this service directly.** The flow is:
+
+1. Browser requests a file download from web-backend
+2. Web-backend checks: is streaming enabled, is there a `Range` header, is the MIME type audio/video, is the file large enough?
+3. If all criteria pass, web-backend responds with **HTTP 302** → `/stream/api/v1/material/{filename}`
+4. Browser follows the redirect to the streaming service
+5. Streaming service does a HEAD to S3 for file metadata, then streams the file back with Range support
+
+**Range handling:** Client sends `Range: bytes=start-end`. The service caps chunks at `STORAGE_MAX_RANGE` (default 5MB). If the requested range exceeds the limit, the end is adjusted down. Response is HTTP 206 Partial Content with `Content-Range` header.
+
+**Only connection:** AWS S3 (read-only, GET and HEAD). No databases, no caches, no queues.
+
+**Endpoints:**
+- `GET /stream/api/v1/material/:filename` — stream a file from S3
+- `HEAD /stream/api/v1/material/:filename` — return file metadata (used by web-backend's health check)
+- `GET /health` — health check
+
+---
+
+### 4. aoe-data-analytics
 
 **Java 17 / Spring Boot 3.5** | Port 8080 | Context path `/analytics/api`
 
@@ -205,7 +200,7 @@ All endpoints accept date range parameters and return aggregated results. 512MB 
 
 ---
 
-### 6. aoe-data-services
+### 5. aoe-data-services
 
 **Java 17 / Spring Boot 3.5** | Port 8001 | Context path `/meta`
 

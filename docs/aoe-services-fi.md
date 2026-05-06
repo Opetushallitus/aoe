@@ -12,7 +12,7 @@ Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateri
 | ------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | web-backend (v1)               | `/api/v1`                 | Oppimateriaalit, kokoelmat, käyttäjätiedot, arviot, tiedostolataukset, tunnistautuminen                                                                                  |
 | web-backend (v2)               | `/api/v2`                 | Haku, materiaalien lähetys, thumbnailit, ilmoitukset                                                                                                                     |
-| semantic-apis                  | `/ref/api/v1`             | Viitetiedot kaikkiin lomakkeiden pudotusvalikoihin ja suodattimiin — koulutusasteet, oppiaineet, asiasanat, lisenssit, saavutettavuusominaisuudet, organisaatiot, kielet |
+| web-backend (viitetiedot)      | `/ref/api/v1`             | Viitetiedot kaikkiin lomakkeiden pudotusvalikoihin ja suodattimiin — koulutusasteet, oppiaineet, asiasanat, lisenssit, saavutettavuusominaisuudet, organisaatiot, kielet |
 | data-analytics (proxyn kautta) | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
 | web-backend (embed)            | `/embed`                  | Materiaalidata upotettavaa iframe-näkymää varten                                                                                                                         |
 
@@ -67,7 +67,6 @@ User-agentit, jotka vastaavat `KAFKA_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim.
 | **streaming-app**  | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
 | **data-analytics** | Polku `/api/v2/statistics` proxytetään `http-proxy-middleware`:llä osoitteeseen `http://aoe-data-analytics:8080/analytics/api`. Frontend kutsuu tätä ylläpitonäkymän tilastoja varten.                                                                                                                                                                                                            |
 | **data-services**  | Ei suoria kutsuja. Data-services kutsuu backendiä, ei toisin päin.                                                                                                                                                                                                                                                                                                                                |
-| **semantic-apis**  | Ei suoria kutsuja. Vain frontend kutsuu semantic-apis-palvelua.                                                                                                                                                                                                                                                                                                                                   |
 
 **Tunnistautuminen:** OIDC Passport.js:n kautta. Selvittää issuerin osoitteesta `PROXY_URI`, ohjaa käyttäjät kirjautumaan scopeilla `openid profile offline_access`, käsittelee paluun osoitteessa `/api/secure/redirect` ja luo uudet käyttäjät automaattisesti PostgreSQL:ään.
 
@@ -81,35 +80,7 @@ User-agentit, jotka vastaavat `KAFKA_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim.
 | 10:00 AM                | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta        |
 | Käynnistyksessä (+10 s) | Muunna odottavat Office-tiedostot PDF:iksi ja lataa S3:een                  |
 
----
-
-## 3. aoe-streaming-app
-
-**Node.js / Express 5** (TypeScript) | Portti 3001
-
-Tilaton mediasuoratoistoproxy S3:n ja selaimen välissä. Sen tarkoitus on erottaa paljon I/O:ta kuormittava suoratoisto pääbackendistä ja tukea HTTP Range -pyyntöjä videon/äänen kelaamista varten.
-
-**Selain ei koskaan kutsu tätä palvelua suoraan.** Kulku on seuraava:
-
-1. Selain pyytää tiedoston latausta web-backendiltä
-2. Web-backend tarkistaa: onko suoratoisto käytössä, onko `Range`-otsake, onko MIME-tyyppi audio/video, onko tiedosto riittävän suuri?
-3. Jos kaikki ehdot täyttyvät, web-backend vastaa **HTTP 302** → `/stream/api/v1/material/{filename}`
-4. Selain seuraa ohjausta suoratoistopalveluun
-5. Suoratoistopalvelu tekee HEAD-pyynnön S3:een tiedoston metatietoja varten ja suoratoistaa sitten tiedoston takaisin Range-tuella
-
-**Ainoa yhteys:** AWS S3 (vain luku)
-
-**Endpointit:**
-
-- `GET /stream/api/v1/material/:filename` — suoratoistaa tiedoston S3:sta
-- `HEAD /stream/api/v1/material/:filename` — palauttaa tiedoston metatiedot (käytetään web-backendin terveystarkistuksessa)
-- `GET /health` — terveystarkistus
-
----
-
-## 4. aoe-semantic-apis
-
-**Node.js / Express 5** (TypeScript)
+#### Viitetietorajapinnat
 
 Metadatan aggregointi- ja välimuistikerros. Hakee viitetietoja suomalaisista koulutusalan API-rajapinnoista, normalisoi ne avain-arvo-pareiksi monikielisillä nimikkeillä (fi/sv/en) ja tallentaa kaiken Redis-välimuistiin. Frontend lukee tätä välimuistissa olevaa dataa kaikkiin lomakkeiden pudotusvalikoihin ja hakusuodattimiin.
 
@@ -137,17 +108,41 @@ Hierarkkiset resurssit (parent ID:t mukana): `/oppiaineet/{lang}`, `/tavoitteet/
 
 Yhdistetty suodatinendpoint: `/filters-oppiaineet-tieteenalat-tutkinnot/{lang}`
 
-#### Tulevaisuus: yhdistetään web-backendiin
+#### Tulevaisuus: poistetaan Redis
 
-Suunnitelmana on siirtää viitetietojen haku- ja tarjoamislogiikka web-backendiin. Ulkoisten API-rajapintojen integraatioista (Opintopolku, Finto, Suomi.fi) tulisi backendin ajastettu työ, samaan tapaan kuin nykyinen yöllinen OpenSearch-uudelleenindeksointi. Redis-välimuistin sijaan viitetiedot tallennettaisiin PostgreSQL:ään — data päivittyy vain kerran viikossa, joten erilliselle välimuistille ei ole tarvetta. Backend tarjoaisi samat `/ref/api/v1`-endpointit, joten frontendiin ei tarvittaisi muutoksia.
+Redis-välimuistin sijaan viitetiedot tallennettaisiin PostgreSQL:ään — data päivittyy vain kerran viikossa, joten erilliselle välimuistille ei ole tarvetta. Backend tarjoaisi samat `/ref/api/v1`-endpointit, joten frontendiin ei tarvittaisi muutoksia.
 
-**Mitä tämä poistaa:** Yhden ECS-palvelun, yhden CDK-stackin, yhden docker imagen, yhden julkaisuputken ja Redisin käyttö vähenee. (Jotta senkin voisi myöhemmin poistaa)
+**Mitä tämä poistaa:** Yhden CDK-stackin ja Redisin käyttö päättyy.
 
-**Mitä tämä vaatii:** Ulkoisten API-kutsujen toteuttamisen uudelleen (mukaan lukien Finton RDF+XML-parsinta) sekä REST-endpointtien toteuttamisen TypeScriptillä backendissä. Uuden PostgreSQL-taulun (tai taulujen) normalisoidun viitedatan tallentamista varten.
+**Mitä tämä vaatii:** Uuden PostgreSQL-taulun (tai taulujen) normalisoidun viitedatan tallentamista varten.
 
 ---
 
-## 5. aoe-data-analytics
+## 3. aoe-streaming-app
+
+**Node.js / Express 5** (TypeScript) | Portti 3001
+
+Tilaton mediasuoratoistoproxy S3:n ja selaimen välissä. Sen tarkoitus on erottaa paljon I/O:ta kuormittava suoratoisto pääbackendistä ja tukea HTTP Range -pyyntöjä videon/äänen kelaamista varten.
+
+**Selain ei koskaan kutsu tätä palvelua suoraan.** Kulku on seuraava:
+
+1. Selain pyytää tiedoston latausta web-backendiltä
+2. Web-backend tarkistaa: onko suoratoisto käytössä, onko `Range`-otsake, onko MIME-tyyppi audio/video, onko tiedosto riittävän suuri?
+3. Jos kaikki ehdot täyttyvät, web-backend vastaa **HTTP 302** → `/stream/api/v1/material/{filename}`
+4. Selain seuraa ohjausta suoratoistopalveluun
+5. Suoratoistopalvelu tekee HEAD-pyynnön S3:een tiedoston metatietoja varten ja suoratoistaa sitten tiedoston takaisin Range-tuella
+
+**Ainoa yhteys:** AWS S3 (vain luku)
+
+**Endpointit:**
+
+- `GET /stream/api/v1/material/:filename` — suoratoistaa tiedoston S3:sta
+- `HEAD /stream/api/v1/material/:filename` — palauttaa tiedoston metatiedot (käytetään web-backendin terveystarkistuksessa)
+- `GET /health` — terveystarkistus
+
+---
+
+## 4. aoe-data-analytics
 
 **Java 17 / Spring Boot 3.5** | endpoint `/analytics/api`
 
@@ -186,7 +181,7 @@ Kaikki endpointit hyväksyvät päivämäärävälin parametreina ja palauttavat
 
 ---
 
-## 6. aoe-data-services
+## 5. aoe-data-services
 
 **Java 17 / Spring Boot 3.5** | Endpoint `/meta`
 

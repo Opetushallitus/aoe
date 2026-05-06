@@ -38,8 +38,6 @@ services:
         condition: service_started
       aoe-web-frontend:
         condition: service_started
-      aoe-semantic-apis:
-        condition: service_started
 
   aoe-web-backend:
     build:
@@ -120,21 +118,6 @@ services:
     depends_on:
       aoe-web-backend:
         condition: service_started
-
-  aoe-semantic-apis:
-    hostname: aoe-semantic-apis
-    build:
-      context: aoe-semantic-apis
-      dockerfile: ./docker/Dockerfile
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
-    container_name: aoe-semantic-apis
-    restart: unless-stopped
-    depends_on:
-      redis:
-        condition: service_healthy
-
 
   postgres:
     image: postgres:15-alpine@sha256:09e4f20b14ddb3dfe3a0c825b206032aaf8f28300ba2070c0b60fc1c10c6abc7
