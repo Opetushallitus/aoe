@@ -98,7 +98,7 @@ Kaikkiin ulkoisiin kutsuihin sisältyy `Caller-Id`-otsake, jossa on organisaatio
 
 **Datan päivitys:** Joka sunnuntai klo 3.00 UTC node-cronin kautta sekä kerran käynnistyksessä, kun Redis-yhteys on valmis.
 
-**Kuka kutsuu Semantic-apia:** Vain frontend, `koodistoUrl`-osoitteen (`/ref/api/v1`) kautta. Backend ei kutsu semantic-apis-palvelua.
+**Kuka kutsuu Semantic-apia:** Vain frontend, `koodistoUrl`-osoitteen (`/ref/api/v1`) kautta.
 
 **REST-endpointit** (kaikki polun `/ref/api/v1` alla):
 
@@ -208,7 +208,7 @@ Tilaton — ei suoria tietokantayhteyksiä
 
 #### Tulevaisuus: yhdistetään web-backendiin
 
-Tämä palvelu on ehdolla poistettavaksi samasta syystä kuin semantic-apis: arkkitehtuurin yksinkertaistamiseksi.
+Tämä palvelu on ehdolla poistettavaksi arkkitehtuurin yksinkertaistamiseksi.
 
 Backendissä on jo OAI-PMH-kyselylogiikka, jota data-services kutsuu (`/api/v1/oaipmh/metadata`). Ainoa asia, jonka data-services lisää, on JSONin muuntaminen LRMI/DublinCore-muotoiseksi XML:ksi. Tämä muunnos toteutettaisiin uudelleen TypeScriptillä ja OAI-PMH-endpointit tarjottaisiin suoraan backendistä.
 

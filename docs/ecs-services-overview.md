@@ -116,7 +116,7 @@ All external calls include a `Caller-Id` header with the organization's OID.
 
 **Data refresh:** Every Sunday at 3:00 AM UTC via node-cron, and once on startup when Redis connection becomes ready.
 
-**Who calls it:** Only the frontend, via `koodistoUrl` (`/ref/api/v1`). The backend does not call semantic-apis.
+**Who calls it:** Only the frontend, via `koodistoUrl` (`/ref/api/v1`).
 
 **REST endpoints** (all under `/ref/api/v1`):
 
@@ -229,7 +229,7 @@ Stateless — no direct database connections. 512MB JVM heap.
 
 #### Future: Merge into web-backend
 
-This service is a candidate for removal for the same reason as semantic-apis: simplify the architecture and eliminate Java from the stack.
+This service is a candidate for removal: simplify the architecture and eliminate Java from the stack.
 
 The backend already has the OAI-PMH query logic that data-services calls (`/api/v1/oaipmh/metadata`). The only thing data-services adds is the JSON-to-XML transformation into LRMI/DublinCore format. This transformation would be reimplemented in TypeScript and the OAI-PMH endpoints served directly from the backend.
 
@@ -248,7 +248,6 @@ The backend already has the OAI-PMH query logic that data-services calls (`/api/
 | web-frontend | TypeScript | Angular 20 + OpenResty/Nginx | 8080 |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
 | streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
-| semantic-apis | TypeScript | Express 5 (Node.js) | 3002 |
 | data-analytics | Java 17 | Spring Boot 3.5 | 8080 |
 | data-services | Java 17 | Spring Boot 3.5 | 8001 |
 
