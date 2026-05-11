@@ -18,7 +18,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.253.0",
+    "aws-cdk-lib": "2.253.1",
     "@aws-sdk/client-sns": "3.1045.0",
     "constructs": "10.6.0",
     "lodash": "4.18.1",
