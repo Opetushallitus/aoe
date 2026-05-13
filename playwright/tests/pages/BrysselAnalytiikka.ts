@@ -70,10 +70,58 @@ export const BrysselAnalyytiikka = (page: Page) => {
     await locators.vanhentunutButton.click()
   }
 
+  const haeMaterialActivityYhteensa = async ({
+    tapa
+  }: {
+    tapa: ('Haku' | 'Katselu' | 'Lataus' | 'Muokkaus')[]
+  }): Promise<number> => {
+    const body = page
+      .waitForResponse((r) => r.url().includes('/materialactivity/') && r.url().includes('/total'))
+      .then((r) => r.json())
+    await taytaJaHaeOppimateriaalienKayttomaarat(tapa, 'Päivä')
+    const totals = (await body).values.map((v: { dayTotal: number }) => v.dayTotal)
+    return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
+  }
+
+  const haeHakumaaratYhteensa = async (): Promise<number> => {
+    const body = page
+      .waitForResponse((r) => r.url().includes('/searchrequests/') && r.url().includes('/total'))
+      .then((r) => r.json())
+    await taytaJaHaeOppimateriaalienKayttomaarat(['Haku'], 'Päivä')
+    const totals = (await body).values.map((v: { dayTotal: number }) => v.dayTotal)
+    return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
+  }
+
+  const haeVanhentuneetYhteensa = async (opetusasteet: string[]): Promise<number> => {
+    const body = page
+      .waitForResponse((r) => r.url().includes('/educationallevel/expired') && r.status() === 200)
+      .then((r) => r.json())
+    await taytaJaHaeVanhentuneet(opetusasteet)
+    return (await body).values.reduce(
+      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
+      0
+    )
+  }
+
+  const haeOpetusasteJulkaisumaaratYhteensa = async (valinnat: string[]): Promise<number> => {
+    const body = page
+      .waitForResponse((r) => r.url().includes('/educationallevel/all') && r.status() === 200)
+      .then((r) => r.json())
+    await taytaJaHaeJulkaisumaarat('Opetusasteet', valinnat)
+    return (await body).values.reduce(
+      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
+      0
+    )
+  }
+
   return {
     taytaJaHaeOppimateriaalienKayttomaarat,
     taytaJaHaeJulkaisumaarat,
     taytaJaHaeVanhentuneet,
+    haeMaterialActivityYhteensa,
+    haeHakumaaratYhteensa,
+    haeVanhentuneetYhteensa,
+    haeOpetusasteJulkaisumaaratYhteensa,
     goto,
     ...locators
   }

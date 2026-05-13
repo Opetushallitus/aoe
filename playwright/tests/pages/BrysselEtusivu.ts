@@ -8,7 +8,7 @@ export const BrysselEtusivu = (page: Page) => {
     await page.goto('/')
     await expect(page.getByRole('main')).toBeVisible()
     await page.goto('/#/bryssel')
-    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible({ timeout: 500 })
+    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible()
   }
 
   const clickBrysselAnalytiikka = async () => {

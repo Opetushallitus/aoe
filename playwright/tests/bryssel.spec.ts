@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { tiedoteTest } from './fixtures/tiedoteTest'
-import type { BrysselAnalyytiikka } from './pages/BrysselAnalytiikka'
 import { BrysselEtusivu } from './pages/BrysselEtusivu'
+import { Materiaali } from './pages/Materiaali'
 import { siivoaTiedote } from './pages/BrysselTiedotteet'
 import { Etusivu } from './pages/Etusivu'
 
@@ -16,24 +16,11 @@ test('käyttäjä voi hakea analytiikka sivulta oppimateriaaalien käyttömäär
 })
 
 test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
-  const haeKatselumaaratYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
-    const responsePromise = page.waitForResponse(
-      (response) =>
-        response.url().includes('/materialactivity/') && response.url().includes('/total')
-    )
-    await analytiikka.taytaJaHaeOppimateriaalienKayttomaarat(['Katselu'], 'Päivä')
-    const response = await responsePromise
-    const body = await response.json()
-    const totals = body.values.map((v: { dayTotal: number }) => v.dayTotal)
-    return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
-  }
-  // Helper: query Katselu analytics and return the total view count from the API response
-
   // 1. Go to analytics and record the initial view count
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
-  const alkuperainenMaara = await haeKatselumaaratYhteensa(analytiikka)
+  const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({ tapa: ['Katselu'] })
 
   // 2. Create a material
   const etusivu = Etusivu(page)
@@ -44,36 +31,79 @@ test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
   const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
 
-  // 3. View the material to trigger a Kafka view event
+  // 3. View the material to trigger a view event
   await page.goto(`/#/materiaali/${materiaaliNumero}`)
   await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
-  const uusiMaara = await haeKatselumaaratYhteensa(analytiikkaUudelleen)
+  const uusiMaara = await analytiikkaUudelleen.haeMaterialActivityYhteensa({ tapa: ['Katselu'] })
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('oppimateriaalin lataus näkyy analytiikassa', async ({ page }) => {
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka lataus')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  const materiaaliNumero = await Materiaali(page).getMateriaaliNumero()
+
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({ tapa: ['Lataus'] })
+
+  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
+  const materiaaliPage = Materiaali(page)
+  await materiaaliPage.lataaDropdown.click()
+  await materiaaliPage.lataaTiedosto('blank')
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeMaterialActivityYhteensa({ tapa: ['Lataus'] })
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('oppimateriaalin muokkaus näkyy analytiikassa', async ({ page }) => {
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka muokkaus')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  const materiaaliNumero = await Materiaali(page).getMateriaaliNumero()
+
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({ tapa: ['Muokkaus'] })
+
+  await etusivu.goto()
+  const omatMateriaalitUudelleen = await etusivu.header.clickOmatMateriaalit()
+  await omatMateriaalitUudelleen.startToEditMateriaaliNumero(materiaaliNumero)
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeMaterialActivityYhteensa({ tapa: ['Muokkaus'] })
 
   expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
   await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
 })
 
 test('uusi oppimateriaali näkyy julkaisumäärissä', async ({ page }) => {
-  const haeJulkaisumaaratYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
-    const responsePromise = page.waitForResponse(
-      (response) => response.url().includes('/educationallevel/all') && response.status() === 200
-    )
-    await analytiikka.taytaJaHaeJulkaisumaarat('Opetusasteet', ['korkeakoulutus'])
-    const response = await responsePromise
-    const body = await response.json()
-    return body.values.reduce(
-      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
-      0
-    )
-  }
-
   // 1. Go to analytics and record the initial published count for korkeakoulutus
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
-  const alkuperainenMaara = await haeJulkaisumaaratYhteensa(analytiikka)
+  const alkuperainenMaara = await analytiikka.haeOpetusasteJulkaisumaaratYhteensa([
+    'korkeakoulutus'
+  ])
 
   // 2. Create a material (uses korkeakoulutus educational level)
   const etusivu = Etusivu(page)
@@ -86,32 +116,136 @@ test('uusi oppimateriaali näkyy julkaisumäärissä', async ({ page }) => {
   // 3. Query again and assert published count increased
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
-  const uusiMaara = await haeJulkaisumaaratYhteensa(analytiikkaUudelleen)
+  const uusiMaara = await analytiikkaUudelleen.haeOpetusasteJulkaisumaaratYhteensa([
+    'korkeakoulutus'
+  ])
 
   expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
   await expect(analytiikkaUudelleen.julkaisuChart).toBeVisible()
 })
 
-test('vanhentuneet oppimateriaalit näkyvät analytiikassa', async ({ page }) => {
-  const haeVanhentuneetYhteensa = async (analytiikka: ReturnType<typeof BrysselAnalyytiikka>) => {
-    const responsePromise = page.waitForResponse(
-      (response) =>
-        response.url().includes('/educationallevel/expired') && response.status() === 200
-    )
-    await analytiikka.taytaJaHaeVanhentuneet(['korkeakoulutus'])
-    const response = await responsePromise
-    const body = await response.json()
-    return body.values.reduce(
-      (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
-      0
-    )
-  }
-
-  // Query expired materials — verify the API responds with data
+test('oppiaineiden julkaisumäärät palauttavat dataa', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
-  const maara = await haeVanhentuneetYhteensa(analytiikka)
+
+  const responsePromise = page.waitForResponse(
+    (response) => response.url().includes('/educationalsubject/all') && response.status() === 200
+  )
+
+  await analytiikka.julkaisuLuokitus.click()
+  await page.getByRole('option', { name: 'Oppiaineet' }).click()
+  const subSelect = page
+    .locator('form', { has: analytiikka.julkaisuButton })
+    .locator('ng-select')
+    .nth(1)
+  await subSelect.click()
+  await page.getByRole('option').first().click()
+  await page.getByTestId('analytiikka').click()
+  await analytiikka.julkaisuButton.click()
+
+  const response = await responsePromise
+  const body = await response.json()
+  expect(body.values).toBeDefined()
+  await expect(analytiikka.julkaisuChart).toBeVisible()
+})
+
+test('organisaatioiden julkaisumäärät palauttavat dataa', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+
+  const responsePromise = page.waitForResponse(
+    (response) => response.url().includes('/organization/all') && response.status() === 200
+  )
+
+  await analytiikka.julkaisuLuokitus.click()
+  await page.getByRole('option', { name: 'Organisaatiot' }).click()
+  const subSelect = page
+    .locator('form', { has: analytiikka.julkaisuButton })
+    .locator('ng-select')
+    .nth(1)
+  await subSelect.click()
+  await page.getByRole('option').first().click()
+  await page.getByTestId('analytiikka').click()
+  await analytiikka.julkaisuButton.click()
+
+  const response = await responsePromise
+  const body = await response.json()
+  expect(body.values).toBeDefined()
+  await expect(analytiikka.julkaisuChart).toBeVisible()
+})
+
+test('hakutapahtuma tallentuu analytiikkaan', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeHakumaaratYhteensa()
+
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const hakuTulokset = await etusivu.hae('testihaku')
+  await hakuTulokset.expectNoResults()
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeHakumaaratYhteensa()
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('haun suodattimet tallentuvat analytiikkaan', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeHakumaaratYhteensa()
+
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  await etusivu.valitseKoulutusaste('korkeakoulutus')
+  const hakuTulokset = await etusivu.hae('matematiikka')
+  await hakuTulokset.expectNoResults()
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeHakumaaratYhteensa()
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('hakutapahtuma tallentuu analytiikkaan kun hakutuloksia löytyy', async ({ page }) => {
+  // Create a material to guarantee the search returns a result
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Haettava analytiikka')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeHakumaaratYhteensa()
+
+  await etusivu.goto()
+  const hakuTulokset = await etusivu.hae(materiaaliNimi)
+  await hakuTulokset.expectToFindMateriaali(materiaaliNimi)
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeHakumaaratYhteensa()
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('vanhentuneet oppimateriaalit näkyvät analytiikassa', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const maara = await analytiikka.haeVanhentuneetYhteensa(['korkeakoulutus'])
 
   expect(maara).toBeGreaterThanOrEqual(0)
   await expect(analytiikka.vanhentunutChart).toBeVisible()
