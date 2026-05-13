@@ -84,6 +84,12 @@ export const MateriaaliFormi = (
       await page.getByRole('button', { name: 'Lisää henkilö' }).click()
       await page.getByRole('textbox', { name: 'Tekijän nimi *' }).fill(name)
     },
+    lisaaOrganisaatio: async (organisaatio: string) => {
+      await page.getByRole('button', { name: 'Lisää organisaatio' }).click()
+      await page.locator('ng-select#organization1').click()
+      await page.locator('ng-select#organization1 input').pressSequentially(organisaatio)
+      await page.getByRole('option', { name: organisaatio, exact: true }).click()
+    },
     lisaaAsiasana: async (type = 'PDF') => {
       await page.locator('ng-select').locator('#keywords').fill(type)
       await page.getByRole('option', { name: type }).click()

@@ -1,18 +1,38 @@
 import { expect, test } from '@playwright/test'
 import { tiedoteTest } from './fixtures/tiedoteTest'
 import { BrysselEtusivu } from './pages/BrysselEtusivu'
+import type { Aikajana, Tapa } from './pages/BrysselAnalytiikka'
 import { Materiaali } from './pages/Materiaali'
 import { siivoaTiedote } from './pages/BrysselTiedotteet'
 import { Etusivu } from './pages/Etusivu'
 
-test('käyttäjä voi hakea analytiikka sivulta oppimateriaaalien käyttömääriä', async ({ page }) => {
-  const etusivu = BrysselEtusivu(page)
-  await etusivu.goto()
+test('käyttömäärät voidaan hakea eri aikajana-tarkkuuksilla', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
 
-  const analytiikka = await etusivu.clickBrysselAnalytiikka()
-  await analytiikka.taytaJaHaeOppimateriaalienKayttomaarat(['Haku', 'Katselu'], 'Kuukausi')
+  const cases: { aikajana: Aikajana; tapa: Tapa[]; expectedInterval: string }[] = [
+    { aikajana: 'Päivä', tapa: ['Katselu'], expectedInterval: 'day' },
+    { aikajana: 'Viikko', tapa: ['Katselu'], expectedInterval: 'week' },
+    { aikajana: 'Kuukausi', tapa: ['Katselu'], expectedInterval: 'month' }
+  ]
 
-  await expect(analytiikka.kayttomaaraChart).toBeVisible()
+  for (const { aikajana, tapa, expectedInterval } of cases) {
+    await test.step(`${aikajana}-aikajana`, async () => {
+      await brysselPage.goto()
+      const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+
+      const body = page
+        .waitForResponse(
+          (r) => r.url().includes('/materialactivity/') && r.url().includes('/total')
+        )
+        .then((r) => r.json())
+      await analytiikka.taytaJaHaeOppimateriaalienKayttomaarat(tapa, aikajana)
+      const result = await body
+
+      expect(result.interval).toBe(expectedInterval)
+      expect(Array.isArray(result.values)).toBe(true)
+      await expect(analytiikka.kayttomaaraChart).toBeVisible()
+    })
+  }
 })
 
 test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
@@ -101,9 +121,10 @@ test('uusi oppimateriaali näkyy julkaisumäärissä', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
-  const alkuperainenMaara = await analytiikka.haeOpetusasteJulkaisumaaratYhteensa([
-    'korkeakoulutus'
-  ])
+  const alkuperainenMaara = await analytiikka.haeJulkaisumaaratYhteensa({
+    luokitus: 'Opetusasteet',
+    valinnat: ['korkeakoulutus']
+  })
 
   // 2. Create a material (uses korkeakoulutus educational level)
   const etusivu = Etusivu(page)
@@ -116,64 +137,71 @@ test('uusi oppimateriaali näkyy julkaisumäärissä', async ({ page }) => {
   // 3. Query again and assert published count increased
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
-  const uusiMaara = await analytiikkaUudelleen.haeOpetusasteJulkaisumaaratYhteensa([
-    'korkeakoulutus'
-  ])
+  const uusiMaara = await analytiikkaUudelleen.haeJulkaisumaaratYhteensa({
+    luokitus: 'Opetusasteet',
+    valinnat: ['korkeakoulutus']
+  })
 
   expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
   await expect(analytiikkaUudelleen.julkaisuChart).toBeVisible()
 })
 
-test('oppiaineiden julkaisumäärät palauttavat dataa', async ({ page }) => {
+test('uusi oppimateriaali näkyy oppiaineiden julkaisumäärissä', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeJulkaisumaaratYhteensa({
+    luokitus: 'Oppiaineet',
+    valinnat: ['Matematiikka']
+  })
 
-  const responsePromise = page.waitForResponse(
-    (response) => response.url().includes('/educationalsubject/all') && response.status() === 200
-  )
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka oppiaine julkaisu')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, {
+    koulutustiedot: { tieteenala: 'Matematiikka' }
+  })
 
-  await analytiikka.julkaisuLuokitus.click()
-  await page.getByRole('option', { name: 'Oppiaineet' }).click()
-  const subSelect = page
-    .locator('form', { has: analytiikka.julkaisuButton })
-    .locator('ng-select')
-    .nth(1)
-  await subSelect.click()
-  await page.getByRole('option').first().click()
-  await page.getByTestId('analytiikka').click()
-  await analytiikka.julkaisuButton.click()
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeJulkaisumaaratYhteensa({
+    luokitus: 'Oppiaineet',
+    valinnat: ['Matematiikka']
+  })
 
-  const response = await responsePromise
-  const body = await response.json()
-  expect(body.values).toBeDefined()
-  await expect(analytiikka.julkaisuChart).toBeVisible()
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.julkaisuChart).toBeVisible()
 })
 
-test('organisaatioiden julkaisumäärät palauttavat dataa', async ({ page }) => {
+test('uusi oppimateriaali näkyy organisaatioiden julkaisumäärissä', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeJulkaisumaaratYhteensa({
+    luokitus: 'Organisaatiot',
+    valinnat: ['Opetushallitus']
+  })
 
-  const responsePromise = page.waitForResponse(
-    (response) => response.url().includes('/organization/all') && response.status() === 200
-  )
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka org julkaisu')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, {
+    perustiedot: { organisaatio: 'Opetushallitus' }
+  })
 
-  await analytiikka.julkaisuLuokitus.click()
-  await page.getByRole('option', { name: 'Organisaatiot' }).click()
-  const subSelect = page
-    .locator('form', { has: analytiikka.julkaisuButton })
-    .locator('ng-select')
-    .nth(1)
-  await subSelect.click()
-  await page.getByRole('option').first().click()
-  await page.getByTestId('analytiikka').click()
-  await analytiikka.julkaisuButton.click()
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeJulkaisumaaratYhteensa({
+    luokitus: 'Organisaatiot',
+    valinnat: ['Opetushallitus']
+  })
 
-  const response = await responsePromise
-  const body = await response.json()
-  expect(body.values).toBeDefined()
-  await expect(analytiikka.julkaisuChart).toBeVisible()
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.julkaisuChart).toBeVisible()
 })
 
 test('hakutapahtuma tallentuu analytiikkaan', async ({ page }) => {
@@ -204,8 +232,8 @@ test('haun suodattimet tallentuvat analytiikkaan', async ({ page }) => {
   const etusivu = Etusivu(page)
   await etusivu.goto()
   await etusivu.valitseKoulutusaste('korkeakoulutus')
-  const hakuTulokset = await etusivu.hae('matematiikka')
-  await hakuTulokset.expectNoResults()
+  await etusivu.hae('matematiikka')
+  await expect(page.getByRole('heading', { name: 'Hakutulokset' })).toBeVisible()
 
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
@@ -241,14 +269,128 @@ test('hakutapahtuma tallentuu analytiikkaan kun hakutuloksia löytyy', async ({ 
   await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
 })
 
+test('oppimateriaalin katselu opetusastesuodattimella näkyy analytiikassa', async ({ page }) => {
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka suodatus')
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  const materiaaliNumero = await materiaali.getMateriaaliNumero()
+
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({
+    tapa: ['Katselu'],
+    opetusasteet: ['korkeakoulutus']
+  })
+
+  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeMaterialActivityYhteensa({
+    tapa: ['Katselu'],
+    opetusasteet: ['korkeakoulutus']
+  })
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('haun opetusastesuodatin tallentuu analytiikkaan', async ({ page }) => {
+  const brysselPage = BrysselEtusivu(page)
+  await brysselPage.goto()
+  const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+  const alkuperainenMaara = await analytiikka.haeHakumaaratYhteensa({
+    filters: { opetusasteet: ['korkeakoulutus'] }
+  })
+
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  await etusivu.valitseKoulutusaste('korkeakoulutus')
+  await etusivu.hae('matematiikka')
+  await expect(page.getByRole('heading', { name: 'Hakutulokset' })).toBeVisible()
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const uusiMaara = await analytiikkaUudelleen.haeHakumaaratYhteensa({
+    filters: { opetusasteet: ['korkeakoulutus'] }
+  })
+
+  expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+  await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+})
+
+test('oppimateriaalin oppiaine- ja organisaatiosuodattimet toimivat analytiikassa', async ({
+  page
+}) => {
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Analytiikka suodatus oppiaine')
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, {
+    perustiedot: { organisaatio: 'Opetushallitus' },
+    koulutustiedot: { tieteenala: 'Matematiikka' }
+  })
+  const materiaaliNumero = await materiaali.getMateriaaliNumero()
+
+  const brysselPage = BrysselEtusivu(page)
+
+  const cases: { oppiaineet?: string[]; organisaatiot?: string[] }[] = [
+    { oppiaineet: ['Matematiikka'] },
+    { organisaatiot: ['Opetushallitus'] }
+  ]
+
+  for (const filters of cases) {
+    await test.step(Object.keys(filters).join(', '), async () => {
+      await brysselPage.goto()
+      const analytiikka = await brysselPage.clickBrysselAnalytiikka()
+      const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({
+        tapa: ['Katselu'],
+        ...filters
+      })
+
+      await page.goto(`/#/materiaali/${materiaaliNumero}`)
+      await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
+
+      await brysselPage.goto()
+      const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+      const uusiMaara = await analytiikkaUudelleen.haeMaterialActivityYhteensa({
+        tapa: ['Katselu'],
+        ...filters
+      })
+
+      expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
+      await expect(analytiikkaUudelleen.kayttomaaraChart).toBeVisible()
+    })
+  }
+})
+
 test('vanhentuneet oppimateriaalit näkyvät analytiikassa', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
   const maara = await analytiikka.haeVanhentuneetYhteensa(['korkeakoulutus'])
-
   expect(maara).toBeGreaterThanOrEqual(0)
   await expect(analytiikka.vanhentunutChart).toBeVisible()
+
+  // Non-expired materials must not be counted as expired
+  const etusivu = Etusivu(page)
+  await etusivu.goto()
+  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Vanhentunut testi')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+
+  await brysselPage.goto()
+  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
+  const maaraJalkeen = await analytiikkaUudelleen.haeVanhentuneetYhteensa(['korkeakoulutus'])
+  expect(maaraJalkeen).toBe(maara)
+  await expect(analytiikkaUudelleen.vanhentunutChart).toBeVisible()
 })
 
 test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {

@@ -4,7 +4,7 @@ import { MateriaaliFormi } from './MateriaaliFormi'
 
 export type TaytaOpts = {
   tiedostot?: { kieli?: string }
-  perustiedot?: { kohderyhma?: string; kayttotarkoitus?: string }
+  perustiedot?: { kohderyhma?: string; kayttotarkoitus?: string; organisaatio?: string }
   koulutustiedot?: {
     koulutusasteet?: string[]
     tieteenala?: string
@@ -38,6 +38,9 @@ export const UusiOppimateriaali = (page: Page) => {
     }
     if (opts.perustiedot?.kayttotarkoitus) {
       await perustiedot.lisaaPaaasiallinenKayttotarkoitus(opts.perustiedot.kayttotarkoitus)
+    }
+    if (opts.perustiedot?.organisaatio) {
+      await perustiedot.lisaaOrganisaatio(opts.perustiedot.organisaatio)
     }
     const koulutustiedot = await perustiedot.seuraava()
     const koulutusasteet = opts.koulutustiedot?.koulutusasteet ?? ['korkeakoulutus']

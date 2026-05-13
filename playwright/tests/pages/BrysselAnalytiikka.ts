@@ -1,5 +1,13 @@
 import type { Page } from '@playwright/test'
 
+export type Tapa = 'Haku' | 'Katselu' | 'Lataus' | 'Muokkaus'
+export type Aikajana = 'Päivä' | 'Viikko' | 'Kuukausi'
+export type UsageFilters = {
+  opetusasteet?: string[]
+  oppiaineet?: string[]
+  organisaatiot?: string[]
+}
+
 export const BrysselAnalyytiikka = (page: Page) => {
   const locators = {
     // Käyttömäärät (usage)
@@ -28,16 +36,39 @@ export const BrysselAnalyytiikka = (page: Page) => {
   }
 
   const taytaJaHaeOppimateriaalienKayttomaarat = async (
-    tapaList: ('Haku' | 'Katselu' | 'Lataus' | ('Muokkaus' & {}))[],
-    aikajana: 'Päivä' | 'Viikko' | ('Kuukausi' & {})
+    tapaList: Tapa[],
+    aikajana: Aikajana,
+    filters?: UsageFilters
   ) => {
     await locators.tapaInput.click()
     for (const tapa of tapaList) {
       await page.getByRole('option', { name: tapa }).click()
     }
-    await page.getByTestId('analytiikka').click()
+    await page.keyboard.press('Escape')
     await locators.aikajana.click()
     await page.getByRole('option', { name: aikajana }).click()
+    if (filters?.opetusasteet?.length) {
+      await page.locator('ng-select#form-usage-select-educational-levels').click()
+      for (const level of filters.opetusasteet) {
+        await page.getByRole('option', { name: level }).click()
+      }
+      await page.keyboard.press('Escape')
+    }
+    if (filters?.oppiaineet?.length) {
+      await page.locator('ng-select#form-usage-select-educational-subjects').click()
+      for (const subject of filters.oppiaineet) {
+        await page.getByRole('option', { name: subject }).click()
+      }
+      await page.keyboard.press('Escape')
+    }
+    if (filters?.organisaatiot?.length) {
+      await page.locator('ng-select#form-usage-select-organizations').click()
+      for (const org of filters.organisaatiot) {
+        await page.locator('ng-select#form-usage-select-organizations input').pressSequentially(org)
+        await page.getByRole('option', { name: org }).click()
+      }
+      await page.keyboard.press('Escape')
+    }
     await locators.kayttomaaraButton.click()
   }
 
@@ -55,9 +86,10 @@ export const BrysselAnalyytiikka = (page: Page) => {
       .nth(1)
     await subSelect.click()
     for (const valinta of valinnat) {
-      await page.getByRole('option', { name: valinta }).click()
+      await subSelect.locator('input').pressSequentially(valinta)
+      await page.getByRole('option', { name: valinta, exact: true }).click()
     }
-    await page.getByTestId('analytiikka').click()
+    await page.keyboard.press('Escape')
     await locators.julkaisuButton.click()
   }
 
@@ -66,28 +98,42 @@ export const BrysselAnalyytiikka = (page: Page) => {
     for (const aste of opetusasteet) {
       await page.getByRole('option', { name: aste }).click()
     }
-    await page.getByTestId('analytiikka').click()
+    await page.keyboard.press('Escape')
     await locators.vanhentunutButton.click()
   }
 
   const haeMaterialActivityYhteensa = async ({
-    tapa
+    tapa,
+    opetusasteet,
+    oppiaineet,
+    organisaatiot
   }: {
-    tapa: ('Haku' | 'Katselu' | 'Lataus' | 'Muokkaus')[]
+    tapa: Tapa[]
+    opetusasteet?: string[]
+    oppiaineet?: string[]
+    organisaatiot?: string[]
   }): Promise<number> => {
     const body = page
       .waitForResponse((r) => r.url().includes('/materialactivity/') && r.url().includes('/total'))
       .then((r) => r.json())
-    await taytaJaHaeOppimateriaalienKayttomaarat(tapa, 'Päivä')
+    await taytaJaHaeOppimateriaalienKayttomaarat(tapa, 'Päivä', {
+      opetusasteet,
+      oppiaineet,
+      organisaatiot
+    })
     const totals = (await body).values.map((v: { dayTotal: number }) => v.dayTotal)
     return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
   }
 
-  const haeHakumaaratYhteensa = async (): Promise<number> => {
+  const haeHakumaaratYhteensa = async ({
+    filters
+  }: {
+    filters?: UsageFilters
+  } = {}): Promise<number> => {
     const body = page
       .waitForResponse((r) => r.url().includes('/searchrequests/') && r.url().includes('/total'))
       .then((r) => r.json())
-    await taytaJaHaeOppimateriaalienKayttomaarat(['Haku'], 'Päivä')
+    await taytaJaHaeOppimateriaalienKayttomaarat(['Haku'], 'Päivä', filters)
     const totals = (await body).values.map((v: { dayTotal: number }) => v.dayTotal)
     return totals.reduce((sum: number, val: number) => sum + (val || 0), 0)
   }
@@ -103,11 +149,24 @@ export const BrysselAnalyytiikka = (page: Page) => {
     )
   }
 
-  const haeOpetusasteJulkaisumaaratYhteensa = async (valinnat: string[]): Promise<number> => {
+  const urlPatternForLuokitus = {
+    Opetusasteet: '/educationallevel/all',
+    Oppiaineet: '/educationalsubject/all',
+    Organisaatiot: '/organization/all'
+  } as const
+
+  const haeJulkaisumaaratYhteensa = async ({
+    luokitus,
+    valinnat
+  }: {
+    luokitus: 'Opetusasteet' | 'Oppiaineet' | 'Organisaatiot'
+    valinnat: string[]
+  }): Promise<number> => {
+    const urlPattern = urlPatternForLuokitus[luokitus]
     const body = page
-      .waitForResponse((r) => r.url().includes('/educationallevel/all') && r.status() === 200)
+      .waitForResponse((r) => r.url().includes(urlPattern) && r.status() === 200)
       .then((r) => r.json())
-    await taytaJaHaeJulkaisumaarat('Opetusasteet', valinnat)
+    await taytaJaHaeJulkaisumaarat(luokitus, valinnat)
     return (await body).values.reduce(
       (sum: number, v: { key: string; value: number }) => sum + (v.value || 0),
       0
@@ -121,7 +180,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
     haeMaterialActivityYhteensa,
     haeHakumaaratYhteensa,
     haeVanhentuneetYhteensa,
-    haeOpetusasteJulkaisumaaratYhteensa,
+    haeJulkaisumaaratYhteensa,
     goto,
     ...locators
   }

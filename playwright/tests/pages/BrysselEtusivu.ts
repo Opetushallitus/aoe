@@ -8,7 +8,9 @@ export const BrysselEtusivu = (page: Page) => {
     await page.goto('/')
     await expect(page.getByRole('main')).toBeVisible()
     await page.goto('/#/bryssel')
-    await expect(page.getByTestId('hallinnoi-palvelua')).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Tervetuloa aoe.fi hallintanäkymään!' })
+    ).toBeVisible()
   }
 
   const clickBrysselAnalytiikka = async () => {
@@ -37,7 +39,7 @@ export const BrysselEtusivu = (page: Page) => {
   }
 
   const clickBrysselPalvelunHallinta = async () => {
-    await page.getByTestId('hallinnoi-palvelua').click()
+    await page.getByRole('main').getByRole('link', { name: 'Palvelun hallinta' }).click()
     return BrysselTiedotteet(page)
   }
 
