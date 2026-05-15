@@ -27,6 +27,7 @@ RUN apk add --no-cache \
 
 COPY ./views /app/views
 COPY ./vendor /app/vendor
+COPY ./migrations /app/migrations
 COPY ./package.json /app
 COPY ./package-lock.json /app
 COPY ./src/search/aoemapping.json /app

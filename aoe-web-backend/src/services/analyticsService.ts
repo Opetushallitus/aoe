@@ -1,5 +1,6 @@
 import { config } from '@/config'
 import { TypeMaterialActivity, TypeSearchRequest } from '@aoe/services/analyticsService'
+import { insertMaterialActivityEvent, insertSearchRequestEvent } from '@query/analyticsQueries'
 import { kafkaProducer } from '@resource/kafkaClient'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
@@ -77,6 +78,9 @@ export async function publishAnalyticsEvent(req: Request, res?: Response) {
         topic: config.MESSAGE_QUEUE_OPTIONS.topicSearchRequests,
         messages: [{ value: JSON.stringify(message) }]
       })
+      insertSearchRequestEvent(message).catch((err) =>
+        log.error('PostgreSQL search request insert failed', err)
+      )
       return message
     }
 
@@ -86,6 +90,9 @@ export async function publishAnalyticsEvent(req: Request, res?: Response) {
         topic: config.MESSAGE_QUEUE_OPTIONS.topicMaterialActivity,
         messages: [{ value: JSON.stringify(message) }]
       })
+      insertMaterialActivityEvent(message).catch((err) =>
+        log.error('PostgreSQL material activity insert failed', err)
+      )
       return message
     }
   } catch (error) {

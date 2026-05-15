@@ -1,8 +1,42 @@
+import { config } from '@/config'
 import { initApp } from './app'
+import knex from 'knex'
+import * as path from 'path'
 import { Socket } from 'net'
 import * as log from '@util/winstonLogger'
 
+async function runMigrations(): Promise<void> {
+  const db = knex({
+    client: 'pg',
+    pool: { min: 1, max: 1 },
+    connection: {
+      host: config.POSTGRESQL_OPTIONS.host,
+      port: Number(config.POSTGRESQL_OPTIONS.port),
+      user: config.POSTGRESQL_OPTIONS.user,
+      password: config.POSTGRESQL_OPTIONS.pass,
+      database: config.POSTGRESQL_OPTIONS.data
+    },
+    migrations: {
+      directory: path.join(__dirname, '../migrations'),
+      extension: 'js',
+      tableName: 'knex_migrations'
+    }
+  })
+  try {
+    log.info('Running database migrations')
+    await db.migrate.latest()
+    log.info('Database migrations complete')
+  } catch (error) {
+    log.error('Database migration failed', error)
+    throw error
+  } finally {
+    await db.destroy()
+  }
+}
+
 async function startServer() {
+  await runMigrations()
+
   const app = await initApp()
 
   const server = app.listen(
