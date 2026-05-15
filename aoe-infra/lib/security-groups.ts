@@ -137,6 +137,11 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(27017)
     )
 
+    this.documentDbSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(27017)
+    )
+
     this.documentDbSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(27017))
 
     this.efsSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(2049))

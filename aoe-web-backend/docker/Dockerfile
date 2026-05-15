@@ -25,6 +25,9 @@ RUN apk add --no-cache \
     ttf-freefont \
     ttf-liberation
 
+RUN wget -q -O /app/rds-ca-bundle.pem \
+    https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+
 COPY ./views /app/views
 COPY ./vendor /app/vendor
 COPY ./migrations /app/migrations

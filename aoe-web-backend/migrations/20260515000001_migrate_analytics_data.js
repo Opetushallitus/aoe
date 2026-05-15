@@ -23,7 +23,8 @@ exports.up = async (knex) => {
   const uri = `mongodb://${encodeURIComponent(username)}:${encodeURIComponent(password)}@${host}:${port}/${database}`
   const client = new MongoClient(uri, {
     tls: enableSsl,
-    tlsAllowInvalidHostnames: enableSsl
+    tlsAllowInvalidHostnames: enableSsl,
+    tlsCAFile: enableSsl ? '/app/rds-ca-bundle.pem' : undefined
   })
 
   try {
