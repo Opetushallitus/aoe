@@ -517,7 +517,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
         ES_NODE: OpenSearch.collectionEndpoint,
         POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
         POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
-        KAFKA_BROKER_SERVERS: mskKafka.bootstrapBrokers
+        KAFKA_BROKER_SERVERS: mskKafka.bootstrapBrokers,
+        MONGODB_PRIMARY_HOST: docDb.clusterEndpoint.hostname,
+        MONGODB_PRIMARY_PORT: docDb.clusterEndpoint.port
       }
     },
     parameter_store_secrets: [],
@@ -529,7 +531,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       Secrets.secrets.JWT_SECRET,
       Secrets.secrets.PROXY_URI,
       Secrets.secrets.CLIENT_ID,
-      Secrets.secrets.ADMIN_EMAIL
+      Secrets.secrets.ADMIN_EMAIL,
+      Secrets.secrets.ANALYTICS_DOCDB_PASSWORD
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,

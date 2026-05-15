@@ -2,9 +2,8 @@ const BATCH_SIZE = 1000
 
 /** @param {import('knex').Knex} knex */
 exports.up = async (knex) => {
-  // AWS DocumentDB connection — same env vars as aoe-data-analytics (MONGODB_PRIMARY_*)
-  if (!process.env.MONGODB_PRIMARY_HOST) {
-    console.log('MONGODB_PRIMARY_HOST not set, skipping DocumentDB data migration')
+  if (process.env.DATA_ANALYTICS_MIGRATION_TO_POSTGRES_ENABLED !== 'true') {
+    console.log('DATA_ANALYTICS_MIGRATION_TO_POSTGRES_ENABLED not true, skipping DocumentDB data migration')
     return
   }
 
