@@ -14,6 +14,7 @@ export type TaytaOpts = {
   tarkemmatTiedot?: {
     ominaisuudet?: string[]
     esteet?: string[]
+    vanhenemispaiva?: string
   }
 }
 
@@ -66,6 +67,9 @@ export const UusiOppimateriaali = (page: Page) => {
     }
     if (opts.tarkemmatTiedot?.esteet) {
       await tarkemmatTiedot.valitseSaavutettavuudenEsteet(...opts.tarkemmatTiedot.esteet)
+    }
+    if (opts.tarkemmatTiedot?.vanhenemispaiva) {
+      await tarkemmatTiedot.valitseVanhenemispaiva(opts.tarkemmatTiedot.vanhenemispaiva)
     }
     const lisenssitiedot = await tarkemmatTiedot.seuraava()
     await lisenssitiedot.valitseLisenssi()

@@ -372,25 +372,40 @@ test('oppimateriaalin oppiaine- ja organisaatiosuodattimet toimivat analytiikass
 
 test('vanhentuneet oppimateriaalit näkyvät analytiikassa', async ({ page }) => {
   const brysselPage = BrysselEtusivu(page)
+  const etusivu = Etusivu(page)
+
   await brysselPage.goto()
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
   const maara = await analytiikka.haeVanhentuneetYhteensa(['korkeakoulutus'])
-  expect(maara).toBeGreaterThanOrEqual(0)
-  await expect(analytiikka.vanhentunutChart).toBeVisible()
 
-  // Non-expired materials must not be counted as expired
-  const etusivu = Etusivu(page)
+  // Non-expired material must not increase the count
   await etusivu.goto()
   const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
-  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Vanhentunut testi')
-  await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+  const eiVanhentunutNimi = uusiMateriaali.randomMateriaaliNimi('Ei vanhentunut')
+  await uusiMateriaali.taytaJaTallennaUusiMateriaali(eiVanhentunutNimi)
 
   await brysselPage.goto()
-  const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
-  const maaraJalkeen = await analytiikkaUudelleen.haeVanhentuneetYhteensa(['korkeakoulutus'])
-  expect(maaraJalkeen).toBe(maara)
-  await expect(analytiikkaUudelleen.vanhentunutChart).toBeVisible()
+  const analytiikkaEiVanhentunut = await brysselPage.clickBrysselAnalytiikka()
+  const maaraEiVanhentunut = await analytiikkaEiVanhentunut.haeVanhentuneetYhteensa([
+    'korkeakoulutus'
+  ])
+  expect(maaraEiVanhentunut).toBe(maara)
+
+  // Expired material must increase the count
+  await etusivu.goto()
+  const omatMateriaalit2 = await etusivu.header.clickOmatMateriaalit()
+  const uusiMateriaali2 = await omatMateriaalit2.luoUusiMateriaali()
+  const vanhentunutNimi = uusiMateriaali2.randomMateriaaliNimi('Vanhentunut materiaali')
+  await uusiMateriaali2.taytaJaTallennaUusiMateriaali(vanhentunutNimi, {
+    tarkemmatTiedot: { vanhenemispaiva: '01.01.1970' }
+  })
+
+  await brysselPage.goto()
+  const analytiikkaVanhentunut = await brysselPage.clickBrysselAnalytiikka()
+  const maaraVanhentunut = await analytiikkaVanhentunut.haeVanhentuneetYhteensa(['korkeakoulutus'])
+  expect(maaraVanhentunut).toBeGreaterThan(maara)
+  await expect(analytiikkaVanhentunut.vanhentunutChart).toBeVisible()
 })
 
 test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {

@@ -18,7 +18,7 @@ export const MateriaaliFormi = (
     await page.keyboard.press('Escape')
     await page.locator(selector).click()
     for (const name of names) {
-      await page.getByRole('option', { name, exact: true }).click()
+      await page.getByRole('option', { name }).first().click()
     }
     await page.keyboard.press('Escape')
   }
@@ -150,6 +150,12 @@ export const MateriaaliFormi = (
     },
     valitseSaavutettavuudenEsteet: async (...esteet: string[]) => {
       await selectFromNgSelect('ng-select#accessibilityHazards', ...esteet)
+    },
+    valitseVanhenemispaiva: async (paiva: string) => {
+      await page.locator('#expires').click()
+      await page.locator('#expires').clear()
+      await page.locator('#expires').pressSequentially(paiva)
+      await page.keyboard.press('Escape')
     },
     seuraava: async () => {
       await locators.seuraava.click()

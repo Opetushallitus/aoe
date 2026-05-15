@@ -87,7 +87,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
     await subSelect.click()
     for (const valinta of valinnat) {
       await subSelect.locator('input').pressSequentially(valinta)
-      await page.getByRole('option', { name: valinta, exact: true }).click()
+      await page.getByRole('option', { name: valinta }).first().click()
     }
     await page.keyboard.press('Escape')
     await locators.julkaisuButton.click()
