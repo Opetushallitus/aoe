@@ -153,7 +153,7 @@ services:
       - 6379:6379
 
   aoe-postgres:
-    image: postgres:15-alpine@sha256:2a6577fca547b9021b9281c58bc71ec1617e05b8d128c8875bd5fa32c267c554
+    image: postgres:15-alpine@sha256:df7bca0066e6f60cc3dd32faa70caddec20e2c22b58932f79498e5704b23854a
     container_name: aoe-postgres
     ports:
       - 5432:5432
