@@ -182,6 +182,6 @@ export const config = {
   } as const,
   FEATURES: {
     dataRunScheduled: true, // AOE-94
-    analyticsReadFromPostgres: ['demo'].includes(environment)
+    analyticsReadFromPostgres: ['demo', 'dev'].includes(environment)
   } as const
 }
