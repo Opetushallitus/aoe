@@ -6,6 +6,7 @@ import { embed } from '@api/routes-root/embed'
 import { refV1 } from '@api/ref-routes-v1/v1'
 import { v1 } from '@api/routes-v1/v1'
 import { v2 } from '@api/routes-v2/v2'
+import statisticsRouter from '@api/routes-v2/statistics'
 import { registerOidcStrategy } from '@resource/oidcConfig'
 import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
@@ -126,16 +127,18 @@ export async function initApp() {
 
   // Statistics requests forwarded to AOE Analytics Service.
   // Keep the HTTP forwarding before the body parsers to avoid request body changes the proxy cannot handle.
-  app.use(
-    '/api/v2/statistics',
-    checkAuthenticated,
-    createProxyMiddleware({
-      target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
-      logger: log,
-      changeOrigin: true,
-      pathRewrite: (path: string) => `/analytics/api/statistics${path}`
-    })
-  )
+  if (!config.FEATURES.analyticsReadFromPostgres) {
+    app.use(
+      '/api/v2/statistics',
+      checkAuthenticated,
+      createProxyMiddleware({
+        target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
+        logger: log,
+        changeOrigin: true,
+        pathRewrite: (path: string) => `/analytics/api/statistics${path}`
+      })
+    )
+  }
 
   // Synchronize database with Sequelize models.
   const dbInit = async (): Promise<void> => {
@@ -160,6 +163,9 @@ export async function initApp() {
   app.use('/', apiRouterRoot)
   app.use('/api/v1/', apiRouterV1)
   app.use('/api/v2/', apiRouterV2)
+  if (config.FEATURES.analyticsReadFromPostgres) {
+    app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
+  }
   app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent))
   app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore))
   app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor))

@@ -71,6 +71,107 @@ export const insertSearchRequestEvent = async (event: TypeSearchRequest): Promis
   )
 }
 
+export type Interval = 'day' | 'week' | 'month'
+
+export interface IntervalFilterMetadata {
+  organizations?: string[]
+  educationalLevels?: string[]
+  educationalSubjects?: string[]
+}
+
+export interface IntervalTotalRequest {
+  since: string
+  until: string
+  interaction?: string
+  metadata?: IntervalFilterMetadata
+  filters?: IntervalFilterMetadata
+}
+
+export interface IntervalTotal {
+  year: number
+  month?: number
+  week?: number
+  day?: number
+  dayTotal?: number
+  weekTotal?: number
+  monthTotal?: number
+}
+
+const buildIntervalSelect = (
+  interval: Interval
+): { select: string; groupBy: string; orderBy: string } => {
+  switch (interval) {
+    case 'day':
+      return {
+        select: `EXTRACT(YEAR FROM timestamp)::int AS year, EXTRACT(MONTH FROM timestamp)::int AS month, EXTRACT(DAY FROM timestamp)::int AS day, COUNT(*)::int AS "dayTotal"`,
+        groupBy: '1, 2, 3',
+        orderBy: '1 ASC, 2 ASC, 3 ASC'
+      }
+    case 'week':
+      return {
+        select: `EXTRACT(YEAR FROM timestamp)::int AS year, EXTRACT(WEEK FROM timestamp)::int AS week, COUNT(*)::int AS "weekTotal"`,
+        groupBy: '1, 2',
+        orderBy: '1 ASC, 2 ASC'
+      }
+    case 'month':
+      return {
+        select: `EXTRACT(YEAR FROM timestamp)::int AS year, EXTRACT(MONTH FROM timestamp)::int AS month, COUNT(*)::int AS "monthTotal"`,
+        groupBy: '1, 2',
+        orderBy: '1 ASC, 2 ASC'
+      }
+  }
+}
+
+export const getMaterialActivityTotal = async (
+  interval: Interval,
+  request: IntervalTotalRequest
+): Promise<IntervalTotal[]> => {
+  const params: unknown[] = [request.since, request.until]
+  const conditions: string[] = ['timestamp >= $1::date', "timestamp < $2::date + interval '1 day'"]
+  if (request.interaction) {
+    params.push(request.interaction)
+    conditions.push(`interaction = $${params.length}`)
+  }
+  if (request.metadata?.organizations?.length) {
+    params.push(request.metadata.organizations)
+    conditions.push(`metadataorganizations && $${params.length}`)
+  }
+  if (request.metadata?.educationalLevels?.length) {
+    params.push(request.metadata.educationalLevels)
+    conditions.push(`metadataeducationallevels && $${params.length}`)
+  }
+  if (request.metadata?.educationalSubjects?.length) {
+    params.push(request.metadata.educationalSubjects)
+    conditions.push(`metadataeducationalsubjects && $${params.length}`)
+  }
+  const { select, groupBy, orderBy } = buildIntervalSelect(interval)
+  return db.any<IntervalTotal>(
+    `SELECT ${select} FROM analyticsmaterialactivity WHERE ${conditions.join(' AND ')} GROUP BY ${groupBy} ORDER BY ${orderBy}`,
+    params
+  )
+}
+
+export const getSearchRequestsTotal = async (
+  interval: Interval,
+  request: IntervalTotalRequest
+): Promise<IntervalTotal[]> => {
+  const params: unknown[] = [request.since, request.until]
+  const conditions: string[] = ['timestamp >= $1::date', "timestamp < $2::date + interval '1 day'"]
+  if (request.filters?.educationalLevels?.length) {
+    params.push(request.filters.educationalLevels)
+    conditions.push(`filterseducationallevels && $${params.length}`)
+  }
+  if (request.filters?.educationalSubjects?.length) {
+    params.push(request.filters.educationalSubjects)
+    conditions.push(`filterseducationalsubjects && $${params.length}`)
+  }
+  const { select, groupBy, orderBy } = buildIntervalSelect(interval)
+  return db.any<IntervalTotal>(
+    `SELECT ${select} FROM analyticssearchrequest WHERE ${conditions.join(' AND ')} GROUP BY ${groupBy} ORDER BY ${orderBy}`,
+    params
+  )
+}
+
 export const getPopularityQuery =
   'select a/NULLIF(b,0) as popularity from' +
   '(select' +
