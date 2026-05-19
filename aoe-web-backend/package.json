@@ -50,7 +50,7 @@
     "express-session": "1.19.0",
     "express-validator": "7.3.2",
     "http-proxy-middleware": "3.0.5",
-    "isomorphic-dompurify": "2.36.0",
+    "isomorphic-dompurify": "3.13.0",
     "jsonwebtoken": "9.0.3",
     "kafkajs": "2.2.4",
     "knex": "3.2.10",
