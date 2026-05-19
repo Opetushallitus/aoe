@@ -42,7 +42,7 @@ export const insertMaterialActivityEvent = async (event: TypeMaterialActivity): 
       event.sessionId ?? null,
       event.timestamp,
       event.eduMaterialId ?? null,
-      event.interaction ?? null,
+      event.interaction?.toUpperCase() ?? null,
       event.metadata?.created ?? null,
       event.metadata?.updated ?? null,
       event.metadata?.organizations ?? null,
@@ -129,7 +129,7 @@ export const getMaterialActivityTotal = async (
   const params: unknown[] = [request.since, request.until]
   const conditions: string[] = ['timestamp >= $1::date', "timestamp < $2::date + interval '1 day'"]
   if (request.interaction) {
-    params.push(request.interaction)
+    params.push(request.interaction.toUpperCase())
     conditions.push(`interaction = $${params.length}`)
   }
   if (request.metadata?.organizations?.length) {
