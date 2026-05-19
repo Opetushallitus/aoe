@@ -33,6 +33,7 @@ import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { InstanceType } from 'aws-cdk-lib/aws-ec2'
 import { DocumentdbStack } from '../lib/documentdb-stack'
 import { MskStack } from '../lib/msk-stack'
+import { EmptyStack } from '../lib/empty-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
@@ -350,48 +351,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ]
   })
 
-  new EcsServiceStack(app, 'DataAnalyticsEcsService', {
+  new EmptyStack(app, 'DataAnalyticsEcsService', {
     env: envEU,
-    stackName: `${environmentName}-data-analytics-service`,
-    serviceName: 'data-analytics',
-    environment: environmentName,
-    cluster: FargateCluster.fargateCluster,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.dataAnalyticsServiceSecurityGroup,
-    revision,
-    allowEcsExec: config.services.data_analytics.allow_ecs_exec,
-    taskCpu: config.services.data_analytics.cpu_limit,
-    taskMemory: config.services.data_analytics.memory_limit,
-    minimumCount: config.services.data_analytics.min_count,
-    maximumCount: config.services.data_analytics.max_count,
-    cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {
-      ...config.services.data_analytics.env_vars,
-      ...{
-        MONGODB_PRIMARY_HOST: docDb.clusterEndpoint.hostname,
-        MONGODB_PRIMARY_PORT: docDb.clusterEndpoint.port,
-        SPRING_DATASOURCE_PRIMARY_URL: `jdbc:postgresql://${WebBackendAurora.endPoint.hostname}:${WebBackendAurora.endPoint.port}/aoe`,
-        SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS: mskKafka.bootstrapBrokers,
-        SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS: mskKafka.bootstrapBrokers
-      }
-    },
-    parameter_store_secrets: [],
-    secrets_manager_secrets: [
-      Secrets.secrets.ANALYTICS_PG_PASS,
-      Secrets.secrets.ANALYTICS_DOCDB_PASSWORD,
-      Secrets.secrets.ANALYTICS_TRUST_STORE_PASSWORD
-    ],
-    utilityAccountId: utilityAccountId,
-    listener: Alb.albListener,
-    listenerPathPatterns: ['/analytics/api/status'],
-    healthCheckPath: '/analytics/api/status',
-    healthCheckGracePeriod: 180,
-    healthCheckInterval: 5,
-    healthCheckTimeout: 2,
-    albPriority: 140,
-    privateDnsNamespace: namespace.privateDnsNamespace,
-    iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy],
-    alarmSnsTopic: Monitor.topic
+    stackName: `${environmentName}-data-analytics-service`
   })
 
   new EcsServiceStack(app, 'StreamingEcsService', {
