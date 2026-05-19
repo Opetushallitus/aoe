@@ -1,0 +1,25 @@
+version: "3.9"
+
+networks:
+  mongo-tunnel:
+    name: mongo-tunnel
+
+services:
+  mongo-tunnel:
+    networks:
+      - mongo-tunnel
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.db-tunnel-mongo
+    healthcheck:
+      test: ["CMD", "nc", "-z", "-v", "localhost", "27017"]
+      interval: 5s
+      timeout: 2s
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      - AWS_PROFILE
+      - AWS_REGION
+      - AWS_DEFAULT_REGION
+      - AWS_CONFIG_FILE=/root/.aws/config
+      - ENV=${ENV}

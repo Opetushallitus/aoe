@@ -18,3 +18,5 @@
 superpowers/
 
 .package-lock.json.checksum
+
+global-bundle.pem

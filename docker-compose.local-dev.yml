@@ -162,7 +162,7 @@ services:
       POSTGRES_PASSWORD: aoepassword
       POSTGRES_DB: aoe
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aoeuser"]
+      test: ["CMD-SHELL", "pg_isready -U aoeuser -d aoe"]
       interval: 10s
       timeout: 5s
       retries: 5

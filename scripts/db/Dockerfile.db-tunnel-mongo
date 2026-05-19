@@ -1,0 +1,12 @@
+FROM node:24.14.1-bookworm@sha256:80fc934952c8f1b2b4d39907af7211f8a9fff1a4c2cf673fb49099292c251cec
+
+COPY . /app
+RUN chmod u+x /app/entrypoint-mongo.sh
+
+RUN curl \
+    "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_arm64/session-manager-plugin.deb" \
+    -o "/tmp/session-manager-plugin.deb"
+RUN dpkg -i /tmp/session-manager-plugin.deb
+RUN apt-get update && apt-get install -y awscli bash socat daemonize netcat-traditional
+
+CMD ["/app/entrypoint-mongo.sh"]
