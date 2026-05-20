@@ -324,33 +324,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic
   })
 
-  const kafkaClusterIamPolicy = new iam.PolicyStatement({
-    actions: [
-      'kafka-cluster:Connect',
-      'kafka-cluster:DescribeCluster',
-      'kafka-cluster:GetBootstrapBrokers',
-      'kafka-cluster:ListTopics',
-      'kafka-cluster:AlterCluster'
-    ],
-    resources: [mskKafka.kafkaCluster.attrArn]
-  })
-
-  const kafkaTopicIamPolicy = new iam.PolicyStatement({
-    actions: ['kafka-cluster:*Topic*', 'kafka-cluster:WriteData', 'kafka-cluster:ReadData'],
-    resources: [
-      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_material_activity`,
-      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_search_requests`
-    ]
-  })
-
-  const kafkaGroupIamPolicy = new iam.PolicyStatement({
-    actions: ['kafka-cluster:AlterGroup', 'kafka-cluster:DescribeGroup'],
-    resources: [
-      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-material-activity`,
-      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-search-requests`
-    ]
-  })
-
   new EmptyStack(app, 'DataAnalyticsEcsService', {
     env: envEU,
     stackName: `${environmentName}-data-analytics-service`
