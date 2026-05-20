@@ -601,6 +601,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: 'aoe-data-analytics-ecr',
     serviceName: 'aoe-data-analytics',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
+    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole,
+    autoDeleteImages: true
   })
 }
