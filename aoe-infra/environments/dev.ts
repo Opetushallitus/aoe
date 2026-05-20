@@ -133,7 +133,7 @@ export const dev: EnvironmentConfig = {
         SEND_VERIFICATION_EMAIL: '0',
         VERIFY_EMAIL_REDIRECT_URL: '/',
         CLOUD_STORAGE_ENABLED: '1',
-        KAFKA_ENABLED: '1',
+        KAFKA_ENABLED: '0',
         LOGIN_ENABLED: '1',
         PID_SERVICE_RUN_SCHEDULED: 'true',
         STREAM_ENABLED: '1',
