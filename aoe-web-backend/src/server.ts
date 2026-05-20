@@ -8,6 +8,12 @@ import * as log from '@util/winstonLogger'
 async function runMigrations(): Promise<void> {
   const db = knex({
     client: 'pg',
+    log: {
+      warn: (msg) => log.warn(msg),
+      error: (msg) => log.error(msg),
+      deprecate: (msg) => log.warn(msg),
+      debug: (msg) => log.debug(msg)
+    },
     pool: { min: 1, max: 1 },
     connection: {
       host: config.POSTGRESQL_OPTIONS.host,
