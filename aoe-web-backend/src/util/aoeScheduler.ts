@@ -63,10 +63,6 @@ export const startScheduledSearchIndexUpdate = (): void => {
 }
 
 export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
-  if (!config.FEATURES.dataRunScheduled) {
-    return
-  }
-
   await updateReferenceData()
 
   const referenceDataScheduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {

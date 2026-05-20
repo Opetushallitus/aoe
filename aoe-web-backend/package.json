@@ -39,7 +39,6 @@
   "dependencies": {
     "@lumieducation/h5p-server": "10.0.4",
     "@opensearch-project/opensearch": "2.13.0",
-    "aws-msk-iam-sasl-signer-js": "1.0.3",
     "aws-sdk": "2.1693.0",
     "compression": "1.8.1",
     "connect-flash": "0.1.1",
@@ -49,10 +48,8 @@
     "express": "5.2.1",
     "express-session": "1.19.0",
     "express-validator": "7.3.2",
-    "http-proxy-middleware": "3.0.5",
     "isomorphic-dompurify": "2.36.0",
     "jsonwebtoken": "9.0.3",
-    "kafkajs": "2.2.4",
     "knex": "3.2.10",
     "libreoffice-convert": "1.8.1",
     "lusca": "1.7.0",

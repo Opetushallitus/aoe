@@ -24,7 +24,6 @@ import compression from 'compression'
 import flash from 'connect-flash'
 import cors, { CorsOptions } from 'cors'
 import express, { Express, Request, Response, Router, NextFunction } from 'express'
-import { createProxyMiddleware } from 'http-proxy-middleware'
 import lusca from 'lusca'
 import passport from 'passport'
 import { RedisStore } from 'connect-redis'
@@ -125,21 +124,6 @@ export async function initApp() {
     log.error('Initialization of H5P editor failed', err)
   })
 
-  // Statistics requests forwarded to AOE Analytics Service.
-  // Keep the HTTP forwarding before the body parsers to avoid request body changes the proxy cannot handle.
-  if (!config.FEATURES.analyticsReadFromPostgres) {
-    app.use(
-      '/api/v2/statistics',
-      checkAuthenticated,
-      createProxyMiddleware({
-        target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
-        logger: log,
-        changeOrigin: true,
-        pathRewrite: (path: string) => `/analytics/api/statistics${path}`
-      })
-    )
-  }
-
   // Synchronize database with Sequelize models.
   const dbInit = async (): Promise<void> => {
     await sequelize.sync({
@@ -163,9 +147,7 @@ export async function initApp() {
   app.use('/', apiRouterRoot)
   app.use('/api/v1/', apiRouterV1)
   app.use('/api/v2/', apiRouterV2)
-  if (config.FEATURES.analyticsReadFromPostgres) {
-    app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
-  }
+  app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
   app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent))
   app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore))
   app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor))

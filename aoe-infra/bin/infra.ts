@@ -478,10 +478,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
         REDIS_PORT: SemanticApisRedis.endpointPort,
         ES_NODE: OpenSearch.collectionEndpoint,
         POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
-        POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
-        KAFKA_BROKER_SERVERS: mskKafka.bootstrapBrokers,
-        MONGODB_PRIMARY_HOST: docDb.clusterEndpoint.hostname,
-        MONGODB_PRIMARY_PORT: docDb.clusterEndpoint.port
+        POSTGRESQL_PORT: WebBackendAurora.endPoint.port
       }
     },
     parameter_store_secrets: [],
@@ -493,8 +490,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       Secrets.secrets.JWT_SECRET,
       Secrets.secrets.PROXY_URI,
       Secrets.secrets.CLIENT_ID,
-      Secrets.secrets.ADMIN_EMAIL,
-      Secrets.secrets.ANALYTICS_DOCDB_PASSWORD
+      Secrets.secrets.ADMIN_EMAIL
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
@@ -509,8 +505,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       s3PolicyStatement,
       s3GetObjectPolicyStatement,
       efsPolicyStatement,
-      kafkaClusterIamPolicy,
-      kafkaTopicIamPolicy,
       sesIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,

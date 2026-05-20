@@ -1,27 +1,12 @@
 import { config } from '@/config'
 import { TypeMaterialActivity, TypeSearchRequest } from '@aoe/services/analyticsService'
 import { insertMaterialActivityEvent, insertSearchRequestEvent } from '@query/analyticsQueries'
-import { kafkaProducer } from '@resource/kafkaClient'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
 
-let producerConnected = false
-
-const ensureConnected = async (): Promise<void> => {
-  if (!producerConnected) {
-    await kafkaProducer.connect()
-    producerConnected = true
-  }
-}
-
-/**
- * Function to exclude some external requests from analytics data collection by User-Agent identifier.
- * @param {e.Request} req
- * @return {boolean}
- */
 export const hasExcludedAgents = (req: Request): boolean => {
   const userAgent: string = req.headers['user-agent'] || ''
-  const searchIDs: string[] = config.MESSAGE_QUEUE_OPTIONS.kafkaExcludedAgentIdentifiers
+  const searchIDs: string[] = config.ANALYTICS_OPTIONS.excludedAgentIdentifiers
   const regexRule = new RegExp(searchIDs.join('|'), 'i')
   return regexRule.test(userAgent)
 }
@@ -59,45 +44,25 @@ const buildActivityMessage = (req: Request, res?: Response): TypeMaterialActivit
   return message
 }
 
-/**
- * Sends analytics data to Kafka for search requests and material activity.
- * @param req express.Request
- * @param res express.Response
- */
 export async function publishAnalyticsEvent(req: Request, res?: Response) {
-  if (!config.MESSAGE_QUEUE_OPTIONS.kafkaProducerEnabled || hasExcludedAgents(req)) {
+  if (hasExcludedAgents(req)) {
     return undefined
   }
 
-  try {
-    await ensureConnected()
+  if (req.url.includes('search')) {
+    const message = buildSearchMessage(req)
+    insertSearchRequestEvent(message).catch((err) =>
+      log.error('PostgreSQL search request insert failed', err)
+    )
+    return message
+  }
 
-    if (req.url.includes('search')) {
-      const message = buildSearchMessage(req)
-      await kafkaProducer.send({
-        topic: config.MESSAGE_QUEUE_OPTIONS.topicSearchRequests,
-        messages: [{ value: JSON.stringify(message) }]
-      })
-      insertSearchRequestEvent(message).catch((err) =>
-        log.error('PostgreSQL search request insert failed', err)
-      )
-      return message
-    }
-
-    if (req.url.includes('material') || req.url.includes('download')) {
-      const message = buildActivityMessage(req, res)
-      await kafkaProducer.send({
-        topic: config.MESSAGE_QUEUE_OPTIONS.topicMaterialActivity,
-        messages: [{ value: JSON.stringify(message) }]
-      })
-      insertMaterialActivityEvent(message).catch((err) =>
-        log.error('PostgreSQL material activity insert failed', err)
-      )
-      return message
-    }
-  } catch (error) {
-    log.error('Kafka message producer failed', error)
-    producerConnected = false
+  if (req.url.includes('material') || req.url.includes('download')) {
+    const message = buildActivityMessage(req, res)
+    insertMaterialActivityEvent(message).catch((err) =>
+      log.error('PostgreSQL material activity insert failed', err)
+    )
+    return message
   }
 
   return undefined
