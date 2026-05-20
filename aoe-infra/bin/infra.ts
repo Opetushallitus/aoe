@@ -32,7 +32,6 @@ import { EfsStack } from '../lib/efs-stack'
 import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { InstanceType } from 'aws-cdk-lib/aws-ec2'
 import { DocumentdbStack } from '../lib/documentdb-stack'
-import { MskStack } from '../lib/msk-stack'
 import { EmptyStack } from '../lib/empty-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
@@ -299,7 +298,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
+  new DocumentdbStack(app, 'AOEDocumentDB', {
     environment: environmentName,
     instances: config.document_db.instances,
     instanceType: new InstanceType(config.document_db.instanceType),
@@ -308,20 +307,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     securityGroup: SecurityGroups.documentDbSecurityGroup,
     engineVersion: config.document_db.engineVersion,
     user: Secrets.documentDbPassword,
-    kmsKey: Kms.documentDbKmsKey
+    kmsKey: Kms.documentDbKmsKey,
+    deletionProtection: environmentName !== 'dev',
+    removalPolicy: environmentName === 'dev' ? cdk.RemovalPolicy.DESTROY : undefined
   })
 
-  const mskKafka = new MskStack(app, 'AOEMskKafka', {
-    env: envEU,
-    clusterName: config.msk.clusterName,
-    instanceType: config.msk.instanceType,
-    kmsKey: Kms.mskKmsKey,
-    numberOfBrokerNodes: config.msk.numberOfBrokerNodes,
-    securityGroup: SecurityGroups.mskSecurityGroup,
-    version: config.msk.version,
-    volumeSize: config.msk.volumeSize,
-    vpc: Network.vpc,
-    alarmSnsTopic: Monitor.topic
+  new EmptyStack(app, 'AOEMskKafka', {
+    env: envEU
   })
 
   new EmptyStack(app, 'DataAnalyticsEcsService', {

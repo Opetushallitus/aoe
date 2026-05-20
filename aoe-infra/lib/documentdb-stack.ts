@@ -15,6 +15,8 @@ interface DocumentDbStackProps extends cdk.StackProps {
   user: Secret
   kmsKey: Key
   instanceType: InstanceType
+  deletionProtection?: boolean
+  removalPolicy?: cdk.RemovalPolicy
 }
 export class DocumentdbStack extends cdk.Stack {
   private docdbcluster: DatabaseCluster
@@ -33,12 +35,16 @@ export class DocumentdbStack extends cdk.Stack {
       vpc: props.vpc,
       vpcSubnets: { subnets: props.vpc.isolatedSubnets },
       securityGroup: props.securityGroup,
-      deletionProtection: true,
+      deletionProtection: props.deletionProtection ?? true,
       kmsKey: props.kmsKey,
       backup: {
         retention: props.environment === 'prod' ? cdk.Duration.days(30) : cdk.Duration.days(7)
       }
     })
+
+    if (props.removalPolicy) {
+      this.docdbcluster.applyRemovalPolicy(props.removalPolicy)
+    }
 
     this.clusterEndpoint = this.docdbcluster.clusterEndpoint
   }
