@@ -291,10 +291,10 @@ export class EcsServiceStack extends Stack {
       alarmName: `${props.serviceName}-UnhealthyTasksAlarm`,
       metric: targetGroup.metrics.unhealthyHostCount({
         statistic: 'Average',
-        period: Duration.seconds(30)
+        period: Duration.seconds(60)
       }),
       threshold: 1,
-      evaluationPeriods: 1,
+      evaluationPeriods: 2,
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
     })
