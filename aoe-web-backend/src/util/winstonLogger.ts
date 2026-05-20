@@ -1,5 +1,4 @@
 import { asyncLocalStorage } from '@/asyncLocalStorage'
-import { config } from '@/config'
 import winston, { format, Logger } from 'winston'
 
 const formatters = [
@@ -14,7 +13,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Configuration for logging format and transports
 const winstonLogger: Logger = winston.createLogger({
-  level: config.APPLICATION_CONFIG.logLevel,
+  level: process.env.LOG_LEVEL,
   exitOnError: false,
   format: format.combine(...formatters),
   transports: [

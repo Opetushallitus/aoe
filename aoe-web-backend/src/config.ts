@@ -1,3 +1,5 @@
+import * as logger from '@/util/winstonLogger'
+
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 // Check that mandatory environment variables are available and report missing ones on exit.
@@ -44,7 +46,7 @@ process.env.EXTERNAL_API_FINTO_ASIASANAT || missingEnvs.push('EXTERNAL_API_FINTO
 process.env.EXTERNAL_API_SUOMI_KOODISTOT || missingEnvs.push('EXTERNAL_API_SUOMI_KOODISTOT')
 
 if (missingEnvs.length > 0) {
-  console.error('All required environment variables are not available: %s', missingEnvs)
+  logger.error('All required environment variables are not available: %s', missingEnvs)
   process.exit(1)
 }
 
