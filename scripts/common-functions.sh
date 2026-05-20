@@ -13,7 +13,7 @@ set +o nounset
 current_file=${BASH_SOURCE[0]:-$0}
 set -o nounset
 
-revision="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+revision="$(git rev-parse HEAD)"
 readonly revision
 
 repo="$( cd "$( dirname "$current_file" )" && cd .. && pwd )"
