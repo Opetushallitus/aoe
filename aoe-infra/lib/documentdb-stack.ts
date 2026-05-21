@@ -44,6 +44,11 @@ export class DocumentdbStack extends cdk.Stack {
 
     if (props.removalPolicy) {
       this.docdbcluster.applyRemovalPolicy(props.removalPolicy)
+      this.docdbcluster.node.findAll().forEach(child => {
+        if (child instanceof cdk.CfnResource) {
+          child.applyRemovalPolicy(props.removalPolicy!)
+        }
+      })
     }
 
     this.clusterEndpoint = this.docdbcluster.clusterEndpoint
