@@ -7,41 +7,6 @@ export const qa: EnvironmentConfig = {
     domain: 'qa.aoe.fi'
   },
   services: {
-    data_analytics: {
-      cpu_limit: '512',
-      memory_limit: '1024',
-      min_count: 1,
-      max_count: 1,
-      allow_ecs_exec: true,
-      env_vars: {
-        LOGGING_LEVEL_FI_CSC: 'ERROR',
-        LOGGING_LEVEL_ORG_APACHE_KAFKA: 'ERROR',
-        LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: 'ERROR',
-        SERVER_PORT: '8080',
-        SERVER_SERVLET_CONTEXTPATH: '/analytics/api',
-        SPRING_PROFILES_ACTIVE: 'prod',
-        SPRING_AUTOCONFIGURATION_EXCLUDE:
-          'org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration',
-        SPRING_DATASOURCE_PRIMARY_USERNAME: 'reporter',
-        SPRING_DATASOURCE_PRIMARY_INITIALIZATIONMODE: 'never',
-        SPRING_DATASOURCE_PRIMARY_DRIVERCLASSNAME: 'org.postgresql.Driver',
-        MONGODB_PRIMARY_ENABLE_SSL: 'true',
-        MONGODB_PRIMARY_DATABASE: 'analytics',
-        MONGODB_PRIMARY_USERNAME: 'aoeOwner',
-        KAFKA_ENABLED: 'true',
-        KAFKA_SASL_ENABLE: 'true',
-        TRUST_STORE_LOCATION: '/certs/rds-truststore.jks',
-        SPRING_KAFKA_CONSUMER_AUTO_STARTUP: 'true',
-        SPRING_KAFKA_CONSUMER_AUTOOFFSETRESET: 'latest',
-        SPRING_KAFKA_CONSUMER_ENABLEAUTOCOMMIT: 'true',
-        SPRING_KAFKA_PRODUCER_BATCH_SIZE: '10',
-        SPRING_KAFKA_PRODUCER_CLIENTID: 'aoe-kafka-client',
-        KAFKA_GROUPID_PRODMATERIALACTIVITY: 'group-prod-material-activity',
-        KAFKA_GROUPID_PRODSEARCHREQUESTS: 'group-prod-search-requests',
-        KAFKA_TOPIC_PRODMATERIALACTIVITY: 'prod_material_activity',
-        KAFKA_TOPIC_PRODSEARCHREQUESTS: 'prod_search_requests'
-      }
-    },
     data_services: {
       cpu_limit: '512',
       memory_limit: '1024',
@@ -163,13 +128,6 @@ export const qa: EnvironmentConfig = {
     }
   },
   features: {},
-  msk: {
-    clusterName: 'AOEKafkaCluster',
-    instanceType: 'kafka.t3.small',
-    numberOfBrokerNodes: 2,
-    version: '3.6.0',
-    volumeSize: 100
-  },
   open_search: {
     standbyReplicas: 'DISABLED',
     collectionName: 'aoecollection',

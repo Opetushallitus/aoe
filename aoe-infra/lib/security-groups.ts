@@ -21,7 +21,6 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup
   public readonly bastionSecurityGroup: ec2.SecurityGroup
   public readonly openSearchSecurityGroup: ec2.SecurityGroup
-  public readonly dataAnalyticsServiceSecurityGroup: ec2.SecurityGroup
   public readonly streamingServiceSecurityGroup: ec2.SecurityGroup
   public readonly dataServicesSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup
@@ -60,15 +59,6 @@ export class SecurityGroupStack extends cdk.Stack {
       vpc: props.vpc,
       allowAllOutbound: true
     })
-
-    this.dataAnalyticsServiceSecurityGroup = new ec2.SecurityGroup(
-      this,
-      'DataAnalyticsServiceSecurityGroupSecurityGroup',
-      {
-        vpc: props.vpc,
-        allowAllOutbound: true
-      }
-    )
 
     this.webBackendsServiceSecurityGroup = new ec2.SecurityGroup(
       this,
@@ -126,16 +116,9 @@ export class SecurityGroupStack extends cdk.Stack {
     })
 
     // Security Group rules
-    this.mskSecurityGroup.addIngressRule(this.dataAnalyticsServiceSecurityGroup, ec2.Port.tcp(9098))
-
     this.mskSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(9098))
 
     this.mskSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(9098))
-
-    this.documentDbSecurityGroup.addIngressRule(
-      this.dataAnalyticsServiceSecurityGroup,
-      ec2.Port.tcp(27017)
-    )
 
     this.documentDbSecurityGroup.addIngressRule(
       this.webBackendsServiceSecurityGroup,
@@ -158,13 +141,6 @@ export class SecurityGroupStack extends cdk.Stack {
     this.semanticApisRedisSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(6379)
-    )
-
-    this.dataAnalyticsServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
-
-    this.dataAnalyticsServiceSecurityGroup.addIngressRule(
-      this.bastionSecurityGroup,
-      ec2.Port.tcp(8080)
     )
 
     this.semanticApisRedisSecurityGroup.addIngressRule(
@@ -197,21 +173,11 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(8080)
     )
 
-    this.dataAnalyticsServiceSecurityGroup.addIngressRule(
-      this.webBackendsServiceSecurityGroup,
-      ec2.Port.tcp(8080)
-    )
-
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443))
 
     this.webBackendAuroraSecurityGroup.addIngressRule(
       this.webBackendsServiceSecurityGroup,
-      ec2.Port.tcp(5432)
-    )
-
-    this.webBackendAuroraSecurityGroup.addIngressRule(
-      this.dataAnalyticsServiceSecurityGroup,
       ec2.Port.tcp(5432)
     )
 

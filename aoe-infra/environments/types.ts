@@ -14,7 +14,6 @@ export interface EnvironmentConfig {
     domain: string
   }
   services: {
-    data_analytics: ServiceConfig
     data_services: ServiceConfig
     web_frontend: ServiceConfig
     web_backend: ServiceConfig
@@ -22,13 +21,6 @@ export interface EnvironmentConfig {
   }
   // Infra feature flags
   features: {}
-  msk: {
-    clusterName: string
-    instanceType: string
-    numberOfBrokerNodes: number
-    version: string
-    volumeSize: number
-  }
   open_search: {
     standbyReplicas: 'DISABLED' | 'ENABLED'
     collectionName: string
