@@ -32,14 +32,6 @@ function deploy {
     export PAGERDUTY_EVENT_URL
   fi
 
-  # AOE-97: Deploy WebBackendEcsService before AOEMskKafka so web-backend drops its
-  # MSK broker string import first. --exclusively skips dependency stacks (already deployed).
-  # Remove after MSK migration is complete in all envs.
-  ./cdk.sh "$CDK_COMMAND" WebBackendEcsService --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" AOEMskKafka --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
-
   ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
   popd
 }
