@@ -40,7 +40,7 @@ function deploy {
   ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
   ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
 
-  # ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
+  ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
   popd
 }
 
