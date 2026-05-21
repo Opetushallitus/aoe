@@ -30,8 +30,6 @@ import * as iam from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
 import { EfsStack } from '../lib/efs-stack'
 import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
-import { InstanceType } from 'aws-cdk-lib/aws-ec2'
-import { DocumentdbStack } from '../lib/documentdb-stack'
 import { EmptyStack } from '../lib/empty-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
@@ -298,18 +296,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  new DocumentdbStack(app, 'AOEDocumentDB', {
-    environment: environmentName,
-    instances: config.document_db.instances,
-    instanceType: new InstanceType(config.document_db.instanceType),
-    env: envEU,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.documentDbSecurityGroup,
-    engineVersion: config.document_db.engineVersion,
-    user: Secrets.documentDbPassword,
-    kmsKey: Kms.documentDbKmsKey,
-    deletionProtection: environmentName !== 'dev',
-    removalPolicy: environmentName === 'dev' ? cdk.RemovalPolicy.DESTROY : undefined
+  new EmptyStack(app, 'AOEDocumentDB', {
+    env: envEU
   })
 
   new EmptyStack(app, 'AOEMskKafka', {
