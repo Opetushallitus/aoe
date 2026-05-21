@@ -4,6 +4,9 @@ set -o errexit -o nounset -o pipefail
 # shellcheck source=../scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
 
+CDK_COMMAND="deploy"
+[[ "${1:-}" == "--diff" ]] && CDK_COMMAND="diff"
+
 function main {
   start_gh_actions_group "Setup"
   parse_env_from_script_name "..-deploy"
@@ -29,7 +32,15 @@ function deploy {
     export PAGERDUTY_EVENT_URL
   fi
 
-  ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
+  # AOE-97: Deploy WebBackendEcsService before AOEMskKafka so web-backend drops its
+  # MSK broker string import first. --exclusively skips dependency stacks (already deployed).
+  # Remove after MSK migration is complete in all envs.
+  ./cdk.sh "$CDK_COMMAND" WebBackendEcsService --exclusively --require-approval never "$@"
+  ./cdk.sh "$CDK_COMMAND" AOEMskKafka --exclusively --require-approval never "$@"
+  ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
+  ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
+
+  # ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
   popd
 }
 
