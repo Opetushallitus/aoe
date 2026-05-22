@@ -38,7 +38,6 @@ jobs:
         run: ./deploy-scripts/01-build.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TRUST_STORE_PASSWORD: ${{ secrets.TRUST_STORE_PASSWORD }}
   lint:
     name: 02-lint.sh
     runs-on: ubuntu-24.04

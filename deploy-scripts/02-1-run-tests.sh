@@ -11,8 +11,6 @@ trap clean EXIT
 
 compose="docker compose -p aoe_ci -f docker-compose.ci-playwright.yml"
 
-export TRUST_STORE_PASSWORD=ci-super-secret
-
 readonly compose
 
 function clean {
@@ -41,7 +39,6 @@ function main {
     export AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
     export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
     export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
-    export AOE_DATA_ANALYTICS_TAG="${github_registry}aoe-data-analytics:${revision}"
   fi
 
   run_unit_tests

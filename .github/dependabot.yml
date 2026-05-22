@@ -2,7 +2,6 @@ version: 2
 updates:
   - package-ecosystem: "maven"
     directories:
-      - "/aoe-data-analytics"
       - "/aoe-data-services"
     schedule:
       interval: "daily"
@@ -21,7 +20,6 @@ updates:
 
   - package-ecosystem: "docker"
     directories:
-      - "/aoe-data-analytics/"
       - "/aoe-data-services/"
       - "/aoe-semantic-apis/docker"
       - "/aoe-streaming-app/docker"

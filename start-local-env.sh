@@ -44,8 +44,6 @@ generate_cert() {
 generate_cert
 
 
-export TRUST_STORE_PASSWORD=myPassword
-
 $local_compose create --build
 
 function stop() {
@@ -61,25 +59,17 @@ function init {
 function rename_infra_panes_to_match_the_script_they_run {
   tmux select-pane -t 0.0 -T redis
   tmux select-pane -t 0.1 -T localstack
-  tmux select-pane -t 0.2 -T mongo
-  tmux select-pane -t 0.3 -T postgres
-  tmux select-pane -t 0.4 -T oidc
-  tmux select-pane -t 0.5 -T opensearch
+  tmux select-pane -t 0.2 -T postgres
+  tmux select-pane -t 0.3 -T oidc
+  tmux select-pane -t 0.4 -T opensearch
+  tmux select-pane -t 0.5 -T nginx
 }
 
-function rename_infra2_panes_to_match_the_script_they_run_window_2 {
-  tmux select-pane -t 1.0 -T zookeeper
-  tmux select-pane -t 1.1 -T nginx
-  tmux select-pane -t 1.2 -T kafka
-  tmux select-pane -t 1.3 -T kafka2
-}
-
-function rename_services_panes_to_match_the_script_they_run_window_3 {
-  tmux select-pane -t 2.0 -T aoe-web-backend
-  tmux select-pane -t 2.1 -T aoe-data-services
-  tmux select-pane -t 2.2 -T aoe-streaming-app
-  tmux select-pane -t 2.3 -T aoe-data-analytics
-  tmux select-pane -t 2.4 -T aoe-web-frontend
+function rename_services_panes_to_match_the_script_they_run_window_2 {
+  tmux select-pane -t 1.0 -T aoe-web-backend
+  tmux select-pane -t 1.1 -T aoe-data-services
+  tmux select-pane -t 1.2 -T aoe-streaming-app
+  tmux select-pane -t 1.3 -T aoe-web-frontend
 }
 
 init
@@ -116,74 +106,50 @@ tmux send-keys "$local_up_cmd redis" C-m
 tmux select-pane -t 1
 tmux send-keys "$local_up_cmd localstack" C-m
 
-# Pane 2: MongoDB
+# Pane 2: PostgreSQL
 tmux select-pane -t 2
-tmux send-keys "$local_up_cmd aoe-mongodb" C-m
-
-# Pane 3: PostgreSQL
-tmux select-pane -t 3
 tmux send-keys "$local_up_cmd aoe-postgres" C-m
 
-# Pane 4: oidc
-tmux select-pane -t 4
+# Pane 3: oidc
+tmux select-pane -t 3
 tmux send-keys "$local_up_cmd aoe-oidc-server" C-m
 
-# Pane 5: elasticsearch
-tmux select-pane -t 5
+# Pane 4: opensearch
+tmux select-pane -t 4
 tmux send-keys "$local_up_cmd opensearch" C-m
+
+# Pane 5: nginx (started last since it depends on backend and frontend)
 
 rename_infra_panes_to_match_the_script_they_run
 
-tmux new-window -t $session:1 -n 'infra2'
+tmux new-window -t $session:1 -n 'services'
 tmux select-window -t 1
 tmux select-pane -t 1.0
 tmux split-window -h -p 50
 
 tmux select-pane -t 1.0
-tmux send-keys "$local_up_cmd zookeeper" C-m
-tmux split-window -v
-
-tmux select-pane -t 1.2
-tmux send-keys "$repo/scripts/run-kafka.sh" C-m
-tmux split-window -v
-
-tmux select-pane -t 1.3
-tmux send-keys "$repo/scripts/run-kafka2.sh" C-m
-
-rename_infra2_panes_to_match_the_script_they_run_window_2
-
-tmux new-window -t $session:2 -n 'services'
-tmux select-window -t 2
-tmux select-pane -t 2.0
-tmux split-window -h -p 50
-
-tmux select-pane -t 2.0
 tmux split-window -v   # Pane 2
+
+tmux select-pane -t 1.1
 tmux split-window -v   # Pane 3
 
-tmux select-pane -t 2.3
-tmux split-window -v   # Pane 4
-
-tmux select-pane -t 2.0
+tmux select-pane -t 1.0
 tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
 
-tmux select-pane -t 2.1
+tmux select-pane -t 1.1
 tmux send-keys "$repo/scripts/run-data-services.sh" C-m
 
-tmux select-pane -t 2.2
+tmux select-pane -t 1.2
 tmux send-keys "$repo/scripts/run-streaming-app.sh" C-m
 
-tmux select-pane -t 2.3
-tmux send-keys "$repo/scripts/run-data-analytics.sh" C-m
-
-tmux select-pane -t 2.4
+tmux select-pane -t 1.3
 tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
 
-tmux select-window -t 1
-tmux select-pane -t 1.1
+tmux select-window -t 0
+tmux select-pane -t 0.5
 tmux send-keys "$repo/scripts/run-nginx.sh" C-m
 
-rename_services_panes_to_match_the_script_they_run_window_3
-tmux select-window -t 2
-tmux select-pane -t 2.0
+rename_services_panes_to_match_the_script_they_run_window_2
+tmux select-window -t 1
+tmux select-pane -t 1.0
 tmux attach-session -t $session

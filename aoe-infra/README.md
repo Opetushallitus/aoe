@@ -14,7 +14,7 @@ aws sso login --sso-session oph-federation
 
 Then use `--profile <target-account-aws-profile>` with CDK commands.
 
-Example: `npx cdk deploy -c environment=dev DataAnalyticsAuroraStack --profile aoe-dev`
+Example: `npx cdk deploy -c environment=dev WebBackendAuroraStack --profile aoe-dev`
 
 ## CDK commands
 
