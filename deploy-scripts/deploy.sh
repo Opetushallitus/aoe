@@ -39,6 +39,7 @@ function deploy {
 
   case "$CDK_COMMAND" in
     destroy)
+      running_on_gh_actions && { echo "Destroy is not allowed in CI."; exit 1; }
       read -r -p "Destroy $STACK in $ENV? [y/N] " confirm
       [[ "$confirm" =~ ^[yY]$ ]] || { echo "Aborted."; exit 1; }
       ./cdk.sh destroy "$STACK" "$@"
