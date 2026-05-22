@@ -24,7 +24,6 @@ export class SecretManagerStack extends cdk.Stack {
   public readonly semanticApisPassword: secretsmanager.Secret
   public readonly webBackendAuroraPassword: secretsmanager.Secret
   public readonly webBackendPassportSessionSecret: secretsmanager.Secret
-  public readonly documentDbPassword: secretsmanager.Secret
 
   public readonly secrets: Secrets = {
     PAGERDUTY_EVENT_URL: {
@@ -114,14 +113,6 @@ export class SecretManagerStack extends cdk.Stack {
         generateStringKey: 'password',
         passwordLength: 24,
         excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
-      }
-    })
-
-    this.documentDbPassword = new secretsmanager.Secret(this, 'DocumentDbSecret', {
-      generateSecretString: {
-        secretStringTemplate: JSON.stringify({ username: 'docdbuser' }),
-        generateStringKey: 'password',
-        excludeCharacters: '/@" '
       }
     })
   }

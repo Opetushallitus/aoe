@@ -34,11 +34,6 @@ export interface EnvironmentConfig {
       performance_insights: boolean
     }
   }
-  document_db: {
-    instances: number
-    instanceType: string
-    engineVersion: string
-  }
   S3: {
     aoeBucketName: string
     aoePdfBucketName: string

@@ -141,11 +141,6 @@ export const dev: EnvironmentConfig = {
       performance_insights: false
     }
   },
-  document_db: {
-    instances: 1,
-    instanceType: 't3.medium',
-    engineVersion: '4.0.0'
-  },
   S3: {
     aoeBucketName: 'aoe',
     aoePdfBucketName: 'aoepdf',

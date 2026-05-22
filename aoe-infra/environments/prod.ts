@@ -141,11 +141,6 @@ export const prod: EnvironmentConfig = {
       performance_insights: true
     }
   },
-  document_db: {
-    instances: 2,
-    instanceType: 'r5.large',
-    engineVersion: '4.0.0'
-  },
   S3: {
     aoeBucketName: 'aoe',
     aoePdfBucketName: 'aoepdf',

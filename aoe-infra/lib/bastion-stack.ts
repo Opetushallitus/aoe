@@ -39,7 +39,6 @@ export class BastionStack extends Stack {
         'aoss:DescribeIndex',
         'aoss:ReadDocument',
         'aoss:WriteDocument',
-        'kafka:GetBootstrapBrokers',
         'elasticfilesystem:DescribeFileSystems',
         'elasticfilesystem:ClientWrite',
         'elasticfilesystem:ClientMount',

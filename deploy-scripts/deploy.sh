@@ -6,6 +6,11 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 
 CDK_COMMAND="deploy"
 [[ "${1:-}" == "--diff" ]] && CDK_COMMAND="diff"
+if [[ "${1:-}" == "--destroy" ]]; then
+  CDK_COMMAND="destroy"
+  STACK="${2:-}"
+  [[ -n "$STACK" ]] || { echo "Usage: --destroy <StackName>"; exit 1; }
+fi
 
 function main {
   start_gh_actions_group "Setup"
@@ -32,7 +37,19 @@ function deploy {
     export PAGERDUTY_EVENT_URL
   fi
 
-  ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
+  case "$CDK_COMMAND" in
+    destroy)
+      read -r -p "Destroy $STACK in $ENV? [y/N] " confirm
+      [[ "$confirm" =~ ^[yY]$ ]] || { echo "Aborted."; exit 1; }
+      ./cdk.sh destroy "$STACK" "$@"
+      ;;
+    *)
+      if [[ "$ENV" != "utility" ]]; then
+        ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
+      fi
+      ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
+      ;;
+  esac
   popd
 }
 

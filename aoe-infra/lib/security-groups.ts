@@ -25,26 +25,12 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly dataServicesSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup
   public readonly efsSecurityGroup: ec2.SecurityGroup
-  public readonly documentDbSecurityGroup: ec2.SecurityGroup
-  public readonly mskSecurityGroup: ec2.SecurityGroup
   public readonly webFrontendServiceSecurityGroup: ec2.SecurityGroup
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props)
 
     // Security Groups
-    this.documentDbSecurityGroup = new ec2.SecurityGroup(this, 'DocumentDbSecurityGroup', {
-      vpc: props.vpc,
-      description: 'Allow access to DocumentDB cluster',
-      allowAllOutbound: true
-    })
-
-    this.mskSecurityGroup = new ec2.SecurityGroup(this, 'MskSecurityGroup', {
-      vpc: props.vpc,
-      description: 'Allow access to MSK kafka',
-      allowAllOutbound: true
-    })
-
     this.efsSecurityGroup = new ec2.SecurityGroup(this, 'EfsSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true
@@ -116,17 +102,6 @@ export class SecurityGroupStack extends cdk.Stack {
     })
 
     // Security Group rules
-    this.mskSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(9098))
-
-    this.mskSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(9098))
-
-    this.documentDbSecurityGroup.addIngressRule(
-      this.webBackendsServiceSecurityGroup,
-      ec2.Port.tcp(27017)
-    )
-
-    this.documentDbSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(27017))
-
     this.efsSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(2049))
 
     this.efsSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(2049))
