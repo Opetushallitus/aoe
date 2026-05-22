@@ -32,9 +32,6 @@ function deploy {
     export PAGERDUTY_EVENT_URL
   fi
 
-  if [[ "$ENV" == "utility" ]]; then
-    ./cdk.sh "$CDK_COMMAND" UtilityStack --exclusively --require-approval never "$@"
-  fi
   ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
   popd
 }
