@@ -54,35 +54,6 @@ services:
     env_file:
       - path: ./aoe-data-services/.env.ci
 
-  aoe-data-analytics:
-    hostname: aoe-data-analytics
-    build:
-      context: aoe-data-analytics
-      dockerfile: ./Dockerfile
-      secrets:
-        - trust_store_password
-    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
-    container_name: aoe-data-analytics
-    restart: unless-stopped
-
-    entrypoint:
-      [
-        "java",
-        "-Xms512m",
-        "-Xmx512m",
-        "-Djava.security.egd=file:/dev/./urandom",
-        "-jar",
-        "aoe-data-analytics.jar",
-      ]
-    ports:
-      - 8080:8080
-    env_file:
-      - path: ./aoe-data-analytics/.env.ci
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
-
   aoe-web-backend:
     build:
       context: aoe-web-backend
@@ -195,81 +166,6 @@ services:
     ports:
       - 9200:9200
       - 9600:9600
-
-  aoe-mongodb:
-    image: mongo:4.0
-    container_name: aoe-mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: aoerootuser
-      MONGO_INITDB_ROOT_PASSWORD: aoerootpassword
-      MONGO_INITDB_DATABASE: aoe
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-    volumes:
-      - ./docker/dev/mongo_data:/data/db
-      - ./docker/init-scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-    ports:
-      - 27017:27017
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.9.7@sha256:b692a1dafdccd09dd2a9e109a4da1e74835d82907099028a6aa691df002d9375
-    container_name: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: INFO
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-    ports:
-      - 2181:2181
-
-  kafka:
-    image: confluentinc/cp-kafka:7.9.7@sha256:d879d4b81bccb61c9b11f2e69dfcbc4219ea474f6c0df48cc89e75efed82cecb
-    container_name: kafka
-
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://kafka:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
-      KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: kafka=INFO,kafka.network.RequestChannel$=WARN,kafka.producer.async.DefaultEventHandler=INFO,kafka.request.logger=WARN,kafka.controller=INFO,kafka.log.LogCleaner=INFO,state.change.logger=INFO,kafka.authorizer.logger=INFO
-    ports:
-      - 29092:29092
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "9092"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
-  kafka2:
-    image: confluentinc/cp-kafka:7.9.7@sha256:d879d4b81bccb61c9b11f2e69dfcbc4219ea474f6c0df48cc89e75efed82cecb
-    container_name: kafka2
-
-    environment:
-      KAFKA_BROKER_ID: 2
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:9092,OUTSIDE://kafka2:39092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
-      KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: kafka=INFO,kafka.network.RequestChannel$=WARN,kafka.producer.async.DefaultEventHandler=INFO,kafka.request.logger=WARN,kafka.controller=INFO,kafka.log.LogCleaner=INFO,state.change.logger=INFO,kafka.authorizer.logger=INFO
-    ports:
-      - 39092:39092
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "9092"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
   localstack:
     image: localstack/localstack:4.14.0@sha256:3ebc37595918b8accb852f8048fef2aff047d465167edd655528065b07bc364a
@@ -476,6 +372,3 @@ networks:
 volumes:
   postgres_data:
 
-secrets:
-  trust_store_password:
-    environment: TRUST_STORE_PASSWORD
