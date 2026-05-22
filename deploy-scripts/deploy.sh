@@ -32,13 +32,6 @@ function deploy {
     export PAGERDUTY_EVENT_URL
   fi
 
-  # AOE-97: Empty DocumentDB before source stacks remove their exports.
-  # Remove after DocumentDB migration is complete in all envs.
-  ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" SecretManagerStack --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
-  ./cdk.sh "$CDK_COMMAND" KmsStack --exclusively --require-approval never "$@"
-
   ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
   popd
 }
