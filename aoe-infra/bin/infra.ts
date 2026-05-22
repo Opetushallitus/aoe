@@ -560,11 +560,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     serviceName: 'aoe-data-services',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  new EcrStack(app, 'DataAnalyticsEcrStack', {
+  new EmptyStack(app, 'DataAnalyticsEcrStack', {
     env: envEU,
-    stackName: 'aoe-data-analytics-ecr',
-    serviceName: 'aoe-data-analytics',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole,
-    autoDeleteImages: true
+    stackName: 'aoe-data-analytics-ecr'
   })
 }

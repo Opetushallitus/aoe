@@ -13,8 +13,5 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../scripts/common-function
 # Run web frontend push image script
 "$repo/aoe-web-frontend/deploy-scripts/02-push-image.sh"
 
-# Run data analytics push image script
-"$repo/aoe-data-analytics/deploy-scripts/02-push-image.sh"
-
-# Run data analytics push image script
+# Run data services push image script
 "$repo/aoe-data-services/deploy-scripts/02-push-image.sh"
