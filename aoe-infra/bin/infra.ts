@@ -298,19 +298,23 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  new DocumentdbStack(app, 'AOEDocumentDB', {
-    environment: environmentName,
-    instances: config.document_db.instances,
-    instanceType: new InstanceType(config.document_db.instanceType),
-    env: envEU,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.documentDbSecurityGroup,
-    engineVersion: config.document_db.engineVersion,
-    user: Secrets.documentDbPassword,
-    kmsKey: Kms.documentDbKmsKey,
-    deletionProtection: false,
-    removalPolicy: cdk.RemovalPolicy.DESTROY
+  new EmptyStack(app, 'AOEDocumentDB', {
+    env: envEU
   })
+
+  // new DocumentdbStack(app, 'AOEDocumentDB', {
+  //   environment: environmentName,
+  //   instances: config.document_db.instances,
+  //   instanceType: new InstanceType(config.document_db.instanceType),
+  //   env: envEU,
+  //   vpc: Network.vpc,
+  //   securityGroup: SecurityGroups.documentDbSecurityGroup,
+  //   engineVersion: config.document_db.engineVersion,
+  //   user: Secrets.documentDbPassword,
+  //   kmsKey: Kms.documentDbKmsKey,
+  //   deletionProtection: false,
+  //   removalPolicy: cdk.RemovalPolicy.DESTROY
+  // })
 
   new EmptyStack(app, 'AOEMskKafka', {
     env: envEU
