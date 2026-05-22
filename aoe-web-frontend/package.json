@@ -39,7 +39,7 @@
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "17.0.0",
     "bootstrap": "5.3.8",
-    "echarts": "6.0.0",
+    "echarts": "6.1.0",
     "font-awesome": "4.7.0",
     "isomorphic-dompurify": "2.36.0",
     "loader-utils": "3.3.1",
