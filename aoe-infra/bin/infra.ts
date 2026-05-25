@@ -31,7 +31,6 @@ import { NamespaceStack } from '../lib/namespaceStack'
 import { EfsStack } from '../lib/efs-stack'
 import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { InstanceType } from 'aws-cdk-lib/aws-ec2'
-import { EmptyStack } from '../lib/empty-stack'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
@@ -297,19 +296,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  new EmptyStack(app, 'AOEDocumentDB', {
-    env: envEU
-  })
-
-  new EmptyStack(app, 'AOEMskKafka', {
-    env: envEU
-  })
-
-  new EmptyStack(app, 'DataAnalyticsEcsService', {
-    env: envEU,
-    stackName: `${environmentName}-data-analytics-service`
-  })
-
   new EcsServiceStack(app, 'StreamingEcsService', {
     env: envEU,
     stackName: `${environmentName}-streaming-app-service`,
@@ -544,9 +530,5 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: 'aoe-data-services-ecr',
     serviceName: 'aoe-data-services',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
-  })
-  new EmptyStack(app, 'DataAnalyticsEcrStack', {
-    env: envEU,
-    stackName: 'aoe-data-analytics-ecr'
   })
 }
