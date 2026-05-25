@@ -8,13 +8,13 @@ Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateri
 
 **Frontendilla ei ole suoraa tietokantayhteyttä.** Kaikki data kulkee HTTP-kutsujen kautta kolmeen backend-palveluun:
 
-| Backend                        | URL-konfiguraatio         | Mitä se hakee                                                                                                                                                            |
-| ------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| web-backend (v1)               | `/api/v1`                 | Oppimateriaalit, kokoelmat, käyttäjätiedot, arviot, tiedostolataukset, tunnistautuminen                                                                                  |
-| web-backend (v2)               | `/api/v2`                 | Haku, materiaalien lähetys, thumbnailit, ilmoitukset                                                                                                                     |
-| web-backend (viitetiedot)      | `/ref/api/v1`             | Viitetiedot kaikkiin lomakkeiden pudotusvalikoihin ja suodattimiin — koulutusasteet, oppiaineet, asiasanat, lisenssit, saavutettavuusominaisuudet, organisaatiot, kielet |
-| web-backend (tilastot)         | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
-| web-backend (embed)            | `/embed`                  | Materiaalidata upotettavaa iframe-näkymää varten                                                                                                                         |
+| Backend                   | URL-konfiguraatio         | Mitä se hakee                                                                                                                                                            |
+| ------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| web-backend (v1)          | `/api/v1`                 | Oppimateriaalit, kokoelmat, käyttäjätiedot, arviot, tiedostolataukset, tunnistautuminen                                                                                  |
+| web-backend (v2)          | `/api/v2`                 | Haku, materiaalien lähetys, thumbnailit, ilmoitukset                                                                                                                     |
+| web-backend (viitetiedot) | `/ref/api/v1`             | Viitetiedot kaikkiin lomakkeiden pudotusvalikoihin ja suodattimiin — koulutusasteet, oppiaineet, asiasanat, lisenssit, saavutettavuusominaisuudet, organisaatiot, kielet |
+| web-backend (tilastot)    | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
+| web-backend (embed)       | `/embed`                  | Materiaalidata upotettavaa iframe-näkymää varten                                                                                                                         |
 
 #### Tulevaisuus: S3 + CloudFront ECS:n tilalle
 
@@ -51,27 +51,12 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Analytiikkatapahtumat** kirjoitetaan suoraan PostgreSQL:ään (`material_activity`- ja `search_requests`-tauluihin). User-agentit, jotka vastaavat `ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim. `oersi`), jätetään pois.
 
-#### Tilastoendpointit
-
-Kaikki polun `/api/v2/statistics` alla, vaativat tunnistautumisen:
-
-| Endpoint                                        | Tarkoitus                                                          |
-| ----------------------------------------------- | ------------------------------------------------------------------ |
-| `POST /prod/materialactivity/{interval}/total`  | Materiaalivuorovaikutusten aikasarja (interval: day/week/month)    |
-| `POST /prod/searchrequests/{interval}/total`    | Hakupyyntöjen aikasarja                                            |
-| `POST /prod/educationallevel/all`               | Materiaalien määrä koulutusasteittain                              |
-| `POST /prod/educationallevel/expired`           | Vanhenevat materiaalit koulutusasteittain                          |
-| `POST /prod/educationalsubject/all`             | Materiaalien määrä oppiaineittain                                  |
-| `POST /prod/organization/all`                   | Materiaalien määrä organisaatioittain                              |
-
-Kaikki endpointit hyväksyvät päivämäärävälin parametreina (`since`, `until`) ja palauttavat aggregoidut tulokset.
-
 ### Yhteydet muihin AOE-palveluihin:
 
-| Palvelu            | Miten                                                                                                                                                                                                                                                                                                                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **streaming-app**  | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
-| **data-services**  | Ei suoria kutsuja. Data-services kutsuu backendiä, ei toisin päin.                                                                                                                                                                                                                                                                                                                                |
+| Palvelu           | Miten                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **streaming-app** | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
+| **data-services** | Ei suoria kutsuja. Data-services kutsuu backendiä, ei toisin päin.                                                                                                                                                                                                                                                                                                                                |
 
 **Tunnistautuminen:** OIDC Passport.js:n kautta. Selvittää issuerin osoitteesta `PROXY_URI`, ohjaa käyttäjät kirjautumaan scopeilla `openid profile offline_access`, käsittelee paluun osoitteessa `/api/secure/redirect` ja luo uudet käyttäjät automaattisesti PostgreSQL:ään.
 
@@ -114,6 +99,21 @@ Yksinkertaiset resurssit: `/asiasanat/{lang}`, `/organisaatiot/{lang}`, `/koulut
 Hierarkkiset resurssit (parent ID:t mukana): `/oppiaineet/{lang}`, `/tavoitteet/{ids}/{lang}`, `/sisaltoalueet/{ids}/{lang}`, `/lukio-oppiaineet/{lang}`, `/lukio-moduulit/{ids}/{lang}`, `/ammattikoulu-tutkinnot/{lang}`, `/ammattikoulu-tutkinnon-osat/{ids}/{lang}` ja muita.
 
 Yhdistetty suodatinendpoint: `/filters-oppiaineet-tieteenalat-tutkinnot/{lang}`
+
+#### Tilastorajapinnat
+
+Kaikki polun `/api/v2/statistics` alla, vaativat tunnistautumisen:
+
+| Endpoint                                       | Tarkoitus                                                       |
+| ---------------------------------------------- | --------------------------------------------------------------- |
+| `POST /prod/materialactivity/{interval}/total` | Materiaalivuorovaikutusten aikasarja (interval: day/week/month) |
+| `POST /prod/searchrequests/{interval}/total`   | Hakupyyntöjen aikasarja                                         |
+| `POST /prod/educationallevel/all`              | Materiaalien määrä koulutusasteittain                           |
+| `POST /prod/educationallevel/expired`          | Vanhenevat materiaalit koulutusasteittain                       |
+| `POST /prod/educationalsubject/all`            | Materiaalien määrä oppiaineittain                               |
+| `POST /prod/organization/all`                  | Materiaalien määrä organisaatioittain                           |
+
+Kaikki rajapinnat hyväksyvät päivämäärävälin parametreina (`since`, `until`) ja palauttavat aggregoidut tulokset.
 
 #### Tulevaisuus: poistetaan Redis
 
