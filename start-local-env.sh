@@ -66,10 +66,10 @@ function rename_infra_panes_to_match_the_script_they_run {
 }
 
 function rename_services_panes_to_match_the_script_they_run_window_2 {
-  tmux select-pane -t 1.0 -T aoe-web-backend
+  tmux select-pane -t 1.0 -T aoe-web-frontend
   tmux select-pane -t 1.1 -T aoe-data-services
   tmux select-pane -t 1.2 -T aoe-streaming-app
-  tmux select-pane -t 1.3 -T aoe-web-frontend
+  tmux select-pane -t 1.3 -T aoe-web-backend
 }
 
 init
@@ -134,7 +134,7 @@ tmux select-pane -t 1.1
 tmux split-window -v   # Pane 3
 
 tmux select-pane -t 1.0
-tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
+tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
 
 tmux select-pane -t 1.1
 tmux send-keys "$repo/scripts/run-data-services.sh" C-m
@@ -143,7 +143,7 @@ tmux select-pane -t 1.2
 tmux send-keys "$repo/scripts/run-streaming-app.sh" C-m
 
 tmux select-pane -t 1.3
-tmux send-keys "$repo/scripts/run-web-frontend.sh" C-m
+tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
 
 tmux select-window -t 0
 tmux select-pane -t 0.5
