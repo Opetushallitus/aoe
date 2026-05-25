@@ -45,14 +45,6 @@ function deploy {
       ./cdk.sh destroy "$STACK" "$@"
       ;;
     *)
-      if [[ "$ENV" != "utility" ]]; then
-        ./cdk.sh "$CDK_COMMAND" AOEDocumentDB --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" AOEMskKafka --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" DataAnalyticsEcsService --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" KmsStack --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" SecretManagerStack --exclusively --require-approval never "$@"
-      fi
       ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
       ;;
   esac
