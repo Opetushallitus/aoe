@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) is a microservices-based web application for managing and distributing educational resources. The monorepo contains Node.js/TypeScript services (aoe-web-backend, aoe-web-frontend, aoe-streaming-app), Spring Boot/Java services (aoe-data-analytics, aoe-data-services), and AWS CDK infrastructure (aoe-infra).
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) is a microservices-based web application for managing and distributing educational resources. The monorepo contains Node.js/TypeScript services (aoe-web-backend, aoe-web-frontend, aoe-streaming-app), a Spring Boot/Java service (aoe-data-services), and AWS CDK infrastructure (aoe-infra).
 
 ## Local Development
 
@@ -57,12 +57,10 @@ npx cdk deploy -c environment=dev --all --profile aoe-dev
 
 ## Database Migrations
 
-No formal migration tool — schema changes go through init scripts:
-- PostgreSQL: `docker/init-scripts/aoe-init.sql`
-- MongoDB: `docker/init-scripts/init-mongo.js`
+PostgreSQL base schema: `docker/init-scripts/aoe-init.sql`. Schema changes use Knex migrations in `aoe-web-backend/migrations/`.
 
 ## Infrastructure
 
-- Production: AWS ECS Fargate, Aurora (PostgreSQL), DocumentDB (MongoDB), ElastiCache (Redis), MSK (Kafka), OpenSearch
+- Production: AWS ECS Fargate, Aurora (PostgreSQL), ElastiCache (Redis), OpenSearch
 - Sensitive config in AWS Parameter Store (`/<environment>/<serviceName>/`), database secrets in Secrets Manager
 - Local: Docker Compose with LocalStack for S3, mock OIDC server

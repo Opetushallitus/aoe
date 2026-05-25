@@ -1,6 +1,6 @@
 # AOE ECS Services Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 5 microservices on AWS ECS Fargate. Three are built with Node.js/TypeScript and two with Java/Spring Boot.
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 4 microservices on AWS ECS Fargate. Three are built with Node.js/TypeScript and one with Java/Spring Boot.
 
 ## Request Routing
 
@@ -11,7 +11,6 @@ All traffic enters through an Application Load Balancer. Path-based rules route 
 | `/api/*`, `/h5p/*`, `/embed/*`, `/content/*`, `/ref/api/v1*` | web-backend | 3000 | 120 |
 | `/stream/api/v1*` | streaming-app | 3001 | 110 |
 | `/meta/oaipmh*`, `/meta/v2/oaipmh*` | data-services | 8001 | 130 |
-| `/analytics/api/*` | data-analytics | 8080 | 140 |
 | `/*` (catch-all) | web-frontend | 8080 | 49000 |
 
 ## Services
@@ -64,21 +63,13 @@ The central API service. Handles all business logic: material CRUD, file uploads
 | `aoepdf` | Office-to-PDF conversions (via LibreOffice) |
 | `aoethumbnail` | Material and collection thumbnail images |
 
-**Kafka — publishes analytics events to two topics:**
-
-| Topic | Trigger | Payload |
-|---|---|---|
-| `prod_material_activity` | User views, edits, loads, or downloads a material | `{timestamp, eduMaterialId, interaction, metadata: {organizations, educationalLevels, educationalSubjects}}` |
-| `prod_search_requests` | User performs a search | `{timestamp, keywords, filters}` |
-
-Events are published asynchronously via worker threads. User-agents matching `KAFKA_EXCLUDED_AGENT_IDENTIFIERS` (e.g. `oersi`) are excluded.
+**Analytics events** are written directly to PostgreSQL (`material_activity` and `search_requests` tables). User-agents matching `ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS` (e.g. `oersi`) are excluded.
 
 **Connections to other AOE services:**
 
 | Service | How |
 |---|---|
 | **streaming-app** | When a file download has a `Range` header and the file meets streaming criteria (enabled, MIME type in `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, file size >= `STREAM_FILESIZE_MIN`), the backend first does a HEAD request to the streaming service to check it's alive (1s timeout). If yes, it responds with **HTTP 302** redirecting the browser to `/stream/api/v1/material/{filename}`. Otherwise it serves the file directly from S3. |
-| **data-analytics** | The path `/api/v2/statistics` is proxied via `http-proxy-middleware` to `http://aoe-data-analytics:8080/analytics/api`. The frontend calls this for admin dashboard statistics. |
 | **data-services** | No direct calls. Data-services calls the backend, not the other way around. |
 
 **Authentication:** OIDC via Passport.js. Discovers the issuer at `PROXY_URI`, redirects users for login with `openid profile offline_access` scopes, handles the callback at `/api/secure/redirect`, and auto-creates new users in PostgreSQL.
@@ -126,6 +117,21 @@ Hierarchical resources (with parent IDs): `/oppiaineet/{lang}`, `/tavoitteet/{id
 
 Combined filter endpoint: `/filters-oppiaineet-tieteenalat-tutkinnot/{lang}`
 
+#### Statistics Endpoints
+
+All under `/api/v2/statistics`, require authentication:
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /prod/materialactivity/{interval}/total` | Time-series of material interactions (interval: day/week/month) |
+| `POST /prod/searchrequests/{interval}/total` | Time-series of search requests |
+| `POST /prod/educationallevel/all` | Material count by educational level |
+| `POST /prod/educationallevel/expired` | Expiring materials by educational level |
+| `POST /prod/educationalsubject/all` | Material count by subject |
+| `POST /prod/organization/all` | Material count by organization |
+
+All endpoints accept date range parameters (`since`, `until`) and return aggregated results.
+
 #### Future: Remove Redis
 
 Instead of caching in Redis, the reference data would be stored in PostgreSQL — the data only refreshes once a week, so there is no need for an in-memory cache. The backend would expose the same `/ref/api/v1` endpoints so the frontend requires no changes.
@@ -161,46 +167,7 @@ A stateless media streaming proxy between S3 and the browser. It exists to separ
 
 ---
 
-### 4. aoe-data-analytics
-
-**Java 17 / Spring Boot 3.5** | Port 8080 | Context path `/analytics/api`
-
-An analytics ETL processor. Consumes usage events from Kafka, persists them in MongoDB, and exposes REST endpoints for querying aggregated statistics. The web-backend proxies `/api/v2/statistics` requests here.
-
-**Kafka consumption:**
-
-| Topic | Consumer Group | Content |
-|---|---|---|
-| `prod_material_activity` | `group-prod-material-activity` | Material view/edit/load/download events with educational metadata |
-| `prod_search_requests` | `group-prod-search-requests` | Search queries with keywords and filters |
-
-Events arrive as JSON, are deserialized, and stored as documents in MongoDB.
-
-**MongoDB collections:**
-
-| Collection | Document Content |
-|---|---|
-| `material_activity` | `{sessionId, timestamp, eduMaterialId, interaction, metadata: {organizations, educationalLevels, educationalSubjects}}` |
-| `search_requests` | `{sessionId, timestamp, keywords, filters: {educationalLevels, educationalSubjects, learningResourceTypes}}` |
-
-**PostgreSQL (read-only):** Queries the `EducationalMaterial` table (joined with `EducationalLevel`, `AlignmentObject`, `Author`) to count materials by educational level, subject, and organization. This is used for the "published materials" statistics, not the time-series activity data.
-
-**REST endpoints** (called by frontend via web-backend proxy):
-
-| Endpoint | Purpose |
-|---|---|
-| `POST /statistics/prod/materialactivity/{interval}/total` | Time-series of material interactions (interval: DAY/WEEK/MONTH) |
-| `POST /statistics/prod/searchrequests/{interval}/total` | Time-series of search requests |
-| `POST /statistics/prod/educationallevel/all` | Material count by educational level |
-| `POST /statistics/prod/educationallevel/expired` | Expiring materials by educational level |
-| `POST /statistics/prod/educationalsubject/all` | Material count by subject |
-| `POST /statistics/prod/organization/all` | Material count by organization |
-
-All endpoints accept date range parameters and return aggregated results. 512MB JVM heap.
-
----
-
-### 5. aoe-data-services
+### 4. aoe-data-services
 
 **Java 17 / Spring Boot 3.5** | Port 8001 | Context path `/meta`
 
@@ -248,7 +215,6 @@ The backend already has the OAI-PMH query logic that data-services calls (`/api/
 | web-frontend | TypeScript | Angular 20 + OpenResty/Nginx | 8080 |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
 | streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
-| data-analytics | Java 17 | Spring Boot 3.5 | 8080 |
 | data-services | Java 17 | Spring Boot 3.5 | 8001 |
 
 ## Shared Infrastructure

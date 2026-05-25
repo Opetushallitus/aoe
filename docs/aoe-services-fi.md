@@ -13,10 +13,8 @@ Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateri
 | web-backend (v1)               | `/api/v1`                 | Oppimateriaalit, kokoelmat, käyttäjätiedot, arviot, tiedostolataukset, tunnistautuminen                                                                                  |
 | web-backend (v2)               | `/api/v2`                 | Haku, materiaalien lähetys, thumbnailit, ilmoitukset                                                                                                                     |
 | web-backend (viitetiedot)      | `/ref/api/v1`             | Viitetiedot kaikkiin lomakkeiden pudotusvalikoihin ja suodattimiin — koulutusasteet, oppiaineet, asiasanat, lisenssit, saavutettavuusominaisuudet, organisaatiot, kielet |
-| data-analytics (proxyn kautta) | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
+| web-backend (tilastot)         | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
 | web-backend (embed)            | `/embed`                  | Materiaalidata upotettavaa iframe-näkymää varten                                                                                                                         |
-
-Tilastokutsut menevät osoitteeseen `/api/v2/statistics/prod`, jonka web-backend välittää edelleen data-analytics-palvelulle (frontend ei tiedä data-analytics-palvelusta suoraan).
 
 #### Tulevaisuus: S3 + CloudFront ECS:n tilalle
 
@@ -51,21 +49,28 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 | `aoepdf`       | Office-tiedostojen PDF-muunnokset (LibreOfficen kautta)        |
 | `aoethumbnail` | Materiaalien ja kokoelmien pikkukuvat                          |
 
-**Kafka — julkaisee analytiikkatapahtumia kahteen aiheeseen:**
+**Analytiikkatapahtumat** kirjoitetaan suoraan PostgreSQL:ään (`material_activity`- ja `search_requests`-tauluihin). User-agentit, jotka vastaavat `ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim. `oersi`), jätetään pois.
 
-| Topic                    | Tapahtuma                                            | Payload                                                                                                      |
-| ------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `prod_material_activity` | Käyttäjä katsoo, muokkaa, avaa tai lataa materiaalin | `{timestamp, eduMaterialId, interaction, metadata: {organizations, educationalLevels, educationalSubjects}}` |
-| `prod_search_requests`   | Käyttäjä tekee haun                                  | `{timestamp, keywords, filters}`                                                                             |
+#### Tilastoendpointit
 
-User-agentit, jotka vastaavat `KAFKA_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim. `oersi`), jätetään pois.
+Kaikki polun `/api/v2/statistics` alla, vaativat tunnistautumisen:
+
+| Endpoint                                        | Tarkoitus                                                          |
+| ----------------------------------------------- | ------------------------------------------------------------------ |
+| `POST /prod/materialactivity/{interval}/total`  | Materiaalivuorovaikutusten aikasarja (interval: day/week/month)    |
+| `POST /prod/searchrequests/{interval}/total`    | Hakupyyntöjen aikasarja                                            |
+| `POST /prod/educationallevel/all`               | Materiaalien määrä koulutusasteittain                              |
+| `POST /prod/educationallevel/expired`           | Vanhenevat materiaalit koulutusasteittain                          |
+| `POST /prod/educationalsubject/all`             | Materiaalien määrä oppiaineittain                                  |
+| `POST /prod/organization/all`                   | Materiaalien määrä organisaatioittain                              |
+
+Kaikki endpointit hyväksyvät päivämäärävälin parametreina (`since`, `until`) ja palauttavat aggregoidut tulokset.
 
 ### Yhteydet muihin AOE-palveluihin:
 
 | Palvelu            | Miten                                                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **streaming-app**  | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
-| **data-analytics** | Polku `/api/v2/statistics` proxytetään `http-proxy-middleware`:llä osoitteeseen `http://aoe-data-analytics:8080/analytics/api`. Frontend kutsuu tätä ylläpitonäkymän tilastoja varten.                                                                                                                                                                                                            |
 | **data-services**  | Ei suoria kutsuja. Data-services kutsuu backendiä, ei toisin päin.                                                                                                                                                                                                                                                                                                                                |
 
 **Tunnistautuminen:** OIDC Passport.js:n kautta. Selvittää issuerin osoitteesta `PROXY_URI`, ohjaa käyttäjät kirjautumaan scopeilla `openid profile offline_access`, käsittelee paluun osoitteessa `/api/secure/redirect` ja luo uudet käyttäjät automaattisesti PostgreSQL:ään.
@@ -144,46 +149,7 @@ Tilaton mediasuoratoistoproxy S3:n ja selaimen välissä. Sen tarkoitus on erott
 
 ---
 
-## 4. aoe-data-analytics
-
-**Java 17 / Spring Boot 3.5** | endpoint `/analytics/api`
-
-Analytiikan ETL-prosessori. Kuluttaa analytiikkatapahtumia Kafkasta, tallentaa ne MongoDB:hen ja tarjoaa REST-endpointit aggregoitujen tilastojen kyselyyn. Web-backend välittää `/api/v2/statistics` -pyynnöt tänne.
-
-**Kafka-kulutus:**
-
-| Topic                    | Kuluttajaryhmä                 | Sisältö                                                                                        |
-| ------------------------ | ------------------------------ | ---------------------------------------------------------------------------------------------- |
-| `prod_material_activity` | `group-prod-material-activity` | Materiaalin katselu-, muokkaus-, avaus- ja lataustapahtumat, joissa on mukana koulutusmetadata |
-| `prod_search_requests`   | `group-prod-search-requests`   | Haut avainsanoilla ja suodattimilla                                                            |
-
-Tapahtumat saapuvat JSONina ja tallennetaan MongoDB:hen.
-
-**MongoDB-kokoelmat:**
-
-| Kokoelma            | Dokumentin sisältö                                                                                                      |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `material_activity` | `{sessionId, timestamp, eduMaterialId, interaction, metadata: {organizations, educationalLevels, educationalSubjects}}` |
-| `search_requests`   | `{sessionId, timestamp, keywords, filters: {educationalLevels, educationalSubjects, learningResourceTypes}}`            |
-
-**PostgreSQL (vain luku):** Hakee tietoa SQL tietokannasta laskeakseen materiaalien määrät koulutusasteen, oppiaineen ja organisaation mukaan. Tätä käytetään "julkaistut materiaalit" -tilastoihin, ei aikasarja-aktiivisuusdataan.
-
-**REST-endpointit** (frontend kutsuu web-backend-proxyn kautta):
-
-| Endpoint                                                  | Tarkoitus                                                       |
-| --------------------------------------------------------- | --------------------------------------------------------------- |
-| `POST /statistics/prod/materialactivity/{interval}/total` | Materiaalivuorovaikutusten aikasarja (interval: DAY/WEEK/MONTH) |
-| `POST /statistics/prod/searchrequests/{interval}/total`   | Hakupyyntöjen aikasarja                                         |
-| `POST /statistics/prod/educationallevel/all`              | Materiaalien määrä koulutusasteittain                           |
-| `POST /statistics/prod/educationallevel/expired`          | Vanhenevat materiaalit koulutusasteittain                       |
-| `POST /statistics/prod/educationalsubject/all`            | Materiaalien määrä oppiaineittain                               |
-| `POST /statistics/prod/organization/all`                  | Materiaalien määrä organisaatioittain                           |
-
-Kaikki endpointit hyväksyvät päivämäärävälin parametreina ja palauttavat aggregoidut tulokset
-
----
-
-## 5. aoe-data-services
+## 4. aoe-data-services
 
 **Java 17 / Spring Boot 3.5** | Endpoint `/meta`
 
