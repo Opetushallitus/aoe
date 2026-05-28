@@ -2,9 +2,15 @@ import type { Page } from '@playwright/test'
 
 export type Tapa = 'Haku' | 'Katselu' | 'Lataus' | 'Muokkaus'
 export type Aikajana = 'Päivä' | 'Viikko' | 'Kuukausi'
+// Some analytiikka dropdowns (e.g. oppiaineet/tieteenalat/tutkinnot) list the
+// same label under multiple optgroups — "Matematiikka" appears under both
+// "Perusopetus" and "Korkeakoulutus". For ambiguous values callers must pass
+// the optgroup that disambiguates the row (e.g. "Luonnontieteet" for the
+// korkeakoulutus tieteenala). Unambiguous values can be passed as a string.
+export type OptgroupedValinta = string | { nimi: string; alaryhma: string }
 export type UsageFilters = {
   opetusasteet?: string[]
-  oppiaineet?: string[]
+  oppiaineet?: OptgroupedValinta[]
   organisaatiot?: string[]
 }
 
@@ -55,9 +61,14 @@ export const BrysselAnalyytiikka = (page: Page) => {
       await page.keyboard.press('Escape')
     }
     if (filters?.oppiaineet?.length) {
-      await page.locator('ng-select#form-usage-select-educational-subjects').click()
+      const oppiaineSelect = page.locator('ng-select#form-usage-select-educational-subjects')
+      await oppiaineSelect.click()
       for (const subject of filters.oppiaineet) {
-        await page.getByRole('option', { name: subject }).click()
+        const nimi = typeof subject === 'string' ? subject : subject.nimi
+        const optionName =
+          typeof subject === 'string' ? subject : `${subject.nimi} ${subject.alaryhma}`
+        await oppiaineSelect.locator('input').pressSequentially(nimi)
+        await page.getByRole('option', { name: optionName }).first().click()
       }
       await page.keyboard.press('Escape')
     }
@@ -74,7 +85,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
 
   const taytaJaHaeJulkaisumaarat = async (
     luokitus: 'Opetusasteet' | 'Oppiaineet' | 'Organisaatiot',
-    valinnat: string[]
+    valinnat: OptgroupedValinta[]
   ) => {
     await locators.julkaisuLuokitus.click()
     await page.getByRole('option', { name: luokitus }).click()
@@ -86,8 +97,11 @@ export const BrysselAnalyytiikka = (page: Page) => {
       .nth(1)
     await subSelect.click()
     for (const valinta of valinnat) {
-      await subSelect.locator('input').pressSequentially(valinta)
-      await page.getByRole('option', { name: valinta }).first().click()
+      const nimi = typeof valinta === 'string' ? valinta : valinta.nimi
+      const optionName =
+        typeof valinta === 'string' ? valinta : `${valinta.nimi} ${valinta.alaryhma}`
+      await subSelect.locator('input').pressSequentially(nimi)
+      await page.getByRole('option', { name: optionName }).first().click()
     }
     await page.keyboard.press('Escape')
     await locators.julkaisuButton.click()
@@ -110,7 +124,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
   }: {
     tapa: Tapa[]
     opetusasteet?: string[]
-    oppiaineet?: string[]
+    oppiaineet?: OptgroupedValinta[]
     organisaatiot?: string[]
   }): Promise<number> => {
     const body = page
@@ -160,7 +174,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
     valinnat
   }: {
     luokitus: 'Opetusasteet' | 'Oppiaineet' | 'Organisaatiot'
-    valinnat: string[]
+    valinnat: OptgroupedValinta[]
   }): Promise<number> => {
     const urlPattern = urlPatternForLuokitus[luokitus]
     const body = page

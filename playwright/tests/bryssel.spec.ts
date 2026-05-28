@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { tiedoteTest } from './fixtures/tiedoteTest'
 import { BrysselEtusivu } from './pages/BrysselEtusivu'
-import type { Aikajana, Tapa } from './pages/BrysselAnalytiikka'
+import type { Aikajana, OptgroupedValinta, Tapa } from './pages/BrysselAnalytiikka'
 import { Materiaali } from './pages/Materiaali'
 import { siivoaTiedote } from './pages/BrysselTiedotteet'
 import { Etusivu } from './pages/Etusivu'
@@ -152,7 +152,7 @@ test('uusi oppimateriaali näkyy oppiaineiden julkaisumäärissä', async ({ pag
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
   const alkuperainenMaara = await analytiikka.haeJulkaisumaaratYhteensa({
     luokitus: 'Oppiaineet',
-    valinnat: ['Matematiikka']
+    valinnat: [{ nimi: 'Matematiikka', alaryhma: 'Luonnontieteet' }]
   })
 
   const etusivu = Etusivu(page)
@@ -168,7 +168,7 @@ test('uusi oppimateriaali näkyy oppiaineiden julkaisumäärissä', async ({ pag
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
   const uusiMaara = await analytiikkaUudelleen.haeJulkaisumaaratYhteensa({
     luokitus: 'Oppiaineet',
-    valinnat: ['Matematiikka']
+    valinnat: [{ nimi: 'Matematiikka', alaryhma: 'Luonnontieteet' }]
   })
 
   expect(uusiMaara).toBeGreaterThan(alkuperainenMaara)
@@ -340,8 +340,8 @@ test('oppimateriaalin oppiaine- ja organisaatiosuodattimet toimivat analytiikass
 
   const brysselPage = BrysselEtusivu(page)
 
-  const cases: { oppiaineet?: string[]; organisaatiot?: string[] }[] = [
-    { oppiaineet: ['Matematiikka'] },
+  const cases: { oppiaineet?: OptgroupedValinta[]; organisaatiot?: string[] }[] = [
+    { oppiaineet: [{ nimi: 'Matematiikka', alaryhma: 'Luonnontieteet' }] },
     { organisaatiot: ['Opetushallitus'] }
   ]
 
