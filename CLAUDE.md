@@ -64,3 +64,6 @@ PostgreSQL base schema: `docker/init-scripts/aoe-init.sql`. Schema changes use K
 - Production: AWS ECS Fargate, Aurora (PostgreSQL), ElastiCache (Redis), OpenSearch
 - Sensitive config in AWS Parameter Store (`/<environment>/<serviceName>/`), database secrets in Secrets Manager
 - Local: Docker Compose with LocalStack for S3, mock OIDC server
+
+## code style
+- Use Zod to validate incoming requests and database query results

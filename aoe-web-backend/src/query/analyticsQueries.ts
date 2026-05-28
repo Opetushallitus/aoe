@@ -122,54 +122,114 @@ const buildIntervalSelect = (
   }
 }
 
+interface QueryFilter {
+  sql: string
+  params: Record<string, unknown>
+  include: boolean
+}
+
+const buildWhereAndParams = (
+  filters: QueryFilter[]
+): { where: string; params: Record<string, unknown> } => {
+  const active = filters.filter((f) => f.include)
+  return {
+    where: active.map((f) => f.sql).join(' AND '),
+    params: Object.assign({}, ...active.map((f) => f.params))
+  }
+}
+
 export const getMaterialActivityTotal = async (
   interval: Interval,
   request: IntervalTotalRequest
 ): Promise<IntervalTotal[]> => {
-  const params: unknown[] = [request.since, request.until]
-  const conditions: string[] = ['timestamp >= $1::date', "timestamp < $2::date + interval '1 day'"]
-  if (request.interaction) {
-    params.push(request.interaction.toUpperCase())
-    conditions.push(`interaction = $${params.length}`)
-  }
-  if (request.metadata?.organizations?.length) {
-    params.push(request.metadata.organizations)
-    conditions.push(`metadataorganizations && $${params.length}`)
-  }
-  if (request.metadata?.educationalLevels?.length) {
-    params.push(request.metadata.educationalLevels)
-    conditions.push(`metadataeducationallevels && $${params.length}`)
-  }
-  if (request.metadata?.educationalSubjects?.length) {
-    params.push(request.metadata.educationalSubjects)
-    conditions.push(`metadataeducationalsubjects && $${params.length}`)
-  }
   const { select, groupBy, orderBy } = buildIntervalSelect(interval)
-  return db.any<IntervalTotal>(
-    `SELECT ${select} FROM analyticsmaterialactivity WHERE ${conditions.join(' AND ')} GROUP BY ${groupBy} ORDER BY ${orderBy}`,
-    params
-  )
+
+  const filters: QueryFilter[] = [
+    {
+      sql: 'timestamp >= $(since)::date',
+      params: { since: request.since },
+      include: true
+    },
+    {
+      sql: "timestamp < $(until)::date + interval '1 day'",
+      params: { until: request.until },
+      include: true
+    },
+    {
+      sql: 'interaction = $(interaction)',
+      params: { interaction: request.interaction?.toUpperCase() },
+      include: !!request.interaction
+    },
+    {
+      sql: 'metadataorganizations && $(organizations)',
+      params: { organizations: request.metadata?.organizations },
+      include: !!request.metadata?.organizations?.length
+    },
+    {
+      sql: 'metadataeducationallevels && $(educationalLevels)',
+      params: { educationalLevels: request.metadata?.educationalLevels },
+      include: !!request.metadata?.educationalLevels?.length
+    },
+    {
+      sql: 'metadataeducationalsubjects && $(educationalSubjects)',
+      params: { educationalSubjects: request.metadata?.educationalSubjects },
+      include: !!request.metadata?.educationalSubjects?.length
+    }
+  ]
+
+  const { where, params } = buildWhereAndParams(filters)
+
+  const query = `
+    SELECT ${select}
+    FROM analyticsmaterialactivity
+    WHERE ${where}
+    GROUP BY ${groupBy}
+    ORDER BY ${orderBy}
+  `
+
+  return db.any<IntervalTotal>(query, params)
 }
 
 export const getSearchRequestsTotal = async (
   interval: Interval,
   request: IntervalTotalRequest
 ): Promise<IntervalTotal[]> => {
-  const params: unknown[] = [request.since, request.until]
-  const conditions: string[] = ['timestamp >= $1::date', "timestamp < $2::date + interval '1 day'"]
-  if (request.filters?.educationalLevels?.length) {
-    params.push(request.filters.educationalLevels)
-    conditions.push(`filterseducationallevels && $${params.length}`)
-  }
-  if (request.filters?.educationalSubjects?.length) {
-    params.push(request.filters.educationalSubjects)
-    conditions.push(`filterseducationalsubjects && $${params.length}`)
-  }
   const { select, groupBy, orderBy } = buildIntervalSelect(interval)
-  return db.any<IntervalTotal>(
-    `SELECT ${select} FROM analyticssearchrequest WHERE ${conditions.join(' AND ')} GROUP BY ${groupBy} ORDER BY ${orderBy}`,
-    params
-  )
+
+  const filters: QueryFilter[] = [
+    {
+      sql: 'timestamp >= $(since)::date',
+      params: { since: request.since },
+      include: true
+    },
+    {
+      sql: "timestamp < $(until)::date + interval '1 day'",
+      params: { until: request.until },
+      include: true
+    },
+    {
+      sql: 'filterseducationallevels && $(educationalLevels)',
+      params: { educationalLevels: request.filters?.educationalLevels },
+      include: !!request.filters?.educationalLevels?.length
+    },
+    {
+      sql: 'filterseducationalsubjects && $(educationalSubjects)',
+      params: { educationalSubjects: request.filters?.educationalSubjects },
+      include: !!request.filters?.educationalSubjects?.length
+    }
+  ]
+
+  const { where, params } = buildWhereAndParams(filters)
+
+  const query = `
+    SELECT ${select}
+    FROM analyticssearchrequest
+    WHERE ${where}
+    GROUP BY ${groupBy}
+    ORDER BY ${orderBy}
+  `
+
+  return db.any<IntervalTotal>(query, params)
 }
 
 export const getPopularityQuery =
