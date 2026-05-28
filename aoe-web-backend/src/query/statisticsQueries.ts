@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { db } from '@resource/postgresClient'
 
 export interface RecordKeyValue {
@@ -5,24 +6,36 @@ export interface RecordKeyValue {
   value: number
 }
 
-export interface EducationalLevelRequest {
-  since?: string | null
-  until?: string | null
-  educationalLevels?: string[]
-  expiredBefore?: string
-}
+export const dateString = z.string().refine((s) => !Number.isNaN(Date.parse(s)), {
+  message: 'Invalid date string'
+})
 
-export interface EducationalSubjectRequest {
-  since?: string | null
-  until?: string | null
-  educationalSubjects?: string[]
-}
+// Frontend keys for these filters are typed `number | string` (e.g. educational
+// subjects from koodisto APIs). DB columns are TEXT[], so we normalize to string.
+const stringKey = z.union([z.string(), z.number().transform(String)])
+export const stringKeyArray = z.array(stringKey)
 
-export interface OrganizationRequest {
-  since?: string | null
-  until?: string | null
-  organizations?: string[]
-}
+export const educationalLevelRequestSchema = z.object({
+  since: dateString.nullish(),
+  until: dateString.nullish(),
+  educationalLevels: stringKeyArray.nullish(),
+  expiredBefore: dateString.nullish()
+})
+export type EducationalLevelRequest = z.infer<typeof educationalLevelRequestSchema>
+
+export const educationalSubjectRequestSchema = z.object({
+  since: dateString.nullish(),
+  until: dateString.nullish(),
+  educationalSubjects: stringKeyArray.nullish()
+})
+export type EducationalSubjectRequest = z.infer<typeof educationalSubjectRequestSchema>
+
+export const organizationRequestSchema = z.object({
+  since: dateString.nullish(),
+  until: dateString.nullish(),
+  organizations: stringKeyArray.nullish()
+})
+export type OrganizationRequest = z.infer<typeof organizationRequestSchema>
 
 export const getEducationalLevelDistribution = async (
   request: EducationalLevelRequest
