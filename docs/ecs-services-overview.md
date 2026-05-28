@@ -28,10 +28,8 @@ The user-facing single-page application. Educators and learners use it to browse
 | web-backend (v1) | `/api/v1` | Materials, collections, user data, ratings, file downloads, authentication |
 | web-backend (v2) | `/api/v2` | Search, material uploads, thumbnails, notifications |
 | web-backend (reference data) | `/ref/api/v1` | Reference data for all form dropdowns and filters — educational levels, subjects, keywords, licenses, accessibility features, organizations, languages (30+ categories) |
-| data-analytics (via proxy) | `/api/v2/statistics/prod` | Admin dashboard statistics — material activity and search request totals by time interval, distributions by educational level/subject/organization |
+| web-backend (statistics) | `/api/v2/statistics/prod` | Admin dashboard statistics — material activity and search request totals by time interval, distributions by educational level/subject/organization |
 | web-backend (embed) | `/embed` | Material data for the embeddable iframe view |
-
-The statistics calls go to `/api/v2/statistics/prod` which the web-backend proxies through to data-analytics (the frontend doesn't know about data-analytics directly).
 
 #### Future: Replace ECS with S3 + CloudFront
 
