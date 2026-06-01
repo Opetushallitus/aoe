@@ -29,6 +29,7 @@ import { EducationalMaterialForm } from '@models/educational-material-form'
 import { EducationalLevel } from '@models/koodisto/educational-level'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { MaterialService } from '@services/material.service'
+import { AlignmentTagDedupeDirective } from '../../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import {
@@ -44,6 +45,7 @@ import { NgClass } from '@angular/common'
   styleUrls: ['./edit-educational-details.component.scss'],
   imports: [
     ReactiveFormsModule,
+    AlignmentTagDedupeDirective,
     FocusRemoverDirective,
     TooltipDirective,
     NgSelectComponent,

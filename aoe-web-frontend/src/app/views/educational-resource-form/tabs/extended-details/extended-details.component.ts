@@ -19,6 +19,7 @@ import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
+import { AlignmentTagDedupeDirective } from '../../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import { NgSelectComponent } from '@ng-select/ng-select'
@@ -31,6 +32,7 @@ import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap
   styleUrls: ['./extended-details.component.scss'],
   imports: [
     ReactiveFormsModule,
+    AlignmentTagDedupeDirective,
     FocusRemoverDirective,
     TooltipDirective,
     NgSelectComponent,

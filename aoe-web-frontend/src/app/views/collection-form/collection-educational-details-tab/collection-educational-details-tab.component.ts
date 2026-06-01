@@ -35,6 +35,7 @@ import {
   NgOptionTemplateDirective
 } from '@ng-select/ng-select'
 import { NgClass } from '@angular/common'
+import { AlignmentTagDedupeDirective } from '../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 
@@ -44,6 +45,7 @@ import { TooltipDirective } from 'ngx-bootstrap/tooltip'
   styleUrls: ['./collection-educational-details-tab.component.scss'],
   imports: [
     ReactiveFormsModule,
+    AlignmentTagDedupeDirective,
     NgSelectComponent,
     NgOptgroupTemplateDirective,
     NgOptionTemplateDirective,

@@ -30,6 +30,7 @@ import { EducationalLevel } from '@models/koodisto/educational-level'
 import { educationalLevelKeys } from '@constants/educational-level-keys'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
+import { AlignmentTagDedupeDirective } from '../../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import {
@@ -44,6 +45,7 @@ import { NgClass } from '@angular/common'
   templateUrl: './educational-details.component.html',
   imports: [
     ReactiveFormsModule,
+    AlignmentTagDedupeDirective,
     FocusRemoverDirective,
     TooltipDirective,
     NgSelectComponent,

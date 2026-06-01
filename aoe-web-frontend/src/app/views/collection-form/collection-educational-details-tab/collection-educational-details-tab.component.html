@@ -25,6 +25,7 @@
           {{ "forms.collection.educational.earlyChildhoodEducationSubjects.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addEarlyChildhoodEducationSubject"
@@ -39,6 +40,7 @@
           {{ "forms.collection.educational.earlyChildhoodEducationObjectives.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addEarlyChildhoodEducationObjective"
@@ -92,6 +94,7 @@
           {{ "forms.collection.educational.prePrimaryEducationSubjects.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addPrePrimaryEducationSubject"
@@ -106,6 +109,7 @@
           {{ "forms.collection.educational.prePrimaryEducationObjectives.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addPrePrimaryEducationObjective"
@@ -361,6 +365,7 @@
             {{ "forms.collection.educational.upperSecondarySchoolObjectives.label" | translate }}
           </label>
           <ng-select
+            aoeAlignmentTagDedupe
             [items]="[]"
             [multiple]="true"
             [addTag]="addUpperSecondarySchoolObjective"
@@ -534,6 +539,7 @@
             {{ "forms.collection.educational.vocationalEducationObjectives.label" | translate }}
           </label>
           <ng-select
+            aoeAlignmentTagDedupe
             [items]="vocationalRequirements"
             [multiple]="true"
             [closeOnSelect]="false"
@@ -590,6 +596,7 @@
           {{ "forms.collection.educational.selfMotivatedEducationSubjects.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addSelfMotivatedEducationSubject"
@@ -604,6 +611,7 @@
           {{ "forms.collection.educational.selfMotivatedEducationObjectives.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addSelfMotivatedEducationObjective"
@@ -640,6 +648,7 @@
           {{ "forms.collection.educational.scienceBranchObjectives.label" | translate }}
         </label>
         <ng-select
+          aoeAlignmentTagDedupe
           [items]="[]"
           [multiple]="true"
           [addTag]="addScienceBranchObjectives"
