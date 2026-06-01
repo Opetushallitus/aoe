@@ -4,7 +4,6 @@
     "config:best-practices",
     "workarounds:javaLTSVersions",
     ":rebaseStalePrs",
-    "security:minimumReleaseAgeNpm",
     ":pinAllExceptPeerDependencies"
   ],
   "dependencyDashboard": true,
@@ -19,9 +18,6 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
-  "lockFileMaintenance": {
-    "enabled": true
-  },
   "schedule": ["* 0-4,22-23 * * 1-5", "* * * * 0,6"],
   "updateNotScheduled": false,
   "automergeSchedule": ["at any time"],
@@ -53,11 +49,6 @@
   },
   "packageRules": [
     {
-      "automerge": false,
-      "dependencyDashboardApproval": true,
-      "matchPackageNames": ["*"]
-    },
-    {
       "automerge": true,
       "dependencyDashboardApproval": false,
       "groupName": "Angular framework",
@@ -81,105 +72,20 @@
     },
     {
       "groupName": "Spring Boot",
-      "matchPackageNames": ["org.springframework.boot"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "automerge": true,
-      "dependencyDashboardApproval": false
+      "matchPackageNames": ["org.springframework.boot"]
     },
     {
       "groupName": "httpclient5",
       "automerge": false,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
       "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
     },
     {
       "groupName": "Bootstrap",
-      "automerge": true,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
       "matchPackageNames": ["bootstrap"]
     },
     {
       "groupName": "Multer",
-      "automerge": true,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
       "matchPackageNames": ["multer", "@types/multer"]
-    },
-    {
-      "groupName": "Async",
-      "automerge": true,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": ["async", "@types/async"]
-    },
-    {
-      "groupName": "Http Proxy Middleware",
-      "automerge": true,
-      "dependencyDashboardApproval": false,
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "pinDigest",
-        "digest",
-        "lockFileMaintenance",
-        "rollback",
-        "bump",
-        "replacement"
-      ],
-      "matchPackageNames": ["http-proxy-middleware"]
     },
     {
       "groupName": "Compression",
@@ -218,10 +124,6 @@
       "matchPackageNames": ["morgan", "@types/morgan"]
     },
     {
-      "groupName": "Node Cron",
-      "matchPackageNames": ["node-cron", "@types/node-cron"]
-    },
-    {
       "groupName": "Passport",
       "matchPackageNames": ["passport", "@types/passport"]
     },
@@ -242,21 +144,11 @@
       "matchPackageNames": ["xml2js", "@types/xml2js"]
     },
     {
-      "groupName": "MongoDB packages and images - DISABLED",
-      "enabled": false,
-      "matchPackageNames": [
-        "mongodb",
-        "mongo",
-        "org.mongodb:mongodb-driver-sync",
-        "org.mongodb:mongodb-driver-core",
-        "org.springframework.boot:spring-boot-starter-data-mongodb"
-      ]
-    },
-    {
-      "groupName": "MongoDB Docker images - DISABLED",
-      "enabled": false,
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["mongo"]
+      "groupName": "npm transitive overrides",
+      "matchDepTypes": ["overrides", "resolutions"],
+      "automerge": false,
+      "dependencyDashboardApproval": false,
+      "labels": ["overrides"]
     }
   ],
   "prConcurrentLimit": 10
