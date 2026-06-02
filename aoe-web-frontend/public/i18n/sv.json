@@ -223,6 +223,10 @@
     }
   },
   "forms": {
+    "alignmentTags": {
+      "duplicateDropped": "\"{{value}}\" finns redan i listan. Stora och små bokstäver och skiljetecken ignoreras, så liknande värden läggs inte till igen.",
+      "duplicatesDropped": "{{count}} värden lades inte till eftersom liknande värden redan finns i listan."
+    },
     "common": {
       "abort": "Avbryt",
       "cancel": "Annullera",

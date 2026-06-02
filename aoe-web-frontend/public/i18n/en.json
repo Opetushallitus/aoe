@@ -223,6 +223,10 @@
     }
   },
   "forms": {
+    "alignmentTags": {
+      "duplicateDropped": "\"{{value}}\" is already in the list. Capitalisation and punctuation are ignored, so similar entries aren't added again.",
+      "duplicatesDropped": "{{count}} entries weren't added because similar entries are already in the list."
+    },
     "common": {
       "abort": "Abort",
       "cancel": "Cancel",

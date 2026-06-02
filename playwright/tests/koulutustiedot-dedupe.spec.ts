@@ -39,15 +39,23 @@ test('samaa arvoa ei voi lisätä vapaatekstikenttään kahta kertaa', async ({ 
   await expect(field).toBeVisible()
 
   // "viulunsoitto" and "viulun-soitto" normalize to the same DB key, so the
-  // second (near-duplicate) value must be silently dropped.
+  // second (near-duplicate) value is dropped — keeping only the first chip.
   await lisaaVapaatekstiTagi(field, 'viulunsoitto')
   await lisaaVapaatekstiTagi(field, 'viulun-soitto')
 
   await expect(field.getByText('viulunsoitto', { exact: true })).toHaveCount(1)
   await expect(field.getByText('viulun-soitto', { exact: true })).toHaveCount(0)
 
-  // Control: a genuinely distinct value still adds normally. This proves the
-  // assertions above are real dedupe, not the second tag failing to enter.
+  // The drop is not silent: an accessible status message names the dropped value
+  // so the user knows what happened (live region for screen readers + visible text).
+  const dedupeMessage = page.getByRole('status').filter({ hasText: 'viulun-soitto' })
+  await expect(dedupeMessage).toBeVisible()
+  await expect(dedupeMessage).toContainText('jo lisätty')
+
+  // Control: a genuinely distinct value still adds normally, and adding it clears
+  // the message — proving the dedupe (and its feedback) is real, not the tag
+  // failing to enter, and that the message does not linger as stale text.
   await lisaaVapaatekstiTagi(field, 'trumpetinsoitto')
   await expect(field.getByText('trumpetinsoitto', { exact: true })).toHaveCount(1)
+  await expect(page.getByRole('status').filter({ hasText: 'viulun-soitto' })).toHaveCount(0)
 })

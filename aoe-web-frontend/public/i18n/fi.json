@@ -223,6 +223,10 @@
     }
   },
   "forms": {
+    "alignmentTags": {
+      "duplicateDropped": "\"{{value}}\" on jo lisätty. Isot ja pienet kirjaimet sekä välimerkit jätetään huomiotta, joten samankaltaisia arvoja ei lisätä uudelleen.",
+      "duplicatesDropped": "{{count}} arvoa ei lisätty, koska samankaltaiset arvot ovat jo listalla."
+    },
     "common": {
       "abort": "Keskeytä",
       "cancel": "Peruuta",

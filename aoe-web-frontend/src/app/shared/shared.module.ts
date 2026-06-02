@@ -83,29 +83,45 @@ export function deduplicate(array: any[], prop: string): any[] {
 
 /**
  * Removes alignment objects that collide on the DB unique key tuple
- * (alignmentType, key, source). First occurrence wins, so a pre-existing item is
- * kept and a later near-duplicate is dropped. Distinct from `deduplicate`, which
- * keys on a single property and keeps the last occurrence.
+ * (alignmentType, key, source) and also reports which were dropped. First
+ * occurrence wins, so a pre-existing item is kept and every later near-duplicate
+ * is dropped (in encounter order). Distinct from `deduplicate`, which keys on a
+ * single property and keeps the last occurrence.
+ * @param {AlignmentObjectExtended[]} items
+ * @returns {{ deduped: AlignmentObjectExtended[]; dropped: AlignmentObjectExtended[] }}
+ */
+export function dedupeAlignmentObjectsWithDropped(items: AlignmentObjectExtended[]): {
+  deduped: AlignmentObjectExtended[]
+  dropped: AlignmentObjectExtended[]
+} {
+  if (!Array.isArray(items)) {
+    return { deduped: items, dropped: [] }
+  }
+  const seen = new Set<string>()
+  const deduped: AlignmentObjectExtended[] = []
+  const dropped: AlignmentObjectExtended[] = []
+  for (const item of items) {
+    const dedupeKey = `${item.alignmentType}|${item.key}|${item.source}`
+    if (seen.has(dedupeKey)) {
+      dropped.push(item)
+      continue
+    }
+    seen.add(dedupeKey)
+    deduped.push(item)
+  }
+  return { deduped, dropped }
+}
+
+/**
+ * Removes alignment objects that collide on the DB unique key tuple
+ * (alignmentType, key, source), keeping the first occurrence.
  * @param {AlignmentObjectExtended[]} items
  * @returns {AlignmentObjectExtended[]} Deduplicated array (input returned as-is if not an array).
  */
 export function dedupeAlignmentObjects(
   items: AlignmentObjectExtended[]
 ): AlignmentObjectExtended[] {
-  if (!Array.isArray(items)) {
-    return items
-  }
-  const seen = new Set<string>()
-  const result: AlignmentObjectExtended[] = []
-  for (const item of items) {
-    const dedupeKey = `${item.alignmentType}|${item.key}|${item.source}`
-    if (seen.has(dedupeKey)) {
-      continue
-    }
-    seen.add(dedupeKey)
-    result.push(item)
-  }
-  return result
+  return dedupeAlignmentObjectsWithDropped(items).deduped
 }
 
 /**
