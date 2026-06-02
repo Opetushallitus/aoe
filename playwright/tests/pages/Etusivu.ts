@@ -8,6 +8,11 @@ export const Etusivu = (page: Page) => {
     haku: {
       hakuehto: page.getByPlaceholder('Hakuehto'),
       hae: page.getByRole('button', { name: 'Hae' })
+    },
+    filters: {
+      educationalLevels: page.locator('ng-select#educationalLevels'),
+      learningResourceTypes: page.locator('ng-select#learningResourceTypes'),
+      educationalSubjects: page.locator('ng-select#educationalSubjects')
     }
   }
 
@@ -28,21 +33,21 @@ export const Etusivu = (page: Page) => {
   }
 
   const valitseKoulutusaste = async (...asteet: string[]) => {
-    await page.locator('ng-select#educationalLevels').click()
+    await locators.filters.educationalLevels.click()
     for (const aste of asteet) {
       await page.getByRole('option', { name: aste }).click()
     }
   }
 
   const valitseOppimateriaalinTyyppi = async (...tyypit: string[]) => {
-    await page.locator('ng-select#learningResourceTypes').click()
+    await locators.filters.learningResourceTypes.click()
     for (const tyyppi of tyypit) {
       await page.getByRole('option', { name: tyyppi }).click()
     }
   }
 
   const valitseOppiaine = async (...oppiaineet: string[]) => {
-    await page.locator('ng-select#educationalSubjects').click()
+    await locators.filters.educationalSubjects.click()
     for (const oppiaine of oppiaineet) {
       await page.getByRole('option', { name: oppiaine, exact: true }).click()
     }
