@@ -1,44 +1,14 @@
 import { test } from './a11yFixture'
 import { devices, expect } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
+import { Materiaali } from './pages/Materiaali'
 import { checkA11y, expectNoViolations } from './pages/axe'
+import { disableRulesFor } from './a11ySuppressions'
 
 const VIEWPORTS = [
   { name: 'desktop', viewport: { width: 1280, height: 720 } },
   { name: 'mobile', viewport: devices['Pixel 5'].viewport }
 ] as const
-
-// Known, documented a11y debt — NOT regressions. Keyed by `${page}|${viewport}`.
-// Removing an entry makes the scan enforce that rule again.
-const KNOWN_ISSUES: Record<string, string[]> = {
-  'Etusivu|desktop': ['aria-command-name'], // TODO(a11y): user-details-dropdown missing accessible name — file ticket
-  // On mobile the user menu lives in the collapsed nav, so it is only intermittently
-  // rendered into the scan — suppress the same debt for a deterministic gate.
-  'Etusivu|mobile': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-  'Haku|desktop': ['aria-command-name', 'aria-valid-attr-value'], // TODO(a11y): user icon + search-filters aria-controls — file ticket
-  'Haku|mobile': ['aria-valid-attr-value', 'aria-command-name'], // TODO(a11y): search-filters aria-controls + user icon — file ticket
-  'OmatOppimateriaalit|desktop': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-  'OmatOppimateriaalit|mobile': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name (intermittently rendered in collapsed nav) — file ticket
-  'UusiOppimateriaali|desktop': ['aria-command-name', 'button-name'], // TODO(a11y): #user-details-dropdown missing accessible name; 10 help-icon buttons (div[formgroupname="name"] > .btn-link) have no accessible name — file ticket
-  'UusiOppimateriaali|mobile': ['aria-command-name', 'button-name'], // TODO(a11y): #user-details-dropdown missing accessible name (intermittently rendered in collapsed nav); 10 help-icon buttons (div[formgroupname="name"] > .btn-link) have no accessible name — file ticket
-  'Materiaali|desktop': ['aria-command-name', 'button-name', 'nested-interactive'], // TODO(a11y): #user-details-dropdown missing name; .btn-tooltip has no accessible name; .panel-heading contains nested interactive elements — file ticket
-  'Materiaali|mobile': ['aria-command-name', 'button-name', 'nested-interactive'], // TODO(a11y): #user-details-dropdown missing name (intermittently rendered in collapsed nav); .btn-tooltip has no accessible name; .panel-heading contains nested interactive elements — file ticket
-  'HakuFilter|desktop': [
-    'aria-command-name' // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-  ],
-  'NgSelect|desktop': [
-    'aria-allowed-attr', // TODO(a11y): ng-select optgroup (role="group") uses disallowed aria-setsize/aria-posinset — file ticket
-    'aria-command-name', // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-    'scrollable-region-focusable' // TODO(a11y): .ng-dropdown-panel-items scroll container not keyboard focusable — file ticket
-  ],
-  'MobileNav|mobile': [
-    'aria-command-name', // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-    'aria-valid-attr-value' // TODO(a11y): .navbar-toggler has an invalid aria attribute value — file ticket
-  ]
-}
-
-const disableRulesFor = (pageName: string, viewport: string) =>
-  KNOWN_ISSUES[`${pageName}|${viewport}`] ?? []
 
 for (const vp of VIEWPORTS) {
   test.describe(`a11y @ ${vp.name}`, () => {
@@ -97,6 +67,87 @@ for (const vp of VIEWPORTS) {
         disableRules: disableRulesFor('Materiaali', vp.name)
       })
       expectNoViolations(results, `Materiaali @ ${vp.name}`)
+    })
+
+    test('Kokoelmat (collections list) has no a11y violations', async ({ page }) => {
+      const etusivu = Etusivu(page)
+      await etusivu.goto()
+      const omat = await etusivu.header.clickOmatMateriaalit()
+      await omat.header.clickKokoelmat()
+      await page.waitForLoadState('domcontentloaded')
+      const results = await checkA11y(page, {
+        disableRules: disableRulesFor('Kokoelmat', vp.name)
+      })
+      expectNoViolations(results, `Kokoelmat @ ${vp.name}`)
+    })
+
+    test('Kokoelma (single collection) has no a11y violations', async ({
+      page,
+      a11yCollection
+    }) => {
+      const etusivu = Etusivu(page)
+      await etusivu.goto()
+      const omat = await etusivu.header.clickOmatMateriaalit()
+      const kokoelmat = await omat.header.clickKokoelmat()
+      const link = await kokoelmat.kokoelmaByName(a11yCollection.kokoelmaNimi)
+      await link.click()
+      await page.waitForLoadState('domcontentloaded')
+      const results = await checkA11y(page, {
+        disableRules: disableRulesFor('Kokoelma', vp.name)
+      })
+      expectNoViolations(results, `Kokoelma @ ${vp.name}`)
+    })
+  })
+}
+
+const PUBLIC_VIEWPORTS = [
+  { name: 'desktop', viewport: { width: 1280, height: 720 } },
+  { name: 'mobile', viewport: devices['Pixel 5'].viewport }
+] as const
+
+for (const vp of PUBLIC_VIEWPORTS) {
+  test.describe(`a11y logged-out @ ${vp.name}`, () => {
+    test('Etusivu (logged out) has no a11y violations', async ({ browser }) => {
+      const context = await browser.newContext({
+        storageState: undefined,
+        ignoreHTTPSErrors: true,
+        viewport: vp.viewport
+      })
+      const page = await context.newPage()
+      try {
+        await page.goto('/#/etusivu', { waitUntil: 'domcontentloaded' })
+        await page.waitForFunction(() => document.documentElement.lang !== '', null, {
+          timeout: 5000
+        })
+        const results = await checkA11y(page, {
+          disableRules: disableRulesFor('EtusivuPublic', vp.name)
+        })
+        expectNoViolations(results, `Etusivu (logged out) @ ${vp.name}`)
+      } finally {
+        await context.close()
+      }
+    })
+
+    test('Haku (logged out) has no a11y violations', async ({ browser }) => {
+      const context = await browser.newContext({
+        storageState: undefined,
+        ignoreHTTPSErrors: true,
+        viewport: vp.viewport
+      })
+      const page = await context.newPage()
+      try {
+        await page.goto('/#/haku', { waitUntil: 'domcontentloaded' })
+        // Angular sets <html lang> after bootstrap; wait so the html-has-lang scan isn't racy
+        await page.waitForFunction(() => document.documentElement.lang !== '', null, {
+          timeout: 5000
+        })
+        const results = await checkA11y(page, {
+          disableRules: disableRulesFor('HakuPublic', vp.name)
+        })
+        expectNoViolations(results, `Haku (logged out) @ ${vp.name}`)
+      } finally {
+        await context.close()
+      }
     })
   })
 }
@@ -194,5 +245,70 @@ test.describe('a11y interactions @ mobile', () => {
     await etusivu.header.openMobileNav()
     const results = await checkA11y(page, { disableRules: disableRulesFor('MobileNav', 'mobile') })
     expectNoViolations(results, 'Mobile nav menu (open) @ mobile')
+  })
+})
+
+test.describe('a11y reviews @ desktop', () => {
+  test.use({ viewport: { width: 1280, height: 720 } })
+
+  test('Arvostelut (reviews) view has no a11y violations', async ({ browser, a11yMaterial }) => {
+    test.setTimeout(120_000)
+    const context = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
+    const reviewerPage = await context.newPage()
+    try {
+      await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
+      await reviewerPage.waitForTimeout(1000)
+      await reviewerPage.getByRole('button', { name: 'Log in' }).click()
+      await reviewerPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
+      await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
+      await reviewerPage.getByRole('button', { name: 'Login' }).click()
+      await reviewerPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
+      const languageSelector = reviewerPage.getByRole('button', {
+        name: 'Suomi: Vaihda kieli suomeksi'
+      })
+      await languageSelector.waitFor()
+      await languageSelector.click()
+
+      await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+        waitUntil: 'domcontentloaded'
+      })
+      // Accept ToS if prompted on first login for this user.
+      try {
+        await reviewerPage.getByText('Olen lukenut').click({ timeout: 1000 })
+        await reviewerPage.getByRole('button', { name: 'Tallenna' }).click()
+        await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+          waitUntil: 'domcontentloaded'
+        })
+      } catch (_e) {
+        console.log('Terms of Service already accepted, skipping')
+      }
+
+      // Submit a review as tuomas.jukola so the "Katso kaikki arviot" link appears.
+      const reviewerMateriaali = Materiaali(reviewerPage)
+      try {
+        await reviewerMateriaali.lisaaArvio({
+          ratingContent: '4',
+          ratingVisual: '5',
+          feedbackPositive: 'Erittäin hyvä ja selkeä materiaali',
+          feedbackSuggest: 'Voisi olla enemmän esimerkkejä',
+          feedbackPurpose: 'Käytin opetuksessa'
+        })
+      } catch (_e) {
+        // Review may already exist (e.g. test rerun); proceed to the reviews view.
+        console.log('Review submission skipped (may already exist)')
+      }
+
+      // Open the reviews view.
+      await reviewerMateriaali.katsoKaikkiArviotLink.waitFor()
+      await reviewerMateriaali.clickKatsoKaikkiArviot()
+      await reviewerPage.waitForLoadState('domcontentloaded')
+
+      const results = await checkA11y(reviewerPage, {
+        disableRules: disableRulesFor('Arvostelut', 'desktop')
+      })
+      expectNoViolations(results, 'Arvostelut @ desktop')
+    } finally {
+      await context.close()
+    }
   })
 })
