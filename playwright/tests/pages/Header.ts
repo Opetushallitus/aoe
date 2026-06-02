@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+import { type Page, type Locator, expect } from '@playwright/test'
 import { OmatOppimateriaalit } from './OmatOppimateriaalit'
 import { KokoelmatPage } from './KokoelmatPage'
 
@@ -11,6 +11,7 @@ export const Header = (page: Page) => {
     omatMateriaalitLink: page.getByRole('link', { name: 'Omat oppimateriaalit' }),
     kokoelmatLink: page.getByRole('link', { name: 'Kokoelmat' })
   }
+
   // On mobile the navbar is collapsed behind a toggler; on desktop the toggler
   // is hidden and the links are always present. Use the expanded menu's own
   // visibility (the `.show` collapse) as the source of truth rather than the
@@ -28,24 +29,31 @@ export const Header = (page: Page) => {
   // Opens the collapsed mobile navigation menu (no-op on desktop).
   const openMobileNav = openNavIfCollapsed
 
+  // On mobile the SPA's post-load redirect can re-collapse the nav right after it
+  // opens, so the link disappears before the click. Retry open+click until it lands.
+  const clickNavLink = async (link: Locator) => {
+    await expect(async () => {
+      await openNavIfCollapsed()
+      await link.click({ timeout: 3000 })
+    }).toPass({ timeout: 20000, intervals: [500, 1000, 2000] })
+  }
+
   const clickOmatMateriaalit = async () => {
-    await openNavIfCollapsed()
-    await locators.omatMateriaalitLink.click()
+    await clickNavLink(locators.omatMateriaalitLink)
     const hyvaksyKayttoehdot = page.getByText('Olen lukenut')
     try {
       await hyvaksyKayttoehdot.click({ timeout: 500 })
       await page.getByRole('button', { name: 'Tallenna' }).click()
       await page.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
-      await openNavIfCollapsed()
-      await locators.omatMateriaalitLink.click()
+      await clickNavLink(locators.omatMateriaalitLink)
     } catch (_e) {
       console.log('Terms of Service already accepted, skipping')
     }
     return OmatOppimateriaalit(page)
   }
+
   async function clickKokoelmat() {
-    await openNavIfCollapsed()
-    await locators.kokoelmatLink.click()
+    await clickNavLink(locators.kokoelmatLink)
     return KokoelmatPage(page)
   }
 
