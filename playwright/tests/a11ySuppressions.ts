@@ -5,8 +5,9 @@ export const KNOWN_ISSUES: Record<string, string[]> = {
   // On mobile the user menu lives in the collapsed nav, so it is only intermittently
   // rendered into the scan — suppress the same debt for a deterministic gate.
   'Etusivu|mobile': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
-  'Haku|desktop': ['aria-command-name', 'aria-valid-attr-value'], // TODO(a11y): user icon + search-filters aria-controls — file ticket
-  'Haku|mobile': ['aria-valid-attr-value', 'aria-command-name'], // TODO(a11y): search-filters aria-controls + user icon — file ticket
+  'Haku|desktop': ['aria-command-name'], // TODO(a11y): #user-details-dropdown (user icon link) has no accessible name — file ticket
+  // On mobile the user menu lives in the collapsed nav and is not rendered into the scan.
+  'Haku|mobile': [], // no suppressions needed on populated mobile search results
   'OmatOppimateriaalit|desktop': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
   'OmatOppimateriaalit|mobile': ['aria-command-name'], // TODO(a11y): #user-details-dropdown missing accessible name (intermittently rendered in collapsed nav) — file ticket
   'UusiOppimateriaali|desktop': ['aria-command-name', 'button-name'], // TODO(a11y): #user-details-dropdown missing accessible name; 10 help-icon buttons (div[formgroupname="name"] > .btn-link) have no accessible name — file ticket
