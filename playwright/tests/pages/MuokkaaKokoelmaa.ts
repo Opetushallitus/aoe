@@ -14,7 +14,7 @@ export const MuokkaaKokoelmaa = (page: Page) => {
   const clearKeywords = async () => {
     let count = await locators.keywordRemoveButtons.count()
     while (count > 0) {
-      await locators.keywordRemoveButtons.first().click()
+      await locators.keywordRemoveButtons.first().click({ force: true })
       count = await locators.keywordRemoveButtons.count()
     }
   }
