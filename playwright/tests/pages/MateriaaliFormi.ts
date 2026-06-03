@@ -213,8 +213,18 @@ export const MateriaaliFormi = (
     return `${prefix} ${randomString}`
   }
 
+  const controls = {
+    keywordsSelect: page.locator('ng-select').locator('#keywords'),
+    learningResourceTypesSelect: page.locator('ng-select#learningResourceTypes'),
+    educationalLevelsSelect: page.locator('ng-select#educationalLevels'),
+    confirmCheckbox: page.locator('#confirm'),
+    confirmLabel: page.getByText('Vakuutan että'),
+    licenseRadio: (name: string) => page.getByRole('radio', { name, exact: true })
+  }
+
   return {
     form: tiedostot,
-    randomMateriaaliNimi
+    randomMateriaaliNimi,
+    controls
   }
 }
