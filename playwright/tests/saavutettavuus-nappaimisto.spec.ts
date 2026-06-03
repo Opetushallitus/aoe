@@ -7,10 +7,12 @@ import {
   activate,
   expectFocusTrapped,
   selectNgSelectByKeyboard,
-  focusedActiveElement
+  focusedActiveElement,
+  activeElementHasFocusIndicator
 } from './pages/keyboard'
 import { isKnownGap } from './a11yGaps'
 import { MateriaaliFormi } from './pages/MateriaaliFormi'
+import { Materiaali } from './pages/Materiaali'
 
 test.use({ viewport: { width: 1280, height: 720 } })
 
@@ -220,6 +222,29 @@ test.describe('a11y keyboard @ desktop', () => {
     }
   })
 
+  test('focused front-page controls have a visible focus indicator', async ({ page }) => {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    await page.waitForFunction(() => document.documentElement.lang !== '', null, { timeout: 5000 })
+
+    // Tab across the first several focusable controls; each should show an indicator.
+    await page.locator('body').click({ position: { x: 0, y: 0 } })
+    for (let i = 0; i < 8; i++) {
+      await page.keyboard.press('Tab')
+      const active = await focusedActiveElement(page)
+      if (!active) {
+        continue // focus on <body>/nothing — not a control
+      }
+      const hasIndicator = await activeElementHasFocusIndicator(page)
+      if (!isKnownGap('focus-visible')) {
+        expect(
+          hasIndicator,
+          `focused element has no visible focus indicator: ${JSON.stringify(active)}`
+        ).toBe(true)
+      }
+    }
+  })
+
   test('metadata modal traps focus and returns it on Escape', async ({ browser, a11yMaterial }) => {
     test.setTimeout(120_000)
     const context = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
@@ -280,6 +305,52 @@ test.describe('a11y keyboard @ desktop', () => {
       }
     } finally {
       await context.close()
+    }
+  })
+
+  test('material-view tooltip is dismissible by keyboard', async ({ page, a11yMaterial }) => {
+    await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+      waitUntil: 'domcontentloaded'
+    })
+    const materiaali = Materiaali(page)
+    await materiaali.tooltipTrigger.waitFor()
+
+    // Focus the trigger; the tooltip should appear.
+    await materiaali.tooltipTrigger.focus()
+    if (!isKnownGap('tooltip-show')) {
+      await expect(materiaali.tooltipPopup).toBeVisible()
+    }
+    // Escape dismisses it (WCAG 1.4.13 dismissible).
+    await page.keyboard.press('Escape')
+    if (!isKnownGap('tooltip-dismiss')) {
+      await expect(materiaali.tooltipPopup).toBeHidden()
+    }
+  })
+
+  test('new-material expiry date field is operable by keyboard', async ({ page }) => {
+    test.setTimeout(180_000)
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const omat = await etusivu.header.clickOmatMateriaalit()
+    await omat.luoUusiMateriaali()
+
+    const { form, controls } = MateriaaliFormi(page)
+    await form.oppimateriaalinNimi('A11y date keyboard')
+    await form.lisaaTiedosto()
+    const perustiedot = await form.seuraava()
+    await perustiedot.lisaaHenkilo()
+    await perustiedot.lisaaAsiasana()
+    await perustiedot.lisaaOppimateriaalinTyyppi()
+    const koulutustiedot = await perustiedot.seuraava()
+    await koulutustiedot.valitseKoulutusasteet('korkeakoulutus')
+    await koulutustiedot.seuraava() // now on tarkemmat (has #expires)
+
+    await controls.expiresDate.waitFor()
+    if (!isKnownGap('keyboard:expires-date')) {
+      await tabUntilFocused(page, controls.expiresDate, 60)
+      await page.keyboard.type('1.1.2030')
+      await page.keyboard.press('Escape')
+      await expect(controls.expiresDate).toHaveValue(/2030/)
     }
   })
 })
