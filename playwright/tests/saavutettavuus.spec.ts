@@ -60,11 +60,11 @@ for (const vp of VIEWPORTS) {
       expectNoViolations(results, `Etusivu @ ${vp.name}`)
     })
 
-    test('Haku (search results) has no a11y violations', async ({ page }) => {
+    test('Haku (search results) has no a11y violations', async ({ page, a11yMaterial }) => {
       const etusivu = Etusivu(page)
       await etusivu.goto()
-      await etusivu.hae('matematiikka') // navigates to the search-results page
-      await page.waitForLoadState('domcontentloaded')
+      await etusivu.hae(a11yMaterial.materiaaliNimi)
+      await page.locator('.results-count').first().waitFor()
       const results = await checkA11y(page, { disableRules: disableRulesFor('Haku', vp.name) })
       expectNoViolations(results, `Haku @ ${vp.name}`)
     })
