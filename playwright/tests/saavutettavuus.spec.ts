@@ -4,6 +4,7 @@ import { Etusivu } from './pages/Etusivu'
 import { Materiaali } from './pages/Materiaali'
 import { checkA11y, expectNoViolations } from './pages/axe'
 import { disableRulesFor } from './a11ySuppressions'
+import { isKnownGap } from './a11yGaps'
 
 const VIEWPORTS = [
   { name: 'desktop', viewport: { width: 1280, height: 720 } },
@@ -241,6 +242,49 @@ test.describe('a11y interactions @ mobile', () => {
     await etusivu.header.openMobileNav()
     const results = await checkA11y(page, { disableRules: disableRulesFor('MobileNav', 'mobile') })
     expectNoViolations(results, 'Mobile nav menu (open) @ mobile')
+  })
+})
+
+test.describe('a11y titles @ desktop', () => {
+  test.use({ viewport: { width: 1280, height: 720 } })
+
+  test('page titles are meaningful and unique across routes', async ({ page, a11yMaterial }) => {
+    test.setTimeout(120_000)
+    const etusivu = Etusivu(page)
+    const titles: Record<string, string> = {}
+
+    await etusivu.goto()
+    titles.etusivu = await page.title()
+
+    await etusivu.hae('matematiikka')
+    await page.waitForLoadState('domcontentloaded')
+    titles.haku = await page.title()
+
+    await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+      waitUntil: 'domcontentloaded'
+    })
+    await page.getByRole('heading', { name: a11yMaterial.materiaaliNimi }).waitFor()
+    titles.materiaali = await page.title()
+
+    const omat = await etusivu.header.clickOmatMateriaalit()
+    await omat.locators.julkaistutMateriaalitHeading.waitFor()
+    titles.omatOppimateriaalit = await page.title()
+
+    await omat.header.clickKokoelmat()
+    await page.waitForLoadState('domcontentloaded')
+    titles.kokoelmat = await page.title()
+
+    const values = Object.values(titles)
+    if (!isKnownGap('page-titles-meaningful')) {
+      for (const [route, title] of Object.entries(titles)) {
+        expect(title.trim(), `empty/blank <title> on ${route}`).not.toBe('')
+      }
+    }
+    if (!isKnownGap('page-titles-unique')) {
+      expect(new Set(values).size, `titles not unique per route: ${JSON.stringify(titles)}`).toBe(
+        values.length
+      )
+    }
   })
 })
 

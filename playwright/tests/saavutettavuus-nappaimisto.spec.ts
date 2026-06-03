@@ -6,9 +6,10 @@ import {
   expectFocused,
   activate,
   expectFocusTrapped,
-  selectNgSelectByKeyboard
+  selectNgSelectByKeyboard,
+  focusedActiveElement
 } from './pages/keyboard'
-import { isKnownGap } from './a11yKeyboardGaps'
+import { isKnownGap } from './a11yGaps'
 import { MateriaaliFormi } from './pages/MateriaaliFormi'
 
 test.use({ viewport: { width: 1280, height: 720 } })
@@ -54,21 +55,24 @@ test.describe('a11y keyboard @ desktop', () => {
     const { form, randomMateriaaliNimi, controls } = MateriaaliFormi(page)
     const nimi = randomMateriaaliNimi('A11y nappaimisto')
 
-    // Step 1 (tiedostot): name by keyboard; file via focus+setInputFiles (documented gap).
+    // Step 1 (tiedostot): name by keyboard; file via setInputFiles.
     const nameField = page.getByRole('textbox', { name: 'Oppimateriaalin nimi *', exact: true })
     await tabUntilFocused(page, nameField)
     await page.keyboard.type(nimi)
-    await form.lisaaTiedosto() // KEYBOARD_GAPS['file-picker'] — native dialog not keyboard-drivable
+    // setInputFiles: the native OS file dialog can't be driven by any browser automation —
+    // this is a test-harness limitation, NOT an AOE a11y gap (native <input type=file> is
+    // keyboard-accessible: Tab + Enter opens the OS dialog).
+    await form.lisaaTiedosto()
     await advanceStepByKeyboard(page)
 
     // Step 2 (perustiedot): person, keyword, type — operate by keyboard.
     await page.getByRole('button', { name: 'Lisää henkilö' }).press('Enter')
     await page.getByRole('textbox', { name: 'Tekijän nimi *' }).fill('Tester, Testi')
-    // KEYBOARD_GAPS['wizard-keyword-select']: keywords ng-select with [addTag] does not update
+    // KNOWN_GAPS['wizard-keyword-select']: keywords ng-select with [addTag] does not update
     // the Angular form control via keyboard; use mouse fallback (fill + click option).
-    await controls.keywordsSelect.click() // KEYBOARD_GAPS['wizard-keyword-select']
+    await controls.keywordsSelect.click() // KNOWN_GAPS['wizard-keyword-select']
     await page.keyboard.type('PDF')
-    await page.getByRole('option', { name: 'PDF' }).first().click() // KEYBOARD_GAPS['wizard-keyword-select']
+    await page.getByRole('option', { name: 'PDF' }).first().click() // KNOWN_GAPS['wizard-keyword-select']
     await selectNgSelectByKeyboard(page, controls.learningResourceTypesSelect, 'teksti')
     await advanceStepByKeyboard(page)
 
@@ -80,12 +84,12 @@ test.describe('a11y keyboard @ desktop', () => {
     await advanceStepByKeyboard(page)
 
     // Step 5 (lisenssitiedot): license selection by keyboard.
-    // KEYBOARD_GAPS['wizard-license-radio']: pressing Space on the focused radio does not mark
+    // KNOWN_GAPS['wizard-license-radio']: pressing Space on the focused radio does not mark
     // Angular's reactive form dirty, so sessionStorage is not updated and the selection is lost.
     // Fallback: click the radio directly (mouse action).
     const licenseRadio = controls.licenseRadio('CC BY 4.0')
     await tabUntilFocused(page, licenseRadio, 80) // keyboard: Tab to radio
-    await licenseRadio.click() // KEYBOARD_GAPS['wizard-license-radio'] — click to persist form value
+    await licenseRadio.click() // KNOWN_GAPS['wizard-license-radio'] — click to persist form value
     await advanceStepByKeyboard(page)
 
     // Step 6 (hyodynnetyt): nothing.
@@ -96,10 +100,10 @@ test.describe('a11y keyboard @ desktop', () => {
     await controls.confirmCheckbox.waitFor({ state: 'visible' }) // ensure esikatselu step is fully rendered
     await tabUntilFocused(page, controls.confirmCheckbox, 80)
     await activate(page, 'Space') // attempt the keyboard toggle
-    // KEYBOARD_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form, so if the
+    // KNOWN_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form, so if the
     // keyboard toggle didn't enable Save, fall back to a mouse click on the label.
     if (await save.isDisabled()) {
-      await controls.confirmLabel.click() // KEYBOARD_GAPS['wizard-confirm-checkbox'] fallback
+      await controls.confirmLabel.click() // KNOWN_GAPS['wizard-confirm-checkbox'] fallback
     }
     await tabUntilFocused(page, save)
     await activate(page)
@@ -127,14 +131,93 @@ test.describe('a11y keyboard @ desktop', () => {
     await controls.confirmCheckbox.waitFor({ state: 'visible' })
     await tabUntilFocused(page, controls.confirmCheckbox, 80)
     await activate(page, 'Space') // attempt keyboard toggle
-    // KEYBOARD_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form; fall back if Save stays disabled.
+    // KNOWN_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form; fall back if Save stays disabled.
     if (await save.isDisabled()) {
-      await controls.confirmLabel.click() // KEYBOARD_GAPS['wizard-confirm-checkbox'] fallback
+      await controls.confirmLabel.click() // KNOWN_GAPS['wizard-confirm-checkbox'] fallback
     }
     await tabUntilFocused(page, save)
     await activate(page)
     // Proof of save: editing returns to the material page (/#/materiaali/<id>).
     await expect(page).toHaveURL(/#\/materiaali\/\d+/, { timeout: 30000 })
+  })
+
+  test('focus is managed after navigating to search results', async ({ page }) => {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    await etusivu.hae('matematiikka')
+    await page.waitForURL(/#\/haku/)
+    await page.waitForLoadState('domcontentloaded')
+
+    // After a route change, focus should move to a sensible target (a heading or main
+    // landmark), not stay on the search box or fall to <body>.
+    const active = await focusedActiveElement(page)
+    if (!isKnownGap('focus-route:search')) {
+      expect(active, 'focus should not be lost to <body> after search navigation').not.toBeNull()
+      expect(
+        active?.tag === 'h1' || active?.tag === 'main' || active?.role === 'heading',
+        `focus landed on an unhelpful element after search: ${JSON.stringify(active)}`
+      ).toBe(true)
+    }
+  })
+
+  test('focus is managed after saving a new material', async ({ page }) => {
+    test.setTimeout(180_000)
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const omat = await etusivu.header.clickOmatMateriaalit()
+    await omat.luoUusiMateriaali()
+    const { form, randomMateriaaliNimi } = MateriaaliFormi(page)
+    const nimi = randomMateriaaliNimi('A11y fokus')
+
+    // Minimal valid create flow (mouse is fine — this test is about post-save focus).
+    await form.oppimateriaalinNimi(nimi)
+    await form.lisaaTiedosto()
+    const perustiedot = await form.seuraava()
+    await perustiedot.lisaaHenkilo()
+    await perustiedot.lisaaAsiasana()
+    await perustiedot.lisaaOppimateriaalinTyyppi()
+    const koulutustiedot = await perustiedot.seuraava()
+    await koulutustiedot.valitseKoulutusasteet('korkeakoulutus')
+    const tarkemmat = await koulutustiedot.seuraava()
+    const lisenssi = await tarkemmat.seuraava()
+    await lisenssi.valitseLisenssi()
+    const hyodynnetyt = await lisenssi.seuraava()
+    const esikatselu = await hyodynnetyt.seuraava()
+    await esikatselu.tallenna(nimi)
+    await page.waitForURL(/#\/materiaali\/\d+/)
+
+    const active = await focusedActiveElement(page)
+    if (!isKnownGap('focus-route:save')) {
+      expect(active, 'focus should not be lost to <body> after save').not.toBeNull()
+      expect(
+        active?.tag === 'h1' || active?.role === 'heading',
+        `focus landed on an unhelpful element after save: ${JSON.stringify(active)}`
+      ).toBe(true)
+    }
+  })
+
+  test('search filter accordion opens by keyboard', async ({ page, a11yMaterial }) => {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const hakuTulokset = await etusivu.hae(a11yMaterial.materiaaliNimi)
+    const filter = hakuTulokset.filter('Kieli')
+    await filter.header.waitFor({ timeout: 15000 })
+
+    // The filter toggle should be reachable and operable by keyboard.
+    if (!isKnownGap('search-filter-keyboard')) {
+      await tabUntilFocused(page, filter.toggle, 60)
+      await activate(page)
+      await expect(filter.values.first()).toBeVisible()
+    }
+  })
+
+  test('front-page education-level filter is operable by keyboard', async ({ page }) => {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    if (!isKnownGap('search-ngselect-keyboard')) {
+      await selectNgSelectByKeyboard(page, etusivu.filters.educationalLevels, 'korkeakoulutus')
+      await expect(page.getByRole('option', { name: 'korkeakoulutus', exact: true })).toBeHidden()
+    }
   })
 
   test('metadata modal traps focus and returns it on Escape', async ({ browser, a11yMaterial }) => {

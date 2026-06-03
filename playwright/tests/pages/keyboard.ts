@@ -54,3 +54,19 @@ export const expectFocusTrapped = async (page: Page, container: Locator, tabs = 
     expect(inside, `focus escaped the container after ${i + 1} Tab(s)`).toBe(true)
   }
 }
+
+// Returns a description of the document's active element (for focus assertions),
+// or null if focus is on <body>/nothing.
+export const focusedActiveElement = (page: Page) =>
+  page.evaluate(() => {
+    const el = document.activeElement as HTMLElement | null
+    if (!el || el === document.body) {
+      return null
+    }
+    return {
+      tag: el.tagName.toLowerCase(),
+      id: el.id || null,
+      role: el.getAttribute('role'),
+      text: el.textContent?.trim().slice(0, 40) || null
+    }
+  })
