@@ -143,8 +143,9 @@ test.describe('a11y keyboard @ desktop', () => {
     const modalPage = await context.newPage()
     try {
       await modalPage.goto('/', { waitUntil: 'domcontentloaded' })
-      await modalPage.waitForTimeout(1000)
-      await modalPage.getByRole('button', { name: 'Log in' }).click()
+      const logIn = modalPage.getByRole('button', { name: 'Log in' })
+      await logIn.waitFor()
+      await logIn.click()
       await modalPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
       await modalPage.getByRole('textbox', { name: 'Password' }).fill('password123')
       await modalPage.getByRole('button', { name: 'Login' }).click()
@@ -170,12 +171,8 @@ test.describe('a11y keyboard @ desktop', () => {
 
       // Open the modal BY KEYBOARD.
       const trigger = modalPage.getByRole('button', { name: 'Lisää kuvailutietoja' })
-      if (isKnownGap('modal-open-keyboard')) {
-        await trigger.click()
-      } else {
-        await tabUntilFocused(modalPage, trigger, 80)
-        await activate(modalPage)
-      }
+      await tabUntilFocused(modalPage, trigger, 80)
+      await activate(modalPage)
 
       const dialog = modalPage.getByRole('dialog')
       await dialog.getByRole('heading', { name: 'Lisää kuvailutietoja' }).waitFor()

@@ -16,8 +16,7 @@ export const tabUntilFocused = async (page: Page, target: Locator, maxTabs = 40)
 export const expectFocused = (target: Locator) => expect(target).toBeFocused()
 
 // Activate the currently-focused element by keyboard.
-export const activate = (page: Page, key: 'Enter' | 'Space' = 'Enter') =>
-  page.keyboard.press(key === 'Space' ? 'Space' : 'Enter')
+export const activate = (page: Page, key: 'Enter' | 'Space' = 'Enter') => page.keyboard.press(key)
 
 // Operate an ng-select by keyboard: click to open the dropdown, type to filter, move highlight
 // with ArrowDown, confirm with Enter. Escape is only sent when the dropdown is still open
@@ -54,15 +53,4 @@ export const expectFocusTrapped = async (page: Page, container: Locator, tabs = 
     const inside = await container.evaluate((el) => el.contains(document.activeElement))
     expect(inside, `focus escaped the container after ${i + 1} Tab(s)`).toBe(true)
   }
-}
-
-// Run `action`, then assert focus returned to the element focused before it.
-export const expectFocusReturns = async (
-  _page: Page,
-  trigger: Locator,
-  action: () => Promise<void>
-) => {
-  await trigger.focus()
-  await action()
-  await expect(trigger).toBeFocused()
 }

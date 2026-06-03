@@ -167,14 +167,15 @@ test.describe('a11y forms @ desktop', () => {
     const omat = await etusivu.header.clickOmatMateriaalit()
     await omat.luoUusiMateriaali()
 
+    const { controls } = MateriaaliFormi(page)
+
     // Type an invalid character in the name field to trigger the invalidCharacters
     // validation error. The name field allows only specific Unicode letters/symbols;
     // '<' is outside that set and reliably fires `.invalid-feedback`.
     const nameInput = page.getByRole('textbox', { name: 'Oppimateriaalin nimi *', exact: true })
     await nameInput.fill('<')
     // The invalid-feedback renders as soon as the field is dirty+invalid.
-    const error = page.locator('.invalid-feedback').first()
-    await error.waitFor()
+    await controls.firstInvalidFeedback.waitFor()
 
     const results = await checkA11y(page, {
       disableRules: disableRulesFor('UusiMateriaali:errors', 'desktop')

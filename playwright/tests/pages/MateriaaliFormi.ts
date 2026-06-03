@@ -219,7 +219,8 @@ export const MateriaaliFormi = (
     educationalLevelsSelect: page.locator('ng-select#educationalLevels'),
     confirmCheckbox: page.locator('#confirm'),
     confirmLabel: page.getByText('Vakuutan että'),
-    licenseRadio: (name: string) => page.getByRole('radio', { name, exact: true })
+    licenseRadio: (name: string) => page.getByRole('radio', { name, exact: true }),
+    firstInvalidFeedback: page.locator('.invalid-feedback').first()
   }
 
   return {

@@ -100,12 +100,7 @@ for (const vp of VIEWPORTS) {
   })
 }
 
-const PUBLIC_VIEWPORTS = [
-  { name: 'desktop', viewport: { width: 1280, height: 720 } },
-  { name: 'mobile', viewport: devices['Pixel 5'].viewport }
-] as const
-
-for (const vp of PUBLIC_VIEWPORTS) {
+for (const vp of VIEWPORTS) {
   test.describe(`a11y logged-out @ ${vp.name}`, () => {
     test('Etusivu (logged out) has no a11y violations', async ({ browser }) => {
       const context = await browser.newContext({
@@ -188,8 +183,9 @@ test.describe('a11y interactions @ desktop', () => {
     const modalPage = await context.newPage()
     try {
       await modalPage.goto('/', { waitUntil: 'domcontentloaded' })
-      await modalPage.waitForTimeout(1000)
-      await modalPage.getByRole('button', { name: 'Log in' }).click()
+      const logIn = modalPage.getByRole('button', { name: 'Log in' })
+      await logIn.waitFor()
+      await logIn.click()
       await modalPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
       await modalPage.getByRole('textbox', { name: 'Password' }).fill('password123')
       await modalPage.getByRole('button', { name: 'Login' }).click()
@@ -257,8 +253,9 @@ test.describe('a11y reviews @ desktop', () => {
     const reviewerPage = await context.newPage()
     try {
       await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
-      await reviewerPage.waitForTimeout(1000)
-      await reviewerPage.getByRole('button', { name: 'Log in' }).click()
+      const logIn = reviewerPage.getByRole('button', { name: 'Log in' })
+      await logIn.waitFor()
+      await logIn.click()
       await reviewerPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
       await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
       await reviewerPage.getByRole('button', { name: 'Login' }).click()
