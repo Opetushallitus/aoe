@@ -217,6 +217,7 @@ export const MateriaaliFormi = (
     keywordsSelect: page.locator('ng-select').locator('#keywords'),
     learningResourceTypesSelect: page.locator('ng-select#learningResourceTypes'),
     educationalLevelsSelect: page.locator('ng-select#educationalLevels'),
+    expiresDate: page.locator('#expires'),
     confirmCheckbox: page.locator('#confirm'),
     confirmLabel: page.getByText('Vakuutan että'),
     licenseRadio: (name: string) => page.getByRole('radio', { name, exact: true }),

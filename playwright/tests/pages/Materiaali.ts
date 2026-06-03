@@ -4,6 +4,8 @@ import { blob as blobConsumer } from 'node:stream/consumers'
 
 export const Materiaali = (page: Page) => {
   const locators = {
+    tooltipTrigger: page.locator('.btn-tooltip').first(),
+    tooltipPopup: page.locator('bs-tooltip-container, [role=tooltip]').first(),
     lataaDropdown: page.getByRole('button', { name: 'Lataa' }),
     lisaaArvioButton: page.getByRole('button', { name: 'Lisää arvio' }),
     katsoKaikkiArviotLink: page.getByRole('link', { name: 'Katso kaikki arviot' }),

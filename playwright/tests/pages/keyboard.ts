@@ -70,3 +70,39 @@ export const focusedActiveElement = (page: Page) =>
       text: el.textContent?.trim().slice(0, 40) || null
     }
   })
+
+// True if the document overflows horizontally (with a small tolerance).
+export const hasHorizontalScroll = (page: Page) =>
+  page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2
+  )
+
+// True if the active element has a visible focus indicator (outline or box-shadow).
+export const activeElementHasFocusIndicator = (page: Page) =>
+  page.evaluate(() => {
+    const el = document.activeElement as HTMLElement | null
+    if (!el || el === document.body) {
+      return false
+    }
+    const s = getComputedStyle(el)
+    const outline = s.outlineStyle !== 'none' && s.outlineWidth !== '0px'
+    const shadow = s.boxShadow !== 'none' && s.boxShadow !== ''
+    return outline || shadow
+  })
+
+// Heading levels (1-6) in document order, as exposed to the accessibility tree:
+// includes sr-only/visually-hidden (clip-based) headings, excludes display:none /
+// visibility:hidden / aria-hidden / [hidden] headings.
+export const headingLevels = (page: Page) =>
+  page.evaluate(() =>
+    Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6'))
+      .filter((h) => {
+        const el = h as HTMLElement
+        if (el.closest('[aria-hidden="true"]') || el.hasAttribute('hidden')) {
+          return false
+        }
+        const s = getComputedStyle(el)
+        return s.display !== 'none' && s.visibility !== 'hidden'
+      })
+      .map((h) => Number(h.tagName[1]))
+  )
