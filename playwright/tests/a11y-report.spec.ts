@@ -4,6 +4,7 @@ import AxeBuilder from '@axe-core/playwright'
 import type { Page } from '@playwright/test'
 import { createHtmlReport } from 'axe-html-reporter'
 import { Etusivu } from './pages/Etusivu'
+import { Materiaali } from './pages/Materiaali'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
@@ -128,8 +129,13 @@ ${sections}
 `
 }
 
-test('generate axe accessibility report', async ({ page, a11yMaterial, browser }) => {
-  test.setTimeout(180_000)
+test('generate axe accessibility report', async ({
+  page,
+  a11yMaterial,
+  a11yCollection,
+  browser
+}) => {
+  test.setTimeout(300_000)
   const dir = path.join(__dirname, '../../playwright-results')
   fs.mkdirSync(dir, { recursive: true })
   const results: PageResult[] = []
@@ -153,6 +159,85 @@ test('generate axe accessibility report', async ({ page, a11yMaterial, browser }
   await omat.luoUusiMateriaali()
   await page.waitForLoadState('domcontentloaded')
   results.push(await scan(page, 'Uusi oppimateriaali (form)', dir))
+
+  // Omat oppimateriaalit
+  const omatPage = await etusivu.header.clickOmatMateriaalit()
+  await omatPage.locators.julkaistutMateriaalitHeading.waitFor()
+  results.push(await scan(page, 'Omat oppimateriaalit', dir))
+
+  // Kokoelmat
+  await omatPage.header.clickKokoelmat()
+  await page.waitForLoadState('domcontentloaded')
+  results.push(await scan(page, 'Kokoelmat', dir))
+
+  // Muokkaa materiaalia (edit-material form)
+  const omatForEdit = await etusivu.header.clickOmatMateriaalit()
+  await omatForEdit.startToEditMateriaaliNumero(a11yMaterial.materiaaliNumero)
+  await page.waitForLoadState('domcontentloaded')
+  results.push(await scan(page, 'Muokkaa materiaalia', dir))
+
+  // Muokkaa kokoelmaa (edit-collection form)
+  const omatForKokoelma = await etusivu.header.clickOmatMateriaalit()
+  await omatForKokoelma.startToEditKokoelma(a11yCollection.kokoelmaNimi)
+  await page.waitForLoadState('domcontentloaded')
+  results.push(await scan(page, 'Muokkaa kokoelmaa', dir))
+
+  // Arvostelut (reviews view — two-user flow)
+  const reviewCtx = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
+  const reviewerPage = await reviewCtx.newPage()
+  try {
+    await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
+    const logIn = reviewerPage.getByRole('button', { name: 'Log in' })
+    await logIn.waitFor()
+    await logIn.click()
+    await reviewerPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
+    await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
+    await reviewerPage.getByRole('button', { name: 'Login' }).click()
+    await reviewerPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
+    const languageSelector = reviewerPage.getByRole('button', {
+      name: 'Suomi: Vaihda kieli suomeksi'
+    })
+    await languageSelector.waitFor()
+    await languageSelector.click()
+
+    await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+      waitUntil: 'domcontentloaded'
+    })
+    // Accept ToS if prompted on first login for this user.
+    try {
+      await reviewerPage.getByText('Olen lukenut').click({ timeout: 1000 })
+      await reviewerPage.getByRole('button', { name: 'Tallenna' }).click()
+      await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+        waitUntil: 'domcontentloaded'
+      })
+    } catch (_e) {
+      console.log('Terms of Service already accepted, skipping')
+    }
+
+    // Submit a review as tuomas.jukola so the "Katso kaikki arviot" link appears.
+    const reviewerMateriaali = Materiaali(reviewerPage)
+    try {
+      await reviewerMateriaali.lisaaArvio({
+        ratingContent: '4',
+        ratingVisual: '5',
+        feedbackPositive: 'Erittäin hyvä ja selkeä materiaali',
+        feedbackSuggest: 'Voisi olla enemmän esimerkkejä',
+        feedbackPurpose: 'Käytin opetuksessa'
+      })
+    } catch (_e) {
+      // Review may already exist (e.g. test rerun); proceed to the reviews view.
+      console.log('Review submission skipped (may already exist)')
+    }
+
+    // Open the reviews view.
+    await reviewerMateriaali.katsoKaikkiArviotLink.waitFor()
+    await reviewerMateriaali.clickKatsoKaikkiArviot()
+    await reviewerPage.waitForLoadState('domcontentloaded')
+
+    results.push(await scan(reviewerPage, 'Arvostelut', dir))
+  } finally {
+    await reviewCtx.close()
+  }
 
   const loggedOut = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
   const outPage = await loggedOut.newPage()
