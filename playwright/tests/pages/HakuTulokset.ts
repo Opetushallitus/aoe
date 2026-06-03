@@ -7,10 +7,13 @@ export const HakuTulokset = (page: Page) => {
       has: page.getByRole('heading', { name, exact: true })
     })
 
+    const toggle = section.getByRole('button', { name, exact: true })
+
     return {
       header: section.getByRole('heading', { name, exact: true }),
+      toggle,
       open: async () => {
-        await section.getByRole('button', { name, exact: true }).click()
+        await toggle.click()
       },
       values: section.locator('.form-check-label')
     }

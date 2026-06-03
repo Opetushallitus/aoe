@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "playwright:test": "playwright test",
+    "test:a11y": "playwright test saavutettavuus --workers=1",
     "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors"
   },
   "keywords": [],

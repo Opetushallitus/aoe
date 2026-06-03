@@ -1,9 +1,11 @@
 import { test } from './a11yFixture'
+import { expect } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import { MateriaaliFormi } from './pages/MateriaaliFormi'
 import { scanWizard } from './pages/scanWizard'
 import { checkA11y, expectNoViolations } from './pages/axe'
 import { disableRulesFor } from './a11ySuppressions'
+import { isKnownGap } from './a11yGaps'
 
 test.use({ viewport: { width: 1280, height: 720 } })
 
@@ -181,5 +183,60 @@ test.describe('a11y forms @ desktop', () => {
       disableRules: disableRulesFor('UusiMateriaali:errors', 'desktop')
     })
     expectNoViolations(results, 'UusiMateriaali error state @ desktop')
+  })
+
+  test('new-material invalid-input error is associated with its field', async ({ page }) => {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const omat = await etusivu.header.clickOmatMateriaalit()
+    await omat.luoUusiMateriaali()
+
+    const { controls } = MateriaaliFormi(page)
+    const nameField = page.getByRole('textbox', { name: 'Oppimateriaalin nimi *', exact: true })
+    await nameField.fill('<') // invalid character triggers validation
+    await controls.firstInvalidFeedback.waitFor()
+
+    const ariaInvalid = await nameField.getAttribute('aria-invalid')
+    const describedBy = await nameField.getAttribute('aria-describedby')
+    let describedByResolves = false
+    if (describedBy) {
+      for (const id of describedBy.split(/\s+/)) {
+        if (await page.locator(`#${id}`).count()) {
+          describedByResolves = true
+        }
+      }
+    }
+    if (!isKnownGap('error-assoc:new-material')) {
+      expect(ariaInvalid, 'name field should have aria-invalid="true"').toBe('true')
+      expect(
+        describedByResolves,
+        'name field should reference its error via aria-describedby'
+      ).toBe(true)
+    }
+  })
+
+  test('collection required-field error is associated with its field', async ({
+    page,
+    a11yCollection
+  }) => {
+    test.setTimeout(120_000)
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const omat = await etusivu.header.clickOmatMateriaalit()
+    const kokoelma = await omat.startToEditKokoelma(a11yCollection.kokoelmaNimi)
+    await kokoelma.keywordsSelect.waitFor()
+    await kokoelma.clearKeywords()
+    // Trigger Angular validation by attempting to navigate to the preview tab.
+    // The requiredFieldBadge appears on the preview tab; navigate back to edit
+    // to inspect the keywords field's aria-invalid attribute.
+    await kokoelma.esikatseluJaTallennusLink.click()
+    await kokoelma.requiredFieldBadge.first().waitFor()
+    await page.getByRole('link', { name: 'Perustiedot' }).click()
+    await kokoelma.keywordsSelect.waitFor()
+
+    const keywordsInvalid = await kokoelma.keywordsSelect.getAttribute('aria-invalid')
+    if (!isKnownGap('error-assoc:collection')) {
+      expect(keywordsInvalid, 'keywords field should have aria-invalid="true"').toBe('true')
+    }
   })
 })
