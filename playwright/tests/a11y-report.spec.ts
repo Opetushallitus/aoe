@@ -25,6 +25,7 @@ type RuleHit = {
 }
 type PageResult = {
   page: string
+  url: string
   violations: RuleHit[]
   incomplete: RuleHit[]
   passes: number
@@ -62,6 +63,7 @@ const scan = async (page: Page, name: string, outputDir: string): Promise<PageRe
     }))
   return {
     page: name,
+    url: r.url,
     violations: map(r.violations),
     incomplete: map(r.incomplete),
     passes: r.passes.length,
@@ -87,12 +89,16 @@ const toCombinedHtml = (results: PageResult[]): string => {
       .join('')}</ul>`
 
   const nav = results
-    .map(
-      (r) =>
-        `<tr><td><a href="#${slug(r.page)}">${escapeHtml(r.page)}</a></td>` +
+    .map((r) => {
+      const open = r.url
+        ? ` <a class="open" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">↗</a>`
+        : ''
+      return (
+        `<tr><td><a href="#${slug(r.page)}">${escapeHtml(r.page)}</a>${open}</td>` +
         `<td class="num v">${r.violations.length}</td><td class="num r">${r.incomplete.length}</td>` +
         `<td class="num p">${r.passes}</td><td class="num">${r.inapplicable}</td></tr>`
-    )
+      )
+    })
     .join('')
 
   const sections = results
@@ -103,7 +109,10 @@ const toCombinedHtml = (results: PageResult[]): string => {
       const inc = r.incomplete.length
         ? `<h3>Needs manual review (axe could not decide)</h3>${ruleList(r.incomplete, false)}`
         : ''
-      return `<section id="${slug(r.page)}"><h2>${escapeHtml(r.page)}</h2><p class="counts">Violations: ${r.violations.length} · Needs review: ${r.incomplete.length} · Passes: ${r.passes} · N/A: ${r.inapplicable}</p>${vio}${inc}</section>`
+      const open = r.url
+        ? ` <a class="open" href="${escapeHtml(r.url)}" target="_blank" rel="noopener">↗ open page</a>`
+        : ''
+      return `<section id="${slug(r.page)}"><h2>${escapeHtml(r.page)}${open}</h2><p class="counts">Violations: ${r.violations.length} · Needs review: ${r.incomplete.length} · Passes: ${r.passes} · N/A: ${r.inapplicable}</p>${vio}${inc}</section>`
     })
     .join('')
 
@@ -118,6 +127,7 @@ code{background:#f3f3f3;padding:.1rem .3rem;border-radius:3px;font-size:.85em}
 .badge.critical{background:#b00020}.badge.serious{background:#d35400}
 .badge.moderate{background:#a15c00}.badge.minor{background:#666}
 .wcag{color:#555;font-size:.8rem}.none{color:#1a7f37}.counts{color:#555}
+.open{font-size:.8rem;font-weight:normal;text-decoration:none}
 section{margin:1.6rem 0;border-top:1px solid #eee;padding-top:.5rem}
 ul.nodes{margin:.2rem 0 .6rem;color:#444}ul.nodes code{background:#eef}
 </style></head><body>
