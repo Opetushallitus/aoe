@@ -5,6 +5,7 @@
   "scripts": {
     "playwright:test": "playwright test",
     "test:a11y": "playwright test saavutettavuus --workers=1",
+    "a11y:report": "playwright test a11y-report --workers=1",
     "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
     "@axe-core/playwright": "^4.11.3",
     "@playwright/test": "1.60.0",
     "@types/node": "24.12.4",
+    "axe-html-reporter": "^2.2.11",
     "typescript": "5.9.3"
   }
 }
