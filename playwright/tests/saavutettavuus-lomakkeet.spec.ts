@@ -3,8 +3,7 @@ import { expect } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import { MateriaaliFormi } from './pages/MateriaaliFormi'
 import { scanWizard } from './pages/scanWizard'
-import { checkA11y, expectNoViolations } from './pages/axe'
-import { disableRulesFor } from './a11ySuppressions'
+import { scanA11y } from './pages/axe'
 import { isKnownGap } from './a11yGaps'
 
 test.use({ viewport: { width: 1280, height: 720 } })
@@ -120,18 +119,12 @@ test.describe('a11y forms @ desktop', () => {
     const kokoelma = await omat.startToEditKokoelma(a11yCollection.kokoelmaNimi)
 
     // Edit view
-    const editResults = await checkA11y(page, {
-      disableRules: disableRulesFor('MuokkaaKokoelmaa:muokkaus', 'desktop')
-    })
-    expectNoViolations(editResults, 'MuokkaaKokoelmaa edit view @ desktop')
+    await scanA11y(page, 'MuokkaaKokoelmaa:muokkaus', 'desktop')
 
     // Preview & save view (collection is already published, so the button reads "Tallenna")
     await kokoelma.esikatseluJaTallennusLink.click()
     await page.getByRole('button', { name: 'Tallenna', exact: true }).waitFor()
-    const previewResults = await checkA11y(page, {
-      disableRules: disableRulesFor('MuokkaaKokoelmaa:esikatselu', 'desktop')
-    })
-    expectNoViolations(previewResults, 'MuokkaaKokoelmaa preview view @ desktop')
+    await scanA11y(page, 'MuokkaaKokoelmaa:esikatselu', 'desktop')
   })
 
   test('Muokkaa kokoelmaa — publish-without-keywords error state has no a11y violations', async ({
@@ -157,10 +150,7 @@ test.describe('a11y forms @ desktop', () => {
     await kokoelma.esikatseluJaTallennusLink.click()
     // Wait for the "Pakollinen" required-field span to confirm the error state is visible.
     await kokoelma.requiredFieldBadge.first().waitFor()
-    const results = await checkA11y(page, {
-      disableRules: disableRulesFor('MuokkaaKokoelmaa:errors', 'desktop')
-    })
-    expectNoViolations(results, 'MuokkaaKokoelmaa error state @ desktop')
+    await scanA11y(page, 'MuokkaaKokoelmaa:errors', 'desktop')
   })
 
   test('Uusi materiaali — invalid-input error state has no a11y violations', async ({ page }) => {
@@ -179,10 +169,7 @@ test.describe('a11y forms @ desktop', () => {
     // The invalid-feedback renders as soon as the field is dirty+invalid.
     await controls.firstInvalidFeedback.waitFor()
 
-    const results = await checkA11y(page, {
-      disableRules: disableRulesFor('UusiMateriaali:errors', 'desktop')
-    })
-    expectNoViolations(results, 'UusiMateriaali error state @ desktop')
+    await scanA11y(page, 'UusiMateriaali:errors', 'desktop')
   })
 
   test('new-material invalid-input error is associated with its field', async ({ page }) => {

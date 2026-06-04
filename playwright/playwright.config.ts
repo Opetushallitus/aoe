@@ -26,6 +26,8 @@ function generateMetadata() {
 export default defineConfig({
   metadata: generateMetadata(),
   testDir: './tests',
+  globalSetup: './tests/a11yGlobalSetup.ts',
+  globalTeardown: './tests/a11yGlobalTeardown.ts',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
