@@ -155,7 +155,7 @@ export const updateEducationalMaterialMetadata = async (
     await updateEsDocument()
 
     if (!emid || !eduMaterial[1] || !eduMaterial[1].publishedat) {
-      log.error(
+      log.warn(
         `URN update skipped for the educational material #${emid} in updateEducationalMaterialMetadata().`
       )
       return
