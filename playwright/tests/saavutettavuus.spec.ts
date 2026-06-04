@@ -2,8 +2,7 @@ import { test } from './a11yFixture'
 import { devices, expect } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import { Materiaali } from './pages/Materiaali'
-import { checkA11y, expectNoViolations } from './pages/axe'
-import { disableRulesFor } from './a11ySuppressions'
+import { scanA11y } from './pages/axe'
 import { isKnownGap } from './a11yGaps'
 import { hasHorizontalScroll, headingLevels } from './pages/keyboard'
 
@@ -56,8 +55,7 @@ for (const vp of VIEWPORTS) {
       await page.waitForFunction(() => document.documentElement.lang !== '', null, {
         timeout: 5000
       })
-      const results = await checkA11y(page, { disableRules: disableRulesFor('Etusivu', vp.name) })
-      expectNoViolations(results, `Etusivu @ ${vp.name}`)
+      await scanA11y(page, 'Etusivu', vp.name)
     })
 
     test('Haku (search results) has no a11y violations', async ({ page, a11yMaterial }) => {
@@ -65,8 +63,7 @@ for (const vp of VIEWPORTS) {
       await etusivu.goto()
       await etusivu.hae(a11yMaterial.materiaaliNimi)
       await page.locator('.results-count').first().waitFor()
-      const results = await checkA11y(page, { disableRules: disableRulesFor('Haku', vp.name) })
-      expectNoViolations(results, `Haku @ ${vp.name}`)
+      await scanA11y(page, 'Haku', vp.name)
     })
 
     test('Omat oppimateriaalit has no a11y violations', async ({ page }) => {
@@ -74,10 +71,7 @@ for (const vp of VIEWPORTS) {
       await etusivu.goto()
       const omat = await etusivu.header.clickOmatMateriaalit()
       await omat.locators.julkaistutMateriaalitHeading.waitFor()
-      const results = await checkA11y(page, {
-        disableRules: disableRulesFor('OmatOppimateriaalit', vp.name)
-      })
-      expectNoViolations(results, `Omat oppimateriaalit @ ${vp.name}`)
+      await scanA11y(page, 'OmatOppimateriaalit', vp.name)
     })
 
     test('Uusi oppimateriaali (form) has no a11y violations', async ({ page }) => {
@@ -86,10 +80,7 @@ for (const vp of VIEWPORTS) {
       const omat = await etusivu.header.clickOmatMateriaalit()
       await omat.luoUusiMateriaali()
       await page.waitForLoadState('domcontentloaded')
-      const results = await checkA11y(page, {
-        disableRules: disableRulesFor('UusiOppimateriaali', vp.name)
-      })
-      expectNoViolations(results, `Uusi oppimateriaali @ ${vp.name}`)
+      await scanA11y(page, 'UusiOppimateriaali', vp.name)
     })
 
     test('Materiaali (material view) has no a11y violations', async ({ page, a11yMaterial }) => {
@@ -97,10 +88,7 @@ for (const vp of VIEWPORTS) {
         waitUntil: 'domcontentloaded'
       })
       await page.getByRole('heading', { name: a11yMaterial.materiaaliNimi }).waitFor()
-      const results = await checkA11y(page, {
-        disableRules: disableRulesFor('Materiaali', vp.name)
-      })
-      expectNoViolations(results, `Materiaali @ ${vp.name}`)
+      await scanA11y(page, 'Materiaali', vp.name)
     })
 
     test('Kokoelmat (collections list) has no a11y violations', async ({ page }) => {
@@ -109,10 +97,7 @@ for (const vp of VIEWPORTS) {
       const omat = await etusivu.header.clickOmatMateriaalit()
       await omat.header.clickKokoelmat()
       await page.waitForLoadState('domcontentloaded')
-      const results = await checkA11y(page, {
-        disableRules: disableRulesFor('Kokoelmat', vp.name)
-      })
-      expectNoViolations(results, `Kokoelmat @ ${vp.name}`)
+      await scanA11y(page, 'Kokoelmat', vp.name)
     })
 
     test('Kokoelma (single collection) has no a11y violations', async ({
@@ -126,10 +111,7 @@ for (const vp of VIEWPORTS) {
       const link = await kokoelmat.kokoelmaByName(a11yCollection.kokoelmaNimi)
       await link.click()
       await page.waitForLoadState('domcontentloaded')
-      const results = await checkA11y(page, {
-        disableRules: disableRulesFor('Kokoelma', vp.name)
-      })
-      expectNoViolations(results, `Kokoelma @ ${vp.name}`)
+      await scanA11y(page, 'Kokoelma', vp.name)
     })
   })
 }
@@ -148,10 +130,7 @@ for (const vp of VIEWPORTS) {
         await page.waitForFunction(() => document.documentElement.lang !== '', null, {
           timeout: 5000
         })
-        const results = await checkA11y(page, {
-          disableRules: disableRulesFor('EtusivuPublic', vp.name)
-        })
-        expectNoViolations(results, `Etusivu (logged out) @ ${vp.name}`)
+        await scanA11y(page, 'EtusivuPublic', vp.name)
       } finally {
         await context.close()
       }
@@ -170,10 +149,7 @@ for (const vp of VIEWPORTS) {
         await page.waitForFunction(() => document.documentElement.lang !== '', null, {
           timeout: 5000
         })
-        const results = await checkA11y(page, {
-          disableRules: disableRulesFor('HakuPublic', vp.name)
-        })
-        expectNoViolations(results, `Haku (logged out) @ ${vp.name}`)
+        await scanA11y(page, 'HakuPublic', vp.name)
       } finally {
         await context.close()
       }
@@ -193,10 +169,7 @@ test.describe('a11y interactions @ desktop', () => {
     await filter.header.waitFor({ timeout: 15000 })
     await filter.open()
     await filter.values.first().waitFor()
-    const results = await checkA11y(page, {
-      disableRules: disableRulesFor('HakuFilter', 'desktop')
-    })
-    expectNoViolations(results, 'Search filter accordion (open) @ desktop')
+    await scanA11y(page, 'HakuFilter', 'desktop')
   })
 
   test('open educationalLevels dropdown has no a11y violations', async ({ page }) => {
@@ -204,10 +177,7 @@ test.describe('a11y interactions @ desktop', () => {
     await etusivu.goto()
     await etusivu.filters.educationalLevels.click()
     await page.getByRole('option').first().waitFor()
-    const results = await checkA11y(page, {
-      disableRules: disableRulesFor('NgSelect', 'desktop')
-    })
-    expectNoViolations(results, 'educationalLevels dropdown (open) @ desktop')
+    await scanA11y(page, 'NgSelect', 'desktop')
   })
 
   test('open metadata modal has no a11y violations', async ({ browser, a11yMaterial }) => {
@@ -255,11 +225,7 @@ test.describe('a11y interactions @ desktop', () => {
 
       // Scope the scan to the dialog — the material page behind it has its own
       // (separately tracked) debt covered by the Materiaali scan.
-      const results = await checkA11y(modalPage, {
-        include: '[role="dialog"]',
-        disableRules: disableRulesFor('MetadataModal', 'desktop')
-      })
-      expectNoViolations(results, 'Metadata modal (open) @ desktop')
+      await scanA11y(modalPage, 'MetadataModal', 'desktop', { include: '[role="dialog"]' })
     } finally {
       await context.close()
     }
@@ -273,8 +239,7 @@ test.describe('a11y interactions @ mobile', () => {
     const etusivu = Etusivu(page)
     await etusivu.goto()
     await etusivu.header.openMobileNav()
-    const results = await checkA11y(page, { disableRules: disableRulesFor('MobileNav', 'mobile') })
-    expectNoViolations(results, 'Mobile nav menu (open) @ mobile')
+    await scanA11y(page, 'MobileNav', 'mobile')
   })
 })
 
@@ -481,10 +446,7 @@ test.describe('a11y reviews @ desktop', () => {
       await reviewerMateriaali.clickKatsoKaikkiArviot()
       await reviewerPage.waitForLoadState('domcontentloaded')
 
-      const results = await checkA11y(reviewerPage, {
-        disableRules: disableRulesFor('Arvostelut', 'desktop')
-      })
-      expectNoViolations(results, 'Arvostelut @ desktop')
+      await scanA11y(reviewerPage, 'Arvostelut', 'desktop')
     } finally {
       await context.close()
     }

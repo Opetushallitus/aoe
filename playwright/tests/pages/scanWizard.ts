@@ -1,6 +1,5 @@
 import type { Page } from '@playwright/test'
-import { checkA11y, expectNoViolations } from './axe'
-import { disableRulesFor } from '../a11ySuppressions'
+import { scanA11y } from './axe'
 
 export type WizardStep = {
   key: string // suppression/label key, e.g. 'perustiedot'
@@ -13,8 +12,7 @@ export type WizardStep = {
 export const scanWizard = async (page: Page, label: string, steps: WizardStep[]) => {
   for (const step of steps) {
     const target = `${label}:${step.key}`
-    const results = await checkA11y(page, { disableRules: disableRulesFor(target, 'desktop') })
-    expectNoViolations(results, `${target} @ desktop`)
+    await scanA11y(page, target, 'desktop')
     if (step.fill) {
       await step.fill()
     }
