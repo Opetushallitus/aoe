@@ -72,10 +72,20 @@ test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ 
   })
   await test.step(`lisää oppimateriaali koulutusasteelle korkeakoulutus`, async () => {
     await lisaaMateriaali('korkeakoulutus', {
+      perustiedot: {
+        kohderyhma: 'Oppija',
+        kayttotarkoitus: 'Kurssimateriaali',
+        organisaatio: 'Opetushallitus'
+      },
       koulutustiedot: { koulutusasteet: ['korkeakoulutus'], tieteenala: 'Metsätiede' },
       tarkemmatTiedot: {
         ominaisuudet: ['tekstitys', 'selkokieli'],
         esteet: ['ei äänihaittaa']
+      },
+      hyodynnetytMateriaalit: {
+        author: 'Lähde Tekijä',
+        url: 'https://source.example.com',
+        name: 'Lähdemateriaali'
       }
     })
   })

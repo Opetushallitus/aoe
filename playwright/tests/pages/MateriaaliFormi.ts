@@ -89,22 +89,28 @@ export const MateriaaliFormi = (
       await page.locator('ng-select#organization1').click()
       await page.locator('ng-select#organization1 input').pressSequentially(organisaatio)
       await page.getByRole('option', { name: organisaatio, exact: true }).click()
+      // Close the dropdown so its open option list can't intercept the next click.
+      await page.keyboard.press('Escape')
     },
     lisaaAsiasana: async (type = 'PDF') => {
       await page.locator('ng-select').locator('#keywords').fill(type)
       await page.getByRole('option', { name: type }).click()
+      await page.keyboard.press('Escape')
     },
     lisaaOppimateriaalinTyyppi: async (_type = 'teksti') => {
       await page.locator('#learningResourceTypes > .ng-select-container').click()
       await page.getByRole('option', { name: 'teksti' }).click()
+      await page.keyboard.press('Escape')
     },
     lisaaPaaasiallinenKohderyhma: async (kohderyhma = 'Oppija') => {
       await page.locator('#educationalRoles > .ng-select-container').click()
       await page.getByRole('option', { name: kohderyhma, exact: true }).click()
+      await page.keyboard.press('Escape')
     },
     lisaaPaaasiallinenKayttotarkoitus: async (kayttotarkoitus = 'Kurssimateriaali') => {
       await page.locator('#educationalUses > .ng-select-container').click()
       await page.getByRole('option', { name: kayttotarkoitus, exact: true }).click()
+      await page.keyboard.press('Escape')
     },
     seuraava: async () => {
       await locators.seuraava.click()
@@ -182,6 +188,18 @@ export const MateriaaliFormi = (
   }
 
   const hyodynnetytMateriaalit = {
+    // "Hyödynnetyt materiaalit" step → isBasedOn externals. Adds one source:
+    // optional author (an addTag ng-select), required url + name.
+    lisaaHyodynnettyMateriaali: async (opts: { author?: string; url: string; name: string }) => {
+      await page.getByRole('button', { name: 'Lisää uusi materiaali' }).click()
+      if (opts.author) {
+        await page.locator('#authorExt-0 input').fill(opts.author)
+        await page.keyboard.press('Enter')
+        await page.keyboard.press('Escape')
+      }
+      await page.locator('#url-0').fill(opts.url)
+      await page.locator('#name-0').fill(opts.name)
+    },
     seuraava: async () => {
       await locators.seuraava.click()
       return esikatseluJaTallennus

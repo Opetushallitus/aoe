@@ -81,13 +81,21 @@ export default defineConfig({
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
+      // Seeds OAI-PMH materials once and persists the window so the oaipmh spec
+      // can run in parallel across any number of workers. Runs after auth.
+      name: 'seed',
+      testMatch: /.*\.seed\.ts/,
+      use: { storageState: './.auth/user.json' },
+      dependencies: ['setup']
+    },
+    {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
         storageState: './.auth/user.json'
       },
 
-      dependencies: ['setup']
+      dependencies: ['setup', 'seed']
     }
 
     /* Test against mobile viewports. */

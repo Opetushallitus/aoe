@@ -16,6 +16,7 @@ export type TaytaOpts = {
     esteet?: string[]
     vanhenemispaiva?: string
   }
+  hyodynnetytMateriaalit?: { author?: string; url: string; name: string }
 }
 
 export type TaytaVerkkosivuOpts = {
@@ -74,6 +75,9 @@ export const UusiOppimateriaali = (page: Page) => {
     const lisenssitiedot = await tarkemmatTiedot.seuraava()
     await lisenssitiedot.valitseLisenssi()
     const hyodynnetytMateriaalit = await lisenssitiedot.seuraava()
+    if (opts.hyodynnetytMateriaalit) {
+      await hyodynnetytMateriaalit.lisaaHyodynnettyMateriaali(opts.hyodynnetytMateriaalit)
+    }
     const esikatseluJaTallennus = await hyodynnetytMateriaalit.seuraava()
     return await esikatseluJaTallennus.tallenna(materiaaliNimi)
   }
