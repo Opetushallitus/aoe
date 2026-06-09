@@ -11,7 +11,7 @@
     "knip": "knip"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.161",
+    "@types/aws-lambda": "8.10.162",
     "@types/node": "24.12.4",
     "aws-cdk": "2.1126.0",
     "knip": "6.16.0",
