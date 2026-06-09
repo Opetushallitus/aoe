@@ -18,7 +18,7 @@
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
-  "schedule": ["* 0-4,22-23 * * 1-5", "* * * * 0,6"],
+  "schedule": ["* 0-4,17-23 * * 1-5", "* * * * 0,6"],
   "updateNotScheduled": false,
   "automergeSchedule": ["at any time"],
   "osvVulnerabilityAlerts": true,
