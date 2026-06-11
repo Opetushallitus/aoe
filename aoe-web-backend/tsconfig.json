@@ -5,6 +5,8 @@
     "forceConsistentCasingInFileNames": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "target": "es2023",
     "lib": ["es2023", "dom"],
     "noImplicitAny": false,
@@ -14,6 +16,7 @@
       "@/*": ["./src/*"],
       "@aoe/*": ["./types/aoe/*"],
       "@api/*": ["./src/api/*"],
+      "@controllers/*": ["./src/controllers/*"],
       "@domain/*": ["./src/domain/*"],
       "@query/*": ["./src/query/*"],
       "@resource/*": ["./src/resource/*"],
@@ -29,6 +32,6 @@
     "strict": false,
     "typeRoots": ["./types"]
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
   "include": ["src/**/*.js", "src/**/*.json", "src/**/*.ts"]
 }

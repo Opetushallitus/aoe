@@ -3,6 +3,7 @@ import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
 import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
+import { metaRoutes } from '@api/routes-meta/oaipmh'
 import { refV1 } from '@api/ref-routes-v1/v1'
 import { v1 } from '@api/routes-v1/v1'
 import { v2 } from '@api/routes-v2/v2'
@@ -90,6 +91,10 @@ export async function initApp() {
   const apiRouterV2: Router = Router()
   v2(apiRouterV2)
 
+  // Load meta routes (OAI-PMH)
+  const metaRouter: Router = Router()
+  metaRoutes(metaRouter)
+
   // Process X-Forwarded-* headers behind a proxy server at localhost (127.0.0.1)
   app.set('trust proxy', '127.0.0.1')
 
@@ -148,6 +153,7 @@ export async function initApp() {
   app.use('/api/v1/', apiRouterV1)
   app.use('/api/v2/', apiRouterV2)
   app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
+  app.use('/meta', metaRouter)
   app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent))
   app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore))
   app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor))

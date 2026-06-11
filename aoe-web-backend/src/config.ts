@@ -1,4 +1,54 @@
 import * as logger from '@/util/winstonLogger'
+import { z } from 'zod'
+
+const Config = z
+  .object({
+    AOE_IDENTIFY_REPOSITORY_NAME: z.string().default('OPH - AOE Open Metadata Interface'),
+    AOE_IDENTIFY_BASE_URL: z.string().default('https://aoe.fi/meta/oaipmh'),
+    AOE_IDENTIFY_BASE_URL_V2: z.string().default('https://aoe.fi/meta/v2/oaipmh'),
+    AOE_IDENTIFY_PROTOCOL_VERSION: z.string().default('2.0'),
+    AOE_IDENTIFY_ADMIN_EMAIL: z.string().default('oppimateriaalivaranto@aoe.fi'),
+    AOE_IDENTIFY_EARLIEST_DATESTAMP: z.string().default('2019-12-11T11:43:18Z'),
+    AOE_IDENTIFY_DELETED_RECORD: z.string().default('persistent'),
+    AOE_IDENTIFY_GRANULARITY: z.string().default('YYYY-MM-DDThh:mm:ssZ'),
+    AOE_IDENTIFY_COMPRESSION: z.string().optional(),
+    AOE_OAI_IDENTIFIER_SCHEME: z.string().default('oai'),
+    AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER: z.string().default('aoe.fi'),
+    AOE_OAI_IDENTIFIER_DELIMITER: z.string().default(':'),
+    AOE_OAI_IDENTIFIER_SAMPLE_IDENTIFIER: z.string().default('oai:aoe.fi:1'),
+    AOE_REQUEST_PAGE_SIZE: z.number().default(20),
+    AOE_METADATA_LRMI_LEARNING_RESOURCE_TYPES: z
+      .string()
+      .array()
+      .default(['educationalSubject', 'educationalLevel', 'educationalUse', 'teaches'])
+  })
+  .transform((c) => ({
+    aoe: {
+      identify: {
+        repositoryName: c.AOE_IDENTIFY_REPOSITORY_NAME,
+        baseUrl: c.AOE_IDENTIFY_BASE_URL,
+        baseUrlV2: c.AOE_IDENTIFY_BASE_URL_V2,
+        protocolVersion: c.AOE_IDENTIFY_PROTOCOL_VERSION,
+        adminEmail: c.AOE_IDENTIFY_ADMIN_EMAIL,
+        earliestDatestamp: c.AOE_IDENTIFY_EARLIEST_DATESTAMP,
+        deletedRecord: c.AOE_IDENTIFY_DELETED_RECORD,
+        granularity: c.AOE_IDENTIFY_GRANULARITY,
+        compression: c.AOE_IDENTIFY_COMPRESSION
+      },
+      oaiIdentifier: {
+        scheme: c.AOE_OAI_IDENTIFIER_SCHEME,
+        repositoryIdentifier: c.AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER,
+        delimeter: c.AOE_OAI_IDENTIFIER_DELIMITER,
+        sampleIdentifier: c.AOE_OAI_IDENTIFIER_SAMPLE_IDENTIFIER
+      },
+      request: {
+        pageSize: c.AOE_REQUEST_PAGE_SIZE
+      },
+      metadata: {
+        lrmiLearningResourceTypes: c.AOE_METADATA_LRMI_LEARNING_RESOURCE_TYPES
+      }
+    }
+  }))
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
@@ -160,5 +210,6 @@ export const config = {
     organisaatiot: process.env.EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT as string,
     asiasanat: process.env.EXTERNAL_API_FINTO_ASIASANAT as string,
     suomiKoodistot: process.env.EXTERNAL_API_SUOMI_KOODISTOT as string
-  } as const
+  } as const,
+  aoe: Config.parse(process.env).aoe
 }

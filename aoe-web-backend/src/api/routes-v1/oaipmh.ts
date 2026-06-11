@@ -1,4 +1,4 @@
-import { getMaterialMetaData } from '@query/oaipmh'
+import { getMaterialMetaData } from '@controllers/oaipmh'
 import { Router } from 'express'
 
 /**
