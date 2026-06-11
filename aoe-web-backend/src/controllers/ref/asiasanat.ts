@@ -1,4 +1,4 @@
-import { parseString, processors } from 'xml2js'
+import { XMLParser } from 'fast-xml-parser'
 
 import { getDataFromApi } from '@util/ref/api.utils'
 import { getAsync, setAsync } from '@util/ref/redis.utils'
@@ -11,6 +11,10 @@ import { NextFunction, Request, Response } from 'express'
 const endpoint = 'yso'
 const rediskey = 'asiasanat'
 const params = 'data'
+
+type PrefLabel = { lang?: string; _?: string }
+type Concept = { about?: string; prefLabel?: PrefLabel[] }
+type ParsedRdf = { RDF?: { Concept?: Concept[] } }
 
 /**
  * Set data into redis database
@@ -37,45 +41,34 @@ export async function setAsiasanat(): Promise<void> {
   const english: KeyValue<string, string>[] = []
   const swedish: KeyValue<string, string>[] = []
 
-  const parseOptions = {
-    tagNameProcessors: [processors.stripPrefix],
-    attrNameProcessors: [processors.stripPrefix],
-    valueProcessors: [processors.stripPrefix],
-    attrValueProcessors: [processors.stripPrefix]
-  }
-  parseString(results, parseOptions, (err, result) => {
-    if (err) {
-      winstonLogger.error('Error parsing results in setAsiasanat(): %o', err)
-      return
-    }
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: '',
+    removeNSPrefix: true,
+    textNodeName: '_',
+    isArray: (name) => ['Concept', 'prefLabel'].includes(name)
+  })
 
-    result.RDF?.Concept?.forEach((concept: any) => {
-      // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
-      const key: string = concept.$?.about
-      const labelFi = concept.prefLabel?.find((e: any) => e.$?.lang === 'fi')
-      const labelEn = concept.prefLabel?.find((e: any) => e.$?.lang === 'en')
-      const labelSv = concept.prefLabel?.find((e: any) => e.$?.lang === 'sv')
+  try {
+    const parsed = parser.parse(results)
+    parsed.RDF?.Concept?.forEach((concept: Concept) => {
+      const key: string = concept.about
+      const labelFi = concept.prefLabel?.find((e) => e.lang === 'fi')
+      const labelEn = concept.prefLabel?.find((e) => e.lang === 'en')
+      const labelSv = concept.prefLabel?.find((e) => e.lang === 'sv')
 
       if (!key || (!labelFi && !labelEn && !labelSv)) {
         throw Error('Missing required data in setAsiasanat()')
       }
 
-      finnish.push({
-        key: key,
-        value: labelFi?._ || labelSv?._ || labelEn?._
-      })
-
-      english.push({
-        key: key,
-        value: labelEn?._ || labelFi?._ || labelSv?._
-      })
-
-      swedish.push({
-        key: key,
-        value: labelSv?._ || labelFi?._ || labelEn?._
-      })
+      finnish.push({ key, value: labelFi?._ || labelSv?._ || labelEn?._ })
+      english.push({ key, value: labelEn?._ || labelFi?._ || labelSv?._ })
+      swedish.push({ key, value: labelSv?._ || labelFi?._ || labelEn?._ })
     })
-  })
+  } catch (err) {
+    winstonLogger.error('Error parsing results in setAsiasanat(): %o', err)
+    return
+  }
 
   try {
     finnish.sort(sortByValue)
@@ -101,7 +94,7 @@ export async function setAsiasanat(): Promise<void> {
       winstonLogger.info('setAsiasanat() swedish done! Finished!')
     }
   } catch (err) {
-    throw Error(err)
+    throw err
   }
 }
 
@@ -154,7 +147,7 @@ export const getAsiasana = async (
 
     if (redisData) {
       const input: KeyValue<string, string>[] = JSON.parse(redisData)
-      const row: KeyValue<string, string> = input.find((e: any) => e.key === req.params.key)
+      const row = input.find((e) => e.key === req.params.key)
 
       if (!!row) {
         res.status(200).json(row).end()
