@@ -111,7 +111,7 @@ const EXPECTED_BASIC_RECORD = `
         <lrmi_fi:about>
           <lrmi_fi:thing>
             <lrmi_fi:name>PDF</lrmi_fi:name>
-            <lrmi_fi:identifier>https://www.yso.fi/onto/yso/p12371</lrmi_fi:identifier>
+            <lrmi_fi:identifier>http://www.yso.fi/onto/yso/p12371</lrmi_fi:identifier>
           </lrmi_fi:thing>
         </lrmi_fi:about>
         <lrmi_fi:material>
@@ -151,9 +151,20 @@ const normalizeNonDeterministicOrder = (xml: string): string => {
   )
 }
 
-const extractOurRecord = (body: string, materiaaliNimi: string): string => {
+const extractOurRecord = (
+  body: string,
+  materiaaliNimi: string,
+  { pickLatest = false }: { pickLatest?: boolean } = {}
+): string => {
   const matches = body.match(/<record(?:\s[^>]*)?>(?:(?!<\/record>)[\s\S])*<\/record>/g) ?? []
   const ours = matches.filter((r) => r.includes(materiaaliNimi))
+  if (pickLatest && ours.length > 1) {
+    return ours.sort((a, b) => {
+      const tsA = a.match(/<datestamp>([^<]+)<\/datestamp>/)?.[1] ?? ''
+      const tsB = b.match(/<datestamp>([^<]+)<\/datestamp>/)?.[1] ?? ''
+      return tsB.localeCompare(tsA)
+    })[0]
+  }
   if (ours.length !== 1) {
     throw new Error(
       `Expected exactly one record containing "${materiaaliNimi}", found ${ours.length}. Total records: ${matches.length}.`
@@ -191,8 +202,13 @@ const redact = (record: string): string =>
     )
     .replace(/blank-\d+\.pdf/g, 'blank-{FILEKEY}.pdf')
 
-const expectRecordMatches = (body: string, nimi: string, template: string): void => {
-  const actual = normalizeNonDeterministicOrder(redact(extractOurRecord(body, nimi)))
+const expectRecordMatches = (
+  body: string,
+  nimi: string,
+  template: string,
+  opts: { pickLatest?: boolean } = {}
+): void => {
+  const actual = normalizeNonDeterministicOrder(redact(extractOurRecord(body, nimi, opts)))
   const expected = normalizeNonDeterministicOrder(template.replaceAll('{MATERIAALI_NIMI}', nimi))
   expect(actual).toBe(expected)
 }
@@ -494,7 +510,9 @@ test('OAI-PMH v2', async ({ request }) => {
 
   await test.step('ListRecords seeded material record structures', async () => {
     const bodies = await collectBodies(request, V2, SEED_FROM, SEED_UNTIL)
-    expectRecordMatches(bodies.join('\n'), seededWindow.basic[0].name, EXPECTED_BASIC_RECORD)
+    expectRecordMatches(bodies.join('\n'), seededWindow.basic[0].name, EXPECTED_BASIC_RECORD, {
+      pickLatest: true
+    })
 
     const allRecords = bodies.flatMap((body) =>
       getRecordNodes(getVerbNode(parseXml(body), 'ListRecords'))

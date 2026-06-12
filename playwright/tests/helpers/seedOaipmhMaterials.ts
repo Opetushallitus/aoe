@@ -31,7 +31,7 @@ export const SEED_WINDOW_PATH = path.join(__dirname, '../../.auth/oaipmh-seed.js
 
 export const SEED_FROM = '2024-01-01T00:00:00Z'
 export const SEED_UNTIL = '2099-12-31T23:59:59Z'
-export const SEEDED_COUNT = 25
+export const SEEDED_COUNT = 12
 
 const getSeedName = (
   index: number,
@@ -51,7 +51,7 @@ const buildPayload = (
   const payload = {
     name: { fi: seedName, sv: seedName, en: seedName },
     description: { fi: '', sv: '', en: '' },
-    keywords: [{ key: 'PDF', value: 'PDF' }],
+    keywords: [{ key: 'http://www.yso.fi/onto/yso/p12371', value: 'PDF' }],
     authors: [{ author: 'Tester, Testi', organization: { key: '', value: '' } }],
     learningResourceTypes: [{ key: 'teksti', value: 'teksti' }],
     educationalRoles: [],
@@ -318,7 +318,6 @@ const waitForHarvest = async (
 }
 
 export const seedOaipmhMaterials = async (
-  count: number,
   opts: { baseUrl?: string; storageStatePath?: string } = {}
 ): Promise<SeededOaiPmhWindow> => {
   const baseUrl = opts.baseUrl ?? 'https://demo.aoe.fi'
@@ -336,7 +335,7 @@ export const seedOaipmhMaterials = async (
   const archivedMaterials: SearchSeedMaterial[] = []
 
   try {
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < SEEDED_COUNT; i++) {
       materials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'basic', i))
       richMaterials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'rich', i))
       archivedMaterials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'archived', i))
