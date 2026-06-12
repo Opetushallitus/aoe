@@ -254,9 +254,9 @@ test.describe('a11y keyboard @ desktop', () => {
       const logIn = modalPage.getByRole('button', { name: 'Log in' })
       await logIn.waitFor()
       await logIn.click()
-      await modalPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
+      await modalPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
       await modalPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-      await modalPage.getByRole('button', { name: 'Login' }).click()
+      await modalPage.getByRole('button', { name: 'Sign In' }).click()
       await modalPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
       const languageSelector = modalPage.getByRole('button', {
         name: 'Suomi: Vaihda kieli suomeksi'

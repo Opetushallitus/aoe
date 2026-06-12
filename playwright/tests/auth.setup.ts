@@ -36,11 +36,11 @@ setup('authenticate', async ({ page }) => {
   await waitForAppToBeReady(page)
   await waitForSomeTimeAsOtherwiseLoginLinkDoesNotWork(page)
   await page.getByRole('button', { name: 'Log in' }).click()
-  await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible()
-  await page.getByRole('textbox', { name: 'Username' }).fill('aoeuser')
+  await expect(page.getByRole('textbox', { name: 'Username or email' })).toBeVisible()
+  await page.getByRole('textbox', { name: 'Username or email' }).fill('aoeuser')
   await page.getByRole('textbox', { name: 'Password' }).click()
   await page.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await page.getByRole('button', { name: 'Login' }).click()
+  await page.getByRole('button', { name: 'Sign In' }).click()
   // Wait until the page receives the cookies.
   //
   // Sometimes login flow sets cookies in the process of several redirects.

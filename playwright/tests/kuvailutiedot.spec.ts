@@ -24,9 +24,9 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
   await metadataPage.goto('/', { waitUntil: 'domcontentloaded' })
   await metadataPage.waitForTimeout(1000)
   await metadataPage.getByRole('button', { name: 'Log in' }).click()
-  await metadataPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
+  await metadataPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
   await metadataPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await metadataPage.getByRole('button', { name: 'Login' }).click()
+  await metadataPage.getByRole('button', { name: 'Sign In' }).click()
   await metadataPage.waitForURL('/#/etusivu', {
     waitUntil: 'domcontentloaded'
   })

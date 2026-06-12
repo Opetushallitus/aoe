@@ -60,7 +60,7 @@ function rename_infra_panes_to_match_the_script_they_run {
   tmux select-pane -t 0.0 -T redis
   tmux select-pane -t 0.1 -T localstack
   tmux select-pane -t 0.2 -T postgres
-  tmux select-pane -t 0.3 -T oidc
+  tmux select-pane -t 0.3 -T keycloak
   tmux select-pane -t 0.4 -T opensearch
   tmux select-pane -t 0.5 -T nginx
 }
@@ -110,7 +110,7 @@ tmux send-keys "$local_up_cmd localstack" C-m
 tmux select-pane -t 2
 tmux send-keys "$local_up_cmd aoe-postgres" C-m
 
-# Pane 3: oidc
+# Pane 3: keycloak
 tmux select-pane -t 3
 tmux send-keys "$local_up_cmd aoe-oidc-server" C-m
 

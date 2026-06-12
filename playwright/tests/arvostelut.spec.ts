@@ -24,9 +24,9 @@ test('materiaalin arvostelu ja arvostelujen näkyvyys kirjautumattomalle käytt�
   await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
   await reviewerPage.waitForTimeout(1000)
   await reviewerPage.getByRole('button', { name: 'Log in' }).click()
-  await reviewerPage.getByRole('textbox', { name: 'Username' }).fill('tuomas.jukola')
+  await reviewerPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
   await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await reviewerPage.getByRole('button', { name: 'Login' }).click()
+  await reviewerPage.getByRole('button', { name: 'Sign In' }).click()
   await reviewerPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
 
   // Set language to Finnish
