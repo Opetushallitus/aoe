@@ -67,8 +67,8 @@
     "typescript": "5.9.3"
   },
   "overrides": {
-    "semver": "7.8.1",
-    "dompurify": "3.4.7",
+    "semver": "7.8.4",
+    "dompurify": "3.4.9",
     "esbuild": "0.28.1",
     "xml2js": "0.6.2",
     "qs": "6.15.2"
