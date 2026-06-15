@@ -420,7 +420,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
         POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
         POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
         AOE_IDENTIFY_BASE_URL: `https://${domain}/meta/oaipmh`,
-        AOE_IDENTIFY_BASE_URL_V2: `https://${domain}/meta/v2/oaipmh`
+        AOE_IDENTIFY_BASE_URL_V2: `https://${domain}/meta/v2/oaipmh`,
+        AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER: domain
       }
     },
     parameter_store_secrets: [],
