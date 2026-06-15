@@ -353,7 +353,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/meta/oaipmh*', '/meta/v2/oaipmh*'],
+    listenerPathPatterns: ['/meta-old*'],
     healthCheckPath: '/meta/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
@@ -418,7 +418,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
         REDIS_PORT: SemanticApisRedis.endpointPort,
         ES_NODE: OpenSearch.collectionEndpoint,
         POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
-        POSTGRESQL_PORT: WebBackendAurora.endPoint.port
+        POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
+        AOE_IDENTIFY_BASE_URL: `https://${domain}/meta/oaipmh`,
+        AOE_IDENTIFY_BASE_URL_V2: `https://${domain}/meta/v2/oaipmh`
       }
     },
     parameter_store_secrets: [],
@@ -434,7 +436,15 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     utilityAccountId: utilityAccountId,
     listener: Alb.albListener,
-    listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*', '/ref/api/v1*'],
+    listenerPathPatterns: [
+      '/api/*',
+      '/h5p/*',
+      '/embed/*',
+      '/content/*',
+      '/ref/api/v1*',
+      '/meta/oaipmh*',
+      '/meta/v2/oaipmh*'
+    ],
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
