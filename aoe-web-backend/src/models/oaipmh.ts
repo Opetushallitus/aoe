@@ -5,6 +5,17 @@ const dateField = z.preprocess(
   z.string().nullable().optional()
 )
 
+const oaiPmhVerb = z.string().transform((verb) => {
+  const normalizedVerb = verb.toUpperCase()
+  const canonicalVerbs: Record<string, string> = {
+    IDENTIFY: 'Identify',
+    LISTRECORDS: 'ListRecords',
+    GETRECORDS: 'GetRecords',
+    LISTIDENTIFIERS: 'ListIdentifiers'
+  }
+  return canonicalVerbs[normalizedVerb] ?? verb
+})
+
 const MaterialDisplayNameSchema = z.object({
   displayname: z.string(),
   language: z.string()
@@ -138,7 +149,7 @@ export const FetchMetadataParamsSchema = z.object({
 })
 
 export const OaiPmhParamsSchema = z.object({
-  verb: z.string().default(''),
+  verb: oaiPmhVerb.default(''),
   identifier: z.string().default(''),
   metadataPrefix: z.string().default(''),
   from: z.string().default(''),

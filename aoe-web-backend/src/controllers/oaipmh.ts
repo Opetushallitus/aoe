@@ -141,6 +141,7 @@ export const oaipmhHandler =
     if (parseResult.success === false) {
       log.warn('Invalid query when calling OAIPMH API')
       res.status(400).send()
+      return
     }
     const params = parseResult.data
     const verb = params.verb.toUpperCase()
@@ -168,7 +169,9 @@ export const oaipmhHandler =
         .status(200)
         .type('application/xml')
         .send(
-          buildXml(buildEnvelope(verb, params.identifier, params.metadataPrefix, baseUrl, verbNode))
+          buildXml(
+            buildEnvelope(params.verb, params.identifier, params.metadataPrefix, baseUrl, verbNode)
+          )
         )
     } catch (err) {
       log.error('OAI-PMH handler error', err)
