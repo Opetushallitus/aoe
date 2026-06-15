@@ -16,11 +16,16 @@ const Config = z
     AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER: z.string().default('aoe.fi'),
     AOE_OAI_IDENTIFIER_DELIMITER: z.string().default(':'),
     AOE_OAI_IDENTIFIER_SAMPLE_IDENTIFIER: z.string().default('oai:aoe.fi:1'),
-    AOE_REQUEST_PAGE_SIZE: z.number().default(20),
+    AOE_REQUEST_PAGE_SIZE: z.coerce.number().default(20),
     AOE_METADATA_LRMI_LEARNING_RESOURCE_TYPES: z
       .string()
-      .array()
-      .default(['educationalSubject', 'educationalLevel', 'educationalUse', 'teaches'])
+      .default('educationalSubject,educationalLevel,educationalUse,teaches')
+      .transform((s) =>
+        s
+          .split(',')
+          .map((t) => t.trim())
+          .filter(Boolean)
+      )
   })
   .transform((c) => ({
     aoe: {

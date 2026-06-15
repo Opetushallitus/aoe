@@ -111,7 +111,7 @@ const EXPECTED_BASIC_RECORD = `
         <lrmi_fi:about>
           <lrmi_fi:thing>
             <lrmi_fi:name>PDF</lrmi_fi:name>
-            <lrmi_fi:identifier>http://www.yso.fi/onto/yso/p12371</lrmi_fi:identifier>
+            <lrmi_fi:identifier>https://www.yso.fi/onto/yso/p12371</lrmi_fi:identifier>
           </lrmi_fi:thing>
         </lrmi_fi:about>
         <lrmi_fi:material>
@@ -528,9 +528,7 @@ test('OAI-PMH v2', async ({ request }) => {
 
     const dc = firstChild(firstChild(richRecord, 'metadata'), 'oai_dc:dc')
     expect(
-      text(
-        firstChild(firstChild(dc, 'lrmi_fi:author'), 'lrmi_fi:organization')?.['lrmi_fi:legalName']
-      )
+      text(firstChild(firstChild(dc, 'lrmi_fi:author'), 'lrmi_fi:person')?.['lrmi_fi:affiliation'])
     ).toBe('Opetushallitus')
     expect(text(firstChild(dc, 'lrmi_fi:educationalAudience')?.['lrmi_fi:educationalRole'])).toBe(
       'Oppija'

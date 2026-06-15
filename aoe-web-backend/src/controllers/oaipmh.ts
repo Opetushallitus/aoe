@@ -2,11 +2,9 @@ import { config } from '@/config'
 import { FetchMetadataParamsSchema, OaiPmhParamsSchema } from '@/models/oaipmh'
 import { fetchMaterialMetadata } from '@query/oaipmh'
 import { buildLrmiRecord } from '@services/lrmiTransformer'
-import { buildXml } from '@services/oaipmhSerializer'
+import { buildXml, toOaiDate } from '@services/oaipmhSerializer'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
-
-const now = (): string => `${new Date().toISOString().slice(0, 19)}Z`
 
 const buildEnvelope = (
   verb: string,
@@ -20,7 +18,7 @@ const buildEnvelope = (
     '@_xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
     '@_xsi:schemaLocation':
       'http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd',
-    responseDate: now(),
+    responseDate: toOaiDate(new Date()),
     aoe_request: {
       ...(verb && { '@_verb': verb }),
       ...(metadataPrefix && { '@_metadataPrefix': metadataPrefix }),
@@ -85,7 +83,7 @@ const buildListVerbNode = async (
   const pageSize = config.aoe.request.pageSize
 
   const dateMin = from || config.aoe.identify.earliestDatestamp
-  const dateMax = until || new Date().toISOString()
+  const dateMax = until || toOaiDate(new Date())
 
   const result = await fetchMaterialMetadata({
     dateMin,

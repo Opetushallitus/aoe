@@ -51,7 +51,7 @@ const buildPayload = (
   const payload = {
     name: { fi: seedName, sv: seedName, en: seedName },
     description: { fi: '', sv: '', en: '' },
-    keywords: [{ key: 'http://www.yso.fi/onto/yso/p12371', value: 'PDF' }],
+    keywords: [{ key: '//www.yso.fi/onto/yso/p12371', value: 'PDF' }],
     authors: [{ author: 'Tester, Testi', organization: { key: '', value: '' } }],
     learningResourceTypes: [{ key: 'teksti', value: 'teksti' }],
     educationalRoles: [],

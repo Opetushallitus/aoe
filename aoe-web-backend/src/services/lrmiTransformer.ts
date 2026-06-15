@@ -1,4 +1,5 @@
 import { AoeMetadata } from '@/models/oaipmh'
+import { toOaiDate } from '@services/oaipmhSerializer'
 
 const OAI_DC_ATTRS = {
   '@_xmlns:oai_dc': 'http://www.openarchives.org/OAI/2.0/oai_dc/',
@@ -16,13 +17,6 @@ export type LrmiRecord = {
   dc: Record<string, unknown>
 }
 
-const formatDate = (s: string | null | undefined): string | undefined => {
-  if (!s) {
-    return undefined
-  }
-  return `${s.slice(0, 19)}Z`
-}
-
 const isExpired = (s: string | null | undefined): boolean => {
   if (!s) {
     return false
@@ -34,24 +28,25 @@ const compact = (obj: Record<string, unknown>): Record<string, unknown> =>
   Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined && v !== null))
 
 const buildAuthors = (authors: AoeMetadata['author']): Record<string, unknown> | undefined => {
-  if (!authors || authors.length === 0) {
+  const relevant = (authors ?? []).filter((a) => a.authorname !== '' || a.organization !== '')
+  if (relevant.length === 0) {
     return undefined
   }
 
   const persons: Record<string, unknown>[] = []
   const orgs: Record<string, unknown>[] = []
 
-  for (const a of authors) {
-    if (a.authorname && a.authorname.trim()) {
-      persons.push({ 'lrmi_fi:name': a.authorname })
-    }
-    if (a.organization && a.organization.trim()) {
+  for (const a of relevant) {
+    if (a.authorname === '') {
       orgs.push({ 'lrmi_fi:legalName': a.organization })
+    } else {
+      persons.push(
+        compact({
+          'lrmi_fi:name': a.authorname,
+          'lrmi_fi:affiliation': a.organization === '' ? undefined : a.organization
+        })
+      )
     }
-  }
-
-  if (persons.length === 0 && orgs.length === 0) {
-    return undefined
   }
 
   return compact({
@@ -92,6 +87,9 @@ const buildMaterial = (
   })
 }
 
+const isLearningResourceType = (alignmenttype: string, learningResourceTypes: string[]): boolean =>
+  learningResourceTypes.some((t) => t.toLowerCase() === alignmenttype.toLowerCase())
+
 const buildLearningResource = (
   educationallevel: AoeMetadata['educationallevel'],
   educationaluse: AoeMetadata['educationaluse'],
@@ -102,7 +100,7 @@ const buildLearningResource = (
   const uses = (educationaluse ?? []).filter((e) => e.value).map((e) => e.value)
 
   const learningAlignments = (alignmentobject ?? []).filter((a) =>
-    learningResourceTypes.some((t) => t.toLowerCase() === a.alignmenttype.toLowerCase())
+    isLearningResourceType(a.alignmenttype, learningResourceTypes)
   )
 
   const educationalAlignments = learningAlignments
@@ -138,9 +136,7 @@ const buildAlignmentObjects = (
   learningResourceTypes: string[]
 ): Record<string, unknown>[] | undefined => {
   const result = (alignmentobject ?? [])
-    .filter(
-      (a) => !learningResourceTypes.some((t) => t.toLowerCase() === a.alignmenttype.toLowerCase())
-    )
+    .filter((a) => !isLearningResourceType(a.alignmenttype, learningResourceTypes))
     .map((a) =>
       compact({
         'lrmi_fi:alignmentType': a.alignmenttype,
@@ -163,19 +159,19 @@ export function buildLrmiRecord(
   const { repositoryIdentifier, learningResourceTypes, allVersions } = opts
   const deleted = meta.obsoleted !== 0 || isExpired(meta.expires)
 
-  const publishedAtStr = formatDate(meta.urnpublishedat) ?? ''
+  const publishedAtStr = toOaiDate(meta.urnpublishedat) ?? ''
   const baseIdentifier = `oai:${repositoryIdentifier}:${meta.id}`
 
   const identifier = allVersions ? `${baseIdentifier}-${publishedAtStr}` : baseIdentifier
 
-  const datestamp = allVersions ? publishedAtStr : (formatDate(meta.createdat) ?? '')
+  const datestamp = allVersions ? publishedAtStr : (toOaiDate(meta.createdat) ?? '')
 
   if (deleted && !allVersions) {
     return {
       deleted,
       identifier,
       datestamp,
-      dc: compact({ ...OAI_DC_ATTRS })
+      dc: { ...OAI_DC_ATTRS }
     }
   }
 
@@ -209,7 +205,7 @@ export function buildLrmiRecord(
     .map((k) => ({
       'lrmi_fi:thing': {
         'lrmi_fi:name': k.value,
-        'lrmi_fi:identifier': k.keywordkey
+        'lrmi_fi:identifier': `https:${k.keywordkey}`
       }
     }))
 
@@ -255,14 +251,14 @@ export function buildLrmiRecord(
     ...OAI_DC_ATTRS,
     'dc:identifier': identifiers.length > 0 ? identifiers : undefined,
     'dc:title': titles.length > 0 ? titles : undefined,
-    'dc:date': formatDate(meta.createdat),
+    'dc:date': toOaiDate(meta.createdat),
     'dc:description': descriptionItems.length > 0 ? descriptionItems : undefined,
     'dc:rights': meta.licensecode ?? undefined,
     'dc:publisher': publishers.length > 0 ? publishers : undefined,
     'dc:type': types.length > 0 ? types : undefined,
-    'dc:valid': formatDate(meta.expires),
-    'lrmi_fi:dateCreated': formatDate(meta.createdat),
-    'lrmi_fi:dateModified': formatDate(meta.updatedat),
+    'dc:valid': toOaiDate(meta.expires),
+    'lrmi_fi:dateCreated': toOaiDate(meta.createdat),
+    'lrmi_fi:dateModified': toOaiDate(meta.updatedat),
     'lrmi_fi:timeRequired':
       meta.timerequired && meta.timerequired.trim() ? meta.timerequired : undefined,
     'lrmi_fi:author': authors,
