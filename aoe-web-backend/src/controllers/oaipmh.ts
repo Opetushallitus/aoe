@@ -137,7 +137,12 @@ export const oaipmhHandler =
   (allVersions: boolean) =>
   async (req: Request, res: Response): Promise<void> => {
     const baseUrl = allVersions ? config.aoe.identify.baseUrlV2 : config.aoe.identify.baseUrl
-    const params = OaiPmhParamsSchema.parse(req.query)
+    const parseResult = OaiPmhParamsSchema.safeParse(req.query)
+    if (parseResult.success === false) {
+      log.warn('Invalid query when calling OAIPMH API')
+      res.status(400).send()
+    }
+    const params = parseResult.data
     const verb = params.verb.toUpperCase()
 
     try {
@@ -163,9 +168,7 @@ export const oaipmhHandler =
         .status(200)
         .type('application/xml')
         .send(
-          buildXml(
-            buildEnvelope(params.verb, params.identifier, params.metadataPrefix, baseUrl, verbNode)
-          )
+          buildXml(buildEnvelope(verb, params.identifier, params.metadataPrefix, baseUrl, verbNode))
         )
     } catch (err) {
       log.error('OAI-PMH handler error', err)

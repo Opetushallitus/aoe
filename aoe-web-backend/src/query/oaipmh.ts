@@ -170,7 +170,7 @@ export async function fetchMaterialMetadata(
               q.id
             )
 
-            const thumbnailRow = await db.oneOrNone<{ filekey: string; mimetype: string }>(
+            const thumbnailRow = await t.oneOrNone<{ filekey: string; mimetype: string }>(
               'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0',
               q.id
             )
@@ -182,7 +182,7 @@ export async function fetchMaterialMetadata(
             }
           }
 
-          const urnRow = await db.oneOrNone<{ urn: string | null; publishedat: Date | string }>(
+          const urnRow = await t.oneOrNone<{ urn: string | null; publishedat: Date | string }>(
             'SELECT urn, publishedat FROM educationalmaterialversion WHERE educationalmaterialid = $1 AND publishedat = $2',
             [q.id, q.urnpublishedat]
           )
