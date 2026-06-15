@@ -123,15 +123,9 @@ export const collectBodies = async (
   let nextToken: string | undefined
 
   do {
-    const params = new URLSearchParams({
-      verb: 'ListRecords',
-      metadataPrefix: 'oai_dc',
-      from,
-      until
-    })
-    if (nextToken) {
-      params.set('resumptionToken', nextToken)
-    }
+    const params = nextToken
+      ? new URLSearchParams({ verb: 'ListRecords', resumptionToken: nextToken })
+      : new URLSearchParams({ verb: 'ListRecords', metadataPrefix: 'oai_dc', from, until })
 
     const res = await api.get(`${endpoint}?${params.toString()}`)
     expect(res.status()).toBe(200)

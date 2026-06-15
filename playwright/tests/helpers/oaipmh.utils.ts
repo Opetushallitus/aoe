@@ -81,7 +81,8 @@ export const getResumptionToken = (verbNode: XmlNode | null): ResumptionToken | 
   }
 
   const tokenAttrs = attrs(token)
-  if (!tokenAttrs.completeListSize || !tokenAttrs.cursor) {
+  // Intentional weak comparison in this case:
+  if (tokenAttrs.completeListSize == null || tokenAttrs.cursor == null) {
     return null
   }
 
@@ -127,4 +128,4 @@ export const recordTitles = (record: OaiRecord): string[] => {
   return (Array.isArray(titles) ? titles : [titles]).map(titleText)
 }
 
-export const recordIdentifier = (record: OaiRecord): string => record.header?.identifier ?? ''
+export const recordIdentifier = (record: OaiRecord): string => text(record.header?.identifier)

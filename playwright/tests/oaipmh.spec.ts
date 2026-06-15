@@ -36,15 +36,16 @@ const listUrl = (
   verb: 'ListRecords' | 'ListIdentifiers',
   opts: { from?: string; until?: string; resumptionToken?: string | number } = {}
 ): string => {
+  if (opts.resumptionToken !== undefined) {
+    const params = new URLSearchParams({ verb, resumptionToken: String(opts.resumptionToken) })
+    return `${endpoint}?${params.toString()}`
+  }
   const params = new URLSearchParams({ verb, metadataPrefix: 'oai_dc' })
   if (opts.from) {
     params.set('from', opts.from)
   }
   if (opts.until) {
     params.set('until', opts.until)
-  }
-  if (opts.resumptionToken !== undefined) {
-    params.set('resumptionToken', String(opts.resumptionToken))
   }
   return `${endpoint}?${params.toString()}`
 }
