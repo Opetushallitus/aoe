@@ -73,6 +73,7 @@ services:
 
   aoe-data-services:
     hostname: aoe-data-services
+    container_name: aoe-data-services
     build:
       context: aoe-data-services
       dockerfile: ./Dockerfile
@@ -208,6 +209,7 @@ services:
 
   aoe-oidc-server:
     hostname: aoe-oidc-server
+    container_name: aoe-oidc-server
     image: quay.io/keycloak/keycloak:26.6.3@sha256:5fdbf2dbb5897cc34e82de49d13e23db011f9925089dbc555fc095f2c8bc1dac
     ports:
       - '127.0.0.1:8080:8080'
