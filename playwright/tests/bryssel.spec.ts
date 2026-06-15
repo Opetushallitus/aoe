@@ -429,24 +429,7 @@ test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page, browser }) => {
-  // Seed the second user by logging in as tuomas.jukola in a fresh browser context
-  const seedContext = await browser.newContext({
-    storageState: undefined,
-    ignoreHTTPSErrors: true
-  })
-  const seedPage = await seedContext.newPage()
-  await seedPage.goto('/', { waitUntil: 'domcontentloaded' })
-  await seedPage.waitForTimeout(1000)
-  await seedPage.getByRole('button', { name: 'Log in' }).click()
-  await seedPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
-  await seedPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await seedPage.getByRole('button', { name: 'Sign In' }).click()
-  await seedPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
-  await seedPage.locator('#user-details-dropdown').click()
-  await expect(seedPage.getByText('Tuomas Jukola')).toBeVisible()
-  await seedContext.close()
-
+test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page }) => {
   // Create a material as admin (aoeuser)
   const etusivu = Etusivu(page)
   await etusivu.goto()

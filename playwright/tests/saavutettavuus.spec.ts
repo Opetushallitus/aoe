@@ -5,6 +5,7 @@ import { Materiaali } from './pages/Materiaali'
 import { scanA11y } from './pages/axe'
 import { isKnownGap } from './a11yGaps'
 import { hasHorizontalScroll, headingLevels } from './pages/keyboard'
+import { User, authFileByUser } from './auth'
 
 const VIEWPORTS = [
   { name: 'desktop', viewport: { width: 1280, height: 720 } },
@@ -183,23 +184,12 @@ test.describe('a11y interactions @ desktop', () => {
   test('open metadata modal has no a11y violations', async ({ browser, a11yMaterial }) => {
     // "Lisää kuvailutietoja" is only offered to a user who is NOT the material's
     // owner, so log in as a second user in a fresh context.
-    const context = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
+    const context = await browser.newContext({
+      storageState: authFileByUser[User.TUOMAS_JUKOLA],
+      ignoreHTTPSErrors: true
+    })
     const modalPage = await context.newPage()
     try {
-      await modalPage.goto('/', { waitUntil: 'domcontentloaded' })
-      const logIn = modalPage.getByRole('button', { name: 'Log in' })
-      await logIn.waitFor()
-      await logIn.click()
-      await modalPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
-      await modalPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-      await modalPage.getByRole('button', { name: 'Sign In' }).click()
-      await modalPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
-      const languageSelector = modalPage.getByRole('button', {
-        name: 'Suomi: Vaihda kieli suomeksi'
-      })
-      await languageSelector.waitFor()
-      await languageSelector.click()
-
       const openMaterial = () =>
         modalPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
           waitUntil: 'domcontentloaded'
@@ -395,23 +385,12 @@ test.describe('a11y reviews @ desktop', () => {
 
   test('Arvostelut (reviews) view has no a11y violations', async ({ browser, a11yMaterial }) => {
     test.setTimeout(120_000)
-    const context = await browser.newContext({ storageState: undefined, ignoreHTTPSErrors: true })
+    const context = await browser.newContext({
+      storageState: authFileByUser[User.TUOMAS_JUKOLA],
+      ignoreHTTPSErrors: true
+    })
     const reviewerPage = await context.newPage()
     try {
-      await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
-      const logIn = reviewerPage.getByRole('button', { name: 'Log in' })
-      await logIn.waitFor()
-      await logIn.click()
-      await reviewerPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
-      await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-      await reviewerPage.getByRole('button', { name: 'Sign In' }).click()
-      await reviewerPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
-      const languageSelector = reviewerPage.getByRole('button', {
-        name: 'Suomi: Vaihda kieli suomeksi'
-      })
-      await languageSelector.waitFor()
-      await languageSelector.click()
-
       await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
         waitUntil: 'domcontentloaded'
       })

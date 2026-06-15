@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import { Materiaali } from './pages/Materiaali'
+import { User, authFileByUser } from './auth'
 
 test('materiaalin arvostelu ja arvostelujen n채kyvyys kirjautumattomalle k채ytt채j채lle', async ({
   page,
@@ -15,24 +16,12 @@ test('materiaalin arvostelu ja arvostelujen n채kyvyys kirjautumattomalle k채ytt�
   const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
 
-  // Phase 2: Log in as tuomas.jukola and submit a review
+  // Phase 2: Submit a review as tuomas.jukola
   const reviewerContext = await browser.newContext({
-    storageState: undefined,
+    storageState: authFileByUser[User.TUOMAS_JUKOLA],
     ignoreHTTPSErrors: true
   })
   const reviewerPage = await reviewerContext.newPage()
-  await reviewerPage.goto('/', { waitUntil: 'domcontentloaded' })
-  await reviewerPage.waitForTimeout(1000)
-  await reviewerPage.getByRole('button', { name: 'Log in' }).click()
-  await reviewerPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
-  await reviewerPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await reviewerPage.getByRole('button', { name: 'Sign In' }).click()
-  await reviewerPage.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
-
-  // Set language to Finnish
-  await reviewerPage.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }).click()
-
-  // Accept terms of service if prompted (first login for this user)
 
   // Navigate to the material page and submit a review
   await reviewerPage.goto(`/#/materiaali/${materiaaliNumero}`, {

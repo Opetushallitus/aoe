@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import { SocialMetadataModal } from './pages/SocialMetadataModal'
+import { User, authFileByUser } from './auth'
 
 test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materiaaliin', async ({
   page,
@@ -15,24 +16,12 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
   const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
 
-  // Phase 2: Log in as tuomas.jukola and add kuvailutietoja
+  // Phase 2: Add kuvailutietoja as tuomas.jukola
   const metadataContext = await browser.newContext({
-    storageState: undefined,
+    storageState: authFileByUser[User.TUOMAS_JUKOLA],
     ignoreHTTPSErrors: true
   })
   const metadataPage = await metadataContext.newPage()
-  await metadataPage.goto('/', { waitUntil: 'domcontentloaded' })
-  await metadataPage.waitForTimeout(1000)
-  await metadataPage.getByRole('button', { name: 'Log in' }).click()
-  await metadataPage.getByRole('textbox', { name: 'Username or email' }).fill('tuomas.jukola')
-  await metadataPage.getByRole('textbox', { name: 'Password' }).fill('password123')
-  await metadataPage.getByRole('button', { name: 'Sign In' }).click()
-  await metadataPage.waitForURL('/#/etusivu', {
-    waitUntil: 'domcontentloaded'
-  })
-
-  // Set language to Finnish
-  await metadataPage.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }).click()
 
   // Navigate to the material page
   await metadataPage.goto(`/#/materiaali/${materiaaliNumero}`, {
