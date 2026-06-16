@@ -18,6 +18,7 @@ import { EcsServiceStack } from '../lib/ecs-service'
 import { FrontendBucketStack } from '../lib/front-end-bucket-stack'
 import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack'
 import { EcrStack } from '../lib/ecr-stack'
+import { EmptyStack } from '../lib/empty-stack'
 import { ElasticacheServerlessStack } from '../lib/redis-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
 import { BastionStack } from '../lib/bastion-stack'
@@ -327,40 +328,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic
   })
 
-  new EcsServiceStack(app, 'DataServicesEcsService', {
+  new EmptyStack(app, 'DataServicesEcsService', {
     env: envEU,
-    stackName: `${environmentName}-data-services`,
-    serviceName: 'data-services',
-    environment: environmentName,
-    cluster: FargateCluster.fargateCluster,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.dataServicesSecurityGroup,
-    revision,
-    allowEcsExec: config.services.data_services.allow_ecs_exec,
-    taskCpu: config.services.data_services.cpu_limit,
-    taskMemory: config.services.data_services.memory_limit,
-    minimumCount: config.services.data_services.min_count,
-    maximumCount: config.services.data_services.max_count,
-    cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {
-      ...config.services.data_services.env_vars,
-      ...{
-        AOE_IDENTIFY_BASEURL: `https://${domain}/meta/oaipmh`,
-        AOE_IDENTIFY_V2_BASEURL: `https://${domain}/meta/v2/oaipmh`
-      }
-    },
-    parameter_store_secrets: [],
-    secrets_manager_secrets: [],
-    utilityAccountId: utilityAccountId,
-    listener: Alb.albListener,
-    listenerPathPatterns: ['/meta-old*'],
-    healthCheckPath: '/meta/health',
-    healthCheckGracePeriod: 180,
-    healthCheckInterval: 5,
-    healthCheckTimeout: 2,
-    albPriority: 130,
-    privateDnsNamespace: namespace.privateDnsNamespace,
-    alarmSnsTopic: Monitor.topic
+    stackName: `${environmentName}-data-services`
   })
 
   const aossPolicyStatement = new iam.PolicyStatement({
