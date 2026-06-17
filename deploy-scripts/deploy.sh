@@ -44,8 +44,20 @@ function deploy {
       [[ "$confirm" =~ ^[yY]$ ]] || { echo "Aborted."; exit 1; }
       ./cdk.sh destroy "$STACK" "$@"
       ;;
+    diff)
+      ./cdk.sh diff "$@"
+      ;;
+    deploy)
+      if [[ "$ENV" != "utility" ]]; then
+        ./cdk.sh "$CDK_COMMAND" DataServicesEcsService --exclusively --require-approval never "$@"
+        ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
+        ./cdk.sh "$CDK_COMMAND" KmsStack --exclusively --require-approval never "$@"
+        ./cdk.sh "$CDK_COMMAND" SecretManagerStack --exclusively --require-approval never "$@"
+      fi
+      ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
+      ;;
     *)
-      ./cdk.sh "$CDK_COMMAND" --all --require-approval never --concurrency 10 "$@"
+      echo "Unknown command"
       ;;
   esac
   popd
