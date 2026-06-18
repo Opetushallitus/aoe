@@ -83,18 +83,6 @@ services:
         localstack:
           condition: service_started
 
-  aoe-data-services:
-    hostname: aoe-data-services
-    build:
-      context: aoe-data-services
-      dockerfile: ./Dockerfile
-    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
-    container_name: aoe-data-services
-    restart: unless-stopped
-    depends_on:
-      aoe-web-backend:
-        condition: service_started
-
   postgres:
     image: postgres:15-alpine@sha256:0a58464f336f8fcd62def41d7b1649dcb0a728ea78e7894f507be58c3d550091
     container_name: aoe-postgres

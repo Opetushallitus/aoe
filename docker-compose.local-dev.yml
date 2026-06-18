@@ -42,19 +42,6 @@ services:
     env_file:
       - path: ./aoe-streaming-app/.env.ci
 
-  aoe-data-services:
-    hostname: aoe-data-services
-    container_name: aoe-data-services
-    build:
-      context: aoe-data-services
-      dockerfile: ./Dockerfile
-    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
-    restart: unless-stopped
-    ports:
-      - 8002:8002
-    env_file:
-      - path: ./aoe-data-services/.env.ci
-
   aoe-web-backend:
     build:
       context: aoe-web-backend

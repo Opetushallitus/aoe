@@ -48,15 +48,6 @@ function deploy {
       ./cdk.sh diff "$@"
       ;;
     deploy)
-      if [[ "$ENV" != "utility" ]]; then
-        ./cdk.sh "$CDK_COMMAND" DataServicesEcsService --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" SecurityGroupStack --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" KmsStack --exclusively --require-approval never "$@"
-        ./cdk.sh "$CDK_COMMAND" SecretManagerStack --exclusively --require-approval never "$@"
-      fi
-      if [[ "$ENV" == "utility" ]]; then
-        ./cdk.sh "$CDK_COMMAND" UtilityStack --exclusively --require-approval never "$@"
-      fi
       ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
       ;;
     *)
