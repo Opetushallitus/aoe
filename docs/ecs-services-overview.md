@@ -1,6 +1,6 @@
 # AOE ECS Services Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 4 microservices on AWS ECS Fargate. Three are built with Node.js/TypeScript and one with Java/Spring Boot.
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 3 microservices on AWS ECS Fargate, all built with Node.js/TypeScript.
 
 ## Request Routing
 
@@ -8,9 +8,8 @@ All traffic enters through an Application Load Balancer. Path-based rules route 
 
 | Path Pattern | Service | Container Port | ALB Priority |
 |---|---|---|---|
-| `/api/*`, `/h5p/*`, `/embed/*`, `/content/*`, `/ref/api/v1*` | web-backend | 3000 | 120 |
+| `/api/*`, `/h5p/*`, `/embed/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | web-backend | 3000 | 120 |
 | `/stream/api/v1*` | streaming-app | 3001 | 110 |
-| `/meta/oaipmh*`, `/meta/v2/oaipmh*` | data-services | 8001 | 130 |
 | `/*` (catch-all) | web-frontend | 8080 | 49000 |
 
 ## Services
@@ -68,7 +67,6 @@ The central API service. Handles all business logic: material CRUD, file uploads
 | Service | How |
 |---|---|
 | **streaming-app** | When a file download has a `Range` header and the file meets streaming criteria (enabled, MIME type in `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, file size >= `STREAM_FILESIZE_MIN`), the backend first does a HEAD request to the streaming service to check it's alive (1s timeout). If yes, it responds with **HTTP 302** redirecting the browser to `/stream/api/v1/material/{filename}`. Otherwise it serves the file directly from S3. |
-| **data-services** | No direct calls. Data-services calls the backend, not the other way around. |
 
 **Authentication:** OIDC via Passport.js. Discovers the issuer at `PROXY_URI`, redirects users for login with `openid profile offline_access` scopes, handles the callback at `/api/secure/redirect`, and auto-creates new users in PostgreSQL.
 
@@ -130,6 +128,25 @@ All under `/api/v2/statistics`, require authentication:
 
 All endpoints accept date range parameters (`since`, `until`) and return aggregated results.
 
+#### OAI-PMH Metadata Provider
+
+An OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting) provider, exposing AOE material metadata in standardized XML so external library catalogs, institutional repositories, and metadata aggregators can harvest it. It calls the material-metadata query logic in-process (no internal HTTP hop).
+
+**This is an outward-facing integration endpoint** — only external harvesters call it.
+
+**Two endpoint variants:**
+
+| Endpoint | Identifier Format | Behavior |
+|---|---|---|
+| `/meta/oaipmh` | `oai:<domain>:{id}` | Standard harvesting, includes deleted records |
+| `/meta/v2/oaipmh` | `oai:<domain>:{id}-{date}` | URN-based, all versions, omits deleted records |
+
+**OAI-PMH verbs supported:** `Identify`, `ListRecords`, `ListIdentifiers`, `GetRecords`
+
+**Output format:** OAI-PMH XML wrapping DublinCore (`dc:`) and LRMI-FI (`lrmi_fi:`) metadata — titles, descriptions, authors, keywords, educational levels, accessibility features, licenses, curriculum alignments, language codes, and linked resources.
+
+**Pagination:** 20 records per page via resumption tokens (plain page-index integers).
+
 #### Future: Remove Redis
 
 Instead of caching in Redis, the reference data would be stored in PostgreSQL — the data only refreshes once a week, so there is no need for an in-memory cache. The backend would expose the same `/ref/api/v1` endpoints so the frontend requires no changes.
@@ -165,47 +182,6 @@ A stateless media streaming proxy between S3 and the browser. It exists to separ
 
 ---
 
-### 4. aoe-data-services
-
-**Java 17 / Spring Boot 3.5** | Port 8001 | Context path `/meta`
-
-An OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting) provider. Exposes AOE material metadata in standardized XML format so external library catalogs, institutional repositories, and metadata aggregators can harvest it.
-
-**This is an outward-facing integration service.** No AOE service calls it — only external harvesters do.
-
-**Data flow:** External harvester → data-services → web-backend → PostgreSQL
-
-When a harvester sends an OAI-PMH request, data-services POSTs to `https://aoe.fi/api/v1/oaipmh/metadata` on the web-backend with date range and pagination parameters. The web-backend queries PostgreSQL (joining across material, record, attachment, and all metadata tables) and returns JSON. Data-services then transforms this into LRMI/DublinCore XML.
-
-**Two endpoint variants:**
-
-| Endpoint | Identifier Format | Behavior |
-|---|---|---|
-| `/meta/oaipmh` | `oai:aoe.fi:{id}` | Standard harvesting, includes deleted records |
-| `/meta/v2/oaipmh` | `oai:aoe.fi:{id}-{date}` | URN-based, all versions, omits deleted records |
-
-**OAI-PMH verbs supported:** `Identify`, `ListRecords`, `ListIdentifiers`, `GetRecords`
-
-**Output format:** OAI-PMH XML wrapping DublinCore (`dc:`) and LRMI-FI (`lrmi_fi:`) metadata — titles, descriptions, authors, keywords, educational levels, accessibility features, licenses, curriculum alignments, language codes, and linked resources.
-
-**Pagination:** 20 records per page via resumption tokens.
-
-Stateless — no direct database connections. 512MB JVM heap.
-
-#### Future: Merge into web-backend
-
-This service is a candidate for removal: simplify the architecture and eliminate Java from the stack.
-
-The backend already has the OAI-PMH query logic that data-services calls (`/api/v1/oaipmh/metadata`). The only thing data-services adds is the JSON-to-XML transformation into LRMI/DublinCore format. This transformation would be reimplemented in TypeScript and the OAI-PMH endpoints served directly from the backend.
-
-**The XML output must be identical to the current Java implementation.** External harvesters depend on the exact format. Integration tests should compare the new TypeScript output against the existing Java service's responses to verify byte-level correctness before cutover.
-
-**What this removes:** One ECS service, one CDK stack, one container image, one deployment pipeline, and one of the two Java/Spring Boot services.
-
-**What this requires:** Reimplementing the JAXB-based XML serialization (OAI-PMH envelope, DublinCore, LRMI-FI metadata) in TypeScript, and integration tests that validate output parity.
-
----
-
 ## Technology Summary
 
 | Service | Language | Framework | Port |
@@ -213,7 +189,6 @@ The backend already has the OAI-PMH query logic that data-services calls (`/api/
 | web-frontend | TypeScript | Angular 20 + OpenResty/Nginx | 8080 |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
 | streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
-| data-services | Java 17 | Spring Boot 3.5 | 8001 |
 
 ## Shared Infrastructure
 

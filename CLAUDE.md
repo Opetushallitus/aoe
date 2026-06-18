@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) is a microservices-based web application for managing and distributing educational resources. The monorepo contains Node.js/TypeScript services (aoe-web-backend, aoe-web-frontend, aoe-streaming-app), a Spring Boot/Java service (aoe-data-services), and AWS CDK infrastructure (aoe-infra).
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) is a microservices-based web application for managing and distributing educational resources. The monorepo contains Node.js/TypeScript services (aoe-web-backend, aoe-web-frontend, aoe-streaming-app) and AWS CDK infrastructure (aoe-infra).
 
 ## Local Development
 

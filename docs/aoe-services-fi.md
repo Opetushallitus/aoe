@@ -56,7 +56,6 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 | Palvelu           | Miten                                                                                                                                                                                                                                                                                                                                                                                             |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **streaming-app** | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
-| **data-services** | Ei suoria kutsuja. Data-services kutsuu backendiä, ei toisin päin.                                                                                                                                                                                                                                                                                                                                |
 
 **Tunnistautuminen:** OIDC Passport.js:n kautta. Selvittää issuerin osoitteesta `PROXY_URI`, ohjaa käyttäjät kirjautumaan scopeilla `openid profile offline_access`, käsittelee paluun osoitteessa `/api/secure/redirect` ja luo uudet käyttäjät automaattisesti PostgreSQL:ään.
 
@@ -115,6 +114,25 @@ Kaikki polun `/api/v2/statistics` alla, vaativat tunnistautumisen:
 
 Kaikki rajapinnat hyväksyvät päivämäärävälin parametreina (`since`, `until`) ja palauttavat aggregoidut tulokset.
 
+#### OAI-PMH-metadatarajapinta
+
+OAI-PMH-palvelu (Open Archives Initiative Protocol for Metadata Harvesting). Julkaisee AOE-materiaalien metatiedot standardoidussa XML-muodossa, jotta ulkoiset kirjastoluettelot, institutionaaliset repositoriot ja metadatan aggregaattorit voivat haravoida ne. Kutsuu materiaalimetadatan kyselylogiikkaa prosessin sisäisesti (ei sisäistä HTTP-hyppyä).
+
+**Tämä on ulospäin näkyvä integraatiorajapinta** — vain ulkoiset harvesterit kutsuvat sitä.
+
+**Kaksi endpoint-varianttia:**
+
+| Endpoint          | Tunnisteen muoto           | Toiminta                                                        |
+| ----------------- | -------------------------- | --------------------------------------------------------------- |
+| `/meta/oaipmh`    | `oai:<domain>:{id}`        | Normaali haravointi, sisältää poistetut tietueet                |
+| `/meta/v2/oaipmh` | `oai:<domain>:{id}-{date}` | URN-pohjainen, kaikki versiot, ei sisällä poistettuja tietueita |
+
+**Tuetut OAI-PMH-verbit:** `Identify`, `ListRecords`, `ListIdentifiers`, `GetRecords`
+
+**Tulostusmuoto:** OAI-PMH XML, joka kapseloi DublinCore- (`dc:`) ja LRMI-FI- (`lrmi_fi:`) metadatan — otsikot, kuvaukset, tekijät, asiasanat, koulutusasteet, saavutettavuusominaisuudet, lisenssit, opetussuunnitelmakohdistukset, kielikoodit ja linkitetyt resurssit.
+
+**Sivutus:** 20 tietuetta sivua kohden resumption tokenien avulla (yksinkertaisia sivuindeksilukuja).
+
 #### Tulevaisuus: poistetaan Redis
 
 Redis-välimuistin sijaan viitetiedot tallennettaisiin PostgreSQL:ään — data päivittyy vain kerran viikossa, joten erilliselle välimuistille ei ole tarvetta. Backend tarjoaisi samat `/ref/api/v1`-endpointit, joten frontendiin ei tarvittaisi muutoksia.
@@ -147,41 +165,3 @@ Tilaton mediasuoratoistoproxy S3:n ja selaimen välissä. Sen tarkoitus on erott
 - `HEAD /stream/api/v1/material/:filename` — palauttaa tiedoston metatiedot (käytetään web-backendin terveystarkistuksessa)
 - `GET /health` — terveystarkistus
 
----
-
-## 4. aoe-data-services
-
-**Java 17 / Spring Boot 3.5** | Endpoint `/meta`
-
-OAI-PMH-palvelu (Open Archives Initiative Protocol for Metadata Harvesting). Julkaisee AOE-materiaalien metatiedot standardoidussa XML-muodossa, jotta ulkoiset kirjastoluettelot, institutionaaliset repositoriot ja metadatan aggregaattorit voivat haravoida ne.
-
-**Tämä on ulospäin näkyvä integraatiopalvelu.** Mikään AOE-palvelu ei kutsu sitä — vain ulkoiset harvesterit.
-
-**Datan kulku:** Ulkoinen harvesteri → data-services → web-backend → PostgreSQL
-
-Kun harvesteri lähettää OAI-PMH-pyynnön, data-services tekee POST-pyynnön web-backendin osoitteeseen `https://aoe.fi/api/v1/oaipmh/metadata` päivämääräväli- ja sivutusparametreilla. Web-backend kutsuu PostgreSQL:ää ja palauttaa JSONin. Data-services muuntaa tämän sitten LRMI/DublinCore-XML:ksi.
-
-**Kaksi endpoint-varianttia:**
-
-| Endpoint          | Tunnisteen muoto         | Toiminta                                                        |
-| ----------------- | ------------------------ | --------------------------------------------------------------- |
-| `/meta/oaipmh`    | `oai:aoe.fi:{id}`        | Normaali haravointi, sisältää poistetut tietueet                |
-| `/meta/v2/oaipmh` | `oai:aoe.fi:{id}-{date}` | URN-pohjainen, kaikki versiot, ei sisällä poistettuja tietueita |
-
-**Tuetut OAI-PMH-verbit:** `Identify`, `ListRecords`, `ListIdentifiers`, `GetRecords`
-
-**Tulostusmuoto:** OAI-PMH XML, joka kapseloi DublinCore- (`dc:`) ja LRMI-FI- (`lrmi_fi:`) metadatan — otsikot, kuvaukset, tekijät, asiasanat, koulutusasteet, saavutettavuusominaisuudet, lisenssit, opetussuunnitelmakohdistukset, kielikoodit ja linkitetyt resurssit.
-
-Tilaton — ei suoria tietokantayhteyksiä
-
-#### Tulevaisuus: yhdistetään web-backendiin
-
-Tämä palvelu on ehdolla poistettavaksi arkkitehtuurin yksinkertaistamiseksi.
-
-Backendissä on jo OAI-PMH-kyselylogiikka, jota data-services kutsuu (`/api/v1/oaipmh/metadata`). Ainoa asia, jonka data-services lisää, on JSONin muuntaminen LRMI/DublinCore-muotoiseksi XML:ksi. Tämä muunnos toteutettaisiin uudelleen TypeScriptillä ja OAI-PMH-endpointit tarjottaisiin suoraan backendistä.
-
-**XML-ulostulon on oltava identtinen nykyisen Java-toteutuksen kanssa.** Ulkoiset harvesterit ovat riippuvaisia formaatista. Integraatiotestien tulisi verrata uutta TypeScript toteutusta nykyisen Java-palvelun vastauksiin, jotta tavutason oikeellisuus voidaan varmistaa ennen käyttöönottoa.
-
-**Mitä tämä poistaa:** Yhden ECS-palvelun, yhden CDK-stackin, yhden docker imagen, yhden julkaisuputken ja toisen kahdesta Java/Spring Boot -palvelusta.
-
-**Mitä tämä vaatii:** Palvelun toteuttamisen uudelleen TypeScriptillä sekä integraatiotestit, jotka varmistavat rajapinnan toiminnan samanlaiseksi kuin ennenkin.
