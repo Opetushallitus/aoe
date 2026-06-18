@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": false,
@@ -27,7 +27,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "preset": "none",
       "complexity": {
         "noUselessTernary": "error",
         "noUselessUndefinedInitialization": "error"
@@ -67,7 +67,7 @@
       "includes": ["playwright/**/*.ts"],
       "linter": {
         "rules": {
-          "recommended": true
+          "preset": "recommended"
         }
       }
     }
