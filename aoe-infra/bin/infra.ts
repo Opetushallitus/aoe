@@ -505,8 +505,4 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     serviceName: 'aoe-streaming-app',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  new EmptyStack(app, 'DataServicesEcrStack', {
-    env: envEU,
-    stackName: 'aoe-data-services-ecr'
-  })
 }
