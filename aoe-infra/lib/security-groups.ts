@@ -22,7 +22,6 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly bastionSecurityGroup: ec2.SecurityGroup
   public readonly openSearchSecurityGroup: ec2.SecurityGroup
   public readonly streamingServiceSecurityGroup: ec2.SecurityGroup
-  public readonly dataServicesSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup
   public readonly efsSecurityGroup: ec2.SecurityGroup
   public readonly webFrontendServiceSecurityGroup: ec2.SecurityGroup
@@ -96,11 +95,6 @@ export class SecurityGroupStack extends cdk.Stack {
       }
     )
 
-    this.dataServicesSecurityGroup = new ec2.SecurityGroup(this, 'DataServicesSecurityGroup', {
-      vpc: props.vpc,
-      allowAllOutbound: true
-    })
-
     // Security Group rules
     this.efsSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(2049))
 
@@ -123,19 +117,10 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(6379)
     )
 
-    this.dataServicesSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
-
-    this.dataServicesSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
-
     this.webBackendsServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
 
     this.webBackendsServiceSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
-      ec2.Port.tcp(8080)
-    )
-
-    this.webBackendsServiceSecurityGroup.addIngressRule(
-      this.dataServicesSecurityGroup,
       ec2.Port.tcp(8080)
     )
 

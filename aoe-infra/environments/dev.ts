@@ -7,20 +7,6 @@ export const dev: EnvironmentConfig = {
     domain: 'dev.aoe.fi'
   },
   services: {
-    data_services: {
-      cpu_limit: '512',
-      memory_limit: '1024',
-      min_count: 1,
-      max_count: 1,
-      allow_ecs_exec: true,
-      env_vars: {
-        SPRING_PROFILES_ACTIVE: 'prod',
-        SERVER_PORT: '8080',
-        AOE_OAIIDENTIFIER_REPOSITORYIDENTIFIER: 'dev.aoe.fi',
-        AOE_REQUEST_PERPAGE: '20',
-        AOE_REQUEST_URL: 'http://web-backend.dev.aoe.local:8080/api/v1/oaipmh/metadata'
-      }
-    },
     web_frontend: {
       cpu_limit: '512',
       memory_limit: '1024',
