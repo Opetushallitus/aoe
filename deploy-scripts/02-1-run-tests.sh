@@ -36,7 +36,6 @@ function main {
 
   if running_on_gh_actions; then
     export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
-    export AOE_DATA_SERVICES_TAG="${github_registry}aoe-data-services:${revision}"
     export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
     export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
   fi

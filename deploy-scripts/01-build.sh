@@ -15,6 +15,3 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 
 # Run web frontend buildscript
 "$repo/aoe-web-frontend/deploy-scripts/01-build.sh"
-
-# Run data services buildscript
-"$repo/aoe-data-services/deploy-scripts/01-build.sh"
