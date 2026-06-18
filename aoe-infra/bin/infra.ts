@@ -327,11 +327,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic
   })
 
-  new EmptyStack(app, 'DataServicesEcsService', {
-    env: envEU,
-    stackName: `${environmentName}-data-services`
-  })
-
   const aossPolicyStatement = new iam.PolicyStatement({
     actions: [
       'aoss:CreateIndex',
