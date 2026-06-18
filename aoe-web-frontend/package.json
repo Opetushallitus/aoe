@@ -68,7 +68,7 @@
   },
   "overrides": {
     "semver": "7.8.1",
-    "dompurify": "3.4.9",
+    "dompurify": "3.4.11",
     "esbuild": "0.28.1",
     "xml2js": "0.6.2",
     "qs": "6.15.2"
