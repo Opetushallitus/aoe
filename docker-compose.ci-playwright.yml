@@ -212,7 +212,7 @@ services:
       start_period: 30s
 
   nginx:
-    image: nginx:latest@sha256:6415da96b72a2f6ff433053df1da4bd507e45bc44b2c83dbac0ddeea80c6f066
+    image: nginx:latest@sha256:42f2d24ae18df9b5251d1cc45548085656d2335e9338fd150a24e415462d151f
     container_name: nginx
     hostname: nginx
     ports:
