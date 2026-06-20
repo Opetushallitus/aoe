@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 01-build.sh
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - name: Send build status "in progress"
         if: github.ref == 'refs/heads/main'
@@ -42,7 +42,7 @@ jobs:
     name: 02-lint.sh
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Run 02-lint.sh
         run: ./deploy-scripts/02-lint.sh
 
@@ -57,7 +57,7 @@ jobs:
     runs-on: 'ubuntu-24.04'
     steps:
       - name: Fetch history for all branches and tags
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           fetch-depth: 0
       - name: Push image
@@ -88,7 +88,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Run 02-1-run-tests.sh
         run: ./deploy-scripts/02-1-run-tests.sh
 
@@ -106,7 +106,7 @@ jobs:
     continue-on-error: true
     runs-on: 'ubuntu-24.04'
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - uses: ./.github/actions/build_status
         with:
           task: build-image
