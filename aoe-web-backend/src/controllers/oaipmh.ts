@@ -146,6 +146,10 @@ export const oaipmhHandler =
     const params = parseResult.data
     const verb = params.verb.toUpperCase()
 
+    log.debug(
+      `OAI-PMH request: verb=${params.verb} allVersions=${allVersions} from=${params.from} until=${params.until} resumptionToken=${params.resumptionToken} identifier=${params.identifier}`
+    )
+
     try {
       let verbNode: Record<string, unknown>
 
