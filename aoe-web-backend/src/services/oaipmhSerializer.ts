@@ -1,11 +1,16 @@
-import { XMLBuilder } from 'fast-xml-parser'
+import XMLBuilder from 'fast-xml-builder'
+
+const INVALID_XML_CHARS = /[\x00-\x08\x0B\x0C\x0E-\x1F￾￿]/g
+const stripInvalidXmlChars = (value: string): string => value.replace(INVALID_XML_CHARS, '')
 
 const builder = new XMLBuilder({
   ignoreAttributes: false,
   attributeNamePrefix: '@_',
   textNodeName: '#text',
   suppressEmptyNode: false,
-  format: false
+  format: false,
+  tagValueProcessor: (_name, value) => stripInvalidXmlChars(String(value)),
+  attributeValueProcessor: (_name, value) => stripInvalidXmlChars(String(value))
 })
 
 const XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
