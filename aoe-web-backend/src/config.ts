@@ -1,59 +1,35 @@
 import * as logger from '@/util/winstonLogger'
-import { z } from 'zod'
 
-const Config = z
-  .object({
-    AOE_IDENTIFY_REPOSITORY_NAME: z.string().default('OPH - AOE Open Metadata Interface'),
-    AOE_IDENTIFY_BASE_URL: z.string().default('https://aoe.fi/meta/oaipmh'),
-    AOE_IDENTIFY_BASE_URL_V2: z.string().default('https://aoe.fi/meta/v2/oaipmh'),
-    AOE_IDENTIFY_PROTOCOL_VERSION: z.string().default('2.0'),
-    AOE_IDENTIFY_ADMIN_EMAIL: z.string().default('oppimateriaalivaranto@aoe.fi'),
-    AOE_IDENTIFY_EARLIEST_DATESTAMP: z.string().default('2019-12-11T11:43:18Z'),
-    AOE_IDENTIFY_DELETED_RECORD: z.string().default('persistent'),
-    AOE_IDENTIFY_GRANULARITY: z.string().default('YYYY-MM-DDThh:mm:ssZ'),
-    AOE_IDENTIFY_COMPRESSION: z.string().optional(),
-    AOE_OAI_IDENTIFIER_SCHEME: z.string().default('oai'),
-    AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER: z.string().default('aoe.fi'),
-    AOE_OAI_IDENTIFIER_DELIMITER: z.string().default(':'),
-    AOE_OAI_IDENTIFIER_SAMPLE_IDENTIFIER: z.string().default('oai:aoe.fi:1'),
-    AOE_REQUEST_PAGE_SIZE: z.coerce.number().default(20),
-    AOE_METADATA_LRMI_LEARNING_RESOURCE_TYPES: z
-      .string()
-      .default('educationalSubject,educationalLevel,educationalUse,teaches')
-      .transform((s) =>
-        s
-          .split(',')
-          .map((t) => t.trim())
-          .filter(Boolean)
-      )
-  })
-  .transform((c) => ({
-    aoe: {
-      identify: {
-        repositoryName: c.AOE_IDENTIFY_REPOSITORY_NAME,
-        baseUrl: c.AOE_IDENTIFY_BASE_URL,
-        baseUrlV2: c.AOE_IDENTIFY_BASE_URL_V2,
-        protocolVersion: c.AOE_IDENTIFY_PROTOCOL_VERSION,
-        adminEmail: c.AOE_IDENTIFY_ADMIN_EMAIL,
-        earliestDatestamp: c.AOE_IDENTIFY_EARLIEST_DATESTAMP,
-        deletedRecord: c.AOE_IDENTIFY_DELETED_RECORD,
-        granularity: c.AOE_IDENTIFY_GRANULARITY,
-        compression: c.AOE_IDENTIFY_COMPRESSION
-      },
-      oaiIdentifier: {
-        scheme: c.AOE_OAI_IDENTIFIER_SCHEME,
-        repositoryIdentifier: c.AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER,
-        delimeter: c.AOE_OAI_IDENTIFIER_DELIMITER,
-        sampleIdentifier: c.AOE_OAI_IDENTIFIER_SAMPLE_IDENTIFIER
-      },
-      request: {
-        pageSize: c.AOE_REQUEST_PAGE_SIZE
-      },
-      metadata: {
-        lrmiLearningResourceTypes: c.AOE_METADATA_LRMI_LEARNING_RESOURCE_TYPES
-      }
-    }
-  }))
+const aoeConfig = {
+  identify: {
+    repositoryName: 'OPH - AOE Open Metadata Interface',
+    baseUrl: process.env.AOE_IDENTIFY_BASE_URL ?? 'https://aoe.fi/meta/oaipmh',
+    baseUrlV2: process.env.AOE_IDENTIFY_BASE_URL_V2 ?? 'https://aoe.fi/meta/v2/oaipmh',
+    protocolVersion: '2.0',
+    adminEmail: 'oppimateriaalivaranto@aoe.fi',
+    earliestDatestamp: '2019-12-11T11:43:18Z',
+    deletedRecord: 'persistent',
+    granularity: 'YYYY-MM-DDThh:mm:ssZ',
+    compression: undefined as string | undefined
+  },
+  oaiIdentifier: {
+    scheme: 'oai',
+    repositoryIdentifier: process.env.AOE_OAI_IDENTIFIER_REPOSITORY_IDENTIFIER ?? 'aoe.fi',
+    delimeter: ':',
+    sampleIdentifier: 'oai:aoe.fi:1'
+  },
+  request: {
+    pageSize: 20
+  },
+  metadata: {
+    lrmiLearningResourceTypes: [
+      'educationalSubject',
+      'educationalLevel',
+      'educationalUse',
+      'teaches'
+    ]
+  }
+} as const
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
@@ -216,5 +192,5 @@ export const config = {
     asiasanat: process.env.EXTERNAL_API_FINTO_ASIASANAT as string,
     suomiKoodistot: process.env.EXTERNAL_API_SUOMI_KOODISTOT as string
   } as const,
-  aoe: Config.parse(process.env).aoe
+  aoe: aoeConfig
 }

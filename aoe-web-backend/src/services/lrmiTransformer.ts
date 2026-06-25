@@ -87,14 +87,16 @@ const buildMaterial = (
   })
 }
 
-const isLearningResourceType = (alignmenttype: string, learningResourceTypes: string[]): boolean =>
-  learningResourceTypes.some((t) => t.toLowerCase() === alignmenttype.toLowerCase())
+const isLearningResourceType = (
+  alignmenttype: string,
+  learningResourceTypes: readonly string[]
+): boolean => learningResourceTypes.some((t) => t.toLowerCase() === alignmenttype.toLowerCase())
 
 const buildLearningResource = (
   educationallevel: AoeMetadata['educationallevel'],
   educationaluse: AoeMetadata['educationaluse'],
   alignmentobject: AoeMetadata['alignmentobject'],
-  learningResourceTypes: string[]
+  learningResourceTypes: readonly string[]
 ): Record<string, unknown> | undefined => {
   const levels = (educationallevel ?? []).filter((e) => e.value).map((e) => e.value)
   const uses = (educationaluse ?? []).filter((e) => e.value).map((e) => e.value)
@@ -133,7 +135,7 @@ const buildLearningResource = (
 
 const buildAlignmentObjects = (
   alignmentobject: AoeMetadata['alignmentobject'],
-  learningResourceTypes: string[]
+  learningResourceTypes: readonly string[]
 ): Record<string, unknown>[] | undefined => {
   const result = (alignmentobject ?? [])
     .filter((a) => !isLearningResourceType(a.alignmenttype, learningResourceTypes))
@@ -152,7 +154,7 @@ export function buildLrmiRecord(
   meta: AoeMetadata,
   opts: {
     repositoryIdentifier: string
-    learningResourceTypes: string[]
+    learningResourceTypes: readonly string[]
     allVersions: boolean
   }
 ): LrmiRecord {
