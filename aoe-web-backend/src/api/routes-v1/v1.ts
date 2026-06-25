@@ -4,7 +4,6 @@ import download from './download'
 import elasticSearch from './elasticSearch'
 import legacy from './legacy'
 import material from './material'
-import oaipmh from './oaipmh'
 import upload from './upload'
 
 /**
@@ -19,6 +18,5 @@ export const v1 = (router: Router): void => {
   elasticSearch(router)
   legacy(router)
   material(router)
-  oaipmh(router)
   upload(router)
 }

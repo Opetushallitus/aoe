@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { FetchMetadataParamsSchema, OaiPmhParamsSchema } from '@/models/oaipmh'
+import { OaiPmhParamsSchema } from '@/models/oaipmh'
 import { fetchMaterialMetadata } from '@query/oaipmh'
 import { buildLrmiRecord } from '@services/lrmiTransformer'
 import { buildXml, toOaiDate } from '@services/oaipmhSerializer'
@@ -110,26 +110,6 @@ const buildListVerbNode = async (
       '@_cursor': resumptionToken * pageSize,
       '#text': nextPage < result.pageTotal ? String(nextPage) : ''
     }
-  }
-}
-
-export const getMaterialMetaData = async (req: Request, res: Response): Promise<void> => {
-  const parsed = FetchMetadataParamsSchema.safeParse(req.body)
-  if (!parsed.success) {
-    res.status(400).json({ message: 'Invalid request body' }).end()
-    return
-  }
-
-  log.debug(
-    `OAI-PMH: allversions=${parsed.data.allVersions} dateMin=${parsed.data.dateMin}, dateMax=${parsed.data.dateMax}, materialPerPage=${parsed.data.materialPerPage}, pageNumber=${parsed.data.pageNumber}`
-  )
-
-  try {
-    const result = await fetchMaterialMetadata(parsed.data)
-    res.status(200).json(result)
-  } catch (err) {
-    log.error('Fetching metadata batch failed at OAI-PMH API endpoint', err)
-    res.status(500).json({ error: err }).end()
   }
 }
 
