@@ -162,11 +162,12 @@ const searchSeedMaterialByName = async (
       (entry: { materialname?: string }) =>
         typeof entry?.materialname === 'string' && entry.materialname === searchName
     )
-    if (exactName && typeof result?.id === 'number') {
+    const id = Number(result?.id)
+    if (exactName && Number.isInteger(id)) {
       if (type === 'rich') {
-        return { type: 'rich', id: result.id, name, updatedName: searchName }
+        return { type: 'rich', id, name, updatedName: searchName }
       }
-      return { type, id: result.id, name }
+      return { type, id, name }
     }
   }
 
