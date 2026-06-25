@@ -174,11 +174,6 @@ const searchSeedMaterialByName = async (
   return null
 }
 
-type ContentUploader = (
-  api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
-  educationalMaterialId: number
-) => Promise<number>
-
 const createContainer = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
   name: string
@@ -196,22 +191,24 @@ const createContainer = async (
   return Number((await res.json()).id)
 }
 
-const uploadFile =
-  (fileBuffer: Buffer): ContentUploader =>
-  async (api, educationalMaterialId) => {
-    const res = await api.post(`/api/v2/material/file/${educationalMaterialId}/upload`, {
-      multipart: {
-        file: { name: FILE_NAME, mimeType: 'application/pdf', buffer: fileBuffer },
-        fileDetails: JSON.stringify({
-          displayName: FILE_DISPLAY_NAME,
-          language: FILE_LANGUAGE,
-          priority: 0
-        })
-      }
-    })
-    expect(res.status()).toBe(200)
-    return Number((await res.json()).material?.[0]?.id)
-  }
+const uploadFile = async (
+  api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
+  educationalMaterialId: number,
+  fileBuffer: Buffer
+): Promise<number> => {
+  const res = await api.post(`/api/v2/material/file/${educationalMaterialId}/upload`, {
+    multipart: {
+      file: { name: FILE_NAME, mimeType: 'application/pdf', buffer: fileBuffer },
+      fileDetails: JSON.stringify({
+        displayName: FILE_DISPLAY_NAME,
+        language: FILE_LANGUAGE,
+        priority: 0
+      })
+    }
+  })
+  expect(res.status()).toBe(200)
+  return Number((await res.json()).material?.[0]?.id)
+}
 
 const publishMaterial = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
@@ -226,7 +223,7 @@ const publishMaterial = async (
 
 const createMaterial = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
-  uploadContent: ContentUploader,
+  fileBuffer: Buffer,
   type: SearchSeedMaterialType,
   index: number
 ): Promise<{
@@ -237,7 +234,7 @@ const createMaterial = async (
 }> => {
   const name = getSeedName(index, type)
   const educationalMaterialId = await createContainer(api, name)
-  const materialId = await uploadContent(api, educationalMaterialId)
+  const materialId = await uploadFile(api, educationalMaterialId, fileBuffer)
   await publishMaterial(api, educationalMaterialId, buildPayload(type, materialId, index))
 
   if (type === 'rich') {
@@ -256,7 +253,7 @@ const createMaterial = async (
 
 const ensureMaterial = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
-  uploadContent: ContentUploader,
+  fileBuffer: Buffer,
   type: SearchSeedMaterialType,
   index: number
 ): Promise<SearchSeedMaterial> => {
@@ -271,7 +268,7 @@ const ensureMaterial = async (
 
   const { educationalMaterialId, name, updatedName } = await createMaterial(
     api,
-    uploadContent,
+    fileBuffer,
     type,
     index
   )
@@ -331,9 +328,9 @@ export const seedOaipmhMaterials = async (
 
   try {
     for (let i = 0; i < SEEDED_COUNT; i++) {
-      materials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'basic', i))
-      richMaterials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'rich', i))
-      archivedMaterials.push(await ensureMaterial(api, uploadFile(fileBuffer), 'archived', i))
+      materials.push(await ensureMaterial(api, fileBuffer, 'basic', i))
+      richMaterials.push(await ensureMaterial(api, fileBuffer, 'rich', i))
+      archivedMaterials.push(await ensureMaterial(api, fileBuffer, 'archived', i))
     }
 
     const window: SeededOaiPmhWindow = {
