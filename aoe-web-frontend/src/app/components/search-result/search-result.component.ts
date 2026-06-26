@@ -34,7 +34,7 @@ export class SearchResultComponent implements OnInit {
       this.changeTranslationString()
     })
     this.changeTranslationString()
-    this.downloadUrl = `${environment.backendUrl}/material/file/${this.result.id}`
+    this.downloadUrl = `${environment.backendUrlV2}/material/file/${this.result.id}/all`
 
     if (this.result.thumbnail) {
       this.thumbnailUrl = this.result.thumbnail.filepath

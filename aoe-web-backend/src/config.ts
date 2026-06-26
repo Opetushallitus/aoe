@@ -197,3 +197,16 @@ export const config = {
   } as const,
   aoe: aoeConfig
 }
+
+export const s3ClientConfig = {
+  region: config.CLOUD_STORAGE_CONFIG.region,
+  ...(!isProduction()
+    ? {
+        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
+        credentials: {
+          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
+          secretAccessKey: config.CLOUD_STORAGE_CONFIG.secretAccessKey
+        }
+      }
+    : {})
+}

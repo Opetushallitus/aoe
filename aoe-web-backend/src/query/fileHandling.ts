@@ -1,4 +1,4 @@
-import { config, isProduction } from '@/config'
+import { config, isProduction, s3ClientConfig } from '@/config'
 import {
   EducationalMaterial,
   Material,
@@ -1310,10 +1310,8 @@ const downloadAndZipFromStorage = (
   files: EntryData[]
 ): Promise<void> => {
   return new Promise((resolve, reject): void => {
-    const s3: S3Client = new S3Client({
-      region: process.env.CLOUD_STORAGE_REGION
-    } as S3ClientConfig)
-    const bucket = process.env.CLOUD_STORAGE_BUCKET
+    const s3: S3Client = new S3Client(s3ClientConfig as S3ClientConfig)
+    const bucket = config.CLOUD_STORAGE_CONFIG.bucket
     s3Zip
       .archive(
         { s3, bucket } as ArchiveOptions,

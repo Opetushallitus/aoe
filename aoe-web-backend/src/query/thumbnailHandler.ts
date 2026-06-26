@@ -27,7 +27,7 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
       const obj: any = await uploadBase64FileToStorage(
         buffer,
         fileName,
-        process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL
+        config.CLOUD_STORAGE_CONFIG.bucketThumbnail
       )
       if (req.params.edumaterialid) {
         await updateEmThumbnailData(

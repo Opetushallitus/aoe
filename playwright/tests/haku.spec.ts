@@ -15,6 +15,21 @@ test('käyttäjä voi etsiä luodun oppimateriaalin etusivun haulla', async ({
   }).toPass({ timeout: 30_000, intervals: [5000] })
 
   const hakuTulokset = await etusivu.hae(julkaistuMateriaaliNimi)
+
+  await test.step('käyttäjä voi ladata oppimateriaalin hakutuloksen lataa-painikkeesta', async () => {
+    const article = page
+      .locator('article.search-result')
+      .filter({ has: page.locator('h1 a', { hasText: julkaistuMateriaaliNimi }) })
+    const lataaLinkki = article.getByRole('link', { name: /lataa/i })
+
+    const downloadPromise = page.waitForEvent('download')
+    await lataaLinkki.click()
+    const download = await downloadPromise
+
+    expect(await download.path()).not.toBeNull()
+    expect(download.suggestedFilename()).not.toBe('')
+  })
+
   const avattuMateriaali = await hakuTulokset.clickMateriaali(julkaistuMateriaaliNimi)
   await avattuMateriaali.expectHeading(julkaistuMateriaaliNimi)
 })
