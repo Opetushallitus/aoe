@@ -8,6 +8,7 @@ import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
+import { Readable } from 'stream'
 import { StatusError } from './errorHandler'
 
 export const s3 = new S3Client(s3ClientConfig)
@@ -166,13 +167,21 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
 
       if (isOfficeMimeType(file.mimetype)) {
         const pdfKey: string = `${file.filekey.substring(0, file.filekey.lastIndexOf('.'))}.pdf`
-        downstreamAndConvertOfficeFileToPDF(file.filekey).then((path: string) => {
-          uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
-            (obj: any) => {
-              void updatePdfKey(obj.Key, file.id)
+        downstreamAndConvertOfficeFileToPDF(file.filekey)
+          .then((path) => {
+            if (!path) {
+              return
             }
-          )
-        })
+            return uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
+              (obj: any) => {
+                void updatePdfKey(obj.Key, file.id)
+              }
+            )
+          })
+          // Fire-and-forget: catch so a failure isn't an unhandled rejection.
+          .catch((err) => {
+            log.error(`PDF conversion/upload failed for [${file.filekey}]`, err)
+          })
       }
     }
   } catch (err) {
@@ -203,34 +212,35 @@ const getFilesWithoutPDF = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string | null> => {
   const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`
   const filename: string = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
-  const readStream = s3StreamBody(
-    (
-      await s3.send(
-        new GetObjectCommand({
-          Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
-          Key: key
-        })
-      )
-    ).Body
-  )
-  return new Promise<string>((resolve, reject) => {
+  let readStream: Readable
+  try {
+    // v3 rejects send() on missing-key/access errors before returning a Body.
+    readStream = s3StreamBody(
+      (
+        await s3.send(
+          new GetObjectCommand({
+            Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
+            Key: key
+          })
+        )
+      ).Body
+    )
+  } catch (err: any) {
+    if (err?.name === 'NoSuchKey') {
+      log.debug(`Requested file [${key}] not found`)
+      return null
+    }
+    throw err
+  }
+  return new Promise<string | null>((resolve, reject) => {
     const ws: WriteStream = fs
       .createWriteStream(folderpath)
       .once('error', (err: Error): void => {
-        if (err.name === 'NoSuchKey') {
-          log.debug(`Requested file [${key}] not found`)
-          resolve(null)
-        } else if (err.name === 'TimeoutError') {
-          log.debug('Connection closed by timeout event.')
-          resolve(null)
-        } else {
-          log.debug('S3 connection failed', err)
-          reject(err)
-          throw err
-        }
+        log.error('Writing downstreamed file to disk failed', err)
+        reject(err)
       })
       .once('close', async (): Promise<void> => {
         try {

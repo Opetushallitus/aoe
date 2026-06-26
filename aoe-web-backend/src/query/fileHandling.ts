@@ -455,17 +455,17 @@ export const uploadFileToMaterial = async (
     if (isOfficeMimeType(file.mimetype)) {
       const keyPDF: string = `${fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.'))}.pdf`
       // Downstream an office file and convert to PDF in the local file system (linked disk storage).
-      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(
-        async (pathPDF: string): Promise<void> => {
-          // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
-          await uploadFileToStorage(pathPDF, keyPDF, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
-            async (pdfS3: SendData): Promise<void> => {
-              // Save the material's PDF key to indicate the availability of a PDF version.
-              await updatePdfKey(pdfS3.Key, recordID)
-            }
-          )
-        }
-      )
+      const pathPDF = await downstreamAndConvertOfficeFileToPDF(fileS3.Key)
+      if (pathPDF) {
+        // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
+        const pdfS3: SendData = await uploadFileToStorage(
+          pathPDF,
+          keyPDF,
+          config.CLOUD_STORAGE_CONFIG.bucketPDF
+        )
+        // Save the material's PDF key to indicate the availability of a PDF version.
+        await updatePdfKey(pdfS3.Key, recordID)
+      }
     }
   } catch (err) {
     await Material.update(
@@ -1106,20 +1106,20 @@ export const directoryDownloadFromStorage = async (
   },
   targetPath: string
 ): Promise<void> => {
-  const streamS3 = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body).once(
-    'error',
-    (err: Error): void => {
-      if (err.name === 'NoSuchKey') {
-        log.debug(`S3 requested key [${paramsS3.Key}] not found`)
-        return
-      } else if (err.name === 'TimeoutError') {
-        log.debug('S3 connection closed by timeout event.')
-        return
-      } else {
-        throw err
-      }
+  let streamS3: Readable
+  try {
+    // v3 rejects send() on missing-key/access errors before returning a Body.
+    streamS3 = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body)
+  } catch (err: any) {
+    if (err?.name === 'NoSuchKey') {
+      // Record exists (caller checked) but object is gone: throw so the caller pages on-call.
+      throw new StatusError(
+        404,
+        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+      )
     }
-  )
+    throw err
+  }
   const writeStream: WriteStream = fs.createWriteStream(targetPath)
   const pipeline = promisify(stream.pipeline)
   await pipeline(streamS3, writeStream)
@@ -1145,10 +1145,20 @@ export const downloadFromStorage = async (
   const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
   let fileStream: Readable
   try {
+    // v3 rejects send() on missing-key/access errors before returning a Body.
     fileStream = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body)
-  } catch (err: unknown) {
+  } catch (err: any) {
+    if (err?.name === 'NoSuchKey') {
+      // Record exists (caller checked) but object is gone: page on-call, return honest 404.
+      log.error(
+        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+      )
+      res.status(404)
+      return false
+    }
+    // Emit the 500 here and return; throwing too would make the caller next() again.
     next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
-    throw err
+    return false
   }
   return new Promise((resolve, reject): void => {
     if (isZip) {
@@ -1160,19 +1170,7 @@ export const downloadFromStorage = async (
         })
       fileStream
         .once('error', (err: Error): void => {
-          if (err.name === 'NoSuchKey') {
-            log.debug(`Requested file ${origFilename} not found`)
-            res.status(404)
-            resolve(false)
-          } else if (err.name === 'TimeoutError') {
-            log.debug('Connection closed by timeout event.')
-            res.end()
-            resolve(false)
-          } else {
-            log.debug('S3 connection failed', err)
-            reject(err)
-            throw err
-          }
+          reject(err)
         })
         // Write the compressed file to the host directory.
         .pipe(writeStream)
@@ -1180,19 +1178,7 @@ export const downloadFromStorage = async (
       res.attachment(origFilename || key)
       fileStream
         .once('error', (err: Error): void => {
-          if (err.name === 'NoSuchKey') {
-            log.debug(`Requested file ${origFilename} not found`)
-            res.status(404)
-            resolve(false)
-          } else if (err.name === 'TimeoutError') {
-            log.debug('Connection closed by timeout event.')
-            res.end()
-            resolve(false)
-          } else {
-            log.debug('S3 connection failed', err)
-            reject(err)
-            throw err
-          }
+          reject(err)
         })
         // Wait for 'end' event for readable stream.
         .once('end', (): void => {
