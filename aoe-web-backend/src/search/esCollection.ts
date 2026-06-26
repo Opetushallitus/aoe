@@ -1,3 +1,4 @@
+import { isProduction } from '@/config'
 import { db } from '@resource/postgresClient'
 import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService'
 import * as log from '@util/winstonLogger'
@@ -8,7 +9,7 @@ import AWS from 'aws-sdk'
 import { Client, ApiResponse } from '@opensearch-project/opensearch'
 import { performBulkOperation } from '@search/es'
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = isProduction()
 
 const client = new Client(
   isProd

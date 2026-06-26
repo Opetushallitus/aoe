@@ -1,7 +1,7 @@
 import AWS, { S3 } from 'aws-sdk'
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 
-import { config } from '@/config'
+import { config, isProduction } from '@/config'
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
@@ -13,7 +13,7 @@ import libre from 'libreoffice-convert'
 import stream from 'stream'
 import { StatusError } from './errorHandler'
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = isProduction()
 const configS3: ServiceConfigurationOptions = {
   region: config.CLOUD_STORAGE_CONFIG.region,
   ...(!isProd

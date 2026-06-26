@@ -33,6 +33,9 @@ const aoeConfig = {
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
+// Single source of truth for the runtime environment.
+export const isProduction = (): boolean => process.env.NODE_ENV === 'production'
+
 // Check that mandatory environment variables are available and report missing ones on exit.
 const missingEnvs: string[] = []
 process.env.ENV || missingEnvs.push('ENV')

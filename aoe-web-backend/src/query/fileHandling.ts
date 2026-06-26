@@ -1,4 +1,4 @@
-import { config } from '@/config'
+import { config, isProduction } from '@/config'
 import {
   EducationalMaterial,
   Material,
@@ -37,7 +37,7 @@ import SendData = ManagedUpload.SendData
 import StreamZip from 'node-stream-zip'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = isProduction()
 
 // AWS and S3 configurations.
 const configAWS: ServiceConfigurationOptions = {

@@ -1,4 +1,5 @@
 import { StatusError } from '@/helpers/errorHandler'
+import { isProduction } from '@/config'
 import { ISearchIndexMap } from '@aoe/search/es'
 import { getPopularityQuery } from '@query/analyticsQueries'
 import { db } from '@resource/postgresClient'
@@ -22,7 +23,7 @@ import AWS from 'aws-sdk'
  * Elastisearch client configuration
  */
 const index: string = process.env.ES_INDEX
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = isProduction()
 
 const client = new Client(
   isProd

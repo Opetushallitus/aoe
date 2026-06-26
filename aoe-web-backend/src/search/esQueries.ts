@@ -1,5 +1,6 @@
 // <reference path="es.ts" />
 import { StatusError } from '@/helpers/errorHandler'
+import { isProduction } from '@/config'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import {
@@ -18,7 +19,7 @@ import AWS from 'aws-sdk'
 import { ApiResponse, Client } from '@opensearch-project/opensearch'
 
 const index: string = process.env.ES_INDEX
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = isProduction()
 
 const client = new Client(
   isProd
