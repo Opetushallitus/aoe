@@ -1,3 +1,4 @@
+import { S3ClientConfig } from '@aws-sdk/client-s3'
 import * as logger from '@/util/winstonLogger'
 
 const aoeConfig = {
@@ -197,7 +198,7 @@ export const config = {
   aoe: aoeConfig
 }
 
-export const s3ClientConfig = {
+export const s3ClientConfig: S3ClientConfig = {
   region: config.CLOUD_STORAGE_CONFIG.region,
   ...(!isProduction()
     ? {

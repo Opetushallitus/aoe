@@ -1,19 +1,16 @@
-import AWS, { S3 } from 'aws-sdk'
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
 import { config, s3ClientConfig } from '@/config'
-import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
+import { downloadFromStorage, s3StreamBody, uploadFileToStorage } from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
-import { AWSError } from 'aws-sdk'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
-import stream from 'stream'
 import { StatusError } from './errorHandler'
 
-AWS.config.update(s3ClientConfig)
-export const s3: S3 = new AWS.S3()
+export const s3 = new S3Client(s3ClientConfig)
 
 const officeMimeTypes = [
   // .doc
@@ -206,19 +203,23 @@ const getFilesWithoutPDF = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+  const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`
+  const filename: string = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
+  const readStream = s3StreamBody(
+    (
+      await s3.send(
+        new GetObjectCommand({
+          Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
+          Key: key
+        })
+      )
+    ).Body
+  )
   return new Promise<string>((resolve, reject) => {
-    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`
-    const filename: string = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
-    const stream: stream = s3
-      .getObject({
-        Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
-        Key: key
-      })
-      .createReadStream()
     const ws: WriteStream = fs
       .createWriteStream(folderpath)
-      .once('error', (err: AWSError): void => {
+      .once('error', (err: Error): void => {
         if (err.name === 'NoSuchKey') {
           log.debug(`Requested file [${key}] not found`)
           resolve(null)
@@ -240,7 +241,7 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
           return reject(e)
         }
       })
-    stream
+    readStream
       .on('error', (err): void => {
         reject(err)
         log.error('Error in downstreamAndConvertOfficeFileToPDF()', err)

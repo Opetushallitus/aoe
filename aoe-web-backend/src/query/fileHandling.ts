@@ -12,14 +12,18 @@ import {
   isOfficeMimeType,
   updatePdfKey
 } from '@/helpers/officeToPdfConverter'
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3'
+import {
+  CompleteMultipartUploadCommandOutput,
+  GetObjectCommand,
+  PutObjectCommandInput,
+  S3Client
+} from '@aws-sdk/client-s3'
+import { Upload } from '@aws-sdk/lib-storage'
 import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
 import * as log from '@util/winstonLogger'
 import { EntryData } from 'archiver'
-import AWS, { AWSError, S3 } from 'aws-sdk'
-import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
@@ -32,12 +36,24 @@ import stream, { PassThrough, Readable } from 'stream'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
-import SendData = ManagedUpload.SendData
 import StreamZip from 'node-stream-zip'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
-// AWS and S3 configurations.
-AWS.config.update(s3ClientConfig)
+// Upload result type from @aws-sdk/lib-storage; superset of the legacy
+// ManagedUpload.SendData (exposes Location/Key/Bucket/ETag).
+type SendData = CompleteMultipartUploadCommandOutput
+
+// S3Client is reusable and thread-safe; share one instance across all S3 calls.
+const s3Client = new S3Client(s3ClientConfig)
+
+// GetObject's Body is a browser/Node union incl. undefined; in Node it is always
+// a Readable. Narrow with a runtime check instead of an unchecked `as` cast.
+export const s3StreamBody = (body: unknown): Readable => {
+  if (!(body instanceof Readable)) {
+    throw new StatusError(502, 'S3 GetObject returned a non-stream body')
+  }
+  return body
+}
 
 // define multer storage
 const storage: StorageEngine = multer.diskStorage({
@@ -854,9 +870,8 @@ export const uploadFileToStorage = (
   bucketName: string,
   materialMeta?: Material
 ): Promise<SendData> => {
-  const s3: S3 = new AWS.S3()
   const passThrough: PassThrough = new stream.PassThrough()
-  let putObjectS3: S3.PutObjectRequest = {
+  let putObjectS3: PutObjectCommandInput = {
     Bucket: bucketName,
     Key: fileName,
     Body: passThrough
@@ -879,8 +894,9 @@ export const uploadFileToStorage = (
       })
       .pipe(passThrough)
     // Upstream a locally stored file to the cloud storage from the streaming passthrough.
-    s3.upload(putObjectS3)
-      .promise()
+    // Body is a stream of unknown length, so use lib-storage's multipart Upload.
+    new Upload({ client: s3Client, params: putObjectS3 })
+      .done()
       .then((resp: SendData): void => {
         resolve(resp)
       })
@@ -906,45 +922,26 @@ export async function uploadBase64FileToStorage(
   filename: string,
   bucketName: string
 ): Promise<any> {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const s3 = new AWS.S3()
-      try {
-        const params = {
-          Bucket: bucketName,
-          Key: filename,
-          Body: base64data
-        }
-        const startTime: number = Date.now()
-        s3.upload(params, (err: any, data: any) => {
-          if (err) {
-            log.error(
-              'Reading file from the local file system failed in uploadBase64FileToStorage(): ' +
-                err
-            )
-            reject(err)
-          }
-          if (data) {
-            log.debug(
-              'Uploading file to the cloud object storage completed in ' +
-                (Date.now() - startTime) / 1000 +
-                's'
-            )
-            resolve(data)
-          }
-        })
-      } catch (err) {
-        log.error(
-          'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' +
-            err
-        )
-        reject(err)
-      }
-    } catch (err) {
-      log.error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
-      reject(err)
+  try {
+    const params = {
+      Bucket: bucketName,
+      Key: filename,
+      Body: base64data
     }
-  })
+    const startTime: number = Date.now()
+    // Callers read Location/Key/Bucket off the result, so use lib-storage's Upload
+    // (PutObjectCommandOutput does not expose those fields).
+    const data = await new Upload({ client: s3Client, params }).done()
+    log.debug(
+      'Uploading file to the cloud object storage completed in ' +
+        (Date.now() - startTime) / 1000 +
+        's'
+    )
+    return data
+  } catch (err) {
+    log.error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
+    throw err
+  }
 }
 
 /**
@@ -1109,11 +1106,9 @@ export const directoryDownloadFromStorage = async (
   },
   targetPath: string
 ): Promise<void> => {
-  const s3: S3 = new AWS.S3()
-  const streamS3: Readable = s3
-    .getObject(paramsS3)
-    .createReadStream()
-    .once('error', (err: AWSError): void => {
+  const streamS3 = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body).once(
+    'error',
+    (err: Error): void => {
       if (err.name === 'NoSuchKey') {
         log.debug(`S3 requested key [${paramsS3.Key}] not found`)
         return
@@ -1123,7 +1118,8 @@ export const directoryDownloadFromStorage = async (
       } else {
         throw err
       }
-    })
+    }
+  )
   const writeStream: WriteStream = fs.createWriteStream(targetPath)
   const pipeline = promisify(stream.pipeline)
   await pipeline(streamS3, writeStream)
@@ -1138,73 +1134,71 @@ export const directoryDownloadFromStorage = async (
  * @param origFilename string Original file name without storage ID
  * @param isZip        boolean Indicator for the need of decompression
  */
-export const downloadFromStorage = (
+export const downloadFromStorage = async (
   res: Response,
   next: NextFunction,
   paramsS3: { Bucket: string; Key: string },
   origFilename: string,
   isZip?: boolean
 ): Promise<string | boolean> => {
-  const s3: S3 = new AWS.S3()
   const key: string = paramsS3.Key
+  const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
+  let fileStream: Readable
+  try {
+    fileStream = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body)
+  } catch (err: unknown) {
+    next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
+    throw err
+  }
   return new Promise((resolve, reject): void => {
-    try {
-      const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
-      const fileStream: Readable = s3.getObject(paramsS3).createReadStream()
-      if (isZip) {
-        const writeStream: WriteStream = fs
-          .createWriteStream(folderpath)
-          .once('finish', async (): Promise<void> => {
-            const response: string | boolean = await unZipAndExtract(folderpath)
-            resolve(response)
-          })
-        fileStream
-          .once('error', (err: AWSError): void => {
-            if (err.name === 'NoSuchKey') {
-              log.debug(`Requested file ${origFilename} not found`)
-              res.status(404)
-              resolve(false)
-            } else if (err.name === 'TimeoutError') {
-              log.debug('Connection closed by timeout event.')
-              res.end()
-              resolve(false)
-            } else {
-              log.debug('S3 connection failed', err)
-              reject(err)
-              throw err
-            }
-          })
-          // Write the compressed file to the host directory.
-          .pipe(writeStream)
-      } else {
-        res.attachment(origFilename || key)
-        fileStream
-          .once('error', (err: AWSError): void => {
-            if (err.name === 'NoSuchKey') {
-              log.debug(`Requested file ${origFilename} not found`)
-              res.status(404)
-              resolve(false)
-            } else if (err.name === 'TimeoutError') {
-              log.debug('Connection closed by timeout event.')
-              res.end()
-              resolve(false)
-            } else {
-              log.debug('S3 connection failed', err)
-              reject(err)
-              throw err
-            }
-          })
-          // Wait for 'end' event for readable stream.
-          .once('end', (): void => {
+    if (isZip) {
+      const writeStream: WriteStream = fs
+        .createWriteStream(folderpath)
+        .once('finish', async (): Promise<void> => {
+          const response: string | boolean = await unZipAndExtract(folderpath)
+          resolve(response)
+        })
+      fileStream
+        .once('error', (err: Error): void => {
+          if (err.name === 'NoSuchKey') {
+            log.debug(`Requested file ${origFilename} not found`)
+            res.status(404)
             resolve(false)
-          })
-          .pipe(res)
-      }
-    } catch (err: unknown) {
-      reject()
-      next(
-        new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err)
-      )
+          } else if (err.name === 'TimeoutError') {
+            log.debug('Connection closed by timeout event.')
+            res.end()
+            resolve(false)
+          } else {
+            log.debug('S3 connection failed', err)
+            reject(err)
+            throw err
+          }
+        })
+        // Write the compressed file to the host directory.
+        .pipe(writeStream)
+    } else {
+      res.attachment(origFilename || key)
+      fileStream
+        .once('error', (err: Error): void => {
+          if (err.name === 'NoSuchKey') {
+            log.debug(`Requested file ${origFilename} not found`)
+            res.status(404)
+            resolve(false)
+          } else if (err.name === 'TimeoutError') {
+            log.debug('Connection closed by timeout event.')
+            res.end()
+            resolve(false)
+          } else {
+            log.debug('S3 connection failed', err)
+            reject(err)
+            throw err
+          }
+        })
+        // Wait for 'end' event for readable stream.
+        .once('end', (): void => {
+          resolve(false)
+        })
+        .pipe(res)
     }
   })
 }
@@ -1295,11 +1289,10 @@ const downloadAndZipFromStorage = (
   files: EntryData[]
 ): Promise<void> => {
   return new Promise((resolve, reject): void => {
-    const s3: S3Client = new S3Client(s3ClientConfig as S3ClientConfig)
     const bucket = config.CLOUD_STORAGE_CONFIG.bucket
     s3Zip
       .archive(
-        { s3, bucket } as ArchiveOptions,
+        { s3: s3Client, bucket } as ArchiveOptions,
         undefined as string | undefined,
         keys as string[],
         files as EntryData[]
