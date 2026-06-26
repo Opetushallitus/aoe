@@ -1,4 +1,4 @@
-import { config, isProduction, s3ClientConfig } from '@/config'
+import { config, s3ClientConfig } from '@/config'
 import {
   EducationalMaterial,
   Material,
@@ -20,7 +20,6 @@ import * as log from '@util/winstonLogger'
 import { EntryData } from 'archiver'
 import AWS, { AWSError, S3 } from 'aws-sdk'
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload'
-import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
@@ -37,22 +36,8 @@ import SendData = ManagedUpload.SendData
 import StreamZip from 'node-stream-zip'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 
-const isProd = isProduction()
-
 // AWS and S3 configurations.
-const configAWS: ServiceConfigurationOptions = {
-  region: config.CLOUD_STORAGE_CONFIG.region,
-  ...(!isProd
-    ? {
-        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
-        credentials: {
-          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
-          secretAccessKey: config.CLOUD_STORAGE_CONFIG.secretAccessKey
-        }
-      }
-    : {})
-}
-AWS.config.update(configAWS)
+AWS.config.update(s3ClientConfig)
 
 // define multer storage
 const storage: StorageEngine = multer.diskStorage({

@@ -1,7 +1,6 @@
 import AWS, { S3 } from 'aws-sdk'
-import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 
-import { config, isProduction } from '@/config'
+import { config, s3ClientConfig } from '@/config'
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
@@ -13,20 +12,7 @@ import libre from 'libreoffice-convert'
 import stream from 'stream'
 import { StatusError } from './errorHandler'
 
-const isProd = isProduction()
-const configS3: ServiceConfigurationOptions = {
-  region: config.CLOUD_STORAGE_CONFIG.region,
-  ...(!isProd
-    ? {
-        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
-        credentials: {
-          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET
-        }
-      }
-    : {})
-}
-AWS.config.update(configS3)
+AWS.config.update(s3ClientConfig)
 export const s3: S3 = new AWS.S3()
 
 const officeMimeTypes = [
