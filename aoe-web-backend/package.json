@@ -63,7 +63,7 @@
     "node-stream-zip": "1.15.0",
     "openid-client": "6.8.4",
     "passport": "0.7.0",
-    "pg-promise": "12.6.2",
+    "pg-promise": "12.7.0",
     "redis": "5.12.1",
     "s3-zip": "3.3.3",
     "sequelize": "6.37.8",
