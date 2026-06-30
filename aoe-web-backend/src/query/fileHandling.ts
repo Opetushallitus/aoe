@@ -27,12 +27,12 @@ import { EntryData } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
-import { promisify } from 'node:util'
 import path from 'path'
 import { ColumnSet, ITask } from 'pg-promise'
 import s3Zip, { ArchiveOptions } from 's3-zip'
 import { Transaction } from 'sequelize'
 import stream, { PassThrough, Readable } from 'stream'
+import { pipeline } from 'node:stream/promises'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
@@ -1121,7 +1121,6 @@ export const directoryDownloadFromStorage = async (
     throw err
   }
   const writeStream: WriteStream = fs.createWriteStream(targetPath)
-  const pipeline = promisify(stream.pipeline)
   await pipeline(streamS3, writeStream)
 }
 
@@ -1160,33 +1159,18 @@ export const downloadFromStorage = async (
     next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
     return false
   }
-  return new Promise((resolve, reject): void => {
-    if (isZip) {
-      const writeStream: WriteStream = fs
-        .createWriteStream(folderpath)
-        .once('finish', async (): Promise<void> => {
-          const response: string | boolean = await unZipAndExtract(folderpath)
-          resolve(response)
-        })
-      fileStream
-        .once('error', (err: Error): void => {
-          reject(err)
-        })
-        // Write the compressed file to the host directory.
-        .pipe(writeStream)
-    } else {
-      res.attachment(origFilename || key)
-      fileStream
-        .once('error', (err: Error): void => {
-          reject(err)
-        })
-        // Wait for 'end' event for readable stream.
-        .once('end', (): void => {
-          resolve(false)
-        })
-        .pipe(res)
-    }
-  })
+  if (isZip) {
+    const writeStream: WriteStream = fs.createWriteStream(folderpath)
+    await pipeline(fileStream, writeStream)
+    return await unZipAndExtract(folderpath)
+  }
+  res.attachment(origFilename || key)
+  // pipeline destroys the S3 stream on finish, error, OR premature client
+  // disconnect, returning the HTTPS socket to the pool. The hand-rolled
+  // .pipe() it replaces leaked the socket on client abort (capacity=50).
+  // Errors (incl. client aborts) propagate to the caller's catch and get logged.
+  await pipeline(fileStream, res)
+  return false
 }
 
 /**
@@ -1269,28 +1253,21 @@ export const downloadAllMaterialsCompressed = async (
  * @param keys  string[] Array of object storage keys
  * @param files string[] Array of file names
  */
-const downloadAndZipFromStorage = (
+const downloadAndZipFromStorage = async (
   res: Response,
   keys: string[],
   files: EntryData[]
 ): Promise<void> => {
-  return new Promise((resolve, reject): void => {
-    const bucket = config.CLOUD_STORAGE_CONFIG.bucket
-    s3Zip
-      .archive(
-        { s3: s3Client, bucket } as ArchiveOptions,
-        undefined as string | undefined,
-        keys as string[],
-        files as EntryData[]
-      )
-      .pipe(res)
-      .on('finish', (): void => {
-        resolve()
-      })
-      .on('error', (err: Error): void => {
-        reject(err)
-      })
-  })
+  const bucket = config.CLOUD_STORAGE_CONFIG.bucket
+  const archive = s3Zip.archive(
+    { s3: s3Client, bucket } as ArchiveOptions,
+    undefined as string | undefined,
+    keys as string[],
+    files as EntryData[]
+  )
+  // pipeline destroys the archive stream on finish/error/abort, releasing S3 sockets.
+  // Any error propagates to the caller and gets logged.
+  await pipeline(archive, res)
 }
 
 /**
