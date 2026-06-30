@@ -6,14 +6,26 @@ import {
   loadDemoEnv,
   loadDevEnv,
   loadProdEnv,
-  loadQaEnv
+  loadQaEnv,
 } from './environments/environment'
 import { LocationStrategy, HashLocationStrategy } from '@angular/common'
 import { CookieService } from 'ngx-cookie-service'
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http'
 import { CredentialInterceptor, WindowRef } from './app/providers'
-import { Title, BrowserModule, bootstrapApplication } from '@angular/platform-browser'
-import { UnsavedChangesGuard, AdminGuard, DisableFormsGuard } from './app/guards'
+import {
+  Title,
+  BrowserModule,
+  bootstrapApplication,
+} from '@angular/platform-browser'
+import {
+  UnsavedChangesGuard,
+  AdminGuard,
+  DisableFormsGuard,
+} from './app/guards'
 import { DeviceDetectorService } from 'ngx-device-detector'
 import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
@@ -43,17 +55,21 @@ if (environment.production) {
 fetch('./assets/config/config.json')
   .then((resp) => resp.json())
   .then((config) => {
-    if (config.env === 'ci') {
-      loadCiEnv()
-    } else if (config.env === 'dev') {
-      loadDevEnv()
-    } else if (config.env === 'demo') {
-      loadDemoEnv()
-    } else if (config.env === 'qa') {
-      loadQaEnv()
-    } else if (config.env === 'prod') {
-      loadProdEnv()
+    const envLoaders: Record<string, () => void> = {
+      ci: loadCiEnv,
+      dev: loadDevEnv,
+      demo: loadDemoEnv,
+      qa: loadQaEnv,
+      prod: loadProdEnv,
     }
+    const loadEnv = envLoaders[config.env]
+
+    if (!loadEnv) {
+      throw new Error(
+        `Unknown config.env="${config.env}"; expected one of ${Object.keys(envLoaders).join(', ')}`,
+      )
+    }
+    loadEnv()
     bootstrapApplication(AppComponent, {
       providers: [
         importProvidersFrom(
@@ -74,17 +90,17 @@ fetch('./assets/config/config.json')
           DragDropModule,
           ToastrModule.forRoot(),
           PdfJsViewerModule,
-          NgxPaginationModule
+          NgxPaginationModule,
         ),
         {
           provide: LocationStrategy,
-          useClass: HashLocationStrategy
+          useClass: HashLocationStrategy,
         },
         CookieService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: CredentialInterceptor,
-          multi: true
+          multi: true,
         },
         Title,
         UnsavedChangesGuard,
@@ -96,10 +112,10 @@ fetch('./assets/config/config.json')
         provideTranslateService({
           loader: provideTranslateHttpLoader({
             prefix: './i18n/',
-            suffix: '.json'
-          })
+            suffix: '.json',
+          }),
         }),
-        provideAnimations()
-      ]
+        provideAnimations(),
+      ],
     }).catch((err) => console.log(err))
   })
