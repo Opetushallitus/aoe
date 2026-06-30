@@ -358,8 +358,8 @@ export class EcsServiceStack extends Stack {
           statistic: cloudwatch.Stats.SUM,
           period: Duration.minutes(5)
         }),
-        threshold: 100, // Decrease this to something like 5 once recurring errors have been fixed.
-        evaluationPeriods: 1,
+        threshold: 10,
+        evaluationPeriods: 2,
         comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
         treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
       })
