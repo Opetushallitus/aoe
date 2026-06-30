@@ -38,6 +38,7 @@ import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
 import StreamZip from 'node-stream-zip'
 import { IClient } from 'pg-promise/typescript/pg-subset'
+import { z } from 'zod'
 
 // Upload result type from @aws-sdk/lib-storage; superset of the legacy
 // ManagedUpload.SendData (exposes Location/Key/Bucket/ETag).
@@ -1043,25 +1044,37 @@ export const downloadFileFromStorage = async (
 ): Promise<any> => {
   const fileName: string = (req.params.filename as string) || (req.params.key as string)
   return new Promise(async (resolve): Promise<void> => {
+    const query = `
+      SELECT originalfilename, filesize, mimetype, materialid
+      FROM record
+      RIGHT JOIN material AS m ON m.id = materialid
+      WHERE m.obsoleted = 0 AND filekey = $1
+      UNION
+      SELECT originalfilename, filesize, mimetype, materialid
+      FROM attachment
+      WHERE filekey = $1 AND obsoleted = 0
+    `
+    const fileDetailsSchema = z.object({
+      originalfilename: z.string(),
+      filesize: z.coerce.number(),
+      mimetype: z.string(),
+      materialid: z.coerce.string()
+    })
+    const row = await db.oneOrNone(query, [fileName])
+    if (!row) {
+      return next(new StatusError(404, `Requested file ${fileName} not found.`))
+    }
+    const parsed = fileDetailsSchema.safeParse(row)
+    if (!parsed.success) {
+      return next(
+        new StatusError(
+          500,
+          `Unexpected file record for filekey=${fileName}: ${parsed.error.message}`
+        )
+      )
+    }
+    const fileDetails = parsed.data
     try {
-      const query = `
-        SELECT originalfilename, filesize, mimetype
-        FROM record
-        RIGHT JOIN material AS m ON m.id = materialid
-        WHERE m.obsoleted = 0 AND filekey = $1
-        UNION
-        SELECT originalfilename, filesize, mimetype
-        FROM attachment
-        WHERE filekey = $1 AND obsoleted = 0
-      `
-      const fileDetails: {
-        originalfilename: string
-        filesize: number
-        mimetype: string
-      } | null = await db.oneOrNone(query, [fileName])
-      if (!fileDetails) {
-        return next(new StatusError(404, `Requested file ${fileName} not found.`))
-      }
       // Check if Range HTTP header is present and the criteria for streaming service redirect are fulfilled.
       if (
         config.STREAM_REDIRECT_CRITERIA.streamEnabled &&
@@ -1086,7 +1099,11 @@ export const downloadFileFromStorage = async (
         isZip
       )
       next(
-        new StatusError(500, 'Downloading a single file failed in downloadFileFromStorage()', err)
+        new StatusError(
+          500,
+          `Downloading a single file failed in downloadFileFromStorage(): filekey=${fileName}, materialId=${fileDetails.materialid}`,
+          err
+        )
       )
     }
   })
