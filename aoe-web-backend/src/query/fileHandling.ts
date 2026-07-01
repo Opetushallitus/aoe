@@ -1093,10 +1093,15 @@ export const downloadFileFromStorage = async (
       const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip)
       resolve(resp)
     } catch (err) {
+      if ((err as NodeJS.ErrnoException)?.code === 'ERR_STREAM_PREMATURE_CLOSE') {
+        resolve(false)
+        return
+      }
       log.error(
-        'downloadFileFromStorage(): req.params.filename=%s, isZip=%s',
+        'downloadFileFromStorage(): req.params.filename=%s, isZip=%s, materialId=%s',
         req.params.filename,
-        isZip
+        isZip,
+        fileDetails.materialid
       )
       next(
         new StatusError(
