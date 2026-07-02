@@ -16,13 +16,7 @@ export class StatusError extends Error {
   }
 }
 
-/**
- * True for errors that mean the client went away mid-download, not a server fault:
- * - AbortError: the S3 request was aborted because the client disconnected (including while
- *   still queued for a socket, which the SDK otherwise never releases).
- * - ERR_STREAM_PREMATURE_CLOSE: the response stream closed before the download finished.
- * These should resolve quietly — no 500, no alarm.
- */
+// Client went away mid-download (aborted S3 request or response stream closed early): resolve quietly, no 500.
 export const isClientAbortError = (err: unknown): boolean => {
   const e = err as { name?: string; code?: string } | null | undefined
   return e?.name === 'AbortError' || e?.code === 'ERR_STREAM_PREMATURE_CLOSE'

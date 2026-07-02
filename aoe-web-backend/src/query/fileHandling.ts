@@ -1172,28 +1172,9 @@ export const downloadFromStorage = async (
   }
   res.once('close', abortOnClientDisconnect)
   try {
-    let fileStream: Readable
-    try {
-      fileStream = s3StreamBody(
-        (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal: controller.signal }))
-          .Body
-      )
-    } catch (err: any) {
-      if (isClientAbortError(err)) {
-        return false
-      }
-      if (err?.name === 'NoSuchKey') {
-        log.error(
-          `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
-        )
-        res.status(404)
-        return false
-      }
-      next(
-        new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err)
-      )
-      return false
-    }
+    const fileStream = s3StreamBody(
+      (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal: controller.signal })).Body
+    )
     if (isZip) {
       const writeStream: WriteStream = fs.createWriteStream(folderpath)
       await pipeline(fileStream, writeStream)
@@ -1201,6 +1182,19 @@ export const downloadFromStorage = async (
     }
     res.attachment(origFilename || key)
     await pipeline(fileStream, res)
+    return false
+  } catch (err: any) {
+    if (isClientAbortError(err)) {
+      return false
+    }
+    if (err?.name === 'NoSuchKey') {
+      log.error(
+        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+      )
+      res.status(404)
+      return false
+    }
+    next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
     return false
   } finally {
     res.removeListener('close', abortOnClientDisconnect)
