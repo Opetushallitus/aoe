@@ -6,7 +6,7 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
-import { StatusError } from '@/helpers/errorHandler'
+import { isClientAbortError, StatusError } from '@/helpers/errorHandler'
 import {
   downstreamAndConvertOfficeFileToPDF,
   isOfficeMimeType,
@@ -1093,7 +1093,7 @@ export const downloadFileFromStorage = async (
       const resp = await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip)
       resolve(resp)
     } catch (err) {
-      if ((err as NodeJS.ErrnoException)?.code === 'ERR_STREAM_PREMATURE_CLOSE') {
+      if (isClientAbortError(err)) {
         resolve(false)
         return
       }
@@ -1164,35 +1164,47 @@ export const downloadFromStorage = async (
 ): Promise<string | boolean> => {
   const key: string = paramsS3.Key
   const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
-  let fileStream: Readable
+  const controller = new AbortController()
+  const abortOnClientDisconnect = (): void => {
+    if (!res.writableFinished) {
+      controller.abort()
+    }
+  }
+  res.once('close', abortOnClientDisconnect)
   try {
-    // v3 rejects send() on missing-key/access errors before returning a Body.
-    fileStream = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body)
-  } catch (err: any) {
-    if (err?.name === 'NoSuchKey') {
-      // Record exists (caller checked) but object is gone: page on-call, return honest 404.
-      log.error(
-        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+    let fileStream: Readable
+    try {
+      fileStream = s3StreamBody(
+        (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal: controller.signal }))
+          .Body
       )
-      res.status(404)
+    } catch (err: any) {
+      if (isClientAbortError(err)) {
+        return false
+      }
+      if (err?.name === 'NoSuchKey') {
+        log.error(
+          `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+        )
+        res.status(404)
+        return false
+      }
+      next(
+        new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err)
+      )
       return false
     }
-    // Emit the 500 here and return; throwing too would make the caller next() again.
-    next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
+    if (isZip) {
+      const writeStream: WriteStream = fs.createWriteStream(folderpath)
+      await pipeline(fileStream, writeStream)
+      return await unZipAndExtract(folderpath)
+    }
+    res.attachment(origFilename || key)
+    await pipeline(fileStream, res)
     return false
+  } finally {
+    res.removeListener('close', abortOnClientDisconnect)
   }
-  if (isZip) {
-    const writeStream: WriteStream = fs.createWriteStream(folderpath)
-    await pipeline(fileStream, writeStream)
-    return await unZipAndExtract(folderpath)
-  }
-  res.attachment(origFilename || key)
-  // pipeline destroys the S3 stream on finish, error, OR premature client
-  // disconnect, returning the HTTPS socket to the pool. The hand-rolled
-  // .pipe() it replaces leaked the socket on client abort (capacity=50).
-  // Errors (incl. client aborts) propagate to the caller's catch and get logged.
-  await pipeline(fileStream, res)
-  return false
 }
 
 /**
