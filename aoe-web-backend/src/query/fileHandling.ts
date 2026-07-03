@@ -341,7 +341,9 @@ const detectEncyptedPDF = async (filePath: string): Promise<boolean> => {
   let tail: Buffer = Buffer.alloc(0)
   for await (const chunk of fs.createReadStream(filePath) as AsyncIterable<Buffer>) {
     const buf = Buffer.concat([tail, chunk])
-    if (buf.includes(ENCRYPT_MARKER)) return true // break auto-destroys the stream
+    if (buf.includes(ENCRYPT_MARKER)) {
+      return true // break auto-destroys the stream
+    }
     tail = buf.subarray(Math.max(0, buf.length - overlap))
   }
   return false
@@ -1184,7 +1186,11 @@ export const downloadFromStorage = async (
   res.once('close', abortOnClientDisconnect)
   try {
     const fileStream = s3StreamBody(
-      (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal: controller.signal })).Body
+      (
+        await s3Client.send(new GetObjectCommand(paramsS3), {
+          abortSignal: controller.signal
+        })
+      ).Body
     )
     if (isZip) {
       const writeStream: WriteStream = fs.createWriteStream(folderpath)
