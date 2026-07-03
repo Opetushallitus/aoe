@@ -46,7 +46,7 @@ export const qa: EnvironmentConfig = {
         CLOUD_STORAGE_BUCKET_PDF: 'aoepdf-qa',
         CLOUD_STORAGE_BUCKET_THUMBNAIL: 'aoethumbnail-qa',
         THUMBNAIL_END_POINT: '/app/thumbnail/',
-        FILE_SIZE_LIMIT: '10737418240',
+        FILE_SIZE_LIMIT: '5000000000',
         THUMBNAIL_FILE_SIZE_LIMIT: '10485760',
         REDIRECT_URI: 'https://qa.aoe.fi/api/secure/redirect',
         SUCCESS_REDIRECT_URI: '/',

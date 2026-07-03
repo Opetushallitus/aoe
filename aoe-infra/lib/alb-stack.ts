@@ -30,6 +30,7 @@ export class AlbStack extends cdk.Stack {
     // New internet-facing application load balancer, import vpc from the VpcStack
     this.alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
       vpc: props.vpc,
+      idleTimeout: cdk.Duration.seconds(300),
       vpcSubnets: {
         onePerAz: true,
         subnetType: ec2.SubnetType.PUBLIC

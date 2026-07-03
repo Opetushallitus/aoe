@@ -64,6 +64,7 @@ interface EcsServiceStackProps extends StackProps {
   serviceName: string
   listener: IApplicationListener
   listenerPathPatterns: string[]
+  ephemeralStorageGiB?: number
   albPriority: number
   healthCheckPath: string
   revision: string
@@ -177,6 +178,7 @@ export class EcsServiceStack extends Stack {
     const taskDefinition = new TaskDefinition(this, `${props.serviceName}`, {
       cpu: props.taskCpu,
       memoryMiB: props.taskMemory,
+      ephemeralStorageGiB: props.ephemeralStorageGiB,
       compatibility: Compatibility.FARGATE,
       runtimePlatform: {
         cpuArchitecture: props.cpuArchitecture,

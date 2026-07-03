@@ -409,6 +409,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       '/meta/oaipmh*',
       '/meta/v2/oaipmh*'
     ],
+    ephemeralStorageGiB: 40,
     healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,

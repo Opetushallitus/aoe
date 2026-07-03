@@ -304,10 +304,11 @@ const uploadFileToLocalDisk = (
       upload.single('file')(req, res, (err: any): void => {
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
-            throw new StatusError(413, `MULTER error`, err)
+            reject(new StatusError(413, `MULTER error`, err))
           } else {
-            throw new StatusError(500, `MULTER error`, err)
+            reject(new StatusError(500, `MULTER error`, err))
           }
+          return
         }
         resolve({
           file: req.file as MulterFile,
@@ -331,9 +332,19 @@ const uploadFileToLocalDisk = (
 
 const ENCRYPT_MARKER = Buffer.from('/Encrypt')
 
+// Scan the file as a stream for the /Encrypt marker. Reading the whole file
+// into memory (fs.readFile) throws ERR_FS_FILE_TOO_LARGE above 2 GiB and would
+// OOM on multi-GB uploads, so we scan chunk-by-chunk and keep a small overlap
+// so a marker split across a chunk boundary is still found.
 const detectEncyptedPDF = async (filePath: string): Promise<boolean> => {
-  const data = await fs.promises.readFile(filePath)
-  return data.includes(ENCRYPT_MARKER)
+  const overlap = ENCRYPT_MARKER.length - 1
+  let tail: Buffer = Buffer.alloc(0)
+  for await (const chunk of fs.createReadStream(filePath) as AsyncIterable<Buffer>) {
+    const buf = Buffer.concat([tail, chunk])
+    if (buf.includes(ENCRYPT_MARKER)) return true // break auto-destroys the stream
+    tail = buf.subarray(Math.max(0, buf.length - overlap))
+  }
+  return false
 }
 
 const deleteFileFromLocalDiskStorage = (file: MulterFile) => {

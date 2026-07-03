@@ -167,6 +167,11 @@
                 id="{{ 'file' + i }}"
                 [lang]="lang"
                 (change)="onFileChange($event, i)" />
+              @if (file.get('file')?.hasError('fileTooLarge')) {
+                <div class="invalid-feedback d-block">
+                  {{ "forms.educationalResource.files.file.errors.tooLarge" | translate }}
+                </div>
+              }
             </div>
           }
           @if (!file.get('file').value && !file.get('link').value) {

@@ -32,6 +32,7 @@ import { UploadedFile } from '@models/uploaded-file'
 import { SubtitleKind } from '@models/material/subtitle'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
+import { MAX_UPLOAD_SIZE_BYTES } from '@constants/upload'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
@@ -277,9 +278,21 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   onFileChange(event: Event, i: number): void {
-    if ((event.target as HTMLInputElement).files.length > 0) {
-      const file: File = (event.target as HTMLInputElement).files[0]
-      ;(event.target as HTMLInputElement).classList.add('has-file')
+    const input = event.target as HTMLInputElement
+    if (input.files.length > 0) {
+      const file: File = input.files[0]
+      const fileControl = this.files.at(i).get('file')
+
+      if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+        input.value = ''
+        input.classList.remove('has-file')
+        fileControl.setValue(null)
+        fileControl.setErrors({ fileTooLarge: true })
+        fileControl.markAsTouched()
+        return
+      }
+
+      input.classList.add('has-file')
 
       if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i)
@@ -289,10 +302,8 @@ export class FilesComponent implements OnInit, OnDestroy {
         subtitles.clear()
         this.videoFiles = this.videoFiles.filter((v: number): boolean => v !== i)
       }
-      this.files.at(i).get('file').setValue(file)
-      // remove extension from filename
+      fileControl.setValue(file)
       const fileName: string = file.name.replace(/\.[^/.]+$/, '').replace(textInputRe, '')
-      // this.files.at(i).get(`displayName.${this.lang}`).setValue(fileName);
       this.files.at(i).get(`displayName.fi`).setValue(fileName)
       this.files.at(i).get(`displayName.en`).setValue(fileName)
       this.files.at(i).get(`displayName.sv`).setValue(fileName)

@@ -334,6 +334,7 @@
               "addSubtitle": "Add a subtitle"
             }
           },
+          "errors": { "tooLarge": "File is too large. The maximum allowed size is 5 GB." },
           "addFile": "Add a file",
           "error": "Add at least one file or link"
         },

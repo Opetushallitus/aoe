@@ -334,6 +334,7 @@
               "addSubtitle": "Ladda upp undertexter"
             }
           },
+          "errors": { "tooLarge": "Filen är för stor. Största tillåtna storlek är 5 GB." },
           "addFile": "Tillsätt en annan fil",
           "error": "Tillsätt minst en fil eller link"
         },

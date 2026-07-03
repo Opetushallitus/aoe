@@ -334,6 +334,7 @@
               "addSubtitle": "Lisää tekstitys"
             }
           },
+          "errors": { "tooLarge": "Tiedosto on liian suuri. Suurin sallittu koko on 5 Gt." },
           "addFile": "Lisää tiedosto",
           "error": "Lisää vähintään yksi tiedosto tai linkki"
         },
