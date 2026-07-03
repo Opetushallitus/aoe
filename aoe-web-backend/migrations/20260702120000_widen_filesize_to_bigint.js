@@ -5,3 +5,6 @@ exports.up = async (knex) => {
   await knex.raw('ALTER TABLE attachment ALTER COLUMN filesize TYPE BIGINT')
   await knex.raw('ALTER TABLE temporaryattachment ALTER COLUMN filesize TYPE BIGINT')
 }
+exports.down = async (knex) => {
+  
+}
