@@ -82,7 +82,7 @@
     "@types/jsonwebtoken": "9.0.10",
     "@types/lusca": "1.7.5",
     "@types/morgan": "1.9.10",
-    "@types/multer": "2.1.0",
+    "@types/multer": "2.2.0",
     "@types/node": "24.13.2",
     "@types/passport": "1.0.17",
     "@types/s3-zip": "3.3.1",
