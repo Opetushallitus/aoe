@@ -9,7 +9,17 @@ function create_tunnel {
   assert_env_var_is_set "USERNAME"
   assert_env_var_is_set "PGPASSWORD"
 
-  export SSH_TUNNEL_PORT=40077
+  # Pick a free host port (override by exporting SSH_TUNNEL_PORT) so the QA and
+  # prod tunnels can run at the same time.
+  if [[ -z "${SSH_TUNNEL_PORT:-}" ]]; then
+    while :; do
+      SSH_TUNNEL_PORT=$(( (RANDOM % 20000) + 20000 ))
+      nc -z 127.0.0.1 "${SSH_TUNNEL_PORT}" 2>/dev/null || break
+    done
+  fi
+  export SSH_TUNNEL_PORT
+  # Separate compose project per env so containers/networks don't collide.
+  export COMPOSE_PROJECT_NAME="aoe-db-tunnel-${ENV}"
 
  function wait_for_pg_isready {
     echo "Waiting for pg connection to be ready..."
