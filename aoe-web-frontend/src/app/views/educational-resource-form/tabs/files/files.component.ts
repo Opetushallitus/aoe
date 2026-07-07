@@ -39,7 +39,6 @@ import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import { NgClass, AsyncPipe } from '@angular/common'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
-import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
 
 @Component({
   selector: 'app-tabs-files',
@@ -53,8 +52,7 @@ import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
     NgSelectComponent,
     ProgressbarComponent,
     AsyncPipe,
-    TranslatePipe,
-    CleanFilenamePipe
+    TranslatePipe
   ]
 })
 export class FilesComponent implements OnInit, OnDestroy {
@@ -418,8 +416,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     })
 
     // Run concurrent tasks and finally upload subtitles if available.
-    this.materialService.runConcurrentTasks(this.concurrentTasks, this.completedIndexes).subscribe(
-      (results: { results: UploadMessage; metadata: any }[]): void => {
+    this.materialService.runConcurrentTasks(this.concurrentTasks, this.completedIndexes).subscribe({
+      next: (results: { results: UploadMessage; metadata: any }[]): void => {
         const subtitleUploads: Observable<any>[] = []
         results.forEach((res: { results: UploadMessage; metadata: any }): void => {
           if (res.results.response && res.metadata.subtitles.length > 0) {
@@ -445,8 +443,8 @@ export class FilesComponent implements OnInit, OnDestroy {
           }
         })
         if (subtitleUploads.length > 0) {
-          forkJoin(subtitleUploads).subscribe(
-            (attachments: { id: string }[]): void => {
+          forkJoin(subtitleUploads).subscribe({
+            next: (attachments: { id: string }[]): void => {
               attachments.forEach((attachment: { id: string }): void => {
                 if (attachment.id) {
                   this.completedUploads++
@@ -460,8 +458,8 @@ export class FilesComponent implements OnInit, OnDestroy {
                   complete: () => this.completeUpload()
                 })
             },
-            (err) => console.error(err)
-          )
+            error: (err) => console.error(err)
+          })
         } else {
           this.materialService
             .updateUploadedFiles(this.materialService.getEducationalMaterialID())
@@ -472,7 +470,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             })
         }
       },
-      (error): void => {
+      error: (error): void => {
         this.hasUploadIssues = true
         if (error.name === 'TimeoutError') {
           console.error('Upload interrupted due to inactivity')
@@ -480,7 +478,7 @@ export class FilesComponent implements OnInit, OnDestroy {
           console.error('Upload error:', error)
         }
       }
-    )
+    })
   }
 
   calculateTotalFileCount(): void {
@@ -578,15 +576,15 @@ export class FilesComponent implements OnInit, OnDestroy {
           if (!this.materialService.getEducationalMaterialID()) {
             const formData: FormData = new FormData()
             formData.append('name', JSON.stringify(this.names.value))
-            this.materialService.createEmptyEducationalMaterial(formData).subscribe(
-              (educationalMaterialID: number): void => {
+            this.materialService.createEmptyEducationalMaterial(formData).subscribe({
+              next: (educationalMaterialID: number): void => {
                 this.emitterEducationalMaterialID.emit(educationalMaterialID)
                 // this.materialService.setEducationalMaterialID(educationalMaterialID);
               },
-              (err) =>
+              error: (err) =>
                 console.error('Create empty framework request failed in the file upload:', err),
-              () => this.uploadFiles()
-            )
+              complete: () => this.uploadFiles()
+            })
           } else {
             this.uploadFiles()
           }

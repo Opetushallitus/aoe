@@ -43,7 +43,6 @@ import { NgClass } from '@angular/common'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
-import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -57,8 +56,7 @@ import { CleanFilenamePipe } from '../../../../pipes/clean-filename.pipe'
     NgSelectComponent,
     AlertComponent,
     ProgressbarComponent,
-    TranslatePipe,
-    CleanFilenamePipe
+    TranslatePipe
   ]
 })
 export class EditFilesComponent implements OnInit, OnDestroy {
