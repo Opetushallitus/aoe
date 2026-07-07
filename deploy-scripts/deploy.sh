@@ -48,7 +48,7 @@ function deploy {
       ./cdk.sh diff "$@"
       ;;
     deploy)
-      ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
+      ./cdk.sh deploy --all --require-approval never "$@"
       ;;
     *)
       echo "Unknown command"
