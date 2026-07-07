@@ -84,7 +84,7 @@ services:
           condition: service_started
 
   postgres:
-    image: postgres:15-alpine@sha256:cd17e2ac98240fce1541ad2a803b34009b4eea5aec8a832363cdc7eca62e722e
+    image: postgres:15-alpine@sha256:f2255d9d4992c7409189e81414c153d9583bf1bd33dc593590a5e42743169a3e
     container_name: aoe-postgres
     environment:
       POSTGRES_USER: aoeuser
