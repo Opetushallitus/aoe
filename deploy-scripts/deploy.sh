@@ -22,7 +22,7 @@ function main {
   if ! running_on_gh_actions; then
     require_aws_session_for_env "$ENV"
     deploy --profile "aoe-$ENV"
-  else 
+  else
     deploy
   fi
   end_gh_actions_group
@@ -48,7 +48,7 @@ function deploy {
       ./cdk.sh diff "$@"
       ;;
     deploy)
-      ./cdk.sh deploy --all --require-approval never "$@"
+      ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
       ;;
     *)
       echo "Unknown command"
