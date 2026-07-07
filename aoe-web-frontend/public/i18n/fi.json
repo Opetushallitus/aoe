@@ -254,6 +254,7 @@
       "replaceLink": "Korvaa linkki",
       "uploadActive": "Materiaalin lataus käynnissä",
       "uploadError": "Osa latauksista keskeytyi tai epäonnistui",
+      "uploadTimeout": "Yhteys aikakatkaistiin. Yritä uudelleen.",
       "uploadEncrypted": "Salasanalla suojatut tai salatut tiedostot eivät ole sallittuja"
     },
     "errors": {

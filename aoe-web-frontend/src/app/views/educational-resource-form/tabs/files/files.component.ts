@@ -32,7 +32,7 @@ import { UploadedFile } from '@models/uploaded-file'
 import { SubtitleKind } from '@models/material/subtitle'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
-import { MAX_UPLOAD_SIZE_BYTES } from '@constants/upload'
+import { MAX_UPLOAD_SIZE_BYTES, UPLOAD_TIMEOUT_STATUSES } from '@constants/upload'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
@@ -512,6 +512,9 @@ export class FilesComponent implements OnInit, OnDestroy {
       }
       if (uploadResponse.statusHTTP === 415 && !this.hasEncryptedFiles) {
         this.hasEncryptedFiles = true
+      }
+      if (UPLOAD_TIMEOUT_STATUSES.includes(uploadResponse.statusHTTP)) {
+        this.uploadErrorText = this.translate.instant('forms.common.uploadTimeout')
       }
     })
     if (this.totalFileCount === 0) {

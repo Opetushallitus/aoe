@@ -254,6 +254,7 @@
       "replaceLink": "Byta länken",
       "uploadActive": "Uppladdning av material pågår",
       "uploadError": "Vissa uppladdningar avbröts eller misslyckades",
+      "uploadTimeout": "Anslutningen tog för lång tid. Försök igen.",
       "uploadEncrypted": "Lösenordsskyddade eller krypterade filer är inte tillåtna"
     },
     "errors": {

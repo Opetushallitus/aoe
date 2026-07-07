@@ -16,6 +16,7 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms'
+import { HttpErrorResponse } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
@@ -34,6 +35,7 @@ import { Subtitle, SubtitleKind } from '@models/material/subtitle'
 import { AttachmentPostResponse } from '@models/attachment-post-response'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
+import { UPLOAD_TIMEOUT_STATUSES } from '@constants/upload'
 import { catchError } from 'rxjs/operators'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
@@ -497,7 +499,16 @@ export class EditFilesComponent implements OnInit, OnDestroy {
               completedResponse = response
             }
           },
-          (error) => console.error(error),
+          (error: HttpErrorResponse) => {
+            const timedOut = UPLOAD_TIMEOUT_STATUSES.includes(error?.status)
+            this.uploadResponses[i] = {
+              status: 'error',
+              message: this.translate.instant(
+                timedOut ? 'forms.common.uploadTimeout' : 'forms.common.uploadError'
+              )
+            }
+            console.error(error)
+          },
           () => this.completeFileUpload(completedResponse, i)
         )
       }

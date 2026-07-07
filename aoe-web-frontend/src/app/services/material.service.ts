@@ -1428,8 +1428,9 @@ export class MaterialService {
                 message: `Unhandled event: ${event.type}`
               }
           }
-        }),
-        catchError(MaterialService.handleError)
+        })
+        // No catchError: let the HttpErrorResponse reach the caller so it can
+        // show a meaningful upload error (e.g. ALB 408 timeout) to the user.
       )
   }
 
