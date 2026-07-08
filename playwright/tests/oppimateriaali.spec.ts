@@ -1,31 +1,51 @@
 import { expect, test } from '@playwright/test'
+import * as os from 'node:os'
+import * as path from 'node:path'
+import * as fs from 'node:fs'
 import { Etusivu } from './pages/Etusivu'
 import type { TaytaOpts } from './pages/UusiOppimateriaali'
+import { OVER_LIMIT_BYTES, createSparsePdf, expectFileTooLargeError } from './helpers/bigFile'
 
 test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => {
-  const etusivu = Etusivu(page)
-  await etusivu.goto()
-  const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
-  const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
-  const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
-  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
-  const materiaaliNumero = await materiaali.getMateriaaliNumero()
-  await materiaali.header.clickOmatMateriaalit()
-  await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
-  await omatMateriaalit.expectToFindMateriaali(materiaaliNimi)
+  const bigPdf = path.join(os.tmpdir(), `aoe-big-edit-${process.pid}.pdf`)
+  createSparsePdf(bigPdf, OVER_LIMIT_BYTES)
+  try {
+    const etusivu = Etusivu(page)
+    await etusivu.goto()
+    const omatMateriaalit = await etusivu.header.clickOmatMateriaalit()
+    const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
+    const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi()
+    const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi)
+    const materiaaliNumero = await materiaali.getMateriaaliNumero()
+    await materiaali.header.clickOmatMateriaalit()
+    await expect(omatMateriaalit.locators.julkaistutMateriaalitHeading).toBeVisible()
+    await omatMateriaalit.expectToFindMateriaali(materiaaliNimi)
 
-  const materiaaliNimiMuutettu = `${materiaaliNimi}_muutettu`
-  const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(materiaaliNumero)
-  const muokkausForm = muokkaaMateriaalia.form
-  await muokkausForm.oppimateriaalinNimi(materiaaliNimiMuutettu)
-  const esikatseluJaTallennut = await muokkausForm
-    .seuraava()
-    .then((n) => n.seuraava())
-    .then((n) => n.seuraava())
-    .then((n) => n.seuraava())
-    .then((n) => n.seuraava())
-    .then((n) => n.seuraava())
-  await esikatseluJaTallennut.tallenna(materiaaliNimiMuutettu)
+    const materiaaliNimiMuutettu = `${materiaaliNimi}_muutettu`
+    const muokkaaMateriaalia = await omatMateriaalit.startToEditMateriaaliNumero(materiaaliNumero)
+
+    // Editing opens on the files step: a brand-new file slot must reject an over-5GB file.
+    await page.getByRole('button', { name: 'Lisää tiedosto' }).click()
+    const uusiTiedosto = page.locator('input[type="file"]').last()
+    await uusiTiedosto.setInputFiles(bigPdf)
+    await expectFileTooLargeError(page)
+    await expect(uusiTiedosto).toHaveValue('')
+    // Drop the now-empty slot so it can't block navigation to save.
+    await page.getByRole('button', { name: 'Poista' }).last().click()
+
+    const muokkausForm = muokkaaMateriaalia.form
+    await muokkausForm.oppimateriaalinNimi(materiaaliNimiMuutettu)
+    const esikatseluJaTallennut = await muokkausForm
+      .seuraava()
+      .then((n) => n.seuraava())
+      .then((n) => n.seuraava())
+      .then((n) => n.seuraava())
+      .then((n) => n.seuraava())
+      .then((n) => n.seuraava())
+    await esikatseluJaTallennut.tallenna(materiaaliNimiMuutettu)
+  } finally {
+    fs.rmSync(bigPdf, { force: true })
+  }
 })
 
 test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ page }) => {

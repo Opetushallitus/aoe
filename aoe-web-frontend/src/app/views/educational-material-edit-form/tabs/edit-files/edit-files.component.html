@@ -183,6 +183,11 @@
                       id="{{ 'newFile' + i }}"
                       [lang]="lang"
                       (change)="onFileChange($event, i)" />
+                    @if (material.get('newFile')?.hasError('fileTooLarge')) {
+                      <div class="invalid-feedback d-block">
+                        {{ "forms.educationalResource.files.file.errors.tooLarge" | translate }}
+                      </div>
+                    }
                   }
                 </div>
               } @else {
@@ -614,6 +619,11 @@
                     id="{{ 'newMaterialFile' + i }}"
                     [lang]="lang"
                     (change)="onFileChange($event, i)" />
+                  @if (material.get('newFile')?.hasError('fileTooLarge')) {
+                    <div class="invalid-feedback d-block">
+                      {{ "forms.educationalResource.files.file.errors.tooLarge" | translate }}
+                    </div>
+                  }
                 </div>
               }
               <!--/file-->

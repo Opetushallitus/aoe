@@ -35,7 +35,7 @@ import { Subtitle, SubtitleKind } from '@models/material/subtitle'
 import { AttachmentPostResponse } from '@models/attachment-post-response'
 import { mimeTypes } from '@constants/mimetypes'
 import { validatorParams } from '@constants/validator-params'
-import { UPLOAD_TIMEOUT_STATUSES } from '@constants/upload'
+import { MAX_UPLOAD_SIZE_BYTES, UPLOAD_TIMEOUT_STATUSES } from '@constants/upload'
 import { catchError } from 'rxjs/operators'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
@@ -382,9 +382,21 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   onFileChange(event: Event, i: number): void {
-    if ((event.target as HTMLInputElement).files.length > 0) {
-      const file: File = (event.target as HTMLInputElement).files[0]
-      ;(event.target as HTMLInputElement).classList.add('has-file')
+    const input = event.target as HTMLInputElement
+    if (input.files.length > 0) {
+      const file: File = input.files[0]
+
+      const newFileControl = this.materialDetailsArray.at(i).get('newFile')
+      if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+        input.value = ''
+        input.classList.remove('has-file')
+        newFileControl.setValue(null)
+        newFileControl.setErrors({ fileTooLarge: true })
+        newFileControl.markAsTouched()
+        return
+      }
+
+      input.classList.add('has-file')
       if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i)
         this.videoFiles.push(i)
