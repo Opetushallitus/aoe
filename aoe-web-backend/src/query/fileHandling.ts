@@ -1201,7 +1201,7 @@ export const downloadFromStorage = async (
     await pipeline(fileStream, res)
     return false
   } catch (err: any) {
-    if (isClientAbortError(err)) {
+    if (controller.signal.aborted || isClientAbortError(err)) {
       return false
     }
     if (err?.name === 'NoSuchKey') {
