@@ -3,8 +3,14 @@ import { Header } from './Header'
 import { MateriaaliFormi } from './MateriaaliFormi'
 
 export type TaytaOpts = {
-  tiedostot?: { kieli?: string }
-  perustiedot?: { kohderyhma?: string; kayttotarkoitus?: string; organisaatio?: string }
+  tiedostot?: { kieli?: string; kieliversiot?: { en: string; sv: string } }
+  perustiedot?: {
+    kohderyhma?: string
+    kayttotarkoitus?: string
+    organisaatio?: string
+    tekijanOrganisaatio?: string
+    kuvaus?: string
+  }
   koulutustiedot?: {
     koulutusasteet?: string[]
     tieteenala?: string
@@ -15,6 +21,11 @@ export type TaytaOpts = {
     ominaisuudet?: string[]
     esteet?: string[]
     vanhenemispaiva?: string
+    ikaMin?: string
+    ikaMax?: string
+    opiskeluaika?: string
+    julkaisija?: string
+    esitietovaatimus?: string
   }
   hyodynnetytMateriaalit?: { author?: string; url: string; name: string }
 }
@@ -31,8 +42,17 @@ export const UusiOppimateriaali = (page: Page) => {
     if (opts.tiedostot?.kieli) {
       await form.valitseTiedostonKieli(opts.tiedostot.kieli)
     }
+    if (opts.tiedostot?.kieliversiot) {
+      await form.lisaaTiedostonKieliversiot(
+        opts.tiedostot.kieliversiot.en,
+        opts.tiedostot.kieliversiot.sv
+      )
+    }
     const perustiedot = await form.seuraava()
     await perustiedot.lisaaHenkilo()
+    if (opts.perustiedot?.tekijanOrganisaatio) {
+      await perustiedot.valitseTekijanOrganisaatio(opts.perustiedot.tekijanOrganisaatio)
+    }
     await perustiedot.lisaaAsiasana()
     await perustiedot.lisaaOppimateriaalinTyyppi()
     if (opts.perustiedot?.kohderyhma) {
@@ -43,6 +63,9 @@ export const UusiOppimateriaali = (page: Page) => {
     }
     if (opts.perustiedot?.organisaatio) {
       await perustiedot.lisaaOrganisaatio(opts.perustiedot.organisaatio)
+    }
+    if (opts.perustiedot?.kuvaus) {
+      await perustiedot.taytaKuvaus(opts.perustiedot.kuvaus)
     }
     const koulutustiedot = await perustiedot.seuraava()
     const koulutusasteet = opts.koulutustiedot?.koulutusasteet ?? ['korkeakoulutus']
@@ -71,6 +94,21 @@ export const UusiOppimateriaali = (page: Page) => {
     }
     if (opts.tarkemmatTiedot?.vanhenemispaiva) {
       await tarkemmatTiedot.valitseVanhenemispaiva(opts.tarkemmatTiedot.vanhenemispaiva)
+    }
+    if (opts.tarkemmatTiedot?.ikaMin || opts.tarkemmatTiedot?.ikaMax) {
+      await tarkemmatTiedot.asetaKohderyhmanIka(
+        opts.tarkemmatTiedot.ikaMin ?? '',
+        opts.tarkemmatTiedot.ikaMax ?? ''
+      )
+    }
+    if (opts.tarkemmatTiedot?.opiskeluaika) {
+      await tarkemmatTiedot.asetaOpiskeluaika(opts.tarkemmatTiedot.opiskeluaika)
+    }
+    if (opts.tarkemmatTiedot?.julkaisija) {
+      await tarkemmatTiedot.lisaaJulkaisija(opts.tarkemmatTiedot.julkaisija)
+    }
+    if (opts.tarkemmatTiedot?.esitietovaatimus) {
+      await tarkemmatTiedot.lisaaEsitietovaatimus(opts.tarkemmatTiedot.esitietovaatimus)
     }
     const lisenssitiedot = await tarkemmatTiedot.seuraava()
     await lisenssitiedot.valitseLisenssi()

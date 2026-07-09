@@ -23,6 +23,14 @@ export const MateriaaliFormi = (
     await page.keyboard.press('Escape')
   }
 
+  // addTag ng-selects (publisher, prerequisites): type a free value and Enter to add it.
+  const lisaaTagiNgSelectiin = async (selector: string, arvo: string) => {
+    await page.locator(selector).click()
+    await page.locator(`${selector} input`).fill(arvo)
+    await page.keyboard.press('Enter')
+    await page.keyboard.press('Escape')
+  }
+
   const tiedostot = {
     oppimateriaalinNimi: async (materiaaliNimi: string) => {
       if (isEditingAsForSomeReasonTheLabelIsDifferentIfEditing) {
@@ -46,6 +54,13 @@ export const MateriaaliFormi = (
     valitseTiedostonKieli: async (kieli: string, nth = 0) => {
       await page.locator(`ng-select#language${nth}`).click()
       await page.getByRole('option', { name: kieli, exact: true }).click()
+    },
+    lisaaTiedostonKieliversiot: async (en: string, sv: string) => {
+      // Two "Kieliversiot" buttons on the files step: material name (0), file display name (1).
+      await page.getByRole('button', { name: 'Kieliversiot' }).nth(1).click()
+      await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (englanniksi)' }).fill(en)
+      await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (ruotsiksi)' }).fill(sv)
+      await locators.tallennaMuutokset.click()
     },
     lisaaVerkkosivu: async (verkkosivu: string) => {
       const linkLocator = '#link0'
@@ -112,6 +127,13 @@ export const MateriaaliFormi = (
       await page.getByRole('option', { name: kayttotarkoitus, exact: true }).click()
       await page.keyboard.press('Escape')
     },
+    valitseTekijanOrganisaatio: async (organisaatio: string) => {
+      await page.getByRole('group').getByRole('combobox').click()
+      await page.getByRole('option', { name: organisaatio }).click()
+    },
+    taytaKuvaus: async (kuvaus: string) => {
+      await page.getByRole('textbox', { name: 'Kuvaus' }).fill(kuvaus)
+    },
     seuraava: async () => {
       await locators.seuraava.click()
       return koulutustiedot
@@ -162,6 +184,19 @@ export const MateriaaliFormi = (
       await page.locator('#expires').clear()
       await page.locator('#expires').pressSequentially(paiva)
       await page.keyboard.press('Escape')
+    },
+    asetaKohderyhmanIka: async (min: string, max: string) => {
+      await page.getByRole('textbox', { name: 'Kohderyhmän ikä (min)' }).fill(min)
+      await page.getByRole('textbox', { name: 'Kohderyhmän ikä (max)' }).fill(max)
+    },
+    asetaOpiskeluaika: async (aika: string) => {
+      await page.getByRole('textbox', { name: 'Opiskeluaika' }).fill(aika)
+    },
+    lisaaJulkaisija: async (julkaisija: string) => {
+      await lisaaTagiNgSelectiin('ng-select#publisher', julkaisija)
+    },
+    lisaaEsitietovaatimus: async (vaatimus: string) => {
+      await lisaaTagiNgSelectiin('ng-select#prerequisites', vaatimus)
     },
     seuraava: async () => {
       await locators.seuraava.click()
