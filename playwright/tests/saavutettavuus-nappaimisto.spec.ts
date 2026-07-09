@@ -32,7 +32,9 @@ test.describe('a11y keyboard @ desktop', () => {
     await page.waitForFunction(() => document.documentElement.lang !== '', null, { timeout: 5000 })
     await page.locator('body').click({ position: { x: 0, y: 0 } }) // ensure no control pre-focused
     await page.keyboard.press('Tab')
-    const skipLink = page.getByRole('link', { name: /ohita|skip|siirry sis|main content/i })
+    const skipLink = page.getByRole('link', {
+      name: /ohita|skip|siirry sis|main content/i
+    })
     if (!isKnownGap('skip-link')) {
       await expectFocused(skipLink)
     }
@@ -59,7 +61,10 @@ test.describe('a11y keyboard @ desktop', () => {
     const nimi = randomMateriaaliNimi('A11y nappaimisto')
 
     // Step 1 (tiedostot): name by keyboard; file via setInputFiles.
-    const nameField = page.getByRole('textbox', { name: 'Oppimateriaalin nimi *', exact: true })
+    const nameField = page.getByRole('textbox', {
+      name: 'Oppimateriaalin nimi *',
+      exact: true
+    })
     await tabUntilFocused(page, nameField)
     await page.keyboard.type(nimi)
     // setInputFiles: the native OS file dialog can't be driven by any browser automation —
@@ -263,12 +268,12 @@ test.describe('a11y keyboard @ desktop', () => {
         await modalPage.getByText('Olen lukenut').click({ timeout: 1000 })
         await modalPage.getByRole('button', { name: 'Tallenna' }).click()
         await openMaterial()
-      } catch (_e) {
-        console.log('Terms of Service already accepted, skipping')
-      }
+      } catch (_e) {}
 
       // Open the modal BY KEYBOARD.
-      const trigger = modalPage.getByRole('button', { name: 'Lisää kuvailutietoja' })
+      const trigger = modalPage.getByRole('button', {
+        name: 'Lisää kuvailutietoja'
+      })
       await tabUntilFocused(modalPage, trigger, 80)
       await activate(modalPage)
 

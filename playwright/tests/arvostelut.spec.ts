@@ -34,9 +34,7 @@ test('materiaalin arvostelu ja arvostelujen näkyvyys kirjautumattomalle käytt�
     await reviewerPage.goto(`/#/materiaali/${materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
-  } catch (_e) {
-    console.log('Terms of Service already accepted, skipping')
-  }
+  } catch (_e) {}
   await reviewerMateriaali.lisaaArvio({
     ratingContent: '4',
     ratingVisual: '5',

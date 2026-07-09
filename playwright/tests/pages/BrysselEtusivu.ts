@@ -9,7 +9,9 @@ export const BrysselEtusivu = (page: Page) => {
     await expect(page.getByRole('main')).toBeVisible()
     await page.goto('/#/bryssel')
     await expect(
-      page.getByRole('heading', { name: 'Tervetuloa aoe.fi hallintanäkymään!' })
+      page.getByRole('heading', {
+        name: 'Tervetuloa aoe.fi hallintanäkymään!'
+      })
     ).toBeVisible()
   }
 
@@ -20,9 +22,7 @@ export const BrysselEtusivu = (page: Page) => {
       await hyvaksyKayttoehdot.click({ timeout: 1000 })
       await page.getByRole('button', { name: 'Tallenna' }).click()
       await page.getByRole('main').getByRole('link', { name: 'Analytiikka' }).click()
-    } catch (_e) {
-      console.log('Terms of Service already accepted, skipping')
-    }
+    } catch (_e) {}
     return BrysselAnalyytiikka(page)
   }
   const clickBrysselMateriaalinHallinta = async () => {
@@ -32,9 +32,7 @@ export const BrysselEtusivu = (page: Page) => {
       await hyvaksyKayttoehdot.click({ timeout: 500 })
       await page.getByRole('button', { name: 'Tallenna' }).click()
       await page.getByRole('main').getByRole('link', { name: 'Analytiikka' }).click()
-    } catch (_e) {
-      console.log('Terms of Service already accepted, skipping')
-    }
+    } catch (_e) {}
     return BrysselMateriaalienHallinta(page)
   }
 

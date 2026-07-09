@@ -8,7 +8,9 @@ export const Header = (page: Page) => {
     fi: page.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }),
     navToggler: page.locator('button.navbar-toggler'),
     navCollapseShown: page.locator('.navbar-collapse.show'),
-    omatMateriaalitLink: page.getByRole('link', { name: 'Omat oppimateriaalit' }),
+    omatMateriaalitLink: page.getByRole('link', {
+      name: 'Omat oppimateriaalit'
+    }),
     kokoelmatLink: page.getByRole('link', { name: 'Kokoelmat' })
   }
 
@@ -46,9 +48,7 @@ export const Header = (page: Page) => {
       await page.getByRole('button', { name: 'Tallenna' }).click()
       await page.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
       await clickNavLink(locators.omatMateriaalitLink)
-    } catch (_e) {
-      console.log('Terms of Service already accepted, skipping')
-    }
+    } catch (_e) {}
     return OmatOppimateriaalit(page)
   }
 

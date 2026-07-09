@@ -35,9 +35,7 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
     await metadataPage.goto(`/#/materiaali/${materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
-  } catch (_e) {
-    console.log('Terms of Service already accepted, skipping')
-  }
+  } catch (_e) {}
 
   // Click "Lisää kuvailutietoja" to open the modal
   await metadataPage.getByRole('button', { name: 'Lisää kuvailutietoja' }).click()
@@ -55,7 +53,9 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
     metadataPage.getByText('Käyttäjien mielestä tämä materiaali soveltuu myös:')
   ).toBeVisible()
   await expect(
-    metadataPage.locator('button[aria-labelledby="socialMetadata-keywords"]', { hasText: 'PDF' })
+    metadataPage.locator('button[aria-labelledby="socialMetadata-keywords"]', {
+      hasText: 'PDF'
+    })
   ).toBeVisible()
   await expect(
     metadataPage.locator('button[aria-labelledby="socialMetadata-accessibilityFeatures"]', {

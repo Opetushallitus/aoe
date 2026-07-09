@@ -16,9 +16,19 @@ export const MateriaaliFormi = (
 
   const selectFromNgSelect = async (selector: string, ...names: string[]) => {
     await page.keyboard.press('Escape')
-    await page.locator(selector).click()
     for (const name of names) {
-      await page.getByRole('option', { name }).first().click()
+      const option = page.getByRole('option', { name }).first()
+      // On a cold stack the ng-select items load from the ref API after the page
+      // renders, so the dropdown can open empty. Reopen it until the option shows.
+      await expect(async () => {
+        await page.keyboard.press('Escape')
+        await page.locator(selector).click()
+        await expect(option).toBeVisible({ timeout: 1000 })
+      }).toPass({
+        intervals: [500, 1000, 2000, 3000, 5000, 5000],
+        timeout: 30000
+      })
+      await option.click()
     }
     await page.keyboard.press('Escape')
   }

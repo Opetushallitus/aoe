@@ -200,11 +200,11 @@ test.describe('a11y interactions @ desktop', () => {
         await modalPage.getByText('Olen lukenut').click({ timeout: 1000 })
         await modalPage.getByRole('button', { name: 'Tallenna' }).click()
         await openMaterial()
-      } catch (_e) {
-        console.log('Terms of Service already accepted, skipping')
-      }
+      } catch (_e) {}
 
-      const addMetadataButton = modalPage.getByRole('button', { name: 'Lisää kuvailutietoja' })
+      const addMetadataButton = modalPage.getByRole('button', {
+        name: 'Lisää kuvailutietoja'
+      })
       await addMetadataButton.waitFor()
       await addMetadataButton.click()
       const modal = modalPage.getByRole('dialog')
@@ -215,7 +215,9 @@ test.describe('a11y interactions @ desktop', () => {
 
       // Scope the scan to the dialog — the material page behind it has its own
       // (separately tracked) debt covered by the Materiaali scan.
-      await scanA11y(modalPage, 'MetadataModal', 'desktop', { include: '[role="dialog"]' })
+      await scanA11y(modalPage, 'MetadataModal', 'desktop', {
+        include: '[role="dialog"]'
+      })
     } finally {
       await context.close()
     }
@@ -401,9 +403,7 @@ test.describe('a11y reviews @ desktop', () => {
         await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
           waitUntil: 'domcontentloaded'
         })
-      } catch (_e) {
-        console.log('Terms of Service already accepted, skipping')
-      }
+      } catch (_e) {}
 
       // Submit a review as tuomas.jukola so the "Katso kaikki arviot" link appears.
       const reviewerMateriaali = Materiaali(reviewerPage)
