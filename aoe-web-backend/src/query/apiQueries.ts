@@ -10,6 +10,7 @@ import { aoeThumbnailDownloadUrl } from '@services/urlService'
 import { removeInvalidXMLCharacters } from '@util/invalidXMLCharValidator'
 import * as log from '@util/winstonLogger'
 import * as pgLib from 'pg-promise'
+import { z } from 'zod'
 import { updateViewCounter } from './analyticsQueries'
 import {
   downloadFileFromStorage,
@@ -864,7 +865,12 @@ type KeyedRowSpec = {
   updateOnConflict: boolean
 }
 
-type AlignmentRow = { id: number; alignmenttype: string; objectkey: string; source: string }
+type AlignmentRow = {
+  id: number
+  alignmenttype: string
+  objectkey: string
+  source: string
+}
 
 /**
  * Replace the key/value rows of a material-scoped lookup table: delete the rows whose key
@@ -906,10 +912,12 @@ const syncKeyedRows = async (
   await t.none(`${pgp.helpers.insert(rows, columns)} ${conflict}`)
 }
 
+const versionSchema = z.object({ publishedat: z.string() })
+
 export const updateMaterial = async (
   metadata: EducationalMaterialMetadata,
   emid: string
-): Promise<[null, { publishedat: string } | undefined]> => {
+): Promise<{ publishedat: string } | undefined> => {
   return await db
     .tx(async (t) => {
       log.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
@@ -1145,16 +1153,17 @@ export const updateMaterial = async (
         }
       }
 
-      let publishedat: { publishedat: string } | undefined
       if (metadata.isVersioned) {
         if (metadata.materials) {
           await t.none(
             'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;',
             [emid]
           )
-          publishedat = await t.one(
-            'INSERT INTO educationalmaterialversion (educationalmaterialid, publishedat) values ($1, now()::timestamp(3)) returning publishedat;',
-            [emid]
+          const publishedat = versionSchema.parse(
+            await t.one(
+              'INSERT INTO educationalmaterialversion (educationalmaterialid, publishedat) values ($1, now()::timestamp(3)) returning publishedat;',
+              [emid]
+            )
           )
           for (const element of metadata.materials) {
             await t.none(
@@ -1170,6 +1179,7 @@ export const updateMaterial = async (
               }
             }
           }
+          return publishedat
         }
       } else if (metadata.materials) {
         for (const element of metadata.materials) {
@@ -1180,10 +1190,7 @@ export const updateMaterial = async (
         }
       }
 
-      return [null, publishedat]
-    })
-    .then(async (data: any) => {
-      return data
+      return undefined
     })
     .catch((err: Error) => {
       log.error(err)

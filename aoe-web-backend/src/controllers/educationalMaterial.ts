@@ -133,7 +133,7 @@ export const updateEducationalMaterialMetadata = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const emid: string = req.params.edumaterialid
+    const emid = req.params.edumaterialid
     if (!emid) {
       return next(new StatusError(400, 'Metadata update failed: missing edumaterialid'))
     }
@@ -147,18 +147,18 @@ export const updateEducationalMaterialMetadata = async (
     const metadata = parsed.data
 
     const eduMaterial = await updateMaterial(metadata, emid)
-    res.status(200).json(eduMaterial[1])
+    res.status(200).json(eduMaterial)
 
     // Update the search index after educational material changes.
     await updateEsDocument()
 
-    if (!emid || !eduMaterial[1] || !eduMaterial[1].publishedat) {
+    if (!eduMaterial || !eduMaterial.publishedat) {
       log.warn(
         `URN update skipped for the educational material #${emid} in updateEducationalMaterialMetadata().`
       )
       return
     }
-    const aoeurl = getEduMaterialVersionURL(emid, eduMaterial[1].publishedat)
+    const aoeurl = getEduMaterialVersionURL(emid, eduMaterial.publishedat)
 
     const record = await Urn.findOne({
       where: { material_url: aoeurl }
@@ -169,7 +169,7 @@ export const updateEducationalMaterialMetadata = async (
     }
 
     const pidurn = await registerPID(aoeurl)
-    await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn)
+    await updateEduMaterialVersionURN(emid, eduMaterial.publishedat, pidurn)
   } catch (err) {
     next(
       new StatusError(
