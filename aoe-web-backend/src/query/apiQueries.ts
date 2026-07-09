@@ -9,7 +9,6 @@ import { hasAccesstoPublication } from '@services/authService'
 import { aoeThumbnailDownloadUrl } from '@services/urlService'
 import { removeInvalidXMLCharacters } from '@util/invalidXMLCharValidator'
 import * as log from '@util/winstonLogger'
-import { NextFunction, Request, Response } from 'express'
 import * as pgLib from 'pg-promise'
 import { updateViewCounter } from './analyticsQueries'
 import {
@@ -18,6 +17,10 @@ import {
   insertDataToDisplayName
 } from './fileHandling'
 import { getOwnerName } from './materialQueries'
+
+import type { NextFunction, Request, Response } from 'express'
+import type { ITask } from 'pg-promise'
+import pg from 'pg-promise/typescript/pg-subset'
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {
@@ -854,6 +857,53 @@ export async function insertEducationalMaterialName(materialname: NameObject, id
   return queries
 }
 
+type KeyedRowSpec = {
+  table: string
+  keyColumn: string
+  valueColumn: string
+  updateOnConflict: boolean
+}
+
+/**
+ * Replace the key/value rows of a material-scoped lookup table: delete the rows whose key
+ * is no longer present, then upsert the current set. Every key/value is bound as a
+ * parameter (identifiers via pg-promise name/csv formatting), so caller-supplied strings
+ * can never alter the SQL. `table`, `keyColumn` and `valueColumn` are trusted constants.
+ */
+const syncKeyedRows = async (
+  t: ITask<pg.IClient> & pg.IClient,
+  spec: KeyedRowSpec,
+  emid: string,
+  items?: Array<{ key: string; value: string }>
+): Promise<void> => {
+  const { table, keyColumn, valueColumn, updateOnConflict } = spec
+  if (!items || items.length < 1) {
+    await t.none('DELETE FROM $1:name WHERE educationalmaterialid = $2', [table, emid])
+    return
+  }
+  await t.none('DELETE FROM $1:name WHERE educationalmaterialid = $2 AND $3:name NOT IN ($4:csv)', [
+    table,
+    emid,
+    keyColumn,
+    items.map((item) => item.key)
+  ])
+  const columns = new pgp.helpers.ColumnSet([keyColumn, valueColumn, 'educationalmaterialid'], {
+    table
+  })
+  const rows = items.map((item) => ({
+    [keyColumn]: item.key,
+    [valueColumn]: item.value,
+    educationalmaterialid: emid
+  }))
+  const conflict = updateOnConflict
+    ? pgp.as.format(
+        'ON CONFLICT ($1:name, educationalmaterialid) DO UPDATE SET $2:name = EXCLUDED.$2:name',
+        [keyColumn, valueColumn]
+      )
+    : pgp.as.format('ON CONFLICT ($1:name, educationalmaterialid) DO NOTHING', [keyColumn])
+  await t.none(`${pgp.helpers.insert(rows, columns)} ${conflict}`)
+}
+
 /**
  * @param {EducationalMaterialMetadata} metadata
  * @param {string} emid
@@ -864,33 +914,30 @@ export const updateMaterial = async (
   emid: string
 ): Promise<any> => {
   return await db
-    .tx(async (t: any) => {
-      let query
-      const queries: any = []
-      const materialname = metadata.name
-      let response
+    .tx(async (t) => {
       log.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
-      if (!!materialname) {
-        queries.push(await insertEducationalMaterialName(materialname, emid, t))
+
+      if (metadata.name) {
+        await insertEducationalMaterialName(metadata.name, emid, t)
       }
 
       // material
       const dnow: number = Date.now() / 1000.0
-      query = `
+      await t.none(
+        `
         UPDATE educationalmaterial
         SET (expires, UpdatedAt, timeRequired, agerangeMin, agerangeMax, licensecode, suitsAllEarlyChildhoodSubjects,
           suitsAllPrePrimarySubjects, suitsAllBasicStudySubjects, suitsAllUpperSecondarySubjects,
           suitsAllVocationalDegrees, suitsAllSelfMotivatedSubjects, suitsAllBranches, suitsAllUpperSecondarySubjectsNew) =
           ($1, to_timestamp($2), $3, $4, $5, $7, $8, $9, $10, $11, $12, $13, $14, $15)
         WHERE id = $6
-      `
-      queries.push(
-        await t.any(query, [
+      `,
+        [
           metadata.expires,
           dnow,
-          !metadata.timeRequired ? '' : metadata.timeRequired,
-          !metadata.typicalAgeRange ? undefined : metadata.typicalAgeRange.typicalAgeRangeMin,
-          !metadata.typicalAgeRange ? undefined : metadata.typicalAgeRange.typicalAgeRangeMax,
+          metadata.timeRequired || '',
+          metadata.typicalAgeRange ? metadata.typicalAgeRange.typicalAgeRangeMin : undefined,
+          metadata.typicalAgeRange ? metadata.typicalAgeRange.typicalAgeRangeMax : undefined,
           emid,
           metadata.license,
           metadata.suitsAllEarlyChildhoodSubjects,
@@ -901,230 +948,112 @@ export const updateMaterial = async (
           metadata.suitsAllSelfMotivatedSubjects,
           metadata.suitsAllBranches,
           metadata.suitsAllUpperSecondarySubjectsNew
-        ])
+        ]
       )
 
       // description
       if (metadata.description) {
-        queries.push(await insertDataToDescription(t, emid, metadata.description))
+        await insertDataToDescription(t, emid, metadata.description)
       }
 
-      // educationalRoles
-      const audienceparams = []
-      const audienceArr = metadata.educationalRoles
-      if (!audienceArr || audienceArr.length < 1) {
-        query = 'DELETE FROM educationalaudience where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= audienceArr.length; i++) {
-          audienceparams.push(`('${audienceArr[i - 1].value}')`)
-        }
-        query =
-          'select id from (select * from educationalaudience where educationalmaterialid = $1) as i left join' +
-          '(select t.role from ( values ' +
-          audienceparams.join(',') +
-          ' ) as t(role)) as a on i.educationalrole = a.role where a.role is null;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          query = `DELETE FROM educationalaudience where id = ${element.id};`
-          queries.push(await t.any(query))
-        }
-        for (const element of audienceArr) {
-          query =
-            'INSERT INTO educationalaudience (educationalrole, educationalmaterialid, educationalrolekey) VALUES ($1,$2,$3) ON CONFLICT (educationalrolekey, educationalmaterialid) DO ' +
-            'UPDATE SET educationalrole = $1;'
-          queries.push(await t.any(query, [element.value, emid, element.key]))
-        }
-      }
-      // educationalUse
-      const educationalUseParams = []
-      const educationalUseArr = metadata.educationalUses
-      if (!educationalUseArr || educationalUseArr.length < 1) {
-        query = 'DELETE FROM educationaluse where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= educationalUseArr.length; i++) {
-          educationalUseParams.push(`('${educationalUseArr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from educationaluse where educationalmaterialid = $1) as i left join' +
-          '(select t.educationalusekey from ( values ' +
-          educationalUseParams.join(',') +
-          ' ) as t(educationalusekey)) as a on i.educationalusekey = a.educationalusekey where a.educationalusekey is null;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          query = `DELETE FROM educationaluse where id = ${element.id};`
-          queries.push(await t.any(query))
-        }
-        for (const element of educationalUseArr) {
-          query =
-            'INSERT INTO educationaluse (value, educationalmaterialid, educationalusekey) VALUES ($1,$2,$3) ON CONFLICT (educationalusekey,educationalmaterialid) DO UPDATE SET value = $1'
-          queries.push(await t.any(query, [element.value, emid, element.key]))
-        }
-      }
-      // learningResourceType
-      const learningResourceTypeParams = []
-      const learningResourceTypeArr = metadata.learningResourceTypes
-      if (!learningResourceTypeArr || learningResourceTypeArr.length < 1) {
-        query = 'DELETE FROM learningresourcetype where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= learningResourceTypeArr.length; i++) {
-          learningResourceTypeParams.push(`('${learningResourceTypeArr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from learningresourcetype where educationalmaterialid = $1) as i left join' +
-          '(select t.learningresourcetypekey from ( values ' +
-          learningResourceTypeParams.join(',') +
-          ' ) as t(learningresourcetypekey)) as a on i.learningresourcetypekey = a.learningresourcetypekey where a.learningresourcetypekey is null;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          query = `DELETE FROM learningresourcetype where id = ${element.id};`
-          queries.push(await t.any(query))
-        }
-        for (const element of learningResourceTypeArr) {
-          query =
-            'INSERT INTO learningresourcetype (value, educationalmaterialid, learningresourcetypekey) VALUES ($1,$2,$3) ON CONFLICT (learningresourcetypekey,educationalmaterialid) DO UPDATE SET value = $1'
-          queries.push(await t.any(query, [element.value, emid, element.key]))
+      // Keyed key/value tables sharing the same delete-missing + upsert pattern.
+      await syncKeyedRows(
+        t,
+        {
+          table: 'educationalaudience',
+          keyColumn: 'educationalrolekey',
+          valueColumn: 'educationalrole',
+          updateOnConflict: true
+        },
+        emid,
+        metadata.educationalRoles
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'educationaluse',
+          keyColumn: 'educationalusekey',
+          valueColumn: 'value',
+          updateOnConflict: true
+        },
+        emid,
+        metadata.educationalUses
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'learningresourcetype',
+          keyColumn: 'learningresourcetypekey',
+          valueColumn: 'value',
+          updateOnConflict: true
+        },
+        emid,
+        metadata.learningResourceTypes
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'keyword',
+          keyColumn: 'keywordkey',
+          valueColumn: 'value',
+          updateOnConflict: true
+        },
+        emid,
+        metadata.keywords
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'publisher',
+          keyColumn: 'publisherkey',
+          valueColumn: 'name',
+          updateOnConflict: true
+        },
+        emid,
+        metadata.publisher
+      )
+      // isBasedOn — rebuild the material's isbasedon rows and their authors.
+      const isBasedonArr = metadata.isBasedOn?.externals ?? []
+      await t.none(
+        'DELETE FROM isbasedonauthor WHERE isbasedonid IN (SELECT id FROM isbasedon WHERE educationalmaterialid = $1)',
+        [emid]
+      )
+      await t.none('DELETE FROM isbasedon WHERE educationalmaterialid = $1', [emid])
+      for (const external of isBasedonArr) {
+        const inserted = await t.one(
+          'INSERT INTO isbasedon (materialname, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (materialname, educationalmaterialid) DO UPDATE SET url = $2 RETURNING id',
+          [external.name, external.url, emid]
+        )
+        for (const author of external.author) {
+          await t.none('INSERT INTO isbasedonauthor (authorname, isbasedonid) VALUES ($1,$2)', [
+            author,
+            inserted.id
+          ])
         }
       }
 
-      // keywords
-      let params = []
-      let arr = metadata.keywords
-      if (!arr || arr.length < 1) {
-        query = 'DELETE FROM keyword where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= arr.length; i++) {
-          params.push(`('${arr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from keyword where educationalmaterialid = $1) as i left join' +
-          '(select t.keywordkey from ( values ' +
-          params.join(',') +
-          ' ) as t(keywordkey)) as a on i.keywordkey = a.keywordkey where a.keywordkey is null;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          query = `DELETE FROM keyword where id = ${element.id};`
-          queries.push(await t.any(query))
-        }
-        for (const element of arr) {
-          query =
-            'INSERT INTO keyword (value, educationalmaterialid, keywordkey) VALUES ($1,$2,$3) ON CONFLICT (keywordkey, educationalmaterialid) DO UPDATE SET value = $1'
-          queries.push(await t.any(query, [element.value, emid, element.key]))
-        }
-      }
-      // publisher
-      params = []
-      arr = metadata.publisher
-      if (!arr || arr.length < 1) {
-        query = 'DELETE FROM publisher where educationalmaterialid = $1'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= arr.length; i++) {
-          params.push(`('${arr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from publisher where educationalmaterialid = $1) as i left join' +
-          '(select t.publisherkey from ( values ' +
-          params.join(',') +
-          ' ) as t(publisherkey)) as a on i.publisherkey = a.publisherkey where a.publisherkey is null'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          query = `DELETE FROM publisher where id = ${element.id};`
-          queries.push(await t.any(query))
-        }
-        for (const element of arr) {
-          query =
-            'INSERT INTO publisher (name, educationalmaterialid, publisherkey) VALUES ($1,$2,$3) ON CONFLICT (publisherkey, educationalmaterialid) DO UPDATE SET name = $1'
-          queries.push(await t.any(query, [element.value, emid, element.key]))
-        }
-      }
-      // isBasedOn
-      let isBasedonArr = []
-      if (metadata.isBasedOn) {
-        isBasedonArr = metadata.isBasedOn.externals
-      }
-      if (!isBasedonArr || isBasedonArr.length < 1) {
-        query =
-          'DELETE FROM isbasedonauthor where isbasedonid IN (SELECT id from isbasedon where educationalmaterialid = $1);'
-        response = await t.any(query, [emid])
-        query = 'DELETE FROM isbasedon where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        query =
-          'DELETE FROM isbasedonauthor where isbasedonid IN (SELECT id from isbasedon where educationalmaterialid = $1);'
-        response = await t.any(query, [emid])
-        query = 'SELECT * from isbasedon where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          let toBeDeleted = true
-          for (let i = 0; isBasedonArr.length > i; i += 1) {
-            if (element.name === isBasedonArr[i].materialname) {
-              toBeDeleted = false
-            }
-          }
-          if (toBeDeleted) {
-            query = `DELETE FROM isbasedon where id = ${element.id};`
-            queries.push(await t.any(query))
-          }
-        }
-        for (const element of isBasedonArr) {
-          query =
-            'INSERT INTO isbasedon (materialname, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (materialname, educationalmaterialid) DO UPDATE SET url = $2 returning id'
-          const resp = await t.one(query, [element.name, element.url, emid])
-          queries.push(resp)
-          for (const author of element.author) {
-            query = 'INSERT INTO isbasedonauthor (authorname, isbasedonid) VALUES ($1,$2)'
-            queries.push(t.none(query, [author, resp.id]))
-          }
-        }
-      }
-      // alignmentObjects
+      // alignmentObjects — delete the rows no longer present, then upsert the current set.
       const alignmentObjectArr = metadata.alignmentObjects
-
-      if (!alignmentObjectArr) {
-        query = 'DELETE FROM alignmentobject where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else if (alignmentObjectArr.length === 0) {
-        query = 'DELETE FROM alignmentobject where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
+      if (!alignmentObjectArr || alignmentObjectArr.length === 0) {
+        await t.none('DELETE FROM alignmentobject WHERE educationalmaterialid = $1', [emid])
       } else {
-        query = 'SELECT * from alignmentobject where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          let toBeDeleted = true
-          for (let i = 0; alignmentObjectArr.length > i; i += 1) {
-            if (
-              element.alignmenttype === alignmentObjectArr[i].alignmentType &&
-              element.objectkey === alignmentObjectArr[i].key &&
-              element.source === alignmentObjectArr[i].source
-            ) {
-              toBeDeleted = false
-            }
-          }
-          if (toBeDeleted) {
-            query = `DELETE FROM alignmentobject where id = ${element.id};`
-            queries.push(await t.any(query))
-          }
+        const existing = await t.any(
+          'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1',
+          [emid]
+        )
+        const stale = existing.filter(
+          (row: any) =>
+            !alignmentObjectArr.some(
+              (a) =>
+                row.alignmenttype === a.alignmentType &&
+                row.objectkey === a.key &&
+                row.source === a.source
+            )
+        )
+        for (const row of stale) {
+          await t.none('DELETE FROM alignmentobject WHERE id = $1', [row.id])
         }
-        const cs = new pgp.helpers.ColumnSet(
+        const columns = new pgp.helpers.ColumnSet(
           [
             'alignmenttype',
             'targetname',
@@ -1136,204 +1065,129 @@ export const updateMaterial = async (
           ],
           { table: 'alignmentobject' }
         )
-
-        const values: any = []
-        alignmentObjectArr.forEach(async (element: any) => {
-          const obj = {
-            alignmenttype: element.alignmentType,
-            targetname: element.targetName,
-            source: element.source,
-            educationalmaterialid: emid,
-            objectkey: element.key,
-            educationalframework: !element.educationalFramework ? '' : element.educationalFramework,
-            targeturl: element.targetUrl
-          }
-          values.push(obj)
-        })
-        query =
-          pgp.helpers.insert(values, cs) +
-          ' ON CONFLICT ON CONSTRAINT constraint_alignmentobject DO UPDATE Set educationalframework = excluded.educationalframework'
-        queries.push(await t.any(query))
+        const values = alignmentObjectArr.map((element: any) => ({
+          alignmenttype: element.alignmentType,
+          targetname: element.targetName,
+          source: element.source,
+          educationalmaterialid: emid,
+          objectkey: element.key,
+          educationalframework: element.educationalFramework || '',
+          targeturl: element.targetUrl
+        }))
+        await t.none(
+          pgp.helpers.insert(values, columns) +
+            ' ON CONFLICT ON CONSTRAINT constraint_alignmentobject DO UPDATE SET educationalframework = excluded.educationalframework'
+        )
       }
-      // Author
-      const authorArr = metadata.authors
-      query = 'DELETE FROM author where educationalmaterialid = $1;'
-      response = await t.any(query, [emid])
-      queries.push(response)
-
-      for (const element of authorArr) {
-        query =
-          'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1, $2, $3, $4)'
-        queries.push(
-          await t.any(query, [
-            !element.author ? '' : element.author,
-            !element.organization ? '' : element.organization.value,
+      // authors
+      await t.none('DELETE FROM author WHERE educationalmaterialid = $1', [emid])
+      for (const element of metadata.authors) {
+        await t.none(
+          'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1, $2, $3, $4)',
+          [
+            element.author || '',
+            element.organization ? element.organization.value : '',
             emid,
-            !element.organization ? '' : element.organization.key
-          ])
+            element.organization ? element.organization.key : ''
+          ]
         )
       }
 
       // File details
-      const fileDetailArr = metadata.fileDetails
-      if (!!fileDetailArr) {
-        for (const element of fileDetailArr) {
+      if (metadata.fileDetails) {
+        for (const element of metadata.fileDetails) {
           await insertDataToDisplayName(t, emid, element.id, element)
-          query =
-            'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3'
-          queries.push(await t.any(query, [element.language, element.id, emid]))
+          await t.none(
+            'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3',
+            [element.language, element.id, emid]
+          )
           if (element.link) {
-            query = 'UPDATE material SET link = $1 WHERE id = $2 AND educationalmaterialid = $3'
-            log.debug(`update link: ${query}`, [element.link, element.id, emid])
-            queries.push(await t.any(query, [element.link, element.id, emid]))
+            await t.none(
+              'UPDATE material SET link = $1 WHERE id = $2 AND educationalmaterialid = $3',
+              [element.link, element.id, emid]
+            )
           }
         }
       }
-      // Accessibility features
-      params = []
-      arr = metadata.accessibilityFeatures
-      if (!arr || arr.length < 1) {
-        query = 'DELETE FROM accessibilityfeature where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= arr.length; i++) {
-          params.push(`('${arr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from accessibilityfeature where educationalmaterialid = $1) as i left join' +
-          '(select t.accessibilityfeaturekey from ( values ' +
-          params.join(',') +
-          ' ) as t(accessibilityfeaturekey)) as a on i.accessibilityfeaturekey = a.accessibilityfeaturekey where a.accessibilityfeaturekey is null'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          if (element.dnid !== null) {
-            query = `DELETE FROM accessibilityfeature where id = ${element.id};`
-            queries.push(await t.any(query))
-          }
-        }
-        for (const element of arr) {
-          query =
-            'INSERT INTO accessibilityfeature (accessibilityfeaturekey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityfeaturekey, educationalmaterialid) DO NOTHING;'
-          queries.push(await t.any(query, [element.key, element.value, emid]))
-        }
-      }
-      // accessibilityHazards
-      params = []
-      arr = metadata.accessibilityHazards
-      if (!arr || arr.length < 1) {
-        query = 'DELETE FROM accessibilityhazard where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= arr.length; i++) {
-          params.push(`('${arr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from accessibilityhazard where educationalmaterialid = $1) as i left join' +
-          '(select t.accessibilityhazardkey from ( values ' +
-          params.join(',') +
-          ' ) as t(accessibilityhazardkey)) as a on i.accessibilityhazardkey = a.accessibilityhazardkey where a.accessibilityhazardkey is null'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          if (element.dnid !== null) {
-            query = `DELETE FROM accessibilityhazard where id = ${element.id};`
-            queries.push(await t.any(query))
-          }
-        }
-        for (const element of arr) {
-          query =
-            'INSERT INTO accessibilityhazard (accessibilityhazardkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityhazardkey, educationalmaterialid) DO NOTHING;'
-          queries.push(await t.any(query, [element.key, element.value, emid]))
-        }
-      }
-      // educationalLevels
-      params = []
-      arr = metadata.educationalLevels
-      if (!arr || arr.length < 1) {
-        query = 'DELETE FROM educationallevel where educationalmaterialid = $1;'
-        response = await t.any(query, [emid])
-        queries.push(response)
-      } else {
-        for (let i = 1; i <= arr.length; i++) {
-          params.push(`('${arr[i - 1].key}')`)
-        }
-        query =
-          'select id from (select * from educationallevel where educationalmaterialid = $1) as i left join' +
-          '(select t.educationallevelkey from ( values ' +
-          params.join(',') +
-          ' ) as t(educationallevelkey)) as a on i.educationallevelkey = a.educationallevelkey where a.educationallevelkey is null'
-        response = await t.any(query, [emid])
-        queries.push(response)
-        for (const element of response) {
-          if (element.dnid !== null) {
-            query = `DELETE FROM educationallevel where id = ${element.id};`
-            queries.push(await t.any(query))
-          }
-        }
-        for (const element of arr) {
-          query =
-            'INSERT INTO educationallevel (educationallevelkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (educationallevelkey, educationalmaterialid) DO NOTHING;'
-          queries.push(await t.any(query, [element.key, element.value, emid]))
-        }
-      }
-      const attachmentDetailArr = metadata.attachmentDetails
-      if (attachmentDetailArr) {
-        for (const element of attachmentDetailArr) {
-          query =
+      await syncKeyedRows(
+        t,
+        {
+          table: 'accessibilityfeature',
+          keyColumn: 'accessibilityfeaturekey',
+          valueColumn: 'value',
+          updateOnConflict: false
+        },
+        emid,
+        metadata.accessibilityFeatures
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'accessibilityhazard',
+          keyColumn: 'accessibilityhazardkey',
+          valueColumn: 'value',
+          updateOnConflict: false
+        },
+        emid,
+        metadata.accessibilityHazards
+      )
+      await syncKeyedRows(
+        t,
+        {
+          table: 'educationallevel',
+          keyColumn: 'educationallevelkey',
+          valueColumn: 'value',
+          updateOnConflict: false
+        },
+        emid,
+        metadata.educationalLevels
+      )
+      if (metadata.attachmentDetails) {
+        for (const element of metadata.attachmentDetails) {
+          await t.none(
             'update attachment set kind = $1, defaultfile = $2, label = $3, srclang = $4 where (id = $5 ' +
-            'and (select educationalmaterialid from material where id = (select materialid from attachment where id = $5)) = $6)'
-          queries.push(
-            await t.none(query, [
-              element.kind,
-              element.default,
-              element.label,
-              element.lang,
-              element.id,
-              emid
-            ])
+              'and (select educationalmaterialid from material where id = (select materialid from attachment where id = $5)) = $6)',
+            [element.kind, element.default, element.label, element.lang, element.id, emid]
           )
         }
       }
+
       let publishedat
       if (metadata.isVersioned) {
-        const arr = metadata.materials
         if (metadata.materials) {
-          query =
-            'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;'
-          queries.push(await t.none(query, [emid]))
-          // insert new version
-          query =
-            'INSERT INTO educationalmaterialversion (educationalmaterialid, publishedat) values ($1, now()::timestamp(3)) returning publishedat;'
-          publishedat = await t.one(query, [emid])
-
-          for (const element of arr) {
-            query =
-              'INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) select $1,$2,now()::timestamp(3),$3 where exists (select * from material where id = $2 and educationalmaterialid = $1)'
-            queries.push(await t.none(query, [emid, element.materialId, element.priority]))
-            // add attachments
+          await t.none(
+            'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;',
+            [emid]
+          )
+          publishedat = await t.one(
+            'INSERT INTO educationalmaterialversion (educationalmaterialid, publishedat) values ($1, now()::timestamp(3)) returning publishedat;',
+            [emid]
+          )
+          for (const element of metadata.materials) {
+            await t.none(
+              'INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) select $1,$2,now()::timestamp(3),$3 where exists (select * from material where id = $2 and educationalmaterialid = $1)',
+              [emid, element.materialId, element.priority]
+            )
             if (element.attachments) {
               for (const att of element.attachments) {
-                query =
-                  'INSERT INTO attachmentversioncomposition (versioneducationalmaterialid, versionmaterialid, versionpublishedat, attachmentid) select $1,$2,now()::timestamp(3),$3 where exists (select * from attachment where id = $3 and materialid = $2)'
-                queries.push(await t.none(query, [emid, element.materialId, att]))
+                await t.none(
+                  'INSERT INTO attachmentversioncomposition (versioneducationalmaterialid, versionmaterialid, versionpublishedat, attachmentid) select $1,$2,now()::timestamp(3),$3 where exists (select * from attachment where id = $3 and materialid = $2)',
+                  [emid, element.materialId, att]
+                )
               }
             }
           }
         }
-      } else {
-        const materialArr = metadata.materials
-        if (materialArr) {
-          for (const element of materialArr) {
-            query =
-              'UPDATE versioncomposition SET priority = $3 WHERE educationalmaterialid = $1 and materialid = $2 and publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)'
-            queries.push(await t.none(query, [emid, element.materialId, element.priority]))
-          }
+      } else if (metadata.materials) {
+        for (const element of metadata.materials) {
+          await t.none(
+            'UPDATE versioncomposition SET priority = $3 WHERE educationalmaterialid = $1 and materialid = $2 and publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)',
+            [emid, element.materialId, element.priority]
+          )
         }
       }
-      return [t.batch(queries), publishedat]
+
+      return [null, publishedat]
     })
     .then(async (data: any) => {
       return data
