@@ -825,9 +825,9 @@ const insertDataToDescription = async (t: any, educationalmaterialid: string, de
 }
 
 export interface NameObject {
-  en: string
-  sv: string
-  fi: string
+  en?: string | null
+  sv?: string | null
+  fi?: string | null
 }
 
 export async function insertEducationalMaterialName(materialname: NameObject, id: string, t: any) {
@@ -864,6 +864,8 @@ type KeyedRowSpec = {
   updateOnConflict: boolean
 }
 
+type AlignmentRow = { id: number; alignmenttype: string; objectkey: string; source: string }
+
 /**
  * Replace the key/value rows of a material-scoped lookup table: delete the rows whose key
  * is no longer present, then upsert the current set. Every key/value is bound as a
@@ -874,7 +876,7 @@ const syncKeyedRows = async (
   t: ITask<pg.IClient> & pg.IClient,
   spec: KeyedRowSpec,
   emid: string,
-  items?: Array<{ key: string; value: string }>
+  items?: Array<{ key: string; value: string }> | null
 ): Promise<void> => {
   const { table, keyColumn, valueColumn, updateOnConflict } = spec
   if (!items || items.length < 1) {
@@ -904,15 +906,10 @@ const syncKeyedRows = async (
   await t.none(`${pgp.helpers.insert(rows, columns)} ${conflict}`)
 }
 
-/**
- * @param {EducationalMaterialMetadata} metadata
- * @param {string} emid
- * @return {Promise<any>}
- */
 export const updateMaterial = async (
   metadata: EducationalMaterialMetadata,
   emid: string
-): Promise<any> => {
+): Promise<[null, { publishedat: string } | undefined]> => {
   return await db
     .tx(async (t) => {
       log.debug(`Update metadata in updateMaterial(): ${JSON.stringify(metadata)}`)
@@ -956,7 +953,6 @@ export const updateMaterial = async (
         await insertDataToDescription(t, emid, metadata.description)
       }
 
-      // Keyed key/value tables sharing the same delete-missing + upsert pattern.
       await syncKeyedRows(
         t,
         {
@@ -1012,7 +1008,6 @@ export const updateMaterial = async (
         emid,
         metadata.publisher
       )
-      // isBasedOn — rebuild the material's isbasedon rows and their authors.
       const isBasedonArr = metadata.isBasedOn?.externals ?? []
       await t.none(
         'DELETE FROM isbasedonauthor WHERE isbasedonid IN (SELECT id FROM isbasedon WHERE educationalmaterialid = $1)',
@@ -1032,17 +1027,16 @@ export const updateMaterial = async (
         }
       }
 
-      // alignmentObjects — delete the rows no longer present, then upsert the current set.
       const alignmentObjectArr = metadata.alignmentObjects
       if (!alignmentObjectArr || alignmentObjectArr.length === 0) {
         await t.none('DELETE FROM alignmentobject WHERE educationalmaterialid = $1', [emid])
       } else {
-        const existing = await t.any(
+        const existing = (await t.any(
           'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1',
           [emid]
-        )
+        )) as AlignmentRow[]
         const stale = existing.filter(
-          (row: any) =>
+          (row) =>
             !alignmentObjectArr.some(
               (a) =>
                 row.alignmenttype === a.alignmentType &&
@@ -1065,7 +1059,7 @@ export const updateMaterial = async (
           ],
           { table: 'alignmentobject' }
         )
-        const values = alignmentObjectArr.map((element: any) => ({
+        const values = alignmentObjectArr.map((element) => ({
           alignmenttype: element.alignmentType,
           targetname: element.targetName,
           source: element.source,
@@ -1079,9 +1073,8 @@ export const updateMaterial = async (
             ' ON CONFLICT ON CONSTRAINT constraint_alignmentobject DO UPDATE SET educationalframework = excluded.educationalframework'
         )
       }
-      // authors
       await t.none('DELETE FROM author WHERE educationalmaterialid = $1', [emid])
-      for (const element of metadata.authors) {
+      for (const element of metadata.authors ?? []) {
         await t.none(
           'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1, $2, $3, $4)',
           [
@@ -1152,7 +1145,7 @@ export const updateMaterial = async (
         }
       }
 
-      let publishedat
+      let publishedat: { publishedat: string } | undefined
       if (metadata.isVersioned) {
         if (metadata.materials) {
           await t.none(
