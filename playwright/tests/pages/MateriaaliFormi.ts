@@ -65,9 +65,13 @@ export const MateriaaliFormi = (
       await page.locator(`ng-select#language${nth}`).click()
       await page.getByRole('option', { name: kieli, exact: true }).click()
     },
-    lisaaTiedostonKieliversiot: async (en: string, sv: string) => {
-      // Two "Kieliversiot" buttons on the files step: material name (0), file display name (1).
-      await page.getByRole('button', { name: 'Kieliversiot' }).nth(1).click()
+    lisaaTiedostonKieliversiot: async (en: string, sv: string, nth = 0) => {
+      // "Kieliversiot" buttons on the files step: material name (0), then one per file
+      // (file nth → button nth + 1).
+      await page
+        .getByRole('button', { name: 'Kieliversiot' })
+        .nth(nth + 1)
+        .click()
       await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (englanniksi)' }).fill(en)
       await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (ruotsiksi)' }).fill(sv)
       await locators.tallennaMuutokset.click()

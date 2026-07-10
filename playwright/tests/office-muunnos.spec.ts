@@ -9,7 +9,7 @@ test('Office-tiedostosta muodostuu ladattava PDF-versio', async ({ page }) => {
   const uusi = await omatMateriaalit.luoUusiMateriaali()
   const nimi = uusi.randomMateriaaliNimi('Office-muunnos')
   await uusi.taytaJaTallennaUusiMateriaali(nimi, {
-    tiedostot: { tiedostonimi: 'office-test.docx' }
+    tiedostot: [{ nimi: 'office-test.docx' }]
   })
 
   const pdfPreview = page

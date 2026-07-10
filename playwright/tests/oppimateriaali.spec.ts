@@ -119,7 +119,7 @@ test('käyttäjä voi lisätä oppimateriaaleja eri kielillä', async ({ page })
 
   for (const kieli of ['inarinsaame', 'viro', 'ruotsi', 'suomi']) {
     await test.step(`lisää oppimateriaali kielellä ${kieli}`, async () => {
-      const { nimi } = await luoMateriaali(page, `Materiaali ${kieli}`, { tiedostot: { kieli } })
+      const { nimi } = await luoMateriaali(page, `Materiaali ${kieli}`, { tiedostot: [{ kieli }] })
       materiaalienNimet.push(nimi)
     })
   }
@@ -154,7 +154,7 @@ test('käyttäjä voi päivittää materiaalista kaikki linkit kerralla ja julka
 test('käyttäjä voi luoda materiaalin melkein kaikki kentät täytettynä', async ({ page }) => {
   await Etusivu(page).goto()
   const { nimi } = await luoMateriaali(page, 'Kaikki kentät', {
-    tiedostot: { kieliversiot: { en: 'blank eng', sv: 'blank sv' } },
+    tiedostot: [{ kieliversiot: { en: 'blank eng', sv: 'blank sv' } }],
     perustiedot: {
       tekijanOrganisaatio: '3D Group Oy',
       kohderyhma: 'Huoltaja',

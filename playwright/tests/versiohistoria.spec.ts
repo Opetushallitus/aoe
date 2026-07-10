@@ -2,10 +2,8 @@ import * as path from 'node:path'
 import { expect, test, type Page } from '@playwright/test'
 import { Etusivu } from './pages/Etusivu'
 import type { Materiaali } from './pages/Materiaali'
-import type { UusiOppimateriaali } from './pages/UusiOppimateriaali'
 
 type MateriaaliPage = ReturnType<typeof Materiaali>
-type UusiMateriaaliPage = ReturnType<typeof UusiOppimateriaali>
 
 test('käyttäjä voi vaihtaa materiaalin kolmen version välillä', async ({ page }) => {
   const etusivu = Etusivu(page)
@@ -14,7 +12,9 @@ test('käyttäjä voi vaihtaa materiaalin kolmen version välillä', async ({ pa
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaaliNimi = uusiMateriaali.randomMateriaaliNimi('Versiohistoria materiaali')
 
-  const materiaali = await luoMateriaaliKahdellaTiedostolla(uusiMateriaali, materiaaliNimi)
+  const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(materiaaliNimi, {
+    tiedostot: [{ nimi: 'blank.pdf' }, { nimi: 'aoe_test_file.pdf' }]
+  })
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
   await materiaali.expectVersiohistoriaPiilotettu()
   await materiaali.expectTiedosto('blank.pdf')
@@ -57,28 +57,6 @@ test('käyttäjä voi vaihtaa materiaalin kolmen version välillä', async ({ pa
   await materiaali.expectTiedosto('blank.pdf')
   await materiaali.expectTiedosto('aoe_test_file.pdf')
 })
-
-const luoMateriaaliKahdellaTiedostolla = async (
-  uusiMateriaali: UusiMateriaaliPage,
-  nimi: string
-): Promise<MateriaaliPage> => {
-  const { form } = uusiMateriaali
-  await form.oppimateriaalinNimi(nimi)
-  await form.lisaaTiedosto('blank.pdf', 0)
-  await form.lisaaTiedosto('aoe_test_file.pdf', 1)
-  const perustiedot = await form.seuraava()
-  await perustiedot.lisaaHenkilo()
-  await perustiedot.lisaaAsiasana()
-  await perustiedot.lisaaOppimateriaalinTyyppi()
-  const koulutustiedot = await perustiedot.seuraava()
-  await koulutustiedot.valitseKoulutusasteet('korkeakoulutus')
-  const tarkemmatTiedot = await koulutustiedot.seuraava()
-  const lisenssitiedot = await tarkemmatTiedot.seuraava()
-  await lisenssitiedot.valitseLisenssi()
-  const hyodynnetytMateriaalit = await lisenssitiedot.seuraava()
-  const esikatseluJaTallennus = await hyodynnetytMateriaalit.seuraava()
-  return esikatseluJaTallennus.tallenna(nimi)
-}
 
 const poistaTiedostoJaTallenna = async (
   page: Page,

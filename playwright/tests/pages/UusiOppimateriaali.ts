@@ -3,7 +3,11 @@ import { Header } from './Header'
 import { MateriaaliFormi } from './MateriaaliFormi'
 
 export type TaytaOpts = {
-  tiedostot?: { kieli?: string; kieliversiot?: { en: string; sv: string }; tiedostonimi?: string }
+  tiedostot?: Array<{
+    nimi?: string
+    kieli?: string
+    kieliversiot?: { en: string; sv: string }
+  }>
   perustiedot?: {
     kohderyhma?: string
     kayttotarkoitus?: string
@@ -39,15 +43,20 @@ export const UusiOppimateriaali = (page: Page) => {
   const taytaJaTallennaUusiMateriaali = async (materiaaliNimi: string, opts: TaytaOpts = {}) => {
     const { form } = MateriaaliFormi(page)
     await form.oppimateriaalinNimi(materiaaliNimi)
-    await form.lisaaTiedosto(opts.tiedostot?.tiedostonimi)
-    if (opts.tiedostot?.kieli) {
-      await form.valitseTiedostonKieli(opts.tiedostot.kieli)
-    }
-    if (opts.tiedostot?.kieliversiot) {
-      await form.lisaaTiedostonKieliversiot(
-        opts.tiedostot.kieliversiot.en,
-        opts.tiedostot.kieliversiot.sv
-      )
+    const tiedostot = opts.tiedostot ?? [{}]
+    for (let nth = 0; nth < tiedostot.length; nth++) {
+      const tiedosto = tiedostot[nth]
+      await form.lisaaTiedosto(tiedosto.nimi, nth)
+      if (tiedosto.kieli) {
+        await form.valitseTiedostonKieli(tiedosto.kieli, nth)
+      }
+      if (tiedosto.kieliversiot) {
+        await form.lisaaTiedostonKieliversiot(
+          tiedosto.kieliversiot.en,
+          tiedosto.kieliversiot.sv,
+          nth
+        )
+      }
     }
     const perustiedot = await form.seuraava()
     if (opts.perustiedot?.kansikuva) {
