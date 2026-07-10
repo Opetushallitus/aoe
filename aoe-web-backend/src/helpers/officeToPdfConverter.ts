@@ -5,10 +5,11 @@ import { downloadFromStorage, s3StreamBody, uploadFileToStorage } from '@query/f
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
-import fs, { WriteStream } from 'fs'
+import fs from 'fs'
 import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
 import { Readable } from 'stream'
+import { pipeline } from 'node:stream/promises'
 import { StatusError } from './errorHandler'
 
 export const s3 = new S3Client(s3ClientConfig)
@@ -235,29 +236,23 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
     }
     throw err
   }
-  return new Promise<string | null>((resolve, reject) => {
-    const ws: WriteStream = fs
-      .createWriteStream(folderpath)
-      .once('error', (err: Error): void => {
-        log.error('Writing downstreamed file to disk failed', err)
-        reject(err)
-      })
-      .once('close', async (): Promise<void> => {
-        try {
-          const path: string = await convertOfficeFileToPDF(folderpath, filename)
-          return resolve(path)
-        } catch (e) {
-          log.error('Error catch when trying to convertOfficeFileToPDF()')
-          return reject(e)
-        }
-      })
-    readStream
-      .on('error', (err): void => {
-        reject(err)
-        log.error('Error in downstreamAndConvertOfficeFileToPDF()', err)
-      })
-      .pipe(ws)
-  })
+  // pipeline destroys the S3 read stream on finish, error, or abort, so its socket
+  // is always released back to the pool (same pattern as downloadFromStorage).
+  try {
+    await pipeline(readStream, fs.createWriteStream(folderpath))
+  } catch (err) {
+    log.error(
+      'Downstreaming office file to disk failed in downstreamAndConvertOfficeFileToPDF()',
+      err
+    )
+    throw err
+  }
+  try {
+    return await convertOfficeFileToPDF(folderpath, filename)
+  } catch (err) {
+    log.error('Error catch when trying to convertOfficeFileToPDF()')
+    throw err
+  }
 }
 
 /**

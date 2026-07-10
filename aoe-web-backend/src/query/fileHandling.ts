@@ -31,7 +31,7 @@ import path from 'path'
 import { ColumnSet, ITask } from 'pg-promise'
 import s3Zip, { ArchiveOptions } from 's3-zip'
 import { Transaction } from 'sequelize'
-import stream, { PassThrough, Readable } from 'stream'
+import { Readable } from 'stream'
 import { pipeline } from 'node:stream/promises'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
@@ -878,17 +878,19 @@ async function deleteDataToTempAttachmentTable(filename: any, materialId: any): 
  * @param {Material} materialMeta
  * @return {Promise<ManagedUpload.SendData>}
  */
-export const uploadFileToStorage = (
+export const uploadFileToStorage = async (
   filePath: string,
   fileName: string,
   bucketName: string,
   materialMeta?: Material
 ): Promise<SendData> => {
-  const passThrough: PassThrough = new stream.PassThrough()
+  // Stream the local file straight into lib-storage's multipart Upload, which
+  // accepts a Readable of unknown length. No PassThrough needed.
+  const body = fs.createReadStream(filePath)
   let putObjectS3: PutObjectCommandInput = {
     Bucket: bucketName,
     Key: fileName,
-    Body: passThrough
+    Body: body
   }
   if (materialMeta) {
     putObjectS3 = {
@@ -899,29 +901,15 @@ export const uploadFileToStorage = (
       }
     }
   }
-  return new Promise((resolve, reject): void => {
-    // Read a locally stored file to the streaming passthrough.
-    fs.createReadStream(filePath)
-      .once('error', (err: Error): void => {
-        log.error('Readstream for a local file failed in uploadLocalFileToCloudStorage()', fileName)
-        reject(err)
-      })
-      .pipe(passThrough)
-    // Upstream a locally stored file to the cloud storage from the streaming passthrough.
-    // Body is a stream of unknown length, so use lib-storage's multipart Upload.
-    new Upload({ client: s3Client, params: putObjectS3 })
-      .done()
-      .then((resp: SendData): void => {
-        resolve(resp)
-      })
-      .catch((err: Error): void => {
-        log.error(
-          'Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s',
-          fileName
-        )
-        reject(err)
-      })
-  })
+  try {
+    return await new Upload({ client: s3Client, params: putObjectS3 }).done()
+  } catch (err) {
+    log.error('Upstream to the cloud storage failed in uploadFileToStorage(): %s', fileName)
+    throw err
+  } finally {
+    // Release the file descriptor whether the upload finished, failed, or aborted.
+    body.destroy()
+  }
 }
 
 /**
@@ -1023,6 +1011,13 @@ export const downloadFile = async (
     res.locals.id = educationalmaterialId
 
     await downloadFileFromStorage(req, res, next)
+
+    // A soft failure (e.g. NoSuchKey -> 404) already ended the response; don't
+    // count it as a download or fall through to the analytics middleware, which
+    // would otherwise overwrite the status with 200.
+    if (res.statusCode >= 400) {
+      return
+    }
 
     // Increase download counter unless the user is the owner of the material.
     if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalmaterialId, req))) {
@@ -1127,6 +1122,12 @@ export const downloadFileFromStorage = async (
   })
 }
 
+// The exact message both storage-download paths log when a DB record's backing
+// object is missing from S3. Kept identical so log-based alerting matches either
+// path.
+const missingStorageObjectMessage = (paramsS3: { Bucket: string; Key: string }): string =>
+  `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
+
 /**
  * Download a single file to a given directory.
  * Wait for download to complete before resolving the promise function.
@@ -1147,11 +1148,9 @@ export const directoryDownloadFromStorage = async (
     streamS3 = s3StreamBody((await s3Client.send(new GetObjectCommand(paramsS3))).Body)
   } catch (err: any) {
     if (err?.name === 'NoSuchKey') {
-      // Record exists (caller checked) but object is gone: throw so the caller pages on-call.
-      throw new StatusError(
-        404,
-        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
-      )
+      // Record exists (caller checked) but object is gone; the caller (h5pService)
+      // logs and pages on-call.
+      throw new StatusError(404, missingStorageObjectMessage(paramsS3))
     }
     throw err
   }
@@ -1205,10 +1204,10 @@ export const downloadFromStorage = async (
       return false
     }
     if (err?.name === 'NoSuchKey') {
-      log.error(
-        `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
-      )
-      res.status(404)
+      log.error(missingStorageObjectMessage(paramsS3))
+      if (!res.headersSent) {
+        res.status(404).end()
+      }
       return false
     }
     next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))

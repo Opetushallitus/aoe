@@ -3,7 +3,7 @@ import { Header } from './Header'
 import { MateriaaliFormi } from './MateriaaliFormi'
 
 export type TaytaOpts = {
-  tiedostot?: { kieli?: string; kieliversiot?: { en: string; sv: string } }
+  tiedostot?: { kieli?: string; kieliversiot?: { en: string; sv: string }; tiedostonimi?: string }
   perustiedot?: {
     kohderyhma?: string
     kayttotarkoitus?: string
@@ -38,7 +38,7 @@ export const UusiOppimateriaali = (page: Page) => {
   const taytaJaTallennaUusiMateriaali = async (materiaaliNimi: string, opts: TaytaOpts = {}) => {
     const { form } = MateriaaliFormi(page)
     await form.oppimateriaalinNimi(materiaaliNimi)
-    await form.lisaaTiedosto()
+    await form.lisaaTiedosto(opts.tiedostot?.tiedostonimi)
     if (opts.tiedostot?.kieli) {
       await form.valitseTiedostonKieli(opts.tiedostot.kieli)
     }
