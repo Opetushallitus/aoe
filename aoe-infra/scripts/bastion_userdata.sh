@@ -4,8 +4,7 @@ mkdir /data
 mount /dev/nvme1n1 /data
 chmod 770 /data
 
-yum update
-yum install -y htop python3-pip python3-wheel jq bash tmux nohup
-amazon-linux-extras install redis6 postgresql14
+dnf update
+dnf install -y htop python3-pip python3-wheel jq bash tmux nohup redis6 postgresql16
 
 wget -O /usr/bin/global-bundle.pem https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem

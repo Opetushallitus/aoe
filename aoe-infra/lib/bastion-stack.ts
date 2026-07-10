@@ -69,7 +69,9 @@ export class BastionStack extends Stack {
           })
         }
       ],
-      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }
+      subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      machineImage: ec2.MachineImage.latestAmazonLinux2023(),
+      requireImdsv2: true
     })
 
     const userDataScript = readFileSync('./scripts/bastion_userdata.sh', 'utf8')
