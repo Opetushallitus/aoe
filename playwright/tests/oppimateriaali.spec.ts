@@ -151,7 +151,7 @@ test('käyttäjä voi päivittää materiaalista kaikki linkit kerralla ja julka
   await esikatseluJaTallennut.tallenna(materiaaliNimi)
 })
 
-test('käyttäjä voi luoda materiaalin kaikki kentät täytettynä', async ({ page }) => {
+test('käyttäjä voi luoda materiaalin melkein kaikki kentät täytettynä', async ({ page }) => {
   await Etusivu(page).goto()
   const { nimi } = await luoMateriaali(page, 'Kaikki kentät', {
     tiedostot: { kieliversiot: { en: 'blank eng', sv: 'blank sv' } },
@@ -159,7 +159,8 @@ test('käyttäjä voi luoda materiaalin kaikki kentät täytettynä', async ({ p
       tekijanOrganisaatio: '3D Group Oy',
       kohderyhma: 'Huoltaja',
       kayttotarkoitus: 'Interaktiivinen materiaali',
-      kuvaus: 'Testi materiaali missä on kaikki kentät käytössä'
+      kuvaus: 'Testi materiaali missä on kaikki kentät käytössä',
+      kansikuva: true
     },
     koulutustiedot: { koulutusasteet: ['varhaiskasvatus'] },
     tarkemmatTiedot: {
@@ -177,6 +178,9 @@ test('käyttäjä voi luoda materiaalin kaikki kentät täytettynä', async ({ p
       name: 'google'
     }
   })
+
+  // Verify the user-uploaded thumbnail is shown (served from the backend API, not a default).
+  await expect(page.locator('img[alt="Oppimateriaalin kansikuva"][src*="/api/"]')).toBeVisible()
 
   await tarkastaMateriaalitLoytyy(page, nimi)
 })

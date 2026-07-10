@@ -10,6 +10,7 @@ export type TaytaOpts = {
     organisaatio?: string
     tekijanOrganisaatio?: string
     kuvaus?: string
+    kansikuva?: boolean
   }
   koulutustiedot?: {
     koulutusasteet?: string[]
@@ -49,6 +50,9 @@ export const UusiOppimateriaali = (page: Page) => {
       )
     }
     const perustiedot = await form.seuraava()
+    if (opts.perustiedot?.kansikuva) {
+      await perustiedot.lataaKansikuva()
+    }
     await perustiedot.lisaaHenkilo()
     if (opts.perustiedot?.tekijanOrganisaatio) {
       await perustiedot.valitseTekijanOrganisaatio(opts.perustiedot.tekijanOrganisaatio)
