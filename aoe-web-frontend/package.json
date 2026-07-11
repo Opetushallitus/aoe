@@ -61,7 +61,7 @@
     "@angular/cli": "20.3.31",
     "@angular/compiler-cli": "20.3.25",
     "@angular/language-service": "20.3.25",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "@types/ws": "8.18.1",
     "sass": "1.101.0",
     "typescript": "5.9.3"
