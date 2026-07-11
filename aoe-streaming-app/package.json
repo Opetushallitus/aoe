@@ -33,7 +33,7 @@
     "@types/compression": "1.8.1",
     "@types/cors": "2.8.19",
     "@types/morgan": "1.9.10",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "knip": "6.25.0",
     "typescript": "5.9.3"
   },
