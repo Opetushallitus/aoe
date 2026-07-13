@@ -42,11 +42,12 @@ export const handleError = (err: any, req: Request, res: Response, _next: NextFu
     causeStack: err.cause?.stack
   }
 
-  // 400/404 = expected client-error noise. AuthorizationResponseError = expected OIDC auth-flow failure
+  // 400/404/416 = expected client-error noise (416 = unsatisfiable byte-range on a
+  // static file). AuthorizationResponseError = expected OIDC auth-flow failure
   // (e.g. NoPotentialFlow: expired/abandoned/replayed login), not a server fault.
   // -> warn (not an alert). Everything else -> error.
   const expectedClientError = err?.name === 'AuthorizationResponseError'
-  if (statusCode === 400 || statusCode === 404 || expectedClientError) {
+  if (statusCode === 400 || statusCode === 404 || statusCode === 416 || expectedClientError) {
     log.warn(errorDetails)
   } else {
     log.error(errorDetails)
