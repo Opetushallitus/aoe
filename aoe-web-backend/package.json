@@ -86,7 +86,7 @@
     "@types/node": "24.13.3",
     "@types/passport": "1.0.17",
     "@types/s3-zip": "3.3.1",
-    "knip": "6.25.0",
+    "knip": "6.26.0",
     "tsc-alias": "1.9.0",
     "typescript": "5.9.3"
   }
