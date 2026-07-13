@@ -1,4 +1,5 @@
 import { config } from '@/config'
+import { isClientAbortError } from '@/helpers/errorHandler'
 import { H5PUploadResult } from '@aoe/services/h5pService'
 import {
   fs,
@@ -10,10 +11,9 @@ import {
   IUser,
   LibraryName
 } from '@lumieducation/h5p-server'
-import { directoryDownloadFromStorage } from '@query/fileHandling'
+import { downloadToBuffer } from '@query/fileHandling'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
-import fsNode, { promises } from 'node:fs'
 import path from 'path'
 
 let h5pConfig: H5PConfig
@@ -58,13 +58,19 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
     Key: keyS3
   }
-  const targetPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${keyS3}`
   const options: { onlyInstallLibraries?: boolean } = {
     onlyInstallLibraries: false
   }
+  const controller = new AbortController()
+  const abortOnClientDisconnect = (): void => {
+    if (!res.writableFinished) {
+      controller.abort()
+    }
+  }
+  res.once('close', abortOnClientDisconnect)
   try {
-    await directoryDownloadFromStorage(paramsS3, targetPath)
-    const buffer: Buffer = await promises.readFile(targetPath)
+    // Stream the package straight into memory; uploadPackage only needs the buffer.
+    const buffer: Buffer = await downloadToBuffer(paramsS3, controller.signal)
 
     // Install H5P application and needed library dependencies.
     const result: H5PUploadResult = await h5pEditor.uploadPackage(buffer, userH5P, options)
@@ -90,14 +96,14 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     })
     res.status(200).send(htmlH5P).end()
   } catch (err: unknown) {
+    // Client went away (e.g. gateway timeout then reload): the S3 request was
+    // cancelled, not a server fault.
+    if (controller.signal.aborted || isClientAbortError(err)) {
+      return
+    }
     log.error('Processing or rendering H5P failed', err)
     throw err
+  } finally {
+    res.removeListener('close', abortOnClientDisconnect)
   }
-
-  // Delete the downloaded H5P archive file in HTML directory.
-  fsNode.unlink(targetPath, (err: unknown): void => {
-    if (err) {
-      log.error('Deleting the H5P archive file failed', err)
-    }
-  })
 }
