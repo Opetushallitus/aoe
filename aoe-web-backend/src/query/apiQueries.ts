@@ -103,9 +103,13 @@ export const getEducationalMaterialMetadata = async (
   next: NextFunction,
   resDisabled?: boolean
 ): Promise<void> => {
-  const eduMaterialId: number = resDisabled
-    ? parseInt(res.locals.id as string, 10)
-    : parseInt(req.params.edumaterialid as string, 10)
+  const rawId = resDisabled ? (res.locals.id as string) : (req.params.edumaterialid as string)
+  const eduMaterialId: number = parseInt(rawId, 10)
+
+  if (Number.isNaN(eduMaterialId)) {
+    log.error(`Invalid material id '${rawId}' (parsed to NaN) at ${req.method} ${req.originalUrl}`)
+    return next(new StatusError(400, `Invalid material id: '${rawId}'`))
+  }
 
   db.tx({ mode }, async (t: any): Promise<any> => {
     const queries: any = []
