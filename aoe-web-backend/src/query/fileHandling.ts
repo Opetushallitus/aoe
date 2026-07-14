@@ -33,6 +33,8 @@ import s3Zip, { ArchiveOptions } from 's3-zip'
 import { Transaction } from 'sequelize'
 import { Readable } from 'stream'
 import { pipeline } from 'node:stream/promises'
+import os from 'node:os'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
@@ -1167,6 +1169,51 @@ export const downloadToBuffer = async (
   } catch (err) {
     // Release the socket back to the pool on abort/error; v3 won't do it for us.
     streamS3.destroy()
+    throw err
+  }
+}
+
+/**
+ * Download a single storage object to a unique, request-owned temporary file and
+ * return its path. Streams straight to disk (no in-memory buffer), so large
+ * archives don't have to fit in RAM. The directory is created with mkdtemp, so
+ * concurrent callers never collide, and is removed on error. Pass an AbortSignal
+ * to cancel the request (and release the socket) when the client disconnects.
+ * @param {{Bucket: string, Key: string}} paramsS3
+ * @param {AbortSignal} [abortSignal]
+ * @return {Promise<{ directory: string; file: string }>}
+ */
+export const downloadToTemporaryFile = async (
+  paramsS3: {
+    Bucket: string
+    Key: string
+  },
+  abortSignal?: AbortSignal
+): Promise<{ directory: string; file: string }> => {
+  // Create the temp directory before issuing the S3 request so there is no async
+  // gap between acquiring the response Body and the pipeline that consumes it;
+  // otherwise a throw here would leak the Body's socket.
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'aoe-h5p-'))
+  const file = path.join(directory, 'package.h5p')
+  try {
+    let body: Readable
+    try {
+      // v3 rejects send() on missing-key/access errors before returning a Body.
+      body = s3StreamBody(
+        (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal })).Body
+      )
+    } catch (err) {
+      if (err instanceof Error && err.name === 'NoSuchKey') {
+        // Record exists (caller checked) but object is gone; the caller
+        // (h5pService) logs and pages on-call.
+        throw new StatusError(404, missingStorageObjectMessage(paramsS3))
+      }
+      throw err
+    }
+    await pipeline(body, fs.createWriteStream(file), { signal: abortSignal })
+    return { directory, file }
+  } catch (err) {
+    await rm(directory, { recursive: true, force: true })
     throw err
   }
 }
