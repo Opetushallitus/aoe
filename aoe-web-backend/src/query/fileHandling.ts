@@ -1131,49 +1131,6 @@ const missingStorageObjectMessage = (paramsS3: { Bucket: string; Key: string }):
   `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
 
 /**
- * Download a single storage object fully into memory.
- * Streams the S3 body into a Buffer with no temporary file, so concurrent
- * callers can never collide on a shared path. Pass an AbortSignal to cancel the
- * request when the client disconnects.
- * @param {{Bucket: string, Key: string}} paramsS3
- * @param {AbortSignal} [abortSignal]
- * @return {Promise<Buffer>}
- */
-export const downloadToBuffer = async (
-  paramsS3: {
-    Bucket: string
-    Key: string
-  },
-  abortSignal?: AbortSignal
-): Promise<Buffer> => {
-  let streamS3: Readable
-  try {
-    // v3 rejects send() on missing-key/access errors before returning a Body.
-    streamS3 = s3StreamBody(
-      (await s3Client.send(new GetObjectCommand(paramsS3), { abortSignal })).Body
-    )
-  } catch (err: any) {
-    if (err?.name === 'NoSuchKey') {
-      // Record exists (caller checked) but object is gone; the caller (h5pService)
-      // logs and pages on-call.
-      throw new StatusError(404, missingStorageObjectMessage(paramsS3))
-    }
-    throw err
-  }
-  try {
-    const chunks: Buffer[] = []
-    for await (const chunk of streamS3) {
-      chunks.push(chunk as Buffer)
-    }
-    return Buffer.concat(chunks)
-  } catch (err) {
-    // Release the socket back to the pool on abort/error; v3 won't do it for us.
-    streamS3.destroy()
-    throw err
-  }
-}
-
-/**
  * Download a single storage object to a unique, request-owned temporary file and
  * return its path. Streams straight to disk (no in-memory buffer), so large
  * archives don't have to fit in RAM. The directory is created with mkdtemp, so

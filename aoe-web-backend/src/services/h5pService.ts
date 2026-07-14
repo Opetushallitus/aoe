@@ -11,9 +11,10 @@ import {
   IUser,
   LibraryName
 } from '@lumieducation/h5p-server'
-import { downloadToBuffer } from '@query/fileHandling'
+import { downloadToTemporaryFile } from '@query/fileHandling'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
+import { rm } from 'node:fs/promises'
 import path from 'path'
 
 let h5pConfig: H5PConfig
@@ -68,12 +69,16 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     }
   }
   res.once('close', abortOnClientDisconnect)
+  let temporaryPackage: { directory: string; file: string } | undefined
   try {
-    // Stream the package straight into memory; uploadPackage only needs the buffer.
-    const buffer: Buffer = await downloadToBuffer(paramsS3, controller.signal)
+    temporaryPackage = await downloadToTemporaryFile(paramsS3, controller.signal)
 
     // Install H5P application and needed library dependencies.
-    const result: H5PUploadResult = await h5pEditor.uploadPackage(buffer, userH5P, options)
+    const result: H5PUploadResult = await h5pEditor.uploadPackage(
+      temporaryPackage.file,
+      userH5P,
+      options
+    )
 
     // Update H5P application with the metadata and return a content ID.
     let mainlib: ILibraryName
@@ -104,6 +109,13 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     log.error('Processing or rendering H5P failed', err)
     throw err
   } finally {
+    if (temporaryPackage) {
+      await rm(temporaryPackage.directory, { recursive: true, force: true }).catch(
+        (err: unknown) => {
+          log.error('Removing H5P temporary directory failed', err)
+        }
+      )
+    }
     res.removeListener('close', abortOnClientDisconnect)
   }
 }
