@@ -3,19 +3,19 @@
 <dl class="row g-0">
   @if (hasName) {
     @if (savedData?.name?.fi) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.files.materialName.label.fi' | translate"
-      [item]="savedData.name.fi"></app-preview-row>
+      [item]="savedData.name.fi"></div>
     }
     @if (savedData?.name?.en) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.files.materialName.label.en' | translate"
-      [item]="savedData.name.en"></app-preview-row>
+      [item]="savedData.name.en"></div>
     }
     @if (savedData?.name?.sv) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.files.materialName.label.sv' | translate"
-      [item]="savedData.name.sv"></app-preview-row>
+      [item]="savedData.name.sv"></div>
     }
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.name" | translate }}</dt>
@@ -134,10 +134,10 @@
 
 
   @if (hasKeyword) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.basicDetails.keywords.label' | translate"
       [items]="savedData?.keywords"
-    property="value"></app-preview-row>
+    property="value"></div>
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.keywords" | translate }}</dt>
     <dd class="col-sm-9">
@@ -150,10 +150,10 @@
 
 
   @if (hasLearningResourceType) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate"
       [items]="savedData?.learningResourceTypes"
-    property="value"></app-preview-row>
+    property="value"></div>
   } @else {
     <dt class="col-sm-3">{{ "forms.educationalResource.preview.required.learningResourceTypes" | translate }}</dt>
     <dd class="col-sm-9">
@@ -166,34 +166,34 @@
 
 
   @if (savedData?.educationalRoles?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.basicDetails.educationalRoles.label' | translate"
       [items]="savedData.educationalRoles"
-    property="value"></app-preview-row>
+    property="value"></div>
   }
 
   @if (savedData?.educationalUses?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.basicDetails.educationalUses.label' | translate"
       [items]="savedData.educationalUses"
-    property="value"></app-preview-row>
+    property="value"></div>
   }
 
   @if (savedData?.description) {
     @if (savedData?.description?.fi) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.basicDetails.description.label.fi' | translate"
-      [item]="savedData.description.fi"></app-preview-row>
+      [item]="savedData.description.fi"></div>
     }
     @if (savedData?.description?.en) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.basicDetails.description.label.en' | translate"
-      [item]="savedData.description.en"></app-preview-row>
+      [item]="savedData.description.en"></div>
     }
     @if (savedData?.description?.sv) {
-      <app-preview-row
+      <div appPreviewRow
         [title]="'forms.educationalResource.basicDetails.description.label.sv' | translate"
-      [item]="savedData.description.sv"></app-preview-row>
+      [item]="savedData.description.sv"></div>
     }
   }
 </dl>
@@ -203,193 +203,193 @@
 <h3>{{ "forms.educationalResource.nav.educationalDetails" | translate }}</h3>
 
 <dl class="row g-0">
-  <app-preview-row
+  <div appPreviewRow
     [title]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
     [items]="savedData?.educationalLevels"
     property="value"
     [required]="!hasEducationalLevel"
-  [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+  [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
 
   <!-- early childhood education -->
 
   @if (earlyChildhoodEducationSubjects?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate"
       [items]="earlyChildhoodEducationSubjects"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (earlyChildhoodEducationObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate"
       [items]="earlyChildhoodEducationObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (savedData?.suitsAllEarlyChildhoodSubjects) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (earlyChildhoodEducationFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate"
-    [items]="earlyChildhoodEducationFramework"></app-preview-row>
+    [items]="earlyChildhoodEducationFramework"></div>
   }
 
   <!-- pre-primary education -->
 
   @if (prePrimaryEducationSubjects?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate"
       [items]="prePrimaryEducationSubjects"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (prePrimaryEducationObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate"
       [items]="prePrimaryEducationObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (savedData?.suitsAllPrePrimarySubjects) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (prePrimaryEducationFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate"
-    [items]="prePrimaryEducationFramework"></app-preview-row>
+    [items]="prePrimaryEducationFramework"></div>
   }
 
   <!-- basic education -->
 
   @if (basicStudySubjects?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate"
       [items]="basicStudySubjects"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (shouldHaveBasicEduObjectivesAndContents || hasBasicEduObjectives) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate"
       [items]="basicStudyObjectives"
       property="targetName"
       [required]="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduObjectives"
-    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
   }
 
   @if (shouldHaveBasicEduObjectivesAndContents || hasBasicEduContents) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate"
       [items]="basicStudyContents"
       property="targetName"
       [required]="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduContents"
-    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
   }
 
   @if (savedData?.suitsAllBasicStudySubjects) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.basicEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (basicStudyFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate"
-    [items]="basicStudyFramework"></app-preview-row>
+    [items]="basicStudyFramework"></div>
   }
 
   <!-- preparatory education -->
 
   @if (preparatoryEducationSubjects?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label' | translate"
       [items]="preparatoryEducationSubjects"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (preparatoryEducationObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label' | translate"
       [items]="preparatoryEducationObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   <!-- upper secondary education -->
 
   @if (upperSecondarySchoolSubjectsOld?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate
     "
       [items]="upperSecondarySchoolSubjectsOld"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
   <!--upperSecondarySchoolSubjectsOld-->
 
   @if (upperSecondarySchoolCoursesOld?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate
     "
       [items]="upperSecondarySchoolCoursesOld"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
   <!--upperSecondarySchoolCoursesOld-->
 
   @if (upperSecondarySchoolObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate
     "
       [items]="upperSecondarySchoolObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (savedData?.suitsAllUpperSecondarySubjects) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (upperSecondarySchoolFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate
     "
-    [items]="upperSecondarySchoolFramework"></app-preview-row>
+    [items]="upperSecondarySchoolFramework"></div>
   }
 
   <!-- upper secondary education (LOPS2019) -->
 
   @if (upperSecondarySchoolSubjectsNew?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate
     "
       [items]="upperSecondarySchoolSubjectsNew"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduModules) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate
     "
       [items]="upperSecondarySchoolModulesNew"
       property="targetName"
       [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduModules"
-    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
   }
 
   @if (shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduObjectives) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label'
         | translate
@@ -397,139 +397,139 @@
       [items]="upperSecondarySchoolObjectivesNew"
       property="targetName"
       [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduObjectives"
-    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
   }
 
   @if (shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduContents) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate
     "
       [items]="upperSecondarySchoolContentsNew"
       property="targetName"
       [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduContents"
-    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></app-preview-row>
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"></div>
   }
 
   @if (newUpperSecondarySchoolFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate
     "
-    [items]="newUpperSecondarySchoolFramework"></app-preview-row>
+    [items]="newUpperSecondarySchoolFramework"></div>
   }
 
   <!-- vocational education -->
 
   @if (vocationalDegrees?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate"
       [items]="vocationalDegrees"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (furtherVocationalQualifications?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label'
         | translate
     "
       [items]="furtherVocationalQualifications"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (specialistVocationalQualifications?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
     [title]="
       'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label'
         | translate
     "
       [items]="specialistVocationalQualifications"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (vocationalCommonUnits?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.commonUnits.label' | translate"
       [items]="vocationalCommonUnits"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (vocationalUnits?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate"
       [items]="vocationalUnits"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (vocationalRequirements?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate"
       [items]="vocationalRequirements"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
   <!--vocationalRequirements-->
 
   @if (savedData?.suitsAllVocationalDegrees) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (vocationalFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate"
-    [items]="vocationalFramework"></app-preview-row>
+    [items]="vocationalFramework"></div>
   }
 
   <!-- self-motivated education -->
 
   @if (selfMotivatedEducationSubjects?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate"
       [items]="selfMotivatedEducationSubjects"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (selfMotivatedEducationObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate"
       [items]="selfMotivatedEducationObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (savedData?.suitsAllSelfMotivatedSubjects) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   <!-- higher education-->
 
   @if (branchesOfScience?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate"
       [items]="branchesOfScience"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (scienceBranchObjectives?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate"
       [items]="scienceBranchObjectives"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 
   @if (savedData?.suitsAllBranches) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.higherEducation.title' | translate"
-    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></app-preview-row>
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"></div>
   }
 
   @if (higherEducationFramework?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate"
-    [items]="higherEducationFramework"></app-preview-row>
+    [items]="higherEducationFramework"></div>
   }
 </dl>
 
@@ -539,49 +539,49 @@
 
 <dl class="row g-0">
   @if (savedData?.accessibilityFeatures?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate"
       [items]="savedData.accessibilityFeatures"
-    property="value"></app-preview-row>
+    property="value"></div>
   }
 
   @if (savedData?.accessibilityHazards?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate"
       [items]="savedData.accessibilityHazards"
-    property="value"></app-preview-row>
+    property="value"></div>
   }
 
   @if (typicalAgeRange) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate"
-    [item]="typicalAgeRange"></app-preview-row>
+    [item]="typicalAgeRange"></div>
   }
 
   @if (savedData?.timeRequired) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.timeRequired.label' | translate"
-    [item]="savedData.timeRequired"></app-preview-row>
+    [item]="savedData.timeRequired"></div>
   }
 
   @if (savedData?.publisher?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.publisher.label' | translate"
       [items]="savedData.publisher"
-    property="value"></app-preview-row>
+    property="value"></div>
   }
 
   @if (savedData?.expires) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.expires.label' | translate"
-    [item]="savedData.expires | date: 'd.M.yyyy'"></app-preview-row>
+    [item]="savedData.expires | date: 'd.M.yyyy'"></div>
   }
 
   @if (prerequisites?.length > 0) {
-    <app-preview-row
+    <div appPreviewRow
       [title]="'forms.educationalResource.extendedDetails.prerequisites.label' | translate"
       [items]="prerequisites"
-    property="targetName"></app-preview-row>
+    property="targetName"></div>
   }
 </dl>
 
@@ -627,11 +627,11 @@
 <h3>{{ "forms.educationalResource.nav.licenseDetails" | translate }}</h3>
 
 <dl class="row g-0">
-  <app-preview-row
+  <div appPreviewRow
     [title]="'forms.educationalResource.license.title' | translate"
     [item]="savedData?.license"
     [required]="!hasLicense"
-  [routerLinkOptions]="['/lisaa-oppimateriaali', 5]"></app-preview-row>
+  [routerLinkOptions]="['/lisaa-oppimateriaali', 5]"></div>
 </dl>
 
 <hr />

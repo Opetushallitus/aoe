@@ -92,12 +92,9 @@ test.describe('a11y keyboard @ desktop', () => {
     await advanceStepByKeyboard(page)
 
     // Step 5 (lisenssitiedot): license selection by keyboard.
-    // KNOWN_GAPS['wizard-license-radio']: pressing Space on the focused radio does not mark
-    // Angular's reactive form dirty, so sessionStorage is not updated and the selection is lost.
-    // Fallback: click the radio directly (mouse action).
     const licenseRadio = controls.licenseRadio('CC BY 4.0')
-    await tabUntilFocused(page, licenseRadio, 80) // keyboard: Tab to radio
-    await licenseRadio.click() // KNOWN_GAPS['wizard-license-radio'] — click to persist form value
+    await tabUntilFocused(page, licenseRadio, 80)
+    await activate(page, 'Space')
     await advanceStepByKeyboard(page)
 
     // Step 6 (hyodynnetyt): nothing.

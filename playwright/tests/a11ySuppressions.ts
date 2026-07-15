@@ -66,9 +66,7 @@ export const KNOWN_ISSUES: Record<string, string[]> = {
   ],
   'MuokkaaMateriaalia:esikatselu|desktop': [
     'aria-progressbar-name', // TODO(a11y): ngx-bootstrap progress bar has no accessible name (no aria API) — file ticket
-    'color-contrast', // TODO(a11y): step-indicator links have insufficient color contrast — file ticket
-    'definition-list', // TODO(a11y): <dl> in preview contains Angular custom elements as direct children, not allowed — file ticket
-    'dlitem' // TODO(a11y): <dt>/<dd> inside <app-preview-row> are not direct children of <dl> — file ticket
+    'color-contrast' // TODO(a11y): step-indicator links have insufficient color contrast — file ticket
   ],
   'MuokkaaKokoelmaa:muokkaus|desktop': [],
   'MuokkaaKokoelmaa:esikatselu|desktop': [],
@@ -77,9 +75,7 @@ export const KNOWN_ISSUES: Record<string, string[]> = {
   ],
   'UusiMateriaali:esikatselu|desktop': [
     'aria-progressbar-name', // TODO(a11y): ngx-bootstrap progress bar has no accessible name (no aria API) — file ticket
-    'color-contrast', // TODO(a11y): step-indicator links have insufficient color contrast — file ticket
-    'definition-list', // TODO(a11y): <dl> in preview contains Angular custom elements (<app-preview-row>) as direct children, not allowed — file ticket
-    'dlitem' // TODO(a11y): <dt>/<dd> inside <app-preview-row> are not direct children of <dl> — file ticket
+    'color-contrast' // TODO(a11y): step-indicator links have insufficient color contrast — file ticket
   ],
   'Kokoelmat|desktop': [],
   'Kokoelmat|mobile': [],

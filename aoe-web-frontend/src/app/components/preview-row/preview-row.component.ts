@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
-  selector: 'app-preview-row',
+  selector: '[appPreviewRow]',
   templateUrl: './preview-row.component.html',
   styleUrls: ['./preview-row.component.scss'],
   imports: [FocusRemoverDirective, RouterLink, TranslatePipe]

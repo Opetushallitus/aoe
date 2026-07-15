@@ -1232,9 +1232,12 @@ app-educational-material-card {
   #main-navigation {
     .navbar-brand {
       margin-top: -0.2em;
+      max-width: 100%;
 
       img {
         max-height: 40px;
+        max-width: 100%;
+        height: auto;
       }
     }
   }
