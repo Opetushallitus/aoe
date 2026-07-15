@@ -37,7 +37,7 @@ import {
 import { NgClass } from '@angular/common'
 import { AlignmentTagDedupeDirective } from '../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-collection-educational-details-tab',
@@ -51,8 +51,8 @@ import { TooltipDirective } from 'ngx-bootstrap/tooltip'
     NgOptionTemplateDirective,
     NgClass,
     FocusRemoverDirective,
-    TooltipDirective,
-    TranslatePipe
+    TranslatePipe,
+    TooltipButtonComponent
   ]
 })
 export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestroy {

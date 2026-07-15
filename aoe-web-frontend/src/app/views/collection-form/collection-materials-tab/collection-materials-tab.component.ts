@@ -18,8 +18,8 @@ import { Toast } from '@models/translations/toast'
 import { CollectionService } from '@services/collection.service'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { FocusRemoverDirective } from '../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import { NgClass, DatePipe } from '@angular/common'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-collection-materials-tab',
@@ -31,10 +31,10 @@ import { NgClass, DatePipe } from '@angular/common'
     CdkDropList,
     CdkDrag,
     FocusRemoverDirective,
-    TooltipDirective,
     NgClass,
     DatePipe,
-    TranslatePipe
+    TranslatePipe,
+    TooltipButtonComponent
   ]
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {

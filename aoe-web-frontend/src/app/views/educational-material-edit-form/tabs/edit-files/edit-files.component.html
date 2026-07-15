@@ -4,12 +4,7 @@
       <div class="row g-2 align-items-end">
         <div class="col" formGroupName="name">
           <label for="name">{{ "forms.educationalResource.files.materialName.label." + lang | translate }}*</label>
-          <button
-            type="button"
-            class="btn btn-link btn-tooltip"
-            [tooltip]="'forms.educationalResource.files.materialName.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.files.materialName.tooltip" variant="help"></app-tooltip-button>
           <input
             type="text"
             class="form-control"
@@ -38,12 +33,7 @@
             [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid }">
             {{ "forms.common.translations.label" | translate }}
           </button>
-          <button
-            type="button"
-            class="btn btn-link btn-tooltip"
-            [tooltip]="'forms.common.translations.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
           @if (names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid) {
             <div class="invalid-feedback">
               {{ "forms.errors.common.translations" | translate }}
@@ -250,12 +240,7 @@
                 <label [for]="'language' + i">
                   {{ "forms.educationalResource.files.file.inputs.language.label" | translate }}*
                 </label>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.educationalResource.files.file.inputs.language.tooltip" variant="help"></app-tooltip-button>
                 <ng-select
                   [items]="languages"
                   bindLabel="value"
@@ -280,12 +265,7 @@
                 <label for="{{ 'displayName' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}*
                 </label>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.educationalResource.files.file.inputs.displayName.tooltip" variant="help"></app-tooltip-button>
                 <input
                   type="text"
                   class="form-control"
@@ -334,12 +314,7 @@
                 materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid}">
                   {{ "forms.common.translations.label" | translate }}
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.common.translations.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
                 @if (
                   materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid ||
                   materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid) {
@@ -671,12 +646,7 @@
                 <label [for]="'newMaterialLanguage' + i">
                   {{ "forms.educationalResource.files.file.inputs.language.label" | translate }}*
                 </label>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.educationalResource.files.file.inputs.language.tooltip" variant="help"></app-tooltip-button>
                 <ng-select
                   [items]="languages"
                   bindLabel="value"
@@ -701,12 +671,7 @@
                 <label for="{{ 'newMaterialDisplayName' + i }}">
                   {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}*
                 </label>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.educationalResource.files.file.inputs.displayName.tooltip" variant="help"></app-tooltip-button>
                 <input
                   type="text"
                   class="form-control"
@@ -755,12 +720,7 @@
                     materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid}">
                   {{ "forms.common.translations.label" | translate }}
                 </button>
-                <button
-                  type="button"
-                  class="btn btn-link btn-tooltip"
-                  [tooltip]="'forms.common.translations.tooltip' | translate">
-                  <img src="assets/img/icons/ic_help.svg" alt="" />
-                </button>
+                <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
                 @if (
                   materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid ||
                   materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid) {
@@ -1017,7 +977,10 @@
         }
         @if (response.status === 'progress') {
           <div class="form-group">
-            <progressbar max="100" [value]="+response.message">{{ response.message }}%</progressbar>
+            <progressbar
+              max="100"
+              [value]="+response.message"
+              >{{ response.message }}%</progressbar>
           </div>
         }
       }

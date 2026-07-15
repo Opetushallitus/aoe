@@ -31,13 +31,13 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { MaterialService } from '@services/material.service'
 import { AlignmentTagDedupeDirective } from '../../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import {
   NgSelectComponent,
   NgOptgroupTemplateDirective,
   NgOptionTemplateDirective
 } from '@ng-select/ng-select'
 import { NgClass } from '@angular/common'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -47,12 +47,12 @@ import { NgClass } from '@angular/common'
     ReactiveFormsModule,
     AlignmentTagDedupeDirective,
     FocusRemoverDirective,
-    TooltipDirective,
     NgSelectComponent,
     NgOptgroupTemplateDirective,
     NgOptionTemplateDirective,
     NgClass,
-    TranslatePipe
+    TranslatePipe,
+    TooltipButtonComponent
   ]
 })
 export class EditEducationalDetailsComponent implements OnInit, OnDestroy {

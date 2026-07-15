@@ -23,7 +23,6 @@ import { License } from '@models/koodisto/license'
 import { ArchivedMaterialComponent } from '../../components/archived-material/archived-material.component'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import {
   BsDropdownDirective,
   BsDropdownToggleDirective,
@@ -34,6 +33,7 @@ import { EducationalMaterialPreviewComponent } from '../../components/educationa
 import { TaglistComponent } from '../../components/taglist/taglist.component'
 import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion'
 import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-demo-material-view',
@@ -44,7 +44,6 @@ import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
     AlertComponent,
     FocusRemoverDirective,
     RouterLink,
-    TooltipDirective,
     BsDropdownDirective,
     BsDropdownToggleDirective,
     BsDropdownMenuDirective,
@@ -56,7 +55,8 @@ import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
     AccordionPanelComponent,
     DatePipe,
     TranslatePipe,
-    MaterialLanguagePipe
+    MaterialLanguagePipe,
+    TooltipButtonComponent
   ]
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {

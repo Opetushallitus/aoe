@@ -1,4 +1,7 @@
 @if (!embedded) {
+  <a class="skip-link" href="#main-content" (click)="skipToMainContent($event)">{{ 'navigation.skipToContent' | translate }}</a>
+}
+@if (!embedded) {
   <nav
     class="navbar navbar-expand-lg navbar-dark bg-primary"
     id="main-navigation"
@@ -20,7 +23,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed">
+      <div class="collapse navbar-collapse" id="main-navbar" [class.show]="!isNavbarCollapsed">
         <ul class="navbar-nav me-auto">
           <li class="nav-item" (click)="isNavbarCollapsed = true">
             <a
@@ -124,7 +127,7 @@
 @if (!embedded) {
   <div class="app-body">
     <!-- Main content -->
-    <main class="main">
+    <main class="main" id="main-content" tabindex="-1">
       <router-outlet></router-outlet>
     </main>
   </div>

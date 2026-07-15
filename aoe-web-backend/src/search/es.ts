@@ -339,15 +339,17 @@ async function metadataToEs(
           q.author = response
 
           query = 'select * from isbasedon where educationalmaterialid = $1;'
-          response = await t.map(query, [q.id], (q2: any) => {
-            t.any('select * from isbasedonauthor where isbasedonid = $1;', q2.id).then(
-              (data: any) => {
-                q2.author = data
-              }
+          const isbasedon = await t.any(query, [q.id])
+          q.isbasedon = await t.batch(
+            isbasedon.map((q2: any) =>
+              t
+                .any('select * from isbasedonauthor where isbasedonid = $1;', [q2.id])
+                .then((authors: any) => {
+                  q2.author = authors
+                  return q2
+                })
             )
-            return q2
-          })
-          q.isbasedon = response
+          )
 
           query = 'select * from alignmentobject where educationalmaterialid = $1;'
           response = await t.any(query, [q.id])
@@ -585,16 +587,17 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
           q.author = response
 
           query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1'
-          response = await t.map(query, [q.id], (q2: any) => {
-            t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then(
-              (data: any) => {
-                q2.author = data
-              }
+          const isbasedon = await t.any(query, [q.id])
+          q.isbasedon = await t.batch(
+            isbasedon.map((q2: any) =>
+              t
+                .any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', [q2.id])
+                .then((authors: any) => {
+                  q2.author = authors
+                  return q2
+                })
             )
-            return q2
-          })
-
-          q.isbasedon = response
+          )
 
           query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1'
           response = await t.any(query, [q.id])

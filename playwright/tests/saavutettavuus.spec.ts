@@ -207,7 +207,7 @@ test.describe('a11y interactions @ desktop', () => {
       })
       await addMetadataButton.waitFor()
       await addMetadataButton.click()
-      const modal = modalPage.getByRole('dialog')
+      const modal = modalPage.locator('modal-container')
       await modal.getByRole('heading', { name: 'Lisää kuvailutietoja' }).waitFor()
       // Wait for the open transition to finish so contrast is measured on the
       // fully-faded-in modal, not a half-transparent one mid-animation.
@@ -216,7 +216,7 @@ test.describe('a11y interactions @ desktop', () => {
       // Scope the scan to the dialog — the material page behind it has its own
       // (separately tracked) debt covered by the Materiaali scan.
       await scanA11y(modalPage, 'MetadataModal', 'desktop', {
-        include: '[role="dialog"]'
+        include: 'modal-container'
       })
     } finally {
       await context.close()

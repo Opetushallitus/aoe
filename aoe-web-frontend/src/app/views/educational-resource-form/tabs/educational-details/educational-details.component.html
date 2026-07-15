@@ -5,12 +5,7 @@
       <span class="visually-hidden">({{ "forms.common.required" | translate }})</span>
     </label>
 
-    <button
-      type="button"
-      class="btn btn-link"
-      [tooltip]="'forms.educationalResource.educationalDetails.educationalLevels.tooltip' | translate">
-      <img src="assets/img/icons/ic_help.svg" alt="" />
-    </button>
+    <app-tooltip-button key="forms.educationalResource.educationalDetails.educationalLevels.tooltip" variant="help"></app-tooltip-button>
 
     <ng-select
       [items]="educationalLevels"
@@ -33,14 +28,7 @@
       <label for="earlyChildhoodEducationSubjects">
         {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -71,14 +59,7 @@
       <label for="earlyChildhoodEducationObjectives">
         {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -97,14 +78,7 @@
       <label for="earlyChildhoodEducationFramework">
         {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
       <input
         type="text"
         class="form-control"
@@ -143,14 +117,7 @@
       <label for="prePrimaryEducationSubjects">
         {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -181,14 +148,7 @@
       <label for="prePrimaryEducationObjectives">
         {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -207,14 +167,7 @@
       <label for="prePrimaryEducationFramework">
         {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
       <input
         type="text"
         class="form-control"
@@ -253,12 +206,7 @@
       <label for="basicStudySubjects">
         {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.tooltip' | translate">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         [items]="basicStudySubjects"
         [multiple]="true"
@@ -292,12 +240,7 @@
       <label for="basicStudyFramework">
         {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.tooltip' | translate">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.basicEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
       <input
         class="form-control"
         id="basicStudyFramework"
@@ -367,14 +310,7 @@
       <label for="preparatoryEducationSubjects">
         {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         [items]="preparatorySubjects"
         [multiple]="true"
@@ -390,14 +326,7 @@
         <label for="preparatoryEducationObjectives">
           {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label" | translate }}
         </label>
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="
-          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.tooltip' | translate
-        ">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
         <ng-select
           [items]="preparatoryObjectives"
           [multiple]="true"
@@ -471,15 +400,7 @@
           {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label" |
           translate }}
         </label>
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="
-            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip'
-              | translate
-          ">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
         <ng-select
           aoeAlignmentTagDedupe
           [items]="[]"
@@ -582,15 +503,7 @@
             {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label" |
             translate }}
           </label>
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="
-              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip'
-                | translate
-            ">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
           <input
             type="text"
             class="form-control"
@@ -631,14 +544,7 @@
       <label for="vocationalDegrees">
         {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         [items]="vocationalDegrees"
         [multiple]="true"
@@ -730,14 +636,7 @@
         <label for="vocationalRequirements">
           {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label" | translate }}
         </label>
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="
-            'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate
-          ">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
         <ng-select
           aoeAlignmentTagDedupe
           id="vocationalRequirements"
@@ -756,14 +655,7 @@
       <label for="vocationalEducationFramework">
         {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
       <input
         type="text"
         class="form-control"
@@ -802,14 +694,7 @@
       <label for="selfMotivatedEducationSubjects">
         {{ "forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -840,14 +725,7 @@
       <label for="selfMotivatedEducationObjectives">
         {{ "forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -870,14 +748,7 @@
       <label for="branchesOfScience">
         {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="
-          'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate
-        ">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         [items]="scienceBranches"
         [multiple]="true"
@@ -905,12 +776,7 @@
       <label for="scienceBranchObjectives">
         {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.tooltip' | translate">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.tooltip" variant="help"></app-tooltip-button>
       <ng-select
         aoeAlignmentTagDedupe
         [items]="[]"
@@ -929,12 +795,7 @@
       <label for="higherEducationFramework">
         {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label" | translate }}
       </label>
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip' | translate">
-        <img src="assets/img/icons/ic_help.svg" alt="" />
-      </button>
+      <app-tooltip-button key="forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip" variant="help"></app-tooltip-button>
       <input
         type="text"
         class="form-control"

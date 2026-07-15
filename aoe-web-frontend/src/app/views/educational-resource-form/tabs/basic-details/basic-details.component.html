@@ -2,17 +2,21 @@
   <div class="row">
     <div class="col-md-2 text-center">
       @if (thumbnailSrc) {
-        <img [src]="thumbnailSrc" class="img-fluid mb-2 border" />
+        <img
+          [src]="thumbnailSrc"
+          class="img-fluid mb-2 border"
+          [alt]="'forms.common.aria.thumbnailAlt' | translate" />
       } @else {
         @if (learningResourceTypesCtrl.value?.length > 0) {
           <div>
             <img
               src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png"
-              class="img-fluid mb-2 border" />
+              class="img-fluid mb-2 border"
+              [alt]="'forms.common.aria.thumbnailAlt' | translate" />
           </div>
         } @else {
           <div class="material-image-upload d-flex justify-content-center mb-2 border mx-auto">
-            <img src="assets/img/icons/ic_camera.svg" />
+            <img src="assets/img/icons/ic_camera.svg" alt="" />
           </div>
         }
       }
@@ -41,12 +45,7 @@
           <div class="form-group">
             <label for="image">{{ "forms.educationalResource.basicDetails.image.label" | translate }}</label>
 
-            <button
-              type="button"
-              class="btn btn-link"
-              [tooltip]="'forms.educationalResource.basicDetails.image.tooltip' | translate">
-              <img src="assets/img/icons/ic_help.svg" alt="" />
-            </button>
+            <app-tooltip-button key="forms.educationalResource.basicDetails.image.tooltip" variant="help"></app-tooltip-button>
 
             <input
               type="file"
@@ -79,7 +78,11 @@
 
           @if (uploadResponse.status === 'progress') {
             <div class="form-group">
-              <progressbar max="100" [value]="+uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
+              <progressbar
+                max="100"
+                [value]="+uploadResponse.message"
+                >{{ uploadResponse.message }}%</progressbar
+              >
             </div>
           }
         </div>
@@ -115,12 +118,7 @@
                   <label for="{{ 'author' + i }}">
                     {{ "forms.educationalResource.basicDetails.author.inputs.author.label" | translate }}&nbsp;*
                   </label>
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate">
-                    <img src="assets/img/icons/ic_help.svg" alt="" />
-                  </button>
+                  <app-tooltip-button key="forms.educationalResource.basicDetails.author.inputs.author.tooltip" variant="help"></app-tooltip-button>
                   <input
                     type="text"
                     class="form-control"
@@ -162,12 +160,7 @@
                   <label [for]="'affiliate' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.affiliate.label" | translate }}
                   </label>
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip' | translate">
-                    <img src="assets/img/icons/ic_help.svg" alt="" />
-                  </button>
+                  <app-tooltip-button key="forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip" variant="help"></app-tooltip-button>
                   <ng-select
                     [items]="organizations"
                     [virtualScroll]="true"
@@ -184,12 +177,7 @@
                   <label [for]="'organization' + i">
                     {{ "forms.educationalResource.basicDetails.author.inputs.organization.label" | translate }}
                   </label>
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organization.tooltip' | translate">
-                    <img src="assets/img/icons/ic_help.svg" alt="" />
-                  </button>
+                  <app-tooltip-button key="forms.educationalResource.basicDetails.author.inputs.organization.tooltip" variant="help"></app-tooltip-button>
                   <ng-select
                     [items]="organizations"
                     [virtualScroll]="true"
@@ -225,12 +213,7 @@
       <div class="form-group">
         <label for="keywords">{{ "forms.educationalResource.basicDetails.keywords.label" | translate }}&nbsp;*</label>
 
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="'forms.educationalResource.basicDetails.keywords.tooltip' | translate">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.basicDetails.keywords.tooltip" variant="help"></app-tooltip-button>
 
         <ng-select
           [items]="keywords"
@@ -255,12 +238,7 @@
             {{ "forms.educationalResource.basicDetails.learningResourceTypes.label" | translate }}&nbsp;*
           </label>
 
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.basicDetails.learningResourceTypes.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.basicDetails.learningResourceTypes.tooltip" variant="help"></app-tooltip-button>
 
           <ng-select
             [items]="learningResourceTypes"
@@ -277,12 +255,7 @@
             {{ "forms.educationalResource.basicDetails.educationalRoles.label" | translate }}
           </label>
 
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.basicDetails.educationalRoles.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.basicDetails.educationalRoles.tooltip" variant="help"></app-tooltip-button>
 
           <ng-select
             [items]="educationalRoles"
@@ -299,12 +272,7 @@
             {{ "forms.educationalResource.basicDetails.educationalUses.label" | translate }}
           </label>
 
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.basicDetails.educationalUses.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.basicDetails.educationalUses.tooltip" variant="help"></app-tooltip-button>
 
           <ng-select
             [items]="educationalUses"
@@ -322,12 +290,7 @@
           {{ "forms.educationalResource.basicDetails.description.label." + lang | translate }}
         </label>
 
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="'forms.educationalResource.basicDetails.description.tooltip' | translate">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.basicDetails.description.tooltip" variant="help"></app-tooltip-button>
 
         <div class="row g-2">
           <div class="col-sm">
@@ -375,9 +338,7 @@
                 {{ "forms.common.translations.label" | translate }}
               </button>
 
-              <button type="button" class="btn btn-link" [tooltip]="'forms.common.translations.tooltip' | translate">
-                <img src="assets/img/icons/ic_help.svg" alt="" />
-              </button>
+              <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
 
               @if (descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid) {
                 <div

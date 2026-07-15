@@ -2,9 +2,6 @@
 // A failing assertion guarded by `isKnownGap(id)` stays green; every other
 // assertion still runs, so regressions and new gaps fail.
 export const KNOWN_GAPS: Record<string, string> = {
-  'skip-link': 'TODO(a11y): no skip-to-content link — file ticket',
-  'error-assoc:new-material':
-    'TODO(a11y): new-material name field error not programmatically associated (no aria-invalid/aria-describedby) — file ticket',
   'error-assoc:collection':
     'TODO(a11y): collection keywords ng-select error not programmatically associated (no aria-invalid) — file ticket',
   'modal-focus-return':
@@ -27,20 +24,7 @@ export const KNOWN_GAPS: Record<string, string> = {
   'reflow:OmatOppimateriaalit':
     'TODO(a11y): OmatOppimateriaalit has horizontal scroll / does not reflow at 320px — file ticket',
   'reflow:Kokoelmat':
-    'TODO(a11y): Kokoelmat has horizontal scroll / does not reflow at 320px — file ticket',
-  'headings:Etusivu':
-    'TODO(a11y): Etusivu level skip 2→4 (heading sequence: 1,2,3,3,3,3,3,3,2,4) — file ticket',
-  'headings:Haku': 'TODO(a11y): Haku level skip 2→4 (heading sequence: 1,2,2,4) — file ticket',
-  'headings:Materiaali':
-    'TODO(a11y): Materiaali level skip 1→3 and 2→4 (heading sequence: 1,3,2,3,3,2,3,3,2,4) — file ticket',
-  'headings:OmatOppimateriaalit':
-    'TODO(a11y): OmatOppimateriaalit level skip 2→4 (heading sequence: 1,2,3,3,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3,3,3,3,2,4) — file ticket',
-  'headings:Kokoelmat':
-    'TODO(a11y): Kokoelmat level skip 2→4 (heading sequence: 1,2,2,4) — file ticket',
-  'live-region:search-count':
-    'TODO(a11y): search result count not announced via a live region — file ticket',
-  'tooltip-dismiss':
-    'TODO(a11y): help tooltip not dismissible via Escape (ngx-bootstrap tooltip ignores Escape key) — file ticket'
+    'TODO(a11y): Kokoelmat has horizontal scroll / does not reflow at 320px — file ticket'
 }
 
 export const isKnownGap = (id: string) => id in KNOWN_GAPS

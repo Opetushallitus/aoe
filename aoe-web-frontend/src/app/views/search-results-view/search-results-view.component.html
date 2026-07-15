@@ -49,7 +49,7 @@
               class="header"
               role="button"
               [attr.aria-expanded]="!isCollapsedFilters"
-              aria-controls="search-filters"
+              [attr.aria-controls]="searchFilters ? 'search-filters' : null"
               (click)="isCollapsedFilters = !isCollapsedFilters"
               (keydown.enter)="isCollapsedFilters = !isCollapsedFilters"
               (keydown.space)="isCollapsedFilters = !isCollapsedFilters"
@@ -810,7 +810,7 @@
                 <div class="block-header">
                   <div class="row justify-content-md-between align-items-md-center mb-2">
                     <div class="col-md-4 text-center text-md-start">
-                      <div class="results-count mb-2 mb-md-0">
+                      <div class="results-count mb-2 mb-md-0" aria-live="polite">
                         {{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits
                         }} / {{ results.hits }} {{ "search.results.results" | translate }}
                       </div>

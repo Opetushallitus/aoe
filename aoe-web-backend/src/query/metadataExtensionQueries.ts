@@ -78,16 +78,16 @@ export async function metadataExtension(id: string) {
     const data = await db.task(async (t: any) => {
       let query =
         'SELECT value, keywordkey as key FROM keywordextension WHERE educationalmaterialid = $1;'
-      const keywords = await db.any(query, [id])
+      const keywords = await t.any(query, [id])
       query =
         'SELECT value, accessibilityhazardkey as key FROM accessibilityhazardextension WHERE educationalmaterialid = $1;'
-      const accessibilityHazards = await db.any(query, [id])
+      const accessibilityHazards = await t.any(query, [id])
       query =
         'SELECT value, accessibilityfeaturekey as key FROM accessibilityfeatureextension WHERE educationalmaterialid = $1;'
-      const accessibilityFeatures = await db.any(query, [id])
+      const accessibilityFeatures = await t.any(query, [id])
       query =
         'SELECT value, educationallevelkey as key FROM educationallevelextension WHERE educationalmaterialid = $1;'
-      const educationalLevels = await db.any(query, [id])
+      const educationalLevels = await t.any(query, [id])
       return { keywords, accessibilityHazards, accessibilityFeatures, educationalLevels }
     })
     return data
@@ -102,16 +102,16 @@ export async function usersMetadataExtension(id: string, user: string) {
     const data = await db.task(async (t: any) => {
       let query =
         'SELECT value, keywordkey as key FROM keywordextension WHERE educationalmaterialid = $1 and usersusername = $2;'
-      const keywords = await db.any(query, [id, user])
+      const keywords = await t.any(query, [id, user])
       query =
         'SELECT value, accessibilityhazardkey as key FROM accessibilityhazardextension WHERE educationalmaterialid = $1 and usersusername = $2;'
-      const accessibilityHazards = await db.any(query, [id, user])
+      const accessibilityHazards = await t.any(query, [id, user])
       query =
         'SELECT value, accessibilityfeaturekey as key FROM accessibilityfeatureextension WHERE educationalmaterialid = $1 and usersusername = $2;'
-      const accessibilityFeatures = await db.any(query, [id, user])
+      const accessibilityFeatures = await t.any(query, [id, user])
       query =
         'SELECT value, educationallevelkey as key FROM educationallevelextension WHERE educationalmaterialid = $1 and usersusername = $2;'
-      const educationalLevels = await db.any(query, [id, user])
+      const educationalLevels = await t.any(query, [id, user])
       return { keywords, accessibilityHazards, accessibilityFeatures, educationalLevels }
     })
     return data

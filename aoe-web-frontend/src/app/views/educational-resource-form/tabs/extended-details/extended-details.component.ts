@@ -21,7 +21,7 @@ import { koodistoSources } from '@constants/koodisto-sources'
 import { validatorParams } from '@constants/validator-params'
 import { AlignmentTagDedupeDirective } from '../../../../directives/alignment-tag-dedupe.directive'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { NgClass } from '@angular/common'
 import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker'
@@ -34,7 +34,7 @@ import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap
     ReactiveFormsModule,
     AlignmentTagDedupeDirective,
     FocusRemoverDirective,
-    TooltipDirective,
+    TooltipButtonComponent,
     NgSelectComponent,
     NgClass,
     BsDatepickerInputDirective,

@@ -30,7 +30,7 @@ test.describe('a11y keyboard @ desktop', () => {
     const etusivu = Etusivu(page)
     await etusivu.goto()
     await page.waitForFunction(() => document.documentElement.lang !== '', null, { timeout: 5000 })
-    await page.locator('body').click({ position: { x: 0, y: 0 } }) // ensure no control pre-focused
+    await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur())
     await page.keyboard.press('Tab')
     const skipLink = page.getByRole('link', {
       name: /ohita|skip|siirry sis|main content/i

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Inject, OnInit, DOCUMENT } from '@angular/core'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { setLanguage } from '../../shared/shared.module'
 import { AuthService } from '@services/auth.service'
@@ -121,7 +121,8 @@ export class DefaultLayoutComponent implements OnInit {
     public authService: AuthService,
     private cookieSvc: CookieService,
     private alertSvc: AlertService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    @Inject(DOCUMENT) private document: Document
   ) {
     this.showNotice = !this.cookieSvc.isCookiePolicyAccepted()
 
@@ -162,5 +163,14 @@ export class DefaultLayoutComponent implements OnInit {
 
   hideCookieNotice(): void {
     this.showNotice = false
+  }
+
+  skipToMainContent(event: Event): void {
+    event.preventDefault()
+    const main = this.document.getElementById('main-content')
+    if (main) {
+      main.focus()
+      main.scrollIntoView()
+    }
   }
 }

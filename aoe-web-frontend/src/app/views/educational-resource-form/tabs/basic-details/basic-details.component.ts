@@ -26,9 +26,9 @@ import { EducationalUse } from '@models/koodisto/educational-use'
 import { Author } from '@models/material/author'
 import { validatorParams } from '@constants/validator-params'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
 import { NgSelectComponent } from '@ng-select/ng-select'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -36,12 +36,12 @@ import { NgSelectComponent } from '@ng-select/ng-select'
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,
-    TooltipDirective,
     ImageCropperComponent,
     ProgressbarComponent,
     NgClass,
     NgSelectComponent,
-    TranslatePipe
+    TranslatePipe,
+    TooltipButtonComponent
   ]
 })
 export class BasicDetailsComponent implements OnInit, OnDestroy {

@@ -22,6 +22,12 @@
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "accessibilityPolicy": "Accessibility statement",
+    "userMenu": {
+      "aria": {
+        "label": "User menu"
+      }
+    },
+    "skipToContent": "Skip to main content",
     "langSelector": {
       "label": "Select language"
     }
@@ -246,6 +252,9 @@
       "save": "Save",
       "saveChanges": "Save changes",
       "add": "Add",
+      "aria": {
+        "thumbnailAlt": "Learning resource thumbnail"
+      },
       "translations": {
         "label": "Translations",
         "tooltip": "With the Language Versions key you can add a Finnish, Swedish or English translation for the name and description of your resource. This will help users with these languages get a better understanding of your resource."

@@ -661,7 +661,7 @@ const insertDataToAttachmentTable = async (
   const queries: any[] = []
   const data = await db.tx(async (t: any): Promise<any> => {
     queries.push(
-      await db.none(
+      await t.none(
         `
           UPDATE educationalmaterial
           SET updatedat = NOW()
@@ -673,7 +673,7 @@ const insertDataToAttachmentTable = async (
       )
     )
     queries.push(
-      await db.one(
+      await t.one(
         `
           INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
@@ -1281,7 +1281,7 @@ export const downloadAllMaterialsCompressed = async (
       )
       publishedAt = latestPublished.max
     }
-    return await db.any(queryVersionFilesIds, [edumaterialid, publishedAt])
+    return await t.any(queryVersionFilesIds, [edumaterialid, publishedAt])
   })
   const fileKeys: string[] = []
   const fileNames: EntryData[] = []

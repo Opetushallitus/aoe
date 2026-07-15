@@ -159,7 +159,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     searchParams.timestamp = this.time.toISOString()
     this.keywordsCtrl.setValue(searchParams?.keywords)
 
-    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters))
+    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters)) ?? []
     this.loading = true
     this.searchService.updateSearchResults(searchParams)
 
@@ -961,7 +961,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       })
     })
 
-    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters))
+    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters)) ?? []
     this.searchService.updateSearchResults(searchParams)
     this.page = 1
   }

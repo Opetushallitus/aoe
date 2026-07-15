@@ -206,7 +206,7 @@ export async function collectionQuery(collectionId: string, username?: string) {
 
       query =
         'Select filepath, filekey as thumbnail from collectionthumbnail where collectionid = $1 and obsoleted = 0;'
-      let response = await db.oneOrNone(query, [collectionId])
+      let response = await t.oneOrNone(query, [collectionId])
       let thumbnail
       if (response) {
         thumbnail = await aoeCollectionThumbnailDownloadUrl(response.thumbnail)

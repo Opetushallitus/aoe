@@ -178,12 +178,17 @@ export const getEducationalMaterialMetadata = async (
     queries.push(response)
 
     query = 'SELECT * FROM isbasedon ' + 'WHERE educationalmaterialid = $1'
-    response = await t.map(query, [eduMaterialId], (q: any) => {
-      t.any('SELECT * FROM isbasedonauthor ' + 'WHERE isbasedonid = $1', q.id).then((data: any) => {
-        q.author = data
-      })
-      return q
-    })
+    const isbasedon = await t.any(query, [eduMaterialId])
+    response = await t.batch(
+      isbasedon.map((q: any) =>
+        t
+          .any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', [q.id])
+          .then((authors: any) => {
+            q.author = authors
+            return q
+          })
+      )
+    )
     queries.push(response)
     query = 'SELECT * FROM alignmentobject ' + 'WHERE educationalmaterialid = $1'
     response = await t.any(query, [eduMaterialId])
@@ -494,7 +499,7 @@ export async function getUserMaterial(req: Request, res: Response, next: NextFun
           q.authors = response
           query =
             'Select filekey as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;'
-          response = await db.oneOrNone(query, [q.id])
+          response = await t.oneOrNone(query, [q.id])
           if (response) {
             response.thumbnail = await aoeThumbnailDownloadUrl(response.thumbnail)
           }
@@ -560,7 +565,7 @@ export async function getRecentMaterial(req: Request, res: Response, next: NextF
         ])
 
         // Fetch thumbnail
-        const thumbnailResponse = await db.oneOrNone(
+        const thumbnailResponse = await t.oneOrNone(
           'SELECT filekey AS thumbnail FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0;',
           [material.id]
         )

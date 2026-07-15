@@ -110,12 +110,7 @@
                     <p>
                       <strong class="d-block">
                         {{ "demo.educationalMaterial.pid.label.version" | translate }}
-                        <button
-                          type="button"
-                          class="btn btn-link btn-tooltip"
-                          [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate">
-                          <img src="assets/img/icons/ic_help.svg" alt="" />
-                        </button>
+                        <app-tooltip-button key="demo.educationalMaterial.pid.tooltip" variant="help"></app-tooltip-button>
                       </strong>
                       <a href="https://urn.fi/{{ educationalMaterial.urn }}" rel="noopener noreferrer">
                         {{ educationalMaterial.urn }}
@@ -192,12 +187,7 @@
                         aria-controls="version-history">
                         {{ "demo.educationalMaterial.versionHistory.button" | translate }}
                       </button>
-                      <button
-                        type="button"
-                        class="btn btn-link"
-                        [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate">
-                        <img src="assets/img/icons/ic_help.svg" alt="" />
-                      </button>
+                      <app-tooltip-button key="demo.educationalMaterial.versionHistory.helpText" variant="help"></app-tooltip-button>
                       <ul
                         id="version-history"
                         *dropdownMenu
@@ -229,7 +219,7 @@
                     <div class="col-md-3">
                       @if (materialLanguages.length > 1) {
                         @if (materialLanguages.length <= 3) {
-                          <h3 id="selectLanguageTitle">{{ "materialPreview.selectLanguage" | translate }}</h3>
+                          <h2 id="selectLanguageTitle">{{ "materialPreview.selectLanguage" | translate }}</h2>
                           <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
                             @for (materialLang of materialLanguages; track materialLang) {
                               <button
@@ -278,9 +268,9 @@
                           [id]="'fileList-' + selectedLanguage"
                           role="tabpanel"
                           [attr.aria-labelledby]="'langSelector-' + selectedLanguage">
-                          <h3 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'visually-hidden' : ''">
+                          <h2 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'visually-hidden' : ''">
                             {{ "materialPreview.selectMaterial" | translate }}
-                          </h3>
+                          </h2>
                           <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
                             @for (material of filteredMaterials; track material) {
                               <button

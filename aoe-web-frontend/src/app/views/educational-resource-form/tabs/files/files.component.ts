@@ -35,10 +35,10 @@ import { validatorParams } from '@constants/validator-params'
 import { MAX_UPLOAD_SIZE_BYTES, UPLOAD_TIMEOUT_STATUSES } from '@constants/upload'
 import { AlertComponent } from 'ngx-bootstrap/alert'
 import { FocusRemoverDirective } from '../../../../directives/focus-remover.directive'
-import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 import { NgClass, AsyncPipe } from '@angular/common'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
+import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
 @Component({
   selector: 'app-tabs-files',
@@ -47,12 +47,12 @@ import { ProgressbarComponent } from 'ngx-bootstrap/progressbar'
     AlertComponent,
     ReactiveFormsModule,
     FocusRemoverDirective,
-    TooltipDirective,
     NgClass,
     NgSelectComponent,
     ProgressbarComponent,
     AsyncPipe,
-    TranslatePipe
+    TranslatePipe,
+    TooltipButtonComponent
   ]
 })
 export class FilesComponent implements OnInit, OnDestroy {

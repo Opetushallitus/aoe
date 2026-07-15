@@ -4,20 +4,20 @@
     <div class="row g-2 align-items-end">
       <div class="col" formGroupName="name">
         <label for="name">{{ "forms.educationalResource.files.materialName.label." + lang | translate }}&nbsp;*</label>
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="'forms.educationalResource.files.materialName.tooltip' | translate">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.educationalResource.files.materialName.tooltip" variant="help"></app-tooltip-button>
         <input
           type="text"
           class="form-control"
           id="name"
           [formControlName]="lang"
+          [attr.aria-invalid]="name.invalid && (name.dirty || name.touched || submitted)"
+          [attr.aria-describedby]="
+            name.invalid && (name.dirty || name.touched || submitted) ? 'name-error' : null
+          "
           [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched || submitted) }" />
         @if (name.invalid && (name.dirty || name.touched || submitted)) {
           <div
+            id="name-error"
             class="invalid-feedback">
             @if (name.errors?.['invalidCharacters']) {
               <div>{{ "forms.errors.textInput.characters" | translate }}</div>
@@ -39,9 +39,7 @@
           [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid }">
           {{ "forms.common.translations.label" | translate }}
         </button>
-        <button type="button" class="btn btn-link" [tooltip]="'forms.common.translations.tooltip' | translate">
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+        <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
         @if (names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid) {
           <div
             class="invalid-feedback">
@@ -148,12 +146,7 @@
       <ng-container [formGroupName]="i">
         <h4>
           {{ i + 1 }}{{ "forms.educationalResource.files.file.title" | translate }}
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.files.file.tooltip' | translate">
-            <img src="assets/img/icons/ic_help.svg" alt="" />
-          </button>
+          <app-tooltip-button key="forms.educationalResource.files.file.tooltip" variant="help"></app-tooltip-button>
         </h4>
         <div class="row g-2 align-items-end">
           @if (!file.get('link').value) {
@@ -212,12 +205,7 @@
             <label [for]="'language' + i">
               {{ "forms.educationalResource.files.file.inputs.language.label" | translate }}&nbsp;*
             </label>
-            <button
-              type="button"
-              class="btn btn-link"
-              [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate">
-              <img src="assets/img/icons/ic_help.svg" alt="" />
-            </button>
+            <app-tooltip-button key="forms.educationalResource.files.file.inputs.language.tooltip" variant="help"></app-tooltip-button>
             <ng-select
               [items]="languages"
               bindLabel="value"
@@ -241,12 +229,7 @@
             <label for="{{ 'displayName' + i }}">
               {{ "forms.educationalResource.files.file.inputs.displayName.label." + lang | translate }}&nbsp;*
             </label>
-            <button
-              type="button"
-              class="btn btn-link"
-              [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate">
-              <img src="assets/img/icons/ic_help.svg" alt="" />
-            </button>
+            <app-tooltip-button key="forms.educationalResource.files.file.inputs.displayName.tooltip" variant="help"></app-tooltip-button>
             <input
               type="text"
               class="form-control"
@@ -295,9 +278,7 @@
                   files.at(i).get('displayName.' + otherLangs[1]).invalid}">
               {{ "forms.common.translations.label" | translate }}
             </button>
-            <button type="button" class="btn btn-link" [tooltip]="'forms.common.translations.tooltip' | translate">
-              <img src="assets/img/icons/ic_help.svg" alt="" />
-            </button>
+            <app-tooltip-button key="forms.common.translations.tooltip" variant="help"></app-tooltip-button>
             @if (
               files.at(i).get('displayName.' + otherLangs[0]).invalid ||
               files.at(i).get('displayName.' + otherLangs[1]).invalid) {
@@ -518,7 +499,9 @@
       @if ((uploadResponses$ | async)![i]; as ur) {
         @if (ur.visible === true) {
           <div class="form-group">
-            <progressbar [type]="ur.status === 'error' ? 'danger' : 'success'" [value]="+ur.message">
+            <progressbar
+              [type]="ur.status === 'error' ? 'danger' : 'success'"
+              [value]="+ur.message">
               {{ ur.message }} {{ ur.message <= 100 ? ' %' : '' }}
             </progressbar>
           </div>
