@@ -6,12 +6,11 @@ Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat
 
 - Aurora PostgresSQL
 - ElastiCache Redis OSS
-- OpenSearch -hakuideksi
+- OpenSearch -hakuindeksi
 - AWS S3
 - Palvelinteknologiat
-  - Spring boot
   - NodeJs
-  - Maven-build-työkalu kehityskäyttöön ja asennettavan paketin rakentamiseen
+  - TypeScript
 - Web-sovelluksen frontend-teknologiat
   - Angular
   - npm-työkalu riippuvuuksien hakuun
@@ -26,7 +25,7 @@ Skripti käynnistää docker compose:n avulla kaikki AOE palvelut, frontin ja ri
 
 Ympäristössä on myös NGINX, jonka kautta kaikki web sovelluksen https-pyynnöt menevät.
 
-Lokaali AOE käyttää mock OIDC palvelua, jota vasten AOE tekee autentikaation. OIDC mock service:ssä on konfiguroitu yksi käyttäjä: aoeuser/password123.
+Lokaali AOE käyttää paikallista OIDC-palvelua (Keycloak), jota vasten AOE tekee autentikaation. Palveluun on esikonfiguroitu kaksi käyttäjää: aoeuser/password123 ja tuomas.jukola/password123.
 
 1. Lisää oman koneesi host tiedostoon seuraavat rivit
 
@@ -35,10 +34,10 @@ Lokaali AOE käyttää mock OIDC palvelua, jota vasten AOE tekee autentikaation.
 
 2. Aja projektin juuressa `./start-local-env.sh`
 
-- Skipti luo itseallekirjoitetun varmenteen hakemistoon `docker/dev/nginx/nginx-selfsigned.crt`
-- Lisää varmenne `docker/dev/nginx/nginx-selfsigned.crt` oman koneesi luotettuihin varmenteisiin, selaimat sallivat itseallekirjoitetun varmenteen käytön.
+- Skripti luo itseallekirjoitetun varmenteen hakemistoon `docker/dev/nginx-selfsigned.crt`
+- Lisää varmenne `docker/dev/nginx-selfsigned.crt` oman koneesi luotettuihin varmenteisiin, selaimat sallivat itseallekirjoitetun varmenteen käytön.
 
-4. Selaimella AOE web sovellukseen pääsee url:lla https://demo.aoe.fi/
+3. Selaimella AOE web sovellukseen pääsee url:lla https://demo.aoe.fi/
 
 #### aws config:
 
