@@ -1,9 +1,9 @@
 {
   "name": "playwright",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "playwright:test": "playwright test",
+    "knip": "knip",
     "test:a11y": "playwright test saavutettavuus --workers=1",
     "report:a11y": "open ../playwright-results/a11y-axe-report.html",
     "codegen": "node_modules/.bin/playwright codegen https://demo.aoe.fi --ignore-https-errors"
@@ -17,6 +17,7 @@
     "@playwright/test": "1.61.1",
     "@types/node": "24.13.3",
     "fast-xml-parser": "5.10.0",
+    "knip": "6.26.0",
     "typescript": "5.9.3"
   }
 }

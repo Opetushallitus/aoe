@@ -1,4 +1,4 @@
 {
-  "entry": ["bin/infra.ts"],
+  "entry": ["bin/infra.ts", "lambda/*/index.ts"],
   "project": ["**/*.ts"]
 }

@@ -112,6 +112,10 @@
       "matchPackageNames": ["jsonwebtoken", "@types/jsonwebtoken"]
     },
     {
+      "groupName": "knip",
+      "matchPackageNames": ["knip"]
+    },
+    {
       "groupName": "Lusca",
       "matchPackageNames": ["lusca", "@types/lusca"]
     },

@@ -1,4 +1,5 @@
 {
-  "entry": ["src/server.ts"],
-  "project": ["**/*.{js,ts}"]
+  "entry": ["migrations/*.js", "types/**/*.d.ts"],
+  "project": ["**/*.{js,ts}"],
+  "ignoreDependencies": ["mongodb"]
 }

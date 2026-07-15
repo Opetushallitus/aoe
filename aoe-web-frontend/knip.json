@@ -1,0 +1,4 @@
+{
+  "project": ["src/**/*.ts"],
+  "ignoreDependencies": ["bootstrap", "font-awesome", "@angular/language-service"]
+}

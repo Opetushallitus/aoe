@@ -21,7 +21,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build"
+    "build": "ng build",
+    "knip": "knip"
   },
   "type": "module",
   "private": true,
@@ -33,7 +34,6 @@
     "@angular/core": "20.3.26",
     "@angular/forms": "20.3.26",
     "@angular/platform-browser": "20.3.26",
-    "@angular/platform-browser-dynamic": "20.3.26",
     "@angular/router": "20.3.26",
     "@ng-select/ng-select": "20.7.0",
     "@ngx-translate/core": "17.0.0",
@@ -42,7 +42,6 @@
     "echarts": "6.1.0",
     "font-awesome": "4.7.0",
     "isomorphic-dompurify": "3.18.0",
-    "loader-utils": "3.3.1",
     "ng2-pdfjs-viewer": "20.0.1",
     "ngx-bootstrap": "20.0.2",
     "ngx-cookie-service": "20.1.1",
@@ -62,7 +61,7 @@
     "@angular/compiler-cli": "20.3.26",
     "@angular/language-service": "20.3.26",
     "@types/node": "24.13.3",
-    "@types/ws": "8.18.1",
+    "knip": "6.26.0",
     "sass": "1.101.0",
     "typescript": "5.9.3"
   },
