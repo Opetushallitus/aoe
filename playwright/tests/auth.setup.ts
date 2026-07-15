@@ -46,6 +46,19 @@ Object.values(User).forEach((user) => {
     await page.getByRole('button', { name: 'Sign In' }).click()
     await page.waitForURL('/etusivu', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }).click()
+
+    // Accept the terms-of-use interstitial once; it blocks every logged-in view
+    // for a user who has not yet accepted the current terms (e.g. a fresh database).
+    await page.goto('/omat-oppimateriaalit', { waitUntil: 'domcontentloaded' })
+    const termsCheckbox = page.getByRole('checkbox', { name: /Olen lukenut/ })
+    const createLink = page.getByRole('link', { name: 'Luo uusi materiaali' })
+    await expect(termsCheckbox.or(createLink)).toBeVisible()
+    if (await termsCheckbox.isVisible()) {
+      await termsCheckbox.check()
+      await page.getByRole('button', { name: 'Tallenna' }).click()
+      await createLink.waitFor()
+    }
+
     await page.context().storageState({ path: authFileByUser[user] })
   })
 })
