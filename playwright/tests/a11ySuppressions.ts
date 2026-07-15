@@ -34,7 +34,7 @@ export const KNOWN_ISSUES: Record<string, string[]> = {
     'aria-command-name', // TODO(a11y): #user-details-dropdown missing accessible name — file ticket
     'aria-progressbar-name', // TODO(a11y): progress bar (role="progressbar") has no accessible name — file ticket
     'button-name', // TODO(a11y): help-icon buttons (.btn-link) have no accessible name — file ticket
-    'color-contrast', // TODO(a11y): step-indicator links (a[href$="#/lisaa-oppimateriaali/1"]) have insufficient color contrast — file ticket
+    'color-contrast', // TODO(a11y): step-indicator links (a[href$="/lisaa-oppimateriaali/1"]) have insufficient color contrast — file ticket
     'image-alt' // TODO(a11y): thumbnail placeholder img[src$="ic_camera.svg"] has no alt attribute — rendered before a thumbnail resolves (cold stack in CI), same gap as MuokkaaMateriaalia:perustiedot — file ticket
   ],
   'UusiMateriaali:koulutustiedot|desktop': [

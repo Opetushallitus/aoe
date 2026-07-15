@@ -24,7 +24,7 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
   const metadataPage = await metadataContext.newPage()
 
   // Navigate to the material page
-  await metadataPage.goto(`/#/materiaali/${materiaaliNumero}`, {
+  await metadataPage.goto(`/materiaali/${materiaaliNumero}`, {
     waitUntil: 'domcontentloaded'
   })
 
@@ -32,7 +32,7 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
   try {
     await metadataPage.getByText('Olen lukenut').click({ timeout: 1000 })
     await metadataPage.getByRole('button', { name: 'Tallenna' }).click()
-    await metadataPage.goto(`/#/materiaali/${materiaaliNumero}`, {
+    await metadataPage.goto(`/materiaali/${materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
   } catch (_e) {}

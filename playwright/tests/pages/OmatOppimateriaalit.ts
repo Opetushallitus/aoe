@@ -23,8 +23,8 @@ export const OmatOppimateriaalit = (page: Page) => {
   }
 
   const startToEditMateriaaliNumero = async (materiaaliNumero: number) => {
-    await page.locator(`[href*="#/muokkaa-oppimateriaalia/${materiaaliNumero}"]`).click()
-    //await page.waitForURL('#/muokkaa-oppimateriaalia/${materiaaliNumero}/1', {waitUntil: 'domcontentloaded'})
+    await page.locator(`[href*="/muokkaa-oppimateriaalia/${materiaaliNumero}"]`).click()
+    //await page.waitForURL('/muokkaa-oppimateriaalia/${materiaaliNumero}/1', {waitUntil: 'domcontentloaded'})
     await expect(page.getByRole('heading', { name: 'Oppimateriaalin muokkaus' })).toBeVisible()
     return MuokkaaMateriaalia(page)
   }

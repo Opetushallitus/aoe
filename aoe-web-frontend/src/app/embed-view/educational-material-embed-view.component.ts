@@ -136,7 +136,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         this.updateMaterialName()
       }
     )
-    this.materialUrl = `${environment.frontendUrl}/#/materiaali/${this.materialId}`
+    this.materialUrl = `${environment.frontendUrl}/materiaali/${this.materialId}`
   }
 
   /**

@@ -47,7 +47,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
   lang: string = this.translate.getCurrentLang()
   savedData: any
-  accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`
+  accessibilityLink: string = `${environment.frontendUrl}/saavutettavuus/`
 
   accessibilityFeatureSubscription: Subscription
   accessibilityFeatures: AccessibilityFeature[]

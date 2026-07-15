@@ -29,7 +29,7 @@ const visitKeyRoutes = async (
   await page.waitForLoadState('domcontentloaded')
   await visit('Haku')
 
-  await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+  await page.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
     waitUntil: 'domcontentloaded'
   })
   await page.getByRole('heading', { name: a11yMaterial.materiaaliNimi }).waitFor()
@@ -85,7 +85,7 @@ for (const vp of VIEWPORTS) {
     })
 
     test('Materiaali (material view) has no a11y violations', async ({ page, a11yMaterial }) => {
-      await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+      await page.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
         waitUntil: 'domcontentloaded'
       })
       await page.getByRole('heading', { name: a11yMaterial.materiaaliNimi }).waitFor()
@@ -127,7 +127,7 @@ for (const vp of VIEWPORTS) {
       })
       const page = await context.newPage()
       try {
-        await page.goto('/#/etusivu', { waitUntil: 'domcontentloaded' })
+        await page.goto('/etusivu', { waitUntil: 'domcontentloaded' })
         await page.waitForFunction(() => document.documentElement.lang !== '', null, {
           timeout: 5000
         })
@@ -145,7 +145,7 @@ for (const vp of VIEWPORTS) {
       })
       const page = await context.newPage()
       try {
-        await page.goto('/#/haku', { waitUntil: 'domcontentloaded' })
+        await page.goto('/haku', { waitUntil: 'domcontentloaded' })
         // Angular sets <html lang> after bootstrap; wait so the html-has-lang scan isn't racy
         await page.waitForFunction(() => document.documentElement.lang !== '', null, {
           timeout: 5000
@@ -191,7 +191,7 @@ test.describe('a11y interactions @ desktop', () => {
     const modalPage = await context.newPage()
     try {
       const openMaterial = () =>
-        modalPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+        modalPage.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
           waitUntil: 'domcontentloaded'
         })
       await openMaterial()
@@ -250,7 +250,7 @@ test.describe('a11y titles @ desktop', () => {
     await page.waitForLoadState('domcontentloaded')
     titles.haku = await page.title()
 
-    await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+    await page.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
     await page.getByRole('heading', { name: a11yMaterial.materiaaliNimi }).waitFor()
@@ -393,14 +393,14 @@ test.describe('a11y reviews @ desktop', () => {
     })
     const reviewerPage = await context.newPage()
     try {
-      await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+      await reviewerPage.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
         waitUntil: 'domcontentloaded'
       })
       // Accept ToS if prompted on first login for this user.
       try {
         await reviewerPage.getByText('Olen lukenut').click({ timeout: 1000 })
         await reviewerPage.getByRole('button', { name: 'Tallenna' }).click()
-        await reviewerPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+        await reviewerPage.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
           waitUntil: 'domcontentloaded'
         })
       } catch (_e) {}

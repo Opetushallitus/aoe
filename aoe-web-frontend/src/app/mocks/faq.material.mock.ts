@@ -14,7 +14,7 @@ export const FAQMaterial = {
         'Avointen oppimateriaalien kirjaston näkökulmasta huomioitavaa on vain se, että osaat ladata/tallentaa valitsemastasi työkalusta teoksesi tiedostona koneellesi ja että sinulla on oikeus lisensoida oppimateriaalisi avoimesti. Hyväksytyistä tiedostomuodoista saat lisätietoa seuraavasta kysymyksestä. Avoimesta lisenssistä lisätietoa tällä sivulla kohdassa Mitä ovat Creative Commons -lisenssit.',
         'Myös linkittäminen on mahdollista mikäli tallentaminen ei tule kyseeseen: varmista tällöin, että materiaali on avoimesti ilman sisäänkirjautumista ja muita rajoitteita saatavilla nyt ja myös oppimateriaalin tekemisen jälkeen sillä alustalla jonne se on tehty.',
         'Avoimen tieteen koordinaatio on laatinut <a href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-laadun-avoimissa-oppimateriaaleissa" target="_blank" rel="noopener nofollow">avointen oppimateriaalien laatukriteerit (linkki kriteereihin avointiede.fi-sivulle)</a>, jotka toimivat laadunarvioinnin apuna.',
-        `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`
+        `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`
       ]
     },
     {
@@ -36,7 +36,7 @@ export const FAQMaterial = {
       question: 'Miten oppimateriaalin lisääminen tapahtuu?',
       answer: [
         'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on.',
-        `Tarkemman ohjeistuksen löydät <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeistamme</a>.`
+        `Tarkemman ohjeistuksen löydät <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">käyttöohjeistamme</a>.`
       ]
     },
     {
@@ -87,7 +87,7 @@ export const FAQMaterial = {
       question:
         'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaalin poistaa?',
       answer: [
-        `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
+        `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
         'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> ja ylläpitäjä voi poistaa materiaalin.'
       ]
     },
@@ -107,7 +107,7 @@ export const FAQMaterial = {
         'Linking to resources is also possible if they cannot be saved. Please ensure that the material is available openly, with no login or other restrictions, and that it can be accessed now and after its creation on the platform on which it was created.',
         'Open Science Coordination in Finland has produced <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-quality-oer" target="_blank" rel="noopener nofollow">quality criteria for OERs (link to the criteria at avointiede.fi)</a> that will help you evaluate the quality of your OERs.',
         'It is also advisable to read through <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">the Finnish National Agency for Education quality criteria for digital learning resources</a>, and consider what digital resources should accomplish (link in Finnish).',
-        `Relevant sections of the <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">quality criteria for online implementations created</a> as part of the eAMK project can also be useful.`,
+        `Relevant sections of the <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/120">quality criteria for online implementations created</a> as part of the eAMK project can also be useful.`,
         'This page has a dedicated section for questions regarding accessibility.'
       ]
     },
@@ -130,7 +130,7 @@ export const FAQMaterial = {
       question: 'How do I go about uploading educational resources?',
       answer: [
         'Uploading resources to the service is easy. Simply log in, upload the file, and answer a few questions that help others quickly and easily ascertain the type and intended target users of your resource.',
-        `Read more from our <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a>.`
+        `Read more from our <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">instructions</a>.`
       ]
     },
     {
@@ -182,7 +182,7 @@ export const FAQMaterial = {
       question:
         'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
       answer: [
-        `You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.`,
+        `You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.`,
         'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> so that an admin can delete the resource.'
       ]
     },
@@ -202,7 +202,7 @@ export const FAQMaterial = {
         'Om fillagring inte är aktuell kan man också länka materialet. Försäkra dig i så fall om att materialet är öppet tillgängligt utan inloggning eller andra begränsningar såväl nu som senare på den plattform där det skapats.',
         'Samordningen av öppen vetenskap har sammanställt <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/kvalitetskriterier-oppna-larresurser" target="_blank" rel="noopener nofollow">Kvalitetskriterier för öppna lärresurser (länk till avointiede.fi) </a>, som är avsedda som hjälp för dem som utarbetar och använder öppna lärresurser.',
         'Det lönar sig att gå igenom <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Utbildningsstyrelsens kvalitetskriterier</a> för digitala läromaterial och fundera på vad man själv vill ha ut av dem.',
-        `Också projektet <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
+        `Också projektet <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
         'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.'
       ]
     },
@@ -225,7 +225,7 @@ export const FAQMaterial = {
       question: 'Hur läggs material till?',
       answer: [
         'Att lägga till resurser i tjänsten är enkelt: du loggar in, laddar upp filen och besvarar några frågor, så att andra enkelt och snabbt kan avgöra hurdant ditt material är och för vem det är avsett.',
-        `Läs mer från våra <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">anvisningarna</a>.`
+        `Läs mer från våra <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">anvisningarna</a>.`
       ]
     },
     {
@@ -277,7 +277,7 @@ export const FAQMaterial = {
       question:
         'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
       answer: [
-        `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
+        `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
         'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> så att en administratör kan ta bort resursen.'
       ]
     },

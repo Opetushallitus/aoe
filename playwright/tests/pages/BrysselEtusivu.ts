@@ -7,7 +7,7 @@ export const BrysselEtusivu = (page: Page) => {
   const goto = async () => {
     await page.goto('/')
     await expect(page.getByRole('main')).toBeVisible()
-    await page.goto('/#/bryssel')
+    await page.goto('/bryssel')
     await expect(
       page.getByRole('heading', {
         name: 'Tervetuloa aoe.fi hallintanäkymään!'

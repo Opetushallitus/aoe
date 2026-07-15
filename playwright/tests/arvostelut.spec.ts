@@ -24,14 +24,14 @@ test('materiaalin arvostelu ja arvostelujen näkyvyys kirjautumattomalle käytt�
   const reviewerPage = await reviewerContext.newPage()
 
   // Navigate to the material page and submit a review
-  await reviewerPage.goto(`/#/materiaali/${materiaaliNumero}`, {
+  await reviewerPage.goto(`/materiaali/${materiaaliNumero}`, {
     waitUntil: 'domcontentloaded'
   })
   const reviewerMateriaali = Materiaali(reviewerPage)
   try {
     await reviewerPage.getByText('Olen lukenut').click({ timeout: 1000 })
     await reviewerPage.getByRole('button', { name: 'Tallenna' }).click()
-    await reviewerPage.goto(`/#/materiaali/${materiaaliNumero}`, {
+    await reviewerPage.goto(`/materiaali/${materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
   } catch (_e) {}
@@ -53,7 +53,7 @@ test('materiaalin arvostelu ja arvostelujen näkyvyys kirjautumattomalle käytt�
   const anonPage = await anonContext.newPage()
 
   // 3a: Check reviews on material page
-  await anonPage.goto(`/#/materiaali/${materiaaliNumero}`, {
+  await anonPage.goto(`/materiaali/${materiaaliNumero}`, {
     waitUntil: 'domcontentloaded'
   })
   // Set language to Finnish
@@ -67,7 +67,7 @@ test('materiaalin arvostelu ja arvostelujen näkyvyys kirjautumattomalle käytt�
 
   // 3b: Navigate to all reviews page
   await anonMateriaali.clickKatsoKaikkiArviot()
-  await anonPage.waitForURL(`/#/materiaali/${materiaaliNumero}/arvostelut`, {
+  await anonPage.waitForURL(`/materiaali/${materiaaliNumero}/arvostelut`, {
     waitUntil: 'domcontentloaded'
   })
 

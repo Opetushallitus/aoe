@@ -50,7 +50,7 @@ export const FAQGeneral = {
         'Avointen oppimateriaalien kirjasto suosittelee valitsemaan Creative Commons Nimeä 4.0 tai Creative Commons Nimeä-JaaSamoin -lisenssin. Kummatkin näistä takaavat että sinut mainitaan oppimateriaalin tekijänä ja että muut käyttäjät saavat vapaasti käyttää oppimateriaaliasi osana oppimis-, opetus- ja koulutustarpeitaan. Ne mahdollistavat myös sen että muut ihmiset voivat luoda omia muokkauksia oppimateriaalisi pohjalta, taaten näin sen että oppimateriaalisi voi jatkaa päivittymistä ja eloaan senkin jälkeen kun et itse enää ole kiinnostunut pitämään sitä ajan tasalla. Creative Commons Nimeä-JaaSamoin takaa myös sen että kaikki muokkaukset ja uudelleentyöstöt, jotka materiaalisi pohjalta tehdään, jaetaan samalla avoimella lisenssillä.',
         'Creative Commons EiMuutoksia -lisenssiehtoa ei suositella käytettäväksi avoimissa oppimateriaaleissa. Lisenssi estää oppimateriaalin kaikenlaisen päivittämisen ja johdannaismateriaalien tekemisen. Oppimateriaalia ei voi myöskään esimerkiksi kääntää tai muuttaa pistekirjoitukseksi. Pyydämme myös harkitsemaan Creative Commons EiKaupallinen -lisenssien käyttöä, sillä se estää materiaalin käytön esimerkiksi oppilaitosten järjestämissä maksullisissa kursseissa ja koulutuksissa. Nämäkin lisenssiehdot voi kuitenkin valita oppimateriaalille. Lisätietoa <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative Commonsin sivuilta</a>.',
         'Mikäli oppimateriaalilla on useita tekijöitä tai omistajia, tulee avoimesta lisenssistä sopia kaikkien osapuolten kesken. Tämän voi tehdä esimerkiksi hyödyntämällä <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">oheisia sopimuspohjia (linkki Opettajan tekijänoikeus -sivuille)</a>.',
-        `Huomioithan myös, että mikäli käytät muiden tekijöiden kuvia tms materiaaleja osana oppimateriaaliasi, tulee näidenkin olla avoimesti lisensoituja tai sinulla oikeus käyttää niitä avoimesti lisensoidussa oppimateriaalissa. Tekijänoikeuksista ja avoimesta lisensoinnista on myös opettajille suunnattu oppimateriaali <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/58">Tarmo Toikkasen tekemä Tekijänoikeudet opetuksessa -oppimateriaali (linkki materiaaliin aoe.fissä)</a>.`
+        `Huomioithan myös, että mikäli käytät muiden tekijöiden kuvia tms materiaaleja osana oppimateriaaliasi, tulee näidenkin olla avoimesti lisensoituja tai sinulla oikeus käyttää niitä avoimesti lisensoidussa oppimateriaalissa. Tekijänoikeuksista ja avoimesta lisensoinnista on myös opettajille suunnattu oppimateriaali <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/58">Tarmo Toikkasen tekemä Tekijänoikeudet opetuksessa -oppimateriaali (linkki materiaaliin aoe.fissä)</a>.`
       ]
     },
     {
@@ -71,7 +71,7 @@ export const FAQGeneral = {
       question:
         'Löysin mbz-tiedoston sisältävän oppimateriaalin, mutta minulla ei ole moodlea käytössä. Voinko käyttää materiaalia jotenkin muuten?',
       answer: [
-        `Valitettavasti mbz-tiedostot vaativat Moodlen, jotta sitä voi katsoa. Periaatteessa tiedosto voi avautua myös johonkin toiseen oppimisen hallintajärjestelmään, mutta tällöin oppimateriaalin virheettömästä toimivuudesta ei ole takeita. Löydät lisätietoja moodle-oppimateriaaleista <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeiden</a> osiosta "Tarkempia ohjeita blogistamme", otsikko "Kurssitiedostot avoimina oppimateriaaleina."`
+        `Valitettavasti mbz-tiedostot vaativat Moodlen, jotta sitä voi katsoa. Periaatteessa tiedosto voi avautua myös johonkin toiseen oppimisen hallintajärjestelmään, mutta tällöin oppimateriaalin virheettömästä toimivuudesta ei ole takeita. Löydät lisätietoja moodle-oppimateriaaleista <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">käyttöohjeiden</a> osiosta "Tarkempia ohjeita blogistamme", otsikko "Kurssitiedostot avoimina oppimateriaaleina."`
       ]
     },
     {
@@ -88,7 +88,7 @@ export const FAQGeneral = {
       answer: [
         'Kun hyödynnät Creative Commons -lisensoitua teosta omassa materiaalissasi ja haluat merkitä hyödyntämäsi materiaalin tiedot, merkitse ne sisällyttäen seuraavat tiedot:',
         'Tekijä, materiaalin nimi ja linkki sekä lisenssi ja linkki.',
-        `Eli esimerkiksi: Toikkanen Tarmo, <a href="${environment.frontendUrl}/#/materiaali/58" target="_blank" rel="noopener nofollow">Tekijänoikeudet opetuksessa</a>. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 -lisenssi</a>.`
+        `Eli esimerkiksi: Toikkanen Tarmo, <a href="${environment.frontendUrl}/materiaali/58" target="_blank" rel="noopener nofollow">Tekijänoikeudet opetuksessa</a>. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 -lisenssi</a>.`
       ]
     }
   ],
@@ -135,7 +135,7 @@ export const FAQGeneral = {
         'The Library of Open Educational Resources recommends that users select either the Creative Commons “Attribution 4.0” or the Creative Commons “Attribution-ShareAlike 4.0” license. Both of these ensure that you will be acknowledged as the creator of the educational resource, and that other users may freely use it as part of their learning, teaching and educational needs. They also allow others to make modifications based on the material you have created. This guarantees the continuity of your resource and ensures that it is updated after you are no longer maintaining it up to date yourself. The Creative Commons “Attribution-ShareAlike” license also ensures that all modifications and reworking based on your material will be distributed under the same open license.',
         'The Creative Commons “NoDerivatives” license condition is not recommended with open educational resources. This license does not allow any updates, derivative works, or translations into other languages or into braille by users other than the original creator. We also ask users to bear in mind that the Creative Commons “NonCommercial” licenses do not allow the material to be used in the context, for example, of courses and training for which educational institutions charge fees. For further <a href="https://creativecommons.org/licenses/?lang=en" target="_blank" rel="noopener nofollow">information on licenses, see this link</a>.',
         'If an educational resource has multiple creators or owners, the open license must be agreed on by all parties. This can be done for example by using these <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">contract templates (in Finnish)</a>.',
-        `Please also consider that if you use other creators’ images or other materials as part of your educational resource, these must be openly licensed or you must have permission to use them as part of openly licensed educational materials. Information on copyright and open licensing for teachers is available in the <a href="${environment.frontendUrl}/#/materiaali/58" target="_blank" rel="noopener nofollow">“Copyrights in Education” resource</a>.`
+        `Please also consider that if you use other creators’ images or other materials as part of your educational resource, these must be openly licensed or you must have permission to use them as part of openly licensed educational materials. Information on copyright and open licensing for teachers is available in the <a href="${environment.frontendUrl}/materiaali/58" target="_blank" rel="noopener nofollow">“Copyrights in Education” resource</a>.`
       ]
     },
     {
@@ -156,7 +156,7 @@ export const FAQGeneral = {
       question:
         "I found an OER containing a mbz file, but I don't have access to a Moodle. Is there some other way to open the OER?",
       answer: [
-        `Unfortunately mbz files can only be used in a Moodle. It might be possible to open the OER in a different learning environment but there would be no quarantees that the OER would function accordingly. You can read more about Moodle related OERs from <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/#/materiaali/606">instructions</a> (in Finnish: Tarkempia ohjeita blogistamme, article Kurssitiedostot avoimina oppimateriaaleina).`
+        `Unfortunately mbz files can only be used in a Moodle. It might be possible to open the OER in a different learning environment but there would be no quarantees that the OER would function accordingly. You can read more about Moodle related OERs from <a target="_blank" rel="noopener nofollow" href="${environment.frontendUrl}/materiaali/606">instructions</a> (in Finnish: Tarkempia ohjeita blogistamme, article Kurssitiedostot avoimina oppimateriaaleina).`
       ]
     },
     {
@@ -174,7 +174,7 @@ export const FAQGeneral = {
       answer: [
         'When you use a Creative Commons-licensed work in your own material and want to tag information about the material you are using, tag the following information:',
         'Author, material name and link. License and link.',
-        `E.g. Toikkanen Tarmo, <a href="${environment.frontendUrl}/#/materiaali/58" target="_blank" rel="noopener nofollow"> Copyright in Teaching. </a><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 license.</a>`
+        `E.g. Toikkanen Tarmo, <a href="${environment.frontendUrl}/materiaali/58" target="_blank" rel="noopener nofollow"> Copyright in Teaching. </a><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 license.</a>`
       ]
     }
   ],
@@ -222,7 +222,7 @@ export const FAQGeneral = {
         'Biblioteket för öppna lärresurser rekommenderar någondera av licenserna Creative Commons ”Erkännande 4.0” eller Creative Commons ”Erkännande-DelaLika”. Bägge säkerställer att du nämns som upphovsman till materialet och att andra fritt kan använda det inom ramen för sina inlärnings-, undervisnings- och utbildningsbehov. De tillåter också att andra gör egna ändringar i materialen. Detta tryggar aktualitet och kontinuitet för dina undervisningsmaterial också efter att du inte själv håller det uppdaterat. Creative Commons ”Erkännande-DelaLika” säkerställer dessutom att alla redigeringar och omarbetningar som görs i ditt material delas med samma öppna licens.',
         'Creative Commons licensvillkor ”IngaBearbetningar” rekommenderas inte för öppna lärresurser. Licensen förbjuder alla typer av uppdateringar och härledda material. Undervisningsmaterialet kan till exempel inte heller översättas eller föras över till punktskrift. Vi ber också att man överväger saken noggrant innan man använder Creative Commons ”Ickekommersiell”, eftersom den förbjuder användning av materialet exmpelvis i läroanstalters avgiftsbelagda kurser och utbildningar. Mer information (på finska) på <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative commons -sidorna</a>.',
         'Om flera upphovsmän eller ägare finns till undervisningsmaterialet, ska den öppna licensen avtalas mellan alla parter. Detta sker exempelvis med följande <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">mallavtal (på finska)</a>.',
-        `Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, <a href="${environment.frontendUrl}/#/materiaali/58" target="_blank" rel="noopener nofollow">”Upphovsrätten i undervisningen”</a>.`
+        `Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, <a href="${environment.frontendUrl}/materiaali/58" target="_blank" rel="noopener nofollow">”Upphovsrätten i undervisningen”</a>.`
       ]
     },
     {
@@ -254,7 +254,7 @@ export const FAQGeneral = {
       answer: [
         'När du använder ett Creative Commons-licensierat verk i ditt eget material och vill märka information om materialet du använder, märk följande information:',
         'Författare, materialnamn och länk. Licens och länk.',
-        `T.ex: Toikkanen Tarmo, <a href="${environment.frontendUrl}/#/materiaali/58" target="_blank" rel="noopener nofollow"> Upphovsrätten i undervisningen. </a><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 -licens.</a>`
+        `T.ex: Toikkanen Tarmo, <a href="${environment.frontendUrl}/materiaali/58" target="_blank" rel="noopener nofollow"> Upphovsrätten i undervisningen. </a><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 -licens.</a>`
       ]
     }
   ]

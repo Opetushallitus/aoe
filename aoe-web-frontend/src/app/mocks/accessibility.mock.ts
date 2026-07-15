@@ -61,7 +61,7 @@ export const Accessibility: AccessibilityTable = {
       ],
       details: [
         `<a href="https://koodistot.suomi.fi/codescheme;registryCode=edtech;schemeCode=AccessibilityFeatures/" rel="noopener">Sanasto saavutettavuusmetatiedoille</a>`,
-        `<a href="https://aoe.fi/#/materiaali/606/" rel="noopener">Ohjeet metatietojen lisäämiseen</a>`
+        `<a href="https://aoe.fi/materiaali/606/" rel="noopener">Ohjeet metatietojen lisäämiseen</a>`
       ],
       howTo: [
         `Huolellinen kuvailu on myös saavutettavuutta.   Saavutettavuutta varten on käytössä saavutettavuuden ominaisuudet ja saavutettavuuden esteet -kentät, mutta myös muiden kohtien täyttäminen lisää toisten ymmärrystä materiaalistasi,` +
@@ -152,7 +152,7 @@ export const Accessibility: AccessibilityTable = {
       ],
       details: [
         `<a href="https://koodistot.suomi.fi/codescheme;registryCode=edtech;schemeCode=AccessibilityFeatures/" rel="noopener">Glossary for accessibility metadata</a>`,
-        `<a href="https://aoe.fi/#/materiaali/606/" rel="noopener">Instructions for adding metadata</a>`
+        `<a href="https://aoe.fi/materiaali/606/" rel="noopener">Instructions for adding metadata</a>`
       ],
       howTo: [
         `Good metadata also increases accessibility. We have specific fields for Accessibility Feature and Accessibility Hazard, but other metadata fields also help others to understand your learning resource, how to use it and for what purposes it is suitable.`
@@ -238,7 +238,7 @@ export const Accessibility: AccessibilityTable = {
       ],
       details: [
         `<a href="https://koodistot.suomi.fi/codescheme;registryCode=edtech;schemeCode=AccessibilityFeatures/" rel="noopener">Ordlista för tillgänglighetsmetadata</a>`,
-        `<a href="https://aoe.fi/#/materiaali/606/" rel="noopener">Lägga till Anvisningar för att lägga till metadata</a>`
+        `<a href="https://aoe.fi/materiaali/606/" rel="noopener">Lägga till Anvisningar för att lägga till metadata</a>`
       ],
       howTo: [
         `Metadata är också en del av tillgänglighet. Vi har fälten Tillgänglighetsegenskaper och Hinder för tillgänglighet för information om tillgänglighet. Men andra fält också gör det enklare för andra människor att förstå din lärresurs och dess ändamål.`

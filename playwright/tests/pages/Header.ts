@@ -46,7 +46,7 @@ export const Header = (page: Page) => {
     try {
       await hyvaksyKayttoehdot.click({ timeout: 500 })
       await page.getByRole('button', { name: 'Tallenna' }).click()
-      await page.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
+      await page.waitForURL('/etusivu', { waitUntil: 'domcontentloaded' })
       await clickNavLink(locators.omatMateriaalitLink)
     } catch (_e) {}
     return OmatOppimateriaalit(page)

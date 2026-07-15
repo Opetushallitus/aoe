@@ -47,7 +47,7 @@ test.describe('a11y keyboard @ desktop', () => {
     await page.keyboard.type('matematiikka')
     await tabUntilFocused(page, etusivu.haku.hae)
     await activate(page)
-    await expect(page).toHaveURL(/#\/haku/)
+    await expect(page).toHaveURL(/\/haku/)
   })
 
   test('new-material wizard is completable by keyboard', async ({ page }) => {
@@ -115,9 +115,9 @@ test.describe('a11y keyboard @ desktop', () => {
     }
     await tabUntilFocused(page, save)
     await activate(page)
-    // Proof of save: the wizard navigates to the saved material page (/#/materiaali/<id>) —
+    // Proof of save: the wizard navigates to the saved material page (/materiaali/<id>) —
     // the preview step also shows the name heading, so assert the URL, not just the heading.
-    await expect(page).toHaveURL(/#\/materiaali\/\d+/, { timeout: 30000 })
+    await expect(page).toHaveURL(/\/materiaali\/\d+/, { timeout: 30000 })
     await expect(page.getByRole('heading', { name: nimi })).toBeVisible()
   })
 
@@ -145,15 +145,15 @@ test.describe('a11y keyboard @ desktop', () => {
     }
     await tabUntilFocused(page, save)
     await activate(page)
-    // Proof of save: editing returns to the material page (/#/materiaali/<id>).
-    await expect(page).toHaveURL(/#\/materiaali\/\d+/, { timeout: 30000 })
+    // Proof of save: editing returns to the material page (/materiaali/<id>).
+    await expect(page).toHaveURL(/\/materiaali\/\d+/, { timeout: 30000 })
   })
 
   test('focus is managed after navigating to search results', async ({ page }) => {
     const etusivu = Etusivu(page)
     await etusivu.goto()
     await etusivu.hae('matematiikka')
-    await page.waitForURL(/#\/haku/)
+    await page.waitForURL(/\/haku/)
     await page.waitForLoadState('domcontentloaded')
 
     // After a route change, focus should move to a sensible target (a heading or main
@@ -192,7 +192,7 @@ test.describe('a11y keyboard @ desktop', () => {
     const hyodynnetyt = await lisenssi.seuraava()
     const esikatselu = await hyodynnetyt.seuraava()
     await esikatselu.tallenna(nimi)
-    await page.waitForURL(/#\/materiaali\/\d+/)
+    await page.waitForURL(/\/materiaali\/\d+/)
 
     const active = await focusedActiveElement(page)
     if (!isKnownGap('focus-route:save')) {
@@ -260,7 +260,7 @@ test.describe('a11y keyboard @ desktop', () => {
     const modalPage = await context.newPage()
     try {
       const openMaterial = () =>
-        modalPage.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+        modalPage.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
           waitUntil: 'domcontentloaded'
         })
       await openMaterial()
@@ -304,7 +304,7 @@ test.describe('a11y keyboard @ desktop', () => {
   })
 
   test('material-view tooltip is dismissible by keyboard', async ({ page, a11yMaterial }) => {
-    await page.goto(`/#/materiaali/${a11yMaterial.materiaaliNumero}`, {
+    await page.goto(`/materiaali/${a11yMaterial.materiaaliNumero}`, {
       waitUntil: 'domcontentloaded'
     })
     const materiaali = Materiaali(page)

@@ -8,7 +8,6 @@ import {
   loadProdEnv,
   loadQaEnv
 } from './environments/environment'
-import { LocationStrategy, HashLocationStrategy } from '@angular/common'
 import { CookieService } from 'ngx-cookie-service'
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { CredentialInterceptor, WindowRef } from './app/providers'
@@ -36,11 +35,17 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 import { NgxPaginationModule } from 'ngx-pagination'
 import { AppComponent } from './app/app.component'
 
+// Redirect legacy hash URLs (shared links, external embed iframes) to path form.
+// e.g. https://aoe.fi/#/materiaali/6010 -> https://aoe.fi/materiaali/6010
+if (location.hash.startsWith('#/')) {
+  location.replace(location.hash.slice(1))
+}
+
 if (environment.production) {
   enableProdMode()
 }
 
-fetch('./assets/config/config.json')
+fetch('/assets/config/config.json')
   .then((resp) => resp.json())
   .then((config) => {
     const envLoaders: Record<string, () => void> = {
@@ -80,10 +85,6 @@ fetch('./assets/config/config.json')
           PdfJsViewerModule,
           NgxPaginationModule
         ),
-        {
-          provide: LocationStrategy,
-          useClass: HashLocationStrategy
-        },
         CookieService,
         {
           provide: HTTP_INTERCEPTORS,
@@ -99,7 +100,7 @@ fetch('./assets/config/config.json')
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
           loader: provideTranslateHttpLoader({
-            prefix: './i18n/',
+            prefix: '/i18n/',
             suffix: '.json'
           })
         }),

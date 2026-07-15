@@ -44,7 +44,7 @@ Object.values(User).forEach((user) => {
     await page.getByRole('textbox', { name: 'Username or email' }).fill(user)
     await page.getByRole('textbox', { name: 'Password' }).fill('password123')
     await page.getByRole('button', { name: 'Sign In' }).click()
-    await page.waitForURL('/#/etusivu', { waitUntil: 'domcontentloaded' })
+    await page.waitForURL('/etusivu', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }).click()
     await page.context().storageState({ path: authFileByUser[user] })
   })

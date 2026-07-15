@@ -403,7 +403,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     listenerPathPatterns: [
       '/api/*',
       '/h5p/*',
-      '/embed/*',
+      '/embed/material/*',
+      '/embed/download/*',
+      '/embed/pdf/*',
       '/content/*',
       '/ref/api/v1*',
       '/meta/oaipmh*',

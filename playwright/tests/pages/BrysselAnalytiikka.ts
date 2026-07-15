@@ -38,7 +38,7 @@ export const BrysselAnalyytiikka = (page: Page) => {
 
   const goto = async () => {
     await page.bringToFront()
-    await page.goto('/#/bryssel/analytiikka', { waitUntil: 'domcontentloaded' })
+    await page.goto('/bryssel/analytiikka', { waitUntil: 'domcontentloaded' })
   }
 
   const taytaJaHaeOppimateriaalienKayttomaarat = async (

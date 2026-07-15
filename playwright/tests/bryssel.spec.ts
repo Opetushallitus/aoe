@@ -52,7 +52,7 @@ test('oppimateriaalin katselu näkyy analytiikassa', async ({ page }) => {
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
 
   // 3. View the material to trigger a view event
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
   await brysselPage.goto()
   const analytiikkaUudelleen = await brysselPage.clickBrysselAnalytiikka()
@@ -76,7 +76,7 @@ test('oppimateriaalin lataus näkyy analytiikassa', async ({ page }) => {
   const analytiikka = await brysselPage.clickBrysselAnalytiikka()
   const alkuperainenMaara = await analytiikka.haeMaterialActivityYhteensa({ tapa: ['Lataus'] })
 
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
   const materiaaliPage = Materiaali(page)
   await materiaaliPage.lataaDropdown.click()
@@ -286,7 +286,7 @@ test('oppimateriaalin katselu opetusastesuodattimella näkyy analytiikassa', asy
     opetusasteet: ['korkeakoulutus']
   })
 
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
 
   await brysselPage.goto()
@@ -354,7 +354,7 @@ test('oppimateriaalin oppiaine- ja organisaatiosuodattimet toimivat analytiikass
         ...filters
       })
 
-      await page.goto(`/#/materiaali/${materiaaliNumero}`)
+      await page.goto(`/materiaali/${materiaaliNumero}`)
       await expect(page.getByRole('heading', { name: materiaaliNimi })).toBeVisible()
 
       await brysselPage.goto()
@@ -421,7 +421,7 @@ test('Pääkäyttäjä voi arkistoida oppimateriaalin', async ({ page }) => {
   await brysselPage.goto()
   const materiaalienHallinta = await brysselPage.clickBrysselMateriaalinHallinta()
   await materiaalienHallinta.arkistoiMateriaali(materiaaliNumero)
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(
     page.getByText(
       'Tämä materiaali on arkistoitu. Lisätietoa saat palvelun ylläpitäjiltä ottamalla yhteyttä osoitteeseen aoe@oph.fi ja kysymällä materiaalista sen id:n kera.'
@@ -445,7 +445,7 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page }) => {
   await brysselPage.clickBrysselMateriaalinHallinta()
 
   // Verify current owner on material page
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(page.getByTestId('material-owner')).toContainText('AOE_first AOE_last')
 
   // Return to admin panel → Material Management
@@ -456,7 +456,7 @@ test('Pääkäyttäjä voi vaihtaa materiaalin omistajan', async ({ page }) => {
   await materiaalienHallintaUudelleen.vaihdaOmistaja(materiaaliNumero, 'Tuomas')
 
   // Verify the owner changed on material page
-  await page.goto(`/#/materiaali/${materiaaliNumero}`)
+  await page.goto(`/materiaali/${materiaaliNumero}`)
   await expect(page.getByTestId('material-owner')).toContainText('Tuomas Jukola')
 })
 

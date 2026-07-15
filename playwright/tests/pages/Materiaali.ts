@@ -30,7 +30,7 @@ export const Materiaali = (page: Page) => {
   }
 
   const getMateriaaliNumero = async () => {
-    await page.waitForURL(/https:\/\/demo.aoe.fi\/#\/materiaali\/\d+/, {
+    await page.waitForURL(/https:\/\/demo.aoe.fi\/materiaali\/\d+/, {
       waitUntil: 'domcontentloaded'
     })
     const oppimateriaaliNumero = Number(page.url().split('/').reverse().at(0))
@@ -68,7 +68,7 @@ export const Materiaali = (page: Page) => {
   const valitseVersio = async (index: number) => {
     await avaaVersiohistoria()
     await locators.versiohistoriaItems.nth(index).click()
-    await page.waitForURL(/\/#\/materiaali\/\d+\/\d+/, { waitUntil: 'domcontentloaded' })
+    await page.waitForURL(/\/materiaali\/\d+\/\d+/, { waitUntil: 'domcontentloaded' })
   }
 
   // The tablist renders file names with the extension stripped (e.g. 'blank.pdf' -> 'blank'),
