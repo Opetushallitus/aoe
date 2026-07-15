@@ -20,7 +20,7 @@
           <div class="col-lg-6 text-lg-end">
             <div class="material-actions">
               @if (authService.hasUserData()) {
-                <button type="button" class="btn btn-link" (click)="openCollectionModal()">
+                <button type="button" class="btn btn-link" (click)="openCollectionModal($event)">
                   {{ "demo.educationalMaterial.addToCollection" | translate }}
                 </button>
               }
@@ -386,15 +386,19 @@
                     <!--keywords-->
                   </div>
                 </div>
-                <accordion>
-                  <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
-                    <button type="button" class="btn btn-link" accordion-heading>
-                      @if (detailsExpanded) {
-                        {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
-                      } @else {
-                        {{ "demo.educationalMaterial.expandMetadata.more" | translate }}
-                      }
-                    </button>
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  (click)="detailsExpanded = !detailsExpanded"
+                  [attr.aria-expanded]="detailsExpanded"
+                  aria-controls="material-details">
+                  @if (detailsExpanded) {
+                    {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
+                  } @else {
+                    {{ "demo.educationalMaterial.expandMetadata.more" | translate }}
+                  }
+                </button>
+                <div id="material-details" [collapse]="!detailsExpanded" [isAnimated]="true">
                     @if (educationalMaterial.educationalLevels?.length > 0) {
                       <div class="metadata-group">
                         <app-taglist
@@ -926,8 +930,7 @@
                     }
                   </div>
                 }
-              </accordion-group>
-            </accordion>
+            </div>
           </div>
         </div>
         <div class="ratings">
@@ -1001,7 +1004,7 @@
           }
           <!--social metadata-->
           @if (authService.hasUserData() && !educationalMaterial.owner) {
-            <button type="button" class="btn btn-anchor mb-4" (click)="openSocialMetadataModal()">
+            <button type="button" class="btn btn-anchor mb-4" (click)="openSocialMetadataModal($event)">
               {{ "demo.educationalMaterial.socialMetadata.addMetadata" | translate }}
             </button>
           }
@@ -1028,7 +1031,7 @@
             </div>
             @if (authService.hasUserData() && !educationalMaterial.owner) {
               <div class="col-auto">
-                <button type="button" class="btn btn-anchor" (click)="openReviewModal()">
+                <button type="button" class="btn btn-anchor" (click)="openReviewModal($event)">
                   {{ "demo.educationalMaterial.userReviews.addReview" | translate }}
                 </button>
               </div>

@@ -107,12 +107,7 @@ test.describe('a11y keyboard @ desktop', () => {
     const save = page.getByRole('button', { name: 'Tallenna' })
     await controls.confirmCheckbox.waitFor({ state: 'visible' }) // ensure esikatselu step is fully rendered
     await tabUntilFocused(page, controls.confirmCheckbox, 80)
-    await activate(page, 'Space') // attempt the keyboard toggle
-    // KNOWN_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form, so if the
-    // keyboard toggle didn't enable Save, fall back to a mouse click on the label.
-    if (await save.isDisabled()) {
-      await controls.confirmLabel.click() // KNOWN_GAPS['wizard-confirm-checkbox'] fallback
-    }
+    await activate(page, 'Space')
     await tabUntilFocused(page, save)
     await activate(page)
     // Proof of save: the wizard navigates to the saved material page (/materiaali/<id>) —
@@ -134,15 +129,11 @@ test.describe('a11y keyboard @ desktop', () => {
       await advanceStepByKeyboard(page)
     }
 
-    // Final step: affirmation + save by keyboard (same gap handling as the create wizard).
+    // Final step: affirmation + save by keyboard.
     const save = page.getByRole('button', { name: /Tallenna/ })
     await controls.confirmCheckbox.waitFor({ state: 'visible' })
     await tabUntilFocused(page, controls.confirmCheckbox, 80)
-    await activate(page, 'Space') // attempt keyboard toggle
-    // KNOWN_GAPS['wizard-confirm-checkbox']: Space doesn't update Angular's form; fall back if Save stays disabled.
-    if (await save.isDisabled()) {
-      await controls.confirmLabel.click() // KNOWN_GAPS['wizard-confirm-checkbox'] fallback
-    }
+    await activate(page, 'Space')
     await tabUntilFocused(page, save)
     await activate(page)
     // Proof of save: editing returns to the material page (/materiaali/<id>).

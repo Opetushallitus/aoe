@@ -9,8 +9,8 @@ export const KNOWN_ISSUES: Record<string, string[]> = {
   'OmatOppimateriaalit|mobile': [],
   'UusiOppimateriaali|desktop': [],
   'UusiOppimateriaali|mobile': [],
-  'Materiaali|desktop': ['nested-interactive'], // TODO(a11y): .panel-heading contains nested interactive elements — file ticket
-  'Materiaali|mobile': ['nested-interactive'], // TODO(a11y): .panel-heading contains nested interactive elements — file ticket
+  'Materiaali|desktop': [],
+  'Materiaali|mobile': [],
   'HakuFilter|desktop': [],
   'NgSelect|desktop': [
     'aria-allowed-attr', // TODO(a11y): ng-select optgroup (role="group") uses disallowed aria-setsize/aria-posinset — file ticket

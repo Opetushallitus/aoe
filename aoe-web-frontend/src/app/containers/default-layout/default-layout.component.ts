@@ -4,13 +4,13 @@ import { setLanguage } from '../../shared/shared.module'
 import { AuthService } from '@services/auth.service'
 import { CookieService } from '@services/cookie.service'
 import { interval, Observable } from 'rxjs'
-import { startWith, switchMap } from 'rxjs/operators'
+import { filter, startWith, switchMap } from 'rxjs/operators'
 import { AlertService } from '@services/alert.service'
 import { AlertsResponse } from '@models/alerts/alerts-response'
 import { ServiceNotification } from '@models/service-notification'
 import { NotificationService } from '@services/notification.service'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
 import { NgClass, AsyncPipe } from '@angular/common'
 import { NavLoginComponent } from '../../components/nav-login/nav-login.component'
 import { AlertComponent } from 'ngx-bootstrap/alert'
@@ -116,12 +116,15 @@ export class DefaultLayoutComponent implements OnInit {
 
   showNotice = true
 
+  private navFocusObserver?: MutationObserver
+
   constructor(
     public translate: TranslateService,
     public authService: AuthService,
     private cookieSvc: CookieService,
     private alertSvc: AlertService,
     private notificationService: NotificationService,
+    private router: Router,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.showNotice = !this.cookieSvc.isCookiePolicyAccepted()
@@ -151,6 +154,45 @@ export class DefaultLayoutComponent implements OnInit {
         switchMap(() => this.alertSvc.updateAlerts())
       )
       .subscribe((response: AlertsResponse) => (this.alerts = response))
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        const isInitialPageLoad = event.id === 1
+        if (!isInitialPageLoad) {
+          this.moveFocusToHeading()
+        }
+      })
+  }
+
+  private moveFocusToHeading(): void {
+    const main = this.document.getElementById('main-content')
+    if (!main) {
+      return
+    }
+    main.focus()
+    this.navFocusObserver?.disconnect()
+
+    const focusHeading = (): boolean => {
+      const active = this.document.activeElement
+      if (active && active !== main && active !== this.document.body) {
+        return true
+      }
+      const heading = main.querySelector('h1')
+      if (heading) {
+        heading.setAttribute('tabindex', '-1')
+        heading.focus()
+        return true
+      }
+      return false
+    }
+
+    this.navFocusObserver = new MutationObserver(() => {
+      if (focusHeading()) {
+        this.navFocusObserver?.disconnect()
+      }
+    })
+    this.navFocusObserver.observe(main, { childList: true, subtree: true })
   }
 
   /**

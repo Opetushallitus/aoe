@@ -68,7 +68,7 @@ body {
   }
 
   .search-result {
-    h1 {
+    h2 {
       @include resize(17px);
       font-family: $font-family-roboto;
       font-weight: 300;

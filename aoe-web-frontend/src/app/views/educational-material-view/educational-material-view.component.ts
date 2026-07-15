@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, Type } from '@angular/core'
 import { ActivatedRoute, ParamMap, RouterLink, RouterLinkActive } from '@angular/router'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
@@ -6,7 +6,7 @@ import { EducationalMaterial } from '@models/educational-material'
 import { Material } from '@models/material'
 import { MaterialService } from '@services/material.service'
 import { environment } from '@environments/environment'
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal'
 // eslint-disable-next-line max-len
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component'
 import { AuthService } from '@services/auth.service'
@@ -31,7 +31,7 @@ import {
 import { NgClass, DatePipe } from '@angular/common'
 import { EducationalMaterialPreviewComponent } from '../../components/educational-material-preview/educational-material-preview.component'
 import { TaglistComponent } from '../../components/taglist/taglist.component'
-import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion'
+import { CollapseDirective } from 'ngx-bootstrap/collapse'
 import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
 import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-button.component'
 
@@ -51,8 +51,7 @@ import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-butto
     NgClass,
     EducationalMaterialPreviewComponent,
     TaglistComponent,
-    AccordionComponent,
-    AccordionPanelComponent,
+    CollapseDirective,
     DatePipe,
     TranslatePipe,
     MaterialLanguagePipe,
@@ -293,34 +292,54 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  openReviewModal(): void {
+  openReviewModal(event: Event): void {
     const initialState = {
       materialId: this.materialId
     }
 
-    this.reviewModalRef = this.modalService.show(EducationalMaterialRatingModalComponent, {
-      initialState
-    })
+    this.reviewModalRef = this.showModalReturningFocus(
+      EducationalMaterialRatingModalComponent,
+      { initialState },
+      event.currentTarget
+    )
   }
 
-  openCollectionModal(): void {
+  openCollectionModal(event: Event): void {
     const initialState = {
       materialId: this.materialId
     }
 
-    this.collectionModalRef = this.modalService.show(AddToCollectionModalComponent, {
-      initialState
-    })
+    this.collectionModalRef = this.showModalReturningFocus(
+      AddToCollectionModalComponent,
+      { initialState },
+      event.currentTarget
+    )
   }
 
-  openSocialMetadataModal(): void {
+  openSocialMetadataModal(event: Event): void {
     const initialState = {
       materialId: this.materialId
     }
 
-    this.socialMetadataModalRef = this.modalService.show(SocialMetadataModalComponent, {
-      initialState
+    this.socialMetadataModalRef = this.showModalReturningFocus(
+      SocialMetadataModalComponent,
+      { initialState },
+      event.currentTarget
+    )
+  }
+
+  private showModalReturningFocus<T>(
+    content: Type<T>,
+    options: ModalOptions<T>,
+    trigger: EventTarget | null
+  ): BsModalRef<T> {
+    const modalRef = this.modalService.show(content, options)
+    modalRef.onHidden?.subscribe(() => {
+      if (trigger instanceof HTMLElement) {
+        trigger.focus()
+      }
     })
+    return modalRef
   }
 
   copyEmbedCode(): void {
