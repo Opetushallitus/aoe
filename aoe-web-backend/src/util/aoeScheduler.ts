@@ -3,6 +3,7 @@ import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { updateEsDocument } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
+import { clearH5PContentCache } from '@services/h5pService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import { updateReferenceData } from '@util/ref/redis.utils'
 import * as log from '@util/winstonLogger'
@@ -21,6 +22,7 @@ export const startScheduledCleaning = (): void => {
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
+      clearH5PContentCache()
       log.debug('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
       log.error('Scheduled removal for temporary H5P or HTML content failed', err)

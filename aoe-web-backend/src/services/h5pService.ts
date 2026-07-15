@@ -21,6 +21,12 @@ let h5pConfig: H5PConfig
 let h5pEditor: H5PEditor
 let h5pPlayer: H5PPlayer
 
+const renderedContent = new Map<string, string>()
+
+export const clearH5PContentCache = (): void => {
+  renderedContent.clear()
+}
+
 /**
  * Initialize H5P editor and player with a JSON configuration file and static library content.
  * @return {Promise<void>}
@@ -55,6 +61,21 @@ export const userH5P: IUser = {
  */
 export const downloadAndRenderH5P = async (req: Request, res: Response): Promise<string | any> => {
   const keyS3: string = req.params.keyS3
+
+  const cachedContentId: string | undefined = renderedContent.get(keyS3)
+  if (cachedContentId) {
+    try {
+      const htmlH5P: string = await h5pPlayer.render(cachedContentId, userH5P, 'en', {
+        ignoreUserPermissions: true
+      })
+      res.status(200).send(htmlH5P).end()
+      return
+    } catch (err: unknown) {
+      renderedContent.delete(keyS3)
+      log.debug('Cached H5P content missing, rebuilding', { keyS3 })
+    }
+  }
+
   const paramsS3: { Bucket: string; Key: string } = {
     Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
     Key: keyS3
@@ -99,6 +120,7 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
     const htmlH5P: string = await h5pPlayer.render(savedContentId, userH5P, 'en', {
       ignoreUserPermissions: true
     })
+    renderedContent.set(keyS3, savedContentId)
     res.status(200).send(htmlH5P).end()
   } catch (err: unknown) {
     // Client went away (e.g. gateway timeout then reload): the S3 request was
