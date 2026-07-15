@@ -24,7 +24,7 @@ export const qa: EnvironmentConfig = {
         NODE_ENV: 'production',
         LOG_LEVEL: 'debug',
         PORT_LISTEN: '8080',
-        MATERIAL_VERSION_URL: 'https://qa.aoe.fi/#/materiaali/',
+        MATERIAL_VERSION_URL: 'https://qa.aoe.fi/materiaali/',
         HTTP_OPTIONS_TIMEOUT: '5000',
         HTTP_OPTIONS_RETRY: '2',
         HTTP_OPTIONS_CLOCK_TOLERANCE: '5',

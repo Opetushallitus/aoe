@@ -37,7 +37,8 @@ import { AppComponent } from './app/app.component'
 
 // Redirect legacy hash URLs (shared links, external embed iframes) to path form.
 // e.g. https://aoe.fi/#/materiaali/6010 -> https://aoe.fi/materiaali/6010
-if (location.hash.startsWith('#/')) {
+// Require a single leading slash: '#//evil.com' is protocol-relative and would redirect off-site.
+if (location.hash.startsWith('#/') && !location.hash.startsWith('#//')) {
   location.replace(location.hash.slice(1))
 }
 

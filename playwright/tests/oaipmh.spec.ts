@@ -34,10 +34,17 @@ const EMPTY_UNTIL = '2000-01-02T00:00:00Z'
 const listUrl = (
   endpoint: string,
   verb: 'ListRecords' | 'ListIdentifiers',
-  opts: { from?: string; until?: string; resumptionToken?: string | number } = {}
+  opts: {
+    from?: string
+    until?: string
+    resumptionToken?: string | number
+  } = {}
 ): string => {
   if (opts.resumptionToken !== undefined) {
-    const params = new URLSearchParams({ verb, resumptionToken: String(opts.resumptionToken) })
+    const params = new URLSearchParams({
+      verb,
+      resumptionToken: String(opts.resumptionToken)
+    })
     return `${endpoint}?${params.toString()}`
   }
   const params = new URLSearchParams({ verb, metadataPrefix: 'oai_dc' })
@@ -95,7 +102,7 @@ const EXPECTED_BASIC_RECORD = `
     <metadata>
       <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:lrmi_fi="http://dublincore.org/dcx/lrmi-terms/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
         <dc:identifier>urn:nbn:fi:oerfi-{URN}</dc:identifier>
-        <dc:identifier>https://demo.aoe.fi/#/materiaali/{ID}/{TS_MS}</dc:identifier>
+        <dc:identifier>https://demo.aoe.fi/materiaali/{ID}/{TS_MS}</dc:identifier>
         <dc:title xml:lang="fi">{MATERIAALI_NIMI}</dc:title>
         <dc:title xml:lang="sv">{MATERIAALI_NIMI}</dc:title>
         <dc:title xml:lang="en">{MATERIAALI_NIMI}</dc:title>
@@ -189,8 +196,8 @@ const redact = (record: string): string =>
       '<dc:identifier>urn:nbn:fi:oerfi-{URN}</dc:identifier>'
     )
     .replace(
-      /<dc:identifier>https:\/\/demo\.aoe\.fi\/#\/materiaali\/\d+\/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z<\/dc:identifier>/g,
-      '<dc:identifier>https://demo.aoe.fi/#/materiaali/{ID}/{TS_MS}</dc:identifier>'
+      /<dc:identifier>https:\/\/demo\.aoe\.fi\/materiaali\/\d+\/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z<\/dc:identifier>/g,
+      '<dc:identifier>https://demo.aoe.fi/materiaali/{ID}/{TS_MS}</dc:identifier>'
     )
     .replace(/<dc:date>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z<\/dc:date>/g, '<dc:date>{TS}</dc:date>')
     .replace(
@@ -297,7 +304,11 @@ test('OAI-PMH v1', async ({ request }) => {
     const parsed = parseXml(
       await getXml(request, listUrl(V1, 'ListRecords', { from: SEED_FROM, until: SEED_UNTIL }))
     )
-    expectEnvelope(parsed, { verb: 'ListRecords', baseUrl: V1_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListRecords',
+      baseUrl: V1_BASE_URL,
+      metadataPrefix: true
+    })
 
     const listRecords = getVerbNode(parsed, 'ListRecords')
     const token = getResumptionToken(listRecords)
@@ -347,7 +358,11 @@ test('OAI-PMH v1', async ({ request }) => {
     const parsed = parseXml(
       await getXml(request, listUrl(V1, 'ListRecords', { from: EMPTY_FROM, until: EMPTY_UNTIL }))
     )
-    expectEnvelope(parsed, { verb: 'ListRecords', baseUrl: V1_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListRecords',
+      baseUrl: V1_BASE_URL,
+      metadataPrefix: true
+    })
     const listRecords = getVerbNode(parsed, 'ListRecords')
     expect(listRecords).toBeDefined()
     expect(getRecordNodes(listRecords).length).toBe(0)
@@ -389,7 +404,11 @@ test('OAI-PMH v1', async ({ request }) => {
     const parsed = parseXml(
       await getXml(request, listUrl(V1, 'ListIdentifiers', { from: SEED_FROM, until: SEED_UNTIL }))
     )
-    expectEnvelope(parsed, { verb: 'ListIdentifiers', baseUrl: V1_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListIdentifiers',
+      baseUrl: V1_BASE_URL,
+      metadataPrefix: true
+    })
 
     const listIdentifiers = getVerbNode(parsed, 'ListIdentifiers')
     const records = getRecordNodes(listIdentifiers)
@@ -433,10 +452,17 @@ test('OAI-PMH v1', async ({ request }) => {
     const parsed = parseXml(
       await getXml(
         request,
-        listUrl(V1, 'ListIdentifiers', { from: EMPTY_FROM, until: EMPTY_UNTIL })
+        listUrl(V1, 'ListIdentifiers', {
+          from: EMPTY_FROM,
+          until: EMPTY_UNTIL
+        })
       )
     )
-    expectEnvelope(parsed, { verb: 'ListIdentifiers', baseUrl: V1_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListIdentifiers',
+      baseUrl: V1_BASE_URL,
+      metadataPrefix: true
+    })
     const listIdentifiers = getVerbNode(parsed, 'ListIdentifiers')
     expect(listIdentifiers).toBeDefined()
     expect(getRecordNodes(listIdentifiers).length).toBe(0)
@@ -483,7 +509,11 @@ test('OAI-PMH v2', async ({ request }) => {
     const parsed = parseXml(
       await getXml(request, listUrl(V2, 'ListRecords', { from: SEED_FROM, until: SEED_UNTIL }))
     )
-    expectEnvelope(parsed, { verb: 'ListRecords', baseUrl: V2_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListRecords',
+      baseUrl: V2_BASE_URL,
+      metadataPrefix: true
+    })
 
     const listRecords = getVerbNode(parsed, 'ListRecords')
     const token = getResumptionToken(listRecords)
@@ -576,7 +606,11 @@ test('OAI-PMH v2', async ({ request }) => {
     const parsed = parseXml(
       await getXml(request, listUrl(V2, 'ListIdentifiers', { from: SEED_FROM, until: SEED_UNTIL }))
     )
-    expectEnvelope(parsed, { verb: 'ListIdentifiers', baseUrl: V2_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListIdentifiers',
+      baseUrl: V2_BASE_URL,
+      metadataPrefix: true
+    })
 
     const listIdentifiers = getVerbNode(parsed, 'ListIdentifiers')
     const records = getRecordNodes(listIdentifiers)
@@ -622,10 +656,17 @@ test('OAI-PMH v2', async ({ request }) => {
     const parsed = parseXml(
       await getXml(
         request,
-        listUrl(V2, 'ListIdentifiers', { from: EMPTY_FROM, until: EMPTY_UNTIL })
+        listUrl(V2, 'ListIdentifiers', {
+          from: EMPTY_FROM,
+          until: EMPTY_UNTIL
+        })
       )
     )
-    expectEnvelope(parsed, { verb: 'ListIdentifiers', baseUrl: V2_BASE_URL, metadataPrefix: true })
+    expectEnvelope(parsed, {
+      verb: 'ListIdentifiers',
+      baseUrl: V2_BASE_URL,
+      metadataPrefix: true
+    })
     const listIdentifiers = getVerbNode(parsed, 'ListIdentifiers')
     expect(listIdentifiers).toBeDefined()
     expect(getRecordNodes(listIdentifiers).length).toBe(0)
