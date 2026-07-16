@@ -7,12 +7,16 @@ export const REPORT_HTML_PATH = path.join(
   '../../playwright-results/a11y-axe-report.html'
 )
 
+export type RuleNode = {
+  selector: string
+  screenshot?: string
+}
 export type RuleHit = {
   id: string
   impact: string | null
   help: string
   wcag: string[]
-  targets: string[]
+  nodes: RuleNode[]
 }
 export type ScanRecord = {
   label: string
@@ -52,8 +56,15 @@ const ruleList = (hits: RuleHit[], showImpact: boolean) =>
       const impact = showImpact
         ? `<span class="badge ${h.impact ?? 'none'}">${h.impact ?? 'n/a'}</span> `
         : ''
-      const nodes = h.targets.length
-        ? `<ul class="nodes">${h.targets.map((t) => `<li><code>${escapeHtml(t)}</code></li>`).join('')}</ul>`
+      const nodes = h.nodes.length
+        ? `<ul class="nodes">${h.nodes
+            .map((n) => {
+              const img = n.screenshot
+                ? `<div class="shot"><img loading="lazy" src="${n.screenshot}" alt="Screenshot of ${escapeHtml(n.selector)}"></div>`
+                : ''
+              return `<li><code>${escapeHtml(n.selector)}</code>${img}</li>`
+            })
+            .join('')}</ul>`
         : ''
       return `<li><code>${h.id}</code> ${impact}<span class="wcag">${h.wcag.join('/')}</span> — ${escapeHtml(h.help)}${nodes}</li>`
     })
@@ -100,6 +111,7 @@ code{background:#f3f3f3;padding:.1rem .3rem;border-radius:3px;font-size:.85em}
 .open{font-size:.8rem;font-weight:normal;text-decoration:none}
 section{margin:1.6rem 0;border-top:1px solid #eee;padding-top:.5rem}
 ul.nodes{margin:.2rem 0 .6rem;color:#444}ul.nodes code{background:#eef}
+.shot img{max-width:100%;max-height:30rem;border:1px solid #ccc;border-radius:4px;margin:.3rem 0;display:block}
 </style></head><body>
 <h1>AOE axe accessibility report — all scanned states</h1>
 <p>WCAG 2.1 A/AA. Full axe scan (no suppressions); these are the actual states the gate scans. ${records.length} state(s).</p>
