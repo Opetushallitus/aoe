@@ -38,23 +38,23 @@
             <!--authors-->
             <div class="datetimes">
               <span class="datetime-item d-block d-md-inline-block">
-                <strong id="createdAt">{{ "demo.educationalMaterial.createdAt" | translate }}:</strong>
-                <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
+                <strong>{{ "demo.educationalMaterial.createdAt" | translate }}:</strong>
+                <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'">
                   {{ collection.createdAt | date: "d.M.yyyy HH:mm" }}
                 </time>
               </span>
               @if (collection.publishedAt) {
                 <span class="datetime-item d-block d-md-inline-block">
-                  <strong id="publishedAt">{{ "demo.educationalMaterial.publishedAt" | translate }}:</strong>
-                  <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
+                  <strong>{{ "demo.educationalMaterial.publishedAt" | translate }}:</strong>
+                  <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'">
                     {{ collection.publishedAt | date: "d.M.yyyy HH:mm" }}
                   </time>
                 </span>
               }
               @if (collection.updatedAt) {
                 <span class="datetime-item d-block d-md-inline-block">
-                  <strong id="updatedAt">{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
-                  <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
+                  <strong>{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
+                  <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'">
                     {{ collection.updatedAt | date: "d.M.yyyy HH:mm" }}
                   </time>
                 </span>
@@ -529,9 +529,11 @@
                             [id]="
                               'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
                             "
-                                    role="tabpanel"
+                            [attr.role]="materialLanguages.get(materialOrHeading.id).length > 1 ? 'tabpanel' : null"
                             [attr.aria-labelledby]="
-                              'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                              materialLanguages.get(materialOrHeading.id).length > 1
+                                ? 'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                                : null
                             ">
                                     <h3
                                       [id]="'selectMaterial' + materialOrHeading.id"
