@@ -47,8 +47,9 @@ Object.values(User).forEach((user) => {
     await page.waitForURL('/etusivu', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: 'Suomi: Vaihda kieli suomeksi' }).click()
 
-    // Accept the terms-of-use interstitial once; it blocks every logged-in view
-    // for a user who has not yet accepted the current terms (e.g. a fresh database).
+    // Accept the terms-of-use interstitial once; the AcceptanceGuard redirects
+    // every logged-in user who has not accepted the current terms (e.g. a fresh
+    // database) to /hyvaksynta, which blocks all logged-in views.
     await page.goto('/omat-oppimateriaalit', { waitUntil: 'domcontentloaded' })
     const termsCheckbox = page.getByRole('checkbox', { name: /Olen lukenut/ })
     const createLink = page.getByRole('link', { name: 'Luo uusi materiaali' })
@@ -56,7 +57,8 @@ Object.values(User).forEach((user) => {
     if (await termsCheckbox.isVisible()) {
       await termsCheckbox.check()
       await page.getByRole('button', { name: 'Tallenna' }).click()
-      await createLink.waitFor()
+      // updateAcceptance() persists /termsofusage then navigates to /etusivu.
+      await page.waitForURL('**/etusivu', { waitUntil: 'domcontentloaded' })
     }
 
     await page.context().storageState({ path: authFileByUser[user] })

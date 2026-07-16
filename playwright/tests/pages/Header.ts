@@ -42,7 +42,19 @@ export const Header = (page: Page) => {
 
   const clickOmatMateriaalit = async () => {
     await clickNavLink(locators.omatMateriaalitLink)
-    return OmatOppimateriaalit(page)
+    const omat = OmatOppimateriaalit(page)
+    // Safety net: if the terms-of-use interstitial appears (acceptance not
+    // persisted for this user), accept it deterministically. Normally
+    // auth.setup has already accepted, so createLink wins the race immediately.
+    const termsCheckbox = page.getByRole('checkbox', { name: /Olen lukenut/ })
+    await expect(termsCheckbox.or(omat.locators.luoUusiMateriaali)).toBeVisible()
+    if (await termsCheckbox.isVisible()) {
+      await termsCheckbox.check()
+      await page.getByRole('button', { name: 'Tallenna' }).click()
+      await page.waitForURL('**/etusivu', { waitUntil: 'domcontentloaded' })
+      await clickNavLink(locators.omatMateriaalitLink)
+    }
+    return omat
   }
 
   async function clickKokoelmat() {
