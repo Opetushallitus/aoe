@@ -19,7 +19,7 @@ test('käyttäjä voi etsiä luodun oppimateriaalin etusivun haulla', async ({
   await test.step('käyttäjä voi ladata oppimateriaalin hakutuloksen lataa-painikkeesta', async () => {
     const article = page
       .locator('article.search-result')
-      .filter({ has: page.locator('h1 a', { hasText: julkaistuMateriaaliNimi }) })
+      .filter({ has: page.locator('h2 a', { hasText: julkaistuMateriaaliNimi }) })
     const lataaLinkki = article.getByRole('link', { name: /lataa/i })
 
     const downloadPromise = page.waitForEvent('download')

@@ -69,7 +69,7 @@ export const MateriaaliFormi = (
       // "Kieliversiot" buttons on the files step: material name (0), then one per file
       // (file nth → button nth + 1).
       await page
-        .getByRole('button', { name: 'Kieliversiot' })
+        .getByRole('button', { name: 'Kieliversiot', exact: true })
         .nth(nth + 1)
         .click()
       await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (englanniksi)' }).fill(en)

@@ -21,7 +21,7 @@ export const Materiaali = (page: Page) => {
       const materiaaliNumero = await getMateriaaliNumero()
       return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
     },
-    versiohistoriaToggle: page.getByRole('button', { name: 'Versiohistoria' }),
+    versiohistoriaToggle: page.getByRole('button', { name: 'Versiohistoria', exact: true }),
     versiohistoriaItems: page.locator('#version-history .dropdown-item-version-history')
   }
 
