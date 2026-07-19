@@ -16,7 +16,7 @@
     "@axe-core/playwright": "4.12.1",
     "@playwright/test": "1.61.1",
     "@types/node": "24.13.3",
-    "fast-xml-parser": "5.10.0",
+    "fast-xml-parser": "5.10.1",
     "knip": "6.27.0",
     "typescript": "5.9.3"
   }
