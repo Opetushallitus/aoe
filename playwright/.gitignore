@@ -6,3 +6,5 @@ dist/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+# Locally generated large H5P/media fixtures — never commit these
+/test-files/tmp/
