@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs'
 import { UserCollection } from '@models/collections/user-collection'
 import { CollectionService } from '@services/collection.service'
 import { BsModalRef } from 'ngx-bootstrap/modal'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post'
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response'
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post'
@@ -41,7 +41,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
     private collectionSvc: CollectionService,
-    private toastr: ToastrService,
+    private toastr: ToastService,
     private translate: TranslateService
   ) {}
 

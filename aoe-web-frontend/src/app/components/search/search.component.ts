@@ -8,7 +8,7 @@ import {
 } from '@angular/forms'
 import { Router } from '@angular/router'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { Subscription } from 'rxjs'
 import { environment } from '@environments/environment'
 import { textInputValidator } from '@shared/shared.module'
@@ -57,7 +57,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private koodistoProxySvc: KoodistoService,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {

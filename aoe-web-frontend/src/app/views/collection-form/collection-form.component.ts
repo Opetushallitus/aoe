@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } fr
 import { ActivatedRoute, Params, Router, RouterLinkActive, RouterLink } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { CollectionService } from '@services/collection.service'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { CollectionForm } from '@models/collections/collection-form'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { Toast } from '@models/translations/toast'
@@ -55,7 +55,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private collectionSvc: CollectionService,
-    private toastr: ToastrService,
+    private toastr: ToastService,
     private modalSvc: BsModalService,
     private translate: TranslateService
   ) {}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AlertService } from '@services/alert.service'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Injectable({
@@ -12,7 +12,7 @@ export class DisableFormsGuard {
   constructor(
     private router: Router,
     private alertSvc: AlertService,
-    private toastr: ToastrService,
+    private toastr: ToastService,
     private translate: TranslateService
   ) {}
 

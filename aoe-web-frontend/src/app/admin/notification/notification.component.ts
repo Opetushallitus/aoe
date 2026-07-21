@@ -13,7 +13,7 @@ import {
 import { NotificationOption, NotificationType } from '@admin/model/enumeration/NotificationType'
 import { HttpErrorResponse } from '@angular/common/http'
 import DOMPurify from 'isomorphic-dompurify'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker'
 import { AsyncPipe } from '@angular/common'
@@ -57,7 +57,7 @@ export class NotificationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
-    private toast: ToastrService
+    private toast: ToastService
   ) {
     this.minDate = new Date()
     this.form = this.fb.group({

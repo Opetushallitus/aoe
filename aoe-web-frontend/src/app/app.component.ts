@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angu
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
+import { ToastContainerComponent } from '@components/toast/toast-container.component'
 import { getLanguage, setLanguage } from './shared/shared.module'
 import { AuthService } from '@services/auth.service'
 import { Subscription } from 'rxjs'
@@ -12,8 +13,8 @@ export let browserRefresh: boolean = false
 @Component({
   // tslint:disable-next-line
   selector: 'body',
-  template: '<router-outlet></router-outlet>',
-  imports: [RouterOutlet]
+  template: '<router-outlet></router-outlet><app-toast-container></app-toast-container>',
+  imports: [RouterOutlet, ToastContainerComponent]
 })
 export class AppComponent implements OnDestroy, OnInit {
   userData: UserData

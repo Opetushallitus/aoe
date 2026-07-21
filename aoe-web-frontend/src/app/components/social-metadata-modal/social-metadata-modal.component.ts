@@ -4,7 +4,7 @@ import { KeyValue } from '@angular/common'
 import { HttpErrorResponse } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 import { BsModalRef } from 'ngx-bootstrap/modal'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { SocialMetadataService } from '@services/social-metadata.service'
 import { SocialMetadata } from '@models/social-metadata/social-metadata'
@@ -50,7 +50,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
-    private toastr: ToastrService,
+    private toastr: ToastService,
     private translate: TranslateService,
     private socialMetadataSvc: SocialMetadataService,
     private koodistoSvc: KoodistoService

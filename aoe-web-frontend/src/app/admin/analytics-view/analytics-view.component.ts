@@ -26,7 +26,7 @@ import {
   StatisticsPortionsPost,
   StatisticsTimespanPost
 } from '../model'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { StatisticsService } from '../services/statistics.service'
 import { KoodistoService } from '../services/koodisto.service'
 import { ActivityEnum, CategoryEnum, IntervalEnum } from '../model/enumeration/AnalyticsEnums'
@@ -139,7 +139,7 @@ export class AnalyticsViewComponent implements OnInit {
     private fb: FormBuilder,
     public koodistoService: KoodistoService,
     private statisticsService: StatisticsService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {
     this.today = new Date()
   }

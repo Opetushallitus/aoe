@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { environment } from '../../../../environments/environment'
 import { descriptionValidator, textInputValidator } from '../../../shared/shared.module'
 import { validatorParams } from '@constants/validator-params'
@@ -56,7 +56,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleService: Title,
     private collectionService: CollectionService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {

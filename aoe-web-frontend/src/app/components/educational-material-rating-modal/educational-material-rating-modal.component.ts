@@ -10,7 +10,7 @@ import {
 import { RatingsService } from '@services/ratings.service'
 import { Rating } from '@models/backend/ratings'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { Toast } from '@models/translations/toast'
 import { HttpErrorResponse } from '@angular/common/http'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
@@ -32,7 +32,7 @@ export class EducationalMaterialRatingModalComponent implements OnInit {
     private fb: FormBuilder,
     private ratingsSvc: RatingsService,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {

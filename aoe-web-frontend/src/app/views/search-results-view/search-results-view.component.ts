@@ -10,7 +10,7 @@ import {
 import { Title } from '@angular/platform-browser'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { DeviceDetectorService } from 'ngx-device-detector'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { Subscription } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { textInputValidator } from './../../shared/shared.module'
@@ -108,7 +108,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private titleService: Title,
     private deviceService: DeviceDetectorService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {

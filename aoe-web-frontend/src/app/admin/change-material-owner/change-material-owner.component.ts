@@ -6,7 +6,7 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { Subject, Subscription } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { AdminService } from '../services/admin.service'
@@ -33,7 +33,7 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   constructor(
     private adminSvc: AdminService,
     private fb: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {

@@ -4,7 +4,7 @@ import { MaterialService } from '@services/material.service'
 import { Observable, Subscription } from 'rxjs'
 import { EducationalMaterialForm } from '@models/educational-material-form'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { ToastrService } from 'ngx-toastr'
+import { ToastService } from '@services/toast.service'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Toast } from '@models/translations/toast'
 import { KoodistoService } from '@services/koodisto.service'
@@ -80,7 +80,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastService
   ) {}
 
   ngOnInit(): void {
