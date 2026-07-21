@@ -1,4 +1,4 @@
-<alert type="info" dismissible="true">{{ "forms.educationalResource.files.alert" | translate }}</alert>
+<alert type="info" [dismissible]="true">{{ "forms.educationalResource.files.alert" | translate }}</alert>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div class="form-group">
     <div class="row g-2 align-items-end">
@@ -502,7 +502,7 @@
             <progressbar
               [type]="ur.status === 'error' ? 'danger' : 'success'"
               [value]="+ur.message">
-              {{ ur.message }} {{ ur.message <= 100 ? ' %' : '' }}
+              {{ ur.message }} {{ +ur.message <= 100 ? ' %' : '' }}
             </progressbar>
           </div>
         }

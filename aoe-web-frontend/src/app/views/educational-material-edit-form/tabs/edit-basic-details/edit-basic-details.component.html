@@ -69,8 +69,8 @@
             @if (uploadResponse.status === 'progress') {
               <div class="form-group">
                 <progressbar
-                  max="100"
-                  [value]="uploadResponse.message"
+                  [max]="100"
+                  [value]="+uploadResponse.message"
                   >{{ uploadResponse.message }}%</progressbar
                 >
               </div>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -318,6 +319,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   get educationalLevelsArray(): FormArray {
     return this.filters.get('educationalLevels') as FormArray
+  }
+
+  levelChildrenControls(level: AbstractControl): AbstractControl[] {
+    return (level.get('levels') as FormArray).controls
   }
 
   get educationalLevelsCount(): number {

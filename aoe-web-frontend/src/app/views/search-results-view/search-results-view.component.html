@@ -172,7 +172,7 @@
                     <ng-container [formGroupName]="i">
                       <h5>{{ educationalLevels[i].value }}</h5>
                       <div class="children" formArrayName="levels">
-                        @for (child of level.get('levels').controls; track child; let j = $index) {
+                        @for (child of levelChildrenControls(level); track child; let j = $index) {
                           <div
                             class="form-check"
                             >
