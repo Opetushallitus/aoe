@@ -146,11 +146,17 @@ export const scanA11y = async (
 
   // The pdf.js viewer (ng2-pdfjs-viewer) renders its own toolbar inside an <iframe>; that
   // chrome is third-party and unfixable. Keep those hits in the report (above), but don't
-  // let anything inside a frame block CI. axe nests frame selectors in the node target, so
-  // an in-frame node has target.length > 1; app-DOM nodes (length 1) still enforce fully.
+  // let content inside an iframe block CI. axe prepends the frame selector(s) to a node's
+  // target, so a node inside an iframe has an `iframe` selector in every hop but the last
+  // (the element itself). A top-level <iframe> element's own violation still enforces.
+  const isInsideIframe = (node: A11yResults['violations'][number]['nodes'][number]) =>
+    node.target.slice(0, -1).some((hop) => {
+      const selector = Array.isArray(hop) ? hop.join(' ') : hop
+      return selector.includes('iframe')
+    })
   const suppressed = new Set(disableRulesFor(target, viewport))
   const enforced = r.violations
-    .map((v) => ({ ...v, nodes: v.nodes.filter((n) => n.target.length === 1) }))
+    .map((v) => ({ ...v, nodes: v.nodes.filter((n) => !isInsideIframe(n)) }))
     .filter((v) => v.nodes.length > 0 && !suppressed.has(v.id))
   const summary = enforced
     .map((v) => {
