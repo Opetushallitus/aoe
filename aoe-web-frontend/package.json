@@ -41,7 +41,7 @@
     "bootstrap": "5.3.8",
     "echarts": "6.1.0",
     "font-awesome": "4.7.0",
-    "isomorphic-dompurify": "3.18.0",
+    "isomorphic-dompurify": "3.19.0",
     "ng2-pdfjs-viewer": "20.0.1",
     "ngx-bootstrap": "20.0.2",
     "ngx-cookie-service": "20.1.1",
