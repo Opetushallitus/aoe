@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core'
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core'
 
 import {
   environment,
@@ -65,20 +65,21 @@ fetch('/assets/config/config.json')
     loadEnv()
     bootstrapApplication(AppComponent, {
       providers: [
+        provideZoneChangeDetection(),
         importProvidersFrom(
           BrowserModule,
           AppRoutingModule,
-          BsDropdownModule.forRoot(),
-          ModalModule.forRoot(),
+          BsDropdownModule,
+          ModalModule,
           SharedModule,
-          AccordionModule.forRoot(),
+          AccordionModule,
           NgSelectModule,
           FormsModule,
           ReactiveFormsModule,
-          TooltipModule.forRoot(),
-          CollapseModule.forRoot(),
-          BsDatepickerModule.forRoot(),
-          ProgressbarModule.forRoot(),
+          TooltipModule,
+          CollapseModule,
+          BsDatepickerModule,
+          ProgressbarModule,
           ImageCropperComponent,
           DragDropModule,
           PdfJsViewerModule,

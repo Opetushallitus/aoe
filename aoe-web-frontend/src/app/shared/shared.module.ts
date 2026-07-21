@@ -12,7 +12,7 @@ import { koodistoSources } from '@constants/koodisto-sources'
 
 @NgModule({
   imports: [
-    AlertModule.forRoot(),
+    AlertModule,
     CommonModule,
     TranslateModule,
     TruncatePipe,
