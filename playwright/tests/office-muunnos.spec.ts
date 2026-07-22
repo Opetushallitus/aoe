@@ -12,14 +12,16 @@ test('Office-tiedostosta muodostuu ladattava PDF-versio', async ({ page }) => {
     tiedostot: [{ nimi: 'office-test.docx' }]
   })
 
+  const readPdfUrl = () => {
+    const viewerFrame = page.frames().find((f) => f.url().includes('/assets/pdfjs/'))
+    return viewerFrame ? new URL(viewerFrame.url()).searchParams.get('file') : null
+  }
+
   let pdfUrl = ''
   await expect(async () => {
-    const waitPdf = page.waitForResponse(
-      (r) => new URL(r.url()).pathname.startsWith('/api/v1/pdf/content/'),
-      { timeout: 15_000 }
-    )
     await page.reload()
-    pdfUrl = (await waitPdf).url()
+    await expect.poll(readPdfUrl, { timeout: 10_000 }).toContain('/api/v1/pdf/content/')
+    pdfUrl = readPdfUrl() ?? ''
   }).toPass({ timeout: 90_000, intervals: [2_000] })
 
   const res = await page.request.get(pdfUrl)
