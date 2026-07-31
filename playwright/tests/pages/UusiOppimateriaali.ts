@@ -3,8 +3,11 @@ import { Header } from './Header'
 import { MateriaaliFormi } from './MateriaaliFormi'
 
 export type TaytaOpts = {
+  // A row is either a file (nimi) or a link (linkki), never both.
   tiedostot?: Array<{
     nimi?: string
+    linkki?: string
+    esitysnimi?: string
     kieli?: string
     kieliversiot?: { en: string; sv: string }
   }>
@@ -44,9 +47,16 @@ export const UusiOppimateriaali = (page: Page) => {
     const { form } = MateriaaliFormi(page)
     await form.oppimateriaalinNimi(materiaaliNimi)
     const tiedostot = opts.tiedostot ?? [{}]
+    for (let rivi = 2; rivi < tiedostot.length; rivi++) {
+      await form.lisaaTiedostoRivi()
+    }
     for (let nth = 0; nth < tiedostot.length; nth++) {
       const tiedosto = tiedostot[nth]
-      await form.lisaaTiedosto(tiedosto.nimi, nth)
+      if (tiedosto.linkki) {
+        await form.lisaaVerkkosivu(tiedosto.linkki, nth, tiedosto.esitysnimi)
+      } else {
+        await form.lisaaTiedosto(tiedosto.nimi, nth)
+      }
       if (tiedosto.kieli) {
         await form.valitseTiedostonKieli(tiedosto.kieli, nth)
       }

@@ -114,6 +114,9 @@ test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ 
 })
 
 test('käyttäjä voi lisätä oppimateriaaleja eri kielillä', async ({ page }) => {
+  const TwoMinutesInMs = 2 * 60 * 1000
+  test.setTimeout(TwoMinutesInMs)
+
   await Etusivu(page).goto()
   const materiaalienNimet: string[] = []
 

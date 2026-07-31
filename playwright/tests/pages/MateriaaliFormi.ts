@@ -76,11 +76,15 @@ export const MateriaaliFormi = (
       await page.getByRole('textbox', { name: 'Tiedoston esitysnimi (ruotsiksi)' }).fill(sv)
       await locators.tallennaMuutokset.click()
     },
-    lisaaVerkkosivu: async (verkkosivu: string) => {
-      const linkLocator = '#link0'
+    // The files step renders two rows up front; further rows come from this button.
+    lisaaTiedostoRivi: async () => {
+      await page.getByRole('button', { name: 'Lisää tiedosto' }).click()
+    },
+    lisaaVerkkosivu: async (verkkosivu: string, nth = 0, esitysnimi = 'esimerkkisivu') => {
+      const linkLocator = `#link${nth}`
       await page.locator(linkLocator).fill(verkkosivu)
       await expect(page.locator(linkLocator)).toHaveValue(verkkosivu)
-      await page.locator('#displayName0').fill('esimerkkisivu')
+      await page.locator(`#displayName${nth}`).fill(esitysnimi)
     },
     muokkaaVerkkoSivu: async (verkkosivu: string) => {
       await page.getByTestId('replaceLinkButton').click()
@@ -88,6 +92,10 @@ export const MateriaaliFormi = (
     },
     seuraava: async () => {
       await locators.seuraava.click()
+      // The files step uploads everything before the wizard advances, so wait for the step to
+      // change. Without this the next interaction races the upload with only the 5 s action
+      // timeout to spare, which a material carrying many or large files loses.
+      await page.waitForURL(/\/2$/, { timeout: 120_000 })
       return perustiedot
     },
     siirryEsikatseluun: async () => {

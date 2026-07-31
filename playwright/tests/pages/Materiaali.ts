@@ -38,6 +38,16 @@ export const Materiaali = (page: Page) => {
     return oppimateriaaliNumero
   }
 
+  // Opens the Lataa menu only when it is closed, so calling this between downloads cannot
+  // toggle an already open menu shut.
+  const avaaLatausvalikko = async () => {
+    const kaikkiTiedostot = page.getByRole('link', { name: 'Lataa kaikki tiedostot' })
+    if (!(await kaikkiTiedostot.isVisible())) {
+      await locators.lataaDropdown.click()
+    }
+    await expect(kaikkiTiedostot).toBeVisible()
+  }
+
   const lataaTiedosto = async (materiaaliNimi: string) => {
     const downloadPromise = page.waitForEvent('download')
     await page.getByRole('link', { name: materiaaliNimi }).click()
@@ -79,6 +89,12 @@ export const Materiaali = (page: Page) => {
     await expect(
       page.getByRole('tab', { name: tabNameForFile(fileName), exact: true })
     ).toBeVisible()
+  }
+
+  const valitseTiedosto = async (fileName: string) => {
+    const tab = page.getByRole('tab', { name: tabNameForFile(fileName), exact: true })
+    await tab.click()
+    await expect(tab).toHaveAttribute('aria-selected', 'true')
   }
 
   const expectEiTiedostoa = async (fileName: string) => {
@@ -126,6 +142,7 @@ export const Materiaali = (page: Page) => {
     ...locators,
     expectHeading,
     getMateriaaliNumero,
+    avaaLatausvalikko,
     lataaTiedosto,
     lataaKaikkiTiedostot,
     clickVerkkosivu,
@@ -137,6 +154,7 @@ export const Materiaali = (page: Page) => {
     avaaVersiohistoria,
     valitseVersio,
     expectTiedosto,
-    expectEiTiedostoa
+    expectEiTiedostoa,
+    valitseTiedosto
   }
 }
