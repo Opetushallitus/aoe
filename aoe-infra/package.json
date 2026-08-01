@@ -20,7 +20,7 @@
   "dependencies": {
     "aws-cdk-lib": "2.262.2",
     "@aws-sdk/client-sns": "3.1098.0",
-    "constructs": "10.7.1",
+    "constructs": "10.7.2",
     "lodash": "4.18.1",
     "source-map-support": "0.5.21"
   }
