@@ -93,7 +93,7 @@ export const config = {
     logLevel: process.env.LOG_LEVEL as string,
     nodeEnv: process.env.NODE_ENV as string,
     portListen: parseInt(process.env.PORT_LISTEN as string, 10) as number,
-    requestTimeoutMs: 30 * 60 * 1000, // 30 min in ms
+    requestTimeoutMs: 30 * 60 * 1000 // 30 min in ms
   } as const,
 
   // Cloud storage configurations.
