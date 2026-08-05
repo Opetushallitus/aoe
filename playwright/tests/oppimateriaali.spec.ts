@@ -55,6 +55,74 @@ test('käyttäjä voi lisätä ja muokata oppimateriaalia', async ({ page }) => 
   }
 })
 
+test('kohderyhmän ikä säilyy kun materiaalia muokataan ikäkenttiin koskematta', async ({
+  page
+}) => {
+  const targetAgeMin = '7'
+  const targetAgeMax = '12'
+
+  await Etusivu(page).goto()
+  const { nimi: materialName, materiaali } = await luoMateriaali(page, 'Kohderyhmän ikä', {
+    tarkemmatTiedot: { ikaMin: targetAgeMin, ikaMax: targetAgeMax }
+  })
+  await materiaali.expectTargetAgeRange(targetAgeMin, targetAgeMax)
+  const materialId = await materiaali.getMateriaaliNumero()
+
+  const listing = await tarkastaMateriaalitLoytyy(page, materialName)
+  const editForm = (await listing.startToEditMateriaaliNumero(materialId)).form
+
+  // Regression: the age range is stored in INTEGER columns, so GET hands it back as a
+  // number and the wizard patches that straight into its text inputs. Walking through to
+  // save without retyping the fields PUTs numbers back, which used to be rejected as 400.
+  // Stepped through explicitly rather than via siirryEsikatseluun(): only the files step
+  // waits for the upload to finish, and the age fields must be passed by untouched.
+  const perustiedot = await editForm.seuraava()
+  const koulutustiedot = await perustiedot.seuraava()
+  const tarkemmatTiedot = await koulutustiedot.seuraava()
+  const lisenssitiedot = await tarkemmatTiedot.seuraava()
+  const hyodynnetytMateriaalit = await lisenssitiedot.seuraava()
+  const preview = await hyodynnetytMateriaalit.seuraava()
+  const saved = await preview.tallenna(materialName)
+  await saved.expectTargetAgeRange(targetAgeMin, targetAgeMax)
+})
+
+test('epäonnistunut tallennus näyttää virheen eikä tyhjennä esikatselua', async ({ page }) => {
+  await Etusivu(page).goto()
+  const { nimi: materialName, materiaali } = await luoMateriaali(page, 'Tallennusvirhe')
+  const materialId = await materiaali.getMateriaaliNumero()
+
+  const listing = await tarkastaMateriaalitLoytyy(page, materialName)
+  const editForm = (await listing.startToEditMateriaaliNumero(materialId)).form
+  const perustiedot = await editForm.seuraava()
+  const koulutustiedot = await perustiedot.seuraava()
+  const tarkemmatTiedot = await koulutustiedot.seuraava()
+  const lisenssitiedot = await tarkemmatTiedot.seuraava()
+  const hyodynnetytMateriaalit = await lisenssitiedot.seuraava()
+  const preview = await hyodynnetytMateriaalit.seuraava()
+
+  // Force the metadata save to fail, so the failure path is exercised without depending on
+  // whichever backend error happens to be reachable.
+  await page.route(`**/api/v1/material/${materialId}`, async (route) => {
+    if (route.request().method() !== 'PUT') {
+      return route.fallback()
+    }
+    await route.fulfill({
+      status: 400,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'forced failure' })
+    })
+  })
+
+  await preview.submitExpectingFailure()
+  await preview.expectSaveError()
+
+  // Building the request body used to delete fields straight off the shared wizard state. The
+  // preview only reads that state in ngOnInit, so the damage shows on re-entry — which is what
+  // the user hits when they step back to fix something and retry.
+  const previewAgain = await (await preview.edellinen()).seuraava()
+  await previewAgain.expectFilesStillListed()
+})
+
 test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ page }) => {
   const TwoMinutesInMs = 2 * 60 * 1000
   test.setTimeout(TwoMinutesInMs)

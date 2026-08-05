@@ -11,7 +11,12 @@ export const MateriaaliFormi = (
     seuraava: page.getByRole('button', { name: 'Seuraava' }),
     edellinen: page.getByRole('button', { name: 'Edellinen' }),
     lataaKansikuva: page.getByRole('button', { name: 'Lataa kansikuva' }),
-    tallennaMuutokset: page.getByRole('button', { name: 'Tallenna muutokset' })
+    tallennaMuutokset: page.getByRole('button', { name: 'Tallenna muutokset' }),
+    saveError: page.getByRole('alert').filter({ hasText: 'Tallennus epäonnistui' }),
+    // The preview falls back to this prompt when the wizard has lost its files.
+    missingFilesPrompt: page.getByRole('link', {
+      name: 'Lisää vähintään yksi tiedosto tai linkki'
+    })
   }
 
   const selectFromNgSelect = async (selector: string, ...names: string[]) => {
@@ -276,6 +281,18 @@ export const MateriaaliFormi = (
       const materiaali = Materiaali(page)
       await materiaali.expectHeading(materiaaliNimi)
       return materiaali
+    },
+    // Submits without expecting to reach the material page, for exercising save failures.
+    submitExpectingFailure: async () => {
+      await page.getByText('Vakuutan että').click()
+      await locators.tallenna.click()
+    },
+    expectSaveError: async () => {
+      await expect(locators.saveError).toBeVisible()
+    },
+    // A failed save must not strip the wizard state that built the request body.
+    expectFilesStillListed: async () => {
+      await expect(locators.missingFilesPrompt).toBeHidden()
     },
     edellinen: async () => {
       await locators.edellinen.click()

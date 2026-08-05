@@ -42,6 +42,7 @@ export class EditPreviewComponent implements OnInit {
   previewMaterial: EducationalMaterialForm
   @Output() abortEdit = new EventEmitter()
   typicalAgeRange: string
+  saveError = ''
 
   constructor(
     private fb: FormBuilder,
@@ -223,257 +224,228 @@ export class EditPreviewComponent implements OnInit {
 
     if (this.form.valid) {
       this.canDeactivate = true
+      this.saveError = ''
+      // The request body is assembled by deleting fields as they are consumed. previewMaterial
+      // is the very object held in the shared edit-form store, so mutating it here would strip
+      // the wizard state and leave nothing to retry with when the save fails.
+      const material = structuredClone(this.previewMaterial)
 
       let alignmentObjects: AlignmentObjectExtended[] = []
 
       // early childhood education
-      this.previewMaterial.earlyChildhoodEducationSubjects.forEach(
-        (subject: AlignmentObjectExtended) => {
-          subject.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework
-
-          alignmentObjects.push(subject)
-        }
-      )
-      delete this.previewMaterial.earlyChildhoodEducationSubjects
-
-      this.previewMaterial.earlyChildhoodEducationObjectives.forEach(
-        (objective: AlignmentObjectExtended) => {
-          objective.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework
-
-          alignmentObjects.push(objective)
-        }
-      )
-      delete this.previewMaterial.earlyChildhoodEducationObjectives
-      delete this.previewMaterial.earlyChildhoodEducationFramework
-
-      // pre-primary education
-      this.previewMaterial.prePrimaryEducationSubjects.forEach(
-        (subject: AlignmentObjectExtended) => {
-          subject.educationalFramework = this.previewMaterial.prePrimaryEducationFramework
-
-          alignmentObjects.push(subject)
-        }
-      )
-      delete this.previewMaterial.prePrimaryEducationSubjects
-
-      this.previewMaterial.prePrimaryEducationObjectives.forEach(
-        (objective: AlignmentObjectExtended) => {
-          objective.educationalFramework = this.previewMaterial.prePrimaryEducationFramework
-
-          alignmentObjects.push(objective)
-        }
-      )
-      delete this.previewMaterial.prePrimaryEducationObjectives
-      delete this.previewMaterial.prePrimaryEducationFramework
-
-      // basic education
-      this.previewMaterial.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = this.previewMaterial.basicStudyFramework
+      material.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = material.earlyChildhoodEducationFramework
 
         alignmentObjects.push(subject)
       })
-      delete this.previewMaterial.basicStudySubjects
+      delete material.earlyChildhoodEducationSubjects
 
-      this.previewMaterial.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = this.previewMaterial.basicStudyFramework
+      material.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.earlyChildhoodEducationFramework
+
+        alignmentObjects.push(objective)
+      })
+      delete material.earlyChildhoodEducationObjectives
+      delete material.earlyChildhoodEducationFramework
+
+      // pre-primary education
+      material.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = material.prePrimaryEducationFramework
+
+        alignmentObjects.push(subject)
+      })
+      delete material.prePrimaryEducationSubjects
+
+      material.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.prePrimaryEducationFramework
+
+        alignmentObjects.push(objective)
+      })
+      delete material.prePrimaryEducationObjectives
+      delete material.prePrimaryEducationFramework
+
+      // basic education
+      material.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = material.basicStudyFramework
+
+        alignmentObjects.push(subject)
+      })
+      delete material.basicStudySubjects
+
+      material.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.basicStudyFramework
         delete objective.parent
 
         alignmentObjects.push(objective)
       })
-      delete this.previewMaterial.basicStudyObjectives
+      delete material.basicStudyObjectives
 
-      this.previewMaterial.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
-        content.educationalFramework = this.previewMaterial.basicStudyFramework
+      material.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = material.basicStudyFramework
         delete content.parent
 
         alignmentObjects.push(content)
       })
-      delete this.previewMaterial.basicStudyContents
-      delete this.previewMaterial.basicStudyFramework
+      delete material.basicStudyContents
+      delete material.basicStudyFramework
 
       // upper secondary school
-      this.previewMaterial.upperSecondarySchoolSubjectsOld.forEach(
-        (subject: AlignmentObjectExtended) => {
-          subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework
+      material.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = material.upperSecondarySchoolFramework
 
-          alignmentObjects.push(subject)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolSubjectsOld
+        alignmentObjects.push(subject)
+      })
+      delete material.upperSecondarySchoolSubjectsOld
 
-      this.previewMaterial.upperSecondarySchoolCoursesOld.forEach(
-        (course: AlignmentObjectExtended) => {
-          course.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework
-          delete course.parent
+      material.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
+        course.educationalFramework = material.upperSecondarySchoolFramework
+        delete course.parent
 
-          alignmentObjects.push(course)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolCoursesOld
+        alignmentObjects.push(course)
+      })
+      delete material.upperSecondarySchoolCoursesOld
 
-      this.previewMaterial.upperSecondarySchoolObjectives.forEach(
-        (objective: AlignmentObjectExtended) => {
-          objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework
+      material.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.upperSecondarySchoolFramework
 
-          alignmentObjects.push(objective)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolObjectives
-      delete this.previewMaterial.upperSecondarySchoolFramework
+        alignmentObjects.push(objective)
+      })
+      delete material.upperSecondarySchoolObjectives
+      delete material.upperSecondarySchoolFramework
 
       //old code -->
       /*
-      alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsOld);
-      delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
+      alignmentObjects = alignmentObjects.concat(material.upperSecondarySchoolSubjectsOld);
+      delete material.upperSecondarySchoolSubjectsOld;
       */
 
-      this.previewMaterial.upperSecondarySchoolSubjectsNew.forEach(
-        (subject: AlignmentObjectExtended) => {
-          subject.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework
+      material.upperSecondarySchoolSubjectsNew.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = material.newUpperSecondarySchoolFramework
 
-          alignmentObjects.push(subject)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolSubjectsNew
+        alignmentObjects.push(subject)
+      })
+      delete material.upperSecondarySchoolSubjectsNew
 
-      this.previewMaterial.upperSecondarySchoolModulesNew.forEach(
-        (module: AlignmentObjectExtended) => {
-          delete module.parent
+      material.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
+        delete module.parent
 
-          alignmentObjects.push(module)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolModulesNew
+        alignmentObjects.push(module)
+      })
+      delete material.upperSecondarySchoolModulesNew
 
-      this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach(
-        (objective: AlignmentObjectExtended) => {
-          objective.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework
-          delete objective.parent
+      material.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.newUpperSecondarySchoolFramework
+        delete objective.parent
 
-          alignmentObjects.push(objective)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolObjectivesNew
+        alignmentObjects.push(objective)
+      })
+      delete material.upperSecondarySchoolObjectivesNew
 
-      this.previewMaterial.upperSecondarySchoolContentsNew.forEach(
-        (content: AlignmentObjectExtended) => {
-          content.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework
-          delete content.parent
+      material.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = material.newUpperSecondarySchoolFramework
+        delete content.parent
 
-          alignmentObjects.push(content)
-        }
-      )
-      delete this.previewMaterial.upperSecondarySchoolContentsNew
-      delete this.previewMaterial.newUpperSecondarySchoolFramework
+        alignmentObjects.push(content)
+      })
+      delete material.upperSecondarySchoolContentsNew
+      delete material.newUpperSecondarySchoolFramework
 
       //new framework old code
       /*
-      alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsNew);
-      delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
+      alignmentObjects = alignmentObjects.concat(material.upperSecondarySchoolSubjectsNew);
+      delete material.upperSecondarySchoolSubjectsNew;
       */
 
       // vocational education
-      this.previewMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
-        degree.educationalFramework = this.previewMaterial.vocationalEducationFramework
+      material.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
+        degree.educationalFramework = material.vocationalEducationFramework
 
         alignmentObjects.push(degree)
       })
-      delete this.previewMaterial.vocationalDegrees
+      delete material.vocationalDegrees
 
-      this.previewMaterial.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
-        unit.educationalFramework = this.previewMaterial.vocationalEducationFramework
+      material.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
+        unit.educationalFramework = material.vocationalEducationFramework
         delete unit.parent
 
         alignmentObjects.push(unit)
       })
-      delete this.previewMaterial.vocationalUnits
+      delete material.vocationalUnits
 
-      this.previewMaterial.vocationalCommonUnits.forEach((commonUnit: AlignmentObjectExtended) => {
-        commonUnit.educationalFramework = this.previewMaterial.vocationalEducationFramework
+      material.vocationalCommonUnits.forEach((commonUnit: AlignmentObjectExtended) => {
+        commonUnit.educationalFramework = material.vocationalEducationFramework
         delete commonUnit.parent
 
         alignmentObjects.push(commonUnit)
       })
-      delete this.previewMaterial.vocationalCommonUnits
+      delete material.vocationalCommonUnits
 
-      this.previewMaterial.vocationalRequirements.forEach(
-        (requirement: AlignmentObjectExtended) => {
-          requirement.educationalFramework = this.previewMaterial.vocationalEducationFramework
+      material.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
+        requirement.educationalFramework = material.vocationalEducationFramework
 
-          alignmentObjects.push(requirement)
-        }
-      )
-      delete this.previewMaterial.vocationalRequirements
+        alignmentObjects.push(requirement)
+      })
+      delete material.vocationalRequirements
 
-      this.previewMaterial.furtherVocationalQualifications.forEach(
+      material.furtherVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
+        qualification.educationalFramework = material.vocationalEducationFramework
+
+        alignmentObjects.push(qualification)
+      })
+      delete material.furtherVocationalQualifications
+
+      material.specialistVocationalQualifications.forEach(
         (qualification: AlignmentObjectExtended) => {
-          qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework
+          qualification.educationalFramework = material.vocationalEducationFramework
 
           alignmentObjects.push(qualification)
         }
       )
-      delete this.previewMaterial.furtherVocationalQualifications
-
-      this.previewMaterial.specialistVocationalQualifications.forEach(
-        (qualification: AlignmentObjectExtended) => {
-          qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework
-
-          alignmentObjects.push(qualification)
-        }
-      )
-      delete this.previewMaterial.specialistVocationalQualifications
-      delete this.previewMaterial.vocationalEducationFramework
+      delete material.specialistVocationalQualifications
+      delete material.vocationalEducationFramework
 
       // self-motivated competence development
-      alignmentObjects = alignmentObjects.concat(
-        this.previewMaterial.selfMotivatedEducationSubjects
-      )
-      delete this.previewMaterial.selfMotivatedEducationSubjects
+      alignmentObjects = alignmentObjects.concat(material.selfMotivatedEducationSubjects)
+      delete material.selfMotivatedEducationSubjects
 
-      alignmentObjects = alignmentObjects.concat(
-        this.previewMaterial.selfMotivatedEducationObjectives
-      )
-      delete this.previewMaterial.selfMotivatedEducationObjectives
+      alignmentObjects = alignmentObjects.concat(material.selfMotivatedEducationObjectives)
+      delete material.selfMotivatedEducationObjectives
 
       //preparatory education
-      this.previewMaterial.preparatoryEducationSubjects.forEach(
-        (subject: AlignmentObjectExtended) => {
-          alignmentObjects.push(subject)
-        }
-      )
-      delete this.previewMaterial.preparatoryEducationSubjects
+      material.preparatoryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push(subject)
+      })
+      delete material.preparatoryEducationSubjects
 
-      this.previewMaterial.preparatoryEducationObjectives.forEach(
-        (objective: AlignmentObjectExtended) => {
-          alignmentObjects.push(objective)
-        }
-      )
-      delete this.previewMaterial.preparatoryEducationObjectives
+      material.preparatoryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push(objective)
+      })
+      delete material.preparatoryEducationObjectives
 
       // higher education
-      this.previewMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
-        branch.educationalFramework = this.previewMaterial.higherEducationFramework
+      material.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
+        branch.educationalFramework = material.higherEducationFramework
 
         alignmentObjects.push(branch)
       })
-      delete this.previewMaterial.branchesOfScience
+      delete material.branchesOfScience
 
-      this.previewMaterial.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = this.previewMaterial.higherEducationFramework
+      material.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = material.higherEducationFramework
 
         alignmentObjects.push(objective)
       })
-      delete this.previewMaterial.scienceBranchObjectives
-      delete this.previewMaterial.higherEducationFramework
+      delete material.scienceBranchObjectives
+      delete material.higherEducationFramework
 
       // prerequisites
-      alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites)
-      delete this.previewMaterial.prerequisites
+      alignmentObjects = alignmentObjects.concat(material.prerequisites)
+      delete material.prerequisites
 
       // versioning
-      let isVersioned = this.previewMaterial.isVersioned
+      let isVersioned = material.isVersioned
 
-      if (!this.previewMaterial.versions.length) {
+      if (!material.versions.length) {
         isVersioned = true
       }
 
@@ -484,7 +456,7 @@ export class EditPreviewComponent implements OnInit {
       const attachmentDetails: AttachmentDetail[] = []
 
       // fileDetails
-      const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
+      const fileDetails = material.fileDetails.map((file, idx: number) => {
         const subtitles: string[] = []
 
         file.subtitles.forEach((subtitle) => {
@@ -511,21 +483,21 @@ export class EditPreviewComponent implements OnInit {
 
         return file
       })
-      delete this.previewMaterial.fileDetails
-      delete this.previewMaterial.videoFiles
+      delete material.fileDetails
+      delete material.videoFiles
 
       // thumbnail
-      delete this.previewMaterial.thumbnail
+      delete material.thumbnail
 
       // references
       const isBasedOn = {
-        externals: this.previewMaterial.externals
+        externals: material.externals
       }
-      delete this.previewMaterial.externals
+      delete material.externals
 
       const updatedMaterial: EducationalMaterialPut = Object.assign(
         {},
-        this.previewMaterial,
+        material,
         { isVersioned },
         { materials },
         { fileDetails },
@@ -540,7 +512,13 @@ export class EditPreviewComponent implements OnInit {
           updatedMaterial
         )
         .subscribe({
-          error: (err) => console.error(err),
+          error: (err) => {
+            console.error(err)
+            // Leave the user on the preview with their data intact so they can retry; the
+            // wizard state is untouched because the body was built from a clone.
+            this.canDeactivate = false
+            this.saveError = this.translate.instant('forms.common.saveError')
+          },
           complete: () => {
             this.router
               .navigate(['/materiaali', this.materialService.getEducationalMaterialID()])

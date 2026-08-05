@@ -659,6 +659,9 @@
         }
       </ul>
     </div>
+    @if (saveError) {
+      <div class="alert alert-danger text-center" role="alert">{{ saveError }}</div>
+    }
     <div class="row">
       <div class="col">
         <button type="button" class="btn btn-gray" (click)="previous()">

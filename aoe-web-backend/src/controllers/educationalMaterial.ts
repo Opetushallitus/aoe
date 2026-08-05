@@ -18,6 +18,13 @@ const localizedText = z.object({
 })
 // Frontend EducationalMaterialPut types these as string; keep them strict.
 const keyValue = z.object({ key: z.string(), value: z.string() })
+// AgeRangeMin/Max are INTEGER columns, so GET serialises them as numbers, while the
+// text input yields strings once the user types — both reach the PUT body. Normalise
+// to a number and mirror the form's bounds (validator-params.ts: 0-999, whole years).
+const ageValue = z.preprocess(
+  (value) => (value === '' ? null : value),
+  z.coerce.number().int().min(0).max(999).nullish()
+)
 
 /**
  * Validates the metadata body of PUT /material/:edumaterialid. Fields are permissive
@@ -77,8 +84,8 @@ export const educationalMaterialMetadataSchema = z.object({
   suitsAllBranches: z.boolean().nullish(),
   typicalAgeRange: z
     .object({
-      typicalAgeRangeMin: z.string().nullish(),
-      typicalAgeRangeMax: z.string().nullish()
+      typicalAgeRangeMin: ageValue,
+      typicalAgeRangeMax: ageValue
     })
     .nullish(),
   timeRequired: z.string().nullish(),

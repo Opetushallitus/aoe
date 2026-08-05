@@ -22,7 +22,15 @@ export const Materiaali = (page: Page) => {
       return page.getByTestId(`preview-${materiaaliNumero}-${tiedosto}`)
     },
     versiohistoriaToggle: page.getByRole('button', { name: 'Versiohistoria', exact: true }),
-    versiohistoriaItems: page.locator('#version-history .dropdown-item-version-history')
+    versiohistoriaItems: page.locator('#version-history .dropdown-item-version-history'),
+    targetAgeRange: page
+      .locator('.metadata-group')
+      .filter({ has: page.getByText('Kohderyhmän ikä', { exact: true }) })
+  }
+
+  // The view renders a set range as "min – max" (en dash), so assert on the pair.
+  const expectTargetAgeRange = async (min: string, max: string) => {
+    await expect(locators.targetAgeRange).toContainText(`${min} – ${max}`)
   }
 
   const expectHeading = async (materiaali: string) => {
@@ -155,6 +163,7 @@ export const Materiaali = (page: Page) => {
     valitseVersio,
     expectTiedosto,
     expectEiTiedostoa,
-    valitseTiedosto
+    valitseTiedosto,
+    expectTargetAgeRange
   }
 }
