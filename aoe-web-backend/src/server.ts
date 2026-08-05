@@ -55,6 +55,8 @@ async function startServer() {
     }
   )
 
+  server.requestTimeout = config.APPLICATION_CONFIG.requestTimeoutMs
+
   // Socket event handlers for the debugging purposes.
   server.on('connection', (socket: Socket) => {
     socket.setTimeout(600 * 60 * 1000)
