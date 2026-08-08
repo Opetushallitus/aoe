@@ -61,7 +61,7 @@
     "@angular/language-service": "21.2.19",
     "@types/node": "24.13.3",
     "knip": "6.31.0",
-    "sass": "1.101.7",
+    "sass": "1.102.0",
     "typescript": "5.9.3"
   },
   "overrides": {
