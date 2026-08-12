@@ -123,6 +123,60 @@ test('epäonnistunut tallennus näyttää virheen eikä tyhjennä esikatselua', 
   await previewAgain.expectFilesStillListed()
 })
 
+test('tiedostovaiheen toistuva lähetys ei jätä tiedostoa ilman id:tä', async ({ page }) => {
+  test.setTimeout(3 * 60 * 1000)
+
+  await Etusivu(page).goto()
+  const { nimi: materialName, materiaali } = await luoMateriaali(page, 'Kaksoislähetys')
+  const materialId = await materiaali.getMateriaaliNumero()
+
+  const listing = await tarkastaMateriaalitLoytyy(page, materialName)
+  const editForm = (await listing.startToEditMateriaaliNumero(materialId)).form
+
+  // Hold every upload open so a second "Seuraava" lands while the first batch is still in
+  // flight. That is the production incident (AOE-122 follow-up): each pending file was
+  // uploaded twice, the completed-upload counter hit its target on the duplicates, and the
+  // step advanced while two rows had never been given their material id.
+  const uploads: string[] = []
+  await page.route('**/material/file/*/upload', async (route) => {
+    uploads.push(route.request().url())
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    await route.continue()
+  })
+
+  const savedBodies: { fileDetails?: { id: unknown }[]; materials?: { materialId: unknown }[] }[] =
+    []
+  page.on('request', (request) => {
+    if (request.method() === 'PUT' && /\/material\/\d+$/.test(request.url())) {
+      savedBodies.push(request.postDataJSON())
+    }
+  })
+
+  await editForm.lisaaUusiTiedostoRivi('aoe_test_file.pdf')
+  await editForm.lisaaUusiTiedostoRivi('test-image.png')
+
+  const seuraava = page.getByRole('button', { name: 'Seuraava' })
+  await seuraava.click()
+  await seuraava.click()
+  await page.waitForURL(/\/2$/, { timeout: 120_000 })
+
+  // One upload per added file. Uploading a file twice creates a second orphaned material
+  // row, and it is the racing responses that strand a row without an id.
+  expect(uploads).toHaveLength(2)
+
+  // tallenna() only resolves once the material page renders, so reaching it is the
+  // assertion that the save went through.
+  const preview = await editForm.siirryEsikatseluun()
+  await preview.tallenna(materialName)
+
+  // A row without an id reaches Postgres as the string "null" against a bigint column and
+  // aborts the whole update, so the save can only ever fail. It must never be sent.
+  expect(savedBodies).toHaveLength(1)
+  const [savedBody] = savedBodies
+  expect(savedBody.fileDetails?.map((file) => file.id)).not.toContain(null)
+  expect(savedBody.materials?.map((material) => material.materialId)).not.toContain(null)
+})
+
 test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ page }) => {
   const TwoMinutesInMs = 2 * 60 * 1000
   test.setTimeout(TwoMinutesInMs)

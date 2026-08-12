@@ -1,4 +1,8 @@
 import { StatusError } from '@/helpers/errorHandler'
+import {
+  educationalMaterialMetadataSchema,
+  type EducationalMaterialMetadata
+} from '@/controllers/educationalMaterialMetadataSchema'
 import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries'
 import { updateEsDocument } from '@search/es'
 import { registerPID } from '@services/pidResolutionService'
@@ -6,126 +10,8 @@ import { Urn } from '@domain/aoeModels'
 import { getEduMaterialVersionURL } from '@services/urlService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
-import { z } from 'zod'
 
-// Some ids are typed `number | string` on the frontend (alignmentObjects.key,
-// materials.materialId, fileDetails.id); coerce those to string for the text columns.
-const stringId = z.coerce.string()
-const localizedText = z.object({
-  fi: z.string().nullish(),
-  sv: z.string().nullish(),
-  en: z.string().nullish()
-})
-// Frontend EducationalMaterialPut types these as string; keep them strict.
-const keyValue = z.object({ key: z.string(), value: z.string() })
-// AgeRangeMin/Max are INTEGER columns, so GET serialises them as numbers, while the
-// text input yields strings once the user types — both reach the PUT body. Normalise
-// to a number and mirror the form's bounds (validator-params.ts: 0-999, whole years).
-const ageValue = z.preprocess(
-  (value) => (value === '' ? null : value),
-  z.coerce.number().int().min(0).max(999).nullish()
-)
-
-/**
- * Validates the metadata body of PUT /material/:edumaterialid. Fields are permissive
- * (optional/nullish) to match what the wizard sends. Unknown keys are stripped.
- */
-export const educationalMaterialMetadataSchema = z.object({
-  name: localizedText.nullish(),
-  description: localizedText.nullish(),
-  keywords: z.array(keyValue).nullish(),
-  educationalRoles: z.array(keyValue).nullish(),
-  educationalUses: z.array(keyValue).nullish(),
-  learningResourceTypes: z.array(keyValue).nullish(),
-  educationalLevels: z.array(keyValue).nullish(),
-  accessibilityFeatures: z.array(keyValue).nullish(),
-  accessibilityHazards: z.array(keyValue).nullish(),
-  publisher: z.array(keyValue).nullish(),
-  authors: z
-    .array(
-      z.object({
-        author: z.string().nullish(),
-        organization: keyValue.nullish()
-      })
-    )
-    .nullish(),
-  alignmentObjects: z
-    .array(
-      z.object({
-        key: stringId,
-        source: z.string(),
-        alignmentType: z.string(),
-        targetName: z.string(),
-        educationalFramework: z.string().nullish(),
-        targetUrl: z.string().nullish()
-      })
-    )
-    .nullish(),
-  isBasedOn: z
-    .object({
-      externals: z
-        .array(
-          z.object({
-            author: z.array(z.string()).default([]),
-            url: z.string().nullish(),
-            name: z.string().nullish()
-          })
-        )
-        .default([])
-    })
-    .nullish(),
-  suitsAllEarlyChildhoodSubjects: z.boolean().nullish(),
-  suitsAllPrePrimarySubjects: z.boolean().nullish(),
-  suitsAllBasicStudySubjects: z.boolean().nullish(),
-  suitsAllUpperSecondarySubjects: z.boolean().nullish(),
-  suitsAllUpperSecondarySubjectsNew: z.boolean().nullish(),
-  suitsAllVocationalDegrees: z.boolean().nullish(),
-  suitsAllSelfMotivatedSubjects: z.boolean().nullish(),
-  suitsAllBranches: z.boolean().nullish(),
-  typicalAgeRange: z
-    .object({
-      typicalAgeRangeMin: ageValue,
-      typicalAgeRangeMax: ageValue
-    })
-    .nullish(),
-  timeRequired: z.string().nullish(),
-  expires: z.string().nullish(),
-  license: z.string().nullish(),
-  isVersioned: z.boolean().nullish(),
-  materials: z
-    .array(
-      z.object({
-        materialId: stringId,
-        priority: z.number().nullish(),
-        attachments: z.array(stringId).nullish()
-      })
-    )
-    .nullish(),
-  fileDetails: z
-    .array(
-      z.object({
-        id: stringId,
-        displayName: localizedText.nullish(),
-        // The wizard sends a language code string; older clients sent { key, value }.
-        language: z.union([z.string(), keyValue]).nullish(),
-        link: z.string().nullish()
-      })
-    )
-    .nullish(),
-  attachmentDetails: z
-    .array(
-      z.object({
-        id: z.string(),
-        kind: z.string().nullish(),
-        default: z.boolean().nullish(),
-        label: z.string().nullish(),
-        lang: z.string().nullish()
-      })
-    )
-    .nullish()
-})
-
-export type EducationalMaterialMetadata = z.infer<typeof educationalMaterialMetadataSchema>
+export { educationalMaterialMetadataSchema, type EducationalMaterialMetadata }
 
 /**
  * Update educational material metadata.

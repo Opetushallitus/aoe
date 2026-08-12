@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial'
+import { EducationalMaterialMetadata } from '@/controllers/educationalMaterialMetadataSchema'
 import { StatusError } from '@/helpers/errorHandler'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import { db, pgp } from '@resource/postgresClient'

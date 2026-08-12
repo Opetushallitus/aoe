@@ -81,6 +81,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   newMaterialCount: number = 0
   newSubtitleCount: number = 0
   isVersioned: boolean
+  // Submitting again while uploads are still running used to upload every pending file a
+  // second time. The duplicate responses then satisfied completedUploads early, so the
+  // step advanced with rows that had never been given their material id.
+  uploadInProgress: boolean = false
+  pendingUploads: number = 0
 
   constructor(
     private fb: FormBuilder,
@@ -441,17 +446,22 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   validateFiles(): void {
     this.materialDetailsArray.controls = this.materialDetailsArray.controls.filter(
       (material: AbstractControl) => {
-        const fileCtrl = material.get('file')
-        const newFileCtrl = material.get('newFile')
-        const linkCtrl = material.get('link')
-        const newLinkCtrl = material.get('newLink')
+        const hasValue = (name: string): boolean => {
+          const value = material.get(name).value
+          return value !== null && value !== undefined && value !== ''
+        }
+        // A row is kept if it points at something: a stored file or link, an upload
+        // waiting to be sent, or an id from an earlier upload. Anything else is an empty
+        // slot the user left behind, or a row whose upload never came back with an id —
+        // sending those means a null material id, which Postgres rejects as a bigint and
+        // which no retry can clear. The previous condition mixed `!== null` and `!== ''`
+        // on the same control with ||, so it was always true and never dropped a row.
         return (
-          fileCtrl.value !== '' ||
-          newFileCtrl.value !== '' ||
-          linkCtrl.value !== null ||
-          linkCtrl.value !== '' ||
-          newLinkCtrl.value !== null ||
-          newLinkCtrl.value !== ''
+          hasValue('id') ||
+          hasValue('file') ||
+          hasValue('newFile') ||
+          hasValue('link') ||
+          hasValue('newLink')
         )
       }
     )
@@ -489,7 +499,17 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   uploadMaterials(): void {
-    this.materialDetailsArray.value.forEach((material, i: number): void => {
+    const controls = this.materialDetailsArray.controls
+    this.pendingUploads = controls.reduce(
+      (total: number, control: AbstractControl): number =>
+        total + (control.value.newFile ? 1 : 0) + (control.value.newLink ? 1 : 0),
+      0
+    )
+    // Iterating the controls rather than their values keeps a handle on the row itself, so
+    // the id from the response lands on the row that was uploaded even if the array is
+    // re-patched while the request is in flight.
+    controls.forEach((control: AbstractControl, i: number): void => {
+      const material = control.value
       if (material.newFile) {
         const payload: FormData = new FormData()
         payload.append('file', material.newFile, validateFilename(material.newFile.name))
@@ -518,8 +538,12 @@ export class EditFilesComponent implements OnInit, OnDestroy {
               )
             }
             console.error(error)
+            this.settleUpload()
           },
-          () => this.completeFileUpload(completedResponse, i)
+          () => {
+            this.settleUpload()
+            this.completeFileUpload(completedResponse, control, i)
+          }
         )
       }
       if (material.newLink) {
@@ -535,14 +559,28 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           .pipe(catchError(MaterialService.handleError))
           .subscribe(
             (response: LinkPostResponse) => (postResponse = response),
-            (error) => console.error(error),
-            () => this.completeLinkPost(postResponse, i)
+            (error) => {
+              console.error(error)
+              this.settleUpload()
+            },
+            () => {
+              this.settleUpload()
+              this.completeLinkPost(postResponse, control)
+            }
           )
       }
     })
   }
 
   uploadSubtitles(): void {
+    // Subtitles are uploaded after the files they belong to, so the step stays locked
+    // until these have settled too.
+    this.uploadInProgress = true
+    this.pendingUploads = this.materialDetailsArray.value.reduce(
+      (total: number, material): number =>
+        total + (material.subtitles ?? []).filter((subtitle) => subtitle.newSubtitle).length,
+      0
+    )
     this.materialDetailsArray.value.forEach((material, i: number): void => {
       if (material.subtitles.length > 0) {
         material.subtitles.forEach((subtitle, j: number): void => {
@@ -566,8 +604,14 @@ export class EditFilesComponent implements OnInit, OnDestroy {
             this.materialService.uploadSubtitle(material.id, payload).subscribe(
               (subtitleResponse: AttachmentPostResponse) =>
                 (completedSubtitleResponse = subtitleResponse),
-              (err) => console.error(err),
-              () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id)
+              (err) => {
+                console.error(err)
+                this.settleUpload()
+              },
+              () => {
+                this.settleUpload()
+                this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id)
+              }
             )
           }
         })
@@ -576,18 +620,40 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Marks one upload as settled. Only once every request from this submit has either
+   * completed or failed may the step be submitted again, so a second click cannot
+   * re-upload the files that are still in flight.
+   */
+  settleUpload(): void {
+    this.pendingUploads = Math.max(0, this.pendingUploads - 1)
+    if (this.pendingUploads === 0) {
+      this.uploadInProgress = false
+    }
+  }
+
+  /**
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * saves material and redirects user to the next tab.
    * @param response {UploadMessage}
-   * @param i {number} Material index
+   * @param material {AbstractControl} The row that was uploaded
+   * @param i {number} Material index, for the upload progress list
    */
-  completeFileUpload(response: UploadMessage, i: number): void {
+  completeFileUpload(response: UploadMessage, material: AbstractControl, i: number): void {
+    // The stream can complete without ever emitting a response. Reading the id off it
+    // would throw here, which used to leave the row without an id and no error shown.
+    if (!response?.response?.material?.[0]) {
+      this.uploadResponses[i] = {
+        status: 'error',
+        message: this.translate.instant('forms.common.uploadError')
+      }
+      return
+    }
     this.completedUploads = this.completedUploads + 1
     // update material ID
-    this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id)
+    material.get('id').setValue(+response.response.material[0].id)
     // update material filename
-    this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createFrom)
-    this.materialDetailsArray.at(i).get('newFile').setValue('')
+    material.get('file').setValue(response.response.material[0].createFrom)
+    material.get('newFile').setValue('')
     if (this.completedUploads === this.newMaterialCount) {
       if (this.newSubtitleCount > 0) {
         this.uploadSubtitles()
@@ -602,15 +668,18 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * saves material and redirects user to the next tab.
    * @param response {LinkPostResponse}
-   * @param i {number} Material index
+   * @param material {AbstractControl} The row the link was saved for
    */
-  completeLinkPost(response: LinkPostResponse, i: number): void {
+  completeLinkPost(response: LinkPostResponse, material: AbstractControl): void {
+    if (!response?.link) {
+      return
+    }
     this.completedUploads = this.completedUploads + 1
     // update material ID
-    this.materialDetailsArray.at(i).get('id').setValue(+response.link.id)
+    material.get('id').setValue(+response.link.id)
     // update material link
-    this.materialDetailsArray.at(i).get('link').setValue(response.link.link)
-    this.materialDetailsArray.at(i).get('newLink').setValue(null)
+    material.get('link').setValue(response.link.link)
+    material.get('newLink').setValue(null)
     if (this.completedUploads === this.newMaterialCount) {
       if (this.newSubtitleCount > 0) {
         this.uploadSubtitles()
@@ -709,6 +778,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * If form is valid, redirects user to the next tab.
    */
   onSubmit(): void {
+    // Uploads are still running: the click would re-upload every pending file.
+    if (this.uploadInProgress) {
+      return
+    }
     this.submitted = true
 
     if (this.authService.hasUserData()) {
@@ -719,8 +792,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           this.calculateNewMaterialCount()
           this.calculateNewSubtitleCount()
           if (this.newMaterialCount > 0) {
+            this.uploadInProgress = true
             this.uploadMaterials()
           } else if (this.newSubtitleCount > 0) {
+            this.uploadInProgress = true
             this.uploadSubtitles()
           } else {
             this.saveMaterial()

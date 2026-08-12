@@ -85,6 +85,19 @@ export const MateriaaliFormi = (
     lisaaTiedostoRivi: async () => {
       await page.getByRole('button', { name: 'Lisää tiedosto' }).click()
     },
+    // A row that has no file and no link yet renders the "new material" branch, whose
+    // inputs carry different ids from an existing file's replace inputs. Language is
+    // required before the step will submit, so it is picked here too.
+    lisaaUusiTiedostoRivi: async (fileName = 'blank.pdf', kieli = 'suomi') => {
+      await page.getByRole('button', { name: 'Lisää tiedosto' }).click()
+      await page
+        .locator('input[type="file"][id^="newMaterialFile"]')
+        .last()
+        .setInputFiles(path.join(__dirname, `../../test-files/${fileName}`))
+      await page.locator('ng-select[id^="newMaterialLanguage"]').last().click()
+      await page.getByRole('option', { name: kieli, exact: true }).click()
+      await page.keyboard.press('Escape')
+    },
     lisaaVerkkosivu: async (verkkosivu: string, nth = 0, esitysnimi = 'esimerkkisivu') => {
       const linkLocator = `#link${nth}`
       await page.locator(linkLocator).fill(verkkosivu)
