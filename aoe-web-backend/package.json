@@ -64,7 +64,7 @@
     "node-stream-zip": "1.16.0",
     "openid-client": "6.8.4",
     "passport": "0.7.0",
-    "pg": "8.22.0",
+    "pg": "8.23.0",
     "pg-promise": "12.7.0",
     "redis": "5.12.1",
     "s3-zip": "3.3.3",
