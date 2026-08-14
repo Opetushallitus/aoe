@@ -739,6 +739,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * Calculates the amount of new subtitles.
    */
   calculateNewSubtitleCount(): void {
+    this.newSubtitleCount = 0
     this.materialDetailsArray.controls.forEach((material: AbstractControl): void => {
       const subtitles: FormArray = material.get('subtitles') as FormArray
       this.newSubtitleCount += subtitles.controls.filter(
@@ -782,6 +783,8 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     if (this.uploadInProgress) {
       return
     }
+    this.completedUploads = 0
+    this.completedSubtitleUploads = 0
     this.submitted = true
 
     if (this.authService.hasUserData()) {

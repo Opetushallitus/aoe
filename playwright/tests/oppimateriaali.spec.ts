@@ -177,6 +177,46 @@ test('tiedostovaiheen toistuva lähetys ei jätä tiedostoa ilman id:tä', async
   expect(savedBody.materials?.map((material) => material.materialId)).not.toContain(null)
 })
 
+test('tiedostovaiheen osittain epäonnistuneen latauksen voi yrittää uudelleen', async ({
+  page
+}) => {
+  test.setTimeout(3 * 60 * 1000)
+
+  await Etusivu(page).goto()
+  const { nimi: materialName, materiaali } = await luoMateriaali(page, 'Latauksen uudelleenyritys')
+  const materialId = await materiaali.getMateriaaliNumero()
+
+  const listing = await tarkastaMateriaalitLoytyy(page, materialName)
+  const editForm = (await listing.startToEditMateriaaliNumero(materialId)).form
+
+  let uploadAttempts = 0
+  await page.route('**/material/file/*/upload', async (route) => {
+    uploadAttempts += 1
+    if (uploadAttempts === 2) {
+      await route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'forced upload failure' })
+      })
+      return
+    }
+    await route.continue()
+  })
+
+  await editForm.lisaaUusiTiedostoRivi('aoe_test_file.pdf')
+  await editForm.lisaaUusiTiedostoRivi('test-image.png')
+
+  const seuraava = page.getByRole('button', { name: 'Seuraava' })
+  await seuraava.click()
+  await expect(page.getByText('Osa latauksista keskeytyi tai epäonnistui')).toBeVisible({
+    timeout: 120_000
+  })
+
+  await seuraava.click()
+  await page.waitForURL(/\/2$/, { timeout: 120_000 })
+  expect(uploadAttempts).toBe(3)
+})
+
 test('käyttäjä voi lisätä oppimateriaaleja eri koulutusasteille', async ({ page }) => {
   const TwoMinutesInMs = 2 * 60 * 1000
   test.setTimeout(TwoMinutesInMs)
