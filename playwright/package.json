@@ -13,7 +13,7 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "@axe-core/playwright": "4.12.1",
+    "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
     "@types/node": "24.13.3",
     "fast-xml-parser": "5.10.1",
