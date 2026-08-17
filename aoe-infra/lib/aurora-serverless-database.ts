@@ -11,6 +11,7 @@ import {
   CaCertificate,
   Endpoint
 } from 'aws-cdk-lib/aws-rds'
+import { BackupPlan, BackupResource } from 'aws-cdk-lib/aws-backup'
 import { IVpc, ISecurityGroup } from 'aws-cdk-lib/aws-ec2'
 import { Key } from 'aws-cdk-lib/aws-kms'
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager'
@@ -31,6 +32,7 @@ interface AuroraDatabaseProps extends StackProps {
   auroraDbPassword: Secret
   subnetGroup: SubnetGroup
   alarmSnsTopic: sns.Topic
+  backupPlan: BackupPlan
 }
 
 export class AuroraDatabaseStack extends Stack {
@@ -97,7 +99,8 @@ export class AuroraDatabaseStack extends Stack {
       securityGroups: [props.securityGroup],
       subnetGroup: props.subnetGroup,
       backup: {
-        retention: props.environment === 'prod' ? cdk.Duration.days(30) : cdk.Duration.days(7)
+        retention: props.environment === 'prod' ? cdk.Duration.days(30) : cdk.Duration.days(7),
+        preferredWindow: '01:00-02:00'
       },
       credentials: {
         username: 'aoe_db_admin',
@@ -106,6 +109,11 @@ export class AuroraDatabaseStack extends Stack {
     })
 
     this.endPoint = auroraCluster.clusterEndpoint
+
+    props.backupPlan.addSelection('DbBackupSelection', {
+      backupSelectionName: `${props.environment}-${props.clusterName}-backup-selection`,
+      resources: [BackupResource.fromRdsDatabaseCluster(auroraCluster)]
+    })
 
     // Monitoring
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)

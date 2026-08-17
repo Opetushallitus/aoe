@@ -29,7 +29,7 @@ export class KmsStack extends Stack {
 
     this.rdsKmsKey = new Key(this, 'rdsKmsKey', {
       alias: `alias/${props.environment}-rds-aoe-key`,
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.RETAIN
     })
 
     this.redisKmsKey = new Key(this, 'redisKmsKey', {

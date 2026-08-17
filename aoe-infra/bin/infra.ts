@@ -35,6 +35,7 @@ import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
+import { BackupStack } from '../lib/backup-stack'
 
 const app = new cdk.App()
 
@@ -151,6 +152,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc
   })
 
+  const Backup = new BackupStack(app, 'BackupStack', {
+    env: envEU,
+    stackName: `${environmentName}-backup`,
+    environment: environmentName,
+    alarmSnsTopic: Monitor.topic
+  })
+
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
     env: envEU,
     stackName: `${environmentName}-web-backend-aurora`,
@@ -165,7 +173,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
     subnetGroup: AuroraCommons.auroraSubnetGroup,
-    alarmSnsTopic: Monitor.topic
+    alarmSnsTopic: Monitor.topic,
+    backupPlan: Backup.backupPlan
   })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
