@@ -4,7 +4,8 @@
     "config:best-practices",
     "workarounds:javaLTSVersions",
     ":rebaseStalePrs",
-    ":pinAllExceptPeerDependencies"
+    ":pinAllExceptPeerDependencies",
+    "customManagers:biomeVersions"
   ],
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
