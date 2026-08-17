@@ -156,7 +156,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: `${environmentName}-backup`,
     environment: environmentName,
-    alarmSnsTopic: Monitor.topic
+    alarmSnsTopic: Monitor.topic,
+    auroraSubnetGroupName: AuroraCommons.auroraSubnetGroup.subnetGroupName,
+    auroraDbPassword: Secrets.webBackendAuroraPassword
   })
 
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
