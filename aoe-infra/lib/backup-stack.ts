@@ -128,8 +128,10 @@ export class BackupStack extends Stack {
     })
 
     const restoreTestingPlan = new CfnRestoreTestingPlan(this, 'RestoreTestingPlan', {
-      // AWS permits only alphanumerics and underscores here, max 50 characters, so this
-      // name cannot follow the hyphenated convention used everywhere else in this stack.
+      // Restore testing plan and selection names permit only alphanumerics and
+      // underscores, so neither can follow the hyphenated convention used elsewhere in
+      // this stack. Note the AWS docs claim the *selection* name allows hyphens; it does
+      // not, and the API rejects it with "Invalid restore testing selection name".
       restoreTestingPlanName: `${props.environment}_aoe_restore_testing_plan`,
       scheduleExpression: 'cron(20 11 ? * * *)',
       scheduleExpressionTimezone: 'Europe/Helsinki',
@@ -144,7 +146,7 @@ export class BackupStack extends Stack {
 
     new CfnRestoreTestingSelection(this, 'RestoreTestingSelection', {
       restoreTestingPlanName: restoreTestingPlan.restoreTestingPlanName,
-      restoreTestingSelectionName: `${props.environment}-aoe-aurora-selection`,
+      restoreTestingSelectionName: `${props.environment}_aoe_aurora_selection`,
       protectedResourceType: 'Aurora',
       iamRoleArn: restoreTestingRole.roleArn,
       protectedResourceArns: ['*'],
