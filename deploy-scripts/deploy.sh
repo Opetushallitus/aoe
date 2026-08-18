@@ -6,6 +6,7 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 
 CDK_COMMAND="deploy"
 [[ "${1:-}" == "--diff" ]] && CDK_COMMAND="diff"
+[[ "${1:-}" == "--diagnose" ]] && CDK_COMMAND="diagnose"
 if [[ "${1:-}" == "--destroy" ]]; then
   CDK_COMMAND="destroy"
   STACK="${2:-}"
@@ -46,6 +47,9 @@ function deploy {
       ;;
     diff)
       ./cdk.sh diff "$@"
+      ;;
+    diagnose)
+      ./cdk.sh diagnose --unstable=diagnose "$@"
       ;;
     deploy)
       ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
