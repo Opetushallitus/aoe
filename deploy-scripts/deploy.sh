@@ -12,6 +12,11 @@ if [[ "${1:-}" == "--destroy" ]]; then
   STACK="${2:-}"
   [[ -n "$STACK" ]] || { echo "Usage: --destroy <StackName>"; exit 1; }
 fi
+if [[ "${1:-}" == "--direct" ]]; then
+  CDK_COMMAND="direct"
+  STACK="${2:-}"
+  [[ -n "$STACK" ]] || { echo "Usage: --direct <StackName>"; exit 1; }
+fi
 
 function main {
   start_gh_actions_group "Setup"
@@ -50,6 +55,10 @@ function deploy {
       ;;
     diagnose)
       ./cdk.sh diagnose --unstable=diagnose "$@"
+      ;;
+    direct)
+      running_on_gh_actions && { echo "Direct deploy is not allowed in CI."; exit 1; }
+      ./cdk.sh deploy "$STACK" --require-approval never --method=direct "$@"
       ;;
     deploy)
       ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
