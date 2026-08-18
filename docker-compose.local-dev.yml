@@ -21,8 +21,6 @@ services:
     ports:
       - 8282:80
       - 33344:8080
-    environment:
-      - ENV=demo
 
   aoe-streaming-app:
     hostname: aoe-streaming-app

@@ -1,26 +1,17 @@
-import { ciEnvironment } from './environment.ci'
-import { demoEnvironment } from './environment.demo'
-import { devEnvironment } from './environment.dev'
-import { prodEnvironment } from './environment.prod'
-import { qaEnvironment } from './environment.qa'
-
-export let environment = prodEnvironment
-export function loadCiEnv() {
-  environment = ciEnvironment
-}
-
-export function loadDevEnv() {
-  environment = devEnvironment
-}
-
-export function loadDemoEnv() {
-  environment = demoEnvironment
-}
-
-export function loadQaEnv() {
-  environment = qaEnvironment
-}
-
-export function loadProdEnv() {
-  environment = prodEnvironment
+export const environment = {
+  loginUrl: '/api',
+  backendUrl: '/api/v1',
+  backendUrlV2: '/api/v2',
+  embedBackendUrl: '/embed',
+  statisticsBackendUrl: '/api/v2/statistics/prod',
+  koodistoUrl: '/ref/api/v1',
+  frontendUrl: location.origin,
+  newERLSKey: 'aoe.new-educational-resource',
+  searchParams: 'aoe.searchParams',
+  usedFilters: 'aoe.usedFilters',
+  collection: 'aoe.collection',
+  collectionSearchParams: 'aoe.collectionSearchParams',
+  collectionSearchResults: 'aoe.collectionSearchResults',
+  disableForms: 'aoe.disableForms',
+  disableLogin: 'aoe.disableLogin'
 }

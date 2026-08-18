@@ -13,11 +13,9 @@ export class ImagePreviewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
-    //this.materialUrl = `https://lessons.demo.aoe.fi/embed/download/${this.material.filekey}`;
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
-    //this.materialUrl = `https://lessons.demo.aoe.fi/embed/download/${this.material.filekey}`;
   }
 }

@@ -32,9 +32,9 @@ The user-facing single-page application. Educators and learners use it to browse
 
 #### Future: Replace ECS with S3 + CloudFront
 
-This service doesn't need to run as a container. The Nginx config does almost nothing — it serves static files with no URL rewrites, no proxy rules, no custom headers, and no Lua scripting. The only dynamic behavior is that `entrypoint.sh` writes a `/assets/config/config.json` file at startup with an environment variable (`ENV`). This config file tells the Angular app which environment it's running in.
+This service doesn't need to run as a container. The Nginx config does almost nothing — it serves static files with no URL rewrites, no proxy rules, no custom headers, and no Lua scripting, and there is no longer any startup-time configuration: the app calls the backend over relative URLs, so one build serves every environment.
 
-To move to S3 + CloudFront, the config file would need to be generated as part of the build/deploy pipeline per environment instead of at container startup. Once that's handled, the frontend is purely static files and can be served from S3 behind CloudFront, removing one ECS service, one container image, and the OpenResty dependency entirely.
+The frontend is therefore purely static files and can be served from S3 behind CloudFront, removing one ECS service, one container image, and the OpenResty dependency entirely. What remains is CloudFront work: an S3 origin as the default cache behavior, an explicit behavior per backend path, and a viewer-request function to serve `index.html` for deep links in place of Nginx's `try_files`.
 
 ---
 

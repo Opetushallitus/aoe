@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
 import { Title } from '@angular/platform-browser'
-import { environment } from '../../environments/environment'
+import { TranslateService } from '@ngx-translate/core'
 import { KoodistoService } from './services/koodisto.service'
 import { AuthService } from '@services/auth.service'
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router'
@@ -18,11 +18,14 @@ export class AdminComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private titleSvc: Title,
+    private translate: TranslateService,
     public koodistoService: KoodistoService
   ) {}
 
   ngOnInit(): void {
     this.authService.updateUserData().subscribe()
-    this.titleSvc.setTitle(`Bryssel ${environment.title}`)
+    this.translate.get('common.serviceName').subscribe((serviceName: string) => {
+      this.titleSvc.setTitle(`Bryssel - ${serviceName}`)
+    })
   }
 }

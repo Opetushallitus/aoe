@@ -19,11 +19,12 @@ Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateri
 #### Tulevaisuus: S3 + CloudFront ECS:n tilalle
 
 Tämä palvelu ei tarvitse konttia. Nginx-konfiguraatio ei tee käytännössä mitään — se tarjoilee staattisia tiedostoja ilman URL-uudelleenkirjoituksia, proxy-sääntöjä, mukautettuja
-otsakkeita tai Lua-skriptejä. Ainoa dynaaminen toiminto on, että entrypoint.sh kirjoittaa käynnistyksessä /assets/config/config.json-tiedoston ympäristömuuttujan (ENV)
-perusteella. Tämä konfiguraatiotiedosto kertoo Angular-sovellukselle, missä ympäristössä se toimii.
+otsakkeita tai Lua-skriptejä, eikä käynnistyksen aikaista konfiguraatiota ole enää lainkaan: sovellus kutsuu backendiä suhteellisilla URL-osoitteilla, joten yksi build palvelee
+kaikkia ympäristöjä.
 
-S3 + CloudFront -siirtymää varten konfiguraatiotiedosto pitäisi generoida build/deploy-putkessa ympäristökohtaisesti konttikäynnistyksen sijaan. Kun tämä on hoidettu, frontend on
-puhtaasti staattisia tiedostoja ja voidaan tarjoilla S3:sta CloudFrontin takaa — poistaen yhden ECS-palvelun ja OpenResty-riippuvuuden kokonaan.
+Frontend on siis puhtaasti staattisia tiedostoja ja voidaan tarjoilla S3:sta CloudFrontin takaa — poistaen yhden ECS-palvelun, yhden konttikuvan ja OpenResty-riippuvuuden
+kokonaan. Jäljelle jää CloudFront-työ: S3-origin oletuskäyttäytymiseksi, oma behavior jokaiselle backend-polulle, sekä viewer-request-funktio, joka tarjoilee index.html:n
+syvälinkeille Nginxin try_filesin sijaan.
 
 ---
 

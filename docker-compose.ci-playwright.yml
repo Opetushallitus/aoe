@@ -26,8 +26,6 @@ services:
       - 33344:8080
     networks:
       - default
-    environment:
-      - ENV=ci
 
   test-runner:
     build:
