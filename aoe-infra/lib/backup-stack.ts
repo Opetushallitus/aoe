@@ -14,6 +14,7 @@ import * as cdk from 'aws-cdk-lib'
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs'
 import * as logs from 'aws-cdk-lib/aws-logs'
 import * as sns from 'aws-cdk-lib/aws-sns'
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager'
@@ -161,17 +162,22 @@ export class BackupStack extends Stack {
       retention: logs.RetentionDays.ONE_YEAR
     })
 
-    const validator = new lambda.Function(this, 'RestoreValidator', {
+    // NodejsFunction bundles the AWS SDK from package.json. The runtime-provided SDK is
+    // pinned to a minor version that varies by runtime and region, and AWS states that
+    // PutRestoreValidationResult is not available through it at all, so relying on the
+    // runtime SDK would leave the validation result silently unreported.
+    const validator = new NodejsFunction(this, 'RestoreValidator', {
       functionName: `${props.environment}-aoe-restore-validator`,
       runtime: lambda.Runtime.NODEJS_24_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambda', 'restore-validator'), {
-        exclude: ['*.d.ts', '*.ts']
-      }),
+      entry: path.join(__dirname, '..', 'lambda', 'restore-validator', 'index.ts'),
+      handler: 'handler',
       timeout: cdk.Duration.minutes(15),
       memorySize: 256,
       logGroup: validatorLogGroup,
       retryAttempts: 0,
+      bundling: {
+        externalModules: []
+      },
       environment: {
         DB_SECRET_ARN: props.auroraDbPassword.secretArn
       }

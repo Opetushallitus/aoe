@@ -47,6 +47,7 @@ export const handler = async (
   const deadline = Date.now() + context.getRemainingTimeInMillis() - CLEANUP_RESERVE_MS
 
   let instanceRequested = false
+  let cleanupFailure: string | undefined
   let outcome: ValidationOutcome
   try {
     await waitFor(
@@ -82,7 +83,17 @@ export const handler = async (
     outcome = { passed: false, message: describeError(err), counts: {} }
   } finally {
     if (instanceRequested) {
-      await deleteInstance(instanceId)
+      cleanupFailure = await deleteInstance(instanceId)
+    }
+  }
+
+  // A cleanup failure leaves an instance attached to the restored cluster, which stops
+  // AWS Backup deleting the cluster. That must not be reported as a passing validation.
+  if (cleanupFailure) {
+    outcome = {
+      passed: false,
+      message: `${outcome.message} | cleanup failed: ${cleanupFailure}`,
+      counts: outcome.counts
     }
   }
 
@@ -214,7 +225,7 @@ async function count(clusterArn: string, secretArn: string, sql: string): Promis
   throw new Error(`Query did not return a numeric ${COUNT_COLUMN}: ${sql}`)
 }
 
-async function deleteInstance(instanceId: string): Promise<void> {
+async function deleteInstance(instanceId: string): Promise<string | undefined> {
   try {
     await rds.send(
       new DeleteDBInstanceCommand({
@@ -222,24 +233,20 @@ async function deleteInstance(instanceId: string): Promise<void> {
         SkipFinalSnapshot: true
       })
     )
+    return undefined
   } catch (err) {
-    console.error(
-      `Failed to delete ${instanceId}; AWS Backup cannot delete the cluster while an instance is attached`,
-      describeError(err)
-    )
+    const message = describeError(err)
+    console.error(`Failed to delete ${instanceId}`, message)
+    return message
   }
 }
 
 async function reportOutcome(restoreJobId: string, outcome: ValidationOutcome): Promise<void> {
-  try {
-    await backup.send(
-      new PutRestoreValidationResultCommand({
-        RestoreJobId: restoreJobId,
-        ValidationStatus: outcome.passed ? 'SUCCESSFUL' : 'FAILED',
-        ValidationStatusMessage: outcome.message.slice(0, 1024)
-      })
-    )
-  } catch (err) {
-    console.error('Failed to report the validation result to AWS Backup', describeError(err))
-  }
+  await backup.send(
+    new PutRestoreValidationResultCommand({
+      RestoreJobId: restoreJobId,
+      ValidationStatus: outcome.passed ? 'SUCCESSFUL' : 'FAILED',
+      ValidationStatusMessage: outcome.message.slice(0, 1024)
+    })
+  )
 }
