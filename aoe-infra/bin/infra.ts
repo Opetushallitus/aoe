@@ -236,13 +236,14 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
     crossRegionReferences: true,
+    environment: environmentName,
     requireTestAuth: config.cloudfront.require_test_authentication
   })
 
   new FrontendStack(app, 'FrontendStack', {
     env: envEU,
     stackName: `${environmentName}-frontend`,
-    environment: environmentName,
+    bucket: Cloudfront.frontendBucket,
     cloudFrontDistribution: Cloudfront.distribution
   })
 

@@ -1,4 +1,4 @@
-import { Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib'
+import { Duration, Stack, StackProps } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment'
@@ -7,7 +7,7 @@ import { existsSync } from 'fs'
 import * as path from 'path'
 
 interface FrontendStackProps extends StackProps {
-  environment: string
+  bucket: s3.IBucket
   cloudFrontDistribution: cloudfront.Distribution
 }
 
@@ -15,18 +15,8 @@ const UNHASHED_PATHS = ['index.html', 'i18n/*', 'robots.txt', 'assets/*']
 const NOT_PUBLISHED = ['prerendered-routes.json', '3rdpartylicenses.txt']
 
 export class FrontendStack extends Stack {
-  readonly bucket: s3.Bucket
-
   constructor(scope: Construct, id: string, props: FrontendStackProps) {
     super(scope, id, props)
-
-    this.bucket = new s3.Bucket(this, 'FrontendBucket', {
-      bucketName: `aoe-frontend-${props.environment}`,
-      accessControl: s3.BucketAccessControl.PRIVATE,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      enforceSSL: true,
-      removalPolicy: RemovalPolicy.RETAIN
-    })
 
     const distPath = path.join(__dirname, '../../aoe-web-frontend/dist')
     if (!existsSync(distPath)) {
@@ -38,7 +28,7 @@ export class FrontendStack extends Stack {
 
     const hashedAssets = new s3deploy.BucketDeployment(this, 'HashedAssets', {
       sources: [s3deploy.Source.asset(distPath, { exclude: NOT_PUBLISHED })],
-      destinationBucket: this.bucket,
+      destinationBucket: props.bucket,
       exclude: UNHASHED_PATHS,
       prune: false,
       memoryLimit: 512,
@@ -51,7 +41,7 @@ export class FrontendStack extends Stack {
 
     const entryPoints = new s3deploy.BucketDeployment(this, 'EntryPoints', {
       sources: [s3deploy.Source.asset(distPath, { exclude: NOT_PUBLISHED })],
-      destinationBucket: this.bucket,
+      destinationBucket: props.bucket,
       exclude: ['*'],
       include: UNHASHED_PATHS,
       prune: false,
