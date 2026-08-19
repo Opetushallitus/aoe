@@ -2,6 +2,8 @@ import cf from 'cloudfront'
 
 const COOKIE_NAME = 'aoe_auth_token'
 
+const BACKEND_PREFIXES = []
+
 const response401 = {
   statusCode: 401,
   statusDescription: 'Unauthorized',
@@ -49,27 +51,28 @@ async function validateAuthToken(token) {
   return tokenUsername === username && secret === tokensecret
 }
 
-async function handler(event) {
-  const request = event.request
+async function authorize(request) {
   const headers = request.headers
 
-  const requestReferer = await getSecret('referer')
+  if (!(await getSecret('username'))) {
+    return null
+  }
 
   if (request.uri === '/meta/oaipmh' || request.uri === '/meta/v2/oaipmh') {
-    return request
+    return null
   }
 
   if (request.uri === '/api/secure/redirect' || request.uri === '/') {
     const referer = headers.referer && headers.referer.value
 
-    if (referer === requestReferer) {
-      return request
+    if (referer === (await getSecret('referer'))) {
+      return null
     }
   }
 
   const cookie = request.cookies[COOKIE_NAME]
   if (cookie && (await validateAuthToken(cookie.value))) {
-    return request
+    return null
   }
 
   const authHeader = headers.authorization && headers.authorization.value
@@ -79,5 +82,24 @@ async function handler(event) {
 
   // If Basic Auth succeeds, proceed with the request
   // (A viewer-response function will set the cookie)
+  return null
+}
+
+function isBackendPath(uri) {
+  return BACKEND_PREFIXES.some((prefix) => uri.startsWith(prefix))
+}
+
+async function handler(event) {
+  const request = event.request
+
+  const denied = await authorize(request)
+  if (denied) {
+    return denied
+  }
+
+  if (!isBackendPath(request.uri) && !request.uri.includes('.')) {
+    request.uri = '/index.html'
+  }
+
   return request
 }
