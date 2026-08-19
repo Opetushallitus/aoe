@@ -200,7 +200,7 @@ export class BackupStack extends Stack {
 
     validator.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ['rds:ModifyDBCluster', 'rds-data:ExecuteStatement'],
+        actions: ['rds:ModifyDBCluster', 'rds:EnableHttpEndpoint', 'rds-data:ExecuteStatement'],
         resources: [restoreTestClusterArn]
       })
     )

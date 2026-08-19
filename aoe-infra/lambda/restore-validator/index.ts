@@ -5,6 +5,8 @@ import {
   DeleteDBInstanceCommand,
   DescribeDBClustersCommand,
   DescribeDBInstancesCommand,
+  EnableHttpEndpointCommand,
+  InvalidResourceStateFault,
   ModifyDBClusterCommand,
   RDSClient
 } from '@aws-sdk/client-rds'
@@ -75,7 +77,7 @@ export const handler = async (
       }
     )
     await waitFor(deadline, POLL_INTERVAL_MS, `the Data API on ${clusterId}`, async () => {
-      return (await describeCluster(clusterId))?.HttpEndpointEnabled === true
+      return await enableDataApi(clusterArn)
     })
 
     outcome = await validate(clusterArn)
@@ -146,10 +148,27 @@ async function prepareCluster(clusterId: string): Promise<void> {
         MinCapacity: TEST_MIN_ACU,
         MaxCapacity: TEST_MAX_ACU
       },
-      EnableHttpEndpoint: true,
       ApplyImmediately: true
     })
   )
+}
+
+// ModifyDBCluster's EnableHttpEndpoint applies only to Aurora Serverless v1; on a
+// provisioned cluster it returns success with HttpEndpointEnabled still false. Serverless
+// v2 and provisioned clusters need this separate operation, which rejects calls made while
+// the cluster is busy, so it is retried until it takes.
+async function enableDataApi(clusterArn: string): Promise<boolean> {
+  try {
+    const { HttpEndpointEnabled } = await rds.send(
+      new EnableHttpEndpointCommand({ ResourceArn: clusterArn })
+    )
+    return HttpEndpointEnabled === true
+  } catch (err) {
+    if (err instanceof InvalidResourceStateFault) {
+      return false
+    }
+    throw err
+  }
 }
 
 async function createInstance(clusterId: string, instanceId: string): Promise<void> {
