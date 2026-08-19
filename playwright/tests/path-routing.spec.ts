@@ -21,4 +21,16 @@ test.describe('path routing', () => {
     await expect(page).toHaveURL(/\/materiaali\/606$/)
     expect(page.url()).not.toContain('#')
   })
+
+  // The translation loader falls back to fi, so a missing en or sv bundle serves Finnish
+  // instead of failing — and no other test switches away from Finnish to notice.
+  test('translation bundles are served', async ({ request }) => {
+    for (const lang of ['fi', 'en', 'sv']) {
+      await test.step(`/i18n/${lang}.json`, async () => {
+        const resp = await request.get(`/i18n/${lang}.json`)
+        expect(resp.status()).toBe(200)
+        expect(Object.keys(await resp.json()).length).toBeGreaterThan(0)
+      })
+    }
+  })
 })
