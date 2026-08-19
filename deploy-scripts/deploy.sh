@@ -24,6 +24,10 @@ function main {
   use_correct_node_version
   end_gh_actions_group
 
+  if [[ "$ENV" != "utility" ]]; then
+    build_frontend
+  fi
+
   start_gh_actions_group "Deploy $ENV"
   if ! running_on_gh_actions; then
     require_aws_session_for_env "$ENV"
@@ -33,6 +37,15 @@ function main {
   fi
   end_gh_actions_group
 
+}
+
+function build_frontend {
+  start_gh_actions_group "Build frontend"
+  pushd "$repo"/aoe-web-frontend
+  npm_ci_if_package_lock_has_changed
+  npm run build
+  popd
+  end_gh_actions_group
 }
 
 function deploy {

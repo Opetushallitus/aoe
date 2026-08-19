@@ -17,6 +17,7 @@ import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
 import { FrontendBucketStack } from '../lib/front-end-bucket-stack'
 import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack'
+import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
 import { ElasticacheServerlessStack } from '../lib/redis-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
@@ -238,10 +239,26 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     requireTestAuth: config.cloudfront.require_test_authentication
   })
 
+  new FrontendStack(app, 'FrontendStack', {
+    env: envEU,
+    stackName: `${environmentName}-frontend`,
+    environment: environmentName,
+    cloudFrontDistribution: Cloudfront.distribution
+  })
+
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
     env: envEU,
     stackName: `${environmentName}-frontend-bucket`,
     environment: environmentName,
+    cloudFrontDistribution: Cloudfront.distribution
+  })
+
+  new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
+    env: envEU,
+    crossRegionReferences: true,
+    stackName: `${environmentName}-frontend-deployment`,
+    environment: environmentName,
+    bucket: FrontEndBucket.bucket,
     cloudFrontDistribution: Cloudfront.distribution
   })
 
@@ -256,15 +273,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
     env: envEU,
     environment: environmentName
-  })
-
-  new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
-    env: envEU,
-    crossRegionReferences: true,
-    stackName: `${environmentName}-frontend-deployment`,
-    environment: environmentName,
-    bucket: FrontEndBucket.bucket,
-    cloudFrontDistribution: Cloudfront.distribution
   })
 
   const FargateCluster = new FargateClusterStack(app, 'FargateClusterStack', {
