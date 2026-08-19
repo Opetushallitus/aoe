@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { Material } from '@models/material'
-import { environment } from '../../../environments/environment'
+import { urls } from '@constants/urls'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
@@ -25,12 +25,12 @@ export class OfficePreviewComponent implements OnInit, OnChanges {
     })
 
     this.materialUrl = this.material.filepath
-    this.downloadUrl = `${environment.backendUrl}/download/${this.material.filekey}`
+    this.downloadUrl = `${urls.backendUrl}/download/${this.material.filekey}`
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.materialUrl = this.material.filepath
-    this.downloadUrl = `${environment.backendUrl}/download/${this.material.filekey}`
+    this.downloadUrl = `${urls.backendUrl}/download/${this.material.filekey}`
     this.pdfViewer.pdfSrc = this.material.filepath
     this.pdfViewer.refresh()
   }

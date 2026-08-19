@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Subscription } from 'rxjs'
 
 import { EmbedService } from './embed.service'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { getLanguage, setLanguage } from '../shared/shared.module'
 import { EducationalMaterial } from '@models/educational-material'
@@ -136,7 +136,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         this.updateMaterialName()
       }
     )
-    this.materialUrl = `${environment.frontendUrl}/materiaali/${this.materialId}`
+    this.materialUrl = `${urls.frontendUrl}/materiaali/${this.materialId}`
   }
 
   /**

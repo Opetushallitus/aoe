@@ -7,7 +7,7 @@ import { CollectionForm } from '@models/collections/collection-form'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { Toast } from '@models/translations/toast'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { environment } from '../../../environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   CollectionBasicDetailsTabComponent,
   CollectionEducationalDetailsTabComponent,
@@ -102,7 +102,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe()
     this.collectionSubscription.unsubscribe()
 
-    sessionStorage.removeItem(environment.collection)
+    sessionStorage.removeItem(storageKeys.collection)
   }
 
   /**
@@ -117,7 +117,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
    * Removes collection from session storage. Redirects user to user materials view.
    */
   abort(): void {
-    sessionStorage.removeItem(environment.collection)
+    sessionStorage.removeItem(storageKeys.collection)
 
     this.confirmAbortModalRef.hide()
 
@@ -139,7 +139,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     }
 
     const changedCollection: CollectionForm = JSON.parse(
-      sessionStorage.getItem(environment.collection)
+      sessionStorage.getItem(storageKeys.collection)
     )
 
     if (changedCollection) {

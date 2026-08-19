@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
 import { Observable, Subject, throwError } from 'rxjs'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
 import { catchError } from 'rxjs/operators'
 import { AoeUser, AoeUsersResponse } from '../admin/model/aoe-users-response'
 import { ChangeOwnerResponse } from '../admin/model/change-owner-response'
@@ -32,7 +32,7 @@ export class AdminService {
    */
   getAdminStatus(): Observable<HttpResponse<string>> {
     return this.http
-      .post(`${environment.backendUrl}/userinfo`, null, {
+      .post(`${urls.backendUrl}/userinfo`, null, {
         observe: 'response',
         responseType: 'text'
       })
@@ -43,7 +43,7 @@ export class AdminService {
    */
   updateUsers(): void {
     this.http
-      .get<AoeUsersResponse>(`${environment.backendUrl}/aoeUsers`)
+      .get<AoeUsersResponse>(`${urls.backendUrl}/aoeUsers`)
       .subscribe((usersResponse: AoeUsersResponse) => {
         const users = usersResponse.users
           .sort((a: AoeUser, b: AoeUser) => +a.id - +b.id)
@@ -63,18 +63,18 @@ export class AdminService {
    */
   changeMaterialOwner(payload: ChangeOwnerPost): Observable<ChangeOwnerResponse> {
     return this.http
-      .post<ChangeOwnerResponse>(`${environment.backendUrl}/changeUser`, payload)
+      .post<ChangeOwnerResponse>(`${urls.backendUrl}/changeUser`, payload)
       .pipe(catchError(this.handleError))
   }
 
   removeMaterial(materialId: string): Observable<RemoveMaterialResponse> {
     return this.http
-      .delete<RemoveMaterialResponse>(`${environment.backendUrl}/removeMaterial/${materialId}`)
+      .delete<RemoveMaterialResponse>(`${urls.backendUrl}/removeMaterial/${materialId}`)
       .pipe(catchError(this.handleError))
   }
 
   updateMaterialInfo(materialId: string): void {
-    this.http.get<MaterialInfoResponse>(`${environment.backendUrl}/names/${materialId}`).subscribe(
+    this.http.get<MaterialInfoResponse>(`${urls.backendUrl}/names/${materialId}`).subscribe(
       (response: MaterialInfoResponse) => this.materialInfo$.next(response),
       () => this.materialInfo$.next(null)
     )

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 
 import { Material } from '@models/material'
-import { environment } from '../../../../environments/environment'
+import { urls } from '@constants/urls'
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 
 @Component({
@@ -15,12 +15,12 @@ export class PdfPreviewComponent implements OnInit, OnChanges {
   @ViewChild('pdfViewer', { static: true }) public pdfViewer
 
   ngOnInit(): void {
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
-    this.pdfViewer.pdfSrc = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
+    this.pdfViewer.pdfSrc = `${urls.embedBackendUrl}/download/${this.material.filekey}`
     this.pdfViewer.refresh()
   }
 }

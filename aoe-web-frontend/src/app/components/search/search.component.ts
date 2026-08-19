@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { ToastService } from '@services/toast.service'
 import { Subscription } from 'rxjs'
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { textInputValidator } from '@shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
 import { SubjectFilter } from '@models/koodisto/subject-filter'
@@ -168,7 +168,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       })
     })
 
-    sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters))
+    sessionStorage.setItem(storageKeys.usedFilters, JSON.stringify(usedFilters))
   }
 
   onSubmit(): void {
@@ -211,7 +211,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       searchParams.from = 0
       searchParams.size = this.resultsPerPage
 
-      sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams))
+      sessionStorage.setItem(storageKeys.searchParams, JSON.stringify(searchParams))
 
       void this.router.navigate(['/haku'])
     } else {

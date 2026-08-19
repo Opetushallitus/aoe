@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, Subject, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 import { SocialMetadata } from '@models/social-metadata/social-metadata'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
 import { UpdateSocialMetadataResponse } from '@models/social-metadata/update-social-metadata-response'
 
 @Injectable({
@@ -32,7 +32,7 @@ export class SocialMetadataService {
    */
   updateSocialMetadata(materialId: number): void {
     this.http
-      .get<SocialMetadata>(`${environment.backendUrl}/metadata/${materialId}`, {
+      .get<SocialMetadata>(`${urls.backendUrl}/metadata/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -48,7 +48,7 @@ export class SocialMetadataService {
    */
   updateUserSocialMetadata(materialId: number): void {
     this.http
-      .get<SocialMetadata>(`${environment.backendUrl}/usersMetadata/${materialId}`, {
+      .get<SocialMetadata>(`${urls.backendUrl}/usersMetadata/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -69,7 +69,7 @@ export class SocialMetadataService {
     metadata: SocialMetadata
   ): Observable<UpdateSocialMetadataResponse> {
     return this.http
-      .put<any>(`${environment.backendUrl}/metadata/${materialId}`, metadata)
+      .put<any>(`${urls.backendUrl}/metadata/${materialId}`, metadata)
       .pipe(catchError(this.handleError))
   }
 }

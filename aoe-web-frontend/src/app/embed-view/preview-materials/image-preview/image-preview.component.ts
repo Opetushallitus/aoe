@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 
 import { Material } from '@models/material'
-import { environment } from '../../../../environments/environment'
+import { urls } from '@constants/urls'
 
 @Component({
   selector: 'app-image-preview',
@@ -12,10 +12,10 @@ export class ImagePreviewComponent implements OnInit, OnChanges {
   materialUrl: string
 
   ngOnInit(): void {
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
   }
 }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { textInputValidator } from '@shared/shared.module'
 import { validatorParams } from '@constants/validator-params'
 import { ExternalReference } from '@models/material/external-reference'
@@ -42,7 +42,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
       this.setTitle()
     })
 
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
 
     this.form = this.fb.group({
       // internals: this.fb.array([ this.createInternal() ]),
@@ -160,12 +160,12 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
     const data = Object.assign(
       {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey)),
       basedOnData
     )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
+    sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {

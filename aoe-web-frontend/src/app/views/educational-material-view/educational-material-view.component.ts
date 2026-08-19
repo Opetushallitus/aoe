@@ -5,7 +5,7 @@ import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate
 import { EducationalMaterial } from '@models/educational-material'
 import { Material } from '@models/material'
 import { MaterialService } from '@services/material.service'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal'
 // eslint-disable-next-line max-len
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component'
@@ -109,8 +109,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.materialVersionDate = params.get('versionDate')
 
       this.downloadUrl = this.materialVersionDate
-        ? `${environment.backendUrlV2}/material/file/${this.materialId}/all/${this.materialVersionDate}`
-        : `${environment.backendUrlV2}/material/file/${this.materialId}/all`
+        ? `${urls.backendUrlV2}/material/file/${this.materialId}/all/${this.materialVersionDate}`
+        : `${urls.backendUrlV2}/material/file/${this.materialId}/all`
 
       this.materialIsLoading = true
       this.materialService.updateMaterial(this.materialId, this.materialVersionDate)
@@ -148,9 +148,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         } else {
           this.materialIsArchived = false
 
-          // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+          // this.downloadUrl = `${urls.backendUrl}/material/file/${this.materialId}`;
           // eslint-disable-next-line max-len
-          this.embedCode = `<iframe src="${environment.frontendUrl}/embed/${this.materialId}/${this.lang}" allow="fullscreen" width="720" height="360"></iframe>`
+          this.embedCode = `<iframe src="${urls.frontendUrl}/embed/${this.materialId}/${this.lang}" allow="fullscreen" width="720" height="360"></iframe>`
 
           this.updateMaterialName()
           this.updateDescription()

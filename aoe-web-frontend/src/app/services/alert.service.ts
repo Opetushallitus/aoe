@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
+import { storageKeys } from '@constants/storage-keys'
 import { AlertsResponse } from '@models/alerts/alerts-response'
 import { catchError, map } from 'rxjs/operators'
 
@@ -21,20 +22,20 @@ export class AlertService {
   }
 
   updateAlerts(): Observable<AlertsResponse> {
-    return this.http.get<AlertsResponse>(`${environment.backendUrl}/messages/info`).pipe(
+    return this.http.get<AlertsResponse>(`${urls.backendUrl}/messages/info`).pipe(
       map((response: AlertsResponse) => {
         if (response.allas.enabled === '1') {
-          sessionStorage.setItem(environment.disableForms, JSON.stringify(true))
+          sessionStorage.setItem(storageKeys.disableForms, JSON.stringify(true))
         } else {
           delete response.allas
-          sessionStorage.setItem(environment.disableForms, JSON.stringify(false))
+          sessionStorage.setItem(storageKeys.disableForms, JSON.stringify(false))
         }
 
         if (response.login.enabled === '1') {
-          sessionStorage.setItem(environment.disableLogin, JSON.stringify(true))
+          sessionStorage.setItem(storageKeys.disableLogin, JSON.stringify(true))
         } else {
           delete response.login
-          sessionStorage.setItem(environment.disableLogin, JSON.stringify(false))
+          sessionStorage.setItem(storageKeys.disableLogin, JSON.stringify(false))
         }
 
         return response
@@ -44,10 +45,10 @@ export class AlertService {
   }
 
   disableForms(): boolean {
-    return JSON.parse(sessionStorage.getItem(environment.disableForms))
+    return JSON.parse(sessionStorage.getItem(storageKeys.disableForms))
   }
 
   disableLogin(): boolean {
-    return JSON.parse(sessionStorage.getItem(environment.disableLogin))
+    return JSON.parse(sessionStorage.getItem(storageKeys.disableLogin))
   }
 }

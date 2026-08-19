@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { SearchResult } from '@models/search/search-results'
-import { environment } from '../../../environments/environment'
+import { urls } from '@constants/urls'
+import { storageKeys } from '@constants/storage-keys'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { SearchParams } from '@models/search/search-params'
 import { UsedFilter } from '@models/search/used-filter'
@@ -34,7 +35,7 @@ export class SearchResultComponent implements OnInit {
       this.changeTranslationString()
     })
     this.changeTranslationString()
-    this.downloadUrl = `${environment.backendUrlV2}/material/file/${this.result.id}/all`
+    this.downloadUrl = `${urls.backendUrlV2}/material/file/${this.result.id}/all`
 
     if (this.result.thumbnail) {
       this.thumbnailUrl = this.result.thumbnail.filepath
@@ -74,8 +75,8 @@ export class SearchResultComponent implements OnInit {
         type: 'educationalLevels'
       }
     ]
-    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams))
-    sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters))
+    sessionStorage.setItem(storageKeys.searchParams, JSON.stringify(searchParams))
+    sessionStorage.setItem(storageKeys.usedFilters, JSON.stringify(usedFilters))
     this.executeFilteredSearch.emit()
   }
 }

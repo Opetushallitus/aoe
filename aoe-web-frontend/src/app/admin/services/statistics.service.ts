@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
-import { environment } from '../../../environments/environment'
+import { urls } from '@constants/urls'
 import { catchError, map } from 'rxjs/operators'
 import {
   StatisticsExpiredResponse,
@@ -43,7 +43,7 @@ export class StatisticsService {
     activity: string
   ): Observable<StatisticsIntervalResponse> {
     return this.http
-      .post(`${environment.statisticsBackendUrl}/${activity}/${interval}/total`, payload, {
+      .post(`${urls.statisticsBackendUrl}/${activity}/${interval}/total`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ export class StatisticsService {
    */
   getExpiredMaterials(payload: StatisticsPortionsPost): Observable<StatisticsExpiredResponse> {
     return this.http
-      .post(`${environment.statisticsBackendUrl}/educationallevel/expired`, payload, {
+      .post(`${urls.statisticsBackendUrl}/educationallevel/expired`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ export class StatisticsService {
   ): Observable<StatisticsPublishedResponse> {
     const category: string = categoryEnum.slice(0, -1).toLowerCase() // Cut out the last plural character 's'.
     return this.http
-      .post(`${environment.statisticsBackendUrl}/${category}/all`, payload, {
+      .post(`${urls.statisticsBackendUrl}/${category}/all`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
           'Content-Type': 'application/json'

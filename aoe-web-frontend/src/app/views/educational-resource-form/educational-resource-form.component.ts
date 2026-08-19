@@ -1,7 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { ActivatedRoute, Params, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   BasedOnDetailsComponent,
   BasicDetailsComponent,
@@ -98,7 +98,7 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
     this.subscriptionRoute.unsubscribe()
     this.subscriptionLanguageChange.unsubscribe()
     this.subscriptionTranslate.unsubscribe()
-    sessionStorage.removeItem(environment.newERLSKey)
+    sessionStorage.removeItem(storageKeys.newERLSKey)
     this.materialService.clearEducationalMaterialID()
   }
 

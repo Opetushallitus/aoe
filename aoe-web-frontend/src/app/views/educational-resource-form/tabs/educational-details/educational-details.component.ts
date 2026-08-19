@@ -11,7 +11,7 @@ import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   addEarlyChildhoodEducationSubject,
   addEarlyChildhoodEducationObjective,
@@ -158,7 +158,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateScienceBranches()
     })
 
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
 
     this.form = this.fb.group({
       educationalLevels: this.fb.control(null),
@@ -1252,7 +1252,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
+    sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {

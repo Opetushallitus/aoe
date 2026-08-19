@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AuthService } from '@services/auth.service'
+import { storageKeys } from '@constants/storage-keys'
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthGuard {
     _next: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.hasUserData() || sessionStorage.getItem('userData')) {
+    if (this.authService.hasUserData() || sessionStorage.getItem(storageKeys.userData)) {
       return true
     }
     void this.router.navigate(['/etusivu'])

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, Subject, throwError } from 'rxjs'
 import { TranslateService } from '@ngx-translate/core'
 
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
 import { deduplicate, getUniqueFrameworks } from '../shared/shared.module'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { EducationalMaterial } from '@models/educational-material'
@@ -22,7 +22,7 @@ export class EmbedService {
     private http: HttpClient,
     private translate: TranslateService
   ) {}
-  apiUri = environment.koodistoUrl
+  apiUri = urls.koodistoUrl
   httpOptions = {
     headers: new HttpHeaders({
       Accept: 'application/json',
@@ -57,7 +57,7 @@ export class EmbedService {
    * @param {string} versionDate?
    */
   updateMaterial(materialId: number, versionDate?: string): void {
-    let materialUrl = `${environment.embedBackendUrl}/material/${materialId}`
+    let materialUrl = `${urls.embedBackendUrl}/material/${materialId}`
 
     if (versionDate) {
       materialUrl = `${materialUrl}/${versionDate}`
@@ -96,13 +96,13 @@ export class EmbedService {
             subtitles: material.attachments
               .filter((a: Attachment) => a.materialid === m.id)
               .map((a: Attachment) => ({
-                src: `${environment.backendUrl}/download/${a.filekey}`,
+                src: `${urls.backendUrl}/download/${a.filekey}`,
                 default: a.defaultfile,
                 kind: a.kind,
                 label: a.label,
                 srclang: a.srclang
               })),
-            downloadUrl: `${environment.embedBackendUrl}/download/${m.filekey}`
+            downloadUrl: `${urls.embedBackendUrl}/download/${m.filekey}`
           }))
 
           // early childhood

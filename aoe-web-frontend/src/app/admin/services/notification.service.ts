@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, of } from 'rxjs'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { DomSanitizer } from '@angular/platform-browser'
 import { Notification, NotificationDisabled } from '@admin/model'
@@ -23,7 +23,7 @@ export class NotificationService {
    * Get all active notifications and save to the state management.
    */
   getScheduledNotifications(showUpcoming?: boolean): void {
-    const requestURL: string = `${environment.backendUrlV2}/process/notifications${showUpcoming ? '/all' : ''}`
+    const requestURL: string = `${urls.backendUrlV2}/process/notifications${showUpcoming ? '/all' : ''}`
     this.http
       .get<Notification[]>(requestURL, {
         headers: new HttpHeaders({
@@ -53,7 +53,7 @@ export class NotificationService {
     showUpcoming?: boolean
   ): Observable<Notification> {
     return this.http
-      .post<Notification>(`${environment.backendUrlV2}/process/notifications`, notification, {
+      .post<Notification>(`${urls.backendUrlV2}/process/notifications`, notification, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -77,7 +77,7 @@ export class NotificationService {
   ): Observable<NotificationDisabled> {
     return this.http
       .patch<NotificationDisabled>(
-        `${environment.backendUrlV2}/process/notifications/${notificationID}`,
+        `${urls.backendUrlV2}/process/notifications/${notificationID}`,
         { id: notificationID, disabled: true },
         {
           headers: new HttpHeaders({

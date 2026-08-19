@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Subscription } from 'rxjs'
-import { environment } from '../../../../../environments/environment'
+import { urls } from '@constants/urls'
 import {
   addCustomItem,
   addPrerequisites,
@@ -58,7 +58,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   addCustomItem = addCustomItem
   addPrerequisites = addPrerequisites
   @Output() abortEdit = new EventEmitter()
-  accessibilityLink: string = `${environment.frontendUrl}/saavutettavuus/`
+  accessibilityLink: string = `${urls.frontendUrl}/saavutettavuus/`
 
   constructor(
     private fb: FormBuilder,

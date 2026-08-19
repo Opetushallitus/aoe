@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Subscription } from 'rxjs'
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   addEarlyChildhoodEducationSubject,
   addEarlyChildhoodEducationObjective,
@@ -202,10 +202,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       ])
     })
 
-    if (sessionStorage.getItem(environment.collection) === null) {
+    if (sessionStorage.getItem(storageKeys.collection) === null) {
       this.form.patchValue(this.collection)
     } else {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.collection)))
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(storageKeys.collection)))
     }
 
     // educational levels
@@ -766,13 +766,13 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
     const changedCollection: CollectionForm = Object.assign(
       {},
-      sessionStorage.getItem(environment.collection) !== null
-        ? JSON.parse(sessionStorage.getItem(environment.collection))
+      sessionStorage.getItem(storageKeys.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(storageKeys.collection))
         : this.collection,
       this.form.value
     )
 
-    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection))
+    sessionStorage.setItem(storageKeys.collection, JSON.stringify(changedCollection))
   }
 
   /**

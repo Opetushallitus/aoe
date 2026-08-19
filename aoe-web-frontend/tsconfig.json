@@ -23,9 +23,6 @@
       "@components/*": [
         "components/*"
       ],
-      "@environments/*": [
-        "../environments/*"
-      ],
       "@models/*": [
         "models/*"
       ],

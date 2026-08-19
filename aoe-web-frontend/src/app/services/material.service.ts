@@ -21,7 +21,7 @@ import {
 import { BehaviorSubject, EMPTY, from, Observable, of, Subject, throwError } from 'rxjs'
 import { TranslateService } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { deduplicate, getUniqueFrameworks } from '@shared/shared.module'
 import { EducationalMaterial } from '@models/educational-material'
 import { UploadMessage } from '@models/upload-message'
@@ -179,7 +179,7 @@ export class MaterialService {
 
   postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
     return this.http.post<LinkPostResponse>(
-      `${environment.backendUrlV2}/material/link/${educationalMaterialID}`,
+      `${urls.backendUrlV2}/material/link/${educationalMaterialID}`,
       payload,
       {
         headers: new HttpHeaders({
@@ -191,7 +191,7 @@ export class MaterialService {
 
   createEmptyEducationalMaterial(formData: FormData): Observable<number> {
     return this.http
-      .post<string>(`${environment.backendUrl}/material/file`, formData, {
+      .post<string>(`${urls.backendUrl}/material/file`, formData, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -205,7 +205,7 @@ export class MaterialService {
    */
   uploadSingleFileToEducationalMaterial(data: FormData): Observable<UploadMessage> {
     const uploadUrl: string = `${
-      environment.backendUrlV2
+      urls.backendUrlV2
     }/material/file/${this.educationalMaterialID$$.getValue()}/upload`
     let prevProgress: number = 0
     let nextProgress: number = 0
@@ -253,15 +253,11 @@ export class MaterialService {
 
   uploadSubtitle(fileId: string, data: FormData): Observable<AttachmentPostResponse> {
     return this.http
-      .post<AttachmentPostResponse>(
-        `${environment.backendUrl}/material/attachment/${fileId}`,
-        data,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json'
-          })
-        }
-      )
+      .post<AttachmentPostResponse>(`${urls.backendUrl}/material/attachment/${fileId}`, data, {
+        headers: new HttpHeaders({
+          Accept: 'application/json'
+        })
+      })
       .pipe(
         retryWhen((errors: Observable<any>) =>
           errors.pipe(
@@ -286,7 +282,7 @@ export class MaterialService {
     educationalMateriaID: number | string,
     data: EducationalMaterialPut
   ): Observable<any> {
-    const uploadUrl = `${environment.backendUrl}/material/${educationalMateriaID}`
+    const uploadUrl = `${urls.backendUrl}/material/${educationalMateriaID}`
     return this.http.put(uploadUrl, data).pipe(catchError(MaterialService.handleError))
   }
 
@@ -296,7 +292,7 @@ export class MaterialService {
    * @param {string} versionDate?
    */
   updateMaterial(materialId: number, versionDate?: string): void {
-    let materialUrl: string = `${environment.backendUrl}/material/${materialId}`
+    let materialUrl: string = `${urls.backendUrl}/material/${materialId}`
     if (versionDate) {
       materialUrl = `${materialUrl}/${versionDate}?interaction=view`
     } else {
@@ -357,14 +353,14 @@ export class MaterialService {
                   src: string
                   srclang: string
                 } => ({
-                  src: `${environment.backendUrl}/download/${a.filekey}`,
+                  src: `${urls.backendUrl}/download/${a.filekey}`,
                   default: a.defaultfile,
                   kind: a.kind,
                   label: a.label,
                   srclang: a.srclang
                 })
               ),
-            downloadUrl: `${environment.backendUrl}/download/file/${m.filekey}?interaction=load`
+            downloadUrl: `${urls.backendUrl}/download/file/${m.filekey}?interaction=load`
           }))
 
           // early childhood
@@ -606,7 +602,7 @@ export class MaterialService {
    */
   updateUserMaterialList(): void {
     this.http
-      .get<any>(`${environment.backendUrl}/usermaterial`, {
+      .get<any>(`${urls.backendUrl}/usermaterial`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -689,7 +685,7 @@ export class MaterialService {
 
   getRecentMaterialList(): Observable<EducationalMaterialCard[]> {
     return this.http
-      .get<any>(`${environment.backendUrl}/recentmaterial`, {
+      .get<any>(`${urls.backendUrl}/recentmaterial`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -768,7 +764,7 @@ export class MaterialService {
     if (educationalMaterialID) {
       return this.http
         .post<UploadImageBody>(
-          `${environment.backendUrlV2}/material/${educationalMaterialID}/thumbnail`,
+          `${urls.backendUrlV2}/material/${educationalMaterialID}/thumbnail`,
           body,
           {
             headers: new HttpHeaders({
@@ -806,7 +802,7 @@ export class MaterialService {
    */
   updateUploadedFiles(educationalMaterialID: number | string): Observable<void> {
     return this.http
-      .get<any>(`${environment.backendUrl}/material/${educationalMaterialID}`, {
+      .get<any>(`${urls.backendUrl}/material/${educationalMaterialID}`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -866,7 +862,7 @@ export class MaterialService {
     educationalMateriaID: number | string
   ): Observable<EducationalMaterialForm> {
     return this.http
-      .get<any>(`${environment.backendUrl}/material/${educationalMateriaID}?interaction=edit`, {
+      .get<any>(`${urls.backendUrl}/material/${educationalMateriaID}?interaction=edit`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -1369,7 +1365,7 @@ export class MaterialService {
     if (this.educationalMaterialID$$.getValue()) {
       return this.http
         .delete(
-          `${environment.backendUrlV2}/material/${this.educationalMaterialID$$.getValue()}/obsolete/${materialID}`
+          `${urls.backendUrlV2}/material/${this.educationalMaterialID$$.getValue()}/obsolete/${materialID}`
         )
         .pipe(
           map((response: { obsoleted: string }) => +response.obsoleted),
@@ -1385,9 +1381,7 @@ export class MaterialService {
    */
   setAttachmentObsoleted(eduMaterialID: number, attachmentID: number): Observable<any> {
     return this.http
-      .delete(
-        `${environment.backendUrlV2}/material/${eduMaterialID}/obsolete/${attachmentID}/attachment`
-      )
+      .delete(`${urls.backendUrlV2}/material/${eduMaterialID}/obsolete/${attachmentID}/attachment`)
       .pipe(catchError(MaterialService.handleError))
   }
 
@@ -1399,7 +1393,7 @@ export class MaterialService {
    */
   uploadFile(payload: FormData, materialId: number): Observable<UploadMessage> {
     return this.http
-      .post(`${environment.backendUrlV2}/material/file/${materialId}/upload`, payload, {
+      .post(`${urls.backendUrlV2}/material/file/${materialId}/upload`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         }),
@@ -1441,7 +1435,7 @@ export class MaterialService {
    */
   getCollectionMaterials(materialId: string): Observable<Material[]> {
     return this.http
-      .get<any>(`${environment.backendUrl}/material/${materialId}`, {
+      .get<any>(`${urls.backendUrl}/material/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -1461,13 +1455,13 @@ export class MaterialService {
             subtitles: material.attachments
               .filter((a: Attachment) => a.materialid === m.id)
               .map((a: Attachment) => ({
-                src: `${environment.backendUrl}/download/${a.filekey}`,
+                src: `${urls.backendUrl}/download/${a.filekey}`,
                 default: a.defaultfile,
                 kind: a.kind,
                 label: a.label,
                 srclang: a.srclang
               })),
-            downloadUrl: `${environment.backendUrl}/download/file/${m.filekey}?interaction=load`,
+            downloadUrl: `${urls.backendUrl}/download/file/${m.filekey}?interaction=load`,
             domain: m.link ? new URL(m.link).hostname.replace('www.', '') : null
           }))
         )

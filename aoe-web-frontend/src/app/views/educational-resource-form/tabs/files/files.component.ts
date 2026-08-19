@@ -21,7 +21,7 @@ import { Title } from '@angular/platform-browser'
 import { forkJoin, Observable, Subscription } from 'rxjs'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { textInputRe, textInputValidator, validateFilename } from '@shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
 import { MaterialService } from '@services/material.service'
@@ -66,7 +66,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   // @HostListener('window:online', ['$event']) onLine(e: any): void {}
 
-  private savedDataKey: string = environment.newERLSKey
+  private savedDataKey: string = storageKeys.newERLSKey
 
   completedIndexes: Set<number> = new Set<number>()
   completedUploads: number = 0

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
 import { Material } from '@models/material'
-import { environment } from '../../../../environments/environment'
+import { urls } from '@constants/urls'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 
@@ -24,17 +24,17 @@ export class OfficePreviewComponent implements OnInit, OnChanges {
       this.lang = event.lang
     })
 
-    this.filepath = this.material.filepath.slice(environment.backendUrl.length + 1)
-    this.materialUrl = `${environment.embedBackendUrl}/${this.filepath}`
-    this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.filepath = this.material.filepath.slice(urls.backendUrl.length + 1)
+    this.materialUrl = `${urls.embedBackendUrl}/${this.filepath}`
+    this.downloadUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
     this.pdfViewer.refresh()
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.filepath = this.material.filepath.slice(environment.backendUrl.length + 1)
-    this.materialUrl = `${environment.embedBackendUrl}/${this.filepath}`
-    this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
-    this.pdfViewer.pdfSrc = `${environment.embedBackendUrl}/${this.filepath}`
+    this.filepath = this.material.filepath.slice(urls.backendUrl.length + 1)
+    this.materialUrl = `${urls.embedBackendUrl}/${this.filepath}`
+    this.downloadUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
+    this.pdfViewer.pdfSrc = `${urls.embedBackendUrl}/${this.filepath}`
     this.pdfViewer.refresh()
   }
 }

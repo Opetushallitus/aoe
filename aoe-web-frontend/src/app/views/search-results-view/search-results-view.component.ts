@@ -13,7 +13,7 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { DeviceDetectorService } from 'ngx-device-detector'
 import { ToastService } from '@services/toast.service'
 import { Subscription } from 'rxjs'
-import { environment } from '../../../environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { textInputValidator } from './../../shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
 import { SearchService } from '@services/search.service'
@@ -155,12 +155,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       size: this.resultsPerPage
     }
     const searchParams: SearchParams =
-      JSON.parse(sessionStorage.getItem(environment.searchParams)) ?? defaultSearchParams
+      JSON.parse(sessionStorage.getItem(storageKeys.searchParams)) ?? defaultSearchParams
 
     searchParams.timestamp = this.time.toISOString()
     this.keywordsCtrl.setValue(searchParams?.keywords)
 
-    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters)) ?? []
+    this.usedFilters = JSON.parse(sessionStorage.getItem(storageKeys.usedFilters)) ?? []
     this.loading = true
     this.searchService.updateSearchResults(searchParams)
 
@@ -171,7 +171,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         if (results.hits > 0) {
           this.searchService.updateSearchFilters(
-            JSON.parse(sessionStorage.getItem(environment.searchParams))
+            JSON.parse(sessionStorage.getItem(storageKeys.searchParams))
           )
 
           this.pages = Math.ceil(this.results.hits / this.resultsPerPage)
@@ -436,7 +436,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams))
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(storageKeys.searchParams))
 
     this.languagesArray.clear()
     this.subjectsArray.clear()
@@ -611,7 +611,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.page = pageNumber
 
       const searchParams: SearchParams = JSON.parse(
-        sessionStorage.getItem(environment.searchParams)
+        sessionStorage.getItem(storageKeys.searchParams)
       )
       searchParams.from = this.from
       searchParams.size = this.resultsPerPage
@@ -943,7 +943,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }
 
       this.usedFilters = usedFilters
-      sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters))
+      sessionStorage.setItem(storageKeys.usedFilters, JSON.stringify(usedFilters))
 
       this.searchService.updateSearchResults(searchParams)
 
@@ -955,7 +955,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   filterSearch(): void {
     this.loading = true
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams))
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(storageKeys.searchParams))
 
     this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
       level.children.forEach((child: EducationalLevel, childIndex: number) => {
@@ -966,7 +966,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       })
     })
 
-    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters)) ?? []
+    this.usedFilters = JSON.parse(sessionStorage.getItem(storageKeys.usedFilters)) ?? []
     this.searchService.updateSearchResults(searchParams)
     this.page = 1
   }

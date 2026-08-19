@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ServiceNotification } from '@models/service-notification'
@@ -24,7 +24,7 @@ export class NotificationService {
    */
   getActiveNotifications(): void {
     this.http
-      .get<ServiceNotification[]>(`${environment.backendUrlV2}/process/notifications`, {
+      .get<ServiceNotification[]>(`${urls.backendUrlV2}/process/notifications`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })

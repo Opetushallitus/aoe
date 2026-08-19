@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { RatingPost } from '@models/rating-post'
 import { Rating, Ratings } from '@models/backend/ratings'
 import { Observable } from 'rxjs'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class RatingsService {
    * @returns {Observable<RatingPost>} Posted rating
    */
   postRating(rating: RatingPost): Observable<{ status: RatingPost }> {
-    return this.http.post<{ status: RatingPost }>(`${environment.backendUrl}/rating`, rating, {
+    return this.http.post<{ status: RatingPost }>(`${urls.backendUrl}/rating`, rating, {
       headers: new HttpHeaders({
         Accept: 'application/json'
       })
@@ -30,7 +30,7 @@ export class RatingsService {
    * @returns {Observable<Ratings>} List of material ratings
    */
   getRatings(materialId: number | string): Observable<Ratings> {
-    return this.http.get<Ratings>(`${environment.backendUrl}/ratings/${materialId}`, {
+    return this.http.get<Ratings>(`${urls.backendUrl}/ratings/${materialId}`, {
       headers: new HttpHeaders({
         Accept: 'application/json'
       })
@@ -43,7 +43,7 @@ export class RatingsService {
    * @returns {Observable<Rating>} Users rating
    */
   getRating(materialId: number | string): Observable<Rating> {
-    return this.http.get<Rating>(`${environment.backendUrl}/rating/${materialId}`, {
+    return this.http.get<Rating>(`${urls.backendUrl}/rating/${materialId}`, {
       headers: new HttpHeaders({
         Accept: 'application/json'
       })

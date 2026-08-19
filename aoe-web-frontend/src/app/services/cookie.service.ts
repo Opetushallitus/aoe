@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { storageKeys } from '@constants/storage-keys'
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,8 @@ export class CookieService {
   isCookiePolicyAccepted(): boolean {
     try {
       return (
-        sessionStorage.getItem('cookiePolicy') === 'accepted' || this.cookiePolicyAccepted === true
+        sessionStorage.getItem(storageKeys.cookiePolicy) === 'accepted' ||
+        this.cookiePolicyAccepted === true
       )
     } catch (e) {
       return this.cookiePolicyAccepted
@@ -41,7 +43,7 @@ export class CookieService {
     }
 
     if (support) {
-      sessionStorage.setItem('cookiePolicy', 'accepted')
+      sessionStorage.setItem(storageKeys.cookiePolicy, 'accepted')
       this.cookiePolicyAccepted = true
     } else {
       this.cookiePolicyAccepted = true

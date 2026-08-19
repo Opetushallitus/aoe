@@ -11,7 +11,8 @@ import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
+import { storageKeys } from '@constants/storage-keys'
 import { addCustomItem, addPrerequisites, textInputValidator } from '@shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
@@ -47,7 +48,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
   lang: string = this.translate.getCurrentLang()
   savedData: any
-  accessibilityLink: string = `${environment.frontendUrl}/saavutettavuus/`
+  accessibilityLink: string = `${urls.frontendUrl}/saavutettavuus/`
 
   accessibilityFeatureSubscription: Subscription
   accessibilityFeatures: AccessibilityFeature[]
@@ -82,7 +83,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateAccessibilityHazards()
     })
 
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
 
     this.form = this.fb.group({
       accessibilityFeatures: this.fb.control(null),
@@ -254,7 +255,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
     const data = Object.assign(
       {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey)),
       this.form.value,
       {
         alignmentObjects: this.alignmentObjects
@@ -262,7 +263,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
+    sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {

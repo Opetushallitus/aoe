@@ -21,7 +21,7 @@ import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper'
 import { Subscription } from 'rxjs'
-import { environment } from '../../../../environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   addCustomItem,
   descriptionValidator,
@@ -126,10 +126,10 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
       accessibilityHazards: this.fb.control(null)
     })
 
-    if (sessionStorage.getItem(environment.collection) === null) {
+    if (sessionStorage.getItem(storageKeys.collection) === null) {
       this.form.patchValue(this.collection)
     } else {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.collection)))
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(storageKeys.collection)))
     }
 
     this.thumbnailSrc = this.collection.thumbnail
@@ -253,13 +253,13 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
         (err) => console.error(err),
         () => {
           const changedCollection: CollectionForm =
-            sessionStorage.getItem(environment.collection) !== null
-              ? JSON.parse(sessionStorage.getItem(environment.collection))
+            sessionStorage.getItem(storageKeys.collection) !== null
+              ? JSON.parse(sessionStorage.getItem(storageKeys.collection))
               : this.collection
 
           changedCollection.thumbnail = this.croppedImage
 
-          sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection))
+          sessionStorage.setItem(storageKeys.collection, JSON.stringify(changedCollection))
 
           this.thumbnailSrc = this.croppedImage
           this.thumbnailModalRef.hide()
@@ -288,8 +288,8 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    */
   saveCollection(): void {
     const changedCollection: CollectionForm =
-      sessionStorage.getItem(environment.collection) !== null
-        ? JSON.parse(sessionStorage.getItem(environment.collection))
+      sessionStorage.getItem(storageKeys.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(storageKeys.collection))
         : this.collection
 
     changedCollection.name = this.form.get('name').value
@@ -301,7 +301,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     changedCollection.accessibilityFeatures = this.form.get('accessibilityFeatures').value
     changedCollection.accessibilityHazards = this.form.get('accessibilityHazards').value
 
-    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection))
+    sessionStorage.setItem(storageKeys.collection, JSON.stringify(changedCollection))
   }
 
   /**

@@ -15,7 +15,7 @@ import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal'
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper'
 
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { addCustomItem, descriptionValidator, textInputValidator } from '@shared/shared.module'
 import { KoodistoService } from '@services/koodisto.service'
 import { MaterialService } from '@services/material.service'
@@ -136,7 +136,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     )
     this.koodistoProxySvc.updateEducationalUses()
 
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
 
     this.form = this.fb.group({
       keywords: this.fb.control(null),
@@ -312,11 +312,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           this.uploadResponse = res
           this.thumbnailSrc = this.croppedImage.base64
 
-          const savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+          const savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
 
           savedData.thumbnail = this.croppedImage.base64
 
-          sessionStorage.setItem(environment.newERLSKey, JSON.stringify(savedData))
+          sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(savedData))
 
           this.modalRef.hide()
         },
@@ -348,12 +348,12 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   saveData(): void {
     const data = Object.assign(
       {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey)),
       this.form.value
     )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
+    sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {

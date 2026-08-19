@@ -9,6 +9,7 @@ import { SafePipe } from '../pipes/safe.pipe'
 import { MaterialLanguagePipe } from '../pipes/material-language.pipe'
 import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended'
 import { koodistoSources } from '@constants/koodisto-sources'
+import { storageKeys } from '@constants/storage-keys'
 
 @NgModule({
   imports: [
@@ -47,7 +48,7 @@ export const descriptionRe: RegExp =
  * @param {string} lang
  */
 export function setLanguage(lang: string): void {
-  localStorage.setItem('aoe.lang', lang)
+  localStorage.setItem(storageKeys.language, lang)
 }
 
 /**
@@ -55,7 +56,7 @@ export function setLanguage(lang: string): void {
  * @returns {string | null}
  */
 export function getLanguage(): string | null {
-  return localStorage.getItem('aoe.lang')
+  return localStorage.getItem(storageKeys.language)
 }
 
 /**

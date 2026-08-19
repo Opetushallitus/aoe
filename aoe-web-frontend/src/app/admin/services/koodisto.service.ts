@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs'
 import { TranslateService } from '@ngx-translate/core'
 
 import { EducationalLevel, EducationalSubject, EducationalLevelChild } from '@admin/model'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { Organization } from '@admin/model/organization'
 import { catchError, map, tap } from 'rxjs/operators'
 
@@ -13,7 +13,7 @@ import { catchError, map, tap } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class KoodistoService {
-  apiUri: string = environment.koodistoUrl
+  apiUri: string = urls.koodistoUrl
   lang: string
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({

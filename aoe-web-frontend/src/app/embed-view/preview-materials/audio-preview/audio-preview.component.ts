@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 
 import { Material } from '@models/material'
-import { environment } from '../../../../environments/environment'
+import { urls } from '@constants/urls'
 import { TranslatePipe } from '@ngx-translate/core'
 
 @Component({
@@ -23,13 +23,13 @@ export class AudioPreviewComponent implements OnInit, OnChanges {
   materialUrl: string
 
   ngOnInit(): void {
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     // refreshes audio player after source change
     this.audioPlayerRef.nativeElement.load()
 
-    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`
+    this.materialUrl = `${urls.embedBackendUrl}/download/${this.material.filekey}`
   }
 }

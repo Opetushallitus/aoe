@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core'
 import { KeyValue } from '@angular/common'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subject } from 'rxjs'
-import { environment } from '../../environments/environment'
+import { urls } from '@constants/urls'
+import { storageKeys } from '@constants/storage-keys'
 import { browserRefresh } from '../app.component'
 import { deduplicate } from '../shared/shared.module'
 import { SearchResult, SearchResults } from '@models/search/search-results'
@@ -29,7 +30,7 @@ export class SearchService {
    * @param {SearchParams} searchParams
    */
   updateSearchResults(searchParams: SearchParams): void {
-    const oldParams = JSON.parse(sessionStorage.getItem(environment.searchParams))
+    const oldParams = JSON.parse(sessionStorage.getItem(storageKeys.searchParams))
 
     this.browserRefresh = browserRefresh
     if (this.browserRefresh) {
@@ -51,14 +52,14 @@ export class SearchService {
       params = searchParams
     }
 
-    sessionStorage.setItem(environment.searchParams, JSON.stringify(params))
+    sessionStorage.setItem(storageKeys.searchParams, JSON.stringify(params))
 
     if (params.sort) {
       params.sort = sortOptions[searchParams.sort].sort
     }
 
     this.http
-      .post<SearchResults>(`${environment.backendUrlV2}/search`, params, {
+      .post<SearchResults>(`${urls.backendUrlV2}/search`, params, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -73,20 +74,16 @@ export class SearchService {
    * @param {CollectionSearchParams} searchParams
    */
   updateCollectionSearchResults(searchParams: CollectionSearchParams): void {
-    sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams))
+    sessionStorage.setItem(storageKeys.collectionSearchParams, JSON.stringify(searchParams))
 
     this.http
-      .post<CollectionSearchResults>(
-        `${environment.backendUrlV2}/search/collection`,
-        searchParams,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json'
-          })
-        }
-      )
+      .post<CollectionSearchResults>(`${urls.backendUrlV2}/search/collection`, searchParams, {
+        headers: new HttpHeaders({
+          Accept: 'application/json'
+        })
+      })
       .subscribe((results: CollectionSearchResults) => {
-        sessionStorage.setItem(environment.collectionSearchResults, JSON.stringify(results))
+        sessionStorage.setItem(storageKeys.collectionSearchResults, JSON.stringify(results))
 
         this.collectionSearchResults$.next(results)
       })
@@ -97,7 +94,7 @@ export class SearchService {
     delete searchParams.size
 
     this.http
-      .post(`${environment.backendUrlV2}/search`, searchParams, {
+      .post(`${urls.backendUrlV2}/search`, searchParams, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })

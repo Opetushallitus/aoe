@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Router, RouterLink } from '@angular/router'
 import { Title } from '@angular/platform-browser'
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import {
   UpdateCollectionPut,
   UpdateCollectionPutHeading,
@@ -56,10 +56,10 @@ export class CollectionPreviewTabComponent implements OnInit {
       hasDescription: this.fb.control(false, [Validators.requiredTrue])
     })
 
-    if (sessionStorage.getItem(environment.collection) === null) {
+    if (sessionStorage.getItem(storageKeys.collection) === null) {
       this.previewCollection = this.collection
     } else {
-      this.previewCollection = JSON.parse(sessionStorage.getItem(environment.collection))
+      this.previewCollection = JSON.parse(sessionStorage.getItem(storageKeys.collection))
     }
 
     this.mapMaterials(this.previewCollection.materials)

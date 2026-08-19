@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser'
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk/drag-drop'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { ToastService } from '@services/toast.service'
-import { environment } from '../../../../environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { descriptionValidator, textInputValidator } from '../../../shared/shared.module'
 import { validatorParams } from '@constants/validator-params'
 import {
@@ -78,11 +78,11 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       materialsAndHeadings: this.fb.array([])
     })
 
-    if (sessionStorage.getItem(environment.collection) === null) {
+    if (sessionStorage.getItem(storageKeys.collection) === null) {
       this.patchMaterialsAndHeadings(this.collection.materialsAndHeadings)
       this.mapMaterials(this.collection.materials)
     } else {
-      const changedCollection = JSON.parse(sessionStorage.getItem(environment.collection))
+      const changedCollection = JSON.parse(sessionStorage.getItem(storageKeys.collection))
 
       this.patchMaterialsAndHeadings(changedCollection.materialsAndHeadings)
       this.mapMaterials(changedCollection.materials)
@@ -250,8 +250,8 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    */
   saveCollection(): void {
     const changedCollection: CollectionForm =
-      sessionStorage.getItem(environment.collection) !== null
-        ? JSON.parse(sessionStorage.getItem(environment.collection))
+      sessionStorage.getItem(storageKeys.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(storageKeys.collection))
         : this.collection
 
     changedCollection.materials = changedCollection.materials.filter(
@@ -266,7 +266,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       }
     )
 
-    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection))
+    sessionStorage.setItem(storageKeys.collection, JSON.stringify(changedCollection))
   }
 
   /**

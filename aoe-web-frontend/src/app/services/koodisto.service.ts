@@ -13,7 +13,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended'
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature'
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard'
 import { License } from '@models/koodisto/license'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { SubjectFilter } from '@models/koodisto/subject-filter'
 import { catchError, map } from 'rxjs/operators'
 import { EducationalSubject } from '@models/koodisto/educational-subject'
@@ -22,7 +22,7 @@ import { EducationalSubject } from '@models/koodisto/educational-subject'
   providedIn: 'root'
 })
 export class KoodistoService {
-  apiUri: string = environment.koodistoUrl
+  apiUri: string = urls.koodistoUrl
   lang: string
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({
@@ -461,7 +461,7 @@ export class KoodistoService {
   updateFurtherVocationalQualifications(): void {
     this.http
       .get<AlignmentObjectExtended[]>(
-        `${environment.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`,
+        `${urls.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`,
         this.httpOptions
       )
       .subscribe(
@@ -478,7 +478,7 @@ export class KoodistoService {
   updateSpecialistVocationalQualifications(): void {
     this.http
       .get<AlignmentObjectExtended[]>(
-        `${environment.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`,
+        `${urls.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`,
         this.httpOptions
       )
       .subscribe(

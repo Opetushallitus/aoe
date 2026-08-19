@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { KoodistoService } from '@services/koodisto.service'
 import { License } from '@models/koodisto/license'
 import { Title } from '@angular/platform-browser'
@@ -41,7 +41,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
       this.setTitle()
       this.koodistoService.updateLicenses()
     })
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
     this.form = this.fb.group({
       license: this.fb.control(null)
     })
@@ -86,12 +86,12 @@ export class LicenseComponent implements OnInit, OnDestroy {
   saveData(): void {
     const data = Object.assign(
       {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey)),
       this.form.value
     )
 
     // save data to session storage
-    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data))
+    sessionStorage.setItem(storageKeys.newERLSKey, JSON.stringify(data))
   }
 
   previousTab(): void {

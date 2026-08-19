@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http'
 import { Observable, Subject, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { koodistoSources } from '@constants/koodisto-sources'
 import { CreateCollectionPost } from '@models/collections/create-collection-post'
 import { CreateCollectionResponse } from '@models/collections/create-collection-response'
@@ -67,7 +67,7 @@ export class CollectionService {
    */
   createCollection(payload: CreateCollectionPost): Observable<CreateCollectionResponse> {
     return this.http
-      .post<CreateCollectionResponse>(`${environment.backendUrl}/collection/create`, payload, {
+      .post<CreateCollectionResponse>(`${urls.backendUrl}/collection/create`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -80,7 +80,7 @@ export class CollectionService {
    */
   updateUserCollections(): void {
     this.http
-      .get<UserCollectionResponse>(`${environment.backendUrl}/collection/userCollection`, {
+      .get<UserCollectionResponse>(`${urls.backendUrl}/collection/userCollection`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -115,7 +115,7 @@ export class CollectionService {
    */
   addToCollection(payload: AddToCollectionPost): Observable<AddToCollectionResponse> {
     return this.http
-      .post<AddToCollectionResponse>(`${environment.backendUrl}/collection/addMaterial`, payload, {
+      .post<AddToCollectionResponse>(`${urls.backendUrl}/collection/addMaterial`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -132,15 +132,11 @@ export class CollectionService {
     payload: RemoveFromCollectionPost
   ): Observable<RemoveFromCollectionResponse> {
     return this.http
-      .post<RemoveFromCollectionResponse>(
-        `${environment.backendUrl}/collection/removeMaterial`,
-        payload,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json'
-          })
-        }
-      )
+      .post<RemoveFromCollectionResponse>(`${urls.backendUrl}/collection/removeMaterial`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json'
+        })
+      })
       .pipe(catchError(this.handleError))
   }
 
@@ -150,14 +146,11 @@ export class CollectionService {
    */
   updateCollection(collectionId: string): void {
     this.http
-      .get<CollectionResponse>(
-        `${environment.backendUrl}/collection/getCollection/${collectionId}`,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json'
-          })
-        }
-      )
+      .get<CollectionResponse>(`${urls.backendUrl}/collection/getCollection/${collectionId}`, {
+        headers: new HttpHeaders({
+          Accept: 'application/json'
+        })
+      })
       .subscribe((collectionResponse: CollectionResponse) => {
         const alignmentObjects = this.extractAlignmentObjects(collectionResponse.alignmentObjects)
 
@@ -248,14 +241,11 @@ export class CollectionService {
    */
   updateEditCollection(collectionId: string): void {
     this.http
-      .get<CollectionResponse>(
-        `${environment.backendUrl}/collection/getCollection/${collectionId}`,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json'
-          })
-        }
-      )
+      .get<CollectionResponse>(`${urls.backendUrl}/collection/getCollection/${collectionId}`, {
+        headers: new HttpHeaders({
+          Accept: 'application/json'
+        })
+      })
       .subscribe((collection: CollectionResponse) => {
         const alignmentObjects = this.extractAlignmentObjects(collection.alignmentObjects)
         const materialsAndHeadings: CollectionFormMaterialAndHeading[] = []
@@ -370,7 +360,7 @@ export class CollectionService {
    */
   updateCollectionDetails(collection: UpdateCollectionPut): Observable<any> {
     return this.http
-      .put(`${environment.backendUrl}/collection/update`, collection)
+      .put(`${urls.backendUrl}/collection/update`, collection)
       .pipe(catchError(this.handleError))
   }
 
@@ -383,7 +373,7 @@ export class CollectionService {
   uploadImage(base64Image: string, collectionId: string): Observable<UploadMessage> {
     return this.http
       .post<{ base64image: string }>(
-        `${environment.backendUrlV2}/collection/${collectionId}/thumbnail`,
+        `${urls.backendUrlV2}/collection/${collectionId}/thumbnail`,
         {
           base64image: base64Image
         },
@@ -423,7 +413,7 @@ export class CollectionService {
    */
   updateRecentCollections(): void {
     this.http
-      .get<RecentCollectionsResponse>(`${environment.backendUrl}/collection/recentCollection`, {
+      .get<RecentCollectionsResponse>(`${urls.backendUrl}/collection/recentCollection`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })

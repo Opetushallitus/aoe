@@ -1,11 +1,4 @@
-export const environment = {
-  loginUrl: '/api',
-  backendUrl: '/api/v1',
-  backendUrlV2: '/api/v2',
-  embedBackendUrl: '/embed',
-  statisticsBackendUrl: '/api/v2/statistics/prod',
-  koodistoUrl: '/ref/api/v1',
-  frontendUrl: location.origin,
+export const storageKeys = {
   newERLSKey: 'aoe.new-educational-resource',
   searchParams: 'aoe.searchParams',
   usedFilters: 'aoe.usedFilters',
@@ -13,5 +6,8 @@ export const environment = {
   collectionSearchParams: 'aoe.collectionSearchParams',
   collectionSearchResults: 'aoe.collectionSearchResults',
   disableForms: 'aoe.disableForms',
-  disableLogin: 'aoe.disableLogin'
+  disableLogin: 'aoe.disableLogin',
+  userData: 'userData',
+  cookiePolicy: 'cookiePolicy',
+  language: 'aoe.lang'
 }

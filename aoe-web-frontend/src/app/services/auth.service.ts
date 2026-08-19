@@ -3,12 +3,13 @@ import { Inject, Injectable, DOCUMENT } from '@angular/core'
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators'
-import { environment } from '@environments/environment'
+import { urls } from '@constants/urls'
 import { UserData } from '@models/userdata'
 import { UserSettings } from '@models/users/user-settings'
 import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response'
 import { Router } from '@angular/router'
 import { AlertService } from '@services/alert.service'
+import { storageKeys } from '@constants/storage-keys'
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class AuthService {
    */
   login(): void {
     if (!this.alertService.disableLogin()) {
-      this.document.location.href = `${environment.loginUrl}/login`
+      this.document.location.href = `${urls.loginUrl}/login`
     }
   }
 
@@ -50,7 +51,7 @@ export class AuthService {
    */
   updateUserData(): Observable<UserData> {
     return this.http
-      .get<UserData>(`${environment.backendUrl}/userdata`, {
+      .get<UserData>(`${urls.backendUrl}/userdata`, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })
@@ -59,7 +60,7 @@ export class AuthService {
         map((userData: UserData) => userData),
         tap((userData: UserData): void => {
           this.userDataBehaviorSubject$$.next(userData)
-          sessionStorage.setItem('userData', JSON.stringify(userData))
+          sessionStorage.setItem(storageKeys.userData, JSON.stringify(userData))
         }),
         catchError((err) => of(err))
       )
@@ -86,7 +87,7 @@ export class AuthService {
    */
   async removeUserData(): Promise<void> {
     this.userDataBehaviorSubject$$.next(null)
-    sessionStorage.removeItem('userData')
+    sessionStorage.removeItem(storageKeys.userData)
   }
 
   /**
@@ -94,7 +95,7 @@ export class AuthService {
    * @returns {Observable<string>}
    */
   updateAcceptance(): void {
-    this.http.put<any>(`${environment.backendUrl}/termsofusage`, null).subscribe(
+    this.http.put<any>(`${urls.backendUrl}/termsofusage`, null).subscribe(
       () => this.removeUserData(),
       (err) => console.error(err),
       (): void => {
@@ -110,7 +111,7 @@ export class AuthService {
   logout(): void {
     this.http
       .post(
-        `${environment.loginUrl}/logout`,
+        `${urls.loginUrl}/logout`,
         {},
         {
           headers: new HttpHeaders({
@@ -131,7 +132,7 @@ export class AuthService {
    */
   updateUserSettings(userSettings: UserSettings): Observable<UpdateUserSettingsResponse> {
     return this.http
-      .put<UpdateUserSettingsResponse>(`${environment.backendUrl}/updateSettings`, userSettings, {
+      .put<UpdateUserSettingsResponse>(`${urls.backendUrl}/updateSettings`, userSettings, {
         headers: new HttpHeaders({
           Accept: 'application/json'
         })

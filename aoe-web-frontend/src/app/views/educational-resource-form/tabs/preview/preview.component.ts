@@ -12,7 +12,7 @@ import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag } from '@angular/cdk
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Observable, Subscription } from 'rxjs'
 
-import { environment } from '@environments/environment'
+import { storageKeys } from '@constants/storage-keys'
 import { getUniqueFrameworks } from '@shared/shared.module'
 import { MaterialService } from '@services/material.service'
 import { AlignmentObjectExtended } from '@models/alignment-object-extended'
@@ -115,7 +115,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         this.educationalMaterialID = educationalMaterialID
       }
     )
-    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey))
+    this.savedData = JSON.parse(sessionStorage.getItem(storageKeys.newERLSKey))
     this.form = this.fb.group({
       hasName: this.fb.control(false, [Validators.requiredTrue]),
       hasMaterial: this.fb.control(false, [Validators.requiredTrue]),
@@ -502,7 +502,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
             console.error('Metadata post request failed in the preview module: ', error)
           },
           complete: (): void => {
-            sessionStorage.removeItem(environment.newERLSKey)
+            sessionStorage.removeItem(storageKeys.newERLSKey)
             this.router.navigate(['/materiaali', this.educationalMaterialID]).then((): void => {
               this.materialService.clearEducationalMaterialID()
               this.materialService.clearUploadedFiles()
