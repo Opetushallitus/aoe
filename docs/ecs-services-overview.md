@@ -1,6 +1,6 @@
 # AOE ECS Services Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 3 microservices on AWS ECS Fargate, all built with Node.js/TypeScript.
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs two backend services on AWS ECS Fargate, both built with Node.js/TypeScript, and serves its Angular frontend as static files from S3.
 
 ## Request Routing
 
@@ -14,7 +14,7 @@ All traffic enters through CloudFront. Its default cache behavior serves the fro
 
 The three `/embed/` subpaths are listed individually on purpose: `/embed/:id/:lang` is an Angular route that must reach S3, so collapsing them to `/embed/*` would send the embed view to the backend.
 
-The ALB still carries a `/*` catch-all rule to the web-frontend container at priority 49000. Nothing reaches it through CloudFront any more; it exists as the revert path until AOE-96-6 removes the service.
+A request reaching the ALB that matches none of the rules above falls through to the listener's default action — a target group with no registered targets, in `aoe-infra/lib/alb-stack.ts` — so the load balancer answers 503. The listener accepts 443 from any address and has its own `alb.<domain>` record, so the paths above are also reachable directly, without passing through CloudFront or the viewer-request function.
 
 ## Services
 
@@ -47,9 +47,9 @@ The app is a pure client-side SPA with no startup-time configuration — it call
 
 Neither pass prunes, so a client holding an older `index.html` can still fetch the chunks it references. The entry-point pass depends on the hashed one, so `index.html` never lands before them, and it submits a `/*` invalidation.
 
-The bucket is private and reached only through Origin Access Control. Deep links have no S3 key of their own, so `resources/functions/viewer-request.js` rewrites any path with no file extension to `/index.html` — the replacement for Nginx's `try_files` — while backend prefixes and anything with an extension pass through untouched. The same function carries the basic-auth gate in dev and qa, attached to every behavior so the protection covers `/api/*` as it did when the gate sat on the catch-all; in prod no credentials are configured and it only rewrites.
+The bucket is private and reached only through Origin Access Control. Deep links have no S3 key of their own, so `resources/functions/viewer-request.js` rewrites any path with no file extension to `/index.html` — the replacement for Nginx's `try_files` — while backend prefixes and anything with an extension pass through untouched. The same function carries the basic-auth gate in dev and qa, attached to every behavior so the protection covers the backend paths as well as the SPA; in prod no credentials are configured and it only rewrites.
 
-The container still exists and still builds. It is the revert path: pointing CloudFront's default behavior back at the ALB restores the previous delivery in one distribution update. AOE-96-6 removes the ECS service, the ECR repository and the OpenResty dependency, and repoints CI at a static server.
+Local development is the exception: `docker-compose.local-dev.yml` runs the Angular dev server (`ng serve`, from `aoe-web-frontend/docker/Dockerfile.local`) behind a local nginx, and CI's Playwright stack serves `dist` from an nginx container. Neither involves CloudFront, so the routing table and the path rewrite above are exercised only in a deployed environment.
 
 ---
 
@@ -201,13 +201,13 @@ A stateless media streaming proxy between S3 and the browser. It exists to separ
 
 | Service | Language | Framework | Port |
 |---|---|---|---|
-| web-frontend | TypeScript | Angular 21 + OpenResty/Nginx | 8080 |
+| web-frontend | TypeScript | Angular 21, static files on S3 | — |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
 | streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
 
 ## Shared Infrastructure
 
-All services run on a shared ECS Fargate cluster with:
+The backend services run on a shared ECS Fargate cluster with:
 - **Application Load Balancer** for path-based routing (see routing table above)
 - **CloudWatch** monitoring with CPU, memory, and health check alarms
 - **Service Discovery** via Cloud Map with private DNS namespace

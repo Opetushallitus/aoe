@@ -35,11 +35,12 @@ tiivisteellä nimettyjen erästä, joten `index.html` ei koskaan päädy bucketi
 
 Bucket on yksityinen ja siihen päästään vain Origin Access Controlin kautta. Syvälinkeillä ei ole omaa S3-avainta, joten `resources/functions/viewer-request.js` kirjoittaa
 jokaisen tiedostopäätteettömän polun muotoon `/index.html` — tämä korvaa Nginxin `try_files`-säännön — kun taas backend-prefiksit ja tiedostopäätteelliset polut menevät läpi
-koskemattomina. Sama funktio hoitaa dev- ja qa-ympäristöjen basic auth -suojauksen, ja se on kiinnitetty jokaiseen behavioriin, jotta suojaus kattaa myös `/api/*`-polut kuten
-silloin kun se oli kiinni catch-all-säännössä. Prodissa tunnuksia ei ole määritelty, joten funktio vain uudelleenkirjoittaa polut.
+koskemattomina. Sama funktio hoitaa dev- ja qa-ympäristöjen basic auth -suojauksen, ja se on kiinnitetty jokaiseen behavioriin, jotta suojaus kattaa backend-polut siinä missä
+SPA:n. Prodissa tunnuksia ei ole määritelty, joten funktio vain uudelleenkirjoittaa polut.
 
-Kontti on edelleen olemassa ja se buildataan edelleen. Se on paluutie: CloudFrontin oletuskäyttäytymisen osoittaminen takaisin ALB:hen palauttaa aiemman tarjoilutavan yhdellä
-distribuution päivityksellä. AOE-96-6 poistaa ECS-palvelun, ECR-repositorion ja OpenResty-riippuvuuden sekä ohjaa CI:n staattiseen palvelimeen.
+Paikallinen kehitysympäristö on poikkeus: `docker-compose.local-dev.yml` ajaa Angularin kehityspalvelinta (`ng serve`, tiedostosta `aoe-web-frontend/docker/Dockerfile.local`)
+paikallisen nginxin takana, ja CI:n Playwright-ympäristö tarjoilee `dist`-hakemiston nginx-kontista. Kumpikaan ei kulje CloudFrontin kautta, joten reititystaulu ja yllä kuvattu
+polun uudelleenkirjoitus toteutuvat vain deployatussa ympäristössä.
 
 ---
 

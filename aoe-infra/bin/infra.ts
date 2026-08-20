@@ -17,7 +17,6 @@ import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
-import { EmptyStack } from '../lib/empty-stack'
 import { ElasticacheServerlessStack } from '../lib/redis-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
 import { BastionStack } from '../lib/bastion-stack'
@@ -246,22 +245,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cloudFrontDistribution: Cloudfront.distribution
   })
 
-  const frontEndBucket = new EmptyStack(app, 'FrontEndBucketStack', {
-    env: envEU,
-    stackName: `${environmentName}-frontend-bucket`
-  })
-
-  const frontEndContentDeployment = new EmptyStack(app, 'FrontEndContentDeploymentStack', {
-    env: envEU,
-    stackName: `${environmentName}-frontend-deployment`
-  })
-
-  // AOE-96-6 teardown: emptying a stack drops the references that used to order it, so these
-  // say what the removed references said. Each importer has to update before the stack whose
-  // export it holds, or CloudFormation refuses to delete an export still in use.
-  frontEndBucket.addDependency(Cloudfront)
-  frontEndBucket.addDependency(frontEndContentDeployment)
-
   const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
     env: envEU,
     environment: environmentName,
@@ -464,13 +447,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       }
     }
   })
-
-  const webFrontendService = new EmptyStack(app, 'WebFrontendEcsService', {
-    env: envEU,
-    stackName: `${environmentName}-web-frontend-service`
-  })
-
-  SecurityGroups.addDependency(webFrontendService)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,
