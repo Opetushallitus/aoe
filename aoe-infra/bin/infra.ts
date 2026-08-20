@@ -250,8 +250,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
     env: envEU,
     stackName: `${environmentName}-frontend-bucket`,
-    environment: environmentName,
-    cloudFrontDistribution: Cloudfront.distribution
+    environment: environmentName
   })
 
   new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
@@ -506,7 +505,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: 'aoe-web-frontend-ecr',
     serviceName: 'aoe-web-frontend',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
+    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole,
+    emptyOnDelete: true
   })
   new EcrStack(app, 'BackendEcrStack', {
     env: envEU,
