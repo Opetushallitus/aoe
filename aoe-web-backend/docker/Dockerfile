@@ -29,7 +29,6 @@ RUN wget -q -O /app/rds-ca-bundle.pem \
     https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
 
 COPY ./views /app/views
-COPY ./vendor /app/vendor
 COPY ./migrations /app/migrations
 COPY ./package.json /app
 COPY ./package-lock.json /app

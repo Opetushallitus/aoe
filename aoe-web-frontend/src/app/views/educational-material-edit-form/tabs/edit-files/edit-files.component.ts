@@ -136,15 +136,12 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       next: (educationalMaterialEditForm: EducationalMaterialForm): void => {
         this.isVersioned = educationalMaterialEditForm.isVersioned
         this.form.patchValue(educationalMaterialEditForm)
-        console.log('File details:', educationalMaterialEditForm.fileDetails)
         this.patchFileDetails(educationalMaterialEditForm.fileDetails)
         this.materialService.educationalMaterialEditForm$.subscribe(
           (educationalMaterialEditForm: EducationalMaterialForm): void => {
             this.educationalMaterialEditForm = educationalMaterialEditForm
           }
         )
-        console.log('Material details array available:', this.materialDetailsArray.controls)
-        console.log('Replacement input:', this.showReplaceInput)
       },
       error: (err): void => {
         console.error(err)

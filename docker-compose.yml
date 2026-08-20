@@ -15,8 +15,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    volumes:
-      - ./docker/dev/webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
     depends_on:
       aoe-web-backend:
