@@ -2,7 +2,7 @@
 
 ## 1. aoe-web-frontend
 
-**Angular 20** (TypeScript) | Tarjoillaan OpenResty/Nginxillä
+**Angular 21** (TypeScript) | Tarjoillaan S3:sta CloudFrontin takaa
 
 Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateriaalien selaamiseen, hakemiseen, julkaisemiseen, arvioimiseen ja järjestämiseen. Tarjoaa myös ylläpitokäyttöliittymän moderointiin, analytiikkaan ja materiaalien hallintaan sekä upotettavan materiaalinäkymän kolmansien osapuolten sivustoille. Tukee suomea, englantia ja ruotsia.
 
@@ -16,15 +16,30 @@ Käyttäjille näkyvä single-page-sovellus. Sitä käytetään sitä oppimateri
 | web-backend (tilastot)    | `/api/v2/statistics/prod` | Ylläpitonäkymän tilastot — materiaalien aktiivisuus ja hakupyyntöjen kokonaismäärät aikaväleittäin, jakaumat koulutusasteen/oppiaineen/organisaation mukaan              |
 | web-backend (embed)       | `/embed`                  | Materiaalidata upotettavaa iframe-näkymää varten                                                                                                                         |
 
-#### Tulevaisuus: S3 + CloudFront ECS:n tilalle
+#### Miten staattinen sivusto tarjoillaan
 
-Tämä palvelu ei tarvitse konttia. Nginx-konfiguraatio ei tee käytännössä mitään — se tarjoilee staattisia tiedostoja ilman URL-uudelleenkirjoituksia, proxy-sääntöjä, mukautettuja
-otsakkeita tai Lua-skriptejä, eikä käynnistyksen aikaista konfiguraatiota ole enää lainkaan: sovellus kutsuu backendiä suhteellisilla URL-osoitteilla, joten yksi build palvelee
-kaikkia ympäristöjä.
+Sovellus on puhdas selainpuolen SPA, jolla ei ole käynnistyksen aikaista konfiguraatiota — se kutsuu backendiä suhteellisilla URL-osoitteilla, joten yksi build palvelee kaikkia
+ympäristöjä. `aoe-infra/lib/cloudfront-stack.ts` määrittelee tarjoilukerroksen samalla tavalla dev-, qa- ja prod-ympäristöihin.
 
-Frontend on siis puhtaasti staattisia tiedostoja ja voidaan tarjoilla S3:sta CloudFrontin takaa — poistaen yhden ECS-palvelun, yhden konttikuvan ja OpenResty-riippuvuuden
-kokonaan. Jäljelle jää CloudFront-työ: S3-origin oletuskäyttäytymiseksi, oma behavior jokaiselle backend-polulle, sekä viewer-request-funktio, joka tarjoilee index.html:n
-syvälinkeille Nginxin try_filesin sijaan.
+`npm run build --configuration production` tuottaa `dist`-hakemiston sisältötiivisteillä nimetyillä tiedostoilla, ja `deploy-scripts/deploy.sh` ajaa buildin ennen `cdk`:tä,
+koska bucket deployment paketoi `dist`-hakemiston CDK-assetiksi jo synth-vaiheessa. `aoe-infra/lib/frontend-stack.ts` julkaisee sen kahdessa erässä, koska `Cache-Control`
+asetetaan erä kerrallaan:
+
+| Erä               | Sisältö                                                | `Cache-Control`                         |
+| ----------------- | ------------------------------------------------------ | --------------------------------------- |
+| Tiivisteellä nimetyt | bundlet, `media/`, sourcemapit                      | `public, max-age=31536000, immutable`   |
+| Sisäänmenopisteet | `index.html`, `i18n/*`, `robots.txt`, `assets/*`        | `no-cache`                              |
+
+Kumpikaan erä ei poista vanhoja objekteja, joten vanhaa `index.html`-tiedostoa käyttävä selain saa edelleen haettua siihen viittaavat chunkit. Sisäänmenopisteiden erä riippuu
+tiivisteellä nimettyjen erästä, joten `index.html` ei koskaan päädy bucketiin ennen niitä, ja se lähettää `/*`-invalidoinnin.
+
+Bucket on yksityinen ja siihen päästään vain Origin Access Controlin kautta. Syvälinkeillä ei ole omaa S3-avainta, joten `resources/functions/viewer-request.js` kirjoittaa
+jokaisen tiedostopäätteettömän polun muotoon `/index.html` — tämä korvaa Nginxin `try_files`-säännön — kun taas backend-prefiksit ja tiedostopäätteelliset polut menevät läpi
+koskemattomina. Sama funktio hoitaa dev- ja qa-ympäristöjen basic auth -suojauksen, ja se on kiinnitetty jokaiseen behavioriin, jotta suojaus kattaa myös `/api/*`-polut kuten
+silloin kun se oli kiinni catch-all-säännössä. Prodissa tunnuksia ei ole määritelty, joten funktio vain uudelleenkirjoittaa polut.
+
+Kontti on edelleen olemassa ja se buildataan edelleen. Se on paluutie: CloudFrontin oletuskäyttäytymisen osoittaminen takaisin ALB:hen palauttaa aiemman tarjoilutavan yhdellä
+distribuution päivityksellä. AOE-96-6 poistaa ECS-palvelun, ECR-repositorion ja OpenResty-riippuvuuden sekä ohjaa CI:n staattiseen palvelimeen.
 
 ---
 

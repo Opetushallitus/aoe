@@ -4,19 +4,23 @@ AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs 3 mic
 
 ## Request Routing
 
-All traffic enters through an Application Load Balancer. Path-based rules route requests to the correct service, with the frontend as the catch-all fallback.
+All traffic enters through CloudFront. Its default cache behavior serves the frontend from S3, and every backend path has an explicit behavior forwarding to the Application Load Balancer, where path-based rules pick the service. Anything without a matching behavior therefore lands on S3 — which is why the backend patterns are enumerated rather than wildcarded.
 
-| Path Pattern | Service | Container Port | ALB Priority |
+| Path Pattern | CloudFront Origin | Then | Container Port |
 |---|---|---|---|
-| `/api/*`, `/h5p/*`, `/embed/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | web-backend | 3000 | 120 |
-| `/stream/api/v1*` | streaming-app | 3001 | 110 |
-| `/*` (catch-all) | web-frontend | 8080 | 49000 |
+| `/api/*`, `/h5p/*`, `/embed/material/*`, `/embed/download/*`, `/embed/pdf/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | ALB | web-backend | 3000 |
+| `/stream/api/v1*` | ALB | streaming-app | 3001 |
+| everything else, including `/embed/:id/:lang` | S3 (`aoe-frontend-<env>`) | — | — |
+
+The three `/embed/` subpaths are listed individually on purpose: `/embed/:id/:lang` is an Angular route that must reach S3, so collapsing them to `/embed/*` would send the embed view to the backend.
+
+The ALB still carries a `/*` catch-all rule to the web-frontend container at priority 49000. Nothing reaches it through CloudFront any more; it exists as the revert path until AOE-96-6 removes the service.
 
 ## Services
 
 ### 1. aoe-web-frontend
 
-**Angular 20** (TypeScript) | Served by OpenResty/Nginx on port 8080
+**Angular 21** (TypeScript) | Served from S3 behind CloudFront
 
 The user-facing single-page application. Educators and learners use it to browse, search, publish, rate, and organize educational materials. Also provides an admin interface for moderation, analytics, and material management, and an embeddable material view for third-party sites. Supports Finnish, English, and Swedish.
 
@@ -30,11 +34,22 @@ The user-facing single-page application. Educators and learners use it to browse
 | web-backend (statistics) | `/api/v2/statistics/prod` | Admin dashboard statistics — material activity and search request totals by time interval, distributions by educational level/subject/organization |
 | web-backend (embed) | `/embed` | Material data for the embeddable iframe view |
 
-#### Future: Replace ECS with S3 + CloudFront
+#### How the static site is delivered
 
-This service doesn't need to run as a container. The Nginx config does almost nothing — it serves static files with no URL rewrites, no proxy rules, no custom headers, and no Lua scripting, and there is no longer any startup-time configuration: the app calls the backend over relative URLs, so one build serves every environment.
+The app is a pure client-side SPA with no startup-time configuration — it calls the backend over relative URLs, so one build serves every environment. `aoe-infra/lib/cloudfront-stack.ts` defines the delivery layer for dev, qa and prod alike:
 
-The frontend is therefore purely static files and can be served from S3 behind CloudFront, removing one ECS service, one container image, and the OpenResty dependency entirely. What remains is CloudFront work: an S3 origin as the default cache behavior, an explicit behavior per backend path, and a viewer-request function to serve `index.html` for deep links in place of Nginx's `try_files`.
+`npm run build --configuration production` emits `dist` with content-hashed filenames, and `deploy-scripts/deploy.sh` runs it before `cdk`, because the bucket deployment stages `dist` as a CDK asset at synth time. `aoe-infra/lib/frontend-stack.ts` publishes it in two passes, since `Cache-Control` is set per deployment:
+
+| Group | Contents | `Cache-Control` |
+|---|---|---|
+| Hashed output | bundles, `media/`, sourcemaps | `public, max-age=31536000, immutable` |
+| Entry points | `index.html`, `i18n/*`, `robots.txt`, `assets/*` | `no-cache` |
+
+Neither pass prunes, so a client holding an older `index.html` can still fetch the chunks it references. The entry-point pass depends on the hashed one, so `index.html` never lands before them, and it submits a `/*` invalidation.
+
+The bucket is private and reached only through Origin Access Control. Deep links have no S3 key of their own, so `resources/functions/viewer-request.js` rewrites any path with no file extension to `/index.html` — the replacement for Nginx's `try_files` — while backend prefixes and anything with an extension pass through untouched. The same function carries the basic-auth gate in dev and qa, attached to every behavior so the protection covers `/api/*` as it did when the gate sat on the catch-all; in prod no credentials are configured and it only rewrites.
+
+The container still exists and still builds. It is the revert path: pointing CloudFront's default behavior back at the ALB restores the previous delivery in one distribution update. AOE-96-6 removes the ECS service, the ECR repository and the OpenResty dependency, and repoints CI at a static server.
 
 ---
 
@@ -186,7 +201,7 @@ A stateless media streaming proxy between S3 and the browser. It exists to separ
 
 | Service | Language | Framework | Port |
 |---|---|---|---|
-| web-frontend | TypeScript | Angular 20 + OpenResty/Nginx | 8080 |
+| web-frontend | TypeScript | Angular 21 + OpenResty/Nginx | 8080 |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
 | streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
 
