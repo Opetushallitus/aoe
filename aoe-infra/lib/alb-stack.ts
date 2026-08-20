@@ -81,27 +81,11 @@ export class AlbStack extends cdk.Stack {
       protocol: elbv2.ApplicationProtocol.HTTPS,
       open: false,
       certificates: [this.certificate],
-      sslPolicy: elbv2.SslPolicy.TLS12
-    })
-
-    // create ALB default target group
-    const albDefaultTargetGroup = new elbv2.ApplicationTargetGroup(this, 'alb-target-group', {
-      vpc: props.vpc,
-      port: 80,
-      protocol: elbv2.ApplicationProtocol.HTTP,
-      targetType: elbv2.TargetType.IP,
-      healthCheck: {
-        healthyThresholdCount: 5,
-        interval: cdk.Duration.seconds(30),
-        path: '/',
-        protocol: elbv2.Protocol.HTTP,
-        timeout: cdk.Duration.seconds(10),
-        unhealthyThresholdCount: 2
-      }
-    })
-
-    this.albListener.addTargetGroups('dummyTargetGroup', {
-      targetGroups: [albDefaultTargetGroup]
+      sslPolicy: elbv2.SslPolicy.TLS12,
+      defaultAction: elbv2.ListenerAction.fixedResponse(404, {
+        contentType: 'text/plain',
+        messageBody: 'Not Found'
+      })
     })
 
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
