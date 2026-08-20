@@ -14,7 +14,6 @@ export interface EnvironmentConfig {
     domain: string
   }
   services: {
-    web_frontend: ServiceConfig
     web_backend: ServiceConfig
     streaming: ServiceConfig
   }

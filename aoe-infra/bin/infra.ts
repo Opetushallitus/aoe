@@ -15,10 +15,9 @@ import { CloudfrontStack } from '../lib/cloudfront-stack'
 import { KmsStack } from '../lib/kms-stack'
 import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
-import { FrontendBucketStack } from '../lib/front-end-bucket-stack'
-import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
+import { EmptyStack } from '../lib/empty-stack'
 import { ElasticacheServerlessStack } from '../lib/redis-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
 import { BastionStack } from '../lib/bastion-stack'
@@ -247,20 +246,21 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cloudFrontDistribution: Cloudfront.distribution
   })
 
-  const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
+  const frontEndBucket = new EmptyStack(app, 'FrontEndBucketStack', {
     env: envEU,
-    stackName: `${environmentName}-frontend-bucket`,
-    environment: environmentName
+    stackName: `${environmentName}-frontend-bucket`
   })
 
-  new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
+  const frontEndContentDeployment = new EmptyStack(app, 'FrontEndContentDeploymentStack', {
     env: envEU,
-    crossRegionReferences: true,
-    stackName: `${environmentName}-frontend-deployment`,
-    environment: environmentName,
-    bucket: FrontEndBucket.bucket,
-    cloudFrontDistribution: Cloudfront.distribution
+    stackName: `${environmentName}-frontend-deployment`
   })
+
+  // AOE-96-6 teardown: emptying a stack drops the references that used to order it, so these
+  // say what the removed references said. Each importer has to update before the stack whose
+  // export it holds, or CloudFormation refuses to delete an export still in use.
+  frontEndBucket.addDependency(Cloudfront)
+  frontEndBucket.addDependency(frontEndContentDeployment)
 
   const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
     env: envEU,
@@ -465,36 +465,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     }
   })
 
-  new EcsServiceStack(app, 'WebFrontendEcsService', {
+  const webFrontendService = new EmptyStack(app, 'WebFrontendEcsService', {
     env: envEU,
-    stackName: `${environmentName}-web-frontend-service`,
-    serviceName: 'web-frontend',
-    environment: environmentName,
-    cluster: FargateCluster.fargateCluster,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
-    revision: revision,
-    allowEcsExec: config.services.web_frontend.allow_ecs_exec,
-    taskCpu: config.services.web_frontend.cpu_limit,
-    taskMemory: config.services.web_frontend.memory_limit,
-    minimumCount: config.services.web_frontend.min_count,
-    maximumCount: config.services.web_frontend.max_count,
-    cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {},
-    parameter_store_secrets: [],
-    secrets_manager_secrets: [],
-    utilityAccountId: utilityAccountId,
-    listener: Alb.albListener,
-    listenerPathPatterns: ['/*'],
-    healthCheckPath: '/health',
-    healthCheckGracePeriod: 120,
-    healthCheckInterval: 5,
-    healthCheckTimeout: 2,
-    albPriority: 49000,
-    iAmPolicyStatements: [],
-    privateDnsNamespace: namespace.privateDnsNamespace,
-    alarmSnsTopic: Monitor.topic
+    stackName: `${environmentName}-web-frontend-service`
   })
+
+  SecurityGroups.addDependency(webFrontendService)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,

@@ -7,13 +7,6 @@ export const dev: EnvironmentConfig = {
     domain: 'dev.aoe.fi'
   },
   services: {
-    web_frontend: {
-      cpu_limit: '512',
-      memory_limit: '1024',
-      min_count: 1,
-      max_count: 1,
-      allow_ecs_exec: true
-    },
     web_backend: {
       cpu_limit: '512',
       memory_limit: '1024',
