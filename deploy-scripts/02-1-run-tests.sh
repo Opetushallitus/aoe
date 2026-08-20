@@ -24,6 +24,13 @@ function run_unit_tests {
   popd
 }
 
+function build_frontend {
+  pushd "$repo/aoe-web-frontend"
+  npm_ci_if_package_lock_has_changed
+  npm run build
+  popd
+}
+
 function run_playwright_tests {
   $compose up --abort-on-container-exit --quiet-pull --exit-code-from test-runner
 }
@@ -36,11 +43,11 @@ function main {
 
   if running_on_gh_actions; then
     export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
-    export AOE_WEB_FRONTEND_TAG="${github_registry}aoe-web-frontend:${revision}"
     export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
   fi
 
   run_unit_tests
+  build_frontend
   run_playwright_tests
 }
 
