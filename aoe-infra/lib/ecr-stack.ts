@@ -6,7 +6,6 @@ import { Construct } from 'constructs'
 interface EcrStackProps extends StackProps {
   serviceName: string
   githubActionsDeploymentRole: iam.Role
-  emptyOnDelete?: boolean
 }
 
 export class EcrStack extends Stack {
@@ -18,7 +17,6 @@ export class EcrStack extends Stack {
     this.repository = new Repository(this, 'Repository', {
       repositoryName: `${props.serviceName}`,
       removalPolicy: RemovalPolicy.DESTROY,
-      emptyOnDelete: props.emptyOnDelete ?? false,
       imageTagMutability: TagMutability.IMMUTABLE
     })
 

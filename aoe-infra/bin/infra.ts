@@ -453,13 +453,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: `${environmentName}-utility`
   })
 
-  new EcrStack(app, 'FrontendEcrStack', {
-    env: envEU,
-    stackName: 'aoe-web-frontend-ecr',
-    serviceName: 'aoe-web-frontend',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole,
-    emptyOnDelete: true
-  })
   new EcrStack(app, 'BackendEcrStack', {
     env: envEU,
     stackName: 'aoe-web-backend-ecr',
