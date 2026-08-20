@@ -10,7 +10,11 @@ import {
   ModifyDBClusterCommand,
   RDSClient
 } from '@aws-sdk/client-rds'
-import { ExecuteStatementCommand, RDSDataClient } from '@aws-sdk/client-rds-data'
+import {
+  ExecuteStatementCommand,
+  HttpEndpointNotEnabledException,
+  RDSDataClient
+} from '@aws-sdk/client-rds-data'
 import type { Context, EventBridgeEvent } from 'aws-lambda'
 
 import type { RestoreJobDetail, ValidationOutcome } from './types'
@@ -76,11 +80,16 @@ export const handler = async (
         return described.DBInstances?.[0]?.DBInstanceStatus === 'available'
       }
     )
-    await waitFor(deadline, POLL_INTERVAL_MS, `the Data API on ${clusterId}`, async () => {
-      return await enableDataApi(clusterArn)
-    })
+    await waitFor(
+      deadline,
+      POLL_INTERVAL_MS,
+      `the Data API to be enabled on ${clusterId}`,
+      async () => {
+        return await enableDataApi(clusterArn)
+      }
+    )
 
-    outcome = await validate(clusterArn)
+    outcome = await validate(clusterArn, deadline)
   } catch (err) {
     outcome = { passed: false, message: describeError(err), counts: {} }
   } finally {
@@ -182,11 +191,25 @@ async function createInstance(clusterId: string, instanceId: string): Promise<vo
   )
 }
 
-async function validate(clusterArn: string): Promise<ValidationOutcome> {
+async function validate(clusterArn: string, deadline: number): Promise<ValidationOutcome> {
   const secretArn = process.env.DB_SECRET_ARN
   if (!secretArn) {
     throw new Error('DB_SECRET_ARN is not set')
   }
+
+  // EnableHttpEndpoint reports the endpoint as enabled well before it accepts queries, so
+  // readiness can only be established by querying until the endpoint stops rejecting.
+  await waitFor(deadline, POLL_INTERVAL_MS, 'the Data API to answer queries', async () => {
+    try {
+      await count(clusterArn, secretArn, `SELECT 1 AS ${COUNT_COLUMN}`)
+      return true
+    } catch (err) {
+      if (err instanceof HttpEndpointNotEnabledException) {
+        return false
+      }
+      throw err
+    }
+  })
 
   const counts: Record<string, number> = {}
   for (const table of NON_EMPTY_TABLES) {

@@ -99,6 +99,7 @@ aws rds create-db-instance --profile aoe-dev --region eu-west-1 \
 - `rdsKmsKey` is `RemovalPolicy.RETAIN`: it encrypts every snapshot, and deleting it would eventually make all of them unreadable. Do not change this without understanding that.
 - AWS Backup needs no KMS key-policy grant. CDK's default `kms:*` AccountRootPrincipal statement delegates to IAM, and the selection role's `AWSBackupServiceRolePolicyForBackup` carries `kms:CreateGrant`, which is what RDS snapshot encryption actually uses.
 - `ModifyDBCluster`'s `EnableHttpEndpoint` applies **only to Aurora Serverless v1**. A restored cluster is `provisioned` engine mode, so the call succeeds and returns `HttpEndpointEnabled: false` — no error, just a no-op. Serverless v2 and provisioned clusters need the separate [`EnableHttpEndpoint`](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_EnableHttpEndpoint.html) operation, which is what the validator calls.
+- `EnableHttpEndpoint` returns `HttpEndpointEnabled: true` before the endpoint actually serves traffic, and `DescribeDBClusters` agrees with it. There is no field that reports readiness, so the only way to wait is to keep issuing a trivial query until `ExecuteStatement` stops throwing `HttpEndpointNotEnabledException` ("HttpEndpoint is being enabled").
 
 ### Restore verification
 
