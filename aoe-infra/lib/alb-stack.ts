@@ -91,7 +91,7 @@ export class AlbStack extends cdk.Stack {
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
 
     const alb5xxAlarm = new Alarm(this, `Alb5xxAlarm`, {
-      alarmName: 'Alb5xxAlarm',
+      alarmName: `${props.environment}-aoe-alb-5xx-alarm`,
       metric: this.alb.metrics.httpCodeElb(elbv2.HttpCodeElb.ELB_5XX_COUNT, {
         statistic: 'Sum',
         period: cdk.Duration.minutes(5)
