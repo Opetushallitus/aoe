@@ -9,6 +9,10 @@ import * as targets from 'aws-cdk-lib/aws-route53-targets'
 import * as acm from 'aws-cdk-lib/aws-certificatemanager'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import { readFileSync } from 'fs'
+import {
+  CLOUDFRONT_ORIGIN_VERIFY_HEADER,
+  cloudfrontOriginSecretValue
+} from './secrets-manager-stack'
 
 interface CloudfrontStackProps extends StackProps {
   domain: string
@@ -88,7 +92,8 @@ export class CloudfrontStack extends Stack {
 
     const albBehavior: cloudfront.BehaviorOptions = {
       origin: new origins.LoadBalancerV2Origin(props.alb, {
-        protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY
+        protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
+        customHeaders: { [CLOUDFRONT_ORIGIN_VERIFY_HEADER]: cloudfrontOriginSecretValue() }
       }),
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,

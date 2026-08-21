@@ -18,12 +18,23 @@ export type Secrets = {
   [key: string]: SecretEntry
 }
 
+export const CLOUDFRONT_ORIGIN_SECRET_NAME = '/service/alb/CLOUDFRONT_ORIGIN_SECRET'
+export const CLOUDFRONT_ORIGIN_SECRET_KEY = 'secretkey'
+export const CLOUDFRONT_ORIGIN_VERIFY_HEADER = 'x-origin-verify'
+
+export function cloudfrontOriginSecretValue(): string {
+  return cdk.SecretValue.secretsManager(CLOUDFRONT_ORIGIN_SECRET_NAME, {
+    jsonField: CLOUDFRONT_ORIGIN_SECRET_KEY
+  }).unsafeUnwrap()
+}
+
 // Stack for secrets generated on the fly (mostly resources that don't support Parameter Store)
 export class SecretManagerStack extends cdk.Stack {
   public readonly pagerdutyEventUrl: secretsmanager.Secret
   public readonly semanticApisPassword: secretsmanager.Secret
   public readonly webBackendAuroraPassword: secretsmanager.Secret
   public readonly webBackendPassportSessionSecret: secretsmanager.Secret
+  public readonly cloudfrontOriginSecret: secretsmanager.Secret
 
   public readonly secrets: Secrets = {
     PAGERDUTY_EVENT_URL: {
@@ -105,6 +116,16 @@ export class SecretManagerStack extends cdk.Stack {
         }
       }
     )
+
+    this.cloudfrontOriginSecret = new secretsmanager.Secret(this, 'CloudfrontOriginSecret', {
+      secretName: CLOUDFRONT_ORIGIN_SECRET_NAME,
+      generateSecretString: {
+        secretStringTemplate: JSON.stringify({}),
+        generateStringKey: CLOUDFRONT_ORIGIN_SECRET_KEY,
+        passwordLength: 32,
+        excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+      }
+    })
 
     this.webBackendAuroraPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
       secretName: '/auroradbs/web-backend/master-user-password',
