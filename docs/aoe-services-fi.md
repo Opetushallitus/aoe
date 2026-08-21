@@ -38,6 +38,9 @@ jokaisen tiedostopäätteettömän polun muotoon `/index.html` — tämä korvaa
 koskemattomina. Sama funktio hoitaa dev- ja qa-ympäristöjen basic auth -suojauksen, ja se on kiinnitetty jokaiseen behavioriin, jotta suojaus kattaa backend-polut siinä missä
 SPA:n. Prodissa tunnuksia ei ole määritelty, joten funktio vain uudelleenkirjoittaa polut.
 
+CloudFront lisää origin-pyyntöihin varmennusotsakkeen, ja jokainen ALB:n kuuntelijasääntö vaatii sen polkuehtojen lisäksi. Pyyntö joka ei osu yhteenkään sääntöön päätyy
+kuuntelijan oletustoimintoon eli kiinteään `404`-vastaukseen.
+
 Paikallinen kehitysympäristö on poikkeus: `docker-compose.local-dev.yml` ajaa Angularin kehityspalvelinta (`ng serve`, tiedostosta `aoe-web-frontend/docker/Dockerfile.local`)
 paikallisen nginxin takana, ja CI:n Playwright-ympäristö tarjoilee `dist`-hakemiston nginx-kontista. Kumpikaan ei kulje CloudFrontin kautta, joten reititystaulu ja yllä kuvattu
 polun uudelleenkirjoitus toteutuvat vain deployatussa ympäristössä.

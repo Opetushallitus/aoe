@@ -14,7 +14,9 @@ All traffic enters through CloudFront. Its default cache behavior serves the fro
 
 The three `/embed/` subpaths are listed individually on purpose: `/embed/:id/:lang` is an Angular route that must reach S3, so collapsing them to `/embed/*` would send the embed view to the backend.
 
-A request reaching the ALB that matches none of the rules above falls through to the listener's default action — a target group with no registered targets, in `aoe-infra/lib/alb-stack.ts` — so the load balancer answers 503. The listener accepts 443 from any address and has its own `alb.<domain>` record, so the paths above are also reachable directly, without passing through CloudFront or the viewer-request function.
+Each listener rule matches on its path patterns and on an origin verification header that CloudFront adds to origin requests. A request matching no rule falls through to the listener's default action, a fixed `404 Not Found` in `aoe-infra/lib/alb-stack.ts`.
+
+Both sides resolve the header value from the same secret, so rotating it means updating the secret and redeploying the CloudFront stack before the ECS service stacks.
 
 ## Services
 

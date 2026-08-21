@@ -49,7 +49,11 @@ import * as logsDestinations from 'aws-cdk-lib/aws-logs-destinations'
 import * as path from 'node:path'
 import { Volume } from 'aws-cdk-lib/aws-ecs/lib/base/task-definition'
 import { MountPoint } from 'aws-cdk-lib/aws-ecs/lib/container-definition'
-import { SecretEntry } from './secrets-manager-stack'
+import {
+  CLOUDFRONT_ORIGIN_VERIFY_HEADER,
+  cloudfrontOriginSecretValue,
+  SecretEntry
+} from './secrets-manager-stack'
 
 interface EcsServiceStackProps extends StackProps {
   environment: string
@@ -262,9 +266,11 @@ export class EcsServiceStack extends Stack {
       loadBalancingAlgorithmType: TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS
     })
 
+    // The limit counts every condition value in a rule, so the verification header takes one
     const RULE_CONDITION_VALUE_LIMIT = 5
-    for (let i = 0; i < props.listenerPathPatterns.length; i += RULE_CONDITION_VALUE_LIMIT) {
-      const chunkIndex = i / RULE_CONDITION_VALUE_LIMIT
+    const PATH_PATTERNS_PER_RULE = RULE_CONDITION_VALUE_LIMIT - 1
+    for (let i = 0; i < props.listenerPathPatterns.length; i += PATH_PATTERNS_PER_RULE) {
+      const chunkIndex = i / PATH_PATTERNS_PER_RULE
       new ApplicationListenerRule(
         this,
         chunkIndex === 0 ? 'serviceDefaultRule' : `serviceDefaultRule${chunkIndex}`,
@@ -273,8 +279,11 @@ export class EcsServiceStack extends Stack {
           priority: props.albPriority + chunkIndex,
           conditions: [
             ListenerCondition.pathPatterns(
-              props.listenerPathPatterns.slice(i, i + RULE_CONDITION_VALUE_LIMIT)
-            )
+              props.listenerPathPatterns.slice(i, i + PATH_PATTERNS_PER_RULE)
+            ),
+            ListenerCondition.httpHeader(CLOUDFRONT_ORIGIN_VERIFY_HEADER, [
+              cloudfrontOriginSecretValue()
+            ])
           ],
           targetGroups: [targetGroup]
         }
