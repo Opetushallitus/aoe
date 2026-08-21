@@ -105,7 +105,6 @@ export class CloudfrontStack extends Stack {
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
       domainNames: [props.domain],
       certificate: props.certificate,
-      defaultRootObject: 'index.html',
       defaultBehavior: spaBehavior,
       additionalBehaviors: Object.fromEntries(
         BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])
