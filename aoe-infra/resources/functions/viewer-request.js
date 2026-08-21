@@ -89,6 +89,15 @@ function isBackendPath(uri) {
   return BACKEND_PREFIXES.some((prefix) => uri.startsWith(prefix))
 }
 
+// Keyed on the bucket layout rather than on file extensions, because a route segment can end in
+// something extension-shaped: /materiaali/:id/:versionDate carries an ISO timestamp.
+const STATIC_DIRECTORIES = ['/assets/', '/i18n/', '/media/']
+const ROOT_FILE = /^\/[^/]+\.[^/]+$/
+
+function isStaticAsset(uri) {
+  return STATIC_DIRECTORIES.some((prefix) => uri.startsWith(prefix)) || ROOT_FILE.test(uri)
+}
+
 async function handler(event) {
   const request = event.request
 
@@ -97,7 +106,7 @@ async function handler(event) {
     return denied
   }
 
-  if (!isBackendPath(request.uri) && !request.uri.includes('.')) {
+  if (!isBackendPath(request.uri) && !isStaticAsset(request.uri)) {
     request.uri = '/index.html'
   }
 
