@@ -62,7 +62,7 @@
     "morgan": "1.11.0",
     "multer": "2.2.0",
     "node-stream-zip": "1.16.0",
-    "openid-client": "6.8.6",
+    "openid-client": "6.8.7",
     "passport": "0.7.0",
     "pg": "8.23.0",
     "pg-promise": "12.7.0",
