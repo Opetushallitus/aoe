@@ -2,6 +2,7 @@ import { BackupClient, PutRestoreValidationResultCommand } from '@aws-sdk/client
 import {
   CreateDBInstanceCommand,
   type DBCluster,
+  DBInstanceNotFoundFault,
   DeleteDBInstanceCommand,
   DescribeDBClustersCommand,
   DescribeDBInstancesCommand,
@@ -94,7 +95,7 @@ export const handler = async (
     outcome = { passed: false, message: describeError(err), counts: {} }
   } finally {
     if (instanceRequested) {
-      cleanupFailure = await deleteInstance(instanceId)
+      cleanupFailure = await deleteInstance(instanceId, deadline)
     }
   }
 
@@ -267,13 +268,54 @@ async function count(clusterArn: string, secretArn: string, sql: string): Promis
   throw new Error(`Query did not return a numeric ${COUNT_COLUMN}: ${sql}`)
 }
 
-async function deleteInstance(instanceId: string): Promise<string | undefined> {
+async function deleteAndWait(
+  deadline: number,
+  intervalMs: number,
+  description: string,
+  requestDeletion: () => Promise<void>,
+  isDeleted: () => Promise<boolean>
+): Promise<void> {
+  await requestDeletion()
+  await waitFor(deadline, intervalMs, description, isDeleted)
+}
+
+async function deleteInstance(instanceId: string, deadline: number): Promise<string | undefined> {
+  async function requestInstanceDeletion(): Promise<void> {
+    try {
+      await rds.send(
+        new DeleteDBInstanceCommand({
+          DBInstanceIdentifier: instanceId,
+          SkipFinalSnapshot: true
+        })
+      )
+    } catch (err) {
+      if (!(err instanceof DBInstanceNotFoundFault)) {
+        throw err
+      }
+    }
+  }
+
+  async function isInstanceDeleted(): Promise<boolean> {
+    try {
+      const described = await rds.send(
+        new DescribeDBInstancesCommand({ DBInstanceIdentifier: instanceId })
+      )
+      return described.DBInstances?.length === 0
+    } catch (err) {
+      if (err instanceof DBInstanceNotFoundFault) {
+        return true
+      }
+      throw err
+    }
+  }
+
   try {
-    await rds.send(
-      new DeleteDBInstanceCommand({
-        DBInstanceIdentifier: instanceId,
-        SkipFinalSnapshot: true
-      })
+    await deleteAndWait(
+      deadline,
+      POLL_INTERVAL_MS,
+      `instance ${instanceId} to be deleted`,
+      requestInstanceDeletion,
+      isInstanceDeleted
     )
     return undefined
   } catch (err) {
