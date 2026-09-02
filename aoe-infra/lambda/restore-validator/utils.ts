@@ -1,8 +1,6 @@
-const UNQUOTED_IDENTIFIER = /^[a-z_][a-z0-9_]*$/
+import { setTimeout as sleep } from 'node:timers/promises'
 
-export function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
+const UNQUOTED_IDENTIFIER = /^[a-z_][a-z0-9_]*$/
 
 export async function waitFor(
   deadline: number,
