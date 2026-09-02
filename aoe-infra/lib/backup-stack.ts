@@ -81,6 +81,9 @@ export class BackupStack extends Stack {
     })
 
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
+    const backupMetricDimensions = {
+      BackupVaultName: backupVault.backupVaultName
+    }
 
     const backupJobFailedAlarm = new cloudwatch.Alarm(this, 'BackupJobFailedAlarm', {
       alarmName: `${props.environment}-aoe-backup-job-failed-alarm`,
@@ -88,6 +91,7 @@ export class BackupStack extends Stack {
       metric: new cloudwatch.Metric({
         metricName: 'NumberOfBackupJobsFailed',
         namespace: 'AWS/Backup',
+        dimensionsMap: backupMetricDimensions,
         period: cdk.Duration.minutes(15),
         statistic: cloudwatch.Stats.SUM
       }),
@@ -107,6 +111,7 @@ export class BackupStack extends Stack {
       metric: new cloudwatch.Metric({
         metricName: 'NumberOfBackupJobsCompleted',
         namespace: 'AWS/Backup',
+        dimensionsMap: backupMetricDimensions,
         period: cdk.Duration.hours(25),
         statistic: cloudwatch.Stats.SUM
       }),
@@ -262,6 +267,7 @@ export class BackupStack extends Stack {
       metric: new cloudwatch.Metric({
         metricName: 'NumberOfRestoreJobsFailed',
         namespace: 'AWS/Backup',
+        dimensionsMap: backupMetricDimensions,
         period: cdk.Duration.minutes(15),
         statistic: cloudwatch.Stats.SUM
       }),
