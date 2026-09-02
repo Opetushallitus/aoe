@@ -74,7 +74,7 @@
     "zod": "4.5.4"
   },
   "overrides": {
-    "qs": "6.15.3"
+    "qs": "6.16.0"
   },
   "devDependencies": {
     "@types/compression": "1.8.1",
