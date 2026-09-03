@@ -215,7 +215,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const Alb = new AlbStack(app, 'AlbStack', {
     env: envEU,
     environment: environmentName,
-    crossRegionReferences: true,
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
