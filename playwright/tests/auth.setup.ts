@@ -31,6 +31,11 @@ const waitForAppToBeReady = async (page: Page): Promise<void> => {
 }
 
 setup.beforeAll(async ({ browser }) => {
+  // The hook would otherwise keep Playwright's default 30s timeout and be killed
+  // half way through the poll loop, so APP_READY_TIMEOUT_MS could never elapse.
+  // The extra minute covers launching the browser and the final navigation.
+  setup.setTimeout(APP_READY_TIMEOUT_MS + 60_000)
+
   const page = await browser.newPage()
   await waitForAppToBeReady(page)
   await page.close()
