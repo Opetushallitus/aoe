@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
+import { Runtime } from 'aws-cdk-lib/aws-lambda'
+import { CustomResourceConfig } from 'aws-cdk-lib/custom-resources'
 import { dev } from '../environments/dev'
 import { qa } from '../environments/qa'
 import { prod } from '../environments/prod'
@@ -37,6 +39,10 @@ import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
 import { BackupStack } from '../lib/backup-stack'
 
 const app = new cdk.App()
+
+// Keep CDK-managed custom-resource Lambdas, including cross-region reference
+// handlers, on a supported Node.js runtime instead of relying on CDK's default.
+CustomResourceConfig.of(app).addLambdaRuntime(Runtime.NODEJS_24_X)
 
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
