@@ -84,13 +84,12 @@ export async function setPerusopetuksenOppiaineet(): Promise<void> {
       )
       return
     }
-    const conditions = [
-      478970, 502088, 466346, 466345, 530524, 466347, 502086, 466342, 530525, 478971, 466344,
-      466343, 605632, 478973, 478972, 428820, 600170, 466340, 605630, 502087
-    ]
-    const urlParam: string = conditions.some((el: number) => row.key === el)
-      ? `${params}/${row.key}`
-      : `${params}/oppimaarat/${row.key}`
+    // An oppimäärä is only served under its parent subject. The synthetic parent 999
+    // groups the top level subjects that have no oppimaarat of their own.
+    const urlParam: string =
+      row.parent && row.parent !== 999
+        ? `${params}/${row.parent}/oppimaarat/${row.key}`
+        : `${params}/${row.key}`
 
     const result: Record<string, unknown>[] = await getDataFromApi(
       config.EXTERNAL_API.ePerusteet,
@@ -294,7 +293,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<void> {
 
   await Promise.all(subjects).then((data: Awaited<unknown>[]) => {
     data.forEach((subject: Awaited<unknown>[]) => {
-      const urlParam: string = (subject as any).key === 999 ? `${params}` : `${params}/oppimaarat`
+      const urlParam: string =
+        (subject as any).key === 999 ? `${params}` : `${params}/${(subject as any).key}/oppimaarat`
       const childrenFi: AlignmentObjectExtended[] = data
         .filter((e: Awaited<unknown>[]) => (e as any).parent === (subject as any).key)
         .map<AlignmentObjectExtended>((child: Awaited<unknown>[]) => {

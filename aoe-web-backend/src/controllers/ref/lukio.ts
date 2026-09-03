@@ -63,21 +63,23 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
       return
     }
 
+    const subjectId = (subject as any).id
+
     if ((subject as any).moduulit?.length > 0) {
       finnishSubjects.push({
-        key: (subject as any).id,
+        key: subjectId,
         source: 'upperSecondarySchoolSubjectsNew',
         alignmentType: 'educationalSubject',
         targetName: (subject as any).nimi.fi || (subject as any).nimi.sv,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${(subject as any).id}`
+        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}`
       })
 
       swedishSubjects.push({
-        key: (subject as any).id,
+        key: subjectId,
         source: 'upperSecondarySchoolSubjectsNew',
         alignmentType: 'educationalSubject',
         targetName: (subject as any).nimi.sv || (subject as any).nimi.fi,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${(subject as any).id}`
+        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}`
       })
 
       for (const module of (subject as any).moduulit) {
@@ -88,13 +90,13 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
         finnishModules.push({
           key: module.id,
           parent: {
-            key: (subject as any).id,
+            key: subjectId,
             value: (subject as any).nimi.fi || (subject as any).nimi.sv
           },
           source: 'upperSecondarySchoolModulesNew',
           alignmentType: 'educationalSubject',
           targetName: module.nimi.fi || module.nimi.sv,
-          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${(subject as any).id}/moduulit/${
+          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/moduulit/${
             module.id
           }`
         })
@@ -102,13 +104,13 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
         swedishModules.push({
           key: module.id,
           parent: {
-            key: (subject as any).id,
+            key: subjectId,
             value: (subject as any).nimi.sv || (subject as any).nimi.fi
           },
           source: 'upperSecondarySchoolModulesNew',
           alignmentType: 'educationalSubject',
           targetName: module.nimi.sv || module.nimi.fi,
-          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${(subject as any).id}/moduulit/${
+          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/moduulit/${
             module.id
           }`
         })
@@ -131,7 +133,7 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
             Accept: 'application/json',
             'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
           },
-          `${params}/oppimaarat/${row.id}`
+          `${params}/${subjectId}/oppimaarat/${row.id}`
         )
 
         if (
@@ -149,25 +151,25 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
         finnishSubjects.push({
           key: (course as any).id,
           parent: {
-            key: (subject as any).id,
+            key: subjectId,
             value: (subject as any).nimi.fi || (subject as any).nimi.sv
           },
           source: 'upperSecondarySchoolSubjectsNew',
           alignmentType: 'educationalSubject',
           targetName: (course as any).nimi.fi || (course as any).nimi.sv,
-          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/oppimaarat/${(course as any).id}`
+          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/oppimaarat/${(course as any).id}`
         })
 
         swedishSubjects.push({
           key: (course as any).id,
           parent: {
-            key: (subject as any).id,
+            key: subjectId,
             value: (subject as any).nimi.sv || (subject as any).nimi.en
           },
           source: 'upperSecondarySchoolSubjectsNew',
           alignmentType: 'educationalSubject',
           targetName: (course as any).nimi.sv || (course as any).nimi.fi,
-          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/oppimaarat/${(course as any).id}`
+          targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/oppimaarat/${(course as any).id}`
         })
 
         for (const module of (course as any).moduulit) {
@@ -183,7 +185,7 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
             source: 'upperSecondarySchoolModulesNew',
             alignmentType: 'educationalSubject',
             targetName: module.nimi.fi || module.nimi.sv,
-            targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/oppimaarat/${
+            targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/oppimaarat/${
               (course as any).id
             }/moduulit/${module.id}`
           })
@@ -197,7 +199,7 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
             source: 'upperSecondarySchoolModulesNew',
             alignmentType: 'educationalSubject',
             targetName: module.nimi.sv || module.nimi.fi,
-            targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/oppimaarat/${
+            targetUrl: `${config.EXTERNAL_API.ePerusteet}/${endpoint}/${params}/${subjectId}/oppimaarat/${
               (course as any).id
             }/moduulit/${module.id}`
           })
@@ -298,14 +300,23 @@ export async function setLukionTavoitteetSisallot(): Promise<void> {
   const swedishObjectives: AlignmentObjectExtended[] = []
   const finnishContents: AlignmentObjectExtended[] = []
   const swedishContents: AlignmentObjectExtended[] = []
-  let modules: { id: string; subjectId: number }[] = []
+  let modules: { id: string; subjectId: number; parentSubjectId?: number }[] = []
 
   try {
+    // Only an oppimäärä carries a parent in the stored subjects, and its modules are
+    // served under the full parent path in ePerusteet.
+    const parentBySubjectId = new Map<number, number>(
+      JSON.parse(await getAsync(`${rediskeySubjects}.fi`))
+        .filter((subject: AlignmentObjectExtended) => subject.parent)
+        .map((subject: AlignmentObjectExtended) => [subject.key, subject.parent.key])
+    )
+
     modules = JSON.parse(await getAsync(`${rediskeyModules}.fi`)).map(
       (m: AlignmentObjectExtended) => {
         return {
           id: m.key,
-          subjectId: m.parent.key
+          subjectId: m.parent.key,
+          parentSubjectId: parentBySubjectId.get(m.parent.key)
         }
       }
     )
@@ -320,13 +331,9 @@ export async function setLukionTavoitteetSisallot(): Promise<void> {
       )
       return
     }
-    const conditions = [
-      6832790, 6834385, 6832794, 6832792, 6832796, 6832793, 6834389, 6834387, 6835372, 6832791,
-      6834388, 6835370, 6832795, 6834386, 6832797
-    ]
-    const urlParam: string = conditions.some((el: number) => module.subjectId === el)
-      ? `${params}`
-      : `${params}/oppimaarat`
+    const urlParam: string = module.parentSubjectId
+      ? `${params}/${module.parentSubjectId}/oppimaarat/${module.subjectId}`
+      : `${params}/${module.subjectId}`
 
     const results: Record<string, unknown>[] = await getDataFromApi(
       config.EXTERNAL_API.ePerusteet,
@@ -335,7 +342,7 @@ export async function setLukionTavoitteetSisallot(): Promise<void> {
         Accept: 'application/json',
         'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
       },
-      `${urlParam}/${module.subjectId}/moduulit/${module.id}`
+      `${urlParam}/moduulit/${module.id}`
     )
 
     if (
