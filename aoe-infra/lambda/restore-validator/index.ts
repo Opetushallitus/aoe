@@ -29,7 +29,7 @@ const DATABASE_NAME = 'aoe'
 const NON_EMPTY_TABLES = ['educationalmaterial', 'record', 'users']
 const COUNT_COLUMN = 'count'
 const POLL_INTERVAL_MS = 15_000
-const CLEANUP_RESERVE_MS = 90_000
+const CLEANUP_RESERVE_MS = 45_000
 const RESTORE_TEST_CLUSTER_PREFIX = 'awsbackup-restore-test'
 const VALIDATOR_INSTANCE_PREFIX = 'restore-validator-'
 
