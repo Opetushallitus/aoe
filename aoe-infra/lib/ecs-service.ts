@@ -352,32 +352,29 @@ export class EcsServiceStack extends Stack {
     memoryUtilizationAlarm.addAlarmAction(alarmSnsAction)
     memoryUtilizationAlarm.addOkAction(alarmSnsAction)
 
-    // Let's keep this only for web-backend for now. Include more services once this is stable.
-    if (props.serviceName === 'web-backend') {
-      const errorMetricNamespace = `AOE/WebBackend/${props.environment}`
-      const errorMetricFilter = new logs.MetricFilter(this, 'ErrorLogMetricFilter', {
-        logGroup: ServiceLogGroup,
-        filterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
-        metricNamespace: errorMetricNamespace,
-        metricName: 'ErrorCount',
-        metricValue: '1'
-      })
+    const errorMetricNamespace = `AOE/WebBackend/${props.environment}`
+    const errorMetricFilter = new logs.MetricFilter(this, 'ErrorLogMetricFilter', {
+      logGroup: ServiceLogGroup,
+      filterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
+      metricNamespace: errorMetricNamespace,
+      metricName: 'ErrorCount',
+      metricValue: '1'
+    })
 
-      const errorThresholdAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
-        alarmName: `${props.environment}-${props.serviceName}-ErrorLogAlarm`,
-        metric: errorMetricFilter.metric({
-          statistic: cloudwatch.Stats.SUM,
-          period: Duration.minutes(5)
-        }),
-        threshold: 10,
-        evaluationPeriods: 2,
-        comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
-        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
-      })
+    const errorThresholdAlarm = new cloudwatch.Alarm(this, 'ErrorLogAlarm', {
+      alarmName: `${props.environment}-${props.serviceName}-ErrorLogAlarm`,
+      metric: errorMetricFilter.metric({
+        statistic: cloudwatch.Stats.SUM,
+        period: Duration.minutes(5)
+      }),
+      threshold: 10,
+      evaluationPeriods: 2,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
 
-      errorThresholdAlarm.addAlarmAction(alarmSnsAction)
-      errorThresholdAlarm.addOkAction(alarmSnsAction)
-    }
+    errorThresholdAlarm.addAlarmAction(alarmSnsAction)
+    errorThresholdAlarm.addOkAction(alarmSnsAction)
 
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
       dashboardName: `ECS-${props.serviceName}-Monitoring`
