@@ -138,7 +138,9 @@ export class BackupStack extends Stack {
     backupJobMissingAlarm.addAlarmAction(alarmSnsAction)
     backupJobMissingAlarm.addOkAction(alarmSnsAction)
 
-    if (!ENABLE_RESTORE_TESTING) return
+    if (!ENABLE_RESTORE_TESTING) {
+      return
+    }
 
     const restoreTestingRole = new iam.Role(this, 'RestoreTestingRole', {
       assumedBy: new iam.ServicePrincipal('backup.amazonaws.com'),
