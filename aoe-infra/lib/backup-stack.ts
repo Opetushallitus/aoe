@@ -20,6 +20,10 @@ import * as sns from 'aws-cdk-lib/aws-sns'
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager'
 import * as path from 'path'
 
+// Restore testing is temporarily switched off. While this is false, the daily test
+// restore, the restore-validator Lambda and their alarms are not deployed at all.
+const ENABLE_RESTORE_TESTING = false
+
 const RESTORE_TEST_CLUSTER_PREFIX = 'awsbackup-restore-test'
 const VALIDATOR_INSTANCE_PREFIX = 'restore-validator-'
 
@@ -80,6 +84,16 @@ export class BackupStack extends Stack {
       targets: [new targets.CloudWatchLogGroup(backupEventsLogGroup)]
     })
 
+    new events.Rule(this, 'RestoreJobStateChangeRule', {
+      ruleName: `${props.environment}-aoe-restore-job-state-change`,
+      description: 'Log AWS Backup restore job state changes to the log group',
+      eventPattern: {
+        source: ['aws.backup'],
+        detailType: ['Restore Job State Change']
+      },
+      targets: [new targets.CloudWatchLogGroup(backupEventsLogGroup)]
+    })
+
     const alarmSnsAction = new aws_cloudwatch_actions.SnsAction(props.alarmSnsTopic)
     const backupMetricDimensions = {
       BackupVaultName: backupVault.backupVaultName
@@ -123,6 +137,8 @@ export class BackupStack extends Stack {
     })
     backupJobMissingAlarm.addAlarmAction(alarmSnsAction)
     backupJobMissingAlarm.addOkAction(alarmSnsAction)
+
+    if (!ENABLE_RESTORE_TESTING) return
 
     const restoreTestingRole = new iam.Role(this, 'RestoreTestingRole', {
       assumedBy: new iam.ServicePrincipal('backup.amazonaws.com'),
@@ -249,16 +265,6 @@ export class BackupStack extends Stack {
         }
       },
       targets: [new targets.LambdaFunction(validator)]
-    })
-
-    new events.Rule(this, 'RestoreJobStateChangeRule', {
-      ruleName: `${props.environment}-aoe-restore-job-state-change`,
-      description: 'Log AWS Backup restore job state changes to the log group',
-      eventPattern: {
-        source: ['aws.backup'],
-        detailType: ['Restore Job State Change']
-      },
-      targets: [new targets.CloudWatchLogGroup(backupEventsLogGroup)]
     })
 
     const restoreJobFailedAlarm = new cloudwatch.Alarm(this, 'RestoreJobFailedAlarm', {
