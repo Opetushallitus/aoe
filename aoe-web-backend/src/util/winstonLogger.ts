@@ -4,7 +4,6 @@ import winston, { format, Logger } from 'winston'
 const formatters = [
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   format.errors({ stack: true }),
-  format.splat(),
   format.json()
 ]
 if (process.env.NODE_ENV === 'development') {
@@ -12,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Configuration for logging format and transports
-const winstonLogger: Logger = winston.createLogger({
+export const logger: Logger = winston.createLogger({
   level: process.env.LOG_LEVEL,
   exitOnError: false,
   format: format.combine(...formatters),
@@ -24,28 +23,39 @@ const winstonLogger: Logger = winston.createLogger({
   ]
 })
 
-// Named function exports that wrap winston logger methods
-export const debug = (message: any, ...meta: any[]): void => {
-  const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.debug(message, ...meta, { requestId })
-}
+type Level = 'debug' | 'info' | 'warn' | 'error' | 'http'
 
-export const info = (message: any, ...meta: any[]): void => {
-  const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.info(message, ...meta, { requestId })
-}
+// Build the log entry here instead of letting winston parse the arguments: an Error meta adds
+// its message, stack and code (pg SQLSTATE, Node ECONNREFUSED, …; never pg `detail`, it quotes
+// row values), a plain object merges its fields, anything else (string, array,
+// number) goes under `detail`. util.format placeholders (%s, %o, …) are not supported; use a
+// template string for the message. The current requestId is added from AsyncLocalStorage.
+const withRequestId =
+  (level: Level) =>
+  (message: any, ...meta: any[]): void => {
+    const entry: Record<string, unknown> = {
+      level,
+      message,
+      requestId: asyncLocalStorage.getStore()?.requestId
+    }
+    for (const value of meta) {
+      if (value instanceof Error) {
+        entry.message = `${entry.message} ${value.message}`
+        entry.stack = value.stack
+        if ('code' in value) {
+          entry.code = value.code
+        }
+      } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        Object.assign(entry, value)
+      } else {
+        entry.detail = value
+      }
+    }
+    logger.log(entry as winston.LogEntry)
+  }
 
-export const warn = (message: any, ...meta: any[]): void => {
-  const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.warn(message, ...meta, { requestId })
-}
-
-export const error = (message: any, ...meta: any[]): void => {
-  const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.error(message, ...meta, { requestId })
-}
-
-export const http = (message: any, ...meta: any[]): void => {
-  const requestId = asyncLocalStorage.getStore()?.requestId
-  winstonLogger.http(message, ...meta, { requestId })
-}
+export const debug = withRequestId('debug')
+export const info = withRequestId('info')
+export const warn = withRequestId('warn')
+export const error = withRequestId('error')
+export const http = withRequestId('http')

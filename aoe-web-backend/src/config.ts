@@ -80,7 +80,7 @@ process.env.EXTERNAL_API_FINTO_ASIASANAT || missingEnvs.push('EXTERNAL_API_FINTO
 process.env.EXTERNAL_API_SUOMI_KOODISTOT || missingEnvs.push('EXTERNAL_API_SUOMI_KOODISTOT')
 
 if (missingEnvs.length > 0) {
-  logger.error('All required environment variables are not available: %s', missingEnvs)
+  logger.error(`All required environment variables are not available: ${missingEnvs.join(', ')}`)
   process.exit(1)
 }
 

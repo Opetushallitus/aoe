@@ -904,7 +904,7 @@ export const uploadFileToStorage = async (
   try {
     return await new Upload({ client: s3Client, params: putObjectS3 }).done()
   } catch (err) {
-    log.error('Upstream to the cloud storage failed in uploadFileToStorage(): %s', fileName)
+    log.error(`Upstream to the cloud storage failed in uploadFileToStorage(): ${fileName}`)
     throw err
   } finally {
     // Release the file descriptor whether the upload finished, failed, or aborted.
