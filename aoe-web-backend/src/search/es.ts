@@ -676,7 +676,6 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
     res.status(200).json(responseBody)
   } catch (err) {
     log.debug('elasticSearchQuery error')
-    log.error(err)
     next(new StatusError(500, 'There was an issue processing your request', err))
   }
 }

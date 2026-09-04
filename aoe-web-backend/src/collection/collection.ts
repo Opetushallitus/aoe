@@ -86,7 +86,6 @@ export async function createCollection(req: Request, res: Response, next: NextFu
     const id = await insertCollection(req.session.passport.user.uid, collection)
     res.status(200).json(id)
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue creating collection', error))
   }
 }
@@ -108,7 +107,6 @@ export async function addEducationalMaterialToCollection(
     await insertEducationalMaterialToCollection(collection)
     res.status(200).json({ status: 'ok' })
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue adding material to collection', error))
   }
 }
@@ -130,7 +128,6 @@ export async function removeEducationalMaterialFromCollection(
     await deleteEducationalMaterialFromCollection(collection)
     res.status(200).json({ status: 'ok' })
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue removing material from collection', error))
   }
 }
@@ -147,7 +144,6 @@ export async function getUserCollections(req: Request, res: Response, next: Next
     const data = await userCollections(req.session.passport.user.uid)
     res.status(200).json(data)
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue getting collection', error))
   }
 }
@@ -169,7 +165,6 @@ export async function getCollection(req: Request, res: Response, next: NextFunct
     }
     res.status(200).json(data)
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue getting collection', error))
   }
 }
@@ -193,7 +188,6 @@ export async function updateCollection(req: Request, res: Response, next: NextFu
       log.error('Collection Es update failed data out of sync')
     }
   } catch (error) {
-    log.error(error)
     next(new StatusError(500, 'Issue updating collection', error))
   }
 }

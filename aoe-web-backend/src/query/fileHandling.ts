@@ -173,8 +173,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           if (err.code === 'LIMIT_FILE_SIZE') {
             next(new StatusError(413, err.message))
           } else {
-            log.error(err)
-            next(new StatusError(500, 'Error in upload'))
+            next(new StatusError(500, 'Error in upload', err))
           }
         }
         const resp: any = {}
@@ -492,7 +491,6 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    log.error('Single file upstreaming or conversions failed', err)
     if (!res.headersSent) {
       next(new StatusError(500, `File upstreaming failed`, err))
     }
