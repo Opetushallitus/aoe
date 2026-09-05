@@ -23,7 +23,7 @@
     "@aws-sdk/client-rds": "3.1124.0",
     "@aws-sdk/client-rds-data": "3.1124.0",
     "@aws-sdk/client-sns": "3.1124.0",
-    "aws-cdk-lib": "2.267.0",
+    "aws-cdk-lib": "2.268.0",
     "constructs": "10.8.1",
     "lodash": "4.18.1",
     "source-map-support": "0.5.21"
