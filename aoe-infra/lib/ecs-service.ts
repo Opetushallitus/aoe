@@ -89,6 +89,12 @@ interface EcsServiceStackProps extends StackProps {
     volume: Volume
   }
   alarmSnsTopic: sns.Topic
+  // Matches one error line in this service's log group. Drives both the Slack error forwarder
+  // and the ErrorLogAlarm, so it must fit the service's actual log format (JSON vs plain text).
+  errorLogFilterPattern: logs.IFilterPattern
+  // CloudWatch namespace for the ErrorCount metric. A metric is identified by namespace + name,
+  // so every service needs its own namespace or the counts would sum into one alarm.
+  errorMetricNamespace: string
 }
 
 export class EcsServiceStack extends Stack {
@@ -148,7 +154,7 @@ export class EcsServiceStack extends Stack {
     new logs.SubscriptionFilter(this, 'ErrorLogSubscription', {
       logGroup: ServiceLogGroup,
       destination: new logsDestinations.LambdaDestination(errorForwarder),
-      filterPattern: logs.FilterPattern.literal('{ $.level = "error" }')
+      filterPattern: props.errorLogFilterPattern
     })
 
     const secrets = {
@@ -352,11 +358,10 @@ export class EcsServiceStack extends Stack {
     memoryUtilizationAlarm.addAlarmAction(alarmSnsAction)
     memoryUtilizationAlarm.addOkAction(alarmSnsAction)
 
-    const errorMetricNamespace = `AOE/WebBackend/${props.environment}`
     const errorMetricFilter = new logs.MetricFilter(this, 'ErrorLogMetricFilter', {
       logGroup: ServiceLogGroup,
-      filterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
-      metricNamespace: errorMetricNamespace,
+      filterPattern: props.errorLogFilterPattern,
+      metricNamespace: props.errorMetricNamespace,
       metricName: 'ErrorCount',
       metricValue: '1'
     })

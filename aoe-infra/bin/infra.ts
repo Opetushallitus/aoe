@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
+import * as logs from 'aws-cdk-lib/aws-logs'
 import { Runtime } from 'aws-cdk-lib/aws-lambda'
 import { CustomResourceConfig } from 'aws-cdk-lib/custom-resources'
 import { dev } from '../environments/dev'
@@ -306,6 +307,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: `${environmentName}-streaming-app-service`,
     serviceName: 'streaming-app',
+    // aoe-streaming-app logs plain text lines: "[ERROR] 2026-01-01 00:00:00.000 message"
+    errorLogFilterPattern: logs.FilterPattern.anyTerm('[ERROR]'),
+    errorMetricNamespace: `AOE/StreamingApp/${environmentName}`,
     environment: environmentName,
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
@@ -369,6 +373,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
+    // aoe-web-backend logs JSON lines with a "level" field
+    errorLogFilterPattern: logs.FilterPattern.literal('{ $.level = "error" }'),
+    errorMetricNamespace: `AOE/WebBackend/${environmentName}`,
     environment: environmentName,
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
