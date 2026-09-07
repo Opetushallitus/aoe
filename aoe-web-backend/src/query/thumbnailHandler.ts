@@ -175,7 +175,7 @@ async function updateEmThumbnailData(
     ])
     await db.any(query, [filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket])
   } catch (error) {
-    log.error(`updateEmThumbnailData(): ${error}`)
+    log.error('updateEmThumbnailData()', error)
     throw error
   }
 }
@@ -214,7 +214,7 @@ async function updateCollectionThumbnailData(
     ])
     await db.any(query, [filepath, mimetype, collectionid, filename, fileKey, fileBucket])
   } catch (error) {
-    log.error(`updateCollectionThumbnailData(): ${error}`)
+    log.error('updateCollectionThumbnailData()', error)
     throw error
   }
 }

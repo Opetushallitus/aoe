@@ -98,7 +98,7 @@ const updateIndex = async (
   try {
     await client.ping()
   } catch (error) {
-    log.error(`OpenSearch connection is down: ${error}`)
+    log.error('OpenSearch connection is down', error)
     throw error
   }
 
@@ -199,9 +199,7 @@ const createIndex = async (index: string): Promise<boolean> => {
           )
         }
       } catch (error) {
-        log.warn(
-          `Error checking index "${index}" accessibility on attempt ${attempt}: ${error.message}`
-        )
+        log.warn(`Error checking index "${index}" accessibility on attempt ${attempt}`, error)
       }
 
       await new Promise((resolve) => setTimeout(resolve, retryDelay))
@@ -210,7 +208,7 @@ const createIndex = async (index: string): Promise<boolean> => {
     log.error(`Index "${index}" is not accessible after ${maxRetries} retries.`)
     return false
   } catch (error) {
-    log.error(`Error creating or accessing index "${index}": ${error.message}`)
+    log.error(`Error creating or accessing index "${index}"`, error)
     return false
   }
 }
@@ -664,7 +662,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       }) // #1 then end
       .catch((error) => {
         // #1 catch start
-        log.error(`Search index update failed in updateEsDocument(): ${error}`)
+        log.error('Search index update failed in updateEsDocument()', error)
         reject(error)
       }) // #1 catch end
   })

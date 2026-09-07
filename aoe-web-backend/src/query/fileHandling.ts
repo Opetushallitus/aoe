@@ -273,7 +273,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               }
               fs.unlink(file.path, (err: any) => {
                 if (err) {
-                  log.debug(`Error in uploadMaterial(): ${err}`)
+                  log.debug('Error in uploadMaterial()', err)
                 } else {
                   log.debug('file removed')
                 }
@@ -941,7 +941,7 @@ export async function uploadBase64FileToStorage(
     )
     return data
   } catch (err) {
-    log.error(`Error in processing file in uploadBase64FileToStorage(): ${err}`)
+    log.error('Error in processing file in uploadBase64FileToStorage()', err)
     throw err
   }
 }

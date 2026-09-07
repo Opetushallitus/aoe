@@ -462,7 +462,7 @@ export const getEducationalMaterialMetadata = async (
         (!req.isAuthenticated() || !(await hasAccesstoPublication(jsonObj.id, req)))
       ) {
         updateViewCounter(jsonObj.id).catch((error) => {
-          log.error(`View counter update failed: ${error}`)
+          log.error('View counter update failed', error)
         })
       }
       next()

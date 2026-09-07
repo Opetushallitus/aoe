@@ -44,7 +44,7 @@ export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> =>
       return statusCode === 200
     },
     (error) => {
-      log.debug(`Streaming service status check not passed: ${error}`)
+      log.debug('Streaming service status check not passed', error)
       return false
     }
   )
