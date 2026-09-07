@@ -5,6 +5,8 @@ export type ErrorAlert = {
   service: string
   timestamp: string
   message: string
+  // Every field of the log line as "key: value" lines, for the Slack code block.
+  details: string
   level: string
   logEventId: string
   logGroup: string

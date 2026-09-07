@@ -56,7 +56,10 @@ function toErrorAlert(
     logStream: payload.logStream,
     logEventId: logEvent.id,
     level: parsedMessage.level,
-    message: stringifyField(parsedMessage.message) || logEvent.message
+    message: stringifyField(parsedMessage.message) || logEvent.message,
+    details: Object.entries(parsedMessage)
+      .map(([key, value]) => `${key}: ${stringifyField(value)}`)
+      .join('\n')
   }
 }
 
@@ -117,7 +120,7 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
 }
 
 function buildSlackDescription(alert: ErrorAlert): string {
-  const lines = ['*Error:*', formatCodeBlock(alert.message)]
+  const lines = ['*Error:*', formatCodeBlock(alert.details)]
   const cloudWatchLogsUrl = buildCloudWatchLogsUrl(alert)
 
   if (cloudWatchLogsUrl) {
