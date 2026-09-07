@@ -115,6 +115,11 @@ export const getEducationalMaterialMetadata = async (
     }
     return next(new StatusError(404, `Material not found: '${rawId}'`))
   }
+  // A malformed version date would fail inside Postgres as a 500; it is a bad URL, not a fault.
+  const publishedAt = req.params.publishedat as string | undefined
+  if (publishedAt !== undefined && Number.isNaN(Date.parse(publishedAt))) {
+    return next(new StatusError(404, `Material version not found: '${publishedAt}'`))
+  }
 
   db.tx({ mode }, async (t: any): Promise<any> => {
     const queries: any = []

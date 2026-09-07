@@ -105,6 +105,17 @@ describe('winstonLogger meta handling', () => {
     assert.deepEqual(entry.cause, { message: 'disk full', stack: root.stack })
   })
 
+  it('does not let a meta object override level, message or requestId', () => {
+    asyncLocalStorage.run({ requestId: 'req-7' }, () => {
+      log.debug('headers', { level: 'error', message: 'spoofed', requestId: 'x', host: 'aoe.fi' })
+    })
+    const entry = lastEntry()
+    assert.equal(entry.level, 'debug')
+    assert.equal(entry.message, 'headers')
+    assert.equal(entry.requestId, 'req-7')
+    assert.equal(entry.host, 'aoe.fi')
+  })
+
   it('does not support util.format placeholders: the meta is kept as detail', () => {
     log.error('Upstream failed for %s', 'file.pdf')
     const entry = lastEntry()

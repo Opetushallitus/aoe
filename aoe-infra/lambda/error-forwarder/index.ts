@@ -10,6 +10,7 @@ import { LogFields, ErrorAlert, SlackNotification } from './types'
 
 const MAX_FIELD_LENGTH = 3500
 const MAX_INLINE_LENGTH = 500
+const LONG_FIELDS = ['stack', 'cause']
 
 const environment = process.env.ENVIRONMENT || 'unknown'
 const serviceName = process.env.SERVICE_NAME || 'web-backend'
@@ -57,7 +58,9 @@ function toErrorAlert(
     logEventId: logEvent.id,
     level: parsedMessage.level,
     message: stringifyField(parsedMessage.message) || logEvent.message,
+    // Long fields last, so truncation cuts the stack rather than the request context.
     details: Object.entries(parsedMessage)
+      .sort(([a], [b]) => Number(LONG_FIELDS.includes(a)) - Number(LONG_FIELDS.includes(b)))
       .map(([key, value]) => `${key}: ${stringifyField(value)}`)
       .join('\n')
   }

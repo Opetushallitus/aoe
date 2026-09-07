@@ -175,6 +175,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           } else {
             next(new StatusError(500, 'Error in upload', err))
           }
+          return
         }
         const resp: any = {}
 
@@ -491,8 +492,11 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    if (!res.headersSent) {
-      next(new StatusError(500, `File upstreaming failed`, err))
+    if (res.headersSent) {
+      // The 200 was already sent above, so this is the only place this failure is logged.
+      log.error('Single file upstreaming or conversions failed after the response was sent', err)
+    } else {
+      next(new StatusError(500, 'File upstreaming failed', err))
     }
   } finally {
     deleteFileFromLocalDiskStorage(file)

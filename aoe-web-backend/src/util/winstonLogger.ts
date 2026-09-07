@@ -44,23 +44,30 @@ const errorFields = (err: Error, depth = 0): Record<string, unknown> => ({
 const withRequestId =
   (level: Level) =>
   (message: any, ...meta: any[]): void => {
-    const entry: Record<string, unknown> = {
-      level,
-      message: message instanceof Error ? '' : message,
-      requestId: asyncLocalStorage.getStore()?.requestId
+    if (!logger.isLevelEnabled(level)) {
+      return
     }
+    const fields: Record<string, unknown> = {}
+    let text = message instanceof Error ? '' : message
     for (const value of message instanceof Error ? [message, ...meta] : meta) {
       if (value instanceof Error) {
-        const { message, ...fields } = errorFields(value)
-        entry.message = entry.message ? `${entry.message} ${message}` : message
-        Object.assign(entry, fields)
+        const { message: errorMessage, ...errorRest } = errorFields(value)
+        text = text ? `${text} ${errorMessage}` : errorMessage
+        Object.assign(fields, errorRest)
       } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        Object.assign(entry, value)
+        Object.assign(fields, value)
       } else {
-        entry.detail = value
+        fields.detail = value
       }
     }
-    logger.log(entry as winston.LogEntry)
+    // Reserved fields go last so a meta object (e.g. something request-controlled) cannot
+    // override the level, the message or the request id.
+    logger.log({
+      ...fields,
+      level,
+      message: text,
+      requestId: asyncLocalStorage.getStore()?.requestId
+    } as winston.LogEntry)
   }
 
 export const debug = withRequestId('debug')
