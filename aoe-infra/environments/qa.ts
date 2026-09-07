@@ -15,7 +15,7 @@ export const qa: EnvironmentConfig = {
       allow_ecs_exec: true,
       env_vars: {
         NODE_ENV: 'production',
-        LOG_LEVEL: 'debug',
+        LOG_LEVEL: 'http',
         PORT_LISTEN: '8080',
         MATERIAL_VERSION_URL: 'https://qa.aoe.fi/materiaali/',
         HTTP_OPTIONS_TIMEOUT: '5000',
