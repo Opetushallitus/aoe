@@ -1,4 +1,4 @@
-import { Request, NextFunction, Response } from 'express'
+import type { Request, NextFunction, Response } from 'express'
 import * as log from '@util/winstonLogger'
 
 export class StatusError extends Error {
@@ -31,15 +31,13 @@ const genericErrorMessageSv =
 
 export const handleError = (err: any, req: Request, res: Response, _next: NextFunction): void => {
   const statusCode = err.statusCode || 500
-  const errorDetails = {
-    message: err.message,
+  // The logger adds the error's message, stack, code and cause chain; the request context
+  // goes in as top-level fields so they are queryable in CloudWatch.
+  const context = {
     statusCode,
     method: req.method,
     url: req.url,
-    userAgent: req.get('User-Agent'),
-    stack: err.stack,
-    cause: err.cause?.message,
-    causeStack: err.cause?.stack
+    userAgent: req.get('User-Agent')
   }
 
   // 400/404/416 = expected client-error noise (416 = unsatisfiable byte-range on a
@@ -48,9 +46,15 @@ export const handleError = (err: any, req: Request, res: Response, _next: NextFu
   // -> warn (not an alert). Everything else -> error.
   const expectedClientError = err?.name === 'AuthorizationResponseError'
   if (statusCode === 400 || statusCode === 404 || statusCode === 416 || expectedClientError) {
-    log.warn(errorDetails)
+    log.warn(err, context)
   } else {
-    log.error(errorDetails)
+    log.error(err, context)
+  }
+
+  // A handler that already responded (and then failed, e.g. in a follow-up update) has
+  // nothing left to send; trying would throw ERR_HTTP_HEADERS_SENT inside the error handler.
+  if (res.headersSent) {
+    return
   }
 
   res.status(statusCode).json({
