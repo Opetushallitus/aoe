@@ -74,6 +74,37 @@ describe('winstonLogger meta handling', () => {
     assert.equal('detail' in entry, false)
   })
 
+  it('serialises the cause chain of an Error meta', () => {
+    const root = Object.assign(new Error('connection refused'), { code: 'ECONNREFUSED' })
+    const wrapped = new Error('Fetching reference data failed', { cause: root })
+    log.error('Scheduled job failed', wrapped)
+    const entry = lastEntry()
+    assert.equal(entry.message, 'Scheduled job failed Fetching reference data failed')
+    assert.match(String(entry.stack), /^Error: Fetching reference data failed/)
+    assert.deepEqual(entry.cause, {
+      message: 'connection refused',
+      stack: root.stack,
+      code: 'ECONNREFUSED'
+    })
+  })
+
+  it('keeps a non-Error cause as it is', () => {
+    const wrapped = new Error('Parsing failed', { cause: 'unexpected token' })
+    log.error('Import failed', wrapped)
+    assert.equal(lastEntry().cause, 'unexpected token')
+  })
+
+  it('treats an Error passed as the message like an Error meta', () => {
+    const root = new Error('disk full')
+    const err = Object.assign(new Error('Write failed', { cause: root }), { code: 'ENOSPC' })
+    log.error(err)
+    const entry = lastEntry()
+    assert.equal(entry.message, 'Write failed')
+    assert.match(String(entry.stack), /^Error: Write failed/)
+    assert.equal(entry.code, 'ENOSPC')
+    assert.deepEqual(entry.cause, { message: 'disk full', stack: root.stack })
+  })
+
   it('does not support util.format placeholders: the meta is kept as detail', () => {
     log.error('Upstream failed for %s', 'file.pdf')
     const entry = lastEntry()

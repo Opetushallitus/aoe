@@ -25,9 +25,20 @@ export const logger: Logger = winston.createLogger({
 
 type Level = 'debug' | 'info' | 'warn' | 'error' | 'http'
 
+// message, stack, code and the cause chain of an Error. Error properties are not enumerable,
+// so JSON.stringify would drop them and a nested cause would come out as {}.
+const errorFields = (err: Error, depth = 0): Record<string, unknown> => ({
+  message: err.message,
+  stack: err.stack,
+  ...('code' in err && { code: err.code }),
+  ...(err.cause !== undefined && {
+    cause: err.cause instanceof Error && depth < 5 ? errorFields(err.cause, depth + 1) : err.cause
+  })
+})
+
 // Build the log entry here instead of letting winston parse the arguments: an Error meta adds
-// its message, stack and code (pg SQLSTATE, Node ECONNREFUSED, …; never pg `detail`, it quotes
-// row values), a plain object merges its fields, anything else (string, array,
+// its message, stack, code (pg SQLSTATE, Node ECONNREFUSED, …; never pg `detail`, it quotes
+// row values) and cause, a plain object merges its fields, anything else (string, array,
 // number) goes under `detail`. util.format placeholders (%s, %o, …) are not supported; use a
 // template string for the message. The current requestId is added from AsyncLocalStorage.
 const withRequestId =
@@ -35,16 +46,14 @@ const withRequestId =
   (message: any, ...meta: any[]): void => {
     const entry: Record<string, unknown> = {
       level,
-      message,
+      message: message instanceof Error ? '' : message,
       requestId: asyncLocalStorage.getStore()?.requestId
     }
-    for (const value of meta) {
+    for (const value of message instanceof Error ? [message, ...meta] : meta) {
       if (value instanceof Error) {
-        entry.message = `${entry.message} ${value.message}`
-        entry.stack = value.stack
-        if ('code' in value) {
-          entry.code = value.code
-        }
+        const { message, ...fields } = errorFields(value)
+        entry.message = entry.message ? `${entry.message} ${message}` : message
+        Object.assign(entry, fields)
       } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         Object.assign(entry, value)
       } else {
