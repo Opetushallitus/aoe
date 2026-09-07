@@ -66,7 +66,7 @@ export async function setAsiasanat(): Promise<void> {
       swedish.push({ key, value: labelSv?._ || labelFi?._ || labelEn?._ })
     })
   } catch (err) {
-    winstonLogger.error('Error parsing results in setAsiasanat(): %o', err)
+    winstonLogger.error('Error parsing results in setAsiasanat()', err)
     return
   }
 

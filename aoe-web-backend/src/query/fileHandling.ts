@@ -1106,10 +1106,7 @@ export const downloadFileFromStorage = async (
         return
       }
       log.error(
-        'downloadFileFromStorage(): req.params.filename=%s, isZip=%s, materialId=%s',
-        req.params.filename,
-        isZip,
-        fileDetails.materialid
+        `downloadFileFromStorage(): req.params.filename=${req.params.filename}, isZip=${isZip}, materialId=${fileDetails.materialid}`
       )
       next(
         new StatusError(

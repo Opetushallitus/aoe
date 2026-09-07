@@ -30,7 +30,7 @@ export const getAsync = async (key: string): Promise<string | null> => {
     const value = await redisClient.get(key)
     return value?.toString() ?? null
   } catch (err) {
-    winstonLogger.error('REDIS get failed for key %s: %o', key, err)
+    winstonLogger.error(`REDIS get failed for key ${key}`, err)
     throw err
   }
 }
@@ -39,7 +39,7 @@ export const setAsync = async (key: string, value: string): Promise<void> => {
   try {
     await redisClient.set(key, value)
   } catch (err) {
-    winstonLogger.error('REDIS set failed for key %s: %o', key, err)
+    winstonLogger.error(`REDIS set failed for key ${key}`, err)
     throw err
   }
 }
@@ -47,110 +47,98 @@ export const setAsync = async (key: string, value: string): Promise<void> => {
 export async function updateReferenceData(): Promise<void> {
   winstonLogger.info('Starting reference data update ...')
   await setAsiasanat().catch((err) =>
-    winstonLogger.error('Setting YSO asiasanat failed in setAsiasanat(): %o', err)
+    winstonLogger.error('Setting YSO asiasanat failed in setAsiasanat()', err)
   )
   await setKoulutusasteet().catch((err) =>
-    winstonLogger.error('Setting educational levels failed in setKoulutusasteet(): %o', err)
+    winstonLogger.error('Setting educational levels failed in setKoulutusasteet()', err)
   )
   await setKohderyhmat().catch((err) =>
-    winstonLogger.error('Setting educational roles failed in setKohderyhmat(): %o', err)
+    winstonLogger.error('Setting educational roles failed in setKohderyhmat()', err)
   )
   await setKayttokohteet().catch((err) =>
-    winstonLogger.error('Setting educational uses failed in setKayttokohteet(): %o', err)
+    winstonLogger.error('Setting educational uses failed in setKayttokohteet()', err)
   )
   await setSaavutettavuudenTukitoiminnot().catch((err) =>
     winstonLogger.error(
-      'Setting accessibility features failed in setSaavutettavuudenTukitoiminnot(): %o',
+      'Setting accessibility features failed in setSaavutettavuudenTukitoiminnot()',
       err
     )
   )
   await setSaavutettavuudenEsteet().catch((err) =>
-    winstonLogger.error(
-      'Setting accessability hazards failed in setSaavutettavuudenEsteet(): %o',
-      err
-    )
+    winstonLogger.error('Setting accessability hazards failed in setSaavutettavuudenEsteet()', err)
   )
   await setKielet().catch((err) =>
-    winstonLogger.error('Setting languages failed in setKielet(): %o', err)
+    winstonLogger.error('Setting languages failed in setKielet()', err)
   )
   await setOrganisaatiot().catch((err) =>
-    winstonLogger.error('Setting organisations failed in setOrganisaatiot(): %o', err)
+    winstonLogger.error('Setting organisations failed in setOrganisaatiot()', err)
   )
   await setTieteenalat().catch((err) =>
     winstonLogger.error(
-      'Setting educational subjects of higher education failed in setTieteenalat(): %o',
+      'Setting educational subjects of higher education failed in setTieteenalat()',
       err
     )
   )
   await setOppimateriaalityypit().catch((err) =>
-    winstonLogger.error(
-      'Setting learning resource types failed in setOppimateriaalityypit(): %o',
-      err
-    )
+    winstonLogger.error('Setting learning resource types failed in setOppimateriaalityypit()', err)
   )
   await setPerusopetuksenOppiaineet().catch((err) =>
-    winstonLogger.error('Setting new data failed in setPerusopetuksenOppiaineet(): %o', err)
+    winstonLogger.error('Setting new data failed in setPerusopetuksenOppiaineet()', err)
   )
   await setLisenssit().catch((err) =>
-    winstonLogger.error('Setting licenses failed in setLisenssit(): %o', err)
+    winstonLogger.error('Setting licenses failed in setLisenssit()', err)
   )
   await setLukionkurssit().catch((err) =>
-    winstonLogger.error(
-      'Setting upper secondary school courses failed in setLukionkurssit(): %o',
-      err
-    )
+    winstonLogger.error('Setting upper secondary school courses failed in setLukionkurssit()', err)
   )
   await setLukionOppiaineetModuulit().catch((err) =>
     winstonLogger.error(
-      'Setting educational subjects and modules failed in setLukionOppiaineetModuulit(): %o',
+      'Setting educational subjects and modules failed in setLukionOppiaineetModuulit()',
       err
     )
   )
   await setLukionTavoitteetSisallot().catch((err) =>
-    winstonLogger.error(
-      'Setting educational modules failed in setLukionTavoitteetSisallot(): %o',
-      err
-    )
+    winstonLogger.error('Setting educational modules failed in setLukionTavoitteetSisallot()', err)
   )
   await setAmmattikoulunPerustutkinnot().catch((err) =>
     winstonLogger.error(
-      'Setting educational subjects failed in setAmmattikoulunPerustutkinnot(): %o',
+      'Setting educational subjects failed in setAmmattikoulunPerustutkinnot()',
       err
     )
   )
   await setAmmattikoulunAmmattitutkinnot().catch((err) =>
     winstonLogger.error(
-      'Setting further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): %o',
+      'Setting further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot()',
       err
     )
   )
   await setAmmattikoulunErikoisammattitutkinnot().catch((err) =>
     winstonLogger.error(
-      'Setting specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): %o',
+      'Setting specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot()',
       err
     )
   )
   await setAmmattikoulunTutkinnonOsat().catch((err) =>
     winstonLogger.error(
-      'Setting units of vocational education and competence requirements failed in setAmmattikoulunTutkinnonOsat(): %o',
+      'Setting units of vocational education and competence requirements failed in setAmmattikoulunTutkinnonOsat()',
       err
     )
   )
   await setAmmattikoulunYTOaineet().catch((err) =>
     winstonLogger.error(
-      'Setting common units of vocational education failed in setAmmattikoulunYTOaineet(): %o',
+      'Setting common units of vocational education failed in setAmmattikoulunYTOaineet()',
       err
     )
   )
   await setLukionVanhatOppiaineetKurssit().catch((err) =>
     winstonLogger.error(
-      'Setting upper secondary school subjects and courses failed in setLukionVanhatOppiaineetKurssit(): %o',
+      'Setting upper secondary school subjects and courses failed in setLukionVanhatOppiaineetKurssit()',
       err
     )
   )
   await setTuvaOppiaineetTavoitteet().catch((err) =>
     winstonLogger.error(
-      'Setting preparatory education subjects and objectives failed in setTuvaOppiaineetTavoitteet(): %o',
+      'Setting preparatory education subjects and objectives failed in setTuvaOppiaineetTavoitteet()',
       err
     )
   )

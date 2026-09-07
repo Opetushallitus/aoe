@@ -133,7 +133,7 @@ async function getAmmattikoulunTutkinnot(lang: string): Promise<FilterOption> {
       }
     }
   } catch (err) {
-    winstonLogger.error('Getting data failed in getAmmattikoulunTutkinnot(): %o', err)
+    winstonLogger.error('Getting data failed in getAmmattikoulunTutkinnot()', err)
     throw Error(err)
   }
 }
@@ -171,7 +171,7 @@ async function getTieteenalat(lang: string): Promise<FilterOption> {
       }
     }
   } catch (err) {
-    winstonLogger.error('Getting data failed in getTieteenalat(): %o', err)
+    winstonLogger.error('Getting data failed in getTieteenalat()', err)
     throw Error(err)
   }
 }

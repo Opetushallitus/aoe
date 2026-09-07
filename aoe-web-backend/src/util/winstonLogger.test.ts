@@ -1,6 +1,7 @@
 import { beforeEach, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
 import { Writable } from 'node:stream'
+import { globSync, readFileSync } from 'node:fs'
 import winston from 'winston'
 import { asyncLocalStorage } from '@/asyncLocalStorage'
 import * as log from './winstonLogger.ts'
@@ -85,5 +86,22 @@ describe('winstonLogger meta handling', () => {
       log.warn('inside request')
     })
     assert.equal(lastEntry().requestId, 'req-42')
+  })
+})
+
+describe('winstonLogger call sites', () => {
+  it('use template strings instead of util.format placeholders', () => {
+    // The wrapper no longer runs winston's splat format, so '%s' / '%o' would be logged literally.
+    const placeholderCall =
+      /\b(log|logger|winstonLogger)\.(debug|info|warn|error|http)\(\s*(['"`])(?:(?!\3)[^\\]|\\.)*?%[sdifjoOc]/g
+    const offenders = globSync('src/**/*.ts')
+      .filter((file) => !file.endsWith('.test.ts'))
+      .flatMap((file) => {
+        const source = readFileSync(file, 'utf8')
+        return [...source.matchAll(placeholderCall)].map(
+          (match) => `${file}:${source.slice(0, match.index).split('\n').length}`
+        )
+      })
+    assert.deepEqual(offenders, [])
   })
 })

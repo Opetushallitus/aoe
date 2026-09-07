@@ -108,8 +108,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<void> {
       (!(result as any).nimi?.fi && !(result as any).nimi?.sv)
     ) {
       winstonLogger.error(
-        'No data from ePerusteet for subject %s in setPerusopetuksenOppiaineet()',
-        row.key
+        `No data from ePerusteet for subject ${row.key} in setPerusopetuksenOppiaineet()`
       )
       return
     }

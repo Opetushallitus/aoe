@@ -21,10 +21,7 @@ export async function getDataFromApi(
       // Release the connection: an unread body keeps its socket checked out until GC.
       await response.body?.cancel()
       winstonLogger.error(
-        'Error getting data from %s: responded with HTTP %s %s',
-        url,
-        response.status,
-        response.statusText
+        `Error getting data from ${url}: responded with HTTP ${response.status} ${response.statusText}`
       )
       return undefined
     }
@@ -35,9 +32,7 @@ export async function getDataFromApi(
 
     if (!body) {
       winstonLogger.error(
-        'Error getting data from %s: responded with HTTP %s and an empty body',
-        url,
-        response.status
+        `Error getting data from ${url}: responded with HTTP ${response.status} and an empty body`
       )
       return undefined
     }
@@ -46,14 +41,14 @@ export async function getDataFromApi(
       try {
         return JSON.parse(body)
       } catch (err) {
-        winstonLogger.error('Error getting data from %s: response is not valid JSON: %o', url, err)
+        winstonLogger.error(`Error getting data from ${url}: response is not valid JSON`, err)
         return undefined
       }
     }
 
     return body
   } catch (err) {
-    winstonLogger.error('Error getting data from %s: %o', url, err)
+    winstonLogger.error(`Error getting data from ${url}`, err)
     return undefined
   }
 }
