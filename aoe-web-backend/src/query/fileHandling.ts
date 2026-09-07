@@ -1216,7 +1216,7 @@ export const downloadFromStorage = async (
       return false
     }
     if (err?.name === 'NoSuchKey') {
-      log.error(missingStorageObjectMessage(paramsS3))
+      log.warn(missingStorageObjectMessage(paramsS3))
       if (!res.headersSent) {
         res.status(404).end()
       }

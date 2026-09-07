@@ -468,7 +468,7 @@ export const getEducationalMaterialMetadata = async (
       next()
     })
     .catch((err: any) => {
-      next(new StatusError(400, 'Issue getting material data', err))
+      next(new StatusError(500, 'Issue getting material data', err))
     })
 }
 

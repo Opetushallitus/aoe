@@ -472,7 +472,8 @@ export async function performBulkOperation(
         return { statusCode, body: bulkResponse }
       }
     } catch (error) {
-      log.error(`Error during bulk operation for index ${index} on attempt ${attempt}`, error)
+      // Attempts are warn: the caller logs the final failure at error.
+      log.warn(`Error during bulk operation for index ${index} on attempt ${attempt}`, error)
 
       attempt++
 
