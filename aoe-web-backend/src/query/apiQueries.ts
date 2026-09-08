@@ -362,7 +362,7 @@ export const getEducationalMaterialMetadata = async (
 
           // Skip synchronous extraction for large files to prevent timeout issues
           if (fileSize > maxSize) {
-            log.warn(
+            log.info(
               `Skipping ZIP extraction for large file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
                 `filekey=${jsonObj.materials[i].filekey}, filesize=${fileSizeMB} MB (max allowed: ${maxSizeMB} MB). ` +
                 `File will be available for download only.`
