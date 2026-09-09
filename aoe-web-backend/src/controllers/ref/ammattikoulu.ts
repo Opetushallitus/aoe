@@ -180,7 +180,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
       winstonLogger.error(
         `No data from ePerusteet for degree ${degree} in setAmmattikoulunTutkinnonOsat()`
       )
-      return
+      continue
     }
 
     ;(results as any).tutkinnonOsat.forEach((unit: any) => {
@@ -255,17 +255,22 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
         })
       })
     })
+  }
 
-    try {
-      await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits))
-      await setAsync(`${rediskeyUnits}.sv`, JSON.stringify(swedishUnits))
-      await setAsync(`${rediskeyUnits}.en`, JSON.stringify(englishUnits))
-      await setAsync(`${rediskeyRequirements}.fi`, JSON.stringify(finnishRequirements))
-      await setAsync(`${rediskeyRequirements}.sv`, JSON.stringify(swedishRequirements))
-      await setAsync(`${rediskeyRequirements}.en`, JSON.stringify(finnishRequirements))
-    } catch (err) {
-      throw Error(err)
-    }
+  if (finnishUnits.length < 1) {
+    winstonLogger.error('No units from ePerusteet in setAmmattikoulunTutkinnonOsat()')
+    return
+  }
+
+  try {
+    await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits))
+    await setAsync(`${rediskeyUnits}.sv`, JSON.stringify(swedishUnits))
+    await setAsync(`${rediskeyUnits}.en`, JSON.stringify(englishUnits))
+    await setAsync(`${rediskeyRequirements}.fi`, JSON.stringify(finnishRequirements))
+    await setAsync(`${rediskeyRequirements}.sv`, JSON.stringify(swedishRequirements))
+    await setAsync(`${rediskeyRequirements}.en`, JSON.stringify(finnishRequirements))
+  } catch (err) {
+    throw Error(err)
   }
 }
 
