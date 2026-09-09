@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { getUnique } from './data.utils.ts'
+import { fetchAllPages, getUnique } from './data.utils.ts'
 import type { KeyValue } from '@/models/ref/data.ts'
 import type { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended.ts'
 
@@ -46,6 +46,93 @@ const lukionkurssit: AlignmentObjectExtended[] = [
     targetUrl: 'https://eperusteet.opintopolku.fi/api/perusteet/4'
   }
 ]
+
+describe('fetchAllPages', () => {
+  function toItem(id: number) {
+    return { id }
+  }
+
+  function makePage(sivu: number, sivuja: number, ...ids: number[]) {
+    return { sivu, sivuja, data: ids.map(toItem), kokonaismaara: ids.length }
+  }
+
+  function servePages(pages: unknown[], maxCalls = 10) {
+    const requested: number[] = []
+
+    async function fetchPage(pageNumber: number) {
+      assert.ok(requested.length < maxCalls, `fetchAllPages did not stop within ${maxCalls} pages`)
+      requested.push(pageNumber)
+      return pages[pageNumber]
+    }
+
+    return { requested, fetchPage }
+  }
+
+  it('collects every page in order', async () => {
+    const { requested, fetchPage } = servePages([
+      makePage(0, 3, 1, 2),
+      makePage(1, 3, 3),
+      makePage(2, 3, 4, 5)
+    ])
+
+    assert.deepEqual(await fetchAllPages(fetchPage), [
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+      { id: 4 },
+      { id: 5 }
+    ])
+    assert.deepEqual(requested, [0, 1, 2])
+  })
+
+  it('accepts a single page numbered 0', async () => {
+    const { requested, fetchPage } = servePages([makePage(0, 1, 1)])
+
+    assert.deepEqual(await fetchAllPages(fetchPage), [{ id: 1 }])
+    assert.deepEqual(requested, [0])
+  })
+
+  it('takes the page count from the first page', async () => {
+    const { requested, fetchPage } = servePages([makePage(0, 2, 1), makePage(1, 5, 2)])
+
+    assert.deepEqual(await fetchAllPages(fetchPage), [{ id: 1 }, { id: 2 }])
+    assert.deepEqual(requested, [0, 1])
+  })
+
+  it('stops when a page has no sivuja', async () => {
+    const { requested, fetchPage } = servePages([{ sivu: 0, data: [{ id: 1 }] }])
+
+    assert.equal(await fetchAllPages(fetchPage), undefined)
+    assert.deepEqual(requested, [0])
+  })
+
+  it('advances even when the server pins sivu at 0', async () => {
+    let calls = 0
+
+    async function fetchAlwaysPageZero() {
+      assert.ok(++calls <= 10, 'fetchAllPages did not stop within 10 pages')
+      return makePage(0, 3, calls)
+    }
+
+    const items = await fetchAllPages(fetchAlwaysPageZero)
+
+    assert.equal(calls, 3)
+    assert.deepEqual(items, [{ id: 1 }, { id: 2 }, { id: 3 }])
+  })
+
+  it('discards earlier pages when a later page fails', async () => {
+    const { fetchPage } = servePages([makePage(0, 3, 1), undefined, makePage(2, 3, 3)])
+
+    assert.equal(await fetchAllPages(fetchPage), undefined)
+  })
+
+  it('stops on an empty page', async () => {
+    const { requested, fetchPage } = servePages([makePage(0, 2), makePage(1, 2, 1)])
+
+    assert.equal(await fetchAllPages(fetchPage), undefined)
+    assert.deepEqual(requested, [0])
+  })
+})
 
 describe('getUnique', () => {
   describe('with KeyValue (organisaatiot, dedup by value)', () => {

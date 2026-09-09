@@ -1,5 +1,5 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getUnique, sortByTargetName } from '@util/ref/data.utils'
+import { fetchAllPages, getUnique, sortByTargetName } from '@util/ref/data.utils'
 import { getAsync, setAsync } from '@util/ref/redis.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import * as winstonLogger from '@util/winstonLogger'
@@ -15,92 +15,90 @@ const rediskeyUnits = 'ammattikoulu-tutkinnonosat'
 const rediskeyRequirements = 'ammattikoulu-vaatimukset'
 const rediskeyYTO = 'ammattikoulun-yto-aineet'
 
+function fetchTutkinnotPage(koulutustyyppi: string, pageNumber: number): Promise<any> {
+  return getDataFromApi(
+    config.EXTERNAL_API.ePerusteet || 'not-defined',
+    `/${newEndpoint}/`,
+    {
+      Accept: 'application/json',
+      'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
+    },
+    `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=${koulutustyyppi}`
+  )
+}
+
+function fetchPerustutkinnotPage(pageNumber: number): Promise<any> {
+  return fetchTutkinnotPage('koulutustyyppi_1', pageNumber)
+}
+
+function fetchAmmattitutkinnotPage(pageNumber: number): Promise<any> {
+  return fetchTutkinnotPage('koulutustyyppi_11', pageNumber)
+}
+
+function fetchErikoisammattitutkinnotPage(pageNumber: number): Promise<any> {
+  return fetchTutkinnotPage('koulutustyyppi_12', pageNumber)
+}
+
 export async function setAmmattikoulunPerustutkinnot(): Promise<void> {
   let finnishDegrees: AlignmentObjectExtended[] = []
   let swedishDegrees: AlignmentObjectExtended[] = []
   let englishDegrees: AlignmentObjectExtended[] = []
-  let pageNumber = 0
-  let getResults = true
+  const results = await fetchAllPages(fetchPerustutkinnotPage)
 
-  while (getResults) {
-    const results: Record<string, unknown>[] = await getDataFromApi(
-      config.EXTERNAL_API.ePerusteet || 'not-defined',
-      `/${newEndpoint}/`,
-      {
-        Accept: 'application/json',
-        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
-      },
-      `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_1`
-    )
+  if (!results) {
+    winstonLogger.error('No data from ePerusteet in setAmmattikoulunPerustutkinnot()')
+    return
+  }
 
-    if (
-      !results ||
-      !(results as any).data ||
-      (results as any).data.length < 1 ||
-      typeof (results as any).sivu !== 'number'
-    ) {
-      winstonLogger.error(
-        `No data from ePerusteet in setAmmattikoulunPerustutkinnot() on page ${pageNumber}`
+  for (const degree of results) {
+    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
+      throw Error(
+        'Creating new sets of educational subjects failed in setAmmattikoulunPerustutkinnot(): Missing required data'
       )
-      return
     }
 
-    ;(results as any).data.forEach((degree: any) => {
-      if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-        throw Error(
-          'Creating new sets of educational subjects failed in setAmmattikoulunPerustutkinnot(): Missing required data'
-        )
-      }
+    let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
+    let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
+    let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
+    const validityStarts: number = degree.voimassaoloAlkaa
+    const transitionTimeEnds: number = degree.siirtymaPaattyy
+    const now = new Date().getTime()
 
-      let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
-      let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
-      let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
-      const validityStarts: number = degree.voimassaoloAlkaa
-      const transitionTimeEnds: number = degree.siirtymaPaattyy
-      const now = new Date().getTime()
+    if (validityStarts > now) {
+      targetNameFi = `${targetNameFi} (Tuleva)`
+      targetNameSv = `${targetNameSv} (På kommande)`
+      targetNameEn = `${targetNameEn} (In progress)`
+    }
 
-      if (validityStarts > now) {
-        targetNameFi = `${targetNameFi} (Tuleva)`
-        targetNameSv = `${targetNameSv} (På kommande)`
-        targetNameEn = `${targetNameEn} (In progress)`
-      }
+    if (transitionTimeEnds) {
+      targetNameFi = `${targetNameFi} (Siirtymäajalla)`
+      targetNameSv = `${targetNameSv} (Övergångstid)`
+      targetNameEn = `${targetNameEn} (On transition time)`
+    }
 
-      if (transitionTimeEnds) {
-        targetNameFi = `${targetNameFi} (Siirtymäajalla)`
-        targetNameSv = `${targetNameSv} (Övergångstid)`
-        targetNameEn = `${targetNameEn} (On transition time)`
-      }
-
-      finnishDegrees.push({
-        key: degree.id,
-        source: 'vocationalDegrees',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameFi,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      swedishDegrees.push({
-        key: degree.id,
-        source: 'vocationalDegrees',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameSv,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      englishDegrees.push({
-        key: degree.id,
-        source: 'vocationalDegrees',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameEn,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
+    finnishDegrees.push({
+      key: degree.id,
+      source: 'vocationalDegrees',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameFi,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
     })
 
-    pageNumber = (results as any).sivu + 1
+    swedishDegrees.push({
+      key: degree.id,
+      source: 'vocationalDegrees',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameSv,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
 
-    if (pageNumber >= (results as any).sivuja) {
-      getResults = false
-    }
+    englishDegrees.push({
+      key: degree.id,
+      source: 'vocationalDegrees',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameEn,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
   }
 
   try {
@@ -342,88 +340,62 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
   let englishQuals: AlignmentObjectExtended[] = []
-  let pageNumber = 0
-  let getResults = true
+  const results = await fetchAllPages(fetchAmmattitutkinnotPage)
 
-  while (getResults) {
-    const results: Record<string, unknown>[] = await getDataFromApi(
-      config.EXTERNAL_API.ePerusteet || 'not-defined',
-      `/${newEndpoint}/`,
-      {
-        Accept: 'application/json',
-        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
-      },
-      `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_11`
-    )
+  if (!results) {
+    winstonLogger.error('No data from ePerusteet in setAmmattikoulunAmmattitutkinnot()')
+    return
+  }
 
-    if (
-      !results ||
-      !(results as any).data ||
-      (results as any).data.length < 1 ||
-      typeof (results as any).sivu !== 'number'
-    ) {
-      winstonLogger.error(
-        `No data from ePerusteet in setAmmattikoulunAmmattitutkinnot() on page ${pageNumber}`
+  for (const degree of results) {
+    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
+      throw Error(
+        'Creating new sets of further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): Missing required data'
       )
-      return
     }
 
-    ;(results as any).data.forEach((degree: any) => {
-      if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-        throw Error(
-          'Creating new sets of further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): Missing required data'
-        )
-      }
+    let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
+    let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
+    let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
+    const validityStarts: number = degree.voimassaoloAlkaa
+    const transitionTimeEnds: number = degree.siirtymaPaattyy
+    const now = new Date().getTime()
 
-      let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
-      let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
-      let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
-      const validityStarts: number = degree.voimassaoloAlkaa
-      const transitionTimeEnds: number = degree.siirtymaPaattyy
-      const now = new Date().getTime()
+    if (validityStarts > now) {
+      targetNameFi = `${targetNameFi} (Tuleva)`
+      targetNameSv = `${targetNameSv} (På kommande)`
+      targetNameEn = `${targetNameEn} (In progress)`
+    }
 
-      if (validityStarts > now) {
-        targetNameFi = `${targetNameFi} (Tuleva)`
-        targetNameSv = `${targetNameSv} (På kommande)`
-        targetNameEn = `${targetNameEn} (In progress)`
-      }
+    if (transitionTimeEnds) {
+      targetNameFi = `${targetNameFi} (Siirtymäajalla)`
+      targetNameSv = `${targetNameSv} (Övergångstid)`
+      targetNameEn = `${targetNameEn} (On transition time)`
+    }
 
-      if (transitionTimeEnds) {
-        targetNameFi = `${targetNameFi} (Siirtymäajalla)`
-        targetNameSv = `${targetNameSv} (Övergångstid)`
-        targetNameEn = `${targetNameEn} (On transition time)`
-      }
-
-      finnishQuals.push({
-        key: degree.id,
-        source: 'furtherVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameFi,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      swedishQuals.push({
-        key: degree.id,
-        source: 'furtherVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameSv,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      englishQuals.push({
-        key: degree.id,
-        source: 'furtherVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameEn,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
+    finnishQuals.push({
+      key: degree.id,
+      source: 'furtherVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameFi,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
     })
 
-    pageNumber = (results as any).sivu + 1
+    swedishQuals.push({
+      key: degree.id,
+      source: 'furtherVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameSv,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
 
-    if (pageNumber >= (results as any).sivuja) {
-      getResults = false
-    }
+    englishQuals.push({
+      key: degree.id,
+      source: 'furtherVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameEn,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
   }
 
   try {
@@ -472,88 +444,62 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
   let englishQuals: AlignmentObjectExtended[] = []
-  let pageNumber = 0
-  let getResults = true
+  const results = await fetchAllPages(fetchErikoisammattitutkinnotPage)
 
-  while (getResults) {
-    const results: Record<string, unknown>[] = await getDataFromApi(
-      config.EXTERNAL_API.ePerusteet || 'not-defined',
-      `/${newEndpoint}/`,
-      {
-        Accept: 'application/json',
-        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
-      },
-      `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_12`
-    )
+  if (!results) {
+    winstonLogger.error('No data from ePerusteet in setAmmattikoulunErikoisammattitutkinnot()')
+    return
+  }
 
-    if (
-      !results ||
-      !(results as any).data ||
-      (results as any).data.length < 1 ||
-      typeof (results as any).sivu !== 'number'
-    ) {
-      winstonLogger.error(
-        `No data from ePerusteet in setAmmattikoulunErikoisammattitutkinnot() on page ${pageNumber}`
+  for (const degree of results) {
+    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
+      throw Error(
+        'Creating new sets of specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): Missing required data'
       )
-      return
     }
 
-    ;(results as any).data.forEach((degree: any) => {
-      if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-        throw Error(
-          'Creating new sets of specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): Missing required data'
-        )
-      }
+    let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
+    let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
+    let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
+    const validityStarts: number = degree.voimassaoloAlkaa
+    const transitionTimeEnds: number = degree.siirtymaPaattyy
+    const now = new Date().getTime()
 
-      let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
-      let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
-      let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
-      const validityStarts: number = degree.voimassaoloAlkaa
-      const transitionTimeEnds: number = degree.siirtymaPaattyy
-      const now = new Date().getTime()
+    if (validityStarts > now) {
+      targetNameFi = `${targetNameFi} (Tuleva)`
+      targetNameSv = `${targetNameSv} (På kommande)`
+      targetNameEn = `${targetNameEn} (In progress)`
+    }
 
-      if (validityStarts > now) {
-        targetNameFi = `${targetNameFi} (Tuleva)`
-        targetNameSv = `${targetNameSv} (På kommande)`
-        targetNameEn = `${targetNameEn} (In progress)`
-      }
+    if (transitionTimeEnds) {
+      targetNameFi = `${targetNameFi} (Siirtymäajalla)`
+      targetNameSv = `${targetNameSv} (Övergångstid)`
+      targetNameEn = `${targetNameEn} (On transition time)`
+    }
 
-      if (transitionTimeEnds) {
-        targetNameFi = `${targetNameFi} (Siirtymäajalla)`
-        targetNameSv = `${targetNameSv} (Övergångstid)`
-        targetNameEn = `${targetNameEn} (On transition time)`
-      }
-
-      finnishQuals.push({
-        key: degree.id,
-        source: 'specialistVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameFi,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      swedishQuals.push({
-        key: degree.id,
-        source: 'specialistVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameSv,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
-
-      englishQuals.push({
-        key: degree.id,
-        source: 'specialistVocationalQualifications',
-        alignmentType: 'educationalSubject',
-        targetName: targetNameEn,
-        targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
-      })
+    finnishQuals.push({
+      key: degree.id,
+      source: 'specialistVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameFi,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
     })
 
-    pageNumber = (results as any).sivu + 1
+    swedishQuals.push({
+      key: degree.id,
+      source: 'specialistVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameSv,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
 
-    if (pageNumber >= (results as any).sivuja) {
-      getResults = false
-    }
+    englishQuals.push({
+      key: degree.id,
+      source: 'specialistVocationalQualifications',
+      alignmentType: 'educationalSubject',
+      targetName: targetNameEn,
+      targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`
+    })
   }
 
   try {

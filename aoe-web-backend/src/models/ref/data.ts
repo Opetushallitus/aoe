@@ -1,3 +1,11 @@
+import { z } from 'zod'
+
+export const ePerusteetResultPage = z.object({
+  data: z.array(z.unknown()).min(1),
+  sivu: z.number(),
+  sivuja: z.number()
+})
+
 export interface KeyValue<K, V> {
   key: K
   value: V
