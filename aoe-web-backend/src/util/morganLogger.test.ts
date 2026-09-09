@@ -28,6 +28,8 @@ app.use(morganLogger)
 app.get('/health', (_req, res) => res.json({ status: 'ok' }))
 app.get('/api/v1/userdata', (_req, res) => res.json({}))
 app.get('/api/v1/thing', (_req, res) => res.json({ ok: true }))
+app.get('/api/v1/verify', (_req, res) => res.redirect('/'))
+app.get('/api/secure/redirect', (_req, res) => res.redirect('/'))
 
 let server: ReturnType<typeof app.listen>
 let base: string
@@ -50,6 +52,20 @@ describe('morganLogger', () => {
     assert.equal(entries[0].level, 'http')
     assert.match(entries[0].message, /^200 GET \/api\/v1\/thing \d+\.\d+ ms \d+ /)
     assert.match(entries[1].message, /^404 GET \/api\/v1\/missing \d+\.\d+ ms /)
+  })
+
+  it('drops the query string on the email verification and OIDC callback routes only', async () => {
+    lines.length = 0
+    await fetch(`${base}/api/v1/verify?id=eyJhbGciOi.secret.token`, { redirect: 'manual' })
+    await fetch(`${base}/api/secure/redirect?code=abc123&state=xyz`, { redirect: 'manual' })
+    await fetch(`${base}/api/v1/thing?page=2`)
+    await settle()
+    const messages = lines.map((l) => (JSON.parse(l) as { message: string }).message)
+    assert.match(messages[0], /^302 GET \/api\/v1\/verify \d/)
+    assert.match(messages[1], /^302 GET \/api\/secure\/redirect \d/)
+    assert.match(messages[2], /^200 GET \/api\/v1\/thing\?page=2 \d/)
+    assert.equal(messages.join('\n').includes('secret'), false)
+    assert.equal(messages.join('\n').includes('abc123'), false)
   })
 
   it('skips the health probe and the userdata poll', async () => {
