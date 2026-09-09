@@ -1,24 +1,36 @@
-import { ePerusteetResultPage } from '@/models/ref/data'
+import { type EPerusteetDegree, ePerusteetResultPage } from '@/models/ref/data'
 import * as winstonLogger from '@util/winstonLogger'
 
-async function fetchValidPage(
+async function fetchValidEPerusteetPage(
   fetchPage: (pageNumber: number) => Promise<any>,
-  pageNumber: number
-): Promise<{ data: any[]; sivuja: number } | undefined> {
-  const page = ePerusteetResultPage.safeParse(await fetchPage(pageNumber))
+  pageNumber: number,
+  listing: string
+): Promise<{ data: EPerusteetDegree[]; sivuja: number } | undefined> {
+  const response = await fetchPage(pageNumber)
+
+  // A request that failed is not a shape problem, and getDataFromApi has already logged the
+  // url and the reason. Parsing it here would report it as a missing object instead.
+  if (!response) {
+    return undefined
+  }
+
+  const page = ePerusteetResultPage.safeParse(response)
 
   if (!page.success) {
-    winstonLogger.error(`Unusable page ${pageNumber} from ePerusteet: ${page.error.message}`)
+    winstonLogger.error(
+      `Unusable ${listing} page ${pageNumber} from ePerusteet: ${page.error.message}`
+    )
     return undefined
   }
 
   return page.data
 }
 
-export async function fetchAllPages(
-  fetchPage: (pageNumber: number) => Promise<any>
-): Promise<any[] | undefined> {
-  const firstPage = await fetchValidPage(fetchPage, 0)
+export async function fetchAllEPerusteetPages(
+  fetchPage: (pageNumber: number) => Promise<any>,
+  listing: string
+): Promise<EPerusteetDegree[] | undefined> {
+  const firstPage = await fetchValidEPerusteetPage(fetchPage, 0, listing)
 
   if (!firstPage) {
     return undefined
@@ -27,7 +39,7 @@ export async function fetchAllPages(
   const items = [...firstPage.data]
 
   for (let pageNumber = 1; pageNumber < firstPage.sivuja; pageNumber++) {
-    const page = await fetchValidPage(fetchPage, pageNumber)
+    const page = await fetchValidEPerusteetPage(fetchPage, pageNumber, listing)
 
     if (!page) {
       return undefined

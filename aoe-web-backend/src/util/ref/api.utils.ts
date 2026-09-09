@@ -6,7 +6,7 @@ export async function getDataFromApi(
   route?: string,
   headers?: HttpHeaders,
   params?: string
-): Promise<any> {
+) {
   const url = `${api}${route}${params}`
 
   try {

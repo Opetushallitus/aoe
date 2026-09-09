@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { fetchAllPages, getUnique } from './data.utils.ts'
-import type { KeyValue } from '@/models/ref/data.ts'
+import { fetchAllEPerusteetPages, getUnique } from './data.utils.ts'
+import { ePerusteetPeruste, type KeyValue } from '@/models/ref/data.ts'
 import type { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended.ts'
 
 // Realistic organisation data matching how setOrganisaatiot() builds KeyValue arrays
@@ -47,20 +47,32 @@ const lukionkurssit: AlignmentObjectExtended[] = [
   }
 ]
 
-describe('fetchAllPages', () => {
+describe('fetchAllEPerusteetPages', () => {
   function toItem(id: number) {
-    return { id }
+    return {
+      id,
+      nimi: { fi: `Tutkinto ${id}` },
+      voimassaoloAlkaa: 1659301200000,
+      siirtymaPaattyy: null
+    }
   }
 
   function makePage(sivu: number, sivuja: number, ...ids: number[]) {
-    return { sivu, sivuja, data: ids.map(toItem), kokonaismaara: ids.length }
+    return { sivu, sivuja, data: ids.map(toItem), kokonaismäärä: ids.length }
+  }
+
+  function idsOf(items: { id: number }[] | undefined) {
+    return items?.map((item) => item.id)
   }
 
   function servePages(pages: unknown[], maxCalls = 10) {
     const requested: number[] = []
 
     async function fetchPage(pageNumber: number) {
-      assert.ok(requested.length < maxCalls, `fetchAllPages did not stop within ${maxCalls} pages`)
+      assert.ok(
+        requested.length < maxCalls,
+        `fetchAllEPerusteetPages did not stop within ${maxCalls} pages`
+      )
       requested.push(pageNumber)
       return pages[pageNumber]
     }
@@ -75,34 +87,31 @@ describe('fetchAllPages', () => {
       makePage(2, 3, 4, 5)
     ])
 
-    assert.deepEqual(await fetchAllPages(fetchPage), [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 }
-    ])
+    assert.deepEqual(
+      idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')),
+      [1, 2, 3, 4, 5]
+    )
     assert.deepEqual(requested, [0, 1, 2])
   })
 
   it('accepts a single page numbered 0', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 1, 1)])
 
-    assert.deepEqual(await fetchAllPages(fetchPage), [{ id: 1 }])
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1])
     assert.deepEqual(requested, [0])
   })
 
   it('takes the page count from the first page', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 2, 1), makePage(1, 5, 2)])
 
-    assert.deepEqual(await fetchAllPages(fetchPage), [{ id: 1 }, { id: 2 }])
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1, 2])
     assert.deepEqual(requested, [0, 1])
   })
 
   it('stops when a page has no sivuja', async () => {
-    const { requested, fetchPage } = servePages([{ sivu: 0, data: [{ id: 1 }] }])
+    const { requested, fetchPage } = servePages([{ sivu: 0, data: [toItem(1)] }])
 
-    assert.equal(await fetchAllPages(fetchPage), undefined)
+    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
     assert.deepEqual(requested, [0])
   })
 
@@ -110,27 +119,142 @@ describe('fetchAllPages', () => {
     let calls = 0
 
     async function fetchAlwaysPageZero() {
-      assert.ok(++calls <= 10, 'fetchAllPages did not stop within 10 pages')
+      assert.ok(++calls <= 10, 'fetchAllEPerusteetPages did not stop within 10 pages')
       return makePage(0, 3, calls)
     }
 
-    const items = await fetchAllPages(fetchAlwaysPageZero)
+    const items = await fetchAllEPerusteetPages(fetchAlwaysPageZero, 'perustutkinnot')
 
     assert.equal(calls, 3)
-    assert.deepEqual(items, [{ id: 1 }, { id: 2 }, { id: 3 }])
+    assert.deepEqual(idsOf(items), [1, 2, 3])
   })
 
   it('discards earlier pages when a later page fails', async () => {
     const { fetchPage } = servePages([makePage(0, 3, 1), undefined, makePage(2, 3, 3)])
 
-    assert.equal(await fetchAllPages(fetchPage), undefined)
+    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
   })
 
   it('stops on an empty page', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 2), makePage(1, 2, 1)])
 
-    assert.equal(await fetchAllPages(fetchPage), undefined)
+    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
     assert.deepEqual(requested, [0])
+  })
+
+  it('rejects a page that holds a degree with no name', async () => {
+    const { fetchPage } = servePages([
+      { sivu: 0, sivuja: 1, data: [{ ...toItem(1), nimi: { _id: '2' } }] }
+    ])
+
+    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+  })
+
+  it('accepts a degree named in swedish only', async () => {
+    const { fetchPage } = servePages([
+      { sivu: 0, sivuja: 1, data: [{ ...toItem(1), nimi: { sv: 'Grundexamen' } }] }
+    ])
+
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1])
+  })
+
+  it('rejects a degree with no validity start date', async () => {
+    const { fetchPage } = servePages([
+      { sivu: 0, sivuja: 1, data: [{ id: 1, nimi: { fi: 'Tutkinto' }, siirtymaPaattyy: null }] }
+    ])
+
+    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+  })
+
+  it('keeps the validity dates the caller reads', async () => {
+    const degree = { ...toItem(1), siirtymaPaattyy: 1790812800000 }
+    const { fetchPage } = servePages([{ sivu: 0, sivuja: 1, data: [degree] }])
+    const items = await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')
+
+    assert.equal(items[0].voimassaoloAlkaa, 1659301200000)
+    assert.equal(items[0].siirtymaPaattyy, 1790812800000)
+  })
+
+  it('accepts a null transition end date', async () => {
+    const { fetchPage } = servePages([{ sivu: 0, sivuja: 1, data: [toItem(1)] }])
+    const items = await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')
+
+    assert.equal(items[0].siirtymaPaattyy, null)
+  })
+})
+
+describe('ePerusteetPeruste', () => {
+  const unit = { id: 2, nimi: { fi: 'Ajoneuvon huoltotyöt' }, osaAlueet: [] }
+  const requirement = { koodi: { arvo: '9582' }, vaatimus: { fi: 'huoltaa ajoneuvon' } }
+
+  it('accepts a degree with units', () => {
+    const parsed = ePerusteetPeruste.safeParse({
+      id: 1,
+      nimi: { fi: 'Ajoneuvoalan perustutkinto' },
+      tutkinnonOsat: [unit]
+    })
+
+    assert.equal(parsed.success, true)
+  })
+
+  it('rejects a degree with no units', () => {
+    const parsed = ePerusteetPeruste.safeParse({ id: 1, nimi: { fi: 'Tutkinto' } })
+
+    assert.equal(parsed.success, false)
+  })
+
+  it('rejects a degree with an unnamed unit', () => {
+    const parsed = ePerusteetPeruste.safeParse({
+      id: 1,
+      nimi: { fi: 'Tutkinto' },
+      tutkinnonOsat: [{ id: 2, nimi: {} }]
+    })
+
+    assert.equal(parsed.success, false)
+  })
+
+  it('accepts a target area with a null description', () => {
+    const parsed = ePerusteetPeruste.safeParse({
+      id: 1,
+      nimi: { fi: 'Tutkinto' },
+      tutkinnonOsat: [
+        {
+          ...unit,
+          ammattitaitovaatimukset2019: {
+            kohdealueet: [{ kuvaus: null, vaatimukset: [requirement] }]
+          }
+        }
+      ]
+    })
+
+    assert.equal(parsed.success, true)
+  })
+
+  it('rejects a requirement with no koodi, because the controller uses it as the key', () => {
+    const parsed = ePerusteetPeruste.safeParse({
+      id: 1,
+      nimi: { fi: 'Tutkinto' },
+      tutkinnonOsat: [
+        {
+          ...unit,
+          ammattitaitovaatimukset2019: {
+            kohdealueet: [{ kuvaus: null, vaatimukset: [{ vaatimus: { fi: 'huoltaa' } }] }]
+          }
+        }
+      ]
+    })
+
+    assert.equal(parsed.success, false)
+  })
+
+  it('accepts a unit with no competence requirements', () => {
+    const parsed = ePerusteetPeruste.safeParse({
+      id: 1,
+      nimi: { fi: 'Tutkinto' },
+      tutkinnonOsat: [unit]
+    })
+
+    assert.equal(parsed.success, true)
   })
 })
 

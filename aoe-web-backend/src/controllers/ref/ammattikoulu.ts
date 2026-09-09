@@ -1,7 +1,8 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { fetchAllPages, getUnique, sortByTargetName } from '@util/ref/data.utils'
+import { fetchAllEPerusteetPages, getUnique, sortByTargetName } from '@util/ref/data.utils'
 import { getAsync, setAsync } from '@util/ref/redis.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
+import { ePerusteetPeruste } from '@/models/ref/data'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
 import { Request, Response, NextFunction } from 'express'
@@ -15,7 +16,7 @@ const rediskeyUnits = 'ammattikoulu-tutkinnonosat'
 const rediskeyRequirements = 'ammattikoulu-vaatimukset'
 const rediskeyYTO = 'ammattikoulun-yto-aineet'
 
-function fetchTutkinnotPage(koulutustyyppi: string, pageNumber: number): Promise<any> {
+function fetchEPerusteetTutkinnotPage(koulutustyyppi: string, pageNumber: number) {
   return getDataFromApi(
     config.EXTERNAL_API.ePerusteet || 'not-defined',
     `/${newEndpoint}/`,
@@ -23,27 +24,27 @@ function fetchTutkinnotPage(koulutustyyppi: string, pageNumber: number): Promise
       Accept: 'application/json',
       'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
     },
-    `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=${koulutustyyppi}`
+    `?sivu=${pageNumber}&tulevat=true&siirtyma=true&voimassa=true&poistuneet=false&koulutustyyppi=${koulutustyyppi}`
   )
 }
 
-function fetchPerustutkinnotPage(pageNumber: number): Promise<any> {
-  return fetchTutkinnotPage('koulutustyyppi_1', pageNumber)
+function fetchEPerusteetPerustutkinnotPage(pageNumber: number) {
+  return fetchEPerusteetTutkinnotPage('koulutustyyppi_1', pageNumber)
 }
 
-function fetchAmmattitutkinnotPage(pageNumber: number): Promise<any> {
-  return fetchTutkinnotPage('koulutustyyppi_11', pageNumber)
+function fetchEPerusteetAmmattitutkinnotPage(pageNumber: number) {
+  return fetchEPerusteetTutkinnotPage('koulutustyyppi_11', pageNumber)
 }
 
-function fetchErikoisammattitutkinnotPage(pageNumber: number): Promise<any> {
-  return fetchTutkinnotPage('koulutustyyppi_12', pageNumber)
+function fetchEPerusteetErikoisammattitutkinnotPage(pageNumber: number) {
+  return fetchEPerusteetTutkinnotPage('koulutustyyppi_12', pageNumber)
 }
 
 export async function setAmmattikoulunPerustutkinnot(): Promise<void> {
   let finnishDegrees: AlignmentObjectExtended[] = []
   let swedishDegrees: AlignmentObjectExtended[] = []
   let englishDegrees: AlignmentObjectExtended[] = []
-  const results = await fetchAllPages(fetchPerustutkinnotPage)
+  const results = await fetchAllEPerusteetPages(fetchEPerusteetPerustutkinnotPage, 'perustutkinnot')
 
   if (!results) {
     winstonLogger.error('No data from ePerusteet in setAmmattikoulunPerustutkinnot()')
@@ -51,12 +52,6 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<void> {
   }
 
   for (const degree of results) {
-    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-      throw Error(
-        'Creating new sets of educational subjects failed in setAmmattikoulunPerustutkinnot(): Missing required data'
-      )
-    }
-
     let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
     let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
     let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
@@ -166,40 +161,33 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
   }
 
   for (const degree of degrees) {
-    const results: Record<string, unknown>[] = await getDataFromApi(
-      config.EXTERNAL_API.ePerusteet || 'not-defined',
-      `/${degreeEndpoint}/`,
-      {
-        Accept: 'application/json',
-        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
-      },
-      `${degree}`
+    const peruste = ePerusteetPeruste.safeParse(
+      await getDataFromApi(
+        config.EXTERNAL_API.ePerusteet || 'not-defined',
+        `/${degreeEndpoint}/`,
+        {
+          Accept: 'application/json',
+          'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
+        },
+        `${degree}`
+      )
     )
 
-    if (!results || !(results as any).tutkinnonOsat || (results as any).tutkinnonOsat.length < 1) {
+    if (!peruste.success) {
       winstonLogger.error(
-        `No data from ePerusteet for degree ${degree} in setAmmattikoulunTutkinnonOsat()`
+        `Unusable degree ${degree} from ePerusteet in setAmmattikoulunTutkinnonOsat(): ${peruste.error.message}`
       )
       continue
     }
 
-    ;(results as any).tutkinnonOsat.forEach((unit: any) => {
-      if (
-        !(results as any).id ||
-        (!(results as any).nimi?.fi && !(results as any).nimi?.sv && !(results as any).nimi?.en) ||
-        !unit.id ||
-        (!unit.nimi?.fi && !unit.nimi?.sv && !unit.nimi?.en)
-      ) {
-        throw Error(
-          'Creating new sets of units of vocational education and competence requirements failed in setAmmattikoulunTutkinnonOsat(): Missing required data'
-        )
-      }
+    const { id, nimi, tutkinnonOsat } = peruste.data
 
+    tutkinnonOsat.forEach((unit) => {
       finnishUnits.push({
         key: unit.id,
         parent: {
-          key: (results as any).id,
-          value: (results as any).nimi.fi || (results as any).nimi.sv || (results as any).nimi.en
+          key: id,
+          value: nimi.fi || nimi.sv || nimi.en
         },
         source: 'vocationalUnits',
         alignmentType: 'educationalSubject',
@@ -209,8 +197,8 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
       swedishUnits.push({
         key: unit.id,
         parent: {
-          key: (results as any).id,
-          value: (results as any).nimi.sv || (results as any).nimi.fi || (results as any).nimi.en
+          key: id,
+          value: nimi.sv || nimi.fi || nimi.en
         },
         source: 'vocationalUnits',
         alignmentType: 'educationalSubject',
@@ -220,8 +208,8 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
       englishUnits.push({
         key: unit.id,
         parent: {
-          key: (results as any).id,
-          value: (results as any).nimi.en || (results as any).nimi.fi || (results as any).nimi.sv
+          key: id,
+          value: nimi.en || nimi.fi || nimi.sv
         },
         source: 'vocationalUnits',
         alignmentType: 'educationalSubject',
@@ -229,28 +217,28 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
       })
 
       // vocational competence requirements
-      unit.ammattitaitovaatimukset2019?.kohdealueet?.forEach((target: any) => {
-        target.vaatimukset?.forEach((requirement: any) => {
+      unit.ammattitaitovaatimukset2019?.kohdealueet.forEach((target) => {
+        target.vaatimukset.forEach((requirement) => {
           finnishRequirements.push({
-            key: requirement.koodi?.arvo || requirement.vaatimus?._id,
+            key: requirement.koodi.arvo,
             parent: {
               key: unit.id,
               value: target.kuvaus?.fi || target.kuvaus?.sv
             },
             source: 'vocationalRequirements',
             alignmentType: 'teaches',
-            targetName: requirement.vaatimus?.fi || requirement.vaatimus?.sv
+            targetName: requirement.vaatimus.fi || requirement.vaatimus.sv
           })
 
           swedishRequirements.push({
-            key: requirement.koodi?.arvo || requirement.vaatimus?._id,
+            key: requirement.koodi.arvo,
             parent: {
               key: unit.id,
               value: target.kuvaus?.sv || target.kuvaus?.fi
             },
             source: 'vocationalRequirements',
             alignmentType: 'teaches',
-            targetName: requirement.vaatimus?.sv || requirement.vaatimus?.fi
+            targetName: requirement.vaatimus.sv || requirement.vaatimus.fi
           })
         })
       })
@@ -345,7 +333,10 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
   let englishQuals: AlignmentObjectExtended[] = []
-  const results = await fetchAllPages(fetchAmmattitutkinnotPage)
+  const results = await fetchAllEPerusteetPages(
+    fetchEPerusteetAmmattitutkinnotPage,
+    'ammattitutkinnot'
+  )
 
   if (!results) {
     winstonLogger.error('No data from ePerusteet in setAmmattikoulunAmmattitutkinnot()')
@@ -353,12 +344,6 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
   }
 
   for (const degree of results) {
-    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-      throw Error(
-        'Creating new sets of further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): Missing required data'
-      )
-    }
-
     let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
     let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
     let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
@@ -449,7 +434,10 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
   let englishQuals: AlignmentObjectExtended[] = []
-  const results = await fetchAllPages(fetchErikoisammattitutkinnotPage)
+  const results = await fetchAllEPerusteetPages(
+    fetchEPerusteetErikoisammattitutkinnotPage,
+    'erikoisammattitutkinnot'
+  )
 
   if (!results) {
     winstonLogger.error('No data from ePerusteet in setAmmattikoulunErikoisammattitutkinnot()')
@@ -457,12 +445,6 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
   }
 
   for (const degree of results) {
-    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-      throw Error(
-        'Creating new sets of specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): Missing required data'
-      )
-    }
-
     let targetNameFi: string = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
     let targetNameSv: string = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
     let targetNameEn: string = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
@@ -554,30 +536,26 @@ export async function setAmmattikoulunYTOaineet(): Promise<void> {
   let swedishDegrees: AlignmentObjectExtended[] = []
   let englishDegrees: AlignmentObjectExtended[] = []
 
-  const results: Record<string, unknown>[] = await getDataFromApi(
-    config.EXTERNAL_API.ePerusteet || 'not-defined',
-    `/${degreeEndpoint}/`,
-    {
-      Accept: 'application/json',
-      'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
-    },
-    `yto`
+  const peruste = ePerusteetPeruste.safeParse(
+    await getDataFromApi(
+      config.EXTERNAL_API.ePerusteet || 'not-defined',
+      `/${degreeEndpoint}/`,
+      {
+        Accept: 'application/json',
+        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`
+      },
+      `yto`
+    )
   )
 
-  if (!results || !(results as any).tutkinnonOsat || (results as any).tutkinnonOsat.length < 1) {
+  if (!peruste.success) {
     winstonLogger.error(
-      'No data from ePerusteet in setAmmattikoulunYTOaineet(): Missing required data'
+      `Unusable common units from ePerusteet in setAmmattikoulunYTOaineet(): ${peruste.error.message}`
     )
     return
   }
 
-  ;(results as any).tutkinnonOsat.forEach((degree: any) => {
-    if (!degree.id || (!degree.nimi?.fi && !degree.nimi?.sv && !degree.nimi?.en)) {
-      throw Error(
-        'Creating new sets of common units of vocational education failed in setAmmattikoulunYTOaineet(): Missing required data'
-      )
-    }
-
+  peruste.data.tutkinnonOsat.forEach((degree) => {
     const targetNameFi = degree.nimi.fi || degree.nimi.sv || degree.nimi.en
     const targetNameSv = degree.nimi.sv || degree.nimi.fi || degree.nimi.en
     const targetNameEn = degree.nimi.en || degree.nimi.fi || degree.nimi.sv
@@ -607,13 +585,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<void> {
       targetName: targetNameEn
     })
 
-    degree.osaAlueet.forEach((unit: any) => {
-      if (!unit.id || (!unit.nimi?.fi && !unit.nimi?.sv && !unit.nimi?.en)) {
-        throw Error(
-          'Creating new sets of subjects of common units failed in setAmmattikoulunYTOaineet(): Missing required data'
-        )
-      }
-
+    degree.osaAlueet.forEach((unit) => {
       const unitTargetNameFi = unit.nimi.fi || unit.nimi.sv || unit.nimi.en
       const unitTargetNameSv = unit.nimi.sv || unit.nimi.fi || unit.nimi.en
       const unitTargetNameEn = unit.nimi.en || unit.nimi.fi || unit.nimi.sv
