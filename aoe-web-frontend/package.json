@@ -60,7 +60,7 @@
     "@angular/compiler-cli": "21.2.22",
     "@angular/language-service": "21.2.22",
     "@types/node": "24.13.3",
-    "knip": "6.34.0",
+    "knip": "6.35.0",
     "sass": "1.104.0",
     "typescript": "5.9.3"
   },
