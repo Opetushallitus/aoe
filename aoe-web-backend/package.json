@@ -43,7 +43,7 @@
     "@opensearch-project/opensearch": "2.13.0",
     "archiver": "6.0.2",
     "aws-sdk": "2.1693.0",
-    "compression": "1.8.1",
+    "compression": "1.8.2",
     "connect-flash": "0.1.1",
     "connect-redis": "9.0.0",
     "cors": "2.8.6",
