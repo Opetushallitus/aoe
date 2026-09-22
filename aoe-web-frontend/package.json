@@ -59,7 +59,7 @@
     "@angular/cli": "21.2.24",
     "@angular/compiler-cli": "21.2.23",
     "@angular/language-service": "21.2.23",
-    "@types/node": "24.13.4",
+    "@types/node": "24.13.6",
     "knip": "6.37.0",
     "sass": "1.104.1",
     "typescript": "5.9.3"
