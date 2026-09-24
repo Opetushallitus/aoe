@@ -23,7 +23,8 @@ function fetch_alb_logs {
   account=$(aws sts get-caller-identity --query Account --output text | tr -d '\r')
   out="alb-${ENV}-${day}${hour:+-$hour}.log"
   tmp=$(mktemp -d)
-  trap 'rm -rf "${tmp}"' EXIT
+  # shellcheck disable=SC2064 # expand now: tmp is local and gone by the time EXIT fires
+  trap "rm -rf '${tmp}'" EXIT
 
   local -r prefix="s3://aoe-alb-logs-${ENV}/AWSLogs/${account}/elasticloadbalancing/eu-west-1/${day//-//}/"
   info "Downloading ${prefix}${hour:+ hour ${hour} UTC} -> ${out}"
