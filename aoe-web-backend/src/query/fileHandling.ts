@@ -1184,7 +1184,8 @@ const downloadAndZipFromStorage = async (
 ): Promise<void> => {
   const bucket = config.CLOUD_STORAGE_CONFIG.bucket
   const { controller, dispose } = abortOnClientClose(res)
-  const archive = new ZipArchive()
+  // Materials are mostly already-compressed (mp4, pptx, pdf), so deflate only burns CPU.
+  const archive = new ZipArchive({ store: true })
   const done = pipeline(archive, res)
   done.catch(() => {})
   try {
