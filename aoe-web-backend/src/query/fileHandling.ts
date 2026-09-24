@@ -23,7 +23,7 @@ import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
 import * as log from '@util/winstonLogger'
-import archiver, { EntryData } from 'archiver'
+import { EntryData, ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
@@ -1339,7 +1339,7 @@ const downloadAndZipFromStorage = async (
     }
   }
   res.once('close', abortOnClientDisconnect)
-  const archive = archiver('zip')
+  const archive = new ZipArchive()
   const done = pipeline(archive, res)
   done.catch(() => {})
   try {
