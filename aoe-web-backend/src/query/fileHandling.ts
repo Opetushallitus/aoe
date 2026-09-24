@@ -81,12 +81,6 @@ const upload: Multer = multer({
   preservePath: true
 }) // provide the return value from
 
-/**
- * @param {e.Request} req
- * @param {e.Response} res
- * @param {e.NextFunction} next
- * @return {Promise<any>}
- */
 export const uploadAttachmentToMaterial = async (
   req: Request,
   res: Response,
@@ -149,12 +143,6 @@ export const uploadAttachmentToMaterial = async (
   }
 }
 
-/**
- * @param {e.Request} req
- * @param {e.Response} res
- * @param {e.NextFunction} next
- * @return {Promise<any>}
- */
 export const uploadMaterial = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const contentType = req.headers['content-type']
@@ -292,11 +280,6 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-/**
- * @param {e.Request} req
- * @param {e.Response} res
- * @return {Promise<{file: Express.Multer.File, fileDetails: Record<string, unknown>}>}
- */
 const uploadFileToLocalDisk = (
   req: Request,
   res: Response
@@ -359,13 +342,7 @@ const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
   })
 }
 
-/**
- * Upload a single file to the educational material with a multipart form upload.
- * @param {e.Request} req
- * @param {e.Response} res
- * @param {e.NextFunction} next
- * @return {Promise<void>}
- */
+// Upload a single file to the educational material with a multipart form upload.
 export const uploadFileToMaterial = async (
   req: Request,
   res: Response,
@@ -522,14 +499,7 @@ const insertDataToEducationalMaterialTable = async (
   )
 }
 
-/**
- * LEGACY IMPLEMENTATION.
- * TODO: TO BE REMOVED
- * @param t
- * @param {Express.Multer.File} file
- * @param materialId
- * @return {Promise<any>}
- */
+// LEGACY IMPLEMENTATION. TODO: TO BE REMOVED
 const insertDataToTempRecordTable = async (
   t: ITask<IClient>,
   file: MulterFile,
@@ -550,14 +520,8 @@ const insertDataToTempRecordTable = async (
   ])
 }
 
-/**
- * Update or insert a material display name with the language versions (if available) and attach to a transaction.
- * A new implementation of the function insertDataToDisplayName() below.
- * @param {Transaction} t
- * @param {string} materialId
- * @param fileDetails
- * @return {Promise<any>}
- */
+// Update or insert a material display name with the language versions (if available) and attach to a transaction.
+// A new implementation of insertDataToDisplayName() below.
 const upsertMaterialDisplayName = async (
   t: Transaction,
   materialId: string,
@@ -597,14 +561,7 @@ const upsertMaterialDisplayName = async (
   }
 }
 
-/**
- * LEGACY IMPLEMENTATION.
- * TODO: TO BE REMOVED
- * @param t
- * @param educationalmaterialid
- * @param {string} materialid
- * @param fileDetails
- */
+// LEGACY IMPLEMENTATION. TODO: TO BE REMOVED
 export async function insertDataToDisplayName(
   t: any,
   educationalmaterialid: string,
@@ -643,15 +600,6 @@ const insertDataToMaterialTable = async (
   return await t.one(query, [location, eduMaterialId, languages, priority])
 }
 
-/**
- * @param files
- * @param materialID
- * @param fileKey
- * @param fileBucket
- * @param {string} location
- * @param metadata
- * @return {Promise<any>}
- */
 const insertDataToAttachmentTable = async (
   files: any,
   materialID: string,
@@ -734,16 +682,6 @@ async function insertDataToTempAttachmentTable(files: any, metadata: any, attach
   ])
 }
 
-/**
- * @param {Transaction} t
- * @param file
- * @param {string} materialID
- * @param {string} cloudKey
- * @param {string} cloudBucket
- * @param {string} cloudURI
- * @param {string} recordID
- * @return {Promise<void>}
- */
 const upsertRecord = async (
   t: Transaction,
   file: MulterFile,
@@ -790,17 +728,8 @@ const upsertRecord = async (
   return record.id
 }
 
-/**
- * Transaction to persist the metadata of a new file and update the corresponding educational material.
- * Set the cloud related columns nullable: ALTER TABLE <table> ALTER COLUMN <column> DROP NOT NULL.
- * @param file
- * @param materialID
- * @param cloudKey
- * @param cloudBucket
- * @param {string} cloudURI
- * @param recordID
- * @return {Promise<string | null>}
- */
+// Transaction to persist the metadata of a new file and update the corresponding educational material.
+// Set the cloud related columns nullable: ALTER TABLE <table> ALTER COLUMN <column> DROP NOT NULL.
 const insertDataToRecordTable = async (
   file: MulterFile,
   materialID: string,
@@ -856,11 +785,6 @@ const insertDataToRecordTable = async (
   return id
 }
 
-/**
- * @param filename
- * @param materialId
- * @return {Promise<void>}
- */
 const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
   const query = `
     DELETE FROM temporaryrecord
@@ -874,14 +798,7 @@ async function deleteDataToTempAttachmentTable(filename: any, materialId: any): 
   return await db.any(query, [filename, materialId])
 }
 
-/**
- * Upload a file from the local file system to the cloud object storage.
- * @param {string} filePath
- * @param {string} fileName
- * @param {string} bucketName
- * @param {Material} materialMeta
- * @return {Promise<ManagedUpload.SendData>}
- */
+// Upload a file from the local file system to the cloud object storage.
 export const uploadFileToStorage = async (
   filePath: string,
   fileName: string,
@@ -916,13 +833,7 @@ export const uploadFileToStorage = async (
   }
 }
 
-/**
- * Upload a file from the local file system to the cloud object storage.
- *
- * @param base64data Buffer File binary content Base64 encoded
- * @param filename   string Target file name in object storage system
- * @param bucketName string Target bucket in object storage system
- */
+// Upload an in-memory file buffer to the cloud object storage.
 export async function uploadBase64FileToStorage(
   base64data: Buffer,
   filename: string,
@@ -950,12 +861,6 @@ export async function uploadBase64FileToStorage(
   }
 }
 
-/**
- *
- * @param req
- * @param res
- * @param next
- */
 export const downloadPreviewFile = async (
   req: Request,
   res: Response,
@@ -975,11 +880,6 @@ export const downloadPreviewFile = async (
   }
 }
 
-/**
- * @param req
- * @param res
- * @param next
- */
 export const downloadFile = async (
   req: Request,
   res: Response,
@@ -1039,15 +939,9 @@ export const downloadFile = async (
   }
 }
 
-/**
- * Get file details from the database before proceeding to the file download from the cloud object storage.
- * In case of video streaming request can be redirected to the streaming service when all criteria are fulfilled.
- * TODO: Function chain and related leagcy code should be refactored and simplified in both directions.
- * @param req   express.Request
- * @param res   express.Response
- * @param next  express.NextFunction
- * @param isZip boolean Indicator for the need of decompression
- */
+// Get file details from the database before proceeding to the file download from the cloud object storage.
+// In case of video streaming request can be redirected to the streaming service when all criteria are fulfilled.
+// TODO: Function chain and related legacy code should be refactored and simplified in both directions.
 export const downloadFileFromStorage = async (
   req: Request,
   res: Response,
@@ -1129,16 +1023,11 @@ export const downloadFileFromStorage = async (
 const missingStorageObjectMessage = (paramsS3: { Bucket: string; Key: string }): string =>
   `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
 
-/**
- * Download a single storage object to a unique, request-owned temporary file and
- * return its path. Streams straight to disk (no in-memory buffer), so large
- * archives don't have to fit in RAM. The directory is created with mkdtemp, so
- * concurrent callers never collide, and is removed on error. Pass an AbortSignal
- * to cancel the request (and release the socket) when the client disconnects.
- * @param {{Bucket: string, Key: string}} paramsS3
- * @param {AbortSignal} [abortSignal]
- * @return {Promise<{ directory: string; file: string }>}
- */
+// Download a single storage object to a unique, request-owned temporary file and
+// return its path. Streams straight to disk (no in-memory buffer), so large
+// archives don't have to fit in RAM. The directory is created with mkdtemp, so
+// concurrent callers never collide, and is removed on error. Pass an AbortSignal
+// to cancel the request (and release the socket) when the client disconnects.
 export const downloadToTemporaryFile = async (
   paramsS3: {
     Bucket: string
@@ -1174,15 +1063,8 @@ export const downloadToTemporaryFile = async (
   }
 }
 
-/**
- * API function to download an original or compressed (zip) file from the cloud object storage.
- * @param req          express.Request
- * @param res          express.Response
- * @param next         express.NextFunction
- * @param paramsS3     GetRequestObject (aws-sdk/clients/s3)
- * @param origFilename string Original file name without storage ID
- * @param isZip        boolean Indicator for the need of decompression
- */
+// Stream a storage object to the client as an attachment. With isZip, save it to
+// HTML_FOLDER instead, extract it and return the path of its index.html (or false).
 export const downloadFromStorage = async (
   res: Response,
   next: NextFunction,
@@ -1227,12 +1109,7 @@ export const downloadFromStorage = async (
   }
 }
 
-/**
- * Download all files related to an educational material as a bundled ZIP file.
- * @param req  Request<any>
- * @param res  Response<any>
- * @param next NextFunction
- */
+// Download all files related to an educational material as a bundled ZIP file.
 export const downloadAllMaterialsCompressed = async (
   req: Request,
   res: Response,
@@ -1335,11 +1212,7 @@ const downloadAndZipFromStorage = async (
   }
 }
 
-/**
- * Function to decompress a HTML archive file and locate an index file in the target directory.
- * @param {string} zipFilePath
- * @returns {Promise<boolean | string>}
- */
+// Find all files named pattern under dir, skipping __MACOSX resource forks.
 const searchRecursive = (dir: string, pattern: string): string[] => {
   let results: string[] = []
   fs.readdirSync(dir).forEach((dirInner) => {
@@ -1359,10 +1232,8 @@ const searchRecursive = (dir: string, pattern: string): string[] => {
   return results
 }
 
-/**
- * Search for an already-extracted index.html on disk for a given original filename.
- * Returns the path to index.html if found, or false if the extracted folder doesn't exist.
- */
+// Search for an already-extracted index.html on disk for a given original filename.
+// Returns the path to index.html if found, or false if the extracted folder doesn't exist.
 export const findExistingIndexHtml = (originalFilename: string): string | false => {
   const zipPath = `${process.env.HTML_FOLDER}/${originalFilename}`
   const extractedFolder = zipPath.slice(0, -4)
