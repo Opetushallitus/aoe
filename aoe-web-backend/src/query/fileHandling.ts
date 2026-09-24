@@ -23,15 +23,15 @@ import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
 import * as log from '@util/winstonLogger'
-import { EntryData } from 'archiver'
+import archiver, { EntryData } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
 import path from 'path'
 import { ColumnSet, ITask } from 'pg-promise'
-import s3Zip, { ArchiveOptions } from 's3-zip'
 import { Transaction } from 'sequelize'
 import { Readable } from 'stream'
+import { once } from 'node:events'
 import { pipeline } from 'node:stream/promises'
 import os from 'node:os'
 import { mkdtemp, rm } from 'node:fs/promises'
@@ -1199,6 +1199,9 @@ export const downloadFromStorage = async (
     }
   }
   res.once('close', abortOnClientDisconnect)
+  if (res.destroyed) {
+    abortOnClientDisconnect()
+  }
   try {
     const fileStream = s3StreamBody(
       (
@@ -1291,8 +1294,18 @@ export const downloadAllMaterialsCompressed = async (
     })
   }
   res.header('Content-Disposition', 'attachment; filename=materials.zip')
+  if (res.destroyed) {
+    return
+  }
   // Downstream files from the object storage and zip the bundle.
-  await downloadAndZipFromStorage(res, fileKeys, fileNames)
+  try {
+    await downloadAndZipFromStorage(res, fileKeys, fileNames)
+  } catch (err) {
+    if (isClientAbortError(err)) {
+      return
+    }
+    throw err
+  }
   // Update the download counter.
   const educationalMaterialId: number = parseInt(edumaterialid, 10)
   if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
@@ -1319,15 +1332,39 @@ const downloadAndZipFromStorage = async (
   files: EntryData[]
 ): Promise<void> => {
   const bucket = config.CLOUD_STORAGE_CONFIG.bucket
-  const archive = s3Zip.archive(
-    { s3: s3Client, bucket } as ArchiveOptions,
-    undefined as string | undefined,
-    keys as string[],
-    files as EntryData[]
-  )
-  // pipeline destroys the archive stream on finish/error/abort, releasing S3 sockets.
-  // Any error propagates to the caller and gets logged.
-  await pipeline(archive, res)
+  const controller = new AbortController()
+  const abortOnClientDisconnect = (): void => {
+    if (!res.writableFinished) {
+      controller.abort()
+    }
+  }
+  res.once('close', abortOnClientDisconnect)
+  const archive = archiver('zip')
+  const done = pipeline(archive, res)
+  done.catch(() => {})
+  try {
+    for (const [i, key] of keys.entries()) {
+      const body = s3StreamBody(
+        (
+          await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }), {
+            abortSignal: controller.signal
+          })
+        ).Body
+      )
+      const entryWritten = once(archive, 'entry', { signal: controller.signal })
+      archive.append(body, files[i])
+      await entryWritten
+    }
+    await archive.finalize()
+    await done
+  } catch (err) {
+    controller.abort()
+    archive.destroy(err as Error)
+    await done
+    throw err
+  } finally {
+    res.removeListener('close', abortOnClientDisconnect)
+  }
 }
 
 /**
