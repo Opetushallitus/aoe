@@ -1,5 +1,5 @@
 import { config } from '@/config'
-import { isClientAbortError } from '@/helpers/errorHandler'
+import { abortOnClientClose, isClientAbortError } from '@/helpers/errorHandler'
 import { H5PUploadResult } from '@aoe/services/h5pService'
 import {
   fs,
@@ -83,13 +83,7 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
   const options: { onlyInstallLibraries?: boolean } = {
     onlyInstallLibraries: false
   }
-  const controller = new AbortController()
-  const abortOnClientDisconnect = (): void => {
-    if (!res.writableFinished) {
-      controller.abort()
-    }
-  }
-  res.once('close', abortOnClientDisconnect)
+  const { controller, dispose } = abortOnClientClose(res)
   let temporaryPackage: { directory: string; file: string } | undefined
   try {
     temporaryPackage = await downloadToTemporaryFile(paramsS3, controller.signal)
@@ -138,6 +132,6 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
         }
       )
     }
-    res.removeListener('close', abortOnClientDisconnect)
+    dispose()
   }
 }

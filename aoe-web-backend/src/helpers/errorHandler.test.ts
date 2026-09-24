@@ -1,10 +1,10 @@
 import { beforeEach, describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { Writable } from 'node:stream'
+import { PassThrough, Writable } from 'node:stream'
 import type { Request, Response, NextFunction } from 'express'
 import winston from 'winston'
 import { logger } from '@util/winstonLogger'
-import { handleError, StatusError } from './errorHandler.ts'
+import { abortOnClientClose, handleError, StatusError } from './errorHandler.ts'
 
 // Capture JSON lines instead of printing them to the console.
 const lines: string[] = []
@@ -98,5 +98,31 @@ describe('handleError', () => {
     assert.equal(body.statusCode, 503)
     assert.deepEqual(Object.keys(body.message), ['fi', 'en', 'sv'])
     assert.equal(body.message.en.includes('Upstream down'), false)
+  })
+})
+
+describe('abortOnClientClose', () => {
+  const fakeRes = () => new PassThrough() as unknown as Response
+
+  it('aborts on close before the response finished', () => {
+    const res = fakeRes()
+    const { controller } = abortOnClientClose(res)
+    res.destroy()
+    res.emit('close')
+    assert.equal(controller.signal.aborted, true)
+  })
+
+  it('aborts at once when the client is already gone', () => {
+    const res = fakeRes()
+    res.destroy()
+    assert.equal(abortOnClientClose(res).controller.signal.aborted, true)
+  })
+
+  it('does not abort after dispose', () => {
+    const res = fakeRes()
+    const { controller, dispose } = abortOnClientClose(res)
+    dispose()
+    res.emit('close')
+    assert.equal(controller.signal.aborted, false)
   })
 })

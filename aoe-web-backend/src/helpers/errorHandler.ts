@@ -22,6 +22,24 @@ export const isClientAbortError = (err: unknown): boolean => {
   return e?.name === 'AbortError' || e?.code === 'ERR_STREAM_PREMATURE_CLOSE'
 }
 
+// Controller that aborts when the client disconnects before the response finished (or already has).
+// Call dispose() when done so the listener does not outlive the request.
+export const abortOnClientClose = (
+  res: Response
+): { controller: AbortController; dispose: () => void } => {
+  const controller = new AbortController()
+  const onClose = (): void => {
+    if (!res.writableFinished) {
+      controller.abort()
+    }
+  }
+  res.once('close', onClose)
+  if (res.destroyed) {
+    onClose()
+  }
+  return { controller, dispose: () => res.removeListener('close', onClose) }
+}
+
 const genericErrorMessage =
   'Palvelussamme on tällä hetkellä vikatilanne. Selvitämme ongelmaa ja korjaamme sen mahdollisimman pian.'
 const genericErrorMessageEn =

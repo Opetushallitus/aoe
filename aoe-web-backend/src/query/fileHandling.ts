@@ -6,7 +6,7 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
-import { isClientAbortError, StatusError } from '@/helpers/errorHandler'
+import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/errorHandler'
 import {
   downstreamAndConvertOfficeFileToPDF,
   isOfficeMimeType,
@@ -23,7 +23,7 @@ import { db, pgp } from '@resource/postgresClient'
 import { hasAccesstoPublication } from '@services/authService'
 import { requestRedirected } from '@services/streamingService'
 import * as log from '@util/winstonLogger'
-import { EntryData, ZipArchive } from 'archiver'
+import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
 import fs, { WriteStream } from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
@@ -1192,16 +1192,7 @@ export const downloadFromStorage = async (
 ): Promise<string | boolean> => {
   const key: string = paramsS3.Key
   const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
-  const controller = new AbortController()
-  const abortOnClientDisconnect = (): void => {
-    if (!res.writableFinished) {
-      controller.abort()
-    }
-  }
-  res.once('close', abortOnClientDisconnect)
-  if (res.destroyed) {
-    abortOnClientDisconnect()
-  }
+  const { controller, dispose } = abortOnClientClose(res)
   try {
     const fileStream = s3StreamBody(
       (
@@ -1232,7 +1223,7 @@ export const downloadFromStorage = async (
     next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
     return false
   } finally {
-    res.removeListener('close', abortOnClientDisconnect)
+    dispose()
   }
 }
 
@@ -1285,21 +1276,13 @@ export const downloadAllMaterialsCompressed = async (
     }
     return await t.any(queryVersionFilesIds, [edumaterialid, publishedAt])
   })
-  const fileKeys: string[] = []
-  const fileNames: EntryData[] = []
-  for (const versionFile of versionFiles) {
-    fileKeys.push(versionFile.filekey)
-    fileNames.push({
-      name: versionFile.originalfilename as string
-    })
-  }
   res.header('Content-Disposition', 'attachment; filename=materials.zip')
   if (res.destroyed) {
     return
   }
   // Downstream files from the object storage and zip the bundle.
   try {
-    await downloadAndZipFromStorage(res, fileKeys, fileNames)
+    await downloadAndZipFromStorage(res, versionFiles)
   } catch (err) {
     if (isClientAbortError(err)) {
       return
@@ -1317,42 +1300,27 @@ export const downloadAllMaterialsCompressed = async (
   }
 }
 
-/**
- * Stream and combine files from the object storage to a compressed zip file.
- *
- * @param req   Request<any>
- * @param res   Response<any>
- * @param next  NextFunction
- * @param keys  string[] Array of object storage keys
- * @param files string[] Array of file names
- */
+// Stream the files from the object storage one at a time into a zip written to res.
 const downloadAndZipFromStorage = async (
   res: Response,
-  keys: string[],
-  files: EntryData[]
+  files: { filekey: string; originalfilename: string }[]
 ): Promise<void> => {
   const bucket = config.CLOUD_STORAGE_CONFIG.bucket
-  const controller = new AbortController()
-  const abortOnClientDisconnect = (): void => {
-    if (!res.writableFinished) {
-      controller.abort()
-    }
-  }
-  res.once('close', abortOnClientDisconnect)
+  const { controller, dispose } = abortOnClientClose(res)
   const archive = new ZipArchive()
   const done = pipeline(archive, res)
   done.catch(() => {})
   try {
-    for (const [i, key] of keys.entries()) {
+    for (const { filekey, originalfilename } of files) {
       const body = s3StreamBody(
         (
-          await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }), {
+          await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: filekey }), {
             abortSignal: controller.signal
           })
         ).Body
       )
       const entryWritten = once(archive, 'entry', { signal: controller.signal })
-      archive.append(body, files[i])
+      archive.append(body, { name: originalfilename })
       await entryWritten
     }
     await archive.finalize()
@@ -1363,7 +1331,7 @@ const downloadAndZipFromStorage = async (
     await done
     throw err
   } finally {
-    res.removeListener('close', abortOnClientDisconnect)
+    dispose()
   }
 }
 
