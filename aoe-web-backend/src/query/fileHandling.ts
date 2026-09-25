@@ -46,6 +46,8 @@ import { z } from 'zod'
 // ManagedUpload.SendData (exposes Location/Key/Bucket/ETag).
 type SendData = CompleteMultipartUploadCommandOutput
 
+type StorageFile = { filekey: string; originalfilename: string }
+
 // S3Client is reusable and thread-safe; share one instance across all S3 calls.
 const s3Client = new S3Client(s3ClientConfig)
 
@@ -1139,10 +1141,7 @@ export const downloadAllMaterialsCompressed = async (
     INNER JOIN attachment a ON a.id = avc.attachmentid
     WHERE avc.versioneducationalmaterialid = $1 AND avc.versionpublishedat = $2 AND a.obsoleted = 0
   `
-  const versionFiles: {
-    filekey: string
-    originalfilename: string
-  }[] = await db.task(async (t: any): Promise<any[]> => {
+  const versionFiles: StorageFile[] = await db.task(async (t: any): Promise<any[]> => {
     let publishedAt = req.params.publishedat
     if (!publishedAt) {
       const latestPublished: { max: string } = await t.oneOrNone(
@@ -1185,46 +1184,48 @@ const waitForStorageBody = async (body: Readable, filekey: string): Promise<void
   }
 }
 
-// Stream the files from the object storage one at a time into a zip written to res.
-const downloadAndZipFromStorage = async (
-  res: Response,
-  files: { filekey: string; originalfilename: string }[]
+const appendStorageFile = async (
+  archive: ZipArchive,
+  { filekey, originalfilename }: StorageFile,
+  signal: AbortSignal
 ): Promise<void> => {
-  const bucket = config.CLOUD_STORAGE_CONFIG.bucket
+  const response = await s3Client.send(
+    new GetObjectCommand({ Bucket: config.CLOUD_STORAGE_CONFIG.bucket, Key: filekey }),
+    { abortSignal: signal }
+  )
+  const body = s3StreamBody(response.Body)
+  // Archiver does not forward source errors. Watch for errors and premature
+  // closure, and keep storage failures distinct from client disconnects.
+  const bodyFinished = waitForStorageBody(body, filekey)
+  try {
+    const entryWritten = once(archive, 'entry', { signal })
+    archive.append(body, { name: originalfilename })
+    await Promise.all([entryWritten, bodyFinished])
+  } finally {
+    // On cancellation, retain the error listener until the body has closed.
+    body.destroy()
+    // Wait for cleanup without replacing the error propagated by Promise.all.
+    await Promise.allSettled([bodyFinished])
+  }
+}
+
+// Stream the files from the object storage one at a time into a zip written to res.
+const downloadAndZipFromStorage = async (res: Response, files: StorageFile[]): Promise<void> => {
   const { controller, dispose } = abortOnClientClose(res)
   // Materials are mostly already-compressed (mp4, pptx, pdf), so deflate only burns CPU.
   const archive = new ZipArchive({ store: true })
-  const done = pipeline(archive, res)
-  const pipelineSettled = Promise.allSettled([done])
+  const output = pipeline(archive, res)
+  const outputSettled = Promise.allSettled([output])
   try {
-    for (const { filekey, originalfilename } of files) {
-      const body = s3StreamBody(
-        (
-          await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: filekey }), {
-            abortSignal: controller.signal
-          })
-        ).Body
-      )
-      // Archiver does not forward source errors. Watch for errors and premature
-      // closure, and keep storage failures distinct from client disconnects.
-      const bodyFinished = waitForStorageBody(body, filekey)
-      try {
-        const entryWritten = once(archive, 'entry', { signal: controller.signal })
-        archive.append(body, { name: originalfilename })
-        await Promise.all([entryWritten, bodyFinished])
-      } finally {
-        // On cancellation, retain the error listener until the body has closed.
-        body.destroy()
-        // Wait for cleanup without replacing the error propagated by Promise.all.
-        await Promise.allSettled([bodyFinished])
-      }
+    for (const file of files) {
+      await appendStorageFile(archive, file, controller.signal)
     }
     await archive.finalize()
-    await done
+    await output
   } catch (err) {
     controller.abort()
     archive.destroy(err as Error)
-    await pipelineSettled
+    await outputSettled
     throw err
   } finally {
     dispose()
