@@ -32,7 +32,7 @@ import { ColumnSet, ITask } from 'pg-promise'
 import { Transaction } from 'sequelize'
 import { Readable } from 'stream'
 import { once } from 'node:events'
-import { pipeline } from 'node:stream/promises'
+import { finished, pipeline } from 'node:stream/promises'
 import os from 'node:os'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { updateDownloadCounter } from './analyticsQueries'
@@ -1177,6 +1177,14 @@ export const downloadAllMaterialsCompressed = async (
   }
 }
 
+const waitForStorageBody = async (body: Readable, filekey: string): Promise<void> => {
+  try {
+    await finished(body, { cleanup: true })
+  } catch (err) {
+    throw new StatusError(502, `Storage download of [${filekey}] failed`, err)
+  }
+}
+
 // Stream the files from the object storage one at a time into a zip written to res.
 const downloadAndZipFromStorage = async (
   res: Response,
@@ -1187,7 +1195,7 @@ const downloadAndZipFromStorage = async (
   // Materials are mostly already-compressed (mp4, pptx, pdf), so deflate only burns CPU.
   const archive = new ZipArchive({ store: true })
   const done = pipeline(archive, res)
-  done.catch(() => {})
+  const pipelineSettled = Promise.allSettled([done])
   try {
     for (const { filekey, originalfilename } of files) {
       const body = s3StreamBody(
@@ -1197,16 +1205,26 @@ const downloadAndZipFromStorage = async (
           })
         ).Body
       )
-      const entryWritten = once(archive, 'entry', { signal: controller.signal })
-      archive.append(body, { name: originalfilename })
-      await entryWritten
+      // Archiver does not forward source errors. Watch for errors and premature
+      // closure, and keep storage failures distinct from client disconnects.
+      const bodyFinished = waitForStorageBody(body, filekey)
+      try {
+        const entryWritten = once(archive, 'entry', { signal: controller.signal })
+        archive.append(body, { name: originalfilename })
+        await Promise.all([entryWritten, bodyFinished])
+      } finally {
+        // On cancellation, retain the error listener until the body has closed.
+        body.destroy()
+        // Wait for cleanup without replacing the error propagated by Promise.all.
+        await Promise.allSettled([bodyFinished])
+      }
     }
     await archive.finalize()
     await done
   } catch (err) {
     controller.abort()
     archive.destroy(err as Error)
-    await done
+    await pipelineSettled
     throw err
   } finally {
     dispose()
