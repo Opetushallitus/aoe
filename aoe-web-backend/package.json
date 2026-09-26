@@ -85,7 +85,7 @@
     "@types/lusca": "1.7.5",
     "@types/morgan": "1.9.10",
     "@types/multer": "2.2.0",
-    "@types/node": "24.13.5",
+    "@types/node": "24.13.6",
     "@types/passport": "1.0.17",
     "knip": "6.38.0",
     "tsc-alias": "1.9.5",

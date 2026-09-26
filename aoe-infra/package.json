@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.163",
-    "@types/node": "24.13.5",
+    "@types/node": "24.13.6",
     "aws-cdk": "2.1143.0",
     "esbuild": "0.28.2",
     "knip": "6.38.0",
