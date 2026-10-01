@@ -12,17 +12,13 @@ import * as events from 'aws-cdk-lib/aws-events'
 import * as targets from 'aws-cdk-lib/aws-events-targets'
 import * as cdk from 'aws-cdk-lib'
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch'
+import * as ec2 from 'aws-cdk-lib/aws-ec2'
+import * as ecr from 'aws-cdk-lib/aws-ecr'
+import * as ecs from 'aws-cdk-lib/aws-ecs'
 import * as iam from 'aws-cdk-lib/aws-iam'
-import * as lambda from 'aws-cdk-lib/aws-lambda'
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs'
 import * as logs from 'aws-cdk-lib/aws-logs'
 import * as sns from 'aws-cdk-lib/aws-sns'
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager'
-import * as path from 'path'
-
-// Restore testing is temporarily switched off. While this is false, the daily test
-// restore, the restore-validator Lambda and their alarms are not deployed at all.
-const ENABLE_RESTORE_TESTING = false
 
 const RESTORE_TEST_CLUSTER_PREFIX = 'awsbackup-restore-test'
 const VALIDATOR_INSTANCE_PREFIX = 'restore-validator-'
@@ -32,6 +28,9 @@ interface BackupStackProps extends StackProps {
   alarmSnsTopic: sns.Topic
   auroraSubnetGroupName: string
   auroraDbPassword: secretsmanager.Secret
+  cluster: ecs.ICluster
+  utilityAccountId: string
+  revision: string
 }
 
 export class BackupStack extends Stack {
@@ -138,10 +137,6 @@ export class BackupStack extends Stack {
     backupJobMissingAlarm.addAlarmAction(alarmSnsAction)
     backupJobMissingAlarm.addOkAction(alarmSnsAction)
 
-    if (!ENABLE_RESTORE_TESTING) {
-      return
-    }
-
     const restoreTestingRole = new iam.Role(this, 'RestoreTestingRole', {
       assumedBy: new iam.ServicePrincipal('backup.amazonaws.com'),
       managedPolicies: [
@@ -181,37 +176,43 @@ export class BackupStack extends Stack {
     })
 
     const validatorLogGroup = new logs.LogGroup(this, 'RestoreValidatorLogGroup', {
-      logGroupName: `/aws/lambda/${props.environment}-aoe-restore-validator`,
+      logGroupName: '/service/aoe-restore-validator',
       retention: logs.RetentionDays.ONE_YEAR
     })
 
-    // NodejsFunction bundles the AWS SDK from package.json. The runtime-provided SDK is
-    // pinned to a minor version that varies by runtime and region, and AWS states that
-    // PutRestoreValidationResult is not available through it at all, so relying on the
-    // runtime SDK would leave the validation result silently unreported.
-    const validator = new NodejsFunction(this, 'RestoreValidator', {
-      functionName: `${props.environment}-aoe-restore-validator`,
-      runtime: lambda.Runtime.NODEJS_24_X,
-      entry: path.join(__dirname, '..', 'lambda', 'restore-validator', 'index.ts'),
-      handler: 'handler',
-      timeout: cdk.Duration.minutes(15),
-      memorySize: 256,
-      logGroup: validatorLogGroup,
-      retryAttempts: 0,
-      bundling: {
-        externalModules: []
-      },
+    const validatorFamily = `${props.environment}-aoe-restore-validator`
+    const validatorTask = new ecs.FargateTaskDefinition(this, 'RestoreValidatorTask', {
+      family: validatorFamily,
+      cpu: 256,
+      memoryLimitMiB: 512
+    })
+    const validatorContainer = validatorTask.addContainer('RestoreValidator', {
+      containerName: 'aoe-restore-validator',
+      image: ecs.ContainerImage.fromEcrRepository(
+        ecr.Repository.fromRepositoryAttributes(this, 'RestoreValidatorRepository', {
+          repositoryName: 'aoe-restore-validator',
+          repositoryArn: `arn:aws:ecr:${this.region}:${props.utilityAccountId}:repository/aoe-restore-validator`
+        }),
+        props.revision
+      ),
+      logging: ecs.LogDrivers.awsLogs({ logGroup: validatorLogGroup, streamPrefix: 'validator' }),
       environment: {
         DB_SECRET_ARN: props.auroraDbPassword.secretArn
       }
     })
 
-    props.auroraDbPassword.grantRead(validator)
+    props.auroraDbPassword.grantRead(validatorTask.taskRole)
 
     const restoreTestClusterArn = this.formatArn({
       service: 'rds',
       resource: 'cluster',
       resourceName: `${RESTORE_TEST_CLUSTER_PREFIX}*`,
+      arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
+    })
+    const anyClusterArn = this.formatArn({
+      service: 'rds',
+      resource: 'cluster',
+      resourceName: '*',
       arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
     })
     const validatorInstanceArn = this.formatArn({
@@ -221,31 +222,33 @@ export class BackupStack extends Stack {
       arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME
     })
 
-    validator.addToRolePolicy(
+    validatorTask.addToTaskRolePolicy(
       new iam.PolicyStatement({
         actions: ['rds:ModifyDBCluster', 'rds:EnableHttpEndpoint', 'rds-data:ExecuteStatement'],
         resources: [restoreTestClusterArn]
       })
     )
-    validator.addToRolePolicy(
+    validatorTask.addToTaskRolePolicy(
       new iam.PolicyStatement({
         actions: ['rds:CreateDBInstance', 'rds:DeleteDBInstance'],
         resources: [validatorInstanceArn, restoreTestClusterArn]
       })
     )
-    validator.addToRolePolicy(
+    validatorTask.addToTaskRolePolicy(
       new iam.PolicyStatement({
+        // Listing clusters to find leftover restore-test copies names no identifier, so
+        // this cannot be scoped to the restore-test prefix. It is read-only.
         actions: ['rds:DescribeDBClusters'],
-        resources: [restoreTestClusterArn]
+        resources: [anyClusterArn]
       })
     )
-    validator.addToRolePolicy(
+    validatorTask.addToTaskRolePolicy(
       new iam.PolicyStatement({
         actions: ['rds:DescribeDBInstances'],
         resources: [validatorInstanceArn]
       })
     )
-    validator.addToRolePolicy(
+    validatorTask.addToTaskRolePolicy(
       new iam.PolicyStatement({
         // A restore job is not an IAM resource type in AWS Backup, so this cannot be
         // scoped further.
@@ -254,9 +257,17 @@ export class BackupStack extends Stack {
       })
     )
 
+    // Only HTTPS leaves the task: every AWS API call, the ECR pull and log shipping use it.
+    const validatorSecurityGroup = new ec2.SecurityGroup(this, 'RestoreValidatorSecurityGroup', {
+      vpc: props.cluster.vpc,
+      description: 'Restore validator task: HTTPS egress only',
+      allowAllOutbound: false
+    })
+    validatorSecurityGroup.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443), 'AWS APIs')
+
     new events.Rule(this, 'RestoreValidationTriggerRule', {
       ruleName: `${props.environment}-aoe-restore-validation-trigger`,
-      description: 'Invoke the restore validator when a restore test completes',
+      description: 'Run the restore validator when a restore test completes',
       eventPattern: {
         source: ['aws.backup'],
         detailType: ['Restore Job State Change'],
@@ -266,8 +277,70 @@ export class BackupStack extends Stack {
           restoreTestingPlanArn: [restoreTestingPlan.attrRestoreTestingPlanArn]
         }
       },
-      targets: [new targets.LambdaFunction(validator)]
+      targets: [
+        new targets.EcsTask({
+          cluster: props.cluster,
+          taskDefinition: validatorTask,
+          launchType: ecs.LaunchType.FARGATE,
+          subnetSelection: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+          securityGroups: [validatorSecurityGroup],
+          containerOverrides: [
+            {
+              containerName: validatorContainer.containerName,
+              environment: [
+                {
+                  name: 'RESTORE_JOB_ID',
+                  value: events.EventField.fromPath('$.detail.restoreJobId')
+                },
+                {
+                  name: 'CREATED_RESOURCE_ARN',
+                  value: events.EventField.fromPath('$.detail.createdResourceArn')
+                }
+              ]
+            }
+          ]
+        })
+      ]
     })
+
+    const stoppedValidatorTask = {
+      source: ['aws.ecs'],
+      detailType: ['ECS Task State Change'],
+      detail: { lastStatus: ['STOPPED'], group: [`family:${validatorFamily}`] }
+    }
+    const validatorFailedRule = new events.Rule(this, 'RestoreValidatorFailedRule', {
+      ruleName: `${props.environment}-aoe-restore-validator-failed`,
+      description: 'Restore validator task stopped without exit code 0',
+      eventPattern: {
+        ...stoppedValidatorTask,
+        detail: {
+          ...stoppedValidatorTask.detail,
+          $or: [
+            { containers: { exitCode: [{ 'anything-but': 0 }] } },
+            { containers: { exitCode: [{ exists: false }] } }
+          ]
+        }
+      },
+      targets: [new targets.CloudWatchLogGroup(backupEventsLogGroup)]
+    })
+    const validatorSucceededRule = new events.Rule(this, 'RestoreValidatorSucceededRule', {
+      ruleName: `${props.environment}-aoe-restore-validator-succeeded`,
+      description: 'Restore validator task stopped with exit code 0',
+      eventPattern: {
+        ...stoppedValidatorTask,
+        detail: { ...stoppedValidatorTask.detail, containers: { exitCode: [0] } }
+      },
+      targets: [new targets.CloudWatchLogGroup(backupEventsLogGroup)]
+    })
+
+    const matchedEvents = (rule: events.Rule, period: cdk.Duration) =>
+      new cloudwatch.Metric({
+        metricName: 'MatchedEvents',
+        namespace: 'AWS/Events',
+        dimensionsMap: { RuleName: rule.ruleName },
+        period,
+        statistic: cloudwatch.Stats.SUM
+      })
 
     const restoreJobFailedAlarm = new cloudwatch.Alarm(this, 'RestoreJobFailedAlarm', {
       alarmName: `${props.environment}-aoe-restore-job-failed-alarm`,
@@ -291,8 +364,8 @@ export class BackupStack extends Stack {
     const validatorFailedAlarm = new cloudwatch.Alarm(this, 'RestoreValidatorFailedAlarm', {
       alarmName: `${props.environment}-aoe-restore-validator-failed-alarm`,
       alarmDescription:
-        'Palautustestin tarkistus epäonnistui: palautettu tietokanta ei sisältänyt odotettua dataa, tai tarkistus kaatui',
-      metric: validator.metricErrors({ period: cdk.Duration.minutes(15) }),
+        'Palautustestin tarkistus epäonnistui: palautettu data oli virheellistä, tarkistus kaatui tai testikanta jäi poistamatta',
+      metric: matchedEvents(validatorFailedRule, cdk.Duration.minutes(15)),
       threshold: 1,
       evaluationPeriods: 1,
       datapointsToAlarm: 1,
@@ -301,5 +374,19 @@ export class BackupStack extends Stack {
     })
     validatorFailedAlarm.addAlarmAction(alarmSnsAction)
     validatorFailedAlarm.addOkAction(alarmSnsAction)
+
+    const validationMissingAlarm = new cloudwatch.Alarm(this, 'RestoreValidationMissingAlarm', {
+      alarmName: `${props.environment}-aoe-restore-validation-missing-alarm`,
+      alarmDescription:
+        'Palautustestin tarkistus ei ole onnistunut viimeisen 30 tunnin aikana: tarkistusta ei ole ajettu tai se on epäonnistunut',
+      metric: matchedEvents(validatorSucceededRule, cdk.Duration.hours(30)),
+      threshold: 1,
+      evaluationPeriods: 1,
+      datapointsToAlarm: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.BREACHING
+    })
+    validationMissingAlarm.addAlarmAction(alarmSnsAction)
+    validationMissingAlarm.addOkAction(alarmSnsAction)
   }
 }

@@ -9,6 +9,7 @@ import {
   EnableHttpEndpointCommand,
   InvalidResourceStateFault,
   ModifyDBClusterCommand,
+  paginateDescribeDBClusters,
   RDSClient
 } from '@aws-sdk/client-rds'
 import {
@@ -16,9 +17,9 @@ import {
   HttpEndpointNotEnabledException,
   RDSDataClient
 } from '@aws-sdk/client-rds-data'
-import type { Context, EventBridgeEvent } from 'aws-lambda'
+import { z } from 'zod'
 
-import type { RestoreJobDetail, ValidationOutcome } from './types'
+import { logger } from './logger'
 import { asIdentifier, describeError, identifierFromArn, waitFor } from './utils'
 
 const TEST_MIN_ACU = 0.5
@@ -27,31 +28,37 @@ const INSTANCE_CLASS = 'db.serverless'
 const ENGINE = 'aurora-postgresql'
 const DATABASE_NAME = 'aoe'
 const NON_EMPTY_TABLES = ['educationalmaterial', 'record', 'users']
-const COUNT_COLUMN = 'count'
 const POLL_INTERVAL_MS = 15_000
-const CLEANUP_RESERVE_MS = 45_000
+// Together these must stay inside the restore test's validationWindowHours (1 h): AWS
+// Backup deletes the restored cluster when the window ends, and that fails while the
+// validator's instance is still attached. They count from container start, so the slack
+// also has to absorb event delivery, Fargate provisioning and the image pull.
+const VALIDATION_BUDGET_MS = 35 * 60_000
+const CLEANUP_BUDGET_MS = 15 * 60_000
 const RESTORE_TEST_CLUSTER_PREFIX = 'awsbackup-restore-test'
 const VALIDATOR_INSTANCE_PREFIX = 'restore-validator-'
+
+interface ValidationOutcome {
+  passed: boolean
+  message: string
+  counts: Record<string, number>
+}
 
 const rds = new RDSClient({})
 const rdsData = new RDSDataClient({})
 const backup = new BackupClient({})
 
-export const handler = async (
-  event: EventBridgeEvent<'Restore Job State Change', RestoreJobDetail>,
-  context: Context
-): Promise<void> => {
-  const { restoreJobId, createdResourceArn, status, resourceType } = event.detail
-  console.info('Received restore job event', { restoreJobId, status, resourceType })
+const env = z.object({
+  RESTORE_JOB_ID: z.string().min(1),
+  CREATED_RESOURCE_ARN: z.string().min(1)
+})
+const countRows = z.array(z.object({ count: z.number() })).min(1)
 
-  if (!restoreJobId) {
-    throw new Error('Event is missing restoreJobId; cannot report a validation result')
-  }
-
-  const clusterArn = requireClusterArn(createdResourceArn, status, resourceType)
+async function validateRestore(restoreJobId: string, clusterArn: string): Promise<void> {
   const clusterId = requireRestoreTestCluster(identifierFromArn(clusterArn))
   const instanceId = `${VALIDATOR_INSTANCE_PREFIX}${restoreJobId.slice(0, 8)}`
-  const deadline = Date.now() + context.getRemainingTimeInMillis() - CLEANUP_RESERVE_MS
+  const deadline = Date.now() + VALIDATION_BUDGET_MS
+  const cleanupDeadline = deadline + CLEANUP_BUDGET_MS
 
   let instanceRequested = false
   let cleanupFailure: string | undefined
@@ -95,7 +102,7 @@ export const handler = async (
     outcome = { passed: false, message: describeError(err), counts: {} }
   } finally {
     if (instanceRequested) {
-      cleanupFailure = await deleteInstance(instanceId, deadline)
+      cleanupFailure = await deleteInstance(instanceId, cleanupDeadline)
     }
   }
 
@@ -111,27 +118,17 @@ export const handler = async (
 
   await reportOutcome(restoreJobId, outcome)
 
+  // AWS Backup does not retry a failed cluster deletion, so any other restore-test cluster
+  // is left over from an earlier run. Today's restore is reported on its own merits above.
+  const leftovers = await findLeftoverClusters(clusterId)
+
   if (!outcome.passed) {
     throw new Error(`Restore validation failed for ${restoreJobId}: ${outcome.message}`)
   }
-  console.info('Restore validation passed', { restoreJobId, counts: outcome.counts })
-}
-
-function requireClusterArn(
-  createdResourceArn: string | undefined,
-  status: string,
-  resourceType: string
-): string {
-  if (status !== 'COMPLETED') {
-    throw new Error(`Unexpected restore job status: ${status}`)
+  if (leftovers.length > 0) {
+    throw new Error(`Leftover restore-test clusters need manual removal: ${leftovers.join(', ')}`)
   }
-  if (resourceType !== 'Aurora') {
-    throw new Error(`Unexpected restore job resourceType: ${resourceType}`)
-  }
-  if (!createdResourceArn) {
-    throw new Error('Restore job event is missing createdResourceArn')
-  }
-  return createdResourceArn
+  logger.info('Restore validation passed', { restoreJobId, counts: outcome.counts })
 }
 
 function requireRestoreTestCluster(clusterId: string): string {
@@ -148,6 +145,23 @@ async function describeCluster(clusterId: string): Promise<DBCluster | undefined
     new DescribeDBClustersCommand({ DBClusterIdentifier: clusterId })
   )
   return described.DBClusters?.[0]
+}
+
+async function findLeftoverClusters(ownClusterId: string): Promise<string[]> {
+  const leftovers: string[] = []
+  for await (const page of paginateDescribeDBClusters({ client: rds }, {})) {
+    for (const cluster of page.DBClusters ?? []) {
+      const id = cluster.DBClusterIdentifier
+      if (
+        id?.startsWith(RESTORE_TEST_CLUSTER_PREFIX) &&
+        id !== ownClusterId &&
+        cluster.Status !== 'deleting'
+      ) {
+        leftovers.push(id)
+      }
+    }
+  }
+  return leftovers
 }
 
 async function prepareCluster(clusterId: string): Promise<void> {
@@ -202,7 +216,7 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
   // readiness can only be established by querying until the endpoint stops rejecting.
   await waitFor(deadline, POLL_INTERVAL_MS, 'the Data API to answer queries', async () => {
     try {
-      await count(clusterArn, secretArn, `SELECT 1 AS ${COUNT_COLUMN}`)
+      await count(clusterArn, secretArn, `SELECT 1 AS count`)
       return true
     } catch (err) {
       if (err instanceof HttpEndpointNotEnabledException) {
@@ -217,7 +231,7 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
     counts[table] = await count(
       clusterArn,
       secretArn,
-      `SELECT count(*) AS ${COUNT_COLUMN} FROM ${asIdentifier(table)}`
+      `SELECT count(*) AS count FROM ${asIdentifier(table)}`
     )
   }
 
@@ -231,7 +245,7 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
   const orphanedRecords = await count(
     clusterArn,
     secretArn,
-    `SELECT count(*) AS ${COUNT_COLUMN} FROM record r
+    `SELECT count(*) AS count FROM record r
        LEFT JOIN material m ON r.materialid = m.id
       WHERE m.id IS NULL`
   )
@@ -257,15 +271,11 @@ async function count(clusterArn: string, secretArn: string, sql: string): Promis
     })
   )
 
-  const rows: unknown = JSON.parse(result.formattedRecords ?? '[]')
-  const first: unknown = Array.isArray(rows) ? rows[0] : undefined
-  if (typeof first === 'object' && first !== null && COUNT_COLUMN in first) {
-    const value = first[COUNT_COLUMN]
-    if (typeof value === 'number') {
-      return value
-    }
+  const parsed = countRows.safeParse(JSON.parse(result.formattedRecords ?? '[]'))
+  if (!parsed.success) {
+    throw new Error(`Query did not return a numeric count: ${sql}`)
   }
-  throw new Error(`Query did not return a numeric ${COUNT_COLUMN}: ${sql}`)
+  return parsed.data[0].count
 }
 
 async function deleteAndWait(
@@ -320,7 +330,7 @@ async function deleteInstance(instanceId: string, deadline: number): Promise<str
     return undefined
   } catch (err) {
     const message = describeError(err)
-    console.error(`Failed to delete ${instanceId}`, message)
+    logger.error(`Failed to delete ${instanceId}`, { reason: message })
     return message
   }
 }
@@ -334,3 +344,10 @@ async function reportOutcome(restoreJobId: string, outcome: ValidationOutcome): 
     })
   )
 }
+
+async function main(): Promise<void> {
+  const { RESTORE_JOB_ID, CREATED_RESOURCE_ARN } = env.parse(process.env)
+  await validateRestore(RESTORE_JOB_ID, CREATED_RESOURCE_ARN)
+}
+
+void main()

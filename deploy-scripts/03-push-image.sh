@@ -9,3 +9,6 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../scripts/common-function
 
 # Run web backend push image script
 "$repo/aoe-web-backend/deploy-scripts/02-push-image.sh"
+
+# Run restore validator push image script
+"$repo/aoe-infra/restore-validator/deploy-scripts/02-push-image.sh"

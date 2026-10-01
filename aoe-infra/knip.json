@@ -1,4 +1,5 @@
 {
   "entry": ["bin/infra.ts", "lambda/*/index.ts"],
-  "project": ["**/*.ts"]
+  "project": ["**/*.ts"],
+  "ignore": ["restore-validator/**"]
 }

@@ -1,0 +1,23 @@
+{
+  "name": "aoe-restore-validator",
+  "version": "0.1.0",
+  "description": "Validates restored Aurora backups for the Library of Open Educational Resources",
+  "private": true,
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "tsc",
+    "knip": "knip"
+  },
+  "dependencies": {
+    "@aws-sdk/client-backup": "3.1144.0",
+    "@aws-sdk/client-rds": "3.1144.0",
+    "@aws-sdk/client-rds-data": "3.1144.0",
+    "winston": "3.19.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "knip": "6.39.0",
+    "typescript": "7.0.2"
+  }
+}

@@ -12,3 +12,6 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 
 # Run web backend buildscript
 "$repo/aoe-web-backend/deploy-scripts/01-build.sh"
+
+# Run restore validator buildscript
+"$repo/aoe-infra/restore-validator/deploy-scripts/01-build.sh"

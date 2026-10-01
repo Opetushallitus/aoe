@@ -158,13 +158,24 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc
   })
 
+  const FargateCluster = new FargateClusterStack(app, 'FargateClusterStack', {
+    env: envEU,
+    stackName: `${environmentName}-fargate-cluster`,
+    environment: environmentName,
+    vpc: Network.vpc,
+    logGroupKmsKey: Kms.cloudwatchLogsKmsKey
+  })
+
   const Backup = new BackupStack(app, 'BackupStack', {
     env: envEU,
     stackName: `${environmentName}-backup`,
     environment: environmentName,
     alarmSnsTopic: Monitor.topic,
     auroraSubnetGroupName: AuroraCommons.auroraSubnetGroup.subnetGroupName,
-    auroraDbPassword: Secrets.webBackendAuroraPassword
+    auroraDbPassword: Secrets.webBackendAuroraPassword,
+    cluster: FargateCluster.fargateCluster,
+    utilityAccountId,
+    revision
   })
 
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
@@ -262,14 +273,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
     env: envEU,
     environment: environmentName
-  })
-
-  const FargateCluster = new FargateClusterStack(app, 'FargateClusterStack', {
-    env: envEU,
-    stackName: `${environmentName}-fargate-cluster`,
-    environment: environmentName,
-    vpc: Network.vpc,
-    logGroupKmsKey: Kms.cloudwatchLogsKmsKey
   })
 
   const buckets = s3BucketStack.allBuckets()
@@ -475,6 +478,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env: envEU,
     stackName: 'aoe-streaming-app-ecr',
     serviceName: 'aoe-streaming-app',
+    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
+  })
+  new EcrStack(app, 'RestoreValidatorEcrStack', {
+    env: envEU,
+    stackName: 'aoe-restore-validator-ecr',
+    serviceName: 'aoe-restore-validator',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
 }
