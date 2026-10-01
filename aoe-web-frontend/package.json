@@ -34,7 +34,7 @@
     "@angular/core": "21.2.23",
     "@angular/forms": "21.2.23",
     "@angular/platform-browser": "21.2.23",
-    "@angular/router": "21.2.23",
+    "@angular/router": "21.2.24",
     "@ng-select/ng-select": "21.8.2",
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "17.0.0",
