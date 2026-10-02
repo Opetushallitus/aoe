@@ -77,7 +77,7 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
   }
 
   const paramsS3: { Bucket: string; Key: string } = {
-    Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
+    Bucket: config.cloudStorage.bucket,
     Key: keyS3
   }
   const options: { onlyInstallLibraries?: boolean } = {

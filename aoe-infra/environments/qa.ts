@@ -70,13 +70,6 @@ export const qa: EnvironmentConfig = {
         CLOUD_STORAGE_ENABLED: '1',
         LOGIN_ENABLED: '1',
         PID_SERVICE_RUN_SCHEDULED: 'true',
-        STREAM_ENABLED: '1',
-        STREAM_FILESIZE_MIN: '100000',
-        STREAM_REDIRECT_URI: 'https://qa.aoe.fi/stream/api/v1/material/',
-        STREAM_STATUS_HOST: 'streaming-app.qa.aoe.local',
-        STREAM_STATUS_PORT: '8080',
-        STREAM_STATUS_PATH: '/stream/api/v1/material/',
-        STREAM_STATUS_HOST_HTTPS_ENABLED: '0',
         EXTERNAL_API_CALLERID_OID: '1.2.246.562.10.2013112012294919827487',
         EXTERNAL_API_CALLERID_SERVICE: 'aoe',
         EXTERNAL_API_OPINTOPOLKU_KOODISTOT:

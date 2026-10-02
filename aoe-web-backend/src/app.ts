@@ -3,6 +3,7 @@ import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
 import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
+import { stream } from '@api/routes-root/stream'
 import { metaRoutes } from '@api/routes-meta/oaipmh'
 import { refV1 } from '@api/ref-routes-v1/v1'
 import { v1 } from '@api/routes-v1/v1'
@@ -78,6 +79,7 @@ export async function initApp() {
   const apiRouterRoot: Router = Router()
   h5p(apiRouterRoot)
   embed(apiRouterRoot)
+  stream(apiRouterRoot)
 
   // Load reference API version 1.0
   const refRouterV1: Router = Router()

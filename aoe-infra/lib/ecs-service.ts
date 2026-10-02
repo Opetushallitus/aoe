@@ -381,6 +381,37 @@ export class EcsServiceStack extends Stack {
     errorThresholdAlarm.addAlarmAction(alarmSnsAction)
     errorThresholdAlarm.addOkAction(alarmSnsAction)
 
+    // The AWS SDK logs this through console (not JSON, so ErrorLogMetricFilter misses it) once
+    // every S3 socket is busy and 2 × maxSockets requests are queued: downloads and uploads hang
+    // while /health, CPU and memory look fine. Check concurrent downloads in the ALB logs,
+    // whether the storage idle timeout in downloadFromStorage() releases sockets, and maxSockets
+    // in s3ClientConfig (docs/aws-sdk-s3.md).
+    const s3SocketPoolMetricFilter = new logs.MetricFilter(
+      this,
+      'S3SocketPoolExhaustedMetricFilter',
+      {
+        logGroup: ServiceLogGroup,
+        filterPattern: logs.FilterPattern.anyTerm('socket usage at capacity'),
+        metricNamespace: props.errorMetricNamespace,
+        metricName: 'S3SocketPoolExhausted',
+        metricValue: '1'
+      }
+    )
+
+    const s3SocketPoolAlarm = new cloudwatch.Alarm(this, 'S3SocketPoolExhaustedAlarm', {
+      alarmName: `${props.environment}-${props.serviceName}-S3SocketPoolExhaustedAlarm`,
+      metric: s3SocketPoolMetricFilter.metric({
+        statistic: cloudwatch.Stats.SUM,
+        period: Duration.minutes(5)
+      }),
+      threshold: 1,
+      evaluationPeriods: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    s3SocketPoolAlarm.addAlarmAction(alarmSnsAction)
+    s3SocketPoolAlarm.addOkAction(alarmSnsAction)
+
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
       dashboardName: `ECS-${props.serviceName}-Monitoring`
     })

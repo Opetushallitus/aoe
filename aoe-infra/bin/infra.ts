@@ -426,7 +426,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       '/content/*',
       '/ref/api/v1*',
       '/meta/oaipmh*',
-      '/meta/v2/oaipmh*'
+      '/meta/v2/oaipmh*',
+      '/stream/api/v1*'
     ],
     ephemeralStorageGiB: 40,
     healthCheckPath: '/health',

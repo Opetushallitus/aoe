@@ -2,6 +2,8 @@ import { Stack, StackProps } from 'aws-cdk-lib'
 import { IVpc } from 'aws-cdk-lib/aws-ec2'
 import { Key } from 'aws-cdk-lib/aws-kms'
 import { Cluster, ExecuteCommandLogging, ICluster, ContainerInsights } from 'aws-cdk-lib/aws-ecs'
+import * as events from 'aws-cdk-lib/aws-events'
+import * as targets from 'aws-cdk-lib/aws-events-targets'
 import { LogGroup } from 'aws-cdk-lib/aws-logs'
 import { Construct } from 'constructs'
 
@@ -27,8 +29,9 @@ export class FargateClusterStack extends Stack {
       encryptionKey: props.logGroupKmsKey
     })
 
+    const clusterName = `${props.environment}-ecs-fargate`
     this.fargateCluster = new Cluster(this, 'FargateCluster', {
-      clusterName: `${props.environment}-ecs-fargate`,
+      clusterName,
       vpc: props.vpc,
       containerInsightsV2: ContainerInsights.ENHANCED,
       executeCommandConfiguration: {
@@ -41,6 +44,20 @@ export class FargateClusterStack extends Stack {
           )
         }
       }
+    })
+
+    const ecsEventsLogGroup = new LogGroup(this, 'EcsEventsLogGroup', {
+      logGroupName: `/aws/events/ecs/containerinsights/${clusterName}/performance`
+    })
+
+    new events.Rule(this, 'EcsEventsRule', {
+      ruleName: `${props.environment}-ecs-events`,
+      description:
+        'Log ECS task, service and deployment events (e.g. stoppedReason) to the log group',
+      eventPattern: {
+        source: ['aws.ecs']
+      },
+      targets: [new targets.CloudWatchLogGroup(ecsEventsLogGroup)]
     })
   }
 }

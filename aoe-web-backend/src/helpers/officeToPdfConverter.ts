@@ -114,7 +114,7 @@ export const downloadPdfFromAllas = async (
       next(new StatusError(400, 'key missing'))
     }
     const params = {
-      Bucket: config.CLOUD_STORAGE_CONFIG.bucketPDF,
+      Bucket: config.cloudStorage.bucketPDF,
       Key: req.params.key
     }
     await downloadFromStorage(res, next, params, req.params.key)
@@ -173,7 +173,7 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
             if (!path) {
               return
             }
-            return uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
+            return uploadFileToStorage(path, pdfKey, config.cloudStorage.bucketPDF).then(
               (obj: any) => {
                 void updatePdfKey(obj.Key, file.id)
               }
@@ -223,7 +223,7 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
       (
         await s3.send(
           new GetObjectCommand({
-            Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
+            Bucket: config.cloudStorage.bucket,
             Key: key
           })
         )

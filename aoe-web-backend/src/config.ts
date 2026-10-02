@@ -1,5 +1,6 @@
 import { S3ClientConfig } from '@aws-sdk/client-s3'
 import * as logger from '@/util/winstonLogger'
+import { z } from 'zod'
 
 const aoeConfig = {
   identify: {
@@ -43,10 +44,6 @@ process.env.NODE_ENV || missingEnvs.push('NODE_ENV')
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN')
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL')
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED')
-process.env.CLOUD_STORAGE_REGION || missingEnvs.push('CLOUD_STORAGE_REGION')
-process.env.CLOUD_STORAGE_BUCKET || missingEnvs.push('CLOUD_STORAGE_BUCKET')
-process.env.CLOUD_STORAGE_BUCKET_PDF || missingEnvs.push('CLOUD_STORAGE_BUCKET_PDF')
-process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL || missingEnvs.push('CLOUD_STORAGE_BUCKET_THUMBNAIL')
 process.env.H5P_USER_EMAIL || missingEnvs.push('H5P_USER_EMAIL')
 process.env.HTML_FOLDER || missingEnvs.push('HTML_FOLDER')
 process.env.MATERIAL_FILE_UPLOAD_FOLDER || missingEnvs.push('MATERIAL_FILE_UPLOAD_FOLDER')
@@ -60,12 +57,6 @@ process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST')
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT')
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS')
 process.env.REDIS_USE_TLS || missingEnvs.push('REDIS_USE_TLS')
-process.env.STREAM_ENABLED || missingEnvs.push('STREAM_ENABLED')
-process.env.STREAM_FILESIZE_MIN || missingEnvs.push('STREAM_FILESIZE_MIN')
-process.env.STREAM_REDIRECT_URI || missingEnvs.push('STREAM_REDIRECT_URI')
-process.env.STREAM_STATUS_HOST || missingEnvs.push('STREAM_STATUS_HOST')
-process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH')
-process.env.STREAM_STATUS_HOST_HTTPS_ENABLED || missingEnvs.push('STREAM_STATUS_HOST_HTTPS_ENABLED')
 process.env.PG_USER || missingEnvs.push('PG_USER')
 process.env.PG_PASS || missingEnvs.push('PG_PASS')
 process.env.EXTERNAL_API_CALLERID_OID || missingEnvs.push('EXTERNAL_API_CALLERID_OID')
@@ -86,6 +77,33 @@ if (missingEnvs.length > 0) {
 
 const environment = process.env.ENV
 
+const cloudStorageEnv = z
+  .object({
+    CLOUD_STORAGE_REGION: z.string().min(1),
+    CLOUD_STORAGE_API: z.string().default(''),
+    CLOUD_STORAGE_ACCESS_KEY: z.string().default(''),
+    CLOUD_STORAGE_ACCESS_SECRET: z.string().default(''),
+    CLOUD_STORAGE_BUCKET: z.string().min(1),
+    CLOUD_STORAGE_BUCKET_PDF: z.string().min(1),
+    CLOUD_STORAGE_BUCKET_THUMBNAIL: z.string().min(1)
+  })
+  .transform((env) => ({
+    region: env.CLOUD_STORAGE_REGION,
+    endpoint: env.CLOUD_STORAGE_API,
+    accessKeyId: env.CLOUD_STORAGE_ACCESS_KEY,
+    secretAccessKey: env.CLOUD_STORAGE_ACCESS_SECRET,
+    bucket: env.CLOUD_STORAGE_BUCKET,
+    bucketPDF: env.CLOUD_STORAGE_BUCKET_PDF,
+    bucketThumbnail: env.CLOUD_STORAGE_BUCKET_THUMBNAIL
+  }))
+  .safeParse(process.env)
+if (!cloudStorageEnv.success) {
+  logger.error(
+    `Invalid cloud storage environment variables: ${z.prettifyError(cloudStorageEnv.error)}`
+  )
+  process.exit(1)
+}
+
 export const config = {
   // General application start up configurations.
   APPLICATION_CONFIG: {
@@ -97,15 +115,7 @@ export const config = {
   } as const,
 
   // Cloud storage configurations.
-  CLOUD_STORAGE_CONFIG: {
-    region: process.env.CLOUD_STORAGE_REGION as string,
-    endpoint: process.env.CLOUD_STORAGE_API as string,
-    accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY as string,
-    secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET as string,
-    bucket: process.env.CLOUD_STORAGE_BUCKET as string,
-    bucketPDF: process.env.CLOUD_STORAGE_BUCKET_PDF as string,
-    bucketThumbnail: process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL as string
-  } as const,
+  cloudStorage: cloudStorageEnv.data,
 
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
@@ -170,22 +180,6 @@ export const config = {
     secure: (process.env.SESSION_COOKIE_SECURE.toLowerCase() === 'true') as boolean // boolean | 'auto'
   } as const,
 
-  // Streaming redirect criteria to accept a media file download by streaming.
-  STREAM_REDIRECT_CRITERIA: {
-    mimeTypeArr: ['audio/mp4', 'audio/mpeg', 'audio/x-m4a', 'video/mp4'] as string[],
-    minFileSize: parseInt(process.env.STREAM_FILESIZE_MIN, 10) as number,
-    redirectUri: process.env.STREAM_REDIRECT_URI as string,
-    streamEnabled: (process.env.STREAM_ENABLED === '1') as boolean
-  } as const,
-
-  // Streaming service status request to verify a media file streaming capability.
-  STREAM_STATUS_REQUEST: {
-    host: process.env.STREAM_STATUS_HOST as string,
-    path: process.env.STREAM_STATUS_PATH as string,
-    port: process.env.STREAM_STATUS_PORT as string,
-    httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean
-  },
-
   // External APIs.
   EXTERNAL_API: {
     oid: process.env.EXTERNAL_API_CALLERID_OID as string,
@@ -200,13 +194,13 @@ export const config = {
 }
 
 export const s3ClientConfig: S3ClientConfig = {
-  region: config.CLOUD_STORAGE_CONFIG.region,
+  region: config.cloudStorage.region,
   ...(!isProduction()
     ? {
-        endpoint: config.CLOUD_STORAGE_CONFIG.endpoint,
+        endpoint: config.cloudStorage.endpoint,
         credentials: {
-          accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKeyId,
-          secretAccessKey: config.CLOUD_STORAGE_CONFIG.secretAccessKey
+          accessKeyId: config.cloudStorage.accessKeyId,
+          secretAccessKey: config.cloudStorage.secretAccessKey
         }
       }
     : {})
