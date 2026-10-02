@@ -174,7 +174,7 @@ const searchSeedMaterialByName = async (
   return null
 }
 
-const createContainer = async (
+export const createContainer = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
   name: string
 ): Promise<number> => {
@@ -191,14 +191,14 @@ const createContainer = async (
   return Number((await res.json()).id)
 }
 
-const uploadFile = async (
+export const uploadFile = async (
   api: Awaited<ReturnType<typeof playwrightRequest.newContext>>,
   educationalMaterialId: number,
-  fileBuffer: Buffer
+  file: { name: string; mimeType: string; buffer: Buffer }
 ): Promise<number> => {
   const res = await api.post(`/api/v2/material/file/${educationalMaterialId}/upload`, {
     multipart: {
-      file: { name: FILE_NAME, mimeType: 'application/pdf', buffer: fileBuffer },
+      file,
       fileDetails: JSON.stringify({
         displayName: FILE_DISPLAY_NAME,
         language: FILE_LANGUAGE,
@@ -234,7 +234,11 @@ const createMaterial = async (
 }> => {
   const name = getSeedName(index, type)
   const educationalMaterialId = await createContainer(api, name)
-  const materialId = await uploadFile(api, educationalMaterialId, fileBuffer)
+  const materialId = await uploadFile(api, educationalMaterialId, {
+    name: FILE_NAME,
+    mimeType: 'application/pdf',
+    buffer: fileBuffer
+  })
   await publishMaterial(api, educationalMaterialId, buildPayload(type, materialId, index))
 
   if (type === 'rich') {
