@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile.playwright-test-runner
       args:
         PLAYWRIGHT_VERSION: ${PLAYWRIGHT_VERSION}
+    command: ["--", "--shard=${PLAYWRIGHT_SHARD:-1/1}"]
     networks:
       - default
     volumes:

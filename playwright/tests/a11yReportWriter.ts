@@ -1,11 +1,11 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-export const AXE_DATA_DIR = path.join(__dirname, '../../playwright-results/axe-data')
-export const REPORT_HTML_PATH = path.join(
-  __dirname,
-  '../../playwright-results/a11y-axe-report.html'
-)
+export const AXE_DATA_DIR =
+  process.env.A11Y_DATA_DIR ?? path.join(__dirname, '../../playwright-results/axe-data')
+export const REPORT_HTML_PATH =
+  process.env.A11Y_REPORT_HTML_PATH ??
+  path.join(__dirname, '../../playwright-results/a11y-axe-report.html')
 
 export type RuleNode = {
   selector: string
