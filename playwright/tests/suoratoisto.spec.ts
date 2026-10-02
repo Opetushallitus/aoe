@@ -42,6 +42,15 @@ test('videon Range-pyyntö palauttaa pyydetyn tavualueen', async ({ request }) =
   expect(Buffer.compare(await res.body(), VIDEO.subarray(100, 200))).toBe(0)
 })
 
+test('vanha suoratoisto-osoite ohjaa lataukseen', async ({ request }) => {
+  const filekey = await uploadVideo(request, 'suoratoisto-301.mp4')
+
+  const res = await request.get(`/stream/api/v1/material/${filekey}`, { maxRedirects: 0 })
+
+  expect(res.status()).toBe(301)
+  expect(res.headers().location).toBe(`/api/v1/download/${filekey}`)
+})
+
 test('tiedoston lopun ylittävä Range-pyyntö palauttaa 416', async ({ request }) => {
   const filekey = await uploadVideo(request, 'suoratoisto-416.mp4')
 

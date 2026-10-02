@@ -334,7 +334,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     healthCheckGracePeriod: 120,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 110,
+    albPriority: 130,
     iAmPolicyStatements: [s3PolicyStatement, s3GetObjectPolicyStatement],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic
