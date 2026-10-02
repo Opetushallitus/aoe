@@ -4,9 +4,6 @@ set -o errexit -o nounset -o pipefail
 # shellcheck source=../scripts/common-functions.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../scripts/common-functions.sh"
 
-# Run streaming app push image script
-"$repo/aoe-streaming-app/deploy-scripts/02-push-image.sh"
-
 # Run web backend push image script
 "$repo/aoe-web-backend/deploy-scripts/02-push-image.sh"
 

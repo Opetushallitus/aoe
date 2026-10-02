@@ -45,21 +45,6 @@ services:
       opensearch:
         condition: service_healthy
 
-  aoe-streaming-app:
-    hostname: aoe-streaming-app
-    build:
-      context: aoe-streaming-app
-      dockerfile: ./docker/Dockerfile
-      args:
-        NODE_VERSION: ${NODE_VERSION}
-    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
-    container_name: aoe-streaming-app
-    restart: unless-stopped
-
-    depends_on:
-        localstack:
-          condition: service_started
-
   aoe-restore-validator:
     profiles: ["build-only"]
     build:

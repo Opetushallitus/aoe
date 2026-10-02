@@ -123,6 +123,9 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(8080)
     )
 
+    // <env>-streaming-app-service imports this until its deploy as an EmptyStack has finished (AOE-129-4).
+    this.exportValue(this.streamingServiceSecurityGroup.securityGroupId)
+
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443))
 

@@ -82,21 +82,6 @@ export const dev: EnvironmentConfig = {
         EXTERNAL_API_OPINTOPOLKU_EPERUSTEET:
           'https://virkailija.opintopolku.fi/eperusteet-service/api'
       }
-    },
-    streaming: {
-      cpu_limit: '512',
-      memory_limit: '1024',
-      min_count: 1,
-      max_count: 1,
-      allow_ecs_exec: true,
-      env_vars: {
-        LOG_LEVEL: 'error',
-        PORT: '8080',
-        NODE_ENV: 'production',
-        STORAGE_BUCKET: 'aoe-dev',
-        STORAGE_REGION: 'eu-west-1',
-        STORAGE_MAX_RANGE: '10000000'
-      }
     }
   },
   features: {},

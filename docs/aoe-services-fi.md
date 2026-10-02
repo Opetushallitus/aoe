@@ -71,11 +71,7 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Analytiikkatapahtumat** kirjoitetaan suoraan PostgreSQL:ään (`material_activity`- ja `search_requests`-tauluihin). User-agentit, jotka vastaavat `ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS`-asetusta (esim. `oersi`), jätetään pois.
 
-### Yhteydet muihin AOE-palveluihin:
-
-| Palvelu           | Miten                                                                                                                                                                                                                                                                                                                                                                                             |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **streaming-app** | Kun tiedostolatauksessa on `Range`-otsake ja tiedosto täyttää suoratoiston kriteerit (MIME-tyyppi kuuluu joukkoon `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, tiedostokoko >= `STREAM_FILESIZE_MIN`). Jo ehdot toteutuu, se vastaa **HTTP 302** -ohjauksella ja ohjaa selaimen osoitteeseen `/stream/api/v1/material/{filename}`. Muussa tapauksessa se palvelee tiedoston suoraan S3:sta. |
+**Median tavualueet:** Kun vähintään 100 000 tavun ääni- tai videotiedoston (`audio/mp4`, `audio/mpeg`, `audio/x-m4a`, `video/mp4`) latauksessa on yksi `Range: bytes=alku-loppu` -otsake, backend vastaa **HTTP 206 Partial Content** -vastauksella suoraan S3:sta, jotta soittimet voivat kelata. Muut lataukset saavat koko tiedoston. Vanha suoratoisto-osoite `/stream/api/v1/material/{filename}` vastaa **HTTP 301** -ohjauksella osoitteeseen `/api/v1/download/{filename}`.
 
 **Tunnistautuminen:** OIDC Passport.js:n kautta. Selvittää issuerin osoitteesta `PROXY_URI`, ohjaa käyttäjät kirjautumaan scopeilla `openid profile offline_access`, käsittelee paluun osoitteessa `/api/secure/redirect` ja luo uudet käyttäjät automaattisesti PostgreSQL:ään.
 
@@ -160,28 +156,3 @@ Redis-välimuistin sijaan viitetiedot tallennettaisiin PostgreSQL:ään — data
 **Mitä tämä poistaa:** Yhden CDK-stackin ja Redisin käyttö päättyy.
 
 **Mitä tämä vaatii:** Uuden PostgreSQL-taulun (tai taulujen) normalisoidun viitedatan tallentamista varten.
-
----
-
-## 3. aoe-streaming-app
-
-**Node.js / Express 5** (TypeScript) | Portti 3001
-
-Tilaton mediasuoratoistoproxy S3:n ja selaimen välissä. Sen tarkoitus on erottaa paljon I/O:ta kuormittava suoratoisto pääbackendistä ja tukea HTTP Range -pyyntöjä videon/äänen kelaamista varten.
-
-**Selain ei koskaan kutsu tätä palvelua suoraan.** Kulku on seuraava:
-
-1. Selain pyytää tiedoston latausta web-backendiltä
-2. Web-backend tarkistaa: onko suoratoisto käytössä, onko `Range`-otsake, onko MIME-tyyppi audio/video, onko tiedosto riittävän suuri?
-3. Jos kaikki ehdot täyttyvät, web-backend vastaa **HTTP 302** → `/stream/api/v1/material/{filename}`
-4. Selain seuraa ohjausta suoratoistopalveluun
-5. Suoratoistopalvelu tekee HEAD-pyynnön S3:een tiedoston metatietoja varten ja suoratoistaa sitten tiedoston takaisin Range-tuella
-
-**Ainoa yhteys:** AWS S3 (vain luku)
-
-**Endpointit:**
-
-- `GET /stream/api/v1/material/:filename` — suoratoistaa tiedoston S3:sta
-- `HEAD /stream/api/v1/material/:filename` — palauttaa tiedoston metatiedot (käytetään web-backendin terveystarkistuksessa)
-- `GET /health` — terveystarkistus
-

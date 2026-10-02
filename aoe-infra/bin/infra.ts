@@ -31,6 +31,7 @@ import * as iam from 'aws-cdk-lib/aws-iam'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
 import { EfsStack } from '../lib/efs-stack'
+import { EmptyStack } from '../lib/empty-stack'
 import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
@@ -306,38 +307,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  new EcsServiceStack(app, 'StreamingEcsService', {
+  new EmptyStack(app, 'StreamingEcsService', {
     env: envEU,
-    stackName: `${environmentName}-streaming-app-service`,
-    serviceName: 'streaming-app',
-    // aoe-streaming-app logs plain text lines: "[ERROR] 2026-01-01 00:00:00.000 message"
-    errorLogFilterPattern: logs.FilterPattern.anyTerm('[ERROR]'),
-    errorMetricNamespace: `AOE/StreamingApp/${environmentName}`,
-    environment: environmentName,
-    cluster: FargateCluster.fargateCluster,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.streamingServiceSecurityGroup,
-    revision,
-    allowEcsExec: config.services.streaming.allow_ecs_exec,
-    taskCpu: config.services.streaming.cpu_limit,
-    taskMemory: config.services.streaming.memory_limit,
-    minimumCount: config.services.streaming.min_count,
-    maximumCount: config.services.streaming.max_count,
-    cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: config.services.streaming.env_vars,
-    parameter_store_secrets: [],
-    secrets_manager_secrets: [],
-    utilityAccountId: utilityAccountId,
-    listener: Alb.albListener,
-    listenerPathPatterns: ['/stream/api/v1*'],
-    healthCheckPath: '/health',
-    healthCheckGracePeriod: 120,
-    healthCheckInterval: 5,
-    healthCheckTimeout: 2,
-    albPriority: 130,
-    iAmPolicyStatements: [s3PolicyStatement, s3GetObjectPolicyStatement],
-    privateDnsNamespace: namespace.privateDnsNamespace,
-    alarmSnsTopic: Monitor.topic
+    stackName: `${environmentName}-streaming-app-service`
   })
 
   const aossPolicyStatement = new iam.PolicyStatement({

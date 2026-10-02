@@ -7,9 +7,6 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 # Run cdk buildscript
 "$repo/aoe-infra/01-build.sh"
 
-# Run streaming app buildscript
-"$repo/aoe-streaming-app/deploy-scripts/01-build.sh"
-
 # Run web backend buildscript
 "$repo/aoe-web-backend/deploy-scripts/01-build.sh"
 

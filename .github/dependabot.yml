@@ -2,20 +2,24 @@ version: 2
 updates:
   - package-ecosystem: "npm"
     directories:
+      - "/"
       - "/aoe-infra"
-      - "/aoe-semantic-apis"
-      - "/aoe-streaming-app"
+      - "/aoe-infra/restore-validator"
       - "/aoe-web-backend"
       - "/aoe-web-frontend"
+      - "/playwright"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 0
 
   - package-ecosystem: "docker"
     directories:
-      - "/aoe-semantic-apis/docker"
-      - "/aoe-streaming-app/docker"
+      - "/"
+      - "/.github/actions/app-token-exporter"
+      - "/aoe-infra/restore-validator/docker"
       - "/aoe-web-backend/docker"
+      - "/aoe-web-frontend/docker"
+      - "/scripts/db"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 0

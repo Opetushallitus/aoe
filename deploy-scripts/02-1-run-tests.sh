@@ -43,7 +43,6 @@ function main {
 
   if running_on_gh_actions; then
     export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
-    export AOE_STREAMING_APP_TAG="${github_registry}aoe-streaming-app:${revision}"
   fi
 
   run_unit_tests

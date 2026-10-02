@@ -15,7 +15,6 @@ export interface EnvironmentConfig {
   }
   services: {
     web_backend: ServiceConfig
-    streaming: ServiceConfig
   }
   // Infra feature flags
   features: {}

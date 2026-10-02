@@ -1,6 +1,6 @@
 # AOE ECS Services Overview
 
-AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs two backend services on AWS ECS Fargate, both built with Node.js/TypeScript, and serves its Angular frontend as static files from S3.
+AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) runs one backend service on AWS ECS Fargate, built with Node.js/TypeScript, and serves its Angular frontend as static files from S3.
 
 ## Request Routing
 
@@ -9,7 +9,7 @@ All traffic enters through CloudFront. Its default cache behavior serves the fro
 | Path Pattern | CloudFront Origin | Then | Container Port |
 |---|---|---|---|
 | `/api/*`, `/h5p/*`, `/embed/material/*`, `/embed/download/*`, `/embed/pdf/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | ALB | web-backend | 3000 |
-| `/stream/api/v1*` | ALB | streaming-app | 3001 |
+| `/stream/api/v1*` | ALB | web-backend (301 to `/api/v1/download/*`) | 3000 |
 | everything else, including `/embed/:id/:lang` | S3 (`aoe-frontend-<env>`) | — | — |
 
 The three `/embed/` subpaths are listed individually on purpose: `/embed/:id/:lang` is an Angular route that must reach S3, so collapsing them to `/embed/*` would send the embed view to the backend.
@@ -79,11 +79,7 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 **Analytics events** are written directly to PostgreSQL (`material_activity` and `search_requests` tables). User-agents matching `ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS` (e.g. `oersi`) are excluded.
 
-**Connections to other AOE services:**
-
-| Service | How |
-|---|---|
-| **streaming-app** | When a file download has a `Range` header and the file meets streaming criteria (enabled, MIME type in `[audio/mp4, audio/mpeg, audio/x-m4a, video/mp4]`, file size >= `STREAM_FILESIZE_MIN`), the backend first does a HEAD request to the streaming service to check it's alive (1s timeout). If yes, it responds with **HTTP 302** redirecting the browser to `/stream/api/v1/material/{filename}`. Otherwise it serves the file directly from S3. |
+**Media byte ranges:** a download of an audio or video file (`audio/mp4`, `audio/mpeg`, `audio/x-m4a`, `video/mp4`) of at least 100 000 bytes with a single `Range: bytes=start-end` header is answered with **HTTP 206 Partial Content** straight from S3, so players can seek. Other downloads get the whole file. The old streaming URL `/stream/api/v1/material/{filename}` answers **HTTP 301** to `/api/v1/download/{filename}`.
 
 **Authentication:** OIDC via Passport.js. Discovers the issuer at `PROXY_URI`, redirects users for login with `openid profile offline_access` scopes, handles the callback at `/api/secure/redirect`, and auto-creates new users in PostgreSQL.
 
@@ -174,42 +170,16 @@ Instead of caching in Redis, the reference data would be stored in PostgreSQL �
 
 ---
 
-### 3. aoe-streaming-app
-
-**Node.js / Express 5** (TypeScript) | Port 3001
-
-A stateless media streaming proxy between S3 and the browser. It exists to separate I/O-heavy streaming from the main backend and to support HTTP Range requests for video/audio seeking.
-
-**The browser never calls this service directly.** The flow is:
-
-1. Browser requests a file download from web-backend
-2. Web-backend checks: is streaming enabled, is there a `Range` header, is the MIME type audio/video, is the file large enough?
-3. If all criteria pass, web-backend responds with **HTTP 302** → `/stream/api/v1/material/{filename}`
-4. Browser follows the redirect to the streaming service
-5. Streaming service does a HEAD to S3 for file metadata, then streams the file back with Range support
-
-**Range handling:** Client sends `Range: bytes=start-end`. The service caps chunks at `STORAGE_MAX_RANGE` (default 5MB). If the requested range exceeds the limit, the end is adjusted down. Response is HTTP 206 Partial Content with `Content-Range` header.
-
-**Only connection:** AWS S3 (read-only, GET and HEAD). No databases, no caches, no queues.
-
-**Endpoints:**
-- `GET /stream/api/v1/material/:filename` — stream a file from S3
-- `HEAD /stream/api/v1/material/:filename` — return file metadata (used by web-backend's health check)
-- `GET /health` — health check
-
----
-
 ## Technology Summary
 
 | Service | Language | Framework | Port |
 |---|---|---|---|
 | web-frontend | TypeScript | Angular 21, static files on S3 | — |
 | web-backend | TypeScript | Express 5 (Node.js) | 3000 |
-| streaming-app | TypeScript | Express 5 (Node.js) | 3001 |
 
 ## Shared Infrastructure
 
-The backend services run on a shared ECS Fargate cluster with:
+The backend service runs on an ECS Fargate cluster with:
 - **Application Load Balancer** for path-based routing (see routing table above)
 - **CloudWatch** monitoring with CPU, memory, and health check alarms
 - **Service Discovery** via Cloud Map with private DNS namespace
