@@ -87,7 +87,7 @@
     "@types/multer": "2.3.0",
     "@types/node": "24.19.0",
     "@types/passport": "1.0.17",
-    "knip": "6.38.0",
+    "knip": "6.39.0",
     "tsc-alias": "1.9.7",
     "typescript": "5.9.3"
   }
