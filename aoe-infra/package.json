@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.164",
-    "@types/node": "24.19.0",
+    "@types/node": "24.19.1",
     "aws-cdk": "2.1144.0",
     "knip": "6.39.0",
     "typescript": "5.9.3"
