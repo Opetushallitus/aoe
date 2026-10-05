@@ -17,7 +17,6 @@ import {
 } from '@angular/forms'
 import { Title } from '@angular/platform-browser'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
-import { DeviceDetectorService } from 'ngx-device-detector'
 import { ToastService } from '@services/toast.service'
 import { Subscription } from 'rxjs'
 import { storageKeys } from '@constants/storage-keys'
@@ -116,14 +115,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private koodistoService: KoodistoService,
     private translate: TranslateService,
     private titleService: Title,
-    private deviceService: DeviceDetectorService,
     private toastr: ToastService
   ) {}
 
   ngOnInit(): void {
     this.setTitle()
 
-    if (this.deviceService.isMobile()) {
+    if (window.matchMedia('(max-width: 768px)').matches) {
       this.isCollapsedFilters = true
     }
     this.translate.onLangChange.subscribe(() => {

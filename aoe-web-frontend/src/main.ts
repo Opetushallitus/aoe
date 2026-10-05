@@ -4,7 +4,6 @@ import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/com
 import { WindowRef } from './app/providers'
 import { Title, BrowserModule, bootstrapApplication } from '@angular/platform-browser'
 import { UnsavedChangesGuard, AdminGuard, DisableFormsGuard } from './app/guards'
-import { DeviceDetectorService } from 'ngx-device-detector'
 import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 import { AppRoutingModule } from './app/app.routing'
@@ -53,7 +52,6 @@ bootstrapApplication(AppComponent, {
     ),
     Title,
     UnsavedChangesGuard,
-    DeviceDetectorService,
     AdminGuard,
     DisableFormsGuard,
     WindowRef,
