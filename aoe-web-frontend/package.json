@@ -38,9 +38,9 @@
     "@ngx-translate/core": "18.0.0",
     "@ngx-translate/http-loader": "18.0.0",
     "bootstrap": "5.3.8",
+    "dompurify": "3.4.16",
     "echarts": "6.1.0",
     "font-awesome": "4.7.0",
-    "isomorphic-dompurify": "3.23.0",
     "ng2-pdfjs-viewer": "26.4.3",
     "ngx-bootstrap": "22.0.0",
     "ngx-echarts": "22.0.0",
@@ -60,8 +60,5 @@
     "knip": "6.39.0",
     "sass": "1.105.1",
     "typescript": "6.0.3"
-  },
-  "overrides": {
-    "dompurify": "3.4.16"
   }
 }

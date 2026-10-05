@@ -12,7 +12,7 @@ import {
 } from '@angular/forms'
 import { NotificationOption, NotificationType } from '@admin/model/enumeration/NotificationType'
 import { HttpErrorResponse } from '@angular/common/http'
-import DOMPurify from 'isomorphic-dompurify'
+import DOMPurify from 'dompurify'
 import { ToastService } from '@services/toast.service'
 import { NgSelectComponent } from '@ng-select/ng-select'
 import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap/datepicker'
