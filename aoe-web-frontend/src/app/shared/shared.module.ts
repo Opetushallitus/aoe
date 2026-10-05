@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule, KeyValue } from '@angular/common'
 import { AbstractControl, ValidatorFn } from '@angular/forms'
-import { TranslateModule } from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { AlertModule } from 'ngx-bootstrap/alert'
 
 import { TruncatePipe } from '../pipes/truncate.pipe'
@@ -12,22 +12,8 @@ import { koodistoSources } from '@constants/koodisto-sources'
 import { storageKeys } from '@constants/storage-keys'
 
 @NgModule({
-  imports: [
-    AlertModule,
-    CommonModule,
-    TranslateModule,
-    TruncatePipe,
-    SafePipe,
-    MaterialLanguagePipe
-  ],
-  exports: [
-    CommonModule,
-    TranslateModule,
-    TruncatePipe,
-    SafePipe,
-    MaterialLanguagePipe,
-    AlertModule
-  ]
+  imports: [AlertModule, CommonModule, TranslatePipe, TruncatePipe, SafePipe, MaterialLanguagePipe],
+  exports: [CommonModule, TranslatePipe, TruncatePipe, SafePipe, MaterialLanguagePipe, AlertModule]
 })
 export class SharedModule {}
 
