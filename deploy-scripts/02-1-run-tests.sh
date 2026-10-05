@@ -17,13 +17,6 @@ function clean {
   $compose down
 }
 
-function run_unit_tests {
-  pushd "$repo/aoe-web-backend"
-  npm_ci_if_package_lock_has_changed
-  npm test
-  popd
-}
-
 function build_frontend {
   pushd "$repo/aoe-web-frontend"
   npm_ci_if_package_lock_has_changed
@@ -45,7 +38,6 @@ function main {
     export AOE_WEB_BACKEND_TAG="${github_registry}aoe-web-backend:${revision}"
   fi
 
-  run_unit_tests
   build_frontend
   run_playwright_tests
 }

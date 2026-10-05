@@ -46,6 +46,14 @@ jobs:
       - name: Run 02-lint.sh
         run: ./deploy-scripts/02-lint.sh
 
+  run-unit-tests:
+    name: 02-2-run-unit-tests.sh
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Run 02-2-run-unit-tests.sh
+        run: ./deploy-scripts/02-2-run-unit-tests.sh
+
   push_image:
     name: 03-push-image.sh
     if: github.ref == 'refs/heads/main'
@@ -113,16 +121,17 @@ jobs:
         with:
           name: a11y-data-${{ matrix.shard }}
           path: playwright-results/axe-data
+          if-no-files-found: ignore
           retention-days: 1
 
-  # Required status check: reports the result of all shards under the job name the ruleset expects.
+  # Required status check: reports the unit tests and all shards under the job name the ruleset expects.
   run-tests:
     name: 02-1-run-tests.sh
-    needs: run-tests-shard
+    needs: [ run-unit-tests, run-tests-shard ]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     steps:
-      - run: test "${{ needs.run-tests-shard.result }}" = success
+      - run: test "${{ needs.run-unit-tests.result }}" = success && test "${{ needs.run-tests-shard.result }}" = success
   build_status_completed:
     name: Send build status
     needs: [push_image]
