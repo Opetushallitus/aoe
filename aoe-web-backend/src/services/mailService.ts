@@ -4,7 +4,13 @@ import * as log from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
 import { SendEmailCommand, type SendEmailCommandInput, SESClient } from '@aws-sdk/client-ses'
 
-const ses = new SESClient({ region: process.env.AWS_REGION || 'eu-west-1' })
+// AWS SDK v3 sets no timeout by default, where v2 gave up on a socket that stayed idle for
+// 120 s, whether it was still connecting or waiting for a response. Without this a stalled
+// SES connection would hang the daily mail job or a settings save indefinitely.
+const ses = new SESClient({
+  region: process.env.AWS_REGION || 'eu-west-1',
+  requestHandler: { socketTimeout: 120_000 }
+})
 
 const sendEmail = async (email: {
   to: string
