@@ -31,7 +31,6 @@ import * as iam from 'aws-cdk-lib/aws-iam'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
 import { EfsStack } from '../lib/efs-stack'
-import { EmptyStack } from '../lib/empty-stack'
 import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
@@ -307,11 +306,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     throughputMode: config.EFS.throughputMode as ThroughputMode
   })
 
-  new EmptyStack(app, 'StreamingEcsService', {
-    env: envEU,
-    stackName: `${environmentName}-streaming-app-service`
-  })
-
   const aossPolicyStatement = new iam.PolicyStatement({
     actions: [
       'aoss:CreateIndex',
@@ -446,10 +440,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     stackName: 'aoe-web-backend-ecr',
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
-  })
-  new EmptyStack(app, 'StreamingAppEcrStack', {
-    env: envEU,
-    stackName: 'aoe-streaming-app-ecr'
   })
   new EcrStack(app, 'RestoreValidatorEcrStack', {
     env: envEU,

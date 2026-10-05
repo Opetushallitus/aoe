@@ -74,9 +74,6 @@ function deploy {
       ./cdk.sh deploy "$STACK" --require-approval never --method=direct "$@"
       ;;
     deploy)
-      if [[ "$ENV" == "utility" ]]; then
-        ./cdk.sh deploy UtilityStack --exclusively --require-approval never "$@"
-      fi
       ./cdk.sh deploy --all --require-approval never --concurrency 10 "$@"
       ;;
     *)
