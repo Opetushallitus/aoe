@@ -19,11 +19,12 @@ export const startScheduledCleaning = (): void => {
   const dirCleaningScheduler = new Cron(fileCleaningSchedule, async (): Promise<void> => {
     // Remove temporary content from the resource directories (H5P, HTML).
     try {
+      log.info('Scheduled removal for temporary H5P and HTML content started.')
       rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
       rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
       clearH5PContentCache()
-      log.debug('Scheduled removal for temporary H5P and HTML content completed.')
+      log.info('Scheduled removal for temporary H5P and HTML content completed.')
     } catch (err: unknown) {
       log.error('Scheduled removal for temporary H5P or HTML content failed', err)
       dirCleaningScheduler.stop()
