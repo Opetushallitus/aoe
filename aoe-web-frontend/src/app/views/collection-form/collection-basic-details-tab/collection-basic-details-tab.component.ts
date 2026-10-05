@@ -5,7 +5,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import {
   FormBuilder,
@@ -45,6 +46,7 @@ import { NgSelectComponent } from '@ng-select/ng-select'
   selector: 'app-collection-basic-details-tab',
   templateUrl: './collection-basic-details-tab.component.html',
   styleUrls: ['./collection-basic-details-tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,

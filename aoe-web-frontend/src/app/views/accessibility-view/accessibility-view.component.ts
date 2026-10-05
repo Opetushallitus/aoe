@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { KoodistoService } from '@services/koodisto.service'
 import { Title } from '@angular/platform-browser'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
@@ -10,6 +10,7 @@ import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
   selector: 'app-accessibility-view',
   templateUrl: './accessibility-view.component.html',
   styleUrls: ['./accessibility-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, TranslatePipe]
 })
 export class AccessibilityViewComponent implements OnInit {

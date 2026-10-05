@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { TranslatePipe } from '@ngx-translate/core'
 import { TooltipDirective } from 'ngx-bootstrap/tooltip'
 
@@ -18,6 +18,7 @@ type TooltipVariant = 'help'
       <img [src]="icons[variant]" alt="" />
     </button>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TooltipDirective, TranslatePipe]
 })
 export class TooltipButtonComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { ChangeMaterialOwnerComponent } from '../change-material-owner/change-material-owner.component'
 import { RemoveMaterialComponent } from '../remove-material/remove-material.component'
 
@@ -6,6 +6,7 @@ import { RemoveMaterialComponent } from '../remove-material/remove-material.comp
   selector: 'app-manage-materials',
   templateUrl: './manage-materials.component.html',
   styleUrls: ['./manage-materials.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ChangeMaterialOwnerComponent, RemoveMaterialComponent]
 })
 export class ManageMaterialsComponent {

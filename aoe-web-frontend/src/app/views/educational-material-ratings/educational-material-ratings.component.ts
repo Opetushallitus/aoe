@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { Ratings } from '@models/backend/ratings'
 import { ActivatedRoute, RouterLink } from '@angular/router'
@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common'
   selector: 'app-educational-material-ratings',
   templateUrl: './educational-material-ratings.component.html',
   styleUrls: ['./educational-material-ratings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, RouterLink, DatePipe, TranslatePipe]
 })
 export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {

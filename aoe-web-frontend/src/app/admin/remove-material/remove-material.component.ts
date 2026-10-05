@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -19,6 +19,7 @@ import { NgClass } from '@angular/common'
   selector: 'app-admin-remove-material',
   templateUrl: './remove-material.component.html',
   styleUrls: ['./remove-material.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, NgClass]
 })
 export class RemoveMaterialComponent implements OnInit, OnDestroy {

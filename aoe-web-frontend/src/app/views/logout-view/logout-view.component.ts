@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-logout-view',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './logout-view.component.html'
 })
 export class LogoutViewComponent implements OnInit {

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { CollectionForm, CollectionFormMaterial } from '@models/collections/collection-form'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
@@ -18,6 +25,7 @@ import { FocusRemoverDirective } from '../../../directives/focus-remover.directi
   selector: 'app-collection-preview-tab',
   templateUrl: './collection-preview-tab.component.html',
   styleUrls: ['./collection-preview-tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, RouterLink, ReactiveFormsModule, TranslatePipe]
 })
 export class CollectionPreviewTabComponent implements OnInit {

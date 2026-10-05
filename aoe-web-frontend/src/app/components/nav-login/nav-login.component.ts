@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 import { AuthService } from '@services/auth.service'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 import { RouterLink, RouterLinkActive } from '@angular/router'
@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'app-nav-login',
   templateUrl: './nav-login.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLink,

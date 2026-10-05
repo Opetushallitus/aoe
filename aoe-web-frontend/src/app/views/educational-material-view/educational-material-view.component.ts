@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Type } from '@angular/core'
+import { Component, OnDestroy, OnInit, Type, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute, ParamMap, RouterLink, RouterLinkActive } from '@angular/router'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
@@ -39,6 +39,7 @@ import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-butto
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
   styleUrls: ['./educational-material-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ArchivedMaterialComponent,
     AlertComponent,

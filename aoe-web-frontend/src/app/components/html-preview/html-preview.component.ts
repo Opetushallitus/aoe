@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 
 import { Material } from '@models/material'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
@@ -8,6 +8,7 @@ import { SafePipe } from '../../pipes/safe.pipe'
 @Component({
   selector: 'app-html-preview',
   templateUrl: './html-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, TranslatePipe, SafePipe]
 })
 export class HtmlPreviewComponent {

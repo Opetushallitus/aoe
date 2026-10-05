@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import {
   DataZoomComponentOption,
   EChartsOption,
@@ -51,6 +51,7 @@ import { AsyncPipe } from '@angular/common'
   selector: 'app-analytics-view',
   templateUrl: './analytics-view.component.html',
   styleUrls: ['./analytics-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     NgSelectComponent,

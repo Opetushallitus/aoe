@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
 import { CookieService } from '@services/cookie.service'
@@ -8,6 +8,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal'
 @Component({
   selector: 'app-cookie-notice',
   templateUrl: './cookie-notice.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, ModalDirective, TranslatePipe]
 })
 export class CookieNoticeComponent implements OnInit {

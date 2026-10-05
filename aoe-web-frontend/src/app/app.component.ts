@@ -1,4 +1,12 @@
-import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angular/core'
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  DOCUMENT,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
@@ -14,6 +22,7 @@ export let browserRefresh: boolean = false
   // tslint:disable-next-line
   selector: 'body',
   template: '<router-outlet></router-outlet><app-toast-container></app-toast-container>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterOutlet, ToastContainerComponent]
 })
 export class AppComponent implements OnDestroy, OnInit {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { TermsOfUseComponent } from '../../components/terms-of-use/terms-of-use.component'
@@ -6,6 +6,7 @@ import { TermsOfUseComponent } from '../../components/terms-of-use/terms-of-use.
 @Component({
   selector: 'app-terms-of-use-view',
   templateUrl: './terms-of-use-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TermsOfUseComponent]
 })
 export class TermsOfUseViewComponent implements OnInit {

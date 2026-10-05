@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -19,6 +19,7 @@ import { NgSelectComponent, NgOptionTemplateDirective } from '@ng-select/ng-sele
   selector: 'app-admin-change-material-owner',
   templateUrl: './change-material-owner.component.html',
   styleUrls: ['./change-material-owner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, NgClass, NgSelectComponent, NgOptionTemplateDirective]
 })
 export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {

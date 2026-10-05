@@ -1,4 +1,12 @@
-import { Component, Inject, OnDestroy, OnInit, Renderer2, DOCUMENT } from '@angular/core'
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  DOCUMENT,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Subscription } from 'rxjs'
 
@@ -20,6 +28,7 @@ import { MaterialLanguagePipe } from '../pipes/material-language.pipe'
   selector: 'app-educational-material-embed-view',
   templateUrl: './educational-material-embed-view.component.html',
   styleUrls: ['./educational-material-embed-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgClass,
     AlertComponent,

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterLink } from '@angular/router'
 import { Title } from '@angular/platform-browser'
@@ -21,6 +28,7 @@ import { DatePipe } from '@angular/common'
   selector: 'app-tabs-edit-preview',
   templateUrl: './edit-preview.component.html',
   styleUrls: ['./edit-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     PreviewRowComponent,
     FocusRemoverDirective,

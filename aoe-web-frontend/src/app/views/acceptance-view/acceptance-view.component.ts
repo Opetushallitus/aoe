@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 
 import { AuthService } from '@services/auth.service'
@@ -11,6 +11,7 @@ import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 @Component({
   selector: 'app-acceptance-view',
   templateUrl: './acceptance-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TermsOfUseComponent,
     PrivacyPolicyComponent,

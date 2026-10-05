@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -31,6 +38,7 @@ import { BsDatepickerInputDirective, BsDatepickerDirective } from 'ngx-bootstrap
   selector: 'app-tabs-extended-details',
   templateUrl: './extended-details.component.html',
   styleUrls: ['./extended-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     AlignmentTagDedupeDirective,

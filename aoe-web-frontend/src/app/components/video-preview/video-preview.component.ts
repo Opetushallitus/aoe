@@ -5,7 +5,8 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core'
 
 import { Material } from '@models/material'
@@ -15,6 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core'
 @Component({
   selector: 'app-video-preview',
   templateUrl: './video-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [TranslatePipe]
 })
 export class VideoPreviewComponent implements OnInit, OnChanges {

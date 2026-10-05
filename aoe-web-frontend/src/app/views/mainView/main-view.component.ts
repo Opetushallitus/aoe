@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { MaterialService } from '@services/material.service'
 import { EducationalMaterialCard } from '@models/educational-material-card'
@@ -11,6 +11,7 @@ import { EducationalMaterialCardComponent } from '../../components/educational-m
 
 @Component({
   templateUrl: 'main-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SearchComponent,
     FocusRemoverDirective,

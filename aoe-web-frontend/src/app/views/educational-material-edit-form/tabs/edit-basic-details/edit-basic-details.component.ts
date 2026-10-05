@@ -5,7 +5,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef,
+  ChangeDetectionStrategy
 } from '@angular/core'
 import { KeyValue, NgClass } from '@angular/common'
 import {
@@ -45,6 +46,7 @@ import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-butto
   selector: 'app-tabs-edit-basic-details',
   templateUrl: './edit-basic-details.component.html',
   styleUrls: ['./edit-basic-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,

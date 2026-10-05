@@ -1,10 +1,18 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ChangeDetectionStrategy
+} from '@angular/core'
 
 import { Material } from '@models/material'
 import { urls } from '@constants/urls'
 
 @Component({
   selector: 'app-image-preview',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './image-preview.component.html'
 })
 export class ImagePreviewComponent implements OnInit, OnChanges {

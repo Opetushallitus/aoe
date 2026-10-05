@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { Material } from '@models/material'
 import { urls } from '@constants/urls'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
@@ -7,6 +15,7 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 @Component({
   selector: 'app-office-preview',
   templateUrl: './office-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PdfJsViewerModule]
 })
 export class OfficePreviewComponent implements OnInit, OnChanges {

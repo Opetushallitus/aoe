@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { PrivacyPolicy } from '../../mocks/privacy-policy.mock'
 
 @Component({
   selector: 'app-privacy-policy',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './privacy-policy.component.html'
 })
 export class PrivacyPolicyComponent implements OnInit {

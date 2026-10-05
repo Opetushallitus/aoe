@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { AccessibilityPolicy } from '../../mocks/accessibility-policy.mock'
 
 @Component({
   selector: 'app-accessibility-policy-view',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './accessibility-policy-view.component.html'
 })
 export class AccessibilityPolicyViewComponent implements OnInit {

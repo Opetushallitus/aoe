@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { SearchService } from '@services/search.service'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
@@ -10,6 +10,7 @@ import { CollectionSearchResultComponent } from '../../components/collection-sea
   selector: 'app-collection-search-results-view',
   templateUrl: './collection-search-results-view.component.html',
   styleUrls: ['./collection-search-results-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CollectionSearchResultComponent, TranslatePipe]
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {

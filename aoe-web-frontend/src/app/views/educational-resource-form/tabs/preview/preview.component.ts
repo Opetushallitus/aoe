@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -27,6 +35,7 @@ import { AsyncPipe, DatePipe } from '@angular/common'
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     PreviewRowComponent,
     FocusRemoverDirective,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core'
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 import { KoodistoService } from './services/koodisto.service'
@@ -11,6 +11,7 @@ import { CollapseDirective } from 'ngx-bootstrap/collapse'
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, RouterLinkActive, RouterOutlet, CollapseDirective]
 })
 export class AdminComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import {
   CollectionCard,
   CollectionCardEducationalLevel,
@@ -20,6 +20,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe'
   selector: 'app-collection-card',
   templateUrl: './collection-card.component.html',
   styleUrls: ['./collection-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLink,

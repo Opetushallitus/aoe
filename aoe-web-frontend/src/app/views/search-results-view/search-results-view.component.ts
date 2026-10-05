@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import {
   AbstractControl,
   FormArray,
@@ -37,6 +44,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe'
   selector: 'app-search-results-view',
   templateUrl: './search-results-view.component.html',
   styleUrls: ['./search-results-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { EChartsOption } from 'echarts'
 import { NgxEchartsDirective } from 'ngx-echarts'
 
@@ -6,6 +6,7 @@ import { NgxEchartsDirective } from 'ngx-echarts'
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgxEchartsDirective]
 })
 export class LineChartComponent {

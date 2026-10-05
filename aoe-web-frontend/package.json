@@ -27,15 +27,15 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@angular/animations": "21.2.25",
-    "@angular/cdk": "21.2.14",
-    "@angular/common": "21.2.25",
-    "@angular/compiler": "21.2.25",
-    "@angular/core": "21.2.25",
-    "@angular/forms": "21.2.25",
-    "@angular/platform-browser": "21.2.25",
-    "@angular/router": "21.2.25",
-    "@ng-select/ng-select": "21.8.2",
+    "@angular/animations": "22.2.1",
+    "@angular/cdk": "22.2.1",
+    "@angular/common": "22.2.1",
+    "@angular/compiler": "22.2.1",
+    "@angular/core": "22.2.1",
+    "@angular/forms": "22.2.1",
+    "@angular/platform-browser": "22.2.1",
+    "@angular/router": "22.2.1",
+    "@ng-select/ng-select": "23.11.0",
     "@ngx-translate/core": "17.0.0",
     "@ngx-translate/http-loader": "17.0.0",
     "bootstrap": "5.3.8",
@@ -43,10 +43,10 @@
     "font-awesome": "4.7.0",
     "isomorphic-dompurify": "3.23.0",
     "ng2-pdfjs-viewer": "26.4.3",
-    "ngx-bootstrap": "21.2.2",
-    "ngx-cookie-service": "21.3.1",
-    "ngx-device-detector": "11.0.0",
-    "ngx-echarts": "21.0.0",
+    "ngx-bootstrap": "22.0.0",
+    "ngx-cookie-service": "22.0.0",
+    "ngx-device-detector": "12.0.0",
+    "ngx-echarts": "22.0.0",
     "ngx-image-cropper": "9.1.7",
     "ngx-pagination": "6.0.3",
     "rxjs": "7.8.2",
@@ -55,20 +55,16 @@
     "zone.js": "0.16.3"
   },
   "devDependencies": {
-    "@angular/build": "21.2.24",
-    "@angular/cli": "21.2.24",
-    "@angular/compiler-cli": "21.2.25",
-    "@angular/language-service": "21.2.25",
+    "@angular/build": "22.2.1",
+    "@angular/cli": "22.2.1",
+    "@angular/compiler-cli": "22.2.1",
+    "@angular/language-service": "22.2.1",
     "@types/node": "24.19.1",
     "knip": "6.39.0",
     "sass": "1.105.1",
-    "typescript": "5.9.3"
+    "typescript": "6.0.3"
   },
   "overrides": {
-    "semver": "7.8.5",
-    "dompurify": "3.4.16",
-    "esbuild": "0.28.2",
-    "xml2js": "0.6.2",
-    "qs": "6.16.0"
+    "dompurify": "3.4.16"
   }
 }

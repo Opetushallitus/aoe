@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { SearchParams } from '@models/search/search-params'
 import { storageKeys } from '@constants/storage-keys'
 import { Router } from '@angular/router'
@@ -11,6 +11,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: 'app-taglist',
   templateUrl: './taglist.component.html',
   styleUrls: ['./taglist.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class TaglistComponent {

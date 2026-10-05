@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { KeyValue } from '@angular/common'
 import { HttpErrorResponse } from '@angular/common/http'
@@ -24,6 +24,7 @@ import {
   selector: 'app-social-metadata-modal',
   templateUrl: './social-metadata-modal.component.html',
   styleUrls: ['./social-metadata-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     ReactiveFormsModule,

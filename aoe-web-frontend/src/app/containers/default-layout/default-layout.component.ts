@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, DOCUMENT } from '@angular/core'
+import { Component, Inject, OnInit, DOCUMENT, ChangeDetectionStrategy } from '@angular/core'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { setLanguage } from '../../shared/shared.module'
 import { AuthService } from '@services/auth.service'
@@ -23,6 +23,7 @@ import { CookieNoticeComponent } from '../../components/cookie-notice/cookie-not
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLink,

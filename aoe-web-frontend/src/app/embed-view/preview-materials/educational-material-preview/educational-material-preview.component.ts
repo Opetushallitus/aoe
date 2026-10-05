@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 
 import { Material } from '@models/material'
@@ -14,6 +14,7 @@ import { ImagePreviewComponent } from '../image-preview/image-preview.component'
   selector: 'app-educational-material-preview',
   templateUrl: './educational-material-preview.component.html',
   styleUrls: ['./educational-material-preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     VideoPreviewComponent,
     AudioPreviewComponent,

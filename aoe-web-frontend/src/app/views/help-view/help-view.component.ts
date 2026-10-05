@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Subscription } from 'rxjs'
 
@@ -13,6 +13,7 @@ import { NgClass } from '@angular/common'
 @Component({
   selector: 'app-help-view',
   templateUrl: './help-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     AccordionComponent,

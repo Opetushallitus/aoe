@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 
 import { AuthService } from '@services/auth.service'
 import { MaterialService } from '@services/material.service'
@@ -18,6 +18,7 @@ import { DatePipe } from '@angular/common'
   selector: 'app-user-materials-view',
   templateUrl: './user-materials-view.component.html',
   styleUrls: ['./user-materials-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLink,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 import { RouterLink } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core'
   selector: '[appPreviewRow]',
   templateUrl: './preview-row.component.html',
   styleUrls: ['./preview-row.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, RouterLink, TranslatePipe]
 })
 export class PreviewRowComponent {

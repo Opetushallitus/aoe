@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { Subscription } from 'rxjs'
@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router'
   selector: 'app-collections-view',
   templateUrl: './collections-view.component.html',
   styleUrls: ['./collections-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CollectionCardComponent, FocusRemoverDirective, RouterLink, TranslatePipe]
 })
 export class CollectionsViewComponent implements OnInit, OnDestroy {

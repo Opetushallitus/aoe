@@ -1,4 +1,12 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { KeyValue, NgClass } from '@angular/common'
 import {
   FormArray,
@@ -33,6 +41,7 @@ import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-butto
 @Component({
   selector: 'app-tabs-basic-details',
   templateUrl: './basic-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     FocusRemoverDirective,

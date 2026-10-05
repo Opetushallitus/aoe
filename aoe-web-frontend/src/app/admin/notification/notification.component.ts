@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Notification } from '@admin/model'
 import { NotificationService } from '@admin/services/notification.service'
@@ -24,6 +24,7 @@ import { CustomDatePipe } from '@admin/pipes/custom-date.pipe'
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
   providers: [NotificationService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     NgSelectComponent,

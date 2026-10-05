@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { BsModalRef } from 'ngx-bootstrap/modal'
 import {
   FormBuilder,
@@ -20,6 +20,7 @@ import { NgClass } from '@angular/common'
   selector: 'app-educational-material-rating-modal',
   templateUrl: './educational-material-rating-modal.component.html',
   styleUrls: ['./educational-material-rating-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, ReactiveFormsModule, NgClass, TranslatePipe]
 })
 export class EducationalMaterialRatingModalComponent implements OnInit {

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { SearchResult } from '@models/search/search-results'
 import { urls } from '@constants/urls'
 import { storageKeys } from '@constants/storage-keys'
@@ -13,6 +20,7 @@ import { DatePipe } from '@angular/common'
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
   styleUrls: ['./search-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, RouterLink, DatePipe, TranslatePipe]
 })
 export class SearchResultComponent implements OnInit {

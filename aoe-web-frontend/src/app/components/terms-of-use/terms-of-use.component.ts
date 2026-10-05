@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { TermsOfUse } from '../../mocks/terms-of-use.mock'
 
 @Component({
   selector: 'app-terms-of-use',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './terms-of-use.component.html'
 })
 export class TermsOfUseComponent implements OnInit {

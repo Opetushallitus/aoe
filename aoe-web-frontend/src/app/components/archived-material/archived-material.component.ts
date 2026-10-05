@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import { ActivatedRoute, ParamMap } from '@angular/router'
@@ -6,6 +6,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router'
 @Component({
   selector: 'app-archived-material',
   templateUrl: './archived-material.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./archived-material.component.scss']
 })
 export class ArchivedMaterialComponent implements OnInit {

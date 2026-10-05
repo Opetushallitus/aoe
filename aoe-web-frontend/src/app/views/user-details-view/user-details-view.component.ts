@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { TranslateService, TranslatePipe } from '@ngx-translate/core'
 import { Title } from '@angular/platform-browser'
 import {
@@ -20,6 +20,7 @@ import { AlertComponent } from 'ngx-bootstrap/alert'
   selector: 'app-user-details-view',
   templateUrl: './user-details-view.component.html',
   styleUrls: ['./user-details-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, NgClass, FocusRemoverDirective, AlertComponent, TranslatePipe]
 })
 export class UserDetailsViewComponent implements OnDestroy, OnInit {

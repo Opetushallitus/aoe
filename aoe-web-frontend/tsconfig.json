@@ -11,32 +11,29 @@
     "outDir": "./dist/out-tsc",
     "skipLibCheck": true,
     "sourceMap": true,
+    "strict": false,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
-    "baseUrl": "src/app/",
     "paths": {
-      "@angular/*": [
-        "../../node_modules/@angular/*"
-      ],
       "@components/*": [
-        "components/*"
+        "./src/app/components/*"
       ],
       "@models/*": [
-        "models/*"
+        "./src/app/models/*"
       ],
       "@services/*": [
-        "services/*"
+        "./src/app/services/*"
       ],
       "@admin/*": [
-        "admin/*"
+        "./src/app/admin/*"
       ],
       "@constants/*": [
-        "constants/*"
+        "./src/app/constants/*"
       ],
       "@shared/*": [
-        "shared/*"
+        "./src/app/shared/*"
       ]
     },
     "useDefineForClassFields": false

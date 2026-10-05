@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -43,6 +51,7 @@ import { TooltipButtonComponent } from '@components/tooltip-button/tooltip-butto
   selector: 'app-collection-educational-details-tab',
   templateUrl: './collection-educational-details-tab.component.html',
   styleUrls: ['./collection-educational-details-tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     AlignmentTagDedupeDirective,

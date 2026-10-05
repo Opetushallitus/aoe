@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { EducationalMaterialForm } from '@models/educational-material-form'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Observable, Subscription } from 'rxjs'
@@ -16,6 +24,7 @@ import { AsyncPipe } from '@angular/common'
   selector: 'app-tabs-edit-license',
   templateUrl: './edit-license.component.html',
   styleUrls: ['./edit-license.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class EditLicenseComponent implements OnInit, OnDestroy {

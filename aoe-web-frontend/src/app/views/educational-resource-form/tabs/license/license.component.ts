@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
@@ -15,6 +22,7 @@ import { AsyncPipe } from '@angular/common'
 @Component({
   selector: 'app-tabs-license',
   templateUrl: './license.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, FocusRemoverDirective, CollapseDirective, AsyncPipe, TranslatePipe]
 })
 export class LicenseComponent implements OnInit, OnDestroy {

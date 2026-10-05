@@ -1,4 +1,12 @@
-import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { ActivatedRoute, Params, Router, RouterLinkActive, RouterLink } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { CollectionService } from '@services/collection.service'
@@ -24,6 +32,7 @@ import { CollectionPreviewTabComponent as CollectionPreviewTabComponent_1 } from
   selector: 'app-collection-form',
   templateUrl: './collection-form.component.html',
   styleUrls: ['./collection-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLinkActive,

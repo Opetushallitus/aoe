@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 
 import { Material } from '@models/material'
 import { urls } from '@constants/urls'
@@ -7,6 +15,7 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer'
 @Component({
   selector: 'app-pdf-preview',
   templateUrl: './pdf-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [PdfJsViewerModule]
 })
 export class PdfPreviewComponent implements OnInit, OnChanges {

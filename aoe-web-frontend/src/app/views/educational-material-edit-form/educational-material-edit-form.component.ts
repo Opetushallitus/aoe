@@ -1,4 +1,12 @@
-import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { ActivatedRoute, Params, Router, RouterLinkActive, RouterLink } from '@angular/router'
 import { MaterialService } from '@services/material.service'
 import { Observable, Subscription } from 'rxjs'
@@ -31,6 +39,7 @@ import { AsyncPipe } from '@angular/common'
   selector: 'app-educational-material-edit-form',
   templateUrl: './educational-material-edit-form.component.html',
   styleUrls: ['./educational-material-edit-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLinkActive,

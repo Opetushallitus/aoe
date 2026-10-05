@@ -1,4 +1,12 @@
-import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { ActivatedRoute, Params, Router, RouterLink, RouterLinkActive } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { storageKeys } from '@constants/storage-keys'
@@ -29,6 +37,7 @@ import { PreviewComponent as PreviewComponent_1 } from './tabs/preview/preview.c
 @Component({
   selector: 'app-educational-resource-form',
   templateUrl: './educational-resource-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgClass,
     FocusRemoverDirective,

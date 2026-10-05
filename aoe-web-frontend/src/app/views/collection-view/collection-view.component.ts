@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { CollectionService } from '@services/collection.service'
@@ -21,6 +21,7 @@ import { MaterialLanguagePipe } from '../../pipes/material-language.pipe'
   selector: 'app-collection-view',
   templateUrl: './collection-view.component.html',
   styleUrls: ['./collection-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FocusRemoverDirective,
     RouterLink,

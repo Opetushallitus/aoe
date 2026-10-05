@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core'
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'
 import { Router } from '@angular/router'
 import { Title } from '@angular/platform-browser'
@@ -16,6 +24,7 @@ import { FocusRemoverDirective } from '../../../../directives/focus-remover.dire
   selector: 'app-tabs-edit-based-on-details',
   templateUrl: './edit-based-on-details.component.html',
   styleUrls: ['./edit-based-on-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, NgSelectComponent, NgClass, FocusRemoverDirective, TranslatePipe]
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {

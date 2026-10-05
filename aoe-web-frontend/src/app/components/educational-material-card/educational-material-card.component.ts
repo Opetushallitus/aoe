@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { LangChangeEvent, TranslateService, TranslatePipe } from '@ngx-translate/core'
 
 import { EducationalMaterialCard } from '@models/educational-material-card'
@@ -14,6 +14,7 @@ import { TruncatePipe } from '../../pipes/truncate.pipe'
   selector: 'app-educational-material-card',
   templateUrl: './educational-material-card.component.html',
   styleUrls: ['./educational-material-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, RouterLink, TaglistComponent, TranslatePipe, TruncatePipe]
 })
 export class EducationalMaterialCardComponent implements OnInit {

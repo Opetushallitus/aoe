@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import {
   FormBuilder,
   FormControl,
@@ -24,6 +24,7 @@ import { NgClass } from '@angular/common'
   selector: 'app-add-to-collection-modal',
   templateUrl: './add-to-collection-modal.component.html',
   styleUrls: ['./add-to-collection-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FocusRemoverDirective, ReactiveFormsModule, NgClass, FormsModule, TranslatePipe]
 })
 export class AddToCollectionModalComponent implements OnInit, OnDestroy {
