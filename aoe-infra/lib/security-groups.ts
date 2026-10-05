@@ -21,7 +21,6 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup
   public readonly bastionSecurityGroup: ec2.SecurityGroup
   public readonly openSearchSecurityGroup: ec2.SecurityGroup
-  public readonly streamingServiceSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup
   public readonly efsSecurityGroup: ec2.SecurityGroup
 
@@ -76,15 +75,6 @@ export class SecurityGroupStack extends cdk.Stack {
       allowAllOutbound: true
     })
 
-    this.streamingServiceSecurityGroup = new ec2.SecurityGroup(
-      this,
-      'StreamingServiceSecurityGroupSecurityGroup',
-      {
-        vpc: props.vpc,
-        allowAllOutbound: true
-      }
-    )
-
     // Security Group rules
     this.efsSecurityGroup.addIngressRule(this.webBackendsServiceSecurityGroup, ec2.Port.tcp(2049))
 
@@ -113,18 +103,6 @@ export class SecurityGroupStack extends cdk.Stack {
       this.bastionSecurityGroup,
       ec2.Port.tcp(8080)
     )
-
-    this.streamingServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))
-
-    this.streamingServiceSecurityGroup.addIngressRule(this.bastionSecurityGroup, ec2.Port.tcp(8080))
-
-    this.streamingServiceSecurityGroup.addIngressRule(
-      this.webBackendsServiceSecurityGroup,
-      ec2.Port.tcp(8080)
-    )
-
-    // <env>-streaming-app-service imports this until its deploy as an EmptyStack has finished (AOE-129-4).
-    this.exportValue(this.streamingServiceSecurityGroup.securityGroupId)
 
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(443))
