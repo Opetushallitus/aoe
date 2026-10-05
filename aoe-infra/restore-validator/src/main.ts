@@ -2,6 +2,7 @@ import { BackupClient, PutRestoreValidationResultCommand } from '@aws-sdk/client
 import {
   CreateDBInstanceCommand,
   type DBCluster,
+  DBInstanceAlreadyExistsFault,
   DBInstanceNotFoundFault,
   DeleteDBInstanceCommand,
   DescribeDBClustersCommand,
@@ -60,7 +61,7 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
   const deadline = Date.now() + VALIDATION_BUDGET_MS
   const cleanupDeadline = deadline + CLEANUP_BUDGET_MS
 
-  let instanceRequested = false
+  let instanceCreated = false
   let cleanupFailure: string | undefined
   let outcome: ValidationOutcome
   try {
@@ -74,8 +75,8 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
     )
     await prepareCluster(clusterId)
 
-    instanceRequested = true
     await createInstance(clusterId, instanceId)
+    instanceCreated = true
 
     await waitFor(
       deadline,
@@ -99,9 +100,13 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
 
     outcome = await validate(clusterArn, deadline)
   } catch (err) {
+    if (err instanceof DBInstanceAlreadyExistsFault) {
+      // Another task owns this instance and its validation result. Leave both alone.
+      throw err
+    }
     outcome = { passed: false, message: describeError(err), counts: {} }
   } finally {
-    if (instanceRequested) {
+    if (instanceCreated) {
       cleanupFailure = await deleteInstance(instanceId, cleanupDeadline)
     }
   }
