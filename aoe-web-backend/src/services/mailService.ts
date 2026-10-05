@@ -2,10 +2,9 @@ import { NextFunction, Request, Response } from 'express'
 import { sign, verify } from 'jsonwebtoken'
 import * as log from '@util/winstonLogger'
 import { db } from '@resource/postgresClient'
-import AWS from 'aws-sdk'
+import { SendEmailCommand, type SendEmailCommandInput, SESClient } from '@aws-sdk/client-ses'
 
-AWS.config.update({ region: process.env.AWS_REGION || 'eu-west-1' })
-const ses = new AWS.SES()
+const ses = new SESClient({ region: process.env.AWS_REGION || 'eu-west-1' })
 
 const sendEmail = async (email: {
   to: string
@@ -17,7 +16,7 @@ const sendEmail = async (email: {
     throw new Error("Email body must contain either 'html' or 'text', but not both or neither.")
   }
 
-  const params: AWS.SES.SendEmailRequest = {
+  const params: SendEmailCommandInput = {
     Destination: {
       ToAddresses: [email.to]
     },
@@ -44,7 +43,7 @@ const sendEmail = async (email: {
     Source: email.from
   }
 
-  return await ses.sendEmail(params).promise()
+  return await ses.send(new SendEmailCommand(params))
 }
 
 export async function sendExpirationMail() {
