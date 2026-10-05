@@ -13,7 +13,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     name: 01-build.sh
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -40,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   lint:
     name: 02-lint.sh
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run 02-lint.sh
@@ -48,7 +48,7 @@ jobs:
 
   run-unit-tests:
     name: 02-2-run-unit-tests.sh
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run 02-2-run-unit-tests.sh
@@ -62,7 +62,7 @@ jobs:
       packages: write
       id-token: write
       contents: read
-    runs-on: 'ubuntu-24.04'
+    runs-on: 'ubuntu-26.04'
     steps:
       - name: Fetch history for all branches and tags
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -81,7 +81,7 @@ jobs:
       packages: write
       id-token: write
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
@@ -129,7 +129,7 @@ jobs:
     name: 02-1-run-tests.sh
     needs: [ run-unit-tests, run-tests-shard ]
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - run: test "${{ needs.run-unit-tests.result }}" = success && test "${{ needs.run-tests-shard.result }}" = success
   build_status_completed:
@@ -137,7 +137,7 @@ jobs:
     needs: [push_image]
     if: ${{ always() && github.ref == 'refs/heads/main' }}
     continue-on-error: true
-    runs-on: 'ubuntu-24.04'
+    runs-on: 'ubuntu-26.04'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: ./.github/actions/build_status
