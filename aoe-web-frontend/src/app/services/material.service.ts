@@ -214,7 +214,7 @@ export class MaterialService {
         headers: new HttpHeaders({
           Accept: 'application/json'
         }),
-        reportProgress: true,
+        reportUploadProgress: true,
         observe: 'events'
       })
       .pipe(
@@ -771,7 +771,7 @@ export class MaterialService {
               Accept: 'application/json',
               'Content-Type': 'application/json'
             }),
-            reportProgress: true,
+            reportUploadProgress: true,
             observe: 'events'
           }
         )
@@ -1397,7 +1397,7 @@ export class MaterialService {
         headers: new HttpHeaders({
           Accept: 'application/json'
         }),
-        reportProgress: true,
+        reportUploadProgress: true,
         observe: 'events'
       })
       .pipe(

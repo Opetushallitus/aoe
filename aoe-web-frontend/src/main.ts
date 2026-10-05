@@ -1,7 +1,7 @@
 import { importProvidersFrom, provideZoneChangeDetection } from '@angular/core'
 
 import { CookieService } from 'ngx-cookie-service'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http'
 import { WindowRef } from './app/providers'
 import { Title, BrowserModule, bootstrapApplication } from '@angular/platform-browser'
 import { UnsavedChangesGuard, AdminGuard, DisableFormsGuard } from './app/guards'
@@ -60,7 +60,7 @@ bootstrapApplication(AppComponent, {
     AdminGuard,
     DisableFormsGuard,
     WindowRef,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withXhr()),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: '/i18n/',

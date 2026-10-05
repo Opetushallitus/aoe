@@ -382,7 +382,7 @@ export class CollectionService {
             Accept: 'application/json',
             'Content-Type': 'application/json'
           }),
-          reportProgress: true,
+          reportUploadProgress: true,
           observe: 'events'
         }
       )
