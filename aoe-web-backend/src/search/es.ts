@@ -16,38 +16,14 @@ import {
 } from './esCollection'
 import { AoeBody, AoeCollectionResult } from './esTypes'
 import { Client } from '@opensearch-project/opensearch'
-import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws'
-import AWS from 'aws-sdk'
+import { createSearchClient } from './searchClient'
 
 /**
  * Elastisearch client configuration
  */
 const index: string = process.env.ES_INDEX
-const isProd = isProduction()
 
-const client = new Client(
-  isProd
-    ? {
-        ...AwsSigv4Signer({
-          region: process.env.AWS_REGION || 'eu-west-1',
-          service: 'aoss',
-          getCredentials: () =>
-            new Promise((resolve, reject) => {
-              AWS.config.getCredentials((err, credentials) => {
-                if (err) {
-                  reject(err)
-                } else {
-                  resolve(credentials)
-                }
-              })
-            })
-        }),
-        node: process.env.ES_NODE
-      }
-    : {
-        node: process.env.ES_NODE
-      }
-)
+const client = createSearchClient(isProduction())
 
 // values for index last update time
 export namespace Es {

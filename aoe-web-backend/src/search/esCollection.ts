@@ -4,36 +4,11 @@ import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService'
 import * as log from '@util/winstonLogger'
 import { createMatchAllObject } from './esQueries'
 import { AoeBody, AoeCollectionResult, MultiMatchSeachBody, SearchResponse } from './esTypes'
-import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws'
-import AWS from 'aws-sdk'
-import { Client, ApiResponse } from '@opensearch-project/opensearch'
+import { ApiResponse } from '@opensearch-project/opensearch'
 import { performBulkOperation } from '@search/es'
+import { createSearchClient } from './searchClient'
 
-const isProd = isProduction()
-
-const client = new Client(
-  isProd
-    ? {
-        ...AwsSigv4Signer({
-          region: process.env.AWS_REGION || 'eu-west-1',
-          service: 'aoss',
-          getCredentials: () =>
-            new Promise((resolve, reject) => {
-              AWS.config.getCredentials((err, credentials) => {
-                if (err) {
-                  reject(err)
-                } else {
-                  resolve(credentials)
-                }
-              })
-            })
-        }),
-        node: process.env.ES_NODE
-      }
-    : {
-        node: process.env.ES_NODE
-      }
-)
+const client = createSearchClient(isProduction())
 
 /**
  * create es collection query
