@@ -58,7 +58,7 @@ jobs:
   push_image:
     name: 03-push-image.sh
     if: github.ref == 'refs/heads/main'
-    needs: [ lint, build, run-tests ]
+    needs: [ lint, build, run-unit-tests, run-tests-shard ]
     permissions:
       packages: write
       id-token: write
@@ -124,15 +124,6 @@ jobs:
           path: playwright-results/axe-data
           if-no-files-found: ignore
           retention-days: 1
-
-  # Required status check: reports the unit tests and all shards under the job name the ruleset expects.
-  run-tests:
-    name: 02-1-run-tests.sh
-    needs: [ run-unit-tests, run-tests-shard ]
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-26.04
-    steps:
-      - run: test "${{ needs.run-unit-tests.result }}" = success && test "${{ needs.run-tests-shard.result }}" = success
   build_status_completed:
     name: Send build status
     needs: [push_image]
