@@ -1,6 +1,5 @@
 import { importProvidersFrom, provideZoneChangeDetection } from '@angular/core'
 
-import { CookieService } from 'ngx-cookie-service'
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http'
 import { WindowRef } from './app/providers'
 import { Title, BrowserModule, bootstrapApplication } from '@angular/platform-browser'
@@ -8,7 +7,6 @@ import { UnsavedChangesGuard, AdminGuard, DisableFormsGuard } from './app/guards
 import { DeviceDetectorService } from 'ngx-device-detector'
 import { provideTranslateService } from '@ngx-translate/core'
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
-import { provideAnimations } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app/app.routing'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 import { ModalModule } from 'ngx-bootstrap/modal'
@@ -53,7 +51,6 @@ bootstrapApplication(AppComponent, {
       PdfJsViewerModule,
       NgxPaginationModule
     ),
-    CookieService,
     Title,
     UnsavedChangesGuard,
     DeviceDetectorService,
@@ -66,7 +63,6 @@ bootstrapApplication(AppComponent, {
         prefix: '/i18n/',
         suffix: '.json'
       })
-    }),
-    provideAnimations()
+    })
   ]
 }).catch((err) => console.log(err))
