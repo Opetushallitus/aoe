@@ -14,13 +14,16 @@ export const createSearchClient = (signRequests: boolean): Client => {
     return new Client({ node: process.env.ES_NODE })
   }
   // AWS SDK v3 default chain: on ECS this resolves the task role from the container
-  // credentials endpoint. The provider memoizes and re-fetches shortly before expiry.
+  // credentials endpoint.
   const credentials = defaultProvider()
   return new Client({
     ...AwsSigv4Signer({
       region: process.env.AWS_REGION || 'eu-west-1',
       service: 'aoss',
-      getCredentials: () => credentials()
+      // The signer caches what it gets and asks again only when it has nothing yet or when the
+      // cached credentials are about to expire. Left alone, the provider would then hand the
+      // same ones back and refresh in the background, so always wait for a fresh set here.
+      getCredentials: () => credentials({ forceRefresh: true })
     }),
     node: process.env.ES_NODE
   })
