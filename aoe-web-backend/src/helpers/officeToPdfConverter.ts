@@ -117,7 +117,7 @@ export const downloadPdfFromAllas = async (
       Bucket: config.cloudStorage.bucketPDF,
       Key: req.params.key
     }
-    await downloadFromStorage(res, next, params, req.params.key)
+    await downloadFromStorage(res, params, req.params.key)
   } catch (error) {
     log.error(error)
     next(new StatusError(error.statusCode, 'Issue showing pdf'))

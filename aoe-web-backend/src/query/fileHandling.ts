@@ -25,7 +25,7 @@ import { hasAccesstoPublication } from '@services/authService'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
-import fs, { WriteStream } from 'fs'
+import fs from 'fs'
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
 import path from 'path'
 import { ColumnSet, ITask } from 'pg-promise'
@@ -873,18 +873,12 @@ export const downloadPreviewFile = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   log.debug('HTTP request headers present in downloadPreviewFile()', req.headers)
   try {
-    const data = await downloadFileFromStorage(req, res, next)
-    if (!data) {
-      return res.end()
-    }
-    return res.status(200).end()
+    await downloadFileFromStorage(req, res)
   } catch (err) {
-    if (!res.headersSent) {
-      next(err instanceof StatusError ? err : new StatusError(400, 'Failed to download file', err))
-    }
+    next(err instanceof StatusError ? err : new StatusError(400, 'Failed to download file', err))
   }
 }
 
@@ -892,19 +886,21 @@ export const downloadFile = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const filename = req.params.filename
 
     if (!filename) {
-      return next(new StatusError(400, 'Missing request param filename'))
+      next(new StatusError(400, 'Missing request param filename'))
+      return
     }
 
     const materialidQuery = 'SELECT materialid FROM record WHERE filekey = $1'
     const materialid = (await db.any(materialidQuery, [filename]))[0]
 
     if (!materialid) {
-      return res.status(404).end()
+      res.status(404).end()
+      return
     }
 
     const educationalmaterialidQuery =
@@ -922,7 +918,7 @@ export const downloadFile = async (
     // Pass educational material ID to the next function in request chain.
     res.locals.id = educationalmaterialId
 
-    await downloadFileFromStorage(req, res, next)
+    await downloadFileFromStorage(req, res)
 
     // A soft failure (e.g. NoSuchKey -> 404) already ended the response; don't
     // count it as a download or fall through to the analytics middleware, which
@@ -941,9 +937,7 @@ export const downloadFile = async (
     }
     next()
   } catch (err) {
-    if (!res.headersSent) {
-      next(err instanceof StatusError ? err : new StatusError(400, 'downloadFile error', err))
-    }
+    next(err instanceof StatusError ? err : new StatusError(400, 'downloadFile error', err))
   }
 }
 
@@ -955,18 +949,9 @@ const rangeHeaderSchema = z
   .regex(/^bytes=\d+-\d*$/)
   .transform((header) => ({ header, start: parseInt(header.slice('bytes='.length), 10) }))
 
-// Get file details from the database before proceeding to the file download from the cloud object storage.
-// TODO: Function chain and related legacy code should be refactored and simplified in both directions.
-export const downloadFileFromStorage = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-  isZip?: boolean
-): Promise<string | false> => {
-  const fileName = z
-    .string()
-    .min(1)
-    .parse(req.params.filename || req.params.key)
+const getStorageFileDetails = async (
+  fileName: string
+): Promise<{ originalfilename: string; filesize: number; mimetype: string }> => {
   const query = `
     SELECT originalfilename, filesize, mimetype, materialid
     FROM record
@@ -980,8 +965,7 @@ export const downloadFileFromStorage = async (
   const fileDetailsSchema = z.object({
     originalfilename: z.string(),
     filesize: z.coerce.number(),
-    mimetype: z.string(),
-    materialid: z.coerce.string()
+    mimetype: z.string()
   })
   const row = await db.oneOrNone(query, [fileName])
   if (!row) {
@@ -994,33 +978,52 @@ export const downloadFileFromStorage = async (
       `Unexpected file record for filekey=${fileName}: ${parsed.error.message}`
     )
   }
-  const fileDetails = parsed.data
+  return parsed.data
+}
+
+const downloadFileFromStorage = async (req: Request, res: Response): Promise<void> => {
+  const fileName = z.string().min(1).parse(req.params.filename)
+  const fileDetails = await getStorageFileDetails(fileName)
   const rangeAllowed =
-    !isZip &&
-    RANGE_MIME_TYPES.includes(fileDetails.mimetype) &&
-    fileDetails.filesize >= RANGE_MIN_FILE_SIZE
+    RANGE_MIME_TYPES.includes(fileDetails.mimetype) && fileDetails.filesize >= RANGE_MIN_FILE_SIZE
   const range = rangeAllowed ? rangeHeaderSchema.safeParse(req.headers.range).data : undefined
   if (range && range.start >= fileDetails.filesize) {
     res.status(416).set('Content-Range', `bytes */${fileDetails.filesize}`).end()
-    return false
+    return
   }
+  const params: StorageObjectParams = {
+    Bucket: config.cloudStorage.bucket,
+    Key: fileName,
+    ...(range && { Range: range.header })
+  }
+  await downloadFromStorage(res, params, fileDetails.originalfilename)
+}
+
+export const downloadAndExtractZip = async (
+  res: Response,
+  fileName: string
+): Promise<string | false> => {
+  const { originalfilename } = await getStorageFileDetails(fileName)
+  const paramsS3 = { Bucket: config.cloudStorage.bucket, Key: fileName }
+  const folderpath = `${process.env.HTML_FOLDER}/${originalfilename}`
+  const { controller, dispose } = abortOnClientClose(res)
   try {
-    const params: StorageObjectParams = {
-      Bucket: config.cloudStorage.bucket,
-      Key: fileName,
-      ...(range && { Range: range.header })
-    }
-    return await downloadFromStorage(res, next, params, fileDetails.originalfilename, isZip)
+    const output = await s3Client.send(new GetObjectCommand(paramsS3), {
+      abortSignal: controller.signal
+    })
+    await pipeline(s3StreamBody(output.Body), fs.createWriteStream(folderpath))
   } catch (err) {
-    if (isClientAbortError(err)) {
+    if (controller.signal.aborted || isClientAbortError(err)) {
       return false
     }
-    throw new StatusError(
-      500,
-      `Downloading a single file failed in downloadFileFromStorage(): filekey=${fileName}, isZip=${isZip}, materialId=${fileDetails.materialid}`,
-      err
-    )
+    if (err instanceof Error && err.name === 'NoSuchKey') {
+      throw new StatusError(404, missingStorageObjectMessage(paramsS3))
+    }
+    throw new StatusError(500, `Download of [${fileName}] failed in downloadAndExtractZip()`, err)
+  } finally {
+    dispose()
   }
+  return await unZipAndExtract(folderpath)
 }
 
 // The exact message both storage-download paths log when a DB record's backing
@@ -1072,17 +1075,13 @@ export const downloadToTemporaryFile = async (
 const STORAGE_IDLE_TIMEOUT_MS = 60_000
 
 // Stream a storage object to the client as an attachment, or as 206 Partial Content
-// when paramsS3.Range is set. With isZip, save it to HTML_FOLDER instead, extract it
-// and return the path of its index.html (or false).
+// when paramsS3.Range is set.
 export const downloadFromStorage = async (
   res: Response,
-  next: NextFunction,
   paramsS3: StorageObjectParams,
-  origFilename: string,
-  isZip?: boolean
-): Promise<string | false> => {
+  origFilename: string
+): Promise<void> => {
   const key: string = paramsS3.Key
-  const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`
   const { controller, dispose } = abortOnClientClose(res)
   let idleTimer: NodeJS.Timeout | undefined
   try {
@@ -1090,11 +1089,6 @@ export const downloadFromStorage = async (
       abortSignal: controller.signal
     })
     const fileStream = s3StreamBody(output.Body)
-    if (isZip) {
-      const writeStream: WriteStream = fs.createWriteStream(folderpath)
-      await pipeline(fileStream, writeStream)
-      return await unZipAndExtract(folderpath)
-    }
     res.attachment(origFilename || key)
     if (output.ContentRange) {
       res.status(206).set({
@@ -1113,7 +1107,7 @@ export const downloadFromStorage = async (
     if (res.req.method === 'HEAD') {
       fileStream.destroy()
       res.end()
-      return false
+      return
     }
     idleTimer = setTimeout(() => {
       const message = `Storage download idle for ${STORAGE_IDLE_TIMEOUT_MS} ms, aborting: key=${key} range=${paramsS3.Range ?? 'none'}`
@@ -1131,20 +1125,18 @@ export const downloadFromStorage = async (
       }
     })
     await pipeline(fileStream, idleWatch, res)
-    return false
   } catch (err) {
     if (controller.signal.aborted || isClientAbortError(err)) {
-      return false
+      return
     }
     if (err instanceof Error && err.name === 'NoSuchKey') {
       log.warn(missingStorageObjectMessage(paramsS3))
       if (!res.headersSent) {
         res.status(404).end()
       }
-      return false
+      return
     }
-    next(new StatusError(500, `Download of [${origFilename}] failed in downloadFromStorage()`, err))
-    return false
+    throw new StatusError(500, `Download of [${key}] failed in downloadFromStorage()`, err)
   } finally {
     clearTimeout(idleTimer)
     dispose()

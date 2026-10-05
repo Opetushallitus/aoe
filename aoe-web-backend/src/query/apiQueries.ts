@@ -13,7 +13,7 @@ import * as pgLib from 'pg-promise'
 import { z } from 'zod'
 import { updateViewCounter } from './analyticsQueries'
 import {
-  downloadFileFromStorage,
+  downloadAndExtractZip,
   findExistingIndexHtml,
   insertDataToDisplayName
 } from './fileHandling'
@@ -371,10 +371,9 @@ export const getEducationalMaterialMetadata = async (
             continue
           }
 
-          req.params.key = jsonObj.materials[i].filekey
           log.debug(
             `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
-              `filekey=${req.params.key}, filesize=${fileSizeMB} MB`
+              `filekey=${jsonObj.materials[i].filekey}, filesize=${fileSizeMB} MB`
           )
 
           // Check if files are already extracted on disk before downloading from S3
@@ -382,7 +381,7 @@ export const getEducationalMaterialMetadata = async (
           const result =
             cachedResult !== false
               ? cachedResult
-              : await downloadFileFromStorage(req, res, next, true)
+              : await downloadAndExtractZip(res, jsonObj.materials[i].filekey)
           if (
             result !== false &&
             (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
