@@ -21,7 +21,7 @@ import {
 import { z } from 'zod'
 
 import { logger } from './logger'
-import { asIdentifier, describeError, identifierFromArn, waitFor } from './utils'
+import { asIdentifier, describeError, identifierFromArn, runWithDeadline, waitFor } from './utils'
 
 const TEST_MIN_ACU = 0.5
 const TEST_MAX_ACU = 1
@@ -36,6 +36,7 @@ const POLL_INTERVAL_MS = 15_000
 // also has to absorb event delivery, Fargate provisioning and the image pull.
 const VALIDATION_BUDGET_MS = 35 * 60_000
 const CLEANUP_BUDGET_MS = 15 * 60_000
+const POST_VALIDATION_BUDGET_MS = 60_000
 const RESTORE_TEST_CLUSTER_PREFIX = 'awsbackup-restore-test'
 const VALIDATOR_INSTANCE_PREFIX = 'restore-validator-'
 
@@ -70,12 +71,12 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
       POLL_INTERVAL_MS,
       `cluster ${clusterId} to become available`,
       async () => {
-        return (await describeCluster(clusterId))?.Status === 'available'
+        return (await describeCluster(clusterId, deadline))?.Status === 'available'
       }
     )
-    await prepareCluster(clusterId)
+    await prepareCluster(clusterId, deadline)
 
-    await createInstance(clusterId, instanceId)
+    await createInstance(clusterId, instanceId, deadline)
     instanceCreated = true
 
     await waitFor(
@@ -83,8 +84,10 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
       POLL_INTERVAL_MS,
       `instance ${instanceId} to become available`,
       async () => {
-        const described = await rds.send(
-          new DescribeDBInstancesCommand({ DBInstanceIdentifier: instanceId })
+        const described = await runWithDeadline(deadline, (abortSignal) =>
+          rds.send(new DescribeDBInstancesCommand({ DBInstanceIdentifier: instanceId }), {
+            abortSignal
+          })
         )
         return described.DBInstances?.[0]?.DBInstanceStatus === 'available'
       }
@@ -94,7 +97,7 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
       POLL_INTERVAL_MS,
       `the Data API to be enabled on ${clusterId}`,
       async () => {
-        return await enableDataApi(clusterArn)
+        return await enableDataApi(clusterArn, deadline)
       }
     )
 
@@ -121,11 +124,12 @@ async function validateRestore(restoreJobId: string, clusterArn: string): Promis
     }
   }
 
-  await reportOutcome(restoreJobId, outcome)
+  const postValidationDeadline = Date.now() + POST_VALIDATION_BUDGET_MS
+  await reportOutcome(restoreJobId, outcome, postValidationDeadline)
 
   // AWS Backup does not retry a failed cluster deletion, so any other restore-test cluster
   // is left over from an earlier run. Today's restore is reported on its own merits above.
-  const leftovers = await findLeftoverClusters(clusterId)
+  const leftovers = await findLeftoverClusters(clusterId, postValidationDeadline)
 
   if (!outcome.passed) {
     throw new Error(`Restore validation failed for ${restoreJobId}: ${outcome.message}`)
@@ -145,40 +149,48 @@ function requireRestoreTestCluster(clusterId: string): string {
   return clusterId
 }
 
-async function describeCluster(clusterId: string): Promise<DBCluster | undefined> {
-  const described = await rds.send(
-    new DescribeDBClustersCommand({ DBClusterIdentifier: clusterId })
+async function describeCluster(
+  clusterId: string,
+  deadline: number
+): Promise<DBCluster | undefined> {
+  const described = await runWithDeadline(deadline, (abortSignal) =>
+    rds.send(new DescribeDBClustersCommand({ DBClusterIdentifier: clusterId }), { abortSignal })
   )
   return described.DBClusters?.[0]
 }
 
-async function findLeftoverClusters(ownClusterId: string): Promise<string[]> {
-  const leftovers: string[] = []
-  for await (const page of paginateDescribeDBClusters({ client: rds }, {})) {
-    for (const cluster of page.DBClusters ?? []) {
-      const id = cluster.DBClusterIdentifier
-      if (
-        id?.startsWith(RESTORE_TEST_CLUSTER_PREFIX) &&
-        id !== ownClusterId &&
-        cluster.Status !== 'deleting'
-      ) {
-        leftovers.push(id)
+async function findLeftoverClusters(ownClusterId: string, deadline: number): Promise<string[]> {
+  return await runWithDeadline(deadline, async (abortSignal) => {
+    const leftovers: string[] = []
+    for await (const page of paginateDescribeDBClusters({ client: rds }, {}, { abortSignal })) {
+      for (const cluster of page.DBClusters ?? []) {
+        const id = cluster.DBClusterIdentifier
+        if (
+          id?.startsWith(RESTORE_TEST_CLUSTER_PREFIX) &&
+          id !== ownClusterId &&
+          cluster.Status !== 'deleting'
+        ) {
+          leftovers.push(id)
+        }
       }
     }
-  }
-  return leftovers
+    return leftovers
+  })
 }
 
-async function prepareCluster(clusterId: string): Promise<void> {
-  await rds.send(
-    new ModifyDBClusterCommand({
-      DBClusterIdentifier: clusterId,
-      ServerlessV2ScalingConfiguration: {
-        MinCapacity: TEST_MIN_ACU,
-        MaxCapacity: TEST_MAX_ACU
-      },
-      ApplyImmediately: true
-    })
+async function prepareCluster(clusterId: string, deadline: number): Promise<void> {
+  await runWithDeadline(deadline, (abortSignal) =>
+    rds.send(
+      new ModifyDBClusterCommand({
+        DBClusterIdentifier: clusterId,
+        ServerlessV2ScalingConfiguration: {
+          MinCapacity: TEST_MIN_ACU,
+          MaxCapacity: TEST_MAX_ACU
+        },
+        ApplyImmediately: true
+      }),
+      { abortSignal }
+    )
   )
 }
 
@@ -186,10 +198,10 @@ async function prepareCluster(clusterId: string): Promise<void> {
 // provisioned cluster it returns success with HttpEndpointEnabled still false. Serverless
 // v2 and provisioned clusters need this separate operation, which rejects calls made while
 // the cluster is busy, so it is retried until it takes.
-async function enableDataApi(clusterArn: string): Promise<boolean> {
+async function enableDataApi(clusterArn: string, deadline: number): Promise<boolean> {
   try {
-    const { HttpEndpointEnabled } = await rds.send(
-      new EnableHttpEndpointCommand({ ResourceArn: clusterArn })
+    const { HttpEndpointEnabled } = await runWithDeadline(deadline, (abortSignal) =>
+      rds.send(new EnableHttpEndpointCommand({ ResourceArn: clusterArn }), { abortSignal })
     )
     return HttpEndpointEnabled === true
   } catch (err) {
@@ -200,14 +212,21 @@ async function enableDataApi(clusterArn: string): Promise<boolean> {
   }
 }
 
-async function createInstance(clusterId: string, instanceId: string): Promise<void> {
-  await rds.send(
-    new CreateDBInstanceCommand({
-      DBInstanceIdentifier: instanceId,
-      DBClusterIdentifier: clusterId,
-      DBInstanceClass: INSTANCE_CLASS,
-      Engine: ENGINE
-    })
+async function createInstance(
+  clusterId: string,
+  instanceId: string,
+  deadline: number
+): Promise<void> {
+  await runWithDeadline(deadline, (abortSignal) =>
+    rds.send(
+      new CreateDBInstanceCommand({
+        DBInstanceIdentifier: instanceId,
+        DBClusterIdentifier: clusterId,
+        DBInstanceClass: INSTANCE_CLASS,
+        Engine: ENGINE
+      }),
+      { abortSignal }
+    )
   )
 }
 
@@ -221,7 +240,7 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
   // readiness can only be established by querying until the endpoint stops rejecting.
   await waitFor(deadline, POLL_INTERVAL_MS, 'the Data API to answer queries', async () => {
     try {
-      await count(clusterArn, secretArn, `SELECT 1 AS count`)
+      await count(clusterArn, secretArn, `SELECT 1 AS count`, deadline)
       return true
     } catch (err) {
       if (err instanceof HttpEndpointNotEnabledException) {
@@ -236,7 +255,8 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
     counts[table] = await count(
       clusterArn,
       secretArn,
-      `SELECT count(*) AS count FROM ${asIdentifier(table)}`
+      `SELECT count(*) AS count FROM ${asIdentifier(table)}`,
+      deadline
     )
   }
 
@@ -252,7 +272,8 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
     secretArn,
     `SELECT count(*) AS count FROM record r
        LEFT JOIN material m ON r.materialid = m.id
-      WHERE m.id IS NULL`
+      WHERE m.id IS NULL`,
+    deadline
   )
   if (orphanedRecords > 0) {
     return {
@@ -265,15 +286,23 @@ async function validate(clusterArn: string, deadline: number): Promise<Validatio
   return { passed: true, message: `Row counts: ${JSON.stringify(counts)}`, counts }
 }
 
-async function count(clusterArn: string, secretArn: string, sql: string): Promise<number> {
-  const result = await rdsData.send(
-    new ExecuteStatementCommand({
-      resourceArn: clusterArn,
-      secretArn,
-      database: DATABASE_NAME,
-      sql,
-      formatRecordsAs: 'JSON'
-    })
+async function count(
+  clusterArn: string,
+  secretArn: string,
+  sql: string,
+  deadline: number
+): Promise<number> {
+  const result = await runWithDeadline(deadline, (abortSignal) =>
+    rdsData.send(
+      new ExecuteStatementCommand({
+        resourceArn: clusterArn,
+        secretArn,
+        database: DATABASE_NAME,
+        sql,
+        formatRecordsAs: 'JSON'
+      }),
+      { abortSignal }
+    )
   )
 
   const parsed = countRows.safeParse(JSON.parse(result.formattedRecords ?? '[]'))
@@ -297,11 +326,14 @@ async function deleteAndWait(
 async function deleteInstance(instanceId: string, deadline: number): Promise<string | undefined> {
   async function requestInstanceDeletion(): Promise<void> {
     try {
-      await rds.send(
-        new DeleteDBInstanceCommand({
-          DBInstanceIdentifier: instanceId,
-          SkipFinalSnapshot: true
-        })
+      await runWithDeadline(deadline, (abortSignal) =>
+        rds.send(
+          new DeleteDBInstanceCommand({
+            DBInstanceIdentifier: instanceId,
+            SkipFinalSnapshot: true
+          }),
+          { abortSignal }
+        )
       )
     } catch (err) {
       if (!(err instanceof DBInstanceNotFoundFault)) {
@@ -312,8 +344,10 @@ async function deleteInstance(instanceId: string, deadline: number): Promise<str
 
   async function isInstanceDeleted(): Promise<boolean> {
     try {
-      const described = await rds.send(
-        new DescribeDBInstancesCommand({ DBInstanceIdentifier: instanceId })
+      const described = await runWithDeadline(deadline, (abortSignal) =>
+        rds.send(new DescribeDBInstancesCommand({ DBInstanceIdentifier: instanceId }), {
+          abortSignal
+        })
       )
       return described.DBInstances?.length === 0
     } catch (err) {
@@ -340,13 +374,20 @@ async function deleteInstance(instanceId: string, deadline: number): Promise<str
   }
 }
 
-async function reportOutcome(restoreJobId: string, outcome: ValidationOutcome): Promise<void> {
-  await backup.send(
-    new PutRestoreValidationResultCommand({
-      RestoreJobId: restoreJobId,
-      ValidationStatus: outcome.passed ? 'SUCCESSFUL' : 'FAILED',
-      ValidationStatusMessage: outcome.message.slice(0, 1024)
-    })
+async function reportOutcome(
+  restoreJobId: string,
+  outcome: ValidationOutcome,
+  deadline: number
+): Promise<void> {
+  await runWithDeadline(deadline, (abortSignal) =>
+    backup.send(
+      new PutRestoreValidationResultCommand({
+        RestoreJobId: restoreJobId,
+        ValidationStatus: outcome.passed ? 'SUCCESSFUL' : 'FAILED',
+        ValidationStatusMessage: outcome.message.slice(0, 1024)
+      }),
+      { abortSignal }
+    )
   )
 }
 
