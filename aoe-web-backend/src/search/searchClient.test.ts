@@ -131,13 +131,13 @@ describe('createSearchClient', () => {
     assert.match(searchRequests[0].authorization ?? '', /\/eu-north-1\/aoss\/aws4_request, /)
   })
 
-  // This is the ECS path: task-role credentials come from the container endpoint and expire.
-  // A client that kept signing with the first set would start getting 403s hours after a deploy.
-  it('signs with fresh task-role credentials once the previous ones have expired', async (t) => {
-    const deployedAt = new Date('2026-01-01T00:00:00Z').getTime()
-    const hours = 60 * 60 * 1000
-    // Only the clock is faked; sockets and their timers stay real.
-    t.mock.timers.enable({ apis: ['Date'], now: deployedAt })
+  // The ECS path: task-role credentials come from the container endpoint and expire.
+  const deployedAt = new Date('2026-01-01T00:00:00Z').getTime()
+  const hours = 60 * 60 * 1000
+
+  // Queues what the container endpoint serves across one rotation: the first set expires six
+  // hours after the deploy, the second six hours after that.
+  const queueRotatingTaskCredentials = () => {
     process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI = `${credentialUrl}/task-credentials`
     credentialResponses.push(
       {
@@ -153,6 +153,16 @@ describe('createSearchClient', () => {
         Expiration: new Date(deployedAt + 12 * hours).toISOString()
       }
     )
+  }
+
+  const accessKeysSignedWith = () =>
+    searchRequests.map((headers) => /Credential=([^/]+)\//.exec(headers.authorization ?? '')?.[1])
+
+  // A client that kept signing with the first set would start getting 403s hours after a deploy.
+  it('signs with fresh task-role credentials once the previous ones have expired', async (t) => {
+    // Only the clock is faked; sockets and their timers stay real.
+    t.mock.timers.enable({ apis: ['Date'], now: deployedAt })
+    queueRotatingTaskCredentials()
 
     const client = createSearchClient(true)
     await client.ping()
@@ -161,11 +171,25 @@ describe('createSearchClient', () => {
     await client.ping()
     await client.close()
 
-    const signedWith = searchRequests.map(
-      (headers) => /Credential=([^/]+)\//.exec(headers.authorization ?? '')?.[1]
-    )
-    assert.deepEqual(signedWith, ['AKIDFIRST', 'AKIDFIRST', 'AKIDSECOND'])
+    assert.deepEqual(accessKeysSignedWith(), ['AKIDFIRST', 'AKIDFIRST', 'AKIDSECOND'])
     assert.equal(searchRequests[2]['x-amz-security-token'], 'second-token')
+  })
+
+  // The signer asks for credentials again once the cached ones are within its 30 s request
+  // timeout of expiring. The request it is about to send must not go out with those: they can
+  // be dead by the time it, or a retry of it, reaches OpenSearch.
+  it('signs with fresh task-role credentials when the cached ones are about to expire', async (t) => {
+    t.mock.timers.enable({ apis: ['Date'], now: deployedAt })
+    queueRotatingTaskCredentials()
+
+    const client = createSearchClient(true)
+    await client.ping()
+    t.mock.timers.setTime(deployedAt + 6 * hours - 10_000)
+    await client.ping()
+    await client.close()
+
+    assert.deepEqual(accessKeysSignedWith(), ['AKIDFIRST', 'AKIDSECOND'])
+    assert.equal(searchRequests[1]['x-amz-security-token'], 'second-token')
   })
 
   it('rejects the request instead of sending it unsigned when no credentials can be found', async () => {
