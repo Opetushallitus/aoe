@@ -447,11 +447,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  new EcrStack(app, 'StreamingAppEcrStack', {
+  new EmptyStack(app, 'StreamingAppEcrStack', {
     env: envEU,
-    stackName: 'aoe-streaming-app-ecr',
-    serviceName: 'aoe-streaming-app',
-    githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
+    stackName: 'aoe-streaming-app-ecr'
   })
   new EcrStack(app, 'RestoreValidatorEcrStack', {
     env: envEU,
