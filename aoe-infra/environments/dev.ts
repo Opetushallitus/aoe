@@ -8,8 +8,8 @@ export const dev: EnvironmentConfig = {
   },
   services: {
     web_backend: {
-      cpu_limit: '512',
-      memory_limit: '1024',
+      cpu_limit: '2048',
+      memory_limit: '6144',
       min_count: 1,
       max_count: 1,
       allow_ecs_exec: true,
