@@ -414,6 +414,44 @@ export class EcsServiceStack extends Stack {
     s3SocketPoolAlarm.addAlarmAction(alarmSnsAction)
     s3SocketPoolAlarm.addOkAction(alarmSnsAction)
 
+    const clusterName = `${props.environment}-ecs-fargate`
+    const ecsEventsLogGroupName = `/aws/events/ecs/containerinsights/${clusterName}/performance`
+    const actionLogsLogGroupName = `/aws/vendedlogs/ecs/action-logs/${clusterName}`
+    const logGroupConsoleUrl = (logGroupName: string) =>
+      `https://${this.region}.console.aws.amazon.com/cloudwatch/home?region=${this.region}#logsV2:log-groups/log-group/${logGroupName.split('/').join('$252F')}`
+    const deploymentFailedMetricFilter = new logs.MetricFilter(
+      this,
+      'DeploymentFailedMetricFilter',
+      {
+        logGroup: logs.LogGroup.fromLogGroupName(this, 'EcsEventsLogGroup', ecsEventsLogGroupName),
+        metricNamespace: props.errorMetricNamespace,
+        metricName: 'DeploymentFailed',
+        filterPattern: logs.FilterPattern.all(
+          logs.FilterPattern.stringValue('$.detail.eventName', '=', 'SERVICE_DEPLOYMENT_FAILED'),
+          logs.FilterPattern.stringValue('$.resources[0]', '=', ecsService.serviceArn)
+        ),
+        metricValue: '1'
+      }
+    )
+    const deploymentFailedAlarm = new cloudwatch.Alarm(this, 'DeploymentFailedAlarm', {
+      alarmName: `${props.environment}-${props.serviceName}-DeploymentFailedAlarm`,
+      alarmDescription: [
+        `${props.serviceName}-julkaisu epäonnistui ja ECS palautti edellisen version (deployment circuit breaker).`,
+        `Syy (detail.reason): ${logGroupConsoleUrl(ecsEventsLogGroupName)}`,
+        `Julkaisun vaiheet (ECS Action Logs): ${logGroupConsoleUrl(actionLogsLogGroupName)}`
+      ].join('\n'),
+      metric: deploymentFailedMetricFilter.metric({
+        statistic: cloudwatch.Stats.SUM,
+        period: Duration.minutes(5)
+      }),
+      threshold: 1,
+      evaluationPeriods: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    deploymentFailedAlarm.addAlarmAction(alarmSnsAction)
+    deploymentFailedAlarm.addOkAction(alarmSnsAction)
+
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
       dashboardName: `ECS-${props.serviceName}-Monitoring`
     })
