@@ -14,7 +14,10 @@ describe('h5pSecurityHeaders', () => {
     const { res, headers } = makeRes()
     let nextCalled = false
     h5pSecurityHeaders({} as Request, res, (() => (nextCalled = true)) as NextFunction)
-    assert.equal(headers['Content-Security-Policy'], 'sandbox allow-scripts allow-popups allow-forms allow-fullscreen')
+    assert.equal(
+      headers['Content-Security-Policy'],
+      'sandbox allow-scripts allow-popups allow-forms allow-fullscreen'
+    )
     assert.ok(!headers['Content-Security-Policy'].includes('allow-same-origin'))
     assert.equal(nextCalled, true)
   })
