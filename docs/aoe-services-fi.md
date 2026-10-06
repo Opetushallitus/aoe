@@ -88,7 +88,7 @@ Jokainen tehtävä ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka
 | 3:00 AM    | Päivitä viitetietorajapintojen tiedot Redikseen | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 10:00 AM   | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
-Käynnistyessään jokainen task päivittää lisäksi viitetiedot Redikseen ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen).
+Käynnistyessään jokainen task päivittää lisäksi viitetiedot Redikseen ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen; koska taskeja on useampi, julkaise ensin `min_count: 1` ja `max_count: 1`, jotta vain yksi task luo indeksit uudelleen).
 
 #### Viitetietorajapinnat
 

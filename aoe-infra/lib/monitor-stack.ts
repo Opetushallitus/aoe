@@ -14,6 +14,7 @@ export interface MonitorStackProps extends cdk.StackProps {
 
 export class MonitorStack extends cdk.Stack {
   public topic: cdk.aws_sns.Topic
+  public slackOnlyTopic: cdk.aws_sns.Topic
   public slackChannel: chatbot.SlackChannelConfiguration
   constructor(scope: Construct, id: string, props: MonitorStackProps) {
     super(scope, id, props)
@@ -30,11 +31,16 @@ export class MonitorStack extends cdk.Stack {
 
     this.topic.grantPublish(new iam.ServicePrincipal('cloudwatch.amazonaws.com'))
 
+    this.slackOnlyTopic = new sns.Topic(this, `${props.environment}-cloudwatch-slack-only`, {
+      topicName: `${props.environment}-cloudwatch-slack-only`
+    })
+    this.slackOnlyTopic.grantPublish(new iam.ServicePrincipal('cloudwatch.amazonaws.com'))
+
     this.slackChannel = new chatbot.SlackChannelConfiguration(this, 'SlackChannel', {
       slackChannelConfigurationName: `${props.slackChannelName}`,
       slackChannelId: slackChannelId,
       slackWorkspaceId: slackWorkspaceId,
-      notificationTopics: [this.topic],
+      notificationTopics: [this.topic, this.slackOnlyTopic],
       loggingLevel: chatbot.LoggingLevel.INFO,
       logRetention: logs.RetentionDays.THREE_MONTHS
     })

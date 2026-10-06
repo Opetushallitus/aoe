@@ -415,6 +415,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic,
+    slackOnlySnsTopic: Monitor.slackOnlyTopic,
     efs: {
       volume: {
         name: 'data',

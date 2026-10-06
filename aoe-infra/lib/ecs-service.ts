@@ -90,6 +90,7 @@ interface EcsServiceStackProps extends StackProps {
     volume: Volume
   }
   alarmSnsTopic: sns.Topic
+  slackOnlySnsTopic: sns.Topic
   // Matches one error line in this service's log group. Drives both the Slack error forwarder
   // and the ErrorLogAlarm, so it must fit the service's actual log format (JSON vs plain text).
   errorLogFilterPattern: logs.IFilterPattern
@@ -303,14 +304,15 @@ export class EcsServiceStack extends Stack {
       maxCapacity: props.maximumCount
     })
 
+    const cpuScalingSteps = [
+      { upper: 5, change: -2 },
+      { upper: 15, change: -1 },
+      { lower: 45, change: +1 },
+      { lower: 85, change: +2 }
+    ]
     scalingTarget.scaleOnMetric('CpuStepAutoscaling', {
       metric: ecsService.metricCpuUtilization(),
-      scalingSteps: [
-        { upper: 5, change: -2 },
-        { upper: 15, change: -1 },
-        { lower: 45, change: +1 },
-        { lower: 85, change: +2 }
-      ],
+      scalingSteps: cpuScalingSteps,
       adjustmentType: AdjustmentType.CHANGE_IN_CAPACITY,
       cooldown: Duration.minutes(3)
     })
@@ -452,6 +454,64 @@ export class EcsServiceStack extends Stack {
     deploymentFailedAlarm.addAlarmAction(alarmSnsAction)
     deploymentFailedAlarm.addOkAction(alarmSnsAction)
 
+    const serviceMetric = (metricName: string) =>
+      new cloudwatch.Metric({
+        namespace: 'ECS/ContainerInsights',
+        metricName,
+        dimensionsMap: {
+          ClusterName: props.cluster.clusterName,
+          ServiceName: ecsService.serviceName
+        },
+        statistic: cloudwatch.Stats.MAXIMUM,
+        period: Duration.minutes(1)
+      })
+    const deploymentInProgressAlarm = new cloudwatch.Alarm(this, 'DeploymentInProgressAlarm', {
+      alarmName: `${props.environment}-${props.serviceName}-DeploymentInProgressAlarm`,
+      metric: serviceMetric('DeploymentCount'),
+      threshold: 1,
+      evaluationPeriods: 1,
+      comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+      treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+    })
+    const slackOnlySnsAction = new aws_cloudwatch_actions.SnsAction(props.slackOnlySnsTopic)
+    const taskCountChangeAlarm = (
+      id: string,
+      comparisonOperator: cloudwatch.ComparisonOperator,
+      alarmDescription: string
+    ) => {
+      const runningTaskCountAlarm = new cloudwatch.Alarm(this, `${id}RunningTaskCountAlarm`, {
+        alarmName: `${props.environment}-${props.serviceName}-${id}RunningTaskCountAlarm`,
+        metric: serviceMetric('RunningTaskCount'),
+        threshold: props.minimumCount,
+        evaluationPeriods: 1,
+        comparisonOperator,
+        treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING
+      })
+      const compositeAlarm = new cloudwatch.CompositeAlarm(this, `${id}Alarm`, {
+        compositeAlarmName: `${props.environment}-${props.serviceName}-${id}Alarm`,
+        alarmDescription,
+        alarmRule: cloudwatch.AlarmRule.fromAlarm(
+          runningTaskCountAlarm,
+          cloudwatch.AlarmState.ALARM
+        ),
+        actionsSuppressor: deploymentInProgressAlarm,
+        actionsSuppressorExtensionPeriod: Duration.minutes(5)
+      })
+      compositeAlarm.addAlarmAction(slackOnlySnsAction)
+      compositeAlarm.addOkAction(slackOnlySnsAction)
+      return compositeAlarm
+    }
+    const scaledOutAlarm = taskCountChangeAlarm(
+      'ScaledOut',
+      cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+      `${props.serviceName} skaalautui yli ${props.minimumCount} taskin. OK-tila: palasi ${props.minimumCount} taskiin. Ei ilmoiteta julkaisujen aikana.`
+    )
+    const belowMinimumAlarm = taskCountChangeAlarm(
+      'BelowMinimum',
+      cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD,
+      `${props.serviceName} ajaa alle ${props.minimumCount} taskia, esim. task kaatui. OK-tila: palasi ${props.minimumCount} taskiin. Ei ilmoiteta julkaisujen aikana.`
+    )
+
     const dashboard = new cloudwatch.Dashboard(this, `EcsDashboard-${props.serviceName}`, {
       dashboardName: `ECS-${props.serviceName}-Monitoring`
     })
@@ -508,6 +568,48 @@ export class EcsServiceStack extends Stack {
       error4xxWidget,
       error5xxWidget,
       responseTimeWidget
+    )
+
+    dashboard.addWidgets(
+      new cloudwatch.GraphWidget({
+        title: `Task count - ${props.serviceName}`,
+        left: [
+          serviceMetric('RunningTaskCount').with({ label: 'running' }),
+          serviceMetric('DesiredTaskCount').with({ label: 'desired' }),
+          serviceMetric('DeploymentCount').with({ label: 'deployments' })
+        ],
+        leftYAxis: { min: 0 },
+        leftAnnotations: [
+          { value: props.minimumCount, label: 'min_count' },
+          { value: props.maximumCount, label: 'max_count' }
+        ]
+      }),
+      new cloudwatch.GraphWidget({
+        title: `CPU and scaling steps - ${props.serviceName}`,
+        left: [
+          ecsService.metricCpuUtilization().with({ label: 'average (scaling metric)' }),
+          ecsService
+            .metricCpuUtilization({
+              statistic: cloudwatch.Stats.MAXIMUM,
+              period: Duration.minutes(1)
+            })
+            .with({ label: 'maximum per minute' })
+        ],
+        leftYAxis: { min: 0, max: 100 },
+        leftAnnotations: cpuScalingSteps.map((step) => ({
+          value: step.upper ?? step.lower,
+          label: `${step.change > 0 ? '+' : ''}${step.change} task${Math.abs(step.change) > 1 ? 's' : ''}`
+        }))
+      }),
+      new cloudwatch.AlarmStatusWidget({
+        title: `Scaling and deployments - ${props.serviceName}`,
+        alarms: [
+          scaledOutAlarm,
+          belowMinimumAlarm,
+          deploymentInProgressAlarm,
+          deploymentFailedAlarm
+        ]
+      })
     )
 
     new CfnOutput(this, 'ServiceDiscoveryName', {

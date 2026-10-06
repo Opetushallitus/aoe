@@ -8,8 +8,8 @@ All traffic enters through CloudFront. Its default cache behavior serves the fro
 
 | Path Pattern | CloudFront Origin | Then | Container Port |
 |---|---|---|---|
-| `/api/*`, `/h5p/*`, `/embed/material/*`, `/embed/download/*`, `/embed/pdf/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | ALB | web-backend | 3000 |
-| `/stream/api/v1*` | ALB | web-backend (301 to `/api/v1/download/*`) | 3000 |
+| `/api/*`, `/h5p/*`, `/embed/material/*`, `/embed/download/*`, `/embed/pdf/*`, `/content/*`, `/ref/api/v1*`, `/meta/oaipmh*`, `/meta/v2/oaipmh*` | ALB | web-backend | 8080 |
+| `/stream/api/v1*` | ALB | web-backend (301 to `/api/v1/download/*`) | 8080 |
 | everything else, including `/embed/:id/:lang` | S3 (`aoe-frontend-<env>`) | — | — |
 
 The three `/embed/` subpaths are listed individually on purpose: `/embed/:id/:lang` is an Angular route that must reach S3, so collapsing them to `/embed/*` would send the embed view to the backend.
@@ -96,7 +96,7 @@ Each job runs on one task only: the first task to insert the day's row into `sch
 | 3:00 AM | Update reference data endpoints data into Redis | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
-On startup every task also updates the reference data into Redis and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both).
+On startup every task also updates the reference data into Redis and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).
 
 
 #### Reference Data Endpoints
