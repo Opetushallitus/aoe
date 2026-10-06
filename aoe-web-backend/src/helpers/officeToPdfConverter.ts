@@ -1,19 +1,18 @@
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
-
-import { config, s3ClientConfig } from '@/config'
-import { downloadFromStorage, s3StreamBody, uploadFileToStorage } from '@query/fileHandling'
+import { config } from '@/config'
+import {
+  downloadFromStorage,
+  downloadToTemporaryFile,
+  uploadFileToStorage
+} from '@query/fileHandling'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import fs from 'fs'
 import fsPromise from 'fs/promises'
 import libre from 'libreoffice-convert'
-import { Readable } from 'stream'
-import { pipeline } from 'node:stream/promises'
+import path from 'node:path'
 import { StatusError } from './errorHandler'
 import { z } from 'zod'
-
-export const s3 = new S3Client(s3ClientConfig)
 
 const officeMimeTypes = [
   // .doc
@@ -128,12 +127,11 @@ export const downloadPdfFromAllas = async (
 /**
  * Convert an office format file to PDF format.
  * @param {string} filepath File path of the original office format file.
- * @param {string} filename File name of the original office file.
+ * @param {string} outputPath File path to write the converted PDF to.
  * @return {Promise<string>} File path of the converted PDF.
  */
-const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
+const convertOfficeFileToPDF = (filepath: string, outputPath: string): Promise<string> => {
   const extension = 'pdf'
-  const outputPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${filename}`
 
   return new Promise((resolve, reject) => {
     try {
@@ -165,14 +163,8 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
     let converted = 0
 
     for (const file of officeFiles) {
-      const pdfKey: string = `${file.filekey.substring(0, file.filekey.lastIndexOf('.'))}.pdf`
       try {
-        const path = await downstreamAndConvertOfficeFileToPDF(file.filekey)
-        if (!path) {
-          continue
-        }
-        const obj = await uploadFileToStorage(path, pdfKey, config.cloudStorage.bucketPDF)
-        await updatePdfKey(obj.Key, file.id)
+        await convertOfficeFileToStoredPDF(file.filekey, file.id)
         converted++
       } catch (err) {
         log.error(`PDF conversion/upload failed for [${file.filekey}]`, err)
@@ -206,64 +198,27 @@ const getOfficeFilesWithoutPDF = async (): Promise<z.infer<typeof officeFilesWit
   }
 }
 
-/**
- * Downstream a stored office file from the cloud storage and convert it to PDF format.
- * @param {string} key - File name in the cloud storage.
- * @return {Promise<string>} File path of the converted PDF.
- */
-export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string | null> => {
-  const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`
-  const filename: string = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
-  let readStream: Readable
+export const convertOfficeFileToStoredPDF = async (
+  key: string,
+  recordId: string
+): Promise<void> => {
+  const source = await downloadToTemporaryFile(
+    { Bucket: config.cloudStorage.bucket, Key: key },
+    path.basename(key)
+  )
   try {
-    // v3 rejects send() on missing-key/access errors before returning a Body.
-    readStream = s3StreamBody(
-      (
-        await s3.send(
-          new GetObjectCommand({
-            Bucket: config.cloudStorage.bucket,
-            Key: key
-          })
-        )
-      ).Body
+    const pdfFile = await convertOfficeFileToPDF(
+      source.file,
+      path.join(source.directory, 'converted.pdf')
     )
-  } catch (err: any) {
-    if (err?.name === 'NoSuchKey') {
-      log.debug(`Requested file [${key}] not found`)
-      return null
-    }
-    throw err
-  }
-  // pipeline destroys the S3 read stream on finish, error, or abort, so its socket
-  // is always released back to the pool (same pattern as downloadFromStorage).
-  try {
-    await pipeline(readStream, fs.createWriteStream(folderpath))
-  } catch (err) {
-    log.error(
-      'Downstreaming office file to disk failed in downstreamAndConvertOfficeFileToPDF()',
-      err
-    )
-    throw err
-  }
-  try {
-    return await convertOfficeFileToPDF(folderpath, filename)
-  } catch (err) {
-    log.error('Error catch when trying to convertOfficeFileToPDF()')
-    throw err
+    const pdfKey = `${key.substring(0, key.lastIndexOf('.'))}.pdf`
+    const pdfObject = await uploadFileToStorage(pdfFile, pdfKey, config.cloudStorage.bucketPDF)
+    await updatePdfKey(pdfObject.Key, recordId)
+  } finally {
+    await fsPromise.rm(source.directory, { recursive: true, force: true })
   }
 }
 
-/**
- * @param {string} key
- * @param {string} id
- * @return {Promise<any>}
- */
-export const updatePdfKey = async (key: string, id: string) => {
-  await db.tx(async (t: any): Promise<void> => {
-    const query = `
-      UPDATE record SET pdfkey = $1
-      WHERE id = $2
-    `
-    await t.none(query, [key, id])
-  })
+const updatePdfKey = async (key: string, id: string): Promise<void> => {
+  await db.none('UPDATE record SET pdfkey = $1 WHERE id = $2', [key, id])
 }

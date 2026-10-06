@@ -86,7 +86,7 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
   const { controller, dispose } = abortOnClientClose(res)
   let temporaryPackage: { directory: string; file: string } | undefined
   try {
-    temporaryPackage = await downloadToTemporaryFile(paramsS3, controller.signal)
+    temporaryPackage = await downloadToTemporaryFile(paramsS3, 'package.h5p', controller.signal)
 
     // Install H5P application and needed library dependencies.
     const result: H5PUploadResult = await h5pEditor.uploadPackage(

@@ -7,11 +7,7 @@ import {
   sequelize
 } from '@/domain/aoeModels'
 import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/errorHandler'
-import {
-  downstreamAndConvertOfficeFileToPDF,
-  isOfficeMimeType,
-  updatePdfKey
-} from '@/helpers/officeToPdfConverter'
+import { convertOfficeFileToStoredPDF, isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import {
   CompleteMultipartUploadCommandOutput,
   GetObjectCommand,
@@ -235,18 +231,9 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
 
                   // convert file to pdf if office document
                   try {
-                    if (isOfficeMimeType(file.mimetype)) {
+                    if (isOfficeMimeType(file.mimetype) && recordid) {
                       log.debug('Convert file and send to allas')
-                      const path = await downstreamAndConvertOfficeFileToPDF(obj.Key)
-                      const pdfkey = `${obj.Key.substring(0, obj.Key.lastIndexOf('.'))}.pdf`
-                      const pdfobj: any = await uploadFileToStorage(
-                        path,
-                        pdfkey,
-                        config.cloudStorage.bucketPDF
-                      )
-                      if (recordid) {
-                        await updatePdfKey(pdfobj.Key, recordid)
-                      }
+                      await convertOfficeFileToStoredPDF(obj.Key, recordid)
                     }
                   } catch (e) {
                     log.debug('ERROR converting office file to pdf')
@@ -454,19 +441,7 @@ export const uploadFileToMaterial = async (
     )
     // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
-      const keyPDF: string = `${fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.'))}.pdf`
-      // Downstream an office file and convert to PDF in the local file system (linked disk storage).
-      const pathPDF = await downstreamAndConvertOfficeFileToPDF(fileS3.Key)
-      if (pathPDF) {
-        // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
-        const pdfS3: SendData = await uploadFileToStorage(
-          pathPDF,
-          keyPDF,
-          config.cloudStorage.bucketPDF
-        )
-        // Save the material's PDF key to indicate the availability of a PDF version.
-        await updatePdfKey(pdfS3.Key, recordID)
-      }
+      await convertOfficeFileToStoredPDF(fileS3.Key, recordID)
     }
   } catch (err) {
     await Material.update(
@@ -1032,8 +1007,10 @@ export const downloadAndExtractZip = async (
 const missingStorageObjectMessage = (paramsS3: { Bucket: string; Key: string }): string =>
   `Storage object missing though record exists: bucket=${paramsS3.Bucket} key=${paramsS3.Key}`
 
-// Download a single storage object to a unique, request-owned temporary file and
-// return its path. Streams straight to disk (no in-memory buffer), so large
+export type TemporaryFile = { directory: string; file: string }
+
+// Download a single storage object to a unique, request-owned temporary file named
+// fileName and return its path. Streams straight to disk (no in-memory buffer), so large
 // archives don't have to fit in RAM. The directory is created with mkdtemp, so
 // concurrent callers never collide, and is removed on error. Pass an AbortSignal
 // to cancel the request (and release the socket) when the client disconnects.
@@ -1042,13 +1019,14 @@ export const downloadToTemporaryFile = async (
     Bucket: string
     Key: string
   },
+  fileName: string,
   abortSignal?: AbortSignal
-): Promise<{ directory: string; file: string }> => {
+): Promise<TemporaryFile> => {
   // Create the temp directory before issuing the S3 request so there is no async
   // gap between acquiring the response Body and the pipeline that consumes it;
   // otherwise a throw here would leak the Body's socket.
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'aoe-h5p-'))
-  const file = path.join(directory, 'package.h5p')
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'aoe-'))
+  const file = path.join(directory, fileName)
   try {
     let body: Readable
     try {
