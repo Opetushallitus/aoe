@@ -138,7 +138,7 @@ export const getTuvaTavoitteet = async (
 ): Promise<AlignmentObjectExtended[]> => {
   try {
     const redisData: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyTuvaObjectives}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyTuvaObjectives}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
     const ids: string[] = req.params.ids.split(',')
 

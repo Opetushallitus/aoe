@@ -79,7 +79,8 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    { name: 'reference-data', testMatch: /.*\.wait\.ts/ },
+    { name: 'setup', testMatch: /.*\.setup\.ts/, dependencies: ['reference-data'] },
     {
       // Seeds OAI-PMH materials once and persists the window so the oaipmh spec
       // can run in parallel across any number of workers. Runs after auth.

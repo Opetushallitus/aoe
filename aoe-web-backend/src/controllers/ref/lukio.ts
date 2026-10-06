@@ -242,7 +242,7 @@ export const getLukionOppiaineet = async (
 ): Promise<AlignmentObjectExtended[]> => {
   try {
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     ).map((subject: AlignmentObjectExtended) => {
       if (subject.parent) {
         subject.parent = subject.parent.value
@@ -251,7 +251,7 @@ export const getLukionOppiaineet = async (
       return subject
     })
 
-    if (data) {
+    if (data.length > 0) {
       res.status(200).json(data).end()
       return
     }
@@ -273,7 +273,7 @@ export const getLukionModuulit = async (
     const ids: string[] = req.params.ids.split(',')
 
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyModules}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyModules}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
       .filter((module: AlignmentObjectExtended) => ids.includes(module.parent.key.toString()))
       .map((module: AlignmentObjectExtended) => {
@@ -438,7 +438,7 @@ export const getLukionTavoitteet = async (
     const ids: string[] = req.params.ids.split(',')
 
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
       .filter((objective: AlignmentObjectExtended) => ids.includes(objective.parent.key.toString()))
       .map((objective: AlignmentObjectExtended) => {
@@ -469,7 +469,7 @@ export const getLukionSisallot = async (
     const ids: string[] = req.params.ids.split(',')
 
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
       .filter((content: AlignmentObjectExtended) => ids.includes(content.parent.key.toString()))
       .map((content: AlignmentObjectExtended) => {

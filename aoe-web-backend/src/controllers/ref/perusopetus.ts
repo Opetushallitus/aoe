@@ -444,7 +444,7 @@ export const getPerusopetuksenTavoitteet = async (
 ): Promise<AlignmentObjectExtended[]> => {
   try {
     const redisData: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
     const ids: string[] = req.params.ids.split(',')
 
@@ -487,7 +487,7 @@ export const getPerusopetuksenSisaltoalueet = async (
     let data: AlignmentObjectExtended[] = []
     const ids: string[] = req.params.ids.split(',')
     const competences: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyTransversalCompetences}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyTransversalCompetences}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
 
     if (competences) {

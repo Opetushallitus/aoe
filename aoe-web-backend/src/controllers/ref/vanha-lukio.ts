@@ -175,7 +175,7 @@ export const getLukionVanhatOppiaineet = async (
 ): Promise<AlignmentObjectExtended[]> => {
   try {
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     ).map((subject: AlignmentObjectExtended) => {
       if (subject.parent) {
         subject.parent = subject.parent.value
@@ -184,7 +184,7 @@ export const getLukionVanhatOppiaineet = async (
       return subject
     })
 
-    if (data) {
+    if (data.length > 0) {
       res.status(200).json(data).end()
       return
     }
@@ -208,7 +208,7 @@ export const getLukionVanhatKurssit = async (
     const ids: string[] = req.params.ids.split(',')
 
     const data: AlignmentObjectExtended[] = JSON.parse(
-      await getAsync(`${rediskeyCourses}.${req.params.lang.toLowerCase()}`)
+      (await getAsync(`${rediskeyCourses}.${req.params.lang.toLowerCase()}`)) ?? '[]'
     )
       .filter((course: AlignmentObjectExtended) => ids.includes(course.parent.key.toString()))
       .map((course: AlignmentObjectExtended) => {
