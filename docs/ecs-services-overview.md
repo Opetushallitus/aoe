@@ -184,7 +184,7 @@ Instead of caching in Redis, the reference data would be stored in PostgreSQL â€
 
 The backend service runs on an ECS Fargate cluster with:
 - **Application Load Balancer** for path-based routing (see routing table above)
-- **CloudWatch** monitoring with CPU, memory, and health check alarms
+- **CloudWatch** monitoring with CPU, memory, health check and failed-deployment (circuit breaker) alarms
 - **Service Discovery** via Cloud Map with private DNS namespace
 - **Auto-scaling** based on CPU utilization
 - **ECS Exec** for secure shell access (configurable per environment)
