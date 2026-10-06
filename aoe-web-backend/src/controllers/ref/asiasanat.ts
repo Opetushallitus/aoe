@@ -1,6 +1,5 @@
-import { XMLParser } from 'fast-xml-parser'
+import { WebWritableStream } from 'htmlparser2/WebWritableStream'
 
-import { getDataFromApi } from '@util/ref/api.utils'
 import { getAsync, setAsync } from '@util/ref/redis.utils'
 import { sortByValue } from '@util/ref/data.utils'
 import { KeyValue } from '@/models/ref/data'
@@ -12,9 +11,46 @@ const endpoint = 'yso'
 const rediskey = 'asiasanat'
 const params = 'data'
 
-type PrefLabel = { lang?: string; _?: string }
-type Concept = { about?: string; prefLabel?: PrefLabel[] }
-type ParsedRdf = { RDF?: { Concept?: Concept[] } }
+type Concept = { key?: string; labels: Record<string, string> }
+
+const fetchConcepts = async (url: string): Promise<Concept[]> => {
+  const response = await fetch(url, { headers: { Accept: 'application/rdf+xml' } })
+  if (!response.ok || !response.body) {
+    await response.body?.cancel()
+    throw new Error(`Error getting data from ${url}: responded with HTTP ${response.status}`)
+  }
+  const concepts: Concept[] = []
+  const open: { concept?: Concept; label?: { lang: string; text: string } } = {}
+  await response.body.pipeTo(
+    new WebWritableStream(
+      {
+        onopentag(name, attributes) {
+          if (name === 'skos:Concept') {
+            open.concept = { key: attributes['rdf:about'], labels: {} }
+          } else if (open.concept && name === 'skos:prefLabel') {
+            open.label = { lang: attributes['xml:lang'] ?? '', text: '' }
+          }
+        },
+        ontext(text) {
+          if (open.label) {
+            open.label.text += text
+          }
+        },
+        onclosetag(name) {
+          if (open.concept && open.label && name === 'skos:prefLabel') {
+            open.concept.labels[open.label.lang] = open.label.text
+            open.label = undefined
+          } else if (open.concept && name === 'skos:Concept') {
+            concepts.push(open.concept)
+            open.concept = undefined
+          }
+        }
+      },
+      { xmlMode: true }
+    )
+  )
+  return concepts
+}
 
 /**
  * Set data into redis database
@@ -24,15 +60,10 @@ type ParsedRdf = { RDF?: { Concept?: Concept[] } }
 export async function setAsiasanat(): Promise<void> {
   winstonLogger.info('Getting asiasanat from API in setAsiasanat()')
 
-  const results: string = await getDataFromApi(
-    config.EXTERNAL_API.asiasanat || 'not-defined',
-    `/${endpoint}/`,
-    { Accept: 'application/rdf+xml' },
-    params
-  )
+  const concepts = await fetchConcepts(`${config.EXTERNAL_API.asiasanat}/${endpoint}/${params}`)
   winstonLogger.info('setAsiasanat() API fetch done!')
 
-  if (!results || results?.length < 500) {
+  if (concepts.length === 0) {
     winstonLogger.error('No data from api.finto.fi')
     return
   }
@@ -41,33 +72,14 @@ export async function setAsiasanat(): Promise<void> {
   const english: KeyValue<string, string>[] = []
   const swedish: KeyValue<string, string>[] = []
 
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-    attributeNamePrefix: '',
-    removeNSPrefix: true,
-    textNodeName: '_',
-    isArray: (name) => ['Concept', 'prefLabel'].includes(name)
-  })
-
-  try {
-    const parsed = parser.parse(results)
-    parsed.RDF?.Concept?.forEach((concept: Concept) => {
-      const key: string = concept.about
-      const labelFi = concept.prefLabel?.find((e) => e.lang === 'fi')
-      const labelEn = concept.prefLabel?.find((e) => e.lang === 'en')
-      const labelSv = concept.prefLabel?.find((e) => e.lang === 'sv')
-
-      if (!key || (!labelFi && !labelEn && !labelSv)) {
-        throw Error('Missing required data in setAsiasanat()')
-      }
-
-      finnish.push({ key, value: labelFi?._ || labelSv?._ || labelEn?._ })
-      english.push({ key, value: labelEn?._ || labelFi?._ || labelSv?._ })
-      swedish.push({ key, value: labelSv?._ || labelFi?._ || labelEn?._ })
-    })
-  } catch (err) {
-    winstonLogger.error('Error parsing results in setAsiasanat()', err)
-    return
+  for (const { key, labels } of concepts) {
+    if (!key || (!labels.fi && !labels.en && !labels.sv)) {
+      winstonLogger.error('Error parsing results in setAsiasanat()', key)
+      return
+    }
+    finnish.push({ key, value: labels.fi || labels.sv || labels.en })
+    english.push({ key, value: labels.en || labels.fi || labels.sv })
+    swedish.push({ key, value: labels.sv || labels.fi || labels.en })
   }
 
   try {
