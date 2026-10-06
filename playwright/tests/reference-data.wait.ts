@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 
 const REFERENCE_DATA_TIMEOUT_MS = 8 * 60_000
 const REFERENCE_DATA_POLL_MS = 5_000
+const REFERENCE_DATA_REQUEST_TIMEOUT_MS = 30_000
 
 const referenceDataLists = [
   'asiasanat',
@@ -26,12 +27,23 @@ const referenceDataLists = [
   'tuva-oppiaineet'
 ]
 
+const hasReferenceData = async (page: Page, list: string): Promise<boolean> => {
+  try {
+    const response = await page.request.get(`/ref/api/v1/${list}/fi`, {
+      timeout: REFERENCE_DATA_REQUEST_TIMEOUT_MS
+    })
+    const body: unknown = response.ok() ? await response.json() : []
+    return Array.isArray(body) && body.length > 0
+  } catch {
+    return false
+  }
+}
+
 const missingReferenceData = async (page: Page): Promise<string[]> => {
   const missing: string[] = []
   for (const list of referenceDataLists) {
-    const response = await page.request.get(`/ref/api/v1/${list}/fi`)
-    const body: unknown = response.ok() ? await response.json() : []
-    if (!Array.isArray(body) || body.length === 0) {
+    const loaded = await hasReferenceData(page, list)
+    if (!loaded) {
       missing.push(list)
     }
   }
