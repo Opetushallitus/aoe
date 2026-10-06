@@ -44,6 +44,12 @@ export class MonitorStack extends cdk.Stack {
       loggingLevel: chatbot.LoggingLevel.INFO,
       logRetention: logs.RetentionDays.THREE_MONTHS
     })
+    this.slackChannel.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['cloudwatch:DescribeAlarms'],
+        resources: ['*']
+      })
+    )
 
     if (!process.env['PAGERDUTY_EVENT_URL']) {
       throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
