@@ -1,10 +1,4 @@
-import {
-  BuildOptions,
-  CreationOptional,
-  InferAttributes,
-  InferCreationAttributes,
-  Model
-} from 'sequelize'
+import { BuildOptions, Model } from 'sequelize'
 
 /**
  * Global interface and type declarations for the data persistence with Sequelize.
@@ -146,11 +140,5 @@ declare global {
 
   type TemporaryRecordType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): TemporaryRecord
-  }
-
-  interface UrnModel
-    extends Model<InferAttributes<UrnModel>, InferCreationAttributes<UrnModel, { omit: 'id' }>> {
-    id: CreationOptional<number>
-    material_url: string
   }
 }

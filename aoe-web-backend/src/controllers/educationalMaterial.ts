@@ -5,8 +5,7 @@ import {
 } from '@/controllers/educationalMaterialMetadataSchema'
 import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries'
 import { updateEsDocument } from '@search/es'
-import { registerPID } from '@services/pidResolutionService'
-import { Urn } from '@domain/aoeModels'
+import { hasUrn, registerPID } from '@services/pidResolutionService'
 import { getEduMaterialVersionURL } from '@services/urlService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
@@ -53,10 +52,8 @@ export const updateEducationalMaterialMetadata = async (
     }
     const aoeurl = getEduMaterialVersionURL(emid, eduMaterial.publishedat)
 
-    const record = await Urn.findOne({
-      where: { material_url: aoeurl }
-    })
-    if (record) {
+    const alreadyRegistered = await hasUrn(aoeurl)
+    if (alreadyRegistered) {
       log.warn(`URL ${aoeurl} already has urn generated`)
       return
     }

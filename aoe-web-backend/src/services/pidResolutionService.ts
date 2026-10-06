@@ -2,17 +2,25 @@ import { updateEduMaterialVersionURN } from '@query/apiQueries'
 import { getEduMaterialVersionURL } from './urlService'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
-import { Urn } from '@domain/aoeModels'
 import { ITask } from 'pg-promise'
 import { IClient } from 'pg-promise/typescript/pg-subset'
+import { z } from 'zod'
+
+const urnIdSchema = z.object({ id: z.number() })
+
+export const hasUrn = async (url: string): Promise<boolean> => {
+  const urn = await db.oneOrNone('SELECT id FROM urn WHERE material_url = $1', [url])
+  return urn !== null
+}
 
 /**
  * Request for PID registration using URN type.
  * @param url string Resource URL for PID registration.
  */
 export const registerPID = async (url: string): Promise<string> => {
-  const newId = await Urn.create({ material_url: url })
-  const internalId = newId.id
+  const { id: internalId } = urnIdSchema.parse(
+    await db.one('INSERT INTO urn (material_url) VALUES ($1) RETURNING id', [url])
+  )
   const now = new Date()
   const year = now.getFullYear()
   const month = (now.getMonth() + 1).toString().padStart(2, '0')
@@ -40,11 +48,8 @@ export const processEntriesWithoutPID = async (): Promise<void> => {
         eduMaterialVersion.publishedat
       )
 
-      const record = await Urn.findOne({
-        where: { material_url: eduMaterialVersionURL }
-      })
-
-      if (record) {
+      const alreadyRegistered = await hasUrn(eduMaterialVersionURL)
+      if (alreadyRegistered) {
         log.info(`Skipping URL ${eduMaterialVersionURL} that already has urn generated.`)
         continue
       }

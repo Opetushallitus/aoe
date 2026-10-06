@@ -1,5 +1,4 @@
 import { config } from '@/config'
-import { sequelize } from '@/domain/aoeModels'
 import { handleError } from '@/helpers/errorHandler'
 import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
@@ -122,17 +121,6 @@ export async function initApp() {
 
   // Initialize H5P editor
   await initializeH5P()
-
-  // Synchronize database with Sequelize models.
-  const dbInit = async (): Promise<void> => {
-    await sequelize.sync({
-      logging: false
-    })
-  }
-  dbInit().catch((err: unknown): void => {
-    log.error('Synchronizing database with Sequelize models failed', err)
-    process.exit(1)
-  })
 
   app.get('/health', async (_req: Request, res: Response) => {
     await db.any('SELECT 1')
