@@ -18,6 +18,7 @@ import {
   FargatePlatformVersion,
   FargateService,
   ICluster,
+  LinuxParameters,
   OperatingSystemFamily,
   Secret,
   TaskDefinition,
@@ -212,6 +213,7 @@ export class EcsServiceStack extends Stack {
       containerName: `${props.serviceName}`,
       secrets: secrets,
       environment: props.env_vars,
+      linuxParameters: new LinuxParameters(this, 'LinuxParameters', { initProcessEnabled: true }),
       ulimits: [
         {
           name: UlimitName.NOFILE,
@@ -268,7 +270,7 @@ export class EcsServiceStack extends Stack {
       },
       port: 8080,
       protocol: ApplicationProtocol.HTTP,
-      deregistrationDelay: Duration.seconds(5),
+      deregistrationDelay: Duration.seconds(300),
       loadBalancingAlgorithmType: TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS
     })
 

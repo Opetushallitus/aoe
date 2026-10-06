@@ -28,6 +28,8 @@ npx cdk deploy -c environment=dev --all --profile aoe-dev
 
 PostgreSQL base schema: `docker/init-scripts/aoe-init.sql`. Schema changes use Knex migrations in `aoe-web-backend/migrations/`.
 
+Migrations run at the new task's boot while the old tasks still serve, so every migration must work with the code that is already running: add first, remove in a later deploy (expand/contract).
+
 ## Database Backups
 
 Native Aurora PITR plus an AWS Backup vault with daily restore verification and alarms. Restore steps, gotchas and the validator: [docs/database-backups.md](docs/database-backups.md).
