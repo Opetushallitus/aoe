@@ -79,7 +79,11 @@ export const initializeH5P = async (): Promise<void> => {
     h5pConfig = new H5PConfig(
       new fsImplementations.JsonStorage(
         path.resolve(config.MEDIA_FILE_PROCESS.h5pJsonConfiguration)
-      )
+      ),
+      {
+        installLibraryLockMaxOccupationTime: 120_000,
+        installLibraryLockTimeout: 180_000
+      }
     )
     await h5pConfig.load()
     h5pEditor = fs(
