@@ -121,9 +121,7 @@ export async function initApp() {
   await registerOidcStrategy(app)
 
   // Initialize H5P editor
-  initializeH5P().catch((err: unknown): void => {
-    log.error('Initialization of H5P editor failed', err)
-  })
+  await initializeH5P()
 
   // Synchronize database with Sequelize models.
   const dbInit = async (): Promise<void> => {

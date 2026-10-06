@@ -3,7 +3,7 @@ import fs from 'fs'
 import { readdir, rm, rmdir } from 'fs/promises'
 import path from 'path'
 
-const errnoCode = (e: unknown): string | undefined =>
+export const errnoCode = (e: unknown): string | undefined =>
   e instanceof Error && 'code' in e && typeof e.code === 'string' ? e.code : undefined
 
 const listEntries = async (dirPath: string): Promise<fs.Dirent[]> => {
