@@ -77,15 +77,18 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Ajastetut tehtävät:**
 
-| Aika (UTC)              | Tehtävä                                                                     |
-| ----------------------- | --------------------------------------------------------------------------- |
-| 1:00 AM                 | Siivoa väliaikaiset H5P- ja HTML-hakemistot                                 |
-| 1:15 AM                 | Luo URNit julkaisemattomille materiaaleille (jos käytössä)                  |
-| 1:30 AM                 | Indeksoi OpenSearch uudelleen viimeisimpien materiaalimuutosten perusteella |
-| 10:00 AM                | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta        |
-| Sunnuntaisin 3:00AM     | Päivitä viitetietorajapintojen tiedot Redikseen.                            |
-| Käynnistyksessä (+10 s) | Päivitä viitetietorajapintojen tiedot Redikseen.                            |
-| Käynnistyksessä (+10 s) | Muunna odottavat Office-tiedostot PDF:iksi ja lataa S3:een                  |
+Jokainen tehtävä ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka ehtii ensin lisätä päivän rivin tauluun `scheduled_task_run`, ja muut kirjaavat ohituksen lokiin. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
+
+| Aika (UTC) | Tehtävä | Kytkin |
+| ---------- | ------- | ------ |
+| 1:00 AM    | Siivoa väliaikaiset H5P- ja HTML-hakemistot | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
+| 1:15 AM    | Luo URNit julkaisemattomille materiaaleille | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
+| 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
+| 2:00 AM    | Muunna Office-tiedostot, joilta puuttuu PDF, ja lataa PDF:t S3:een | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
+| 3:00 AM    | Päivitä viitetietorajapintojen tiedot Redikseen | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 10:00 AM   | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
+
+Käynnistyessään jokainen task päivittää lisäksi viitetiedot Redikseen ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen).
 
 #### Viitetietorajapinnat
 

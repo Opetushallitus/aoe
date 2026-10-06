@@ -85,15 +85,18 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 **Scheduled jobs:**
 
-| Time (UTC) | Job |
-|---|---|
-| 1:00 AM | Clean temporary H5P and HTML directories |
-| 1:15 AM | Generate URNs for unpublished materials (if enabled) |
-| 1:30 AM | Re-index OpenSearch with recent material changes |
-| 10:00 AM | Send expiration and rating notification emails via AWS SES |
-| On Sundays at 3:00 AM | Update reference data endpoints data into Redis | 
-| On startup (+10s) | Update reference data endpoints data into Redis | 
-| On startup (+10s) | Convert pending office files to PDF and upload to S3 |
+Each job runs on one task only: the first task to insert the day's row into `scheduled_task_run` runs it, and the others log a skip. Each job can be turned off with `SCHEDULED_TASK_<NAME>_ENABLED=false` (on by default).
+
+| Time (UTC) | Job | Switch |
+|---|---|---|
+| 1:00 AM | Clean temporary H5P and HTML directories | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
+| 1:15 AM | Generate URNs for unpublished materials | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
+| 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
+| 2:00 AM | Convert office files without a PDF and upload the PDFs to S3 | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
+| 3:00 AM | Update reference data endpoints data into Redis | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
+
+On startup every task also updates the reference data into Redis and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both).
 
 
 #### Reference Data Endpoints
