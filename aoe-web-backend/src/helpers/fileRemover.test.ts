@@ -15,39 +15,39 @@ const makeTree = (): string => {
 }
 
 describe('rmDir', () => {
-  it('empties a nested tree but keeps the root when removeSelf is false', () => {
+  it('empties a nested tree but keeps the root when removeSelf is false', async () => {
     const root = makeTree()
-    rmDir(root, false)
+    await rmDir(root, false)
     assert.equal(fs.existsSync(root), true)
     assert.deepEqual(fs.readdirSync(root), [])
     fs.rmdirSync(root)
   })
 
-  it('removes the directory itself when removeSelf is true', () => {
+  it('removes the directory itself when removeSelf is true', async () => {
     const root = makeTree()
-    rmDir(root, true)
+    await rmDir(root, true)
     assert.equal(fs.existsSync(root), false)
   })
 
-  it('is idempotent: re-running on an already-removed path is a no-op', () => {
+  it('is idempotent: re-running on an already-removed path is a no-op', async () => {
     const root = makeTree()
-    rmDir(root, true)
-    assert.doesNotThrow(() => rmDir(root, true))
+    await rmDir(root, true)
+    await assert.doesNotReject(rmDir(root, true))
   })
 
-  it('does not throw on a path that never existed', () => {
+  it('does not throw on a path that never existed', async () => {
     const missing = path.join(os.tmpdir(), 'filerm-never-existed-4f2a')
-    assert.doesNotThrow(() => rmDir(missing, true))
+    await assert.doesNotReject(rmDir(missing, true))
   })
 
-  it('skips .nfs files and tolerates the resulting non-empty directory', () => {
+  it('skips .nfs files and tolerates the resulting non-empty directory', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'filerm-'))
     const sub = path.join(root, 'sub')
     fs.mkdirSync(sub)
     fs.writeFileSync(path.join(sub, '.nfs0001'), 'held-open')
     fs.writeFileSync(path.join(sub, 'c.txt'), 'c')
 
-    assert.doesNotThrow(() => rmDir(root, false))
+    await assert.doesNotReject(rmDir(root, false))
     // Regular file removed, the .nfs file kept, and the dir left in place.
     assert.deepEqual(fs.readdirSync(sub), ['.nfs0001'])
 

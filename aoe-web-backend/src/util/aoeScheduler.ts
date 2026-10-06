@@ -54,9 +54,9 @@ const scheduleClaimedTask = (
 
 export const startScheduledTasks = (): void => {
   scheduleClaimedTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
-    rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
-    rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
-    rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
+    await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
+    await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
+    await rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
     clearH5PContentCache()
   })
   scheduleClaimedTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)

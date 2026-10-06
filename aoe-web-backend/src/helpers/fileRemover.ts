@@ -1,13 +1,14 @@
 import * as log from '@util/winstonLogger'
 import fs from 'fs'
+import { readdir, rm, rmdir } from 'fs/promises'
 import path from 'path'
 
 const errnoCode = (e: unknown): string | undefined =>
   e instanceof Error && 'code' in e && typeof e.code === 'string' ? e.code : undefined
 
-const listEntries = (dirPath: string): fs.Dirent[] => {
+const listEntries = async (dirPath: string): Promise<fs.Dirent[]> => {
   try {
-    return fs.readdirSync(dirPath, { withFileTypes: true })
+    return await readdir(dirPath, { withFileTypes: true })
   } catch (e) {
     if (errnoCode(e) === 'ENOENT') {
       return []
@@ -17,17 +18,17 @@ const listEntries = (dirPath: string): fs.Dirent[] => {
   }
 }
 
-export function rmDir(dirPath: string, removeSelf: boolean): void {
-  const entries = listEntries(dirPath)
+export async function rmDir(dirPath: string, removeSelf: boolean): Promise<void> {
+  const entries = await listEntries(dirPath)
   for (const entry of entries) {
     if (entry.name.startsWith('.nfs')) {
       continue
     }
     const filePath = path.join(dirPath, entry.name)
     if (entry.isDirectory()) {
-      rmDir(filePath, true)
+      await rmDir(filePath, true)
     } else {
-      fs.rmSync(filePath, { force: true })
+      await rm(filePath, { force: true })
     }
   }
 
@@ -36,7 +37,7 @@ export function rmDir(dirPath: string, removeSelf: boolean): void {
   }
 
   try {
-    fs.rmdirSync(dirPath)
+    await rmdir(dirPath)
   } catch (e) {
     const code = errnoCode(e)
     if (code === 'ENOTEMPTY' || code === 'ENOENT') {
