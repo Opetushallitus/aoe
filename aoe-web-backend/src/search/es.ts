@@ -28,7 +28,6 @@ const client = createSearchClient(isProduction())
 // values for index last update time
 export namespace Es {
   export const ESupdated: { value: Date } = { value: new Date() }
-  export const ESCounterUpdated: { value: Date } = { value: new Date() }
   export const CollectionEsUpdated: { value: Date } = { value: new Date() }
 }
 
@@ -65,10 +64,12 @@ async function updateCollectionIndexData(collectionIndex: string, operation: 'cr
   Es.CollectionEsUpdated.value = new Date()
 }
 
+type ExistingIndex = 'keep' | 'reindex' | 'recreate'
+
 const updateIndex = async (
   indexName: string,
   mappingFile: string,
-  recreateIndex: boolean,
+  existingIndex: ExistingIndex,
   updateIndexData: (indexName: string, operation: 'create' | 'index') => Promise<void>
 ) => {
   try {
@@ -92,13 +93,11 @@ const updateIndex = async (
 
     if (!indexFound) {
       await createAndPopulateIndex(indexName, mappingFile)
-    } else {
-      if (recreateIndex) {
-        await deleteIndex(indexName)
-        await createAndPopulateIndex(indexName, mappingFile)
-      } else {
-        await updateIndexData(indexName, 'index')
-      }
+    } else if (existingIndex === 'recreate') {
+      await deleteIndex(indexName)
+      await createAndPopulateIndex(indexName, mappingFile)
+    } else if (existingIndex === 'reindex') {
+      await updateIndexData(indexName, 'index')
     }
   } catch (err) {
     log.error(`Index ${indexName} update failed`, err)
@@ -465,35 +464,20 @@ export async function performBulkOperation(
 /**
  * Update search engine index after recent changes in information resources.
  * TODO: Complexity of the function must be refactored.
- * @param updateCounters
  */
-export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
+export const updateEsDocument = (): Promise<number> => {
   return new Promise(async (resolve, reject) => {
     db.tx({ mode }, async (t: any) => {
       // #1 async start
-      const params: any = []
-      let query = ''
-      if (updateCounters) {
-        params.push(Es.ESCounterUpdated.value)
-        query =
-          'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
-          'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
-          'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
-          'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
-          'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
-          'FROM educationalmaterial AS em ' +
-          'WHERE counterupdatedat > $1 AND em.publishedat IS NOT NULL'
-      } else {
-        params.push(Es.ESupdated.value)
-        query =
-          'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
-          'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
-          'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
-          'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
-          'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
-          'FROM educationalmaterial AS em ' +
-          'WHERE updatedat > $1 AND em.publishedat IS NOT NULL'
-      }
+      const params: any = [Es.ESupdated.value]
+      let query =
+        'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
+        'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
+        'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
+        'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
+        'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
+        'FROM educationalmaterial AS em ' +
+        'WHERE updatedat > $1 AND em.publishedat IS NOT NULL'
       return t
         .map(query, params, async (q: any) => {
           // #2 async start
@@ -626,11 +610,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
           if (bulkResponse.errors) {
             log.error('Bulk response error', bulkResponse.errors)
           } else {
-            if (updateCounters) {
-              Es.ESCounterUpdated.value = new Date()
-            } else {
-              Es.ESupdated.value = new Date()
-            }
+            Es.ESupdated.value = new Date()
           }
           resolve(data.length)
         } else {
@@ -669,22 +649,28 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
   }
 }
 
+const updateIndices = async (existingIndex: ExistingIndex): Promise<void> => {
+  await updateIndex(
+    process.env.ES_INDEX,
+    process.env.ES_MAPPING_FILE,
+    existingIndex,
+    updateAoeIndexData
+  )
+  await updateIndex(
+    process.env.ES_COLLECTION_INDEX,
+    process.env.ES_COLLECTION_MAPPING_FILE,
+    existingIndex,
+    updateCollectionIndexData
+  )
+}
+
+export const reindexAll = (): Promise<void> => updateIndices('reindex')
+
 export async function initializeIndices(): Promise<void> {
-  const recreateIndex = (process.env.CREATE_ES_INDEX === '1') as boolean
+  const recreateIndex = process.env.CREATE_ES_INDEX === '1'
 
   try {
-    await updateIndex(
-      process.env.ES_INDEX,
-      process.env.ES_MAPPING_FILE,
-      recreateIndex,
-      updateAoeIndexData
-    )
-    await updateIndex(
-      process.env.ES_COLLECTION_INDEX,
-      process.env.ES_COLLECTION_MAPPING_FILE,
-      recreateIndex,
-      updateCollectionIndexData
-    )
+    await updateIndices(recreateIndex ? 'recreate' : 'keep')
   } catch (error) {
     log.error(`Error ${recreateIndex ? 'creating' : 'updating'} OpenSearch indices: `, error)
   }

@@ -1,102 +1,74 @@
 import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
-import { updateEsDocument } from '@search/es'
+import { db } from '@resource/postgresClient'
+import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { clearH5PContentCache } from '@services/h5pService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import { updateReferenceData } from '@util/ref/redis.utils'
 import * as log from '@util/winstonLogger'
 import { Cron } from 'croner'
+import { z } from 'zod'
 
-const emailSchedule = process.env.EMAIL_CRON_SCHEDULE || '0 0 10 * * *'
-const pidSchedule = process.env.PID_CRON_SCHEDULE || '0 15 1 * * *'
-const fileCleaningSchedule = process.env.FILE_CLEANING_CRON_SCHEDULE || '0 0 1 * * *'
-const indexUpdateSchedule = process.env.INDEX_UPDATE_CRON_SCHEDULE || '0 30 1 * * *'
-const referenceDataUpdateSchedule = process.env.REFERENCE_DATA_UPDATE_CRON_SCHEDULE || '0 0 3 * * 0'
+const claimedRunSchema = z.object({ task_name: z.string() }).nullable()
 
-export const startScheduledCleaning = (): void => {
-  const dirCleaningScheduler = new Cron(fileCleaningSchedule, async (): Promise<void> => {
-    // Remove temporary content from the resource directories (H5P, HTML).
-    try {
-      log.info('Scheduled removal for temporary H5P and HTML content started.')
-      rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
-      rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
-      rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
-      clearH5PContentCache()
-      log.info('Scheduled removal for temporary H5P and HTML content completed.')
-    } catch (err: unknown) {
-      log.error('Scheduled removal for temporary H5P or HTML content failed', err)
-      dirCleaningScheduler.stop()
-    }
-  })
-  log.info('Scheduled job active for directory cleaning at 1:00 AM (UTC)')
+const claimRun = async (taskName: string): Promise<boolean> => {
+  const claimed = claimedRunSchema.parse(
+    await db.oneOrNone(
+      `INSERT INTO scheduled_task_run (task_name, run_date)
+       VALUES ($1, (now() AT TIME ZONE 'UTC')::date)
+       ON CONFLICT DO NOTHING RETURNING task_name`,
+      [taskName]
+    )
+  )
+  return claimed !== null
 }
 
-// 1:15 AM (UTC): scheduled PID (Permanent Identifiers) registration for recently published educational materials.
-export const startScheduledRegistrationForPIDs = (): void => {
-  if (!process.env.PID_SERVICE_RUN_SCHEDULED || process.env.PID_SERVICE_RUN_SCHEDULED !== 'true') {
+const scheduleClaimedTask = (
+  taskName: keyof typeof config.scheduledTasks,
+  pattern: string,
+  run: () => Promise<void>
+): void => {
+  if (!config.scheduledTasks[taskName].enabled) {
+    log.info(`Scheduled task ${taskName} disabled`)
     return
   }
-  const pidRegisterScheduler = new Cron(pidSchedule, async (): Promise<void> => {
+  new Cron(pattern, async (): Promise<void> => {
     try {
-      log.info('Starting to register PIDs for educational materials')
-      await processEntriesWithoutPID()
-      log.info('Finished PID registration for educational materials')
+      const claimed = await claimRun(taskName)
+      if (!claimed) {
+        log.info(`Scheduled task ${taskName} skipped: another task claimed today's run`)
+        return
+      }
+      log.info(`Scheduled task ${taskName} started`)
+      const startedAt = Date.now()
+      await run()
+      log.info(`Scheduled task ${taskName} completed in ${Date.now() - startedAt} ms`)
     } catch (err: unknown) {
-      log.error('PID registration for educational materials failed', err)
-      pidRegisterScheduler.stop()
+      log.error(`Scheduled task ${taskName} failed`, err)
     }
   })
+  log.info(`Scheduled task ${taskName} active at '${pattern}' (UTC)`)
 }
 
-// 1:30 AM (UTC): scheduled search index update.
-export const startScheduledSearchIndexUpdate = (): void => {
-  const searchUpdateScheduler = new Cron(indexUpdateSchedule, async (): Promise<void> => {
-    // Update search engine index with recent changes.
-    try {
-      await updateEsDocument(true)
-      log.debug('Scheduled index update for the search engine completed.')
-    } catch (err: unknown) {
-      log.error('Scheduled index update for the search engine failed', err)
-      searchUpdateScheduler.stop()
-    }
+export const startScheduledTasks = (): void => {
+  scheduleClaimedTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
+    rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
+    rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
+    rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
+    clearH5PContentCache()
   })
-  log.info('Scheduled job active for search index update at 1:30 AM (UTC)')
-}
-
-export const startScheduledReferenceDataUpdate = async (): Promise<void> => {
-  await updateReferenceData()
-
-  const referenceDataScheduler = new Cron(referenceDataUpdateSchedule, async (): Promise<void> => {
-    try {
-      log.debug('Starting reference data update')
-      await updateReferenceData()
-      log.debug('Scheduled reference data update completed.')
-    } catch (err: unknown) {
-      log.error('Scheduled reference data update failed', err)
-      referenceDataScheduler.stop()
-    }
-  })
-  log.info('Scheduled job active for reference data update at 3:00 AM Sunday (UTC)')
-}
-
-export function startScheduledMailJobs() {
-  new Cron(emailSchedule, async (): Promise<void> => {
-    try {
-      await sendRatingNotificationMail()
-      await sendExpirationMail()
-    } catch (err: unknown) {
-      log.error('Sending scheduled expiration or rating notification mail failed', err)
-    }
-  })
-}
-
-export function startScheduledPdfConvertAndUpstreamOfficeFiles() {
-  const sleep = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms))
-  }
-  sleep(10000).then((): void => {
-    void scheduledConvertAndUpstreamOfficeFilesToCloudStorage()
+  scheduleClaimedTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)
+  scheduleClaimedTask('searchReindex', '0 30 1 * * *', reindexAll)
+  scheduleClaimedTask(
+    'officePdfConversion',
+    '0 0 2 * * *',
+    scheduledConvertAndUpstreamOfficeFilesToCloudStorage
+  )
+  scheduleClaimedTask('referenceDataUpdate', '0 0 3 * * *', updateReferenceData)
+  scheduleClaimedTask('notificationMail', '0 0 10 * * *', async (): Promise<void> => {
+    await sendRatingNotificationMail()
+    await sendExpirationMail()
   })
 }

@@ -12,14 +12,8 @@ import statisticsRouter from '@api/routes-v2/statistics'
 import { registerOidcStrategy } from '@resource/oidcConfig'
 import { checkAuthenticated } from '@services/authService'
 import { initializeH5P } from '@services/h5pService'
-import {
-  startScheduledCleaning,
-  startScheduledMailJobs,
-  startScheduledPdfConvertAndUpstreamOfficeFiles,
-  startScheduledReferenceDataUpdate,
-  startScheduledRegistrationForPIDs,
-  startScheduledSearchIndexUpdate
-} from '@util/aoeScheduler'
+import { startScheduledTasks } from '@util/aoeScheduler'
+import { updateReferenceData } from '@util/ref/redis.utils'
 import morganLogger from '@util/morganLogger'
 import * as log from '@util/winstonLogger'
 import compression from 'compression'
@@ -170,12 +164,8 @@ export async function initApp() {
 
   // Start scheduled maintenance processes
   initializeIndices()
-  startScheduledCleaning()
-  startScheduledRegistrationForPIDs()
-  startScheduledSearchIndexUpdate()
-  startScheduledReferenceDataUpdate()
-  startScheduledMailJobs()
-  startScheduledPdfConvertAndUpstreamOfficeFiles()
+  updateReferenceData()
+  startScheduledTasks()
 
   return app
 }

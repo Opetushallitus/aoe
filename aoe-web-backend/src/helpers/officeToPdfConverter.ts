@@ -11,6 +11,7 @@ import libre from 'libreoffice-convert'
 import { Readable } from 'stream'
 import { pipeline } from 'node:stream/promises'
 import { StatusError } from './errorHandler'
+import { z } from 'zod'
 
 export const s3 = new S3Client(s3ClientConfig)
 
@@ -160,48 +161,45 @@ const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<str
  */
 export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
   try {
-    // Fetch the office files without a PDF conversion.
-    const files = await getFilesWithoutPDF()
+    const officeFiles = await getOfficeFilesWithoutPDF()
+    let converted = 0
 
-    for (let index = 0; index < files.length; index++) {
-      const file = files[index]
-
-      if (isOfficeMimeType(file.mimetype)) {
-        const pdfKey: string = `${file.filekey.substring(0, file.filekey.lastIndexOf('.'))}.pdf`
-        downstreamAndConvertOfficeFileToPDF(file.filekey)
-          .then((path) => {
-            if (!path) {
-              return
-            }
-            return uploadFileToStorage(path, pdfKey, config.cloudStorage.bucketPDF).then(
-              (obj: any) => {
-                void updatePdfKey(obj.Key, file.id)
-              }
-            )
-          })
-          // Fire-and-forget: catch so a failure isn't an unhandled rejection.
-          .catch((err) => {
-            log.error(`PDF conversion/upload failed for [${file.filekey}]`, err)
-          })
+    for (const file of officeFiles) {
+      const pdfKey: string = `${file.filekey.substring(0, file.filekey.lastIndexOf('.'))}.pdf`
+      try {
+        const path = await downstreamAndConvertOfficeFileToPDF(file.filekey)
+        if (!path) {
+          continue
+        }
+        const obj = await uploadFileToStorage(path, pdfKey, config.cloudStorage.bucketPDF)
+        await updatePdfKey(obj.Key, file.id)
+        converted++
+      } catch (err) {
+        log.error(`PDF conversion/upload failed for [${file.filekey}]`, err)
       }
     }
+    log.info(`Converted ${converted} of ${officeFiles.length} office files without a PDF`)
   } catch (err) {
     log.error('Office to PDF conversion failed', err)
     throw err
   }
 }
 
-const getFilesWithoutPDF = async (): Promise<any> => {
+const officeFilesWithoutPDFSchema = z.array(z.object({ id: z.string(), filekey: z.string() }))
+
+const getOfficeFilesWithoutPDF = async (): Promise<z.infer<typeof officeFilesWithoutPDFSchema>> => {
   try {
-    return await db.task(async (t: any) => {
-      const query = `
-        SELECT id, filepath, mimetype, filekey, filebucket, pdfkey
+    return officeFilesWithoutPDFSchema.parse(
+      await db.any(
+        `
+        SELECT id, filekey
         FROM record
-        WHERE filekey IS NOT NULL AND pdfkey IS NULL
+        WHERE filekey IS NOT NULL AND pdfkey IS NULL AND mimetype = ANY($1)
         ORDER BY id
-      `
-      return await t.any(query)
-    })
+      `,
+        [officeMimeTypes]
+      )
+    )
   } catch (err: unknown) {
     log.error('Fetching files without PDFs failed', err)
     throw err

@@ -104,6 +104,36 @@ if (!cloudStorageEnv.success) {
   process.exit(1)
 }
 
+const taskEnabled = z
+  .enum(['true', 'false'])
+  .default('true')
+  .transform((value) => value === 'true')
+
+const scheduledTasksEnv = z
+  .object({
+    SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED: taskEnabled,
+    SCHEDULED_TASK_PID_REGISTRATION_ENABLED: taskEnabled,
+    SCHEDULED_TASK_SEARCH_REINDEX_ENABLED: taskEnabled,
+    SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
+    SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
+    SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled
+  })
+  .transform((env) => ({
+    directoryCleaning: { enabled: env.SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED },
+    pidRegistration: { enabled: env.SCHEDULED_TASK_PID_REGISTRATION_ENABLED },
+    searchReindex: { enabled: env.SCHEDULED_TASK_SEARCH_REINDEX_ENABLED },
+    officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
+    referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
+    notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED }
+  }))
+  .safeParse(process.env)
+if (!scheduledTasksEnv.success) {
+  logger.error(
+    `Invalid scheduled task environment variables: ${z.prettifyError(scheduledTasksEnv.error)}`
+  )
+  process.exit(1)
+}
+
 export const config = {
   // General application start up configurations.
   APPLICATION_CONFIG: {
@@ -116,6 +146,8 @@ export const config = {
 
   // Cloud storage configurations.
   cloudStorage: cloudStorageEnv.data,
+
+  scheduledTasks: scheduledTasksEnv.data,
 
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
