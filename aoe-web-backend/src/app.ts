@@ -1,5 +1,6 @@
 import { config } from '@/config'
 import { handleError } from '@/helpers/errorHandler'
+import { h5pSecurityHeaders } from '@/helpers/h5pSecurityHeaders'
 import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
 import { stream } from '@api/routes-root/stream'
@@ -131,6 +132,7 @@ export async function initApp() {
   app.use(express.urlencoded({ extended: true, limit: '1mb' }))
   app.use('/favicon.ico', express.static('./views/favicon.ico'))
   app.use('/ref/api/v1', refRouterV1)
+  app.use('/h5p', h5pSecurityHeaders)
   app.use('/', apiRouterRoot)
   app.use('/api/v1/', apiRouterV1)
   app.use('/api/v2/', apiRouterV2)
