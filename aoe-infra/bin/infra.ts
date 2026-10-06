@@ -335,7 +335,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
 
   const sesIamPolicy = new iam.PolicyStatement({
     actions: ['ses:SendEmail'],
-    resources: [SES.emailIdentity.emailIdentityArn]
+    resources: [
+      SES.emailIdentity.emailIdentityArn,
+      ...config.ses.verified_recipients.map(
+        (address) => `arn:aws:ses:${envEU.region}:${cdk.Aws.ACCOUNT_ID}:identity/${address}`
+      )
+    ]
   })
 
   new EcsServiceStack(app, 'WebBackendEcsService', {

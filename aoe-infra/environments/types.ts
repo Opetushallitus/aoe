@@ -51,4 +51,7 @@ export interface EnvironmentConfig {
   cloudfront: {
     require_test_authentication: boolean
   }
+  ses: {
+    verified_recipients: string[]
+  }
 }

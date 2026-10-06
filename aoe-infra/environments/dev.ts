@@ -117,5 +117,8 @@ export const dev: EnvironmentConfig = {
   },
   cloudfront: {
     require_test_authentication: true
+  },
+  ses: {
+    verified_recipients: []
   }
 }

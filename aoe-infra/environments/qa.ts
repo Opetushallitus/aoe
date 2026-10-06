@@ -117,5 +117,8 @@ export const qa: EnvironmentConfig = {
   },
   cloudfront: {
     require_test_authentication: true
+  },
+  ses: {
+    verified_recipients: ['oph-aoe@reaktor.fi']
   }
 }
