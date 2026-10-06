@@ -112,7 +112,10 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
     source: 'custom',
     content: {
       textType: 'client-markdown',
-      title: truncate(`:warning: ${alert.environment} ${alert.service} error`, 100),
+      title: truncate(
+        `:warning: ${alert.environment} ${alert.service} error (task ${taskId(alert).slice(0, 8)})`,
+        100
+      ),
       description: buildSlackDescription(alert)
     },
     metadata: {
@@ -122,8 +125,13 @@ function buildSlackNotification(alert: ErrorAlert): SlackNotification {
   }
 }
 
+function taskId(alert: ErrorAlert): string {
+  const logStream = stringifyField(alert.logStream)
+  return logStream?.split('/').pop() || 'unknown'
+}
+
 function buildSlackDescription(alert: ErrorAlert): string {
-  const lines = ['*Error:*', formatCodeBlock(alert.details)]
+  const lines = [`*Task:* \`${taskId(alert)}\``, '*Error:*', formatCodeBlock(alert.details)]
   const cloudWatchLogsUrl = buildCloudWatchLogsUrl(alert)
 
   if (cloudWatchLogsUrl) {
