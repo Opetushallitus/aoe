@@ -41,7 +41,7 @@
     "dompurify": "3.4.16",
     "echarts": "6.1.0",
     "font-awesome": "4.7.0",
-    "ng2-pdfjs-viewer": "26.4.3",
+    "ng2-pdfjs-viewer": "26.4.4",
     "ngx-bootstrap": "22.0.0",
     "ngx-echarts": "22.0.0",
     "ngx-image-cropper": "9.1.7",
