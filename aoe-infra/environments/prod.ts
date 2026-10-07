@@ -10,8 +10,8 @@ export const prod: EnvironmentConfig = {
     web_backend: {
       cpu_limit: '2048',
       memory_limit: '6144',
-      min_count: 1,
-      max_count: 1,
+      min_count: 2,
+      max_count: 3,
       allow_ecs_exec: true,
       env_vars: {
         NODE_ENV: 'production',
