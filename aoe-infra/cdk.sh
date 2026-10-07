@@ -5,7 +5,6 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-func
 main() {
     use_correct_node_version
     npm_ci_if_package_lock_has_changed
-    npm run build
     npx cdk --context revision="$revision" --context environment="$ENV" "$@"
 }
 

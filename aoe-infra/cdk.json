@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/infra.ts",
+  "app": "npx tsc && node bin/infra.js",
   "watch": {
     "include": ["**"],
     "exclude": [

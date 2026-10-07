@@ -267,6 +267,7 @@ export class EcsServiceStack extends Stack {
         path: `${props.healthCheckPath}`,
         interval: Duration.seconds(props.healthCheckInterval),
         healthyThresholdCount: 2,
+        unhealthyThresholdCount: 6,
         timeout: Duration.seconds(props.healthCheckTimeout)
       },
       port: 8080,
