@@ -1,5 +1,10 @@
-import { ImageTagMutabilityExclusionFilter, Repository, TagMutability } from 'aws-cdk-lib/aws-ecr'
-import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
+import {
+  ImageTagMutabilityExclusionFilter,
+  Repository,
+  TagMutability,
+  TagStatus
+} from 'aws-cdk-lib/aws-ecr'
+import { Duration, Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { Construct } from 'constructs'
 import * as accounts from './accounts.json'
@@ -19,7 +24,21 @@ export class EcrStack extends Stack {
       repositoryName: `${props.serviceName}`,
       removalPolicy: RemovalPolicy.DESTROY,
       imageTagMutability: TagMutability.IMMUTABLE_WITH_EXCLUSION,
-      imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter.wildcard('green-*')]
+      imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter.wildcard('green-*')],
+      lifecycleRules: [
+        ...['dev', 'qa', 'prod'].map((environment, index) => ({
+          rulePriority: index + 1,
+          description: `Keep the image ${environment} runs`,
+          tagPatternList: [`green-${environment}`],
+          maxImageCount: 1
+        })),
+        {
+          rulePriority: 4,
+          description: 'Expire other images 14 days after push',
+          tagStatus: TagStatus.ANY,
+          maxImageAge: Duration.days(14)
+        }
+      ]
     })
 
     this.repository.addToResourcePolicy(
