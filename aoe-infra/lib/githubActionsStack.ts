@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { StackProps } from 'aws-cdk-lib'
+import * as accounts from './accounts.json'
 
 interface CommonStackProps extends StackProps {
   environment: string
@@ -43,5 +44,14 @@ export class GithubActionsStack extends cdk.Stack {
       ]
     })
     this.githubActionsRole.addToPolicy(cdkPolicyStatement)
+    this.githubActionsRole.addToPolicy(
+      new iam.PolicyStatement({
+        actions: ['ecr:DescribeImages', 'ecr:BatchGetImage', 'ecr:PutImage'],
+        resources: ['aoe-web-backend', 'aoe-restore-validator'].map(
+          (repository) =>
+            `arn:aws:ecr:${this.region}:${accounts.utility.id}:repository/${repository}`
+        )
+      })
+    )
   }
 }

@@ -38,6 +38,7 @@ import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
 import { BackupStack } from '../lib/backup-stack'
+import * as accounts from '../lib/accounts.json'
 
 const app = new cdk.App()
 
@@ -47,7 +48,7 @@ CustomResourceConfig.of(app).addLambdaRuntime(Runtime.NODEJS_24_X)
 
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext('environment')
-const utilityAccountId: string = '637423428507'
+const utilityAccountId: string = accounts.utility.id
 const envEU = { region: 'eu-west-1' }
 const envEUAccount = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
