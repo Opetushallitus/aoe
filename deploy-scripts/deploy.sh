@@ -4,6 +4,9 @@ set -o errexit -o nounset -o pipefail
 # shellcheck source=../scripts/common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
 
+# shellcheck source=./deploy-functions.sh
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/deploy-functions.sh"
+
 CDK_COMMAND="deploy"
 [[ "${1:-}" == "--diff" ]] && CDK_COMMAND="diff"
 [[ "${1:-}" == "--diagnose" ]] && CDK_COMMAND="diagnose"
@@ -37,6 +40,14 @@ function main {
   fi
   end_gh_actions_group
 
+  if [[ "$ENV" != "utility" && "$CDK_COMMAND" == "deploy" ]]; then
+    start_gh_actions_group "Tag deployed images as green-${ENV}"
+    if ! running_on_gh_actions; then
+      require_aws_session_for_env "utility"
+    fi
+    tag_deployed_images "aoe-web-backend" "aoe-restore-validator"
+    end_gh_actions_group
+  fi
 }
 
 function build_frontend {

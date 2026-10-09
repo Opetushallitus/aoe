@@ -11,6 +11,8 @@ readonly DEPLOY_FUNCTIONS_SOURCED="true"
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
 
 readonly github_registry="ghcr.io/opetushallitus/"
+utility_account_id="$(jq -r '.utility.id' "$repo/aoe-infra/lib/accounts.json")"
+readonly utility_account_id
 
 readonly deploy_dist_dir="$repo/deploy-scripts/dist/"
 mkdir -p "$deploy_dist_dir"
@@ -41,6 +43,44 @@ function upload_image_to_ecr {
   docker push "${ecr_image_tag}"
 
   end_gh_actions_group
+}
+
+function tag_deployed_images {
+  local -r green_tag="green-${ENV}"
+
+  local repository
+  for repository in "$@"; do
+    local already_tagged
+    already_tagged=$(aws ecr describe-images \
+      --registry-id "${utility_account_id}" \
+      --repository-name "${repository}" \
+      --image-ids imageTag="${revision}" \
+      --query "contains(imageDetails[0].imageTags, '${green_tag}')" \
+      --output text)
+
+    if [[ "${already_tagged}" == "True" ]]; then
+      info "${repository}:${revision} is already ${green_tag}"
+    else
+      local image
+      image=$(aws ecr batch-get-image \
+        --registry-id "${utility_account_id}" \
+        --repository-name "${repository}" \
+        --image-ids imageTag="${revision}" \
+        --query 'images[0]' \
+        --output json)
+      local manifest
+      manifest=$(jq -er '.imageManifest' <<< "${image}")
+      local media_type
+      media_type=$(jq -er '.imageManifestMediaType' <<< "${image}")
+      aws ecr put-image \
+        --registry-id "${utility_account_id}" \
+        --repository-name "${repository}" \
+        --image-tag "${green_tag}" \
+        --image-manifest "${manifest}" \
+        --image-manifest-media-type "${media_type}" > /dev/null
+      info "Tagged ${repository}:${revision} as ${green_tag}"
+    fi
+  done
 }
 
 
