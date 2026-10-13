@@ -1,5 +1,5 @@
 {
-  "app": "npx tsc && node bin/infra.js",
+  "app": "npx tsc && node --enable-source-maps bin/infra.js",
   "watch": {
     "include": ["**"],
     "exclude": [

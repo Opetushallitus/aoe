@@ -16,10 +16,8 @@ import { updateReferenceData } from '@util/ref/redis.utils'
 import morganLogger from '@util/morganLogger'
 import * as log from '@util/winstonLogger'
 import compression from 'compression'
-import flash from 'connect-flash'
 import cors, { CorsOptions } from 'cors'
 import express, { Express, Request, Response, Router, NextFunction } from 'express'
-import lusca from 'lusca'
 import passport from 'passport'
 import { RedisStore } from 'connect-redis'
 import session, { SessionOptions } from 'express-session'
@@ -114,7 +112,6 @@ export async function initApp() {
   }
 
   app.use(compression())
-  app.use(flash())
   app.use(morganLogger)
 
   await registerOidcStrategy(app)
@@ -141,8 +138,6 @@ export async function initApp() {
   app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor))
   app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibraries))
   app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder))
-  app.use(lusca.xframe('SAMEORIGIN'))
-  app.use(lusca.xssProtection)
 
   app.use(handleError)
 

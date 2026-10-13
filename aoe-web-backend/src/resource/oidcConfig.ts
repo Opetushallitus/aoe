@@ -93,8 +93,7 @@ export async function registerOidcStrategy(app: Express) {
     '/api/login',
     passport.authenticate('oidc', {
       successRedirect: '/',
-      failureRedirect: '/api/login',
-      failureFlash: true
+      failureRedirect: '/api/login'
     })
   )
 
@@ -121,7 +120,6 @@ export async function registerOidcStrategy(app: Express) {
     '/api/secure/redirect',
     passport.authenticate('oidc', {
       failureRedirect: process.env.FAILURE_REDIRECT_URI,
-      failureFlash: true,
       successRedirect: process.env.SUCCESS_REDIRECT_URI
     })
   )

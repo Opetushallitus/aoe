@@ -93,10 +93,6 @@
       "matchPackageNames": ["compression", "@types/compression"]
     },
     {
-      "groupName": "Connect Flash",
-      "matchPackageNames": ["connect-flash", "@types/connect-flash"]
-    },
-    {
       "groupName": "Connect Redis",
       "matchPackageNames": ["connect-redis", "@types/connect-redis"]
     },
@@ -115,10 +111,6 @@
     {
       "groupName": "knip",
       "matchPackageNames": ["knip"]
-    },
-    {
-      "groupName": "Lusca",
-      "matchPackageNames": ["lusca", "@types/lusca"]
     },
     {
       "groupName": "Mime",

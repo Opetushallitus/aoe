@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import 'source-map-support/register'
 import * as cdk from 'aws-cdk-lib'
 import * as logs from 'aws-cdk-lib/aws-logs'
 import { Runtime } from 'aws-cdk-lib/aws-lambda'
