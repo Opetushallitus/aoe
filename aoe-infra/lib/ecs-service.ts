@@ -19,10 +19,12 @@ import {
   FargateService,
   ICluster,
   LinuxParameters,
+  MountPoint,
   OperatingSystemFamily,
   Secret,
   TaskDefinition,
-  UlimitName
+  UlimitName,
+  Volume
 } from 'aws-cdk-lib/aws-ecs'
 import { ISecurityGroup, IVpc } from 'aws-cdk-lib/aws-ec2'
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2'
@@ -48,8 +50,6 @@ import * as lambda from 'aws-cdk-lib/aws-lambda'
 import * as logs from 'aws-cdk-lib/aws-logs'
 import * as logsDestinations from 'aws-cdk-lib/aws-logs-destinations'
 import * as path from 'node:path'
-import { Volume } from 'aws-cdk-lib/aws-ecs/lib/base/task-definition'
-import { MountPoint } from 'aws-cdk-lib/aws-ecs/lib/container-definition'
 import {
   CLOUDFRONT_ORIGIN_VERIFY_HEADER,
   cloudfrontOriginSecretValue,

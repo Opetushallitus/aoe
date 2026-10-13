@@ -9,14 +9,14 @@
     "knip": "knip"
   },
   "dependencies": {
-    "@aws-sdk/client-backup": "3.1148.0",
-    "@aws-sdk/client-rds": "3.1148.0",
-    "@aws-sdk/client-rds-data": "3.1148.0",
+    "@aws-sdk/client-backup": "3.1149.0",
+    "@aws-sdk/client-rds": "3.1149.0",
+    "@aws-sdk/client-rds-data": "3.1149.0",
     "winston": "3.19.0",
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@types/node": "24.19.1",
+    "@types/node": "24.19.2",
     "knip": "6.41.0",
     "typescript": "7.0.2"
   }

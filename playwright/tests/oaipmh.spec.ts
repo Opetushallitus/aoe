@@ -422,8 +422,8 @@ test('OAI-PMH v1', async ({ request }) => {
     for (const record of records) {
       const header = firstChild(record, 'header')
       expect(header).toBeDefined()
-      expect(text(header.identifier)).toMatch(/^oai:demo\.aoe\.fi:\d+$/)
-      expect(text(header.datestamp)).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
+      expect(text(header?.identifier)).toMatch(/^oai:demo\.aoe\.fi:\d+$/)
+      expect(text(header?.datestamp)).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
       expect(record.metadata).toBeUndefined()
     }
 
@@ -624,10 +624,10 @@ test('OAI-PMH v2', async ({ request }) => {
     for (const record of records) {
       const header = firstChild(record, 'header')
       expect(header).toBeDefined()
-      expect(text(header.identifier)).toMatch(
+      expect(text(header?.identifier)).toMatch(
         /^oai:demo\.aoe\.fi:\d+-\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/
       )
-      expect(text(header.datestamp)).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
+      expect(text(header?.datestamp)).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/)
       expect(record.metadata).toBeUndefined()
     }
 

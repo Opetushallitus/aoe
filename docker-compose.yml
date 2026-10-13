@@ -2,7 +2,7 @@ name: aoe
 services:
 
   nginx:
-    image: nginx:latest@sha256:5a88c9c45479443d7be2eadc894b4ed0a9801bae03d97a5760ae13b5c2005942
+    image: nginx:1.31.6@sha256:60f0d4e986561e08804f75c211dcaf7fc5455699eada29f42cbe8a0a7253dd86
     container_name: nginx
     hostname: nginx
     ports:
@@ -55,7 +55,7 @@ services:
     image: ${AOE_RESTORE_VALIDATOR_TAG-aoe-restore-validator:latest}
 
   postgres:
-    image: postgres:15-alpine@sha256:f7d23353e1b15400d22ebe31189f4d314b87a4c129cc400c8c2d8d4ca127bf81
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
     container_name: aoe-postgres
     environment:
       POSTGRES_USER: aoeuser
