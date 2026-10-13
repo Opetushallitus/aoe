@@ -2,8 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
-    "workarounds:javaLTSVersions",
-    ":rebaseStalePrs",
     ":pinAllExceptPeerDependencies",
     "customManagers:biomeVersions"
   ],
@@ -14,7 +12,7 @@
   "branchPrefix": "github-renovate/",
   "timezone": "Europe/Helsinki",
   "forkProcessing": "disabled",
-  "minimumReleaseAge": "3 days",
+  "minimumReleaseAge": "7 days",
   "prCreation": "immediate",
   "automerge": true,
   "automergeType": "pr",
@@ -34,7 +32,7 @@
     "github-actions",
     "docker-compose",
     "dockerfile",
-    "maven"
+    "custom.jsonata"
   ],
   "github-actions": {
     "automerge": true,
@@ -49,6 +47,11 @@
     "dependencyDashboardApproval": false
   },
   "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "minimumReleaseAge": "7 days"
+    },
     {
       "automerge": true,
       "dependencyDashboardApproval": false,
@@ -72,13 +75,8 @@
       "matchPackageNames": ["*"]
     },
     {
-      "groupName": "Spring Boot",
-      "matchPackageNames": ["org.springframework.boot"]
-    },
-    {
-      "groupName": "httpclient5",
-      "automerge": false,
-      "matchPackageNames": ["/org.apache.httpcomponents.client5*/"]
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "dependencyDashboardApproval": false
     },
     {
       "groupName": "Bootstrap",
@@ -129,16 +127,10 @@
       "matchPackageNames": ["redis", "@types/redis"]
     },
     {
-      "groupName": "S3 Zip",
-      "matchPackageNames": ["s3-zip", "@types/s3-zip"]
-    },
-    {
-      "groupName": "WS",
-      "matchPackageNames": ["ws", "@types/ws"]
-    },
-    {
-      "groupName": "xml2js",
-      "matchPackageNames": ["xml2js", "@types/xml2js"]
+      "groupName": "Node.js",
+      "matchManagers": ["nvm", "npm"],
+      "matchPackageNames": ["node", "@types/node"],
+      "matchUpdateTypes": ["minor", "patch"]
     },
     {
       "groupName": "npm transitive overrides",

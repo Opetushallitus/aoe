@@ -15,7 +15,6 @@ updates:
   - package-ecosystem: "docker"
     directories:
       - "/"
-      - "/.github/actions/app-token-exporter"
       - "/aoe-infra/restore-validator/docker"
       - "/aoe-web-backend/docker"
       - "/aoe-web-frontend/docker"
