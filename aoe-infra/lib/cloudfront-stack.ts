@@ -124,7 +124,9 @@ export class CloudfrontStack extends Stack {
       defaultBehavior: spaBehavior,
       additionalBehaviors: {
         ...Object.fromEntries(BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])),
-        ...(props.enableFramingProtection ? { '/embed/*': baseViewBehavior } : {})
+        ...(props.enableFramingProtection
+          ? { '/embed/*': baseViewBehavior, '/assets/pdfjs/*': baseViewBehavior }
+          : {})
       }
     })
 

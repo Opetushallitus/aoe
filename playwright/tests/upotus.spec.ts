@@ -36,7 +36,7 @@ test('upotusnäkymä näyttää materiaalin ja sen tiedoston kirjautumattomalle 
   )
 })
 
-test('toinen sivusto voi upottaa materiaalin H5P-esikatseluineen mutta ei AOE:n etusivua', async ({
+test('toinen sivusto voi upottaa materiaalin H5P- ja PDF-esikatseluineen mutta ei AOE:n etusivua', async ({
   page,
   browser
 }) => {
@@ -46,7 +46,7 @@ test('toinen sivusto voi upottaa materiaalin H5P-esikatseluineen mutta ei AOE:n 
   const uusiMateriaali = await omatMateriaalit.luoUusiMateriaali()
   const materiaali = await uusiMateriaali.taytaJaTallennaUusiMateriaali(
     uusiMateriaali.randomMateriaaliNimi(),
-    { tiedostot: [{ nimi: 'testing-127.h5p' }] }
+    { tiedostot: [{ nimi: 'testing-127.h5p' }, { nimi: 'blank.pdf' }] }
   )
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
 
@@ -64,13 +64,16 @@ test('toinen sivusto voi upottaa materiaalin H5P-esikatseluineen mutta ei AOE:n 
     })
   )
   await ulkoinenSivu.goto(ULKOINEN_SIVUSTO)
+  const upotus = ulkoinenSivu.frameLocator('iframe[title="upotus"]')
 
+  await upotus.getByRole('tab', { name: 'testing-127' }).click()
   await expect(
-    ulkoinenSivu
-      .frameLocator('iframe[title="upotus"]')
-      .locator('app-html-preview')
-      .frameLocator('iframe')
-      .locator('.h5p-content')
+    upotus.locator('app-html-preview').frameLocator('iframe').locator('.h5p-content')
+  ).toBeVisible({ timeout: 15_000 })
+
+  await upotus.getByRole('tab', { name: 'blank' }).click()
+  await expect(
+    upotus.locator('app-pdf-preview').frameLocator('iframe').locator('#viewerContainer')
   ).toBeVisible({ timeout: 15_000 })
 
   await expect
