@@ -116,8 +116,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     kmsKey: Kms.secretsManagerKey
   })
 
-  Secrets.exportValue(Secrets.pagerdutyEventUrl.secretArn)
-
   const Network = new VpcStack(app, 'VpcStack', {
     env: envEU,
     stackName: `${environmentName}-vpc`,
