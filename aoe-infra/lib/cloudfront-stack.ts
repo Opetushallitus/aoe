@@ -21,6 +21,7 @@ interface CloudfrontStackProps extends StackProps {
   alb: elbv2.ILoadBalancerV2
   certificate: acm.ICertificate
   requireTestAuth: boolean
+  enableFramingProtection: boolean
 }
 
 const BACKEND_PATH_PATTERNS = [
@@ -82,13 +83,28 @@ export class CloudfrontStack extends Stack {
         ]
       : []
 
-    const spaBehavior: cloudfront.BehaviorOptions = {
+    const baseViewBehavior: cloudfront.BehaviorOptions = {
       origin: origins.S3BucketOrigin.withOriginAccessControl(this.frontendBucket),
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
       cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
       functionAssociations: [viewerRequestAssociation, ...cookieResponseAssociations]
     }
+
+    const spaBehavior: cloudfront.BehaviorOptions = props.enableFramingProtection
+      ? {
+          ...baseViewBehavior,
+          responseHeadersPolicy: new cloudfront.ResponseHeadersPolicy(this, 'SameOriginFraming', {
+            responseHeadersPolicyName: `${props.environment}-same-origin-framing`,
+            securityHeadersBehavior: {
+              contentSecurityPolicy: {
+                contentSecurityPolicy: "frame-ancestors 'self'",
+                override: true
+              }
+            }
+          })
+        }
+      : baseViewBehavior
 
     const albBehavior: cloudfront.BehaviorOptions = {
       origin: new origins.LoadBalancerV2Origin(props.alb, {
@@ -106,9 +122,10 @@ export class CloudfrontStack extends Stack {
       domainNames: [props.domain],
       certificate: props.certificate,
       defaultBehavior: spaBehavior,
-      additionalBehaviors: Object.fromEntries(
-        BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])
-      )
+      additionalBehaviors: {
+        ...Object.fromEntries(BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])),
+        ...(props.enableFramingProtection ? { '/embed/*': baseViewBehavior } : {})
+      }
     })
 
     // route53 alias record for cloudfront

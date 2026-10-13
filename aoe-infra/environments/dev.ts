@@ -83,7 +83,9 @@ export const dev: EnvironmentConfig = {
       }
     }
   },
-  features: {},
+  features: {
+    enableFramingProtection: true
+  },
   open_search: {
     standbyReplicas: 'DISABLED',
     collectionName: 'aoecollection',
