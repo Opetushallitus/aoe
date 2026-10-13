@@ -6,6 +6,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm'
 import * as logs from 'aws-cdk-lib/aws-logs'
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions'
 import * as iam from 'aws-cdk-lib/aws-iam'
+import { PAGERDUTY_EVENT_URL_SECRET_NAME } from './secrets-manager-stack'
 
 export interface MonitorStackProps extends cdk.StackProps {
   slackChannelName: string
@@ -51,15 +52,16 @@ export class MonitorStack extends cdk.Stack {
       })
     )
 
-    if (!process.env['PAGERDUTY_EVENT_URL']) {
-      throw new Error('ENV variable PAGERDUTY_EVENT_URL is undefined')
-    }
     this.topic.addSubscription(
-      new subscriptions.UrlSubscription(process.env['PAGERDUTY_EVENT_URL'], {
-        filterPolicyWithMessageBody: {
-          AlarmName: sns.FilterOrPolicy.filter(sns.SubscriptionFilter.existsFilter())
+      new subscriptions.UrlSubscription(
+        cdk.SecretValue.secretsManager(PAGERDUTY_EVENT_URL_SECRET_NAME).unsafeUnwrap(),
+        {
+          protocol: sns.SubscriptionProtocol.HTTPS,
+          filterPolicyWithMessageBody: {
+            AlarmName: sns.FilterOrPolicy.filter(sns.SubscriptionFilter.existsFilter())
+          }
         }
-      })
+      )
     )
   }
 }

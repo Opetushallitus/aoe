@@ -18,6 +18,7 @@ export type Secrets = {
   [key: string]: SecretEntry
 }
 
+export const PAGERDUTY_EVENT_URL_SECRET_NAME = '/pagerduty/event_url'
 export const CLOUDFRONT_ORIGIN_SECRET_NAME = '/service/alb/CLOUDFRONT_ORIGIN_SECRET'
 export const CLOUDFRONT_ORIGIN_SECRET_KEY = 'secretkey'
 export const CLOUDFRONT_ORIGIN_VERIFY_HEADER = 'x-origin-verify'
@@ -88,7 +89,7 @@ export class SecretManagerStack extends cdk.Stack {
     super(scope, id, props)
 
     this.pagerdutyEventUrl = new secretsmanager.Secret(this, 'pagerdutyEventUrl', {
-      secretName: '/pagerduty/event_url',
+      secretName: PAGERDUTY_EVENT_URL_SECRET_NAME,
       description: '',
       removalPolicy: RemovalPolicy.RETAIN
     })

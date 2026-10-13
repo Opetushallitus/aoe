@@ -62,11 +62,6 @@ function build_frontend {
 function deploy {
   pushd "$repo"/aoe-infra
 
-  if [[ "$ENV" != "utility" ]]; then
-    PAGERDUTY_EVENT_URL=$( get_secret "/pagerduty/event_url")
-    export PAGERDUTY_EVENT_URL
-  fi
-
   case "$CDK_COMMAND" in
     destroy)
       running_on_gh_actions && { echo "Destroy is not allowed in CI."; exit 1; }

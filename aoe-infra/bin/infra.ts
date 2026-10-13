@@ -116,7 +116,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     kmsKey: Kms.secretsManagerKey
   })
 
-  Secrets.pagerdutyEventUrl.grantRead(GithubAction.githubActionsRole)
+  Secrets.exportValue(Secrets.pagerdutyEventUrl.secretArn)
 
   const Network = new VpcStack(app, 'VpcStack', {
     env: envEU,
