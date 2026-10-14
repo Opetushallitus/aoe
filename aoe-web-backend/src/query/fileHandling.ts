@@ -6,6 +6,7 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
+import { extractionFolderOf, findPreviewEntry, isH5PArchive } from '@/helpers/archivePreviewEntry'
 import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/errorHandler'
 import { convertOfficeFileToStoredPDF, isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import {
@@ -30,7 +31,8 @@ import { Readable, Transform } from 'stream'
 import { once } from 'node:events'
 import { finished, pipeline } from 'node:stream/promises'
 import os from 'node:os'
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp, rename, rm } from 'node:fs/promises'
+import { randomUUID } from 'node:crypto'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
@@ -978,27 +980,37 @@ export const downloadAndExtractZip = async (
   res: Response,
   fileName: string
 ): Promise<string | false> => {
-  const { originalfilename } = await getStorageFileDetails(fileName)
   const paramsS3 = { Bucket: config.cloudStorage.bucket, Key: fileName }
-  const folderpath = `${process.env.HTML_FOLDER}/${originalfilename}`
+  const extractedFolder = extractionFolderOf(fileName)
+  const temporaryFolder = `${extractedFolder}.tmp-${randomUUID()}`
+  const archivePath = `${temporaryFolder}.zip`
   const { controller, dispose } = abortOnClientClose(res)
   try {
-    const output = await s3Client.send(new GetObjectCommand(paramsS3), {
-      abortSignal: controller.signal
-    })
-    await pipeline(s3StreamBody(output.Body), fs.createWriteStream(folderpath))
-  } catch (err) {
-    if (controller.signal.aborted || isClientAbortError(err)) {
-      return false
+    try {
+      const output = await s3Client.send(new GetObjectCommand(paramsS3), {
+        abortSignal: controller.signal
+      })
+      await pipeline(s3StreamBody(output.Body), fs.createWriteStream(archivePath))
+    } catch (err) {
+      if (controller.signal.aborted || isClientAbortError(err)) {
+        return false
+      }
+      if (err instanceof Error && err.name === 'NoSuchKey') {
+        throw new StatusError(404, missingStorageObjectMessage(paramsS3))
+      }
+      throw new StatusError(500, `Download of [${fileName}] failed in downloadAndExtractZip()`, err)
+    } finally {
+      dispose()
     }
-    if (err instanceof Error && err.name === 'NoSuchKey') {
-      throw new StatusError(404, missingStorageObjectMessage(paramsS3))
-    }
-    throw new StatusError(500, `Download of [${fileName}] failed in downloadAndExtractZip()`, err)
+    return await unZipAndExtract(
+      archivePath,
+      temporaryFolder,
+      extractedFolder,
+      isH5PArchive(fileName)
+    )
   } finally {
-    dispose()
+    await rm(archivePath, { force: true })
   }
-  return await unZipAndExtract(folderpath)
 }
 
 // The exact message both storage-download paths log when a DB record's backing
@@ -1242,66 +1254,38 @@ const downloadAndZipFromStorage = async (res: Response, files: StorageFile[]): P
   }
 }
 
-// Find all files named pattern under dir, skipping __MACOSX resource forks.
-const searchRecursive = (dir: string, pattern: string): string[] => {
-  let results: string[] = []
-  fs.readdirSync(dir).forEach((dirInner) => {
-    // Skip macOS resource fork directories
-    if (dirInner === '__MACOSX') {
-      return
-    }
-    dirInner = path.resolve(dir, dirInner)
-    const stat = fs.statSync(dirInner)
-    if (stat.isDirectory()) {
-      results = results.concat(searchRecursive(dirInner, pattern))
-    }
-    if (stat.isFile() && path.basename(dirInner) === pattern) {
-      results.push(dirInner)
-    }
-  })
-  return results
-}
-
-// Search for an already-extracted index.html on disk for a given original filename.
-// Returns the path to index.html if found, or false if the extracted folder doesn't exist.
-export const findExistingIndexHtml = (originalFilename: string): string | false => {
-  const zipPath = `${process.env.HTML_FOLDER}/${originalFilename}`
-  const extractedFolder = zipPath.slice(0, -4)
+// A concurrent request may have renamed its extraction into place first; its copy is kept.
+const moveIntoPlace = async (temporaryFolder: string, extractedFolder: string): Promise<void> => {
   try {
+    await rename(temporaryFolder, extractedFolder)
+  } catch (err) {
     if (!fs.existsSync(extractedFolder)) {
-      return false
+      throw err
     }
-    const indexHtmlPaths = searchRecursive(extractedFolder, 'index.html')
-    if (indexHtmlPaths.length) {
-      return indexHtmlPaths[0] || false
-    }
-    const indexHtmPaths = searchRecursive(extractedFolder, 'index.htm')
-    if (indexHtmPaths.length) {
-      return indexHtmPaths[0] || false
-    }
-    return false
-  } catch {
-    return false
+    await rm(temporaryFolder, { recursive: true, force: true })
   }
 }
 
-const unZipAndExtract = async (zipFilePath: string): Promise<string | false> => {
+const unZipAndExtract = async (
+  zipFilePath: string,
+  temporaryFolder: string,
+  extractedFolder: string,
+  isH5P: boolean
+): Promise<string | false> => {
   try {
-    const targetUnzipFolder = zipFilePath.slice(0, -4)
-    fs.mkdirSync(targetUnzipFolder, { recursive: true })
+    fs.mkdirSync(temporaryFolder, { recursive: true })
     const zip = new StreamZip.async({ file: zipFilePath })
-    await zip.extract(null, targetUnzipFolder)
-    await zip.close()
-    const indexHtmlPaths: string[] = searchRecursive(targetUnzipFolder, 'index.html')
-    if (Array.isArray(indexHtmlPaths) && indexHtmlPaths.length) {
-      return indexHtmlPaths[0] || false
+    // Extracted into a request-owned folder first, so findExistingPreviewEntry never
+    // picks up a partial or concurrent extraction.
+    try {
+      await zip.extract(null, temporaryFolder)
+    } finally {
+      await zip.close()
     }
-    const indexHtmPaths = searchRecursive(targetUnzipFolder, 'index.htm')
-    if (Array.isArray(indexHtmPaths) && indexHtmPaths.length) {
-      return indexHtmPaths[0] || false
-    }
-    return false
+    await moveIntoPlace(temporaryFolder, extractedFolder)
+    return findPreviewEntry(extractedFolder, isH5P)
   } catch (err) {
+    await rm(temporaryFolder, { recursive: true, force: true })
     log.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
     return false
   }

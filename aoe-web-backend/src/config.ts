@@ -149,6 +149,12 @@ export const config = {
 
   scheduledTasks: scheduledTasksEnv.data,
 
+  featureFlags: {
+    // Play H5P in the browser from the extracted package instead of the
+    // Lumi H5P server everywhere except production.
+    h5pClientPlayer: environment !== 'prod'
+  } as const,
+
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
     conversionToPdfApi: process.env.CONVERSION_TO_PDF_API as string,

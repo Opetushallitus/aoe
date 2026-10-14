@@ -1,6 +1,8 @@
 import { config } from '@/config'
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterialMetadataSchema'
+import { findExistingPreviewEntry } from '@/helpers/archivePreviewEntry'
 import { StatusError } from '@/helpers/errorHandler'
+import { hasAllH5PDependencies } from '@/helpers/h5pPackage'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import { db, pgp } from '@resource/postgresClient'
 import { updateEsDocument } from '@search/es'
@@ -12,11 +14,7 @@ import * as log from '@util/winstonLogger'
 import * as pgLib from 'pg-promise'
 import { z } from 'zod'
 import { updateViewCounter } from './analyticsQueries'
-import {
-  downloadAndExtractZip,
-  findExistingIndexHtml,
-  insertDataToDisplayName
-} from './fileHandling'
+import { downloadAndExtractZip, insertDataToDisplayName } from './fileHandling'
 import { getOwnerName } from './materialQueries'
 
 import type { NextFunction, Request, Response } from 'express'
@@ -338,10 +336,30 @@ export const getEducationalMaterialMetadata = async (
             jsonObj.materials[i]['originalfilename'].length
           )
         }
-        if (ext === '.h5p') {
+        if (ext === '.h5p' && !config.featureFlags.h5pClientPlayer) {
           jsonObj.materials[i]['mimetype'] = 'text/html'
           jsonObj.materials[i]['filepath'] =
             `${config.MEDIA_FILE_PROCESS.h5pPlayApi}${jsonObj.materials[i]['filekey']}`
+        } else if (ext === '.h5p') {
+          const packageFolder = await extractArchiveForPreview(
+            jsonObj.materials[i],
+            eduMaterialId,
+            res
+          )
+          if (packageFolder === false) {
+            continue
+          }
+          if (await hasAllH5PDependencies(packageFolder)) {
+            jsonObj.materials[i]['mimetype'] = 'application/h5p'
+            jsonObj.materials[i]['filepath'] =
+              process.env.HTML_BASE_URL +
+              packageFolder.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content')
+          } else {
+            log.info(
+              `Skipping H5P preview with missing libraries: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
+                `filekey=${jsonObj.materials[i].filekey}. File will be available for download only.`
+            )
+          }
         } else if (
           jsonObj.materials[i] &&
           jsonObj.materials[i]['pdfkey'] &&
@@ -355,33 +373,7 @@ export const getEducationalMaterialMetadata = async (
             jsonObj.materials[i]['mimetype'] === 'text/html' ||
             jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
         ) {
-          const fileSize = jsonObj.materials[i]['filesize'] || 0
-          const maxSize = config.MEDIA_FILE_PROCESS.maxZipExtractionSize
-          const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2)
-          const maxSizeMB = (maxSize / 1024 / 1024).toFixed(2)
-
-          // Skip synchronous extraction for large files to prevent timeout issues
-          if (fileSize > maxSize) {
-            log.info(
-              `Skipping ZIP extraction for large file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
-                `filekey=${jsonObj.materials[i].filekey}, filesize=${fileSizeMB} MB (max allowed: ${maxSizeMB} MB). ` +
-                `File will be available for download only.`
-            )
-            // Leave filepath empty so the file can still be downloaded but not previewed
-            continue
-          }
-
-          log.debug(
-            `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
-              `filekey=${jsonObj.materials[i].filekey}, filesize=${fileSizeMB} MB`
-          )
-
-          // Check if files are already extracted on disk before downloading from S3
-          const cachedResult = findExistingIndexHtml(jsonObj.materials[i]['originalfilename'])
-          const result =
-            cachedResult !== false
-              ? cachedResult
-              : await downloadAndExtractZip(res, jsonObj.materials[i].filekey)
+          const result = await extractArchiveForPreview(jsonObj.materials[i], eduMaterialId, res)
           if (
             result !== false &&
             (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
@@ -476,6 +468,43 @@ export const getEducationalMaterialMetadata = async (
         err instanceof StatusError ? err : new StatusError(500, 'Issue getting material data', err)
       )
     })
+}
+
+// Returns the preview entry of the material's extracted archive, downloading and extracting
+// it unless it is already on disk. Returns false when there is nothing to preview, in which
+// case the caller leaves filepath empty so the file can still be downloaded.
+const extractArchiveForPreview = async (
+  material: any,
+  eduMaterialId: number,
+  res: Response
+): Promise<string | false> => {
+  // The record is saved before the upload to the storage finishes and sets the filekey.
+  if (!material.filekey) {
+    return false
+  }
+  const fileSize = material.filesize || 0
+  const maxSize = config.MEDIA_FILE_PROCESS.maxZipExtractionSize
+  const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2)
+  const maxSizeMB = (maxSize / 1024 / 1024).toFixed(2)
+
+  // Skip synchronous extraction for large files to prevent timeout issues
+  if (fileSize > maxSize) {
+    log.info(
+      `Skipping ZIP extraction for large file: eduMaterialId=${eduMaterialId}, materialId=${material.id}, ` +
+        `filekey=${material.filekey}, filesize=${fileSizeMB} MB (max allowed: ${maxSizeMB} MB). ` +
+        `File will be available for download only.`
+    )
+    return false
+  }
+
+  log.debug(
+    `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${material.id}, ` +
+      `filekey=${material.filekey}, filesize=${fileSizeMB} MB`
+  )
+
+  // Check if files are already extracted on disk before downloading from S3
+  const cachedResult = findExistingPreviewEntry(material.filekey)
+  return cachedResult !== false ? cachedResult : await downloadAndExtractZip(res, material.filekey)
 }
 
 export async function getUserMaterial(req: Request, res: Response, next: NextFunction) {
