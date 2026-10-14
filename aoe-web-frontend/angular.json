@@ -32,8 +32,15 @@
                 "glob": "**/*",
                 "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
                 "output": "/assets/pdfjs"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/h5p-standalone/dist",
+                "ignore": ["main.bundle.js*", "h5p.d.ts"],
+                "output": "/assets/h5p-standalone"
               }
             ],
+            "allowedCommonJsDependencies": ["h5p-standalone"],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",

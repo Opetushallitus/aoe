@@ -7,6 +7,7 @@ import { VideoPreviewComponent } from '../video-preview/video-preview.component'
 import { AudioPreviewComponent } from '../audio-preview/audio-preview.component'
 import { PdfPreviewComponent } from '../pdf-preview/pdf-preview.component'
 import { HtmlPreviewComponent } from '../html-preview/html-preview.component'
+import { H5pPreviewComponent } from '../h5p-preview/h5p-preview.component'
 import { OfficePreviewComponent } from '../office-preview/office-preview.component'
 import { ImagePreviewComponent } from '../image-preview/image-preview.component'
 import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
@@ -21,6 +22,7 @@ import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
     AudioPreviewComponent,
     PdfPreviewComponent,
     HtmlPreviewComponent,
+    H5pPreviewComponent,
     OfficePreviewComponent,
     ImagePreviewComponent,
     FocusRemoverDirective
@@ -30,6 +32,7 @@ export class EducationalMaterialPreviewComponent implements OnInit {
   @Input() material: Material
   @Input() isCollection = false
   lang: string = this.translate.getCurrentLang()
+  failedH5pPath: string
 
   constructor(private translate: TranslateService) {}
 
@@ -54,6 +57,10 @@ export class EducationalMaterialPreviewComponent implements OnInit {
 
     if (mimeTypes.html.includes(mimeType)) {
       return 'html'
+    }
+
+    if (mimeTypes.h5p.includes(mimeType) && this.material.filepath !== this.failedH5pPath) {
+      return 'h5p'
     }
 
     if (mimeTypes.office.includes(mimeType)) {

@@ -9,6 +9,7 @@ export const mimeTypes = {
   audio: ['audio/mp3', 'audio/mpeg', 'audio/x-m4a', 'audio/mp4'],
   pdf: ['application/pdf'],
   html: ['text/html'],
+  h5p: ['application/h5p'],
   office: [
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

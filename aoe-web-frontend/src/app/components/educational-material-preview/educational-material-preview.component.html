@@ -12,6 +12,9 @@
     @case ('html') {
       <app-html-preview [material]="material"></app-html-preview>
     }
+    @case ('h5p') {
+      <app-h5p-preview [material]="material" (loadFailed)="failedH5pPath = $event"></app-h5p-preview>
+    }
     @case ('office') {
       <app-office-preview [material]="material"></app-office-preview>
     }
