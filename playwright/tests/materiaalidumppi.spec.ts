@@ -11,13 +11,15 @@ type Osa = {
   valilehdenOsoite?: RegExp
   media?: 'video' | 'audio'
   kuva?: true
+  h5pKansio?: RegExp
 }
 
 // One material carrying every supported content type, so a regression in any single preview
 // path shows up here. `pdfTeksti` is text of the office file's converted PDF, `kehyksessa` a
-// locator inside the html preview iframe and its new tab, `media` and `kuva` that the element
-// really loaded its source, `esikatselu` a plain page element, and none of them that the type
-// only offers a download.
+// locator inside the html or H5P preview iframe (and the html preview's new tab), `h5pKansio`
+// the extracted package folder the H5P player loads, `media` and `kuva` that the element really
+// loaded its source, `esikatselu` a plain page element, and none of them that the type only
+// offers a download.
 const OSAT: Osa[] = [
   { tiedosto: 'blank.pdf', esikatselu: 'app-pdf-preview' },
   { tiedosto: 'office-test.docx', pdfTeksti: 'office-to-PDF conversion test document' },
@@ -30,12 +32,12 @@ const OSAT: Osa[] = [
   {
     tiedosto: 'testing-127.h5p',
     kehyksessa: '.h5p-content',
-    valilehdenOsoite: /\/h5p\/play\/testing127-\d+\.h5p$/
+    h5pKansio: /\/content\/(testing127-\d+)\/h5p\.json$/
   },
   {
     tiedosto: 'test-site.zip',
     kehyksessa: 'text=zip-to-HTML preview test site',
-    valilehdenOsoite: /\/content\/test-site\/index\.html$/
+    valilehdenOsoite: /\/content\/testsite-\d+\/index\.html$/
   },
   { tiedosto: 'test-bundle.zip' },
   { tiedosto: 'backup-moodle2-course-3-test-course-20260731-1051-nu.mbz' }
@@ -89,9 +91,15 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
     kehyksessa,
     valilehdenOsoite,
     media,
-    kuva
+    kuva,
+    h5pKansio
   } of OSAT) {
     await test.step(`esikatselu: ${tiedosto}`, async () => {
+      const h5pPaketti =
+        h5pKansio &&
+        page
+          .waitForResponse((r) => h5pKansio.test(r.url()))
+          .then((r) => h5pKansio.exec(r.url())?.[1])
       await materiaali.valitseTiedosto(tiedosto)
       if (media) {
         // Assert the element read a duration off the stream, not just that it rendered:
@@ -117,6 +125,15 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
             page.locator('app-office-preview').frameLocator('iframe').getByText(pdfTeksti)
           ).toBeVisible({ timeout: 15_000 })
         }).toPass({ timeout: 120_000, intervals: [5_000] })
+      } else if (h5pPaketti && kehyksessa) {
+        await expect(
+          page.locator('app-h5p-preview').frameLocator('iframe').locator(kehyksessa)
+        ).toBeVisible()
+        // The Lumi player URL of the package's file key keeps working for links and embeds
+        // outside AOE.
+        const lumiOsoite = await page.request.get(`/h5p/play/${await h5pPaketti}.h5p`)
+        expect(lumiOsoite.status()).toBe(200)
+        expect(lumiOsoite.headers()['content-type']).toContain('text/html')
       } else if (kehyksessa) {
         // Assert the rendered content, not just the iframe element: a failed import or
         // extraction still leaves the iframe in place, it just serves an error body.
