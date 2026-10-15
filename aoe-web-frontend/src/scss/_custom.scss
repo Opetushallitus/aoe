@@ -248,6 +248,13 @@ input[type='file'].form-control {
   //width: 100%; Mobile banner dropdown will crash with this.
 }
 
+// Route focus marks the start of content without styling it as a control.
+#main-content:focus,
+#main-content h1:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .form-group {
   display: block;
   padding-bottom: 0;
