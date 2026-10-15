@@ -1,4 +1,23 @@
-import type { Lang, LocalizedText } from '@/models/referenceData'
+import type {
+  EPerusteetDegree,
+  EPerusteetResultPage,
+  Lang,
+  LocalizedText
+} from '@/models/referenceData'
+
+export async function fetchAllEPerusteetPages(
+  fetchPage: (pageNumber: number) => Promise<EPerusteetResultPage>
+): Promise<EPerusteetDegree[]> {
+  const firstPage = await fetchPage(0)
+  const items = [...firstPage.data]
+
+  for (let pageNumber = 1; pageNumber < firstPage.sivuja; pageNumber++) {
+    const page = await fetchPage(pageNumber)
+    items.push(...page.data)
+  }
+
+  return items
+}
 
 export function getUnique<T>(data: T[], uniqueProperty: keyof T): T[] {
   const seen = new Set()

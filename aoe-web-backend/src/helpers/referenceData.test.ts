@@ -1,13 +1,16 @@
 // @ts-nocheck
 import { describe, it } from 'node:test'
 import assert from 'node:assert/strict'
-import { fetchAllEPerusteetPages, getUnique } from './data.utils.ts'
-import { ePerusteetPeruste, type KeyValue } from '@/models/ref/data.ts'
-import type { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended.ts'
+import { fetchAllEPerusteetPages, getUnique } from './referenceData.ts'
+import {
+  type AlignmentObject,
+  ePerusteetPeruste,
+  ePerusteetResultPage
+} from '@/models/referenceData.ts'
 
-// Realistic organisation data matching how setOrganisaatiot() builds KeyValue arrays
+// Realistic organisation data matching how setOrganisaatiot() builds { key, value } arrays
 // and then deduplicates by 'value' (org name) — same org can appear with multiple OIDs
-const organisaatiot: KeyValue<string, string>[] = [
+const organisaatiot: { key: string; value: string }[] = [
   { key: '1.2.246.562.10.00000000001', value: 'Helsingin yliopisto' },
   { key: '1.2.246.562.10.00000000002', value: 'Aalto-yliopisto' },
   { key: '1.2.246.562.10.00000000003', value: 'Helsingin yliopisto' }, // duplicate name, different OID
@@ -16,7 +19,7 @@ const organisaatiot: KeyValue<string, string>[] = [
 ]
 
 // Realistic lukionkurssit / ammattikoulu data — same course can come from multiple ePerusteet sources
-const lukionkurssit: AlignmentObjectExtended[] = [
+const lukionkurssit: AlignmentObject[] = [
   {
     key: '1',
     source: 'LukioOPS2016',
@@ -61,8 +64,8 @@ describe('fetchAllEPerusteetPages', () => {
     return { sivu, sivuja, data: ids.map(toItem), kokonaismäärä: ids.length }
   }
 
-  function idsOf(items: { id: number }[] | undefined) {
-    return items?.map((item) => item.id)
+  function idsOf(items: { id: number }[]) {
+    return items.map((item) => item.id)
   }
 
   function servePages(pages: unknown[], maxCalls = 10) {
@@ -74,7 +77,7 @@ describe('fetchAllEPerusteetPages', () => {
         `fetchAllEPerusteetPages did not stop within ${maxCalls} pages`
       )
       requested.push(pageNumber)
-      return pages[pageNumber]
+      return ePerusteetResultPage.parse(pages[pageNumber])
     }
 
     return { requested, fetchPage }
@@ -87,31 +90,28 @@ describe('fetchAllEPerusteetPages', () => {
       makePage(2, 3, 4, 5)
     ])
 
-    assert.deepEqual(
-      idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')),
-      [1, 2, 3, 4, 5]
-    )
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage)), [1, 2, 3, 4, 5])
     assert.deepEqual(requested, [0, 1, 2])
   })
 
   it('accepts a single page numbered 0', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 1, 1)])
 
-    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1])
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage)), [1])
     assert.deepEqual(requested, [0])
   })
 
   it('takes the page count from the first page', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 2, 1), makePage(1, 5, 2)])
 
-    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1, 2])
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage)), [1, 2])
     assert.deepEqual(requested, [0, 1])
   })
 
   it('stops when a page has no sivuja', async () => {
     const { requested, fetchPage } = servePages([{ sivu: 0, data: [toItem(1)] }])
 
-    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+    await assert.rejects(fetchAllEPerusteetPages(fetchPage))
     assert.deepEqual(requested, [0])
   })
 
@@ -120,10 +120,10 @@ describe('fetchAllEPerusteetPages', () => {
 
     async function fetchAlwaysPageZero() {
       assert.ok(++calls <= 10, 'fetchAllEPerusteetPages did not stop within 10 pages')
-      return makePage(0, 3, calls)
+      return ePerusteetResultPage.parse(makePage(0, 3, calls))
     }
 
-    const items = await fetchAllEPerusteetPages(fetchAlwaysPageZero, 'perustutkinnot')
+    const items = await fetchAllEPerusteetPages(fetchAlwaysPageZero)
 
     assert.equal(calls, 3)
     assert.deepEqual(idsOf(items), [1, 2, 3])
@@ -132,13 +132,13 @@ describe('fetchAllEPerusteetPages', () => {
   it('discards earlier pages when a later page fails', async () => {
     const { fetchPage } = servePages([makePage(0, 3, 1), undefined, makePage(2, 3, 3)])
 
-    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+    await assert.rejects(fetchAllEPerusteetPages(fetchPage))
   })
 
   it('stops on an empty page', async () => {
     const { requested, fetchPage } = servePages([makePage(0, 2), makePage(1, 2, 1)])
 
-    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+    await assert.rejects(fetchAllEPerusteetPages(fetchPage))
     assert.deepEqual(requested, [0])
   })
 
@@ -147,7 +147,7 @@ describe('fetchAllEPerusteetPages', () => {
       { sivu: 0, sivuja: 1, data: [{ ...toItem(1), nimi: { _id: '2' } }] }
     ])
 
-    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+    await assert.rejects(fetchAllEPerusteetPages(fetchPage))
   })
 
   it('accepts a degree named in swedish only', async () => {
@@ -155,7 +155,7 @@ describe('fetchAllEPerusteetPages', () => {
       { sivu: 0, sivuja: 1, data: [{ ...toItem(1), nimi: { sv: 'Grundexamen' } }] }
     ])
 
-    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')), [1])
+    assert.deepEqual(idsOf(await fetchAllEPerusteetPages(fetchPage)), [1])
   })
 
   it('rejects a degree with no validity start date', async () => {
@@ -163,13 +163,13 @@ describe('fetchAllEPerusteetPages', () => {
       { sivu: 0, sivuja: 1, data: [{ id: 1, nimi: { fi: 'Tutkinto' }, siirtymaPaattyy: null }] }
     ])
 
-    assert.equal(await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot'), undefined)
+    await assert.rejects(fetchAllEPerusteetPages(fetchPage))
   })
 
   it('keeps the validity dates the caller reads', async () => {
     const degree = { ...toItem(1), siirtymaPaattyy: 1790812800000 }
     const { fetchPage } = servePages([{ sivu: 0, sivuja: 1, data: [degree] }])
-    const items = await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')
+    const items = await fetchAllEPerusteetPages(fetchPage)
 
     assert.equal(items[0].voimassaoloAlkaa, 1659301200000)
     assert.equal(items[0].siirtymaPaattyy, 1790812800000)
@@ -177,7 +177,7 @@ describe('fetchAllEPerusteetPages', () => {
 
   it('accepts a null transition end date', async () => {
     const { fetchPage } = servePages([{ sivu: 0, sivuja: 1, data: [toItem(1)] }])
-    const items = await fetchAllEPerusteetPages(fetchPage, 'perustutkinnot')
+    const items = await fetchAllEPerusteetPages(fetchPage)
 
     assert.equal(items[0].siirtymaPaattyy, null)
   })
@@ -275,12 +275,12 @@ describe('getUnique', () => {
     })
 
     it('returns empty array for empty input', () => {
-      const result: KeyValue<string, string>[] = getUnique([], 'value')
+      const result: { key: string; value: string }[] = getUnique([], 'value')
       assert.deepEqual(result, [])
     })
 
     it('returns unchanged array when all names are unique', () => {
-      const unique: KeyValue<string, string>[] = [
+      const unique: { key: string; value: string }[] = [
         { key: '1.2.246.562.10.00000000001', value: 'Helsingin yliopisto' },
         { key: '1.2.246.562.10.00000000002', value: 'Aalto-yliopisto' }
       ]
@@ -288,7 +288,7 @@ describe('getUnique', () => {
     })
   })
 
-  describe('with AlignmentObjectExtended (lukionkurssit, dedup by targetName)', () => {
+  describe('with AlignmentObject (lukionkurssit, dedup by targetName)', () => {
     it('removes courses with duplicate targetNames, keeps first occurrence', () => {
       const result = getUnique(lukionkurssit, 'targetName')
       assert.equal(result.length, 3)

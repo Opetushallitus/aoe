@@ -6,10 +6,76 @@ import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { clearH5PContentCache } from '@services/h5pService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
-import { updateReferenceData } from '@util/ref/redis.utils'
+import {
+  setAmmattikoulunAmmattitutkinnot,
+  setAmmattikoulunErikoisammattitutkinnot,
+  setAmmattikoulunPerustutkinnot,
+  setAmmattikoulunTutkinnonOsat,
+  setAmmattikoulunYTOaineet,
+  setLukionOppiaineetModuulit,
+  setLukionTavoitteetSisallot,
+  setLukionVanhatOppiaineetKurssit,
+  setPerusopetuksenOppiaineet,
+  setTuvaOppiaineetTavoitteet
+} from '@services/ePerusteetService'
+import {
+  setAsiasanat,
+  setKayttokohteet,
+  setKielet,
+  setKohderyhmat,
+  setKoulutusasteet,
+  setLisenssit,
+  setLukionkurssit,
+  setOppimateriaalityypit,
+  setOrganisaatiot,
+  setSaavutettavuudenEsteet,
+  setSaavutettavuudenTukitoiminnot,
+  setTieteenalat
+} from '@services/referenceDataService'
 import * as log from '@util/winstonLogger'
 import { Cron } from 'croner'
 import { z } from 'zod'
+
+const runInOrder = async (setters: (() => Promise<void>)[]): Promise<void> => {
+  for (const set of setters) {
+    try {
+      await set()
+    } catch (err) {
+      log.error(`Setting reference data failed in ${set.name}()`, err)
+    }
+  }
+}
+
+export async function updateReferenceData(): Promise<void> {
+  log.info('Starting reference data update ...')
+  const startedAt = Date.now()
+  await Promise.all([
+    runInOrder([setLukionOppiaineetModuulit, setLukionTavoitteetSisallot]),
+    runInOrder([
+      setAmmattikoulunPerustutkinnot,
+      setAmmattikoulunAmmattitutkinnot,
+      setAmmattikoulunErikoisammattitutkinnot,
+      setAmmattikoulunTutkinnonOsat,
+      setAmmattikoulunYTOaineet
+    ]),
+    runInOrder([setAsiasanat, setOrganisaatiot, setPerusopetuksenOppiaineet]),
+    runInOrder([
+      setKoulutusasteet,
+      setKohderyhmat,
+      setKayttokohteet,
+      setSaavutettavuudenTukitoiminnot,
+      setSaavutettavuudenEsteet,
+      setKielet,
+      setTieteenalat,
+      setOppimateriaalityypit,
+      setLisenssit,
+      setLukionkurssit,
+      setLukionVanhatOppiaineetKurssit,
+      setTuvaOppiaineetTavoitteet
+    ])
+  ])
+  log.info(`... Reference data update done in ${Date.now() - startedAt} ms`)
+}
 
 const claimedRunSchema = z.object({ task_name: z.string() }).nullable()
 

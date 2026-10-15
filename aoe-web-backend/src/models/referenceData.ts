@@ -91,7 +91,11 @@ export type LocalizedText = z.infer<typeof localizedText>
 
 const hasName = (text: LocalizedText): boolean => !!(text.fi || text.sv || text.en)
 
+const hasFinnishOrSwedish = (text: LocalizedText): boolean => !!(text.fi || text.sv)
+
 const localizedName = localizedText.refine(hasName, 'no name in fi, sv or en')
+
+const ePerusteetText = localizedText.refine(hasFinnishOrSwedish, 'no text in fi or sv')
 
 export const koodistotCode = z.object({ id: z.string().min(1), prefLabel: localizedName })
 
@@ -161,3 +165,101 @@ export const organisations = z.object({
 export const ysoConcepts = z
   .array(z.object({ key: z.string().min(1), labels: localizedName }))
   .min(1)
+
+// Shapes of https://virkailija.opintopolku.fi/eperusteet-service/api-docs/external. The spec
+// declares the date fields as ISO strings, but the API sends epoch millis.
+const vocationalNamed = z.object({ id: z.number(), nimi: localizedName })
+
+const ePerusteetDegree = vocationalNamed.extend({
+  voimassaoloAlkaa: z.number(),
+  siirtymaPaattyy: z.number().nullable()
+})
+export type EPerusteetDegree = z.infer<typeof ePerusteetDegree>
+
+export const ePerusteetResultPage = z.object({
+  data: z.array(ePerusteetDegree).min(1),
+  sivu: z.number(),
+  sivuja: z.number()
+})
+export type EPerusteetResultPage = z.infer<typeof ePerusteetResultPage>
+
+const requirementTarget = z.object({
+  kuvaus: localizedText.nullable(),
+  vaatimukset: z.array(z.object({ koodi: z.object({ arvo: z.string() }), vaatimus: localizedName }))
+})
+
+export const ePerusteetPeruste = vocationalNamed.extend({
+  tutkinnonOsat: z
+    .array(
+      vocationalNamed.extend({
+        osaAlueet: z.array(vocationalNamed),
+        ammattitaitovaatimukset2019: z
+          .object({ kohdealueet: z.array(requirementTarget) })
+          .optional()
+      })
+    )
+    .min(1)
+})
+
+const idList = z.array(z.object({ id: z.number() }))
+
+const ePerusteetNamed = z.object({ id: z.number(), nimi: ePerusteetText })
+
+const ePerusteetTextItem = localizedText
+  .extend({ _id: z.string().min(1) })
+  .refine(hasFinnishOrSwedish, 'no text in fi or sv')
+
+export const basicEducationSubjectList = z.array(
+  z.object({ id: z.number(), oppimaarat: idList.nullish() })
+)
+
+export const basicEducationSubject = ePerusteetNamed.extend({
+  vuosiluokkakokonaisuudet: z.array(
+    z.object({
+      id: z.number(),
+      tavoitteet: z.array(z.object({ id: z.number(), tavoite: ePerusteetText })).nullish(),
+      sisaltoalueet: z.array(ePerusteetNamed).nullish()
+    })
+  )
+})
+
+export const transversalCompetences = z.array(ePerusteetNamed)
+
+export const upperSecondarySubjectList = idList.min(1)
+
+export const upperSecondarySubject = ePerusteetNamed.extend({
+  moduulit: z.array(ePerusteetNamed).nullish(),
+  oppimaarat: idList.nullish()
+})
+
+export const upperSecondaryCourse = ePerusteetNamed.extend({ moduulit: z.array(ePerusteetNamed) })
+
+export const upperSecondaryModuleDetails = ePerusteetNamed
+  .extend({
+    tavoitteet: z.object({ tavoitteet: z.array(ePerusteetTextItem).nullish() }).nullish(),
+    sisallot: z.array(z.object({ sisallot: z.array(ePerusteetTextItem) })).nullish()
+  })
+  .refine(
+    (module) => !!(module.tavoitteet?.tavoitteet || module.sisallot),
+    'no objectives or contents'
+  )
+
+export const preparatoryEducation = z.object({
+  koulutuksenOsat: z
+    .array(ePerusteetNamed.extend({ tavoitteet: z.array(ePerusteetTextItem).nullish() }))
+    .min(1)
+})
+
+const oldUpperSecondaryCourse = z.object({ koodiArvo: z.string().min(1), nimi: ePerusteetText })
+
+const oldUpperSecondarySubject = oldUpperSecondaryCourse.extend({
+  kurssit: z.array(oldUpperSecondaryCourse).nullish()
+})
+
+export const oldUpperSecondarySubjects = z.object({
+  oppiaineet: z
+    .array(
+      oldUpperSecondarySubject.extend({ oppimaarat: z.array(oldUpperSecondarySubject).nullish() })
+    )
+    .min(1)
+})
