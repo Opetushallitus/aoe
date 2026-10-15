@@ -16,10 +16,6 @@ export interface EnvironmentConfig {
   services: {
     web_backend: ServiceConfig
   }
-  // Infra feature flags
-  features: {
-    enableFramingProtection: boolean
-  }
   open_search: {
     standbyReplicas: 'DISABLED' | 'ENABLED'
     collectionName: string

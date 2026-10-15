@@ -250,8 +250,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     certificate: CloudfrontCertificate.certificate,
     crossRegionReferences: true,
     environment: environmentName,
-    requireTestAuth: config.cloudfront.require_test_authentication,
-    enableFramingProtection: config.features.enableFramingProtection
+    requireTestAuth: config.cloudfront.require_test_authentication
   })
 
   new FrontendStack(app, 'FrontendStack', {

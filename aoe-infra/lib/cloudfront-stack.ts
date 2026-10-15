@@ -21,7 +21,6 @@ interface CloudfrontStackProps extends StackProps {
   alb: elbv2.ILoadBalancerV2
   certificate: acm.ICertificate
   requireTestAuth: boolean
-  enableFramingProtection: boolean
 }
 
 const BACKEND_PATH_PATTERNS = [
@@ -91,20 +90,18 @@ export class CloudfrontStack extends Stack {
       functionAssociations: [viewerRequestAssociation, ...cookieResponseAssociations]
     }
 
-    const spaBehavior: cloudfront.BehaviorOptions = props.enableFramingProtection
-      ? {
-          ...baseViewBehavior,
-          responseHeadersPolicy: new cloudfront.ResponseHeadersPolicy(this, 'SameOriginFraming', {
-            responseHeadersPolicyName: `${props.environment}-same-origin-framing`,
-            securityHeadersBehavior: {
-              contentSecurityPolicy: {
-                contentSecurityPolicy: "frame-ancestors 'self'",
-                override: true
-              }
-            }
-          })
+    const spaBehavior: cloudfront.BehaviorOptions = {
+      ...baseViewBehavior,
+      responseHeadersPolicy: new cloudfront.ResponseHeadersPolicy(this, 'SameOriginFraming', {
+        responseHeadersPolicyName: `${props.environment}-same-origin-framing`,
+        securityHeadersBehavior: {
+          contentSecurityPolicy: {
+            contentSecurityPolicy: "frame-ancestors 'self'",
+            override: true
+          }
         }
-      : baseViewBehavior
+      })
+    }
 
     const albBehavior: cloudfront.BehaviorOptions = {
       origin: new origins.LoadBalancerV2Origin(props.alb, {
@@ -124,9 +121,8 @@ export class CloudfrontStack extends Stack {
       defaultBehavior: spaBehavior,
       additionalBehaviors: {
         ...Object.fromEntries(BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])),
-        ...(props.enableFramingProtection
-          ? { '/embed/*': baseViewBehavior, '/assets/pdfjs/*': baseViewBehavior }
-          : {})
+        '/embed/*': baseViewBehavior,
+        '/assets/pdfjs/*': baseViewBehavior
       }
     })
 
