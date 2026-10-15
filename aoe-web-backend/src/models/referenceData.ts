@@ -81,3 +81,83 @@ export type ReferenceData<C extends ReferenceDataCategory> = z.infer<
 export type ChildCategory = {
   [C in ReferenceDataCategory]: ReferenceData<C> extends ChildAlignment[] ? C : never
 }[ReferenceDataCategory]
+
+const localizedText = z.object({
+  fi: z.string().optional(),
+  sv: z.string().optional(),
+  en: z.string().optional()
+})
+export type LocalizedText = z.infer<typeof localizedText>
+
+const hasName = (text: LocalizedText): boolean => !!(text.fi || text.sv || text.en)
+
+const localizedName = localizedText.refine(hasName, 'no name in fi, sv or en')
+
+export const koodistotCode = z.object({ id: z.string().min(1), prefLabel: localizedName })
+
+export const koodistotCodes = <T extends z.ZodType>(code: T) =>
+  z.object({ results: z.array(code).min(1) })
+
+export const licenceCodes = koodistotCodes(
+  z.object({
+    codeValue: z.string().min(1),
+    prefLabel: localizedName,
+    definition: localizedName,
+    externalReferences: z.array(z.object({ href: z.string() })).min(1)
+  })
+)
+
+export const accessibilityCodes = koodistotCodes(
+  koodistotCode.extend({ order: z.number().positive(), description: localizedText.optional() })
+)
+
+export const educationLevelCodes = koodistotCodes(
+  koodistotCode.extend({
+    codeValue: z.string().min(1),
+    broaderCode: z.object({ id: z.string() }).optional()
+  })
+)
+
+const koodistoMetadata = z
+  .array(z.object({ kieli: z.string(), nimi: z.string() }))
+  .transform(
+    (metadata): LocalizedText =>
+      Object.fromEntries(metadata.map((row) => [row.kieli.toLowerCase(), row.nimi]))
+  )
+
+const koodistoName = koodistoMetadata.refine(hasName)
+
+export const languageCodes = z
+  .array(z.object({ koodiArvo: z.string().min(1), metadata: koodistoName }))
+  .min(1)
+
+export const upperSecondaryCourseCodes = z
+  .array(
+    z.object({
+      koodiArvo: z.string().min(1),
+      resourceUri: z.string().min(1),
+      metadata: koodistoName
+    })
+  )
+  .min(1)
+
+export const branchOfScienceCodes = z
+  .array(
+    z.object({
+      koodiArvo: z.string().regex(/^[1-6]/),
+      resourceUri: z.string().min(1),
+      metadata: koodistoMetadata.refine(
+        (text) => !!(text.fi && text.sv && text.en),
+        'name missing in fi, sv or en'
+      )
+    })
+  )
+  .min(1)
+
+export const organisations = z.object({
+  organisaatiot: z.array(z.object({ oid: z.string().min(1), nimi: localizedName })).min(1)
+})
+
+export const ysoConcepts = z
+  .array(z.object({ key: z.string().min(1), labels: localizedName }))
+  .min(1)

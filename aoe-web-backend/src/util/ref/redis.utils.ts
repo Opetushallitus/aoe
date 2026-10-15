@@ -1,19 +1,21 @@
 import { redisClient } from '@resource/redisClient'
 import * as winstonLogger from '@util/winstonLogger'
 
-import { setAsiasanat } from '@/controllers/ref/asiasanat'
-import { setKoulutusasteet } from '@/controllers/ref/koulutusasteet'
-import { setKohderyhmat } from '@/controllers/ref/kohderyhmat'
-import { setKayttokohteet } from '@/controllers/ref/kayttokohteet'
-import { setSaavutettavuudenTukitoiminnot } from '@/controllers/ref/saavutettavuuden-tukitoiminnot'
-import { setSaavutettavuudenEsteet } from '@/controllers/ref/saavutettavuuden-esteet'
-import { setKielet } from '@/controllers/ref/kielet'
-import { setOrganisaatiot } from '@/controllers/ref/organisaatiot'
-import { setTieteenalat } from '@/controllers/ref/tieteenalat'
-import { setOppimateriaalityypit } from '@/controllers/ref/oppimateriaalityypit'
+import {
+  setAsiasanat,
+  setKayttokohteet,
+  setKielet,
+  setKohderyhmat,
+  setKoulutusasteet,
+  setLisenssit,
+  setLukionkurssit,
+  setOppimateriaalityypit,
+  setOrganisaatiot,
+  setSaavutettavuudenEsteet,
+  setSaavutettavuudenTukitoiminnot,
+  setTieteenalat
+} from '@services/referenceDataService'
 import { setPerusopetuksenOppiaineet } from '@/controllers/ref/perusopetus'
-import { setLisenssit } from '@/controllers/ref/lisenssit'
-import { setLukionkurssit } from '@/controllers/ref/lukionkurssit'
 import { setLukionOppiaineetModuulit, setLukionTavoitteetSisallot } from '@/controllers/ref/lukio'
 import {
   setAmmattikoulunTutkinnonOsat,
