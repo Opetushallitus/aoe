@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test'
+import { Esikatselu } from './Esikatselu'
 import { Header } from './Header'
 import { blob as blobConsumer } from 'node:stream/consumers'
 
@@ -147,6 +148,7 @@ export const Materiaali = (page: Page) => {
 
   return {
     header: Header(page),
+    esikatselu: Esikatselu(page),
     ...locators,
     expectHeading,
     getMateriaaliNumero,

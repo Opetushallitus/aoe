@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { Esikatselu } from './pages/Esikatselu'
 import { Etusivu } from './pages/Etusivu'
 
 test.use({ launchOptions: { args: ['--disable-features=LocalNetworkAccessChecks'] } })
@@ -64,17 +65,14 @@ test('toinen sivusto voi upottaa materiaalin H5P- ja PDF-esikatseluineen mutta e
     })
   )
   await ulkoinenSivu.goto(ULKOINEN_SIVUSTO)
-  const upotus = ulkoinenSivu.frameLocator('iframe[title="upotus"]')
+  const upotus = ulkoinenSivu.locator('iframe[title="upotus"]').contentFrame()
+  const esikatselu = Esikatselu(upotus)
 
   await upotus.getByRole('tab', { name: 'testing-127' }).click()
-  await expect(
-    upotus.locator('app-html-preview').frameLocator('iframe').locator('.h5p-content')
-  ).toBeVisible({ timeout: 15_000 })
+  await expect(esikatselu.h5p.locator('.h5p-content')).toBeVisible({ timeout: 15_000 })
 
   await upotus.getByRole('tab', { name: 'blank' }).click()
-  await expect(
-    upotus.locator('app-pdf-preview').frameLocator('iframe').locator('#viewerContainer')
-  ).toBeVisible({ timeout: 15_000 })
+  await expect(esikatselu.pdf.locator('#viewerContainer')).toBeVisible({ timeout: 15_000 })
 
   await expect
     .poll(() => ulkoinenSivu.frames().map((kehys) => kehys.url()))

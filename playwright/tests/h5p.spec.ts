@@ -39,8 +39,9 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ page }) => {
   for (const { tiedosto, sisalto } of H5P) {
     await test.step(tiedosto, async () => {
       await materiaali.valitseTiedosto(tiedosto)
-      const kehys = page.locator('app-h5p-preview').frameLocator('iframe')
-      await expect(kehys.locator(sisalto).first()).toBeVisible({ timeout: 60_000 })
+      await expect(materiaali.esikatselu.h5p.locator(sisalto).first()).toBeVisible({
+        timeout: 60_000
+      })
       // Only the player: the tablist order of the files is not stable between runs, and the
       // selected tab's border overlaps the tabpanel's edge.
       await expect(page.locator('app-h5p-preview')).toHaveScreenshot(

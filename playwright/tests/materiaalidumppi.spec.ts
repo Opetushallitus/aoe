@@ -121,14 +121,12 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
         await expect(async () => {
           await page.reload()
           await materiaali.valitseTiedosto(tiedosto)
-          await expect(
-            page.locator('app-office-preview').frameLocator('iframe').getByText(pdfTeksti)
-          ).toBeVisible({ timeout: 15_000 })
+          await expect(materiaali.esikatselu.office.getByText(pdfTeksti)).toBeVisible({
+            timeout: 15_000
+          })
         }).toPass({ timeout: 120_000, intervals: [5_000] })
       } else if (h5pPaketti && kehyksessa) {
-        await expect(
-          page.locator('app-h5p-preview').frameLocator('iframe').locator(kehyksessa)
-        ).toBeVisible()
+        await expect(materiaali.esikatselu.h5p.locator(kehyksessa)).toBeVisible()
         // The Lumi player URL of the package's file key keeps working for links and embeds
         // outside AOE.
         const lumiOsoite = await page.request.get(`/h5p/play/${await h5pPaketti}.h5p`)
@@ -137,9 +135,7 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
       } else if (kehyksessa) {
         // Assert the rendered content, not just the iframe element: a failed import or
         // extraction still leaves the iframe in place, it just serves an error body.
-        await expect(
-          page.locator('app-html-preview').frameLocator('iframe').locator(kehyksessa)
-        ).toBeVisible()
+        await expect(materiaali.esikatselu.html.locator(kehyksessa)).toBeVisible()
 
         const [valilehti] = await Promise.all([
           context.waitForEvent('page'),
