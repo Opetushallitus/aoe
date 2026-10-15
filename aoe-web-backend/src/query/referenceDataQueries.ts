@@ -37,6 +37,7 @@ export const getReferenceData = async <C extends ReferenceDataCategory>(
   return parsed.data
 }
 
+/** @deprecated Only the single-item routes use this, and our frontend does not call them. */
 export const getReferenceDataItem = async <C extends ReferenceDataCategory>(
   category: C,
   lang: Lang,

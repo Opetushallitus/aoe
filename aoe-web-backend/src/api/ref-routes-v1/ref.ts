@@ -41,6 +41,7 @@ const route =
 const list = (category: ReferenceDataCategory) =>
   route(langParams, ({ lang }) => getReferenceData(category, lang))
 
+/** @deprecated Our frontend does not call the single-item routes. Check the prod access logs before removing. */
 const row = (category: ReferenceDataCategory) =>
   route(rowParams, ({ lang, key }) => getReferenceDataItem(category, lang, key))
 
@@ -65,24 +66,15 @@ const nestedFilterOptions = (items: AlignmentObject[]) =>
  */
 export default (router: Router): void => {
   router.get('/asiasanat/:lang', list('asiasanat'))
-  router.get('/asiasanat/:key/:lang', row('asiasanat'))
   router.get('/organisaatiot/:lang', list('organisaatiot'))
-  router.get('/organisaatiot/:key/:lang', row('organisaatiot'))
   router.get('/oppimateriaalityypit/:lang', list('oppimateriaalityypit'))
-  router.get('/oppimateriaalityypit/:key/:lang', row('oppimateriaalityypit'))
   router.get('/koulutusasteet/:lang', list('koulutusasteet'))
-  router.get('/koulutusasteet/:key/:lang', row('koulutusasteet'))
   router.get('/tieteenalat/:lang', list('tieteenalat'))
   router.get('/kohderyhmat/:lang', list('kohderyhmat'))
-  router.get('/kohderyhmat/:key/:lang', row('kohderyhmat'))
   router.get('/kayttokohteet/:lang', list('kayttokohteet'))
-  router.get('/kayttokohteet/:key/:lang', row('kayttokohteet'))
   router.get('/saavutettavuudentukitoiminnot/:lang', list('saavutettavuudentukitoiminnot'))
-  router.get('/saavutettavuudentukitoiminnot/:key/:lang', row('saavutettavuudentukitoiminnot'))
   router.get('/saavutettavuudenesteet/:lang', list('saavutettavuudenesteet'))
-  router.get('/saavutettavuudenesteet/:key/:lang', row('saavutettavuudenesteet'))
   router.get('/kielet/:lang', list('kielet'))
-  router.get('/kielet/:key/:lang', row('kielet'))
   router.get('/oppiaineet/:lang', list('oppiaineet'))
   router.get('/tavoitteet/:ids/:lang', children('tavoitteet'))
 
@@ -98,17 +90,6 @@ export default (router: Router): void => {
   router.get(
     '/lisenssit/:lang',
     route(langParams, ({ lang }) => licences[lang])
-  )
-
-  router.get('/lisenssit/:key/:lang', row('lisenssit'))
-  router.get('/lukionkurssit/:lang', list('lukionkurssit'))
-
-  router.get(
-    '/lukionkurssit/:key/:lang',
-    route(rowParams, async ({ lang, key }) => {
-      const courses = await getReferenceData('lukionkurssit', lang)
-      return courses?.find((course) => course.key.toString().toLowerCase() === key.toLowerCase())
-    })
   )
 
   router.get(
@@ -181,4 +162,46 @@ export default (router: Router): void => {
 
   router.get('/tuva-oppiaineet/:lang', list('tuva-oppiaineet'))
   router.get('/tuva-tavoitteet/:ids/:lang', children('tuva-tavoitteet'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/asiasanat/:key/:lang', row('asiasanat'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/organisaatiot/:key/:lang', row('organisaatiot'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/oppimateriaalityypit/:key/:lang', row('oppimateriaalityypit'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/koulutusasteet/:key/:lang', row('koulutusasteet'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/kohderyhmat/:key/:lang', row('kohderyhmat'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/kayttokohteet/:key/:lang', row('kayttokohteet'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/saavutettavuudentukitoiminnot/:key/:lang', row('saavutettavuudentukitoiminnot'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/saavutettavuudenesteet/:key/:lang', row('saavutettavuudenesteet'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/kielet/:key/:lang', row('kielet'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/lisenssit/:key/:lang', row('lisenssit'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get('/lukionkurssit/:lang', list('lukionkurssit'))
+
+  /** @deprecated Our frontend does not call this. Check the prod access logs before removing. */
+  router.get(
+    '/lukionkurssit/:key/:lang',
+    route(rowParams, async ({ lang, key }) => {
+      const courses = await getReferenceData('lukionkurssit', lang)
+      return courses?.find((course) => course.key.toString().toLowerCase() === key.toLowerCase())
+    })
+  )
 }

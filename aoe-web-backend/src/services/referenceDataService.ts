@@ -203,6 +203,7 @@ export async function setKielet(): Promise<void> {
   )
 }
 
+/** @deprecated Fetches lukionkurssit for routes our frontend does not call. */
 export async function setLukionkurssit(): Promise<void> {
   const codes = await fetchJson(
     `${config.EXTERNAL_API.opintopolkuKoodistot}/lukionkurssit/koodi`,
