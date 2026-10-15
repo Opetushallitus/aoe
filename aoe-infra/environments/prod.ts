@@ -84,7 +84,7 @@ export const prod: EnvironmentConfig = {
     }
   },
   features: {
-    enableFramingProtection: false
+    enableFramingProtection: true
   },
   open_search: {
     standbyReplicas: 'DISABLED',
