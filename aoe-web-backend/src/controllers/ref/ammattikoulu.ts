@@ -5,7 +5,6 @@ import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import { ePerusteetPeruste } from '@/models/ref/data'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { Request, Response, NextFunction } from 'express'
 
 const newEndpoint = 'external/perusteet'
 const degreeEndpoint = 'external/peruste'
@@ -110,27 +109,6 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<void> {
     await setAsync(`${rediskeyBasicDegrees}.en`, JSON.stringify(englishDegrees))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getAmmattikoulunPerustutkinnot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: string = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`)
-
-    if (data) {
-      res.status(200).json(JSON.parse(data)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational subjects failed in getAmmattikoulunPerustutkinnot()')
   }
 }
 
@@ -262,73 +240,6 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<void> {
   }
 }
 
-export const getAmmattikoulunTutkinnonOsat = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`)) as string
-    )
-      .filter((unit: AlignmentObjectExtended) => ids.includes(unit.parent.key.toString()))
-      .map((unit: AlignmentObjectExtended) => {
-        unit.parent = unit.parent.value
-
-        return unit
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting units of vocational education failed in getAmmattikoulunTutkinnonOsat()'
-    )
-  }
-}
-
-export const getAmmattikoulunVaatimukset = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`)) as string
-    )
-      .filter((requirement: AlignmentObjectExtended) =>
-        ids.includes(requirement.parent.key.toString())
-      )
-      .map((requirement: AlignmentObjectExtended) => {
-        requirement.parent = requirement.parent.value
-
-        return requirement
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting learning objects of vocational education failed in getAmmattikoulunVaatimukset()'
-    )
-  }
-}
-
 export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
@@ -405,31 +316,6 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<void> {
   }
 }
 
-export const getAmmattikoulunAmmattitutkinnot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: string = await getAsync(
-      `${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`
-    )
-
-    if (data) {
-      res.status(200).json(JSON.parse(data)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting further vocational qualifications failed in getAmmattikoulunAmmattitutkinnot()'
-    )
-  }
-}
-
 export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
   let finnishQuals: AlignmentObjectExtended[] = []
   let swedishQuals: AlignmentObjectExtended[] = []
@@ -503,31 +389,6 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<void> {
     await setAsync(`${rediskeySpecialistVocQuals}.en`, JSON.stringify(englishQuals))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getAmmattikoulunErikoisammattitutkinnot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: string = await getAsync(
-      `${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`
-    )
-
-    if (data) {
-      res.status(200).json(JSON.parse(data)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting specialist vocational qualifications failed in getAmmattikoulunErikoisammattitutkinnot()'
-    )
   }
 }
 
@@ -651,28 +512,5 @@ export async function setAmmattikoulunYTOaineet(): Promise<void> {
     await setAsync(`${rediskeyYTO}.en`, JSON.stringify(englishDegrees))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getAmmattikoulunYTOaineet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: string = await getAsync(`${rediskeyYTO}.${req.params.lang.toLowerCase()}`)
-
-    if (data) {
-      res.status(200).json(JSON.parse(data)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting common units of vocational education failed in getAmmattikoulunYTOaineet()'
-    )
   }
 }

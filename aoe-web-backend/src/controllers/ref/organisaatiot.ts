@@ -1,10 +1,9 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { getUnique, sortByValue } from '@util/ref/data.utils'
 import { KeyValue } from '@/models/ref/data'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'organisaatio/v4'
 const rediskey = 'organisaatiot'
@@ -77,70 +76,5 @@ export async function setOrganisaatiot(): Promise<void> {
     await setAsync(`${rediskey}.sv`, JSON.stringify(filteredSv))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<KeyValue<string, string>[]>}
- */
-export const getOrganisaatiot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<KeyValue<string, string>[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting organisations failed in getOrganisaatiot()')
-  }
-}
-
-/**
- * Get single row from redis database key-value
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<KeyValue<string, string>>}
- */
-export const getOrganisaatio = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<KeyValue<string, string>> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      const input: KeyValue<string, string>[] = JSON.parse(redisData)
-      const row: KeyValue<string, string> = input.find((e: any) => e.key === req.params.key)
-
-      if (row) {
-        res.status(200).json(row).end()
-        return
-      }
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting organisation failed in getOrganisaatio()')
   }
 }

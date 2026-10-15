@@ -1,9 +1,8 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'tieteenala'
 const rediskey = 'tieteenalat'
@@ -232,37 +231,5 @@ export async function setTieteenalat(): Promise<void> {
     await setAsync(`${rediskey}.sv`, JSON.stringify(swedishBranches))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<AlignmentObjectExtended[]>}
- */
-export const getTieteenalat = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting educational subjects of higher education failed in getTieteenalat()'
-    )
   }
 }

@@ -1,10 +1,8 @@
 import { getDataFromApi } from '@util/ref/api.utils'
 import { sortByTargetName } from '@util/ref/data.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
-import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { Request, Response, NextFunction } from 'express'
 
 const endpoint = 'external/peruste'
 const rediskeyTuvaSubjects = 'tuva-oppiaineet'
@@ -107,58 +105,5 @@ export async function setTuvaOppiaineetTavoitteet(): Promise<void> {
     await setAsync(`${rediskeyTuvaObjectives}.en`, JSON.stringify(finnishObjectives))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getTuvaOppiaineet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: string = await getAsync(`${rediskeyTuvaSubjects}.${req.params.lang.toLowerCase()}`)
-
-    if (data) {
-      res.status(200).json(JSON.parse(data)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational subjects failed in getTuvaOppiaineet()')
-  }
-}
-
-export const getTuvaTavoitteet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const redisData: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyTuvaObjectives}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    )
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = redisData
-      .filter((objective: AlignmentObjectExtended) => ids.includes(objective.parent.key.toString()))
-      .map((objective: AlignmentObjectExtended) => {
-        objective.parent = objective.parent.value
-
-        return objective
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational objectives failed in getTuvaTavoitteet()')
   }
 }

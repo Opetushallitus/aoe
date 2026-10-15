@@ -1,10 +1,9 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { sortByOrder } from '@util/ref/data.utils'
 import { Accessibility } from '@/models/ref/data'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'edtech/codeschemes/SaavutettavuusEsteet'
 const rediskey = 'saavutettavuudenesteet'
@@ -74,70 +73,5 @@ export async function setSaavutettavuudenEsteet(): Promise<void> {
     await setAsync(`${rediskey}.sv`, JSON.stringify(swedish))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<Accessibility[]>}
- */
-export const getSaavutettavuudenEsteet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<Accessibility[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting accessability hazards failed in getSaavutettavuudenEsteet()')
-  }
-}
-
-/**
- * Get single row from redis database key-value
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<Accessibility>}
- */
-export const getSaavutettavuudenEste = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<Accessibility> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      const input: Accessibility[] = JSON.parse(redisData)
-      const row: Accessibility = input.find((e: any) => e.key === req.params.key)
-
-      if (row) {
-        res.status(200).json(row).end()
-        return
-      }
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting accessibility hazard failed in getSaavutettavuudenEste()')
   }
 }

@@ -6,6 +6,7 @@ export type Lang = z.infer<typeof langSchema>
 const keyValue = z.object({ key: z.string(), value: z.string() })
 
 const educationLevel = keyValue.extend({
+  codeValue: z.string().optional(),
   children: z.array(keyValue.extend({ disabled: z.boolean() }))
 })
 

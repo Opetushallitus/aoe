@@ -58,6 +58,7 @@ export interface KeyValue<K, V> {
 
 export interface EducationLevel {
   key: string
+  codeValue?: string
   value: string
   children: Children[]
 }

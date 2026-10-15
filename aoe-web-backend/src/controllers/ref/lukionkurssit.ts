@@ -1,10 +1,9 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { getUnique, sortByTargetName } from '@util/ref/data.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'lukionkurssit'
 const rediskey = 'lukionkurssit'
@@ -97,72 +96,5 @@ export async function setLukionkurssit(): Promise<void> {
     await setAsync(`${rediskey}.sv`, JSON.stringify(filteredSv))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<AlignmentObjectExtended[]>}
- */
-export const getLukionkurssit = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting upper secondary school courses failed in getLukionkurssit()')
-  }
-}
-
-/**
- * Get single row from redis database key-value
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<AlignmentObjectExtended[]>}
- */
-export const getLukionkurssi = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      const input: AlignmentObjectExtended[] = JSON.parse(redisData)
-      const row: AlignmentObjectExtended = input.find(
-        (e: any) => e.key.toLowerCase() === req.params.key.toLowerCase()
-      )
-
-      if (row) {
-        res.status(200).json(row).end()
-        return
-      }
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting upper secondary school course failed in getLukionkurssi()')
   }
 }

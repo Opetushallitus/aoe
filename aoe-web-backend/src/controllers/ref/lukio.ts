@@ -4,7 +4,6 @@ import { sortByTargetName } from '@util/ref/data.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'external/peruste'
 const rediskeySubjects = 'lukio-uusi-oppiaineet'
@@ -235,66 +234,6 @@ export async function setLukionOppiaineetModuulit(): Promise<void> {
   }
 }
 
-export const getLukionOppiaineet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    ).map((subject: AlignmentObjectExtended) => {
-      if (subject.parent) {
-        subject.parent = subject.parent.value
-      }
-
-      return subject
-    })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational subjects failed in getLukionOppiaineet()')
-  }
-}
-
-export const getLukionModuulit = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyModules}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    )
-      .filter((module: AlignmentObjectExtended) => ids.includes(module.parent.key.toString()))
-      .map((module: AlignmentObjectExtended) => {
-        module.parent = module.parent.value
-
-        return module
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational modules failed in getLukionModuulit()')
-  }
-}
-
 export async function setLukionTavoitteetSisallot(): Promise<void> {
   const finnishObjectives: AlignmentObjectExtended[] = []
   const swedishObjectives: AlignmentObjectExtended[] = []
@@ -426,67 +365,5 @@ export async function setLukionTavoitteetSisallot(): Promise<void> {
     await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getLukionTavoitteet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    )
-      .filter((objective: AlignmentObjectExtended) => ids.includes(objective.parent.key.toString()))
-      .map((objective: AlignmentObjectExtended) => {
-        objective.parent = objective.parent.value
-
-        return objective
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting objectives failed in getLukionTavoitteet()')
-  }
-}
-
-export const getLukionSisallot = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    )
-      .filter((content: AlignmentObjectExtended) => ids.includes(content.parent.key.toString()))
-      .map((content: AlignmentObjectExtended) => {
-        content.parent = content.parent.value
-
-        return content
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting educational contents failed in getLukionSisallot()')
   }
 }

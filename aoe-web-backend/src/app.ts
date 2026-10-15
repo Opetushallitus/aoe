@@ -4,7 +4,7 @@ import { h5p } from '@api/routes-root/h5p'
 import { embed } from '@api/routes-root/embed'
 import { stream } from '@api/routes-root/stream'
 import { metaRoutes } from '@api/routes-meta/oaipmh'
-import { refV1 } from '@api/ref-routes-v1/v1'
+import ref from '@api/ref-routes-v1/ref'
 import { v1 } from '@api/routes-v1/v1'
 import { v2 } from '@api/routes-v2/v2'
 import statisticsRouter from '@api/routes-v2/statistics'
@@ -74,7 +74,7 @@ export async function initApp() {
 
   // Load reference API version 1.0
   const refRouterV1: Router = Router()
-  refV1(refRouterV1)
+  ref(refRouterV1)
 
   // Load API version 1.0
   const apiRouterV1: Router = Router()

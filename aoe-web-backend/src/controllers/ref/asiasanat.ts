@@ -5,7 +5,6 @@ import { sortByValue } from '@util/ref/data.utils'
 import { KeyValue } from '@/models/ref/data'
 import { config } from '@/config'
 import * as winstonLogger from '@util/winstonLogger'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'yso'
 const rediskey = 'asiasanat'
@@ -107,73 +106,5 @@ export async function setAsiasanat(): Promise<void> {
     }
   } catch (err) {
     throw err
-  }
-}
-
-/**
- * Get data from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<KeyValue<string, string>[]>}
- */
-export const getAsiasanat = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<KeyValue<string, string>[]> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData)).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Failed to get asiasanat in getAsiasanat()')
-  }
-}
-
-/**
- * Get single row from redis database key-value
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<KeyValue<string, string>>}
- */
-export const getAsiasana = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<KeyValue<string, string>> => {
-  try {
-    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`)
-
-    if (redisData) {
-      const input: KeyValue<string, string>[] = JSON.parse(redisData)
-      const row = input.find((e) => e.key === req.params.key)
-
-      if (!!row) {
-        res.status(200).json(row).end()
-        return
-      } else {
-        res.status(404).json({ error: 'Not Found' }).end()
-        return
-      }
-    } else {
-      res.status(404).json({ error: 'Not Found' }).end()
-      return
-    }
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Failed to get asiasana in getAsiasana()')
   }
 }

@@ -1,11 +1,10 @@
 import { getDataFromApi } from '@util/ref/api.utils'
-import { getAsync, setAsync } from '@util/ref/redis.utils'
+import { setAsync } from '@util/ref/redis.utils'
 import { sortByTargetName } from '@util/ref/data.utils'
 import { AlignmentObjectExtended } from '@/models/ref/alignment-object-extended'
 import { Kurssi, Oppiaine, Oppiainerakenne } from '@/models/ref/oppiainerakenne'
 import * as winstonLogger from '@util/winstonLogger'
 import { config } from '@/config'
-import { NextFunction, Request, Response } from 'express'
 
 const endpoint = 'perusteet'
 const rediskeySubjects = 'lukio-vanha-oppiaineet'
@@ -165,67 +164,5 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<void> {
     await setAsync(`${rediskeyCourses}.en`, JSON.stringify(finnishCourses))
   } catch (err) {
     throw Error(err)
-  }
-}
-
-export const getLukionVanhatOppiaineet = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    ).map((subject: AlignmentObjectExtended) => {
-      if (subject.parent) {
-        subject.parent = subject.parent.value
-      }
-
-      return subject
-    })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error(
-      'Getting upper secondary school subjects failed in getLukionVanhatOppiaineet()'
-    )
-  }
-}
-
-export const getLukionVanhatKurssit = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<AlignmentObjectExtended[]> => {
-  try {
-    const ids: string[] = req.params.ids.split(',')
-
-    const data: AlignmentObjectExtended[] = JSON.parse(
-      (await getAsync(`${rediskeyCourses}.${req.params.lang.toLowerCase()}`)) ?? '[]'
-    )
-      .filter((course: AlignmentObjectExtended) => ids.includes(course.parent.key.toString()))
-      .map((course: AlignmentObjectExtended) => {
-        course.parent = course.parent.value
-
-        return course
-      })
-
-    if (data.length > 0) {
-      res.status(200).json(data).end()
-      return
-    }
-
-    res.status(404).json({ error: 'Not Found' }).end()
-    return
-  } catch (err) {
-    next(err)
-    winstonLogger.error('Getting upper secondary school courses failed in getLukionVanhatKurssit()')
   }
 }
