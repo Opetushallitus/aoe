@@ -155,6 +155,7 @@ services:
           - aoe.s3.localhost.localstack.cloud
           - aoepdf.s3.localhost.localstack.cloud
           - aoethumbnail.s3.localhost.localstack.cloud
+          - aoe-uploaded-materials.s3.localhost.localstack.cloud
     environment:
       - SERVICES=s3
       - AWS_ACCESS_KEY_ID=test

@@ -16,3 +16,4 @@ copy_s3_bucket_to_directory() {
 copy_s3_bucket_to_directory "aoe" "/host-directory/aoe"
 copy_s3_bucket_to_directory "aoepdf" "/host-directory/aoepdf"
 copy_s3_bucket_to_directory "aoethumbnail" "/host-directory/aoethumbnail"
+copy_s3_bucket_to_directory "aoe-uploaded-materials" "/host-directory/aoe-uploaded-materials"

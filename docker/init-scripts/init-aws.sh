@@ -3,6 +3,7 @@
 awslocal s3 mb s3://aoe
 awslocal s3 mb s3://aoepdf
 awslocal s3 mb s3://aoethumbnail
+awslocal s3 mb s3://aoe-uploaded-materials
 
 echo "S3 bucket 'aoe' created."
 
@@ -17,13 +18,7 @@ if [ -d "$UPLOAD_DIR" ] && [ "$(ls -A "$UPLOAD_DIR")" ]; then
             echo "Processing folder '$subfolder' for S3 bucket '$bucket_name'..."
 
             if [ "$(ls -A "$subfolder")" ]; then
-                for file in "$subfolder"/*; do
-                    if [ -f "$file" ]; then
-                        echo "Uploading $file to S3 bucket '$bucket_name'..."
-                        awslocal s3 cp "$file" "s3://$bucket_name/$(basename "$file")"
-                        echo "$file uploaded to S3 bucket '$bucket_name'."
-                    fi
-                done
+                awslocal s3 cp "$subfolder" "s3://$bucket_name/" --recursive --exclude ".*" --exclude "*/.*"
             else
                 echo "No files to upload in folder '$subfolder'."
             fi
