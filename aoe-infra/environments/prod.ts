@@ -99,7 +99,8 @@ export const prod: EnvironmentConfig = {
   S3: {
     aoeBucketName: 'aoe',
     aoePdfBucketName: 'aoepdf',
-    aoeThumbnailBucketName: 'aoethumbnail'
+    aoeThumbnailBucketName: 'aoethumbnail',
+    uploadedMaterialsBucketName: 'aoe-uploaded-materials'
   },
   EFS: {
     throughputMode: 'elastic'

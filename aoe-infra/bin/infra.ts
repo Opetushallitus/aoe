@@ -25,7 +25,7 @@ import { BastionStack } from '../lib/bastion-stack'
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
 import { OpenSearchServerlessStack } from '../lib/opensearch-stack'
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
-import { S3Stack } from '../lib/S3Stack'
+import { environmentBucketName, S3Stack } from '../lib/S3Stack'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
@@ -250,7 +250,11 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     certificate: CloudfrontCertificate.certificate,
     crossRegionReferences: true,
     environment: environmentName,
-    requireTestAuth: config.cloudfront.require_test_authentication
+    requireTestAuth: config.cloudfront.require_test_authentication,
+    uploadedMaterialsBucketName: environmentBucketName(
+      config.S3.uploadedMaterialsBucketName,
+      environmentName
+    )
   })
 
   new FrontendStack(app, 'FrontendStack', {
@@ -265,7 +269,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     environment: environmentName,
     aoeBucketName: config.S3.aoeBucketName,
     aoePdfBucketName: config.S3.aoePdfBucketName,
-    aoeThumbnailBucketName: config.S3.aoeThumbnailBucketName
+    aoeThumbnailBucketName: config.S3.aoeThumbnailBucketName,
+    uploadedMaterialsBucketName: config.S3.uploadedMaterialsBucketName,
+    cloudFrontDistribution: Cloudfront.distribution
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {

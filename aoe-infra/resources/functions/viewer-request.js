@@ -91,7 +91,7 @@ function isBackendPath(uri) {
 
 // Keyed on the bucket layout rather than on file extensions, because a route segment can end in
 // something extension-shaped: /materiaali/:id/:versionDate carries an ISO timestamp.
-const STATIC_DIRECTORIES = ['/assets/', '/i18n/', '/media/']
+const STATIC_DIRECTORIES = ['/assets/', '/i18n/', '/media/', '/files/']
 const ROOT_FILE = /^\/[^/]+\.[^/]+$/
 
 function isStaticAsset(uri) {

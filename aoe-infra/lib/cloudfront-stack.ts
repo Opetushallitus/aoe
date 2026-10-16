@@ -21,6 +21,7 @@ interface CloudfrontStackProps extends StackProps {
   alb: elbv2.ILoadBalancerV2
   certificate: acm.ICertificate
   requireTestAuth: boolean
+  uploadedMaterialsBucketName: string
 }
 
 const BACKEND_PATH_PATTERNS = [
@@ -115,12 +116,22 @@ export class CloudfrontStack extends Stack {
       functionAssociations: props.requireTestAuth ? [viewerRequestAssociation] : undefined
     }
 
+    const uploadedMaterialsBucket = s3.Bucket.fromBucketName(
+      this,
+      'UploadedMaterialsBucket',
+      props.uploadedMaterialsBucketName
+    )
+
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
       domainNames: [props.domain],
       certificate: props.certificate,
       defaultBehavior: spaBehavior,
       additionalBehaviors: {
         ...Object.fromEntries(BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])),
+        '/files/*': {
+          ...baseViewBehavior,
+          origin: origins.S3BucketOrigin.withOriginAccessControl(uploadedMaterialsBucket)
+        },
         '/embed/*': baseViewBehavior,
         '/assets/pdfjs/*': baseViewBehavior
       }

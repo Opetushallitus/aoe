@@ -33,6 +33,7 @@ export interface EnvironmentConfig {
     aoeBucketName: string
     aoePdfBucketName: string
     aoeThumbnailBucketName: string
+    uploadedMaterialsBucketName: string
   }
   EFS: {
     throughputMode: 'bursting' | 'elastic' | 'provisioned'
