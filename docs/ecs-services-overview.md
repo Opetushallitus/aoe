@@ -65,7 +65,7 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 | Database | Purpose |
 |---|---|
-| **PostgreSQL** | Primary store — users, materials, versions, records, attachments, collections, ratings, notifications, URNs |
+| **PostgreSQL** | Primary store — users, materials, versions, records, attachments, collections, ratings, notifications, URNs, reference data |
 | **Redis** | Session storage via express-session + connect-redis |
 | **OpenSearch** | Full-text search indices for materials (`aoe` index) and collections (`aoecollection` index). Re-indexed nightly at 1:30 AM UTC |
 
@@ -93,15 +93,15 @@ Each job runs on one task only: the first task to insert the day's row into `sch
 | 1:15 AM | Generate URNs for unpublished materials | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
 | 2:00 AM | Convert office files without a PDF and upload the PDFs to S3 | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
-| 3:00 AM | Update reference data endpoints data into Redis | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 3:00 AM | Update reference data endpoints data into PostgreSQL | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
-On startup every task also updates the reference data into Redis and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).
+On startup every task also updates the reference data into PostgreSQL and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).
 
 
 #### Reference Data Endpoints
 
-A metadata aggregation and caching layer. Fetches reference data from Finnish educational APIs, normalizes it into key-value pairs with multi-language labels (fi/sv/en), and caches everything in Redis. The frontend reads this cached data for all form dropdowns and search filters.
+A metadata aggregation and caching layer. Fetches reference data from Finnish educational APIs, normalizes it into key-value pairs with multi-language labels (fi/sv/en), and stores everything in the PostgreSQL table `reference_data`, one row per category and language. The frontend reads this data for all form dropdowns and search filters.
 
 **External APIs called:**
 
@@ -115,9 +115,9 @@ A metadata aggregation and caching layer. Fetches reference data from Finnish ed
 
 All external calls include a `Caller-Id` header with the organization's OID.
 
-**Redis key pattern:** `{category}.{lang}` — e.g. `asiasanat.fi`, `koulutusasteet.en`, `lisenssit.sv`
+**Storage:** `reference_data` rows keyed by `(category, lang)` — e.g. `('asiasanat', 'fi')`, `('koulutusasteet', 'en')`
 
-**Data refresh:** Every Sunday at 3:00 AM UTC via node-cron, and once on startup when Redis connection becomes ready.
+**Data refresh:** Every night at 3:00 AM by the claimed `referenceDataUpdate` task, and on every task boot. Each setter writes all of its categories and languages in one transaction, or nothing.
 
 **Who calls it:** Only the frontend, via `koodistoUrl` (`/ref/api/v1`).
 
@@ -162,14 +162,6 @@ An OAI-PMH (Open Archives Initiative Protocol for Metadata Harvesting) provider,
 **Output format:** OAI-PMH XML wrapping DublinCore (`dc:`) and LRMI-FI (`lrmi_fi:`) metadata — titles, descriptions, authors, keywords, educational levels, accessibility features, licenses, curriculum alignments, language codes, and linked resources.
 
 **Pagination:** 20 records per page via resumption tokens (plain page-index integers).
-
-#### Future: Remove Redis
-
-Instead of caching in Redis, the reference data would be stored in PostgreSQL — the data only refreshes once a week, so there is no need for an in-memory cache. The backend would expose the same `/ref/api/v1` endpoints so the frontend requires no changes.
-
-**What this removes:** One CDK stack and the only consumer of Redis for non-session data.
-
-**What this requires:** A new PostgreSQL table (or tables) for storing the normalized reference data.
 
 ---
 

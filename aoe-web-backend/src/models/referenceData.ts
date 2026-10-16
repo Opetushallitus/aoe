@@ -37,49 +37,56 @@ export type ChildAlignment = z.infer<typeof childAlignment>
 const transversalCompetence = alignment.extend({ parent: z.string() })
 export type TransversalCompetence = z.infer<typeof transversalCompetence>
 
-const alignmentObjects = z.array(alignmentObject)
-const childAlignments = z.array(childAlignment)
+const alignmentWithParentName = alignment.extend({ parent: z.string().optional() })
 
-export const referenceDataSchemas = {
-  'ammattikoulu-ammattitutkinnot': alignmentObjects,
-  'ammattikoulu-erikoisammattitutkinnot': alignmentObjects,
-  'ammattikoulu-perustutkinnot': alignmentObjects,
-  'ammattikoulu-tutkinnonosat': childAlignments,
-  'ammattikoulu-vaatimukset': childAlignments,
-  'ammattikoulun-yto-aineet': alignmentObjects,
-  asiasanat: z.array(keyValue),
-  kayttokohteet: z.array(keyValue),
-  kielet: z.array(keyValue),
-  kohderyhmat: z.array(keyValue),
-  koulutusasteet: z.array(educationLevel),
-  'laaja-alaiset-osaamiset': z.array(transversalCompetence),
-  lisenssit: z.array(license),
-  'lukio-uusi-moduulit': childAlignments,
-  'lukio-uusi-oppiaineet': alignmentObjects,
-  'lukio-uusi-sisallot': childAlignments,
-  'lukio-uusi-tavoitteet': childAlignments,
-  'lukio-vanha-kurssit': childAlignments,
-  'lukio-vanha-oppiaineet': alignmentObjects,
-  lukionkurssit: alignmentObjects,
-  oppiaineet: alignmentObjects,
-  oppimateriaalityypit: z.array(keyValue),
-  organisaatiot: z.array(keyValue),
-  saavutettavuudenesteet: z.array(accessibility),
-  saavutettavuudentukitoiminnot: z.array(accessibility),
-  sisaltoalueet: childAlignments,
-  tavoitteet: childAlignments,
-  tieteenalat: alignmentObjects,
-  'tuva-oppiaineet': alignmentObjects,
-  'tuva-tavoitteet': childAlignments
+export const childrenWithParentNames = z.array(alignmentWithParentName)
+
+export const alignmentObjectsWithParentNames = z.array(
+  alignmentWithParentName.extend({ children: z.array(alignment).optional() })
+)
+
+export const referenceDataItemSchemas = {
+  'ammattikoulu-ammattitutkinnot': alignmentObject,
+  'ammattikoulu-erikoisammattitutkinnot': alignmentObject,
+  'ammattikoulu-perustutkinnot': alignmentObject,
+  'ammattikoulu-tutkinnonosat': childAlignment,
+  'ammattikoulu-vaatimukset': childAlignment,
+  'ammattikoulun-yto-aineet': alignmentObject,
+  asiasanat: keyValue,
+  kayttokohteet: keyValue,
+  kielet: keyValue,
+  kohderyhmat: keyValue,
+  koulutusasteet: educationLevel,
+  'laaja-alaiset-osaamiset': transversalCompetence,
+  lisenssit: license,
+  'lukio-uusi-moduulit': childAlignment,
+  'lukio-uusi-oppiaineet': alignmentObject,
+  'lukio-uusi-sisallot': childAlignment,
+  'lukio-uusi-tavoitteet': childAlignment,
+  'lukio-vanha-kurssit': childAlignment,
+  'lukio-vanha-oppiaineet': alignmentObject,
+  lukionkurssit: alignmentObject,
+  oppiaineet: alignmentObject,
+  oppimateriaalityypit: keyValue,
+  organisaatiot: keyValue,
+  saavutettavuudenesteet: accessibility,
+  saavutettavuudentukitoiminnot: accessibility,
+  sisaltoalueet: childAlignment,
+  tavoitteet: childAlignment,
+  tieteenalat: alignmentObject,
+  'tuva-oppiaineet': alignmentObject,
+  'tuva-tavoitteet': childAlignment
 }
-export type ReferenceDataCategory = keyof typeof referenceDataSchemas
+export type ReferenceDataCategory = keyof typeof referenceDataItemSchemas
 
-export type ReferenceData<C extends ReferenceDataCategory> = z.infer<
-  (typeof referenceDataSchemas)[C]
+export type ReferenceDataItem<C extends ReferenceDataCategory> = z.infer<
+  (typeof referenceDataItemSchemas)[C]
 >
 
+export type ReferenceData<C extends ReferenceDataCategory> = ReferenceDataItem<C>[]
+
 export type ChildCategory = {
-  [C in ReferenceDataCategory]: ReferenceData<C> extends ChildAlignment[] ? C : never
+  [C in ReferenceDataCategory]: ReferenceDataItem<C> extends ChildAlignment ? C : never
 }[ReferenceDataCategory]
 
 const localizedText = z.object({

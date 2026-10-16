@@ -61,6 +61,7 @@ export const prod: EnvironmentConfig = {
         COLLECTION_THUMBNAIL_DOWNLOAD_URL: 'https://aoe.fi/api/v1/collection/thumbnail/',
         REDIS_USERNAME: 'app',
         REDIS_USE_TLS: 'true',
+        REFERENCE_DATA_MIGRATION_FROM_REDIS_ENABLED: 'true',
         BASE_URL: 'https://aoe.fi/api/v1/',
         EMAIL_FROM: 'oppimateriaalivaranto@aoe.fi',
         SEND_EXPIRATION_NOTIFICATION_EMAIL: '1',

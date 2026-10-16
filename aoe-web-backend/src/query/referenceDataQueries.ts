@@ -1,14 +1,18 @@
 import {
+  alignmentObjectsWithParentNames,
   type ChildCategory,
+  childrenWithParentNames,
   type Lang,
   type ReferenceData,
   type ReferenceDataCategory,
-  referenceDataSchemas
+  type ReferenceDataItem,
+  referenceDataItemSchemas
 } from '@/models/referenceData'
-import { redisClient } from '@resource/redisClient'
+import { db } from '@resource/postgresClient'
 import { z } from 'zod'
 
-const schemas: { [C in ReferenceDataCategory]: z.ZodType<ReferenceData<C>> } = referenceDataSchemas
+const itemSchemas: { [C in ReferenceDataCategory]: z.ZodType<ReferenceDataItem<C>> } =
+  referenceDataItemSchemas
 
 export type ReferenceDataEntry<C extends ReferenceDataCategory = ReferenceDataCategory> = {
   category: C
@@ -20,21 +24,16 @@ export const getReferenceData = async <C extends ReferenceDataCategory>(
   category: C,
   lang: Lang
 ): Promise<ReferenceData<C> | undefined> => {
-  const stored = await redisClient.get(`${category}.${lang}`)
+  const row = await db.oneOrNone(
+    'SELECT value FROM reference_data WHERE category = $1 AND lang = $2',
+    [category, lang]
+  )
 
-  if (stored === null) {
+  if (!row) {
     return undefined
   }
 
-  const parsed = schemas[category].safeParse(JSON.parse(stored.toString()))
-
-  if (!parsed.success) {
-    throw new Error(
-      `Stored reference data ${category}.${lang} does not match its schema: ${z.prettifyError(parsed.error)}`
-    )
-  }
-
-  return parsed.data
+  return itemSchemas[category].array().parse(row.value)
 }
 
 /** @deprecated Only the single-item routes use this, and our frontend does not call them. */
@@ -42,9 +41,20 @@ export const getReferenceDataItem = async <C extends ReferenceDataCategory>(
   category: C,
   lang: Lang,
   key: string
-): Promise<ReferenceData<C>[number] | undefined> => {
-  const items = await getReferenceData(category, lang)
-  return items?.find((item) => item.key === key)
+): Promise<ReferenceDataItem<C> | undefined> => {
+  const row = await db.oneOrNone(
+    `SELECT item AS value
+     FROM reference_data, jsonb_array_elements(value) AS item
+     WHERE category = $1 AND lang = $2 AND item ->> 'key' = $3
+     LIMIT 1`,
+    [category, lang, key]
+  )
+
+  if (!row) {
+    return undefined
+  }
+
+  return itemSchemas[category].parse(row.value)
 }
 
 export const getReferenceDataChildren = async (
@@ -52,26 +62,49 @@ export const getReferenceDataChildren = async (
   lang: Lang,
   parentKeys: string[]
 ) => {
-  const items = await getReferenceData(category, lang)
-  return items
-    ?.filter((item) => parentKeys.includes(item.parent.key.toString()))
-    .map((item) => ({ ...item, parent: item.parent.value }))
+  const row = await db.one(
+    `SELECT coalesce(jsonb_agg((item - 'parent') || jsonb_strip_nulls(jsonb_build_object('parent', item -> 'parent' -> 'value')) ORDER BY position), '[]') AS value
+     FROM reference_data, jsonb_array_elements(value) WITH ORDINALITY AS element(item, position)
+     WHERE category = $1 AND lang = $2 AND item -> 'parent' ->> 'key' = ANY($3)`,
+    [category, lang, parentKeys]
+  )
+
+  return childrenWithParentNames.parse(row.value)
 }
 
 export const getReferenceDataWithParentNames = async (
   category: 'lukio-uusi-oppiaineet' | 'lukio-vanha-oppiaineet',
   lang: Lang
 ) => {
-  const items = await getReferenceData(category, lang)
-  return items?.map((item) => (item.parent ? { ...item, parent: item.parent.value } : item))
+  const row = await db.oneOrNone(
+    `SELECT (SELECT coalesce(jsonb_agg((item - 'parent') || jsonb_strip_nulls(jsonb_build_object('parent', item -> 'parent' -> 'value')) ORDER BY position), '[]')
+             FROM jsonb_array_elements(value) WITH ORDINALITY AS element(item, position)) AS value
+     FROM reference_data
+     WHERE category = $1 AND lang = $2`,
+    [category, lang]
+  )
+
+  if (!row) {
+    return undefined
+  }
+
+  return alignmentObjectsWithParentNames.parse(row.value)
 }
 
 export const saveReferenceData = async (entries: ReferenceDataEntry[]): Promise<void> => {
-  const transaction = redisClient.multi()
+  const rows = entries.map(({ category, lang, value }) => ({
+    category,
+    lang,
+    value: itemSchemas[category].array().parse(value)
+  }))
 
-  for (const { category, lang, value } of entries) {
-    transaction.set(`${category}.${lang}`, JSON.stringify(schemas[category].parse(value)))
-  }
-
-  await transaction.exec()
+  await db.tx(async (transaction) => {
+    for (const { category, lang, value } of rows) {
+      await transaction.none(
+        `INSERT INTO reference_data (category, lang, value) VALUES ($1, $2, $3:json)
+         ON CONFLICT (category, lang) DO UPDATE SET value = EXCLUDED.value, updated_at = current_timestamp`,
+        [category, lang, value]
+      )
+    }
+  })
 }

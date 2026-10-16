@@ -57,7 +57,7 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 | Tietokanta     | Tarkoitus                                                                                                                                    |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **PostgreSQL** | Ensisijainen tietovarasto — käyttäjät, materiaalit, versiot, tietueet, liitteet, kokoelmat, arviot, ilmoitukset, URNit                       |
+| **PostgreSQL** | Ensisijainen tietovarasto — käyttäjät, materiaalit, versiot, tietueet, liitteet, kokoelmat, arviot, ilmoitukset, URNit, viitetiedot          |
 | **Redis**      | Istuntotallennus express-sessionin + connect-redisin kautta                                                                                  |
 | **OpenSearch** | Oppimateriaalien (`aoe`-indeksi) ja kokoelmien (`aoecollection`-indeksi) kokotekstihakuindeksit. Indeksoidaan uudelleen joka yö klo 1.30 UTC |
 
@@ -85,14 +85,14 @@ Jokainen tehtävä ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka
 | 1:15 AM    | Luo URNit julkaisemattomille materiaaleille | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
 | 2:00 AM    | Muunna Office-tiedostot, joilta puuttuu PDF, ja lataa PDF:t S3:een | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
-| 3:00 AM    | Päivitä viitetietorajapintojen tiedot Redikseen | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 3:00 AM    | Päivitä viitetietorajapintojen tiedot PostgreSQL:ään | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 10:00 AM   | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
-Käynnistyessään jokainen task päivittää lisäksi viitetiedot Redikseen ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen; koska taskeja on useampi, julkaise ensin `min_count: 1` ja `max_count: 1`, jotta vain yksi task luo indeksit uudelleen).
+Käynnistyessään jokainen task päivittää lisäksi viitetiedot PostgreSQL:ään ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen; koska taskeja on useampi, julkaise ensin `min_count: 1` ja `max_count: 1`, jotta vain yksi task luo indeksit uudelleen).
 
 #### Viitetietorajapinnat
 
-Metadatan aggregointi- ja välimuistikerros. Hakee viitetietoja suomalaisista koulutusalan API-rajapinnoista, normalisoi ne avain-arvo-pareiksi monikielisillä nimikkeillä (fi/sv/en) ja tallentaa kaiken Redis-välimuistiin. Frontend lukee tätä välimuistissa olevaa dataa kaikkiin lomakkeiden pudotusvalikoihin ja hakusuodattimiin.
+Metadatan aggregointi- ja välimuistikerros. Hakee viitetietoja suomalaisista koulutusalan API-rajapinnoista, normalisoi ne avain-arvo-pareiksi monikielisillä nimikkeillä (fi/sv/en) ja tallentaa kaiken PostgreSQL-tauluun `reference_data`, yksi rivi kategoriaa ja kieltä kohden. Frontend lukee tätä dataa kaikkiin lomakkeiden pudotusvalikoihin ja hakusuodattimiin.
 
 **Kutsuttavat ulkoiset API:t:**
 
@@ -106,7 +106,9 @@ Metadatan aggregointi- ja välimuistikerros. Hakee viitetietoja suomalaisista ko
 
 Kaikkiin ulkoisiin kutsuihin sisältyy `Caller-Id`-otsake, jossa on organisaation OID.
 
-**Datan päivitys:** Joka sunnuntai klo 3.00 UTC node-cronin kautta sekä kerran käynnistyksessä, kun Redis-yhteys on valmis.
+**Tallennus:** `reference_data`-rivit, avaimena `(category, lang)` — esim. `('asiasanat', 'fi')`, `('koulutusasteet', 'en')`
+
+**Datan päivitys:** Joka yö klo 3.00 varattu `referenceDataUpdate`-tehtävä sekä jokaisen taskin käynnistys. Jokainen setteri kirjoittaa kaikki kategoriansa ja kielensä yhdessä transaktiossa tai ei mitään.
 
 **Kuka kutsuu Semantic-apia:** Vain frontend, `koodistoUrl`-osoitteen (`/ref/api/v1`) kautta.
 
@@ -151,11 +153,3 @@ OAI-PMH-palvelu (Open Archives Initiative Protocol for Metadata Harvesting). Jul
 **Tulostusmuoto:** OAI-PMH XML, joka kapseloi DublinCore- (`dc:`) ja LRMI-FI- (`lrmi_fi:`) metadatan — otsikot, kuvaukset, tekijät, asiasanat, koulutusasteet, saavutettavuusominaisuudet, lisenssit, opetussuunnitelmakohdistukset, kielikoodit ja linkitetyt resurssit.
 
 **Sivutus:** 20 tietuetta sivua kohden resumption tokenien avulla (yksinkertaisia sivuindeksilukuja).
-
-#### Tulevaisuus: poistetaan Redis
-
-Redis-välimuistin sijaan viitetiedot tallennettaisiin PostgreSQL:ään — data päivittyy vain kerran viikossa, joten erilliselle välimuistille ei ole tarvetta. Backend tarjoaisi samat `/ref/api/v1`-endpointit, joten frontendiin ei tarvittaisi muutoksia.
-
-**Mitä tämä poistaa:** Yhden CDK-stackin ja Redisin käyttö päättyy.
-
-**Mitä tämä vaatii:** Uuden PostgreSQL-taulun (tai taulujen) normalisoidun viitedatan tallentamista varten.
