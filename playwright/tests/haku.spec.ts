@@ -141,3 +141,18 @@ test('käyttäjä voi etsiä oppimateriaalia usean oppiaineen, tutkinnon tai tie
     page.getByRole('option', { name: 'Fysiikka Luonnontieteet', exact: true })
   ).toBeVisible()
 })
+
+test('koulutusaste rajaa oppiainesuodattimen koulutusasteen oppiaineisiin', async ({ page }) => {
+  const etusivu = Etusivu(page)
+  const koulutusasteryhmat = etusivu.filters.educationalSubjects.locator('.ng-optgroup')
+
+  await etusivu.goto()
+  await etusivu.filters.educationalSubjects.click()
+  await expect(koulutusasteryhmat).toHaveText(['Perusopetus', 'Lukiokoulutus', 'Korkeakoulutus'])
+  await page.keyboard.press('Escape')
+
+  await etusivu.valitseKoulutusaste('korkeakoulutus')
+  await page.keyboard.press('Escape')
+  await etusivu.filters.educationalSubjects.click()
+  await expect(koulutusasteryhmat).toHaveText(['Korkeakoulutus'])
+})
