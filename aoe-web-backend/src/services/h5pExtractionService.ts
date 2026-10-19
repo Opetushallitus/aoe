@@ -117,7 +117,7 @@ const uploadExtractedArchive = async (
   }
 }
 
-const processH5pBatch = async (
+export const extractH5pUploads = async (
   database: Pick<IDatabase<unknown>, 'any' | 'none'>,
   s3: S3Client,
   destinationBucket: string,
@@ -166,30 +166,4 @@ const processH5pBatch = async (
     }
   }
   return result
-}
-
-export const extractH5pUploads = async (
-  database: IDatabase<unknown>,
-  s3: S3Client,
-  destinationBucket: string
-): Promise<H5pExtractionResult | null> => {
-  const controller = new AbortController()
-  // A dedicated session owns the lock and every query in the batch. Closing it
-  // releases the lock even on failure, without returning a locked client to the pool.
-  const connection = await database.connect({
-    direct: true,
-    onLost: (error) => controller.abort(error)
-  })
-  try {
-    const { acquired } = await connection.one<{ acquired: boolean }>(
-      `SELECT pg_try_advisory_lock(hashtext('aoe'), hashtext('h5p_extraction')) AS acquired`
-    )
-    if (!acquired) {
-      log.info('H5P extraction skipped: another worker is running')
-      return null
-    }
-    return await processH5pBatch(connection, s3, destinationBucket, controller.signal)
-  } finally {
-    await connection.done()
-  }
 }

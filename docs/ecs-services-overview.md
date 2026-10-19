@@ -85,7 +85,7 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 **Scheduled jobs:**
 
-Daily jobs run on one task only: the first task to insert the day's row into `scheduled_task_run` runs it, and the others log a skip. H5P extraction runs every ten minutes and holds a PostgreSQL session advisory lock for its whole batch, so scheduled and manual workers cannot overlap. Each job can be turned off with `SCHEDULED_TASK_<NAME>_ENABLED=false` (on by default).
+Each scheduled job acquires a task-specific PostgreSQL session advisory lock with `pg_try_advisory_lock` for its whole run. If another server is already running the same job, it logs a skip. The dedicated connection closes after completion or failure, releasing the lock so later runs can proceed. H5P extraction runs every ten minutes; scheduled and manual invocations use the same `h5pExtraction` lock through the shared task runner, so they cannot overlap. Each job can be turned off with `SCHEDULED_TASK_<NAME>_ENABLED=false` (on by default).
 
 | Time (UTC) | Job | Switch |
 |---|---|---|

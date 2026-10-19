@@ -35,8 +35,8 @@ import {
   setTieteenalat
 } from '@services/referenceDataService'
 import * as log from '@util/winstonLogger'
+import { runTaskWithLock, type TaskRun } from '@util/taskLock'
 import { Cron } from 'croner'
-import { z } from 'zod'
 
 const runInOrder = async (setters: (() => Promise<void>)[]): Promise<void> => {
   for (const set of setters) {
@@ -79,25 +79,10 @@ export async function updateReferenceData(): Promise<void> {
   log.info(`... Reference data update done in ${Date.now() - startedAt} ms`)
 }
 
-const claimedRunSchema = z.object({ task_name: z.string() }).nullable()
-
-const claimRun = async (taskName: string): Promise<boolean> => {
-  const claimed = claimedRunSchema.parse(
-    await db.oneOrNone(
-      `INSERT INTO scheduled_task_run (task_name, run_date)
-       VALUES ($1, (now() AT TIME ZONE 'UTC')::date)
-       ON CONFLICT DO NOTHING RETURNING task_name`,
-      [taskName]
-    )
-  )
-  return claimed !== null
-}
-
 const scheduleTask = (
   taskName: keyof typeof config.scheduledTasks,
   pattern: string,
-  run: () => Promise<void>,
-  { claimDailyRun = true }: { claimDailyRun?: boolean } = {}
+  run: TaskRun<void>
 ): void => {
   if (!config.scheduledTasks[taskName].enabled) {
     log.info(`Scheduled task ${taskName} disabled`)
@@ -105,14 +90,12 @@ const scheduleTask = (
   }
   new Cron(pattern, async (): Promise<void> => {
     try {
-      if (claimDailyRun && !(await claimRun(taskName))) {
-        log.info(`Scheduled task ${taskName} skipped: another task claimed today's run`)
-        return
-      }
-      log.info(`Scheduled task ${taskName} started`)
-      const startedAt = Date.now()
-      await run()
-      log.info(`Scheduled task ${taskName} completed in ${Date.now() - startedAt} ms`)
+      await runTaskWithLock(db, taskName, async (connection, signal) => {
+        log.info(`Scheduled task ${taskName} started`)
+        const startedAt = Date.now()
+        await run(connection, signal)
+        log.info(`Scheduled task ${taskName} completed in ${Date.now() - startedAt} ms`)
+      })
     } catch (err: unknown) {
       log.error(`Scheduled task ${taskName} failed`, err)
     }
@@ -121,21 +104,15 @@ const scheduleTask = (
 }
 
 export const startScheduledTasks = (): void => {
-  scheduleTask(
-    'h5pExtraction',
-    '0 */10 * * * *',
-    async (): Promise<void> => {
-      const result = await extractH5pUploads(
-        db,
-        s3Client,
-        config.cloudStorage.bucketUploadedMaterials
-      )
-      if (result !== null) {
-        log.info('H5P extraction batch finished', result)
-      }
-    },
-    { claimDailyRun: false }
-  )
+  scheduleTask('h5pExtraction', '0 */10 * * * *', async (connection, signal): Promise<void> => {
+    const result = await extractH5pUploads(
+      connection,
+      s3Client,
+      config.cloudStorage.bucketUploadedMaterials,
+      signal
+    )
+    log.info('H5P extraction batch finished', result)
+  })
   scheduleTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)

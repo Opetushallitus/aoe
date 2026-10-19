@@ -77,7 +77,7 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Ajastetut tehtävät:**
 
-Päivittäiset tehtävät ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka ehtii ensin lisätä päivän rivin tauluun `scheduled_task_run`, ja muut kirjaavat ohituksen lokiin. H5P-pakettien purku ajetaan kymmenen minuutin välein, ja PostgreSQL:n istuntokohtainen advisory-lukko estää rinnakkaiset ajastetut ja manuaaliset ajot koko erän käsittelyn ajan. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
+Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtaisen advisory-lukon funktiolla `pg_try_advisory_lock` koko ajon ajaksi. Jos toinen palvelin ajaa jo samaa tehtävää, ohitus kirjataan lokiin. Tehtävän oma tietokantayhteys suljetaan ajon päätyttyä tai epäonnistuttua, jolloin lukko vapautuu myöhempiä ajoja varten. H5P-pakettien purku ajetaan kymmenen minuutin välein; ajastetut ja manuaaliset ajot käyttävät samaa `h5pExtraction`-lukkoa yhteisen suoritusfunktion kautta, joten ne eivät voi ajaa rinnakkain. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
 
 | Aika (UTC) | Tehtävä | Kytkin |
 | ---------- | ------- | ------ |

@@ -14,7 +14,8 @@ enabled by default. The destination is configured with
 `aoe-uploaded-materials-qa` or `aoe-uploaded-materials-prod`, and
 `aoe-uploaded-materials` locally.
 
-Each batch obtains a PostgreSQL session advisory lock on a dedicated connection.
+Each batch obtains one PostgreSQL session advisory lock on a dedicated connection
+through the shared `runTaskWithLock` function used by all scheduled jobs.
 The lock covers selection, extraction, upload, completion writes and temporary-file
 cleanup. Other servers skip while the lock is held. Manual invocations use the same
 lock. The connection is closed in `finally`, releasing the lock on success or failure.

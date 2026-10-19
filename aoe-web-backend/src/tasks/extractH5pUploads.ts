@@ -1,4 +1,5 @@
 import { extractH5pUploads } from '@services/h5pExtractionService'
+import { runTaskWithLock } from '@util/taskLock'
 import * as log from '@util/winstonLogger'
 
 const main = async (): Promise<void> => {
@@ -10,7 +11,9 @@ const main = async (): Promise<void> => {
   const { s3Client } = await import('../resource/s3Client.js')
   try {
     log.info('Starting H5P extraction batch', { destinationBucket })
-    const result = await extractH5pUploads(db, s3Client, destinationBucket)
+    const result = await runTaskWithLock(db, 'h5pExtraction', (connection, signal) =>
+      extractH5pUploads(connection, s3Client, destinationBucket, signal)
+    )
     if (result === null) {
       return
     }
