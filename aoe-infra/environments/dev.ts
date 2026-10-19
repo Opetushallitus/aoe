@@ -39,6 +39,7 @@ export const dev: EnvironmentConfig = {
         CLOUD_STORAGE_BUCKET_PDF: 'aoepdf-dev',
         CLOUD_STORAGE_BUCKET_THUMBNAIL: 'aoethumbnail-dev',
         CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS: 'aoe-uploaded-materials-dev',
+        SCHEDULED_TASK_H5P_EXTRACTION_ENABLED: 'true',
         THUMBNAIL_END_POINT: '/app/thumbnail/',
         FILE_SIZE_LIMIT: '5000000000',
         THUMBNAIL_FILE_SIZE_LIMIT: '10485760',
