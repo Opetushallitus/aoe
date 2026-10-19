@@ -33,6 +33,7 @@
     "watch-start": "node --watch --enable-source-maps dist/server.js",
     "build-ts": "npx tsc && tsc-alias",
     "watch-ts": "npx tsc -w",
+    "extract-h5p": "node --enable-source-maps dist/tasks/extractH5pUploads.js",
     "knip": "knip",
     "test": "node --import ./test/register-aliases.mjs --test 'src/**/*.test.ts'"
   },
