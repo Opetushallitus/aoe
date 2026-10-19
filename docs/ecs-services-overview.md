@@ -85,10 +85,11 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 **Scheduled jobs:**
 
-Each job runs on one task only: the first task to insert the day's row into `scheduled_task_run` runs it, and the others log a skip. Each job can be turned off with `SCHEDULED_TASK_<NAME>_ENABLED=false` (on by default).
+Daily jobs run on one task only: the first task to insert the day's row into `scheduled_task_run` runs it, and the others log a skip. H5P extraction runs every ten minutes and holds a PostgreSQL session advisory lock for its whole batch, so scheduled and manual workers cannot overlap. Each job can be turned off with `SCHEDULED_TASK_<NAME>_ENABLED=false` (on by default).
 
 | Time (UTC) | Job | Switch |
 |---|---|---|
+| Every 10 minutes | Extract up to two pending H5P uploads into the uploaded-materials bucket | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
 | 1:00 AM | Clean temporary H5P and HTML directories | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM | Generate URNs for unpublished materials | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |

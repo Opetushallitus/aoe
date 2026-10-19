@@ -38,6 +38,7 @@ export const prod: EnvironmentConfig = {
         CLOUD_STORAGE_BUCKET: 'aoe-prod',
         CLOUD_STORAGE_BUCKET_PDF: 'aoepdf-prod',
         CLOUD_STORAGE_BUCKET_THUMBNAIL: 'aoethumbnail-prod',
+        CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS: 'aoe-uploaded-materials-prod',
         THUMBNAIL_END_POINT: '/app/thumbnail/',
         FILE_SIZE_LIMIT: '5000000000',
         THUMBNAIL_FILE_SIZE_LIMIT: '10485760',

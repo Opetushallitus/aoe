@@ -34,6 +34,11 @@ export class S3Stack extends cdk.Stack {
     this.aoeThumbnailBucket = this.newBucket(props.aoeThumbnailBucketName, props)
     this.uploadedMaterialsBucket = this.newBucket(props.uploadedMaterialsBucketName, props)
 
+    this.uploadedMaterialsBucket.addLifecycleRule({
+      id: 'AbortIncompleteMultipartUploads',
+      abortIncompleteMultipartUploadAfter: cdk.Duration.days(1)
+    })
+
     this.uploadedMaterialsBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],

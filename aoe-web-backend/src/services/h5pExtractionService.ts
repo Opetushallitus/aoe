@@ -1,5 +1,4 @@
-import { GetObjectCommand, type S3Client } from '@aws-sdk/client-s3'
-import { Upload } from '@aws-sdk/lib-storage'
+import { GetObjectCommand, PutObjectCommand, type S3Client } from '@aws-sdk/client-s3'
 import * as log from '@util/winstonLogger'
 import mime from 'mime'
 import { createHash } from 'node:crypto'
@@ -11,50 +10,46 @@ import { Readable, Transform } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
 import StreamZip from 'node-stream-zip'
 import type { IDatabase } from 'pg-promise'
-import { z } from 'zod'
 
 type H5pUpload = { id: string; filebucket: string; filekey: string }
 
 export type H5pExtractionResult = { selected: number; processed: number; failed: number }
 
-const extractionLimitsSchema = z.object({
-  maxBytes: z
-    .number()
-    .int()
-    .positive()
-    .default(5 * 1024 ** 3),
-  maxEntries: z.number().int().positive().default(100_000)
-})
+const MAX_EXTRACTED_BYTES = 5 * 1024 ** 3
+const MAX_EXTRACTED_ENTRIES = 100_000
 
 const uploadExtractedArchive = async (
   upload: H5pUpload,
   s3: S3Client,
   destinationBucket: string,
-  limits: z.output<typeof extractionLimitsSchema>
+  signal: AbortSignal
 ): Promise<string> => {
+  signal.throwIfAborted()
   const temporaryDirectory = await mkdtemp(path.join(os.tmpdir(), 'aoe-h5p-'))
   try {
     const archivePath = path.join(temporaryDirectory, 'upload.h5p')
     const extractedDirectory = path.join(temporaryDirectory, 'extracted')
     const { Body } = await s3.send(
-      new GetObjectCommand({ Bucket: upload.filebucket, Key: upload.filekey })
+      new GetObjectCommand({ Bucket: upload.filebucket, Key: upload.filekey }),
+      { abortSignal: signal }
     )
     if (!(Body instanceof Readable)) {
       throw new Error('H5P download returned a non-stream body')
     }
-    await pipeline(Body, createWriteStream(archivePath))
+    await pipeline(Body, createWriteStream(archivePath), { signal })
     await mkdir(extractedDirectory)
 
     const zip = new StreamZip.async({ file: archivePath })
     let entries: StreamZip.ZipEntry[]
     try {
       entries = Object.values(await zip.entries())
-      if (entries.length > limits.maxEntries) {
-        throw new Error(`H5P archive exceeds the ${limits.maxEntries}-entry extraction limit`)
+      signal.throwIfAborted()
+      if (entries.length > MAX_EXTRACTED_ENTRIES) {
+        throw new Error(`H5P archive exceeds the ${MAX_EXTRACTED_ENTRIES}-entry extraction limit`)
       }
       const declaredBytes = entries.reduce((total, entry) => total + entry.size, 0)
-      if (!Number.isSafeInteger(declaredBytes) || declaredBytes > limits.maxBytes) {
-        throw new Error(`H5P archive exceeds the ${limits.maxBytes}-byte extraction limit`)
+      if (!Number.isSafeInteger(declaredBytes) || declaredBytes > MAX_EXTRACTED_BYTES) {
+        throw new Error(`H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`)
       }
       let extractedBytes = 0
       for (const entry of entries) {
@@ -68,16 +63,17 @@ const uploadExtractedArchive = async (
           new Transform({
             transform(chunk, _encoding, callback) {
               extractedBytes += chunk.length
-              if (extractedBytes > limits.maxBytes) {
+              if (extractedBytes > MAX_EXTRACTED_BYTES) {
                 callback(
-                  new Error(`H5P archive exceeds the ${limits.maxBytes}-byte extraction limit`)
+                  new Error(`H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`)
                 )
                 return
               }
               callback(null, chunk)
             }
           }),
-          createWriteStream(filePath)
+          createWriteStream(filePath),
+          { signal }
         )
       }
     } finally {
@@ -100,15 +96,17 @@ const uploadExtractedArchive = async (
       const relativePath = path.posix.normalize(entry.name)
       const body = createReadStream(path.join(extractedDirectory, relativePath))
       try {
-        await new Upload({
-          client: s3,
-          params: {
+        signal.throwIfAborted()
+        await s3.send(
+          new PutObjectCommand({
             Bucket: destinationBucket,
             Key: `${prefix}${relativePath}`,
             Body: body,
+            ContentLength: entry.size,
             ContentType: mime.getType(relativePath) ?? 'application/octet-stream'
-          }
-        }).done()
+          }),
+          { abortSignal: signal }
+        )
       } finally {
         body.destroy()
       }
@@ -119,13 +117,13 @@ const uploadExtractedArchive = async (
   }
 }
 
-export const extractH5pUploads = async (
-  database: IDatabase<unknown>,
+const processH5pBatch = async (
+  database: Pick<IDatabase<unknown>, 'any' | 'none'>,
   s3: S3Client,
   destinationBucket: string,
-  limits: z.input<typeof extractionLimitsSchema> = {}
+  signal: AbortSignal
 ): Promise<H5pExtractionResult> => {
-  const extractionLimits = extractionLimitsSchema.parse(limits)
+  signal.throwIfAborted()
   const uploads = await database.any<H5pUpload>(`
     SELECT r.id, r.filebucket, r.filekey
     FROM record r
@@ -141,8 +139,10 @@ export const extractH5pUploads = async (
   `)
   const result: H5pExtractionResult = { selected: uploads.length, processed: 0, failed: 0 }
   for (const upload of uploads) {
+    signal.throwIfAborted()
     try {
-      const prefix = await uploadExtractedArchive(upload, s3, destinationBucket, extractionLimits)
+      const prefix = await uploadExtractedArchive(upload, s3, destinationBucket, signal)
+      signal.throwIfAborted()
       await database.none(
         `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix)
          VALUES ($1, $2, $3)
@@ -162,7 +162,34 @@ export const extractH5pUploads = async (
         sourceBucket: upload.filebucket,
         sourceKey: upload.filekey
       })
+      signal.throwIfAborted()
     }
   }
   return result
+}
+
+export const extractH5pUploads = async (
+  database: IDatabase<unknown>,
+  s3: S3Client,
+  destinationBucket: string
+): Promise<H5pExtractionResult | null> => {
+  const controller = new AbortController()
+  // A dedicated session owns the lock and every query in the batch. Closing it
+  // releases the lock even on failure, without returning a locked client to the pool.
+  const connection = await database.connect({
+    direct: true,
+    onLost: (error) => controller.abort(error)
+  })
+  try {
+    const { acquired } = await connection.one<{ acquired: boolean }>(
+      `SELECT pg_try_advisory_lock(hashtext('aoe'), hashtext('h5p_extraction')) AS acquired`
+    )
+    if (!acquired) {
+      log.info('H5P extraction skipped: another worker is running')
+      return null
+    }
+    return await processH5pBatch(connection, s3, destinationBucket, controller.signal)
+  } finally {
+    await connection.done()
+  }
 }

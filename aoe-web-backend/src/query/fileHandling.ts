@@ -1,4 +1,4 @@
-import { config, s3ClientConfig } from '@/config'
+import { config } from '@/config'
 import {
   EducationalMaterial,
   Material,
@@ -13,11 +13,11 @@ import {
   CompleteMultipartUploadCommandOutput,
   GetObjectCommand,
   GetObjectCommandInput,
-  PutObjectCommandInput,
-  S3Client
+  PutObjectCommandInput
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
 import { db, pgp } from '@resource/postgresClient'
+import { s3Client } from '@resource/s3Client'
 import { hasAccesstoPublication } from '@services/authService'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
@@ -51,9 +51,6 @@ type StorageObjectParams = {
   Key: NonNullable<GetObjectCommandInput['Key']>
   Range?: GetObjectCommandInput['Range']
 }
-
-// S3Client is reusable and thread-safe; share one instance across all S3 calls.
-const s3Client = new S3Client(s3ClientConfig)
 
 // GetObject's Body is a browser/Node union incl. undefined; in Node it is always
 // a Readable. Narrow with a runtime check instead of an unchecked `as` cast.

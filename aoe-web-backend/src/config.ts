@@ -85,7 +85,15 @@ const cloudStorageEnv = z
     CLOUD_STORAGE_ACCESS_SECRET: z.string().default(''),
     CLOUD_STORAGE_BUCKET: z.string().min(1),
     CLOUD_STORAGE_BUCKET_PDF: z.string().min(1),
-    CLOUD_STORAGE_BUCKET_THUMBNAIL: z.string().min(1)
+    CLOUD_STORAGE_BUCKET_THUMBNAIL: z.string().min(1),
+    CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS: z
+      .string()
+      .min(1)
+      .default(
+        ['dev', 'qa', 'prod'].includes(environment)
+          ? `aoe-uploaded-materials-${environment}`
+          : 'aoe-uploaded-materials'
+      )
   })
   .transform((env) => ({
     region: env.CLOUD_STORAGE_REGION,
@@ -94,7 +102,8 @@ const cloudStorageEnv = z
     secretAccessKey: env.CLOUD_STORAGE_ACCESS_SECRET,
     bucket: env.CLOUD_STORAGE_BUCKET,
     bucketPDF: env.CLOUD_STORAGE_BUCKET_PDF,
-    bucketThumbnail: env.CLOUD_STORAGE_BUCKET_THUMBNAIL
+    bucketThumbnail: env.CLOUD_STORAGE_BUCKET_THUMBNAIL,
+    bucketUploadedMaterials: env.CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS
   }))
   .safeParse(process.env)
 if (!cloudStorageEnv.success) {
@@ -116,7 +125,8 @@ const scheduledTasksEnv = z
     SCHEDULED_TASK_SEARCH_REINDEX_ENABLED: taskEnabled,
     SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
     SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
-    SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled
+    SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled,
+    SCHEDULED_TASK_H5P_EXTRACTION_ENABLED: taskEnabled
   })
   .transform((env) => ({
     directoryCleaning: { enabled: env.SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED },
@@ -124,7 +134,8 @@ const scheduledTasksEnv = z
     searchReindex: { enabled: env.SCHEDULED_TASK_SEARCH_REINDEX_ENABLED },
     officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
     referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
-    notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED }
+    notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED },
+    h5pExtraction: { enabled: env.SCHEDULED_TASK_H5P_EXTRACTION_ENABLED }
   }))
   .safeParse(process.env)
 if (!scheduledTasksEnv.success) {

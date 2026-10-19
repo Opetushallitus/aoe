@@ -77,10 +77,11 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Ajastetut tehtävät:**
 
-Jokainen tehtävä ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka ehtii ensin lisätä päivän rivin tauluun `scheduled_task_run`, ja muut kirjaavat ohituksen lokiin. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
+Päivittäiset tehtävät ajetaan vain yhdessä taskissa: tehtävän ajaa se task, joka ehtii ensin lisätä päivän rivin tauluun `scheduled_task_run`, ja muut kirjaavat ohituksen lokiin. H5P-pakettien purku ajetaan kymmenen minuutin välein, ja PostgreSQL:n istuntokohtainen advisory-lukko estää rinnakkaiset ajastetut ja manuaaliset ajot koko erän käsittelyn ajan. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
 
 | Aika (UTC) | Tehtävä | Kytkin |
 | ---------- | ------- | ------ |
+| 10 minuutin välein | Pura enintään kaksi käsittelemätöntä H5P-pakettia uuteen S3-ämpäriin | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
 | 1:00 AM    | Siivoa väliaikaiset H5P- ja HTML-hakemistot | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM    | Luo URNit julkaisemattomille materiaaleille | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |

@@ -2,10 +2,12 @@ import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { db } from '@resource/postgresClient'
+import { s3Client } from '@resource/s3Client'
 import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { clearH5PContentCache } from '@services/h5pService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
+import { extractH5pUploads } from '@services/h5pExtractionService'
 import {
   setAmmattikoulunAmmattitutkinnot,
   setAmmattikoulunErikoisammattitutkinnot,
@@ -91,10 +93,11 @@ const claimRun = async (taskName: string): Promise<boolean> => {
   return claimed !== null
 }
 
-const scheduleClaimedTask = (
+const scheduleTask = (
   taskName: keyof typeof config.scheduledTasks,
   pattern: string,
-  run: () => Promise<void>
+  run: () => Promise<void>,
+  { claimDailyRun = true }: { claimDailyRun?: boolean } = {}
 ): void => {
   if (!config.scheduledTasks[taskName].enabled) {
     log.info(`Scheduled task ${taskName} disabled`)
@@ -102,8 +105,7 @@ const scheduleClaimedTask = (
   }
   new Cron(pattern, async (): Promise<void> => {
     try {
-      const claimed = await claimRun(taskName)
-      if (!claimed) {
+      if (claimDailyRun && !(await claimRun(taskName))) {
         log.info(`Scheduled task ${taskName} skipped: another task claimed today's run`)
         return
       }
@@ -115,25 +117,40 @@ const scheduleClaimedTask = (
       log.error(`Scheduled task ${taskName} failed`, err)
     }
   })
-  log.info(`Scheduled task ${taskName} active at '${pattern}' (UTC)`)
+  log.info(`Scheduled task ${taskName} active at '${pattern}'`)
 }
 
 export const startScheduledTasks = (): void => {
-  scheduleClaimedTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
+  scheduleTask(
+    'h5pExtraction',
+    '0 */10 * * * *',
+    async (): Promise<void> => {
+      const result = await extractH5pUploads(
+        db,
+        s3Client,
+        config.cloudStorage.bucketUploadedMaterials
+      )
+      if (result !== null) {
+        log.info('H5P extraction batch finished', result)
+      }
+    },
+    { claimDailyRun: false }
+  )
+  scheduleTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
     clearH5PContentCache()
   })
-  scheduleClaimedTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)
-  scheduleClaimedTask('searchReindex', '0 30 1 * * *', reindexAll)
-  scheduleClaimedTask(
+  scheduleTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)
+  scheduleTask('searchReindex', '0 30 1 * * *', reindexAll)
+  scheduleTask(
     'officePdfConversion',
     '0 0 2 * * *',
     scheduledConvertAndUpstreamOfficeFilesToCloudStorage
   )
-  scheduleClaimedTask('referenceDataUpdate', '0 0 3 * * *', updateReferenceData)
-  scheduleClaimedTask('notificationMail', '0 0 10 * * *', async (): Promise<void> => {
+  scheduleTask('referenceDataUpdate', '0 0 3 * * *', updateReferenceData)
+  scheduleTask('notificationMail', '0 0 10 * * *', async (): Promise<void> => {
     await sendRatingNotificationMail()
     await sendExpirationMail()
   })
