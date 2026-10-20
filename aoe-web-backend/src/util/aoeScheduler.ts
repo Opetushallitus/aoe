@@ -104,18 +104,16 @@ const scheduleTask = (
 }
 
 export const startScheduledTasks = (): void => {
-  if (config.featureFlags.extractH5PFilesToS3) {
-    scheduleTask('h5pExtraction', '0 */5 * * * *', async (connection, signal): Promise<void> => {
-      const result = await extractH5pUploads(
-        connection,
-        s3Client,
-        config.cloudStorage.bucket,
-        config.cloudStorage.bucketUploadedMaterials,
-        signal
-      )
-      log.info('H5P extraction batch finished', result)
-    })
-  }
+  scheduleTask('h5pExtraction', '0 */5 * * * *', async (connection, signal): Promise<void> => {
+    const result = await extractH5pUploads(
+      connection,
+      s3Client,
+      config.cloudStorage.bucket,
+      config.cloudStorage.bucketUploadedMaterials,
+      signal
+    )
+    log.info('H5P extraction batch finished', result)
+  })
   scheduleTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)

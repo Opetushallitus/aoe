@@ -1,16 +1,21 @@
 # Extracting H5P uploads
 
-`config.featureFlags.extractH5PFilesToS3` controls upload extraction, backfill
-scheduling and the manual batch command. It is enabled only in dev and QA
+`config.featureFlags.extractH5PFilesToS3` controls upload extraction, S3 preview URLs
+and the manual batch command. It is enabled only in dev and QA
 (`ENV=dev` or `ENV=qa`), and disabled in production and other environments.
 
-When enabled, both material upload endpoints extract new H5P packages after the
+Scheduled backfill is controlled separately by
+`SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` and is enabled by default in every environment.
+The production job prepares packages in S3 while playback continues through the
+existing H5P server.
+
+When upload extraction is enabled, both material upload endpoints extract new H5P packages after the
 original archive is stored and the transaction saving its file key has committed.
 Other file types are not extracted. Processing continues
 after the upload response, independently of client disconnects. Extraction failures
 are logged without marking the material obsolete or failing the upload. They leave
 no completion entry, so the backfill job can retry them. Upload extraction runs
-independently of the additional setting that enables scheduled backfill.
+independently of the setting that enables scheduled backfill.
 
 The backend batch command selects up to five H5P upload records that have no matching
 `h5p_extraction` entry, using `ORDER BY random() LIMIT 5`. It downloads each archive
@@ -35,11 +40,12 @@ downloaded or extracted by the backend during metadata requests. Packages withou
 matching completion entry keep the existing preview fallback. If a package cannot
 play, the frontend offers the original file for download.
 
-When the feature flag is enabled, the existing backend scheduler runs one batch
+When scheduled backfill is enabled, the existing backend scheduler runs one batch
 every five minutes (`0 */5 * * * *`), using the shared S3 client. No timezone override
-is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` additionally
+is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false`
 disables scheduled backfill without disabling upload extraction; this task setting
-defaults to enabled. The destination is configured with
+defaults to enabled in every environment.
+The destination is configured with
 `CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS`: `aoe-uploaded-materials-dev`,
 `aoe-uploaded-materials-qa` or `aoe-uploaded-materials-prod`, and
 `aoe-uploaded-materials` locally.
