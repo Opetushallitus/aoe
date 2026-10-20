@@ -201,7 +201,7 @@ export const getEducationalMaterialMetadata = async (
       ? ', h5p.s3_object_prefix AS h5p_object_prefix'
       : ''
     const h5pExtractionJoin = config.featureFlags.extractH5PFilesToS3
-      ? 'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey '
+      ? 'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey AND h5p.success = true '
       : ''
 
     // Get all materials from material table if not published else get from version table.

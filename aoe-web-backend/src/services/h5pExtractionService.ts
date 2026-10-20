@@ -126,21 +126,44 @@ export const extractH5pUpload = async (
   destinationBucket: string,
   signal: AbortSignal
 ): Promise<string> => {
-  const prefix = await uploadExtractedArchive(upload, s3, sourceBucket, destinationBucket, signal)
-  signal.throwIfAborted()
-  await database.none(
-    `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix)
-     VALUES ($1, $2, $3)
-     ON CONFLICT (record_id, source_file_key) DO NOTHING`,
-    [upload.id, upload.filekey, prefix]
-  )
-  log.info(`H5P extraction completed for record ${upload.id}`, {
-    sourceBucket,
-    sourceKey: upload.filekey,
-    destinationBucket,
-    prefix
-  })
-  return prefix
+  try {
+    const prefix = await uploadExtractedArchive(upload, s3, sourceBucket, destinationBucket, signal)
+    signal.throwIfAborted()
+    await database.none(
+      `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix, success)
+       VALUES ($1, $2, $3, true)
+       ON CONFLICT (record_id, source_file_key) DO UPDATE SET
+         s3_object_prefix = EXCLUDED.s3_object_prefix,
+         success = true,
+         processed_at = current_timestamp`,
+      [upload.id, upload.filekey, prefix]
+    )
+    log.info(`H5P extraction completed for record ${upload.id}`, {
+      sourceBucket,
+      sourceKey: upload.filekey,
+      destinationBucket,
+      prefix
+    })
+    return prefix
+  } catch (error) {
+    try {
+      await database.none(
+        `INSERT INTO h5p_extraction (record_id, source_file_key, success)
+         VALUES ($1, $2, false)
+         ON CONFLICT (record_id, source_file_key) DO UPDATE SET
+           success = false,
+           s3_object_prefix = NULL,
+           processed_at = current_timestamp
+         WHERE NOT h5p_extraction.success`,
+        [upload.id, upload.filekey]
+      )
+    } catch (recordError) {
+      log.error(`Failed to record H5P extraction failure for record ${upload.id}`, recordError, {
+        sourceKey: upload.filekey
+      })
+    }
+    throw error
+  }
 }
 
 export const extractH5pUploads = async (
@@ -151,8 +174,10 @@ export const extractH5pUploads = async (
   signal: AbortSignal
 ): Promise<H5pExtractionResult> => {
   signal.throwIfAborted()
-  const [counts] = await database.any<{ extracted: number; total: number }>(`
-    SELECT COUNT(e.record_id)::int AS extracted, COUNT(*)::int AS total
+  const [counts] = await database.any<{ extracted: number; failed: number; total: number }>(`
+    SELECT COUNT(*) FILTER (WHERE e.success = true)::int AS extracted,
+           COUNT(*) FILTER (WHERE e.success = false)::int AS failed,
+           COUNT(*)::int AS total
     FROM record r
     LEFT JOIN h5p_extraction e
       ON e.record_id = r.id AND e.source_file_key = r.filekey
@@ -160,7 +185,7 @@ export const extractH5pUploads = async (
       AND r.filekey IS NOT NULL
   `)
   log.info(
-    `H5P extraction batch starting: ${counts.extracted} of ${counts.total} uploads processed`,
+    `H5P extraction batch starting: ${counts.extracted} of ${counts.total} uploads processed, ${counts.failed} failed`,
     counts
   )
   const uploads = await database.any<H5pUpload>(`
@@ -170,7 +195,7 @@ export const extractH5pUploads = async (
       AND r.filekey IS NOT NULL
       AND NOT EXISTS (
         SELECT 1 FROM h5p_extraction e
-        WHERE e.record_id = r.id AND e.source_file_key = r.filekey
+        WHERE e.record_id = r.id AND e.source_file_key = r.filekey AND e.success = true
       )
     ORDER BY random()
     LIMIT 5
