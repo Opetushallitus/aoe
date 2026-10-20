@@ -77,11 +77,11 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 **Ajastetut tehtävät:**
 
-Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtaisen advisory-lukon funktiolla `pg_try_advisory_lock` koko ajon ajaksi. Jos toinen palvelin ajaa jo samaa tehtävää, ohitus kirjataan lokiin. Tehtävän oma tietokantayhteys suljetaan ajon päätyttyä tai epäonnistuttua, jolloin lukko vapautuu myöhempiä ajoja varten. H5P-pakettien purku ajetaan kymmenen minuutin välein; ajastetut ja manuaaliset ajot käyttävät samaa `h5pExtraction`-lukkoa yhteisen suoritusfunktion kautta, joten ne eivät voi ajaa rinnakkain. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
+Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtaisen advisory-lukon funktiolla `pg_try_advisory_lock` koko ajon ajaksi. Jos toinen palvelin ajaa jo samaa tehtävää, ohitus kirjataan lokiin. Tehtävän oma tietokantayhteys suljetaan ajon päätyttyä tai epäonnistuttua, jolloin lukko vapautuu myöhempiä ajoja varten. H5P-pakettien purku ajetaan viiden minuutin välein; ajastetut ja manuaaliset ajot käyttävät samaa `h5pExtraction`-lukkoa yhteisen suoritusfunktion kautta, joten ne eivät voi ajaa rinnakkain. Jokaisen tehtävän voi kytkeä pois asetuksella `SCHEDULED_TASK_<NIMI>_ENABLED=false` (oletuksena päällä).
 
 | Aika (UTC) | Tehtävä | Kytkin |
 | ---------- | ------- | ------ |
-| 10 minuutin välein | Pura enintään kaksi käsittelemätöntä H5P-pakettia uuteen S3-ämpäriin | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
+| 5 minuutin välein | Pura enintään kaksi käsittelemätöntä H5P-pakettia uuteen S3-ämpäriin | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
 | 1:00 AM    | Siivoa väliaikaiset H5P- ja HTML-hakemistot | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM    | Luo URNit julkaisemattomille materiaaleille | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |

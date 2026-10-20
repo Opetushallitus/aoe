@@ -36,7 +36,7 @@ matching completion entry keep the existing preview fallback. If a package canno
 play, the frontend offers the original file for download.
 
 When the feature flag is enabled, the existing backend scheduler runs one batch
-every ten minutes (`0 */10 * * * *`), using the shared S3 client. No timezone override
+every five minutes (`0 */5 * * * *`), using the shared S3 client. No timezone override
 is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` additionally
 disables scheduled backfill without disabling upload extraction; this task setting
 defaults to enabled. The destination is configured with

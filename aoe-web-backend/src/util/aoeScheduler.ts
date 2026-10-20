@@ -105,7 +105,7 @@ const scheduleTask = (
 
 export const startScheduledTasks = (): void => {
   if (config.featureFlags.extractH5PFilesToS3) {
-    scheduleTask('h5pExtraction', '0 */10 * * * *', async (connection, signal): Promise<void> => {
+    scheduleTask('h5pExtraction', '0 */5 * * * *', async (connection, signal): Promise<void> => {
       const result = await extractH5pUploads(
         connection,
         s3Client,
