@@ -354,17 +354,19 @@ export const getEducationalMaterialMetadata = async (
             )
             .toLowerCase()
         }
-        if (ext === '.h5p' && !config.featureFlags.h5pClientPlayer) {
-          jsonObj.materials[i]['mimetype'] = 'text/html'
-          jsonObj.materials[i]['filepath'] =
-            `${config.MEDIA_FILE_PROCESS.h5pPlayApi}${jsonObj.materials[i]['filekey']}`
-        } else if (ext === '.h5p') {
+        if (ext === '.h5p') {
           if (config.featureFlags.extractH5PFilesToS3 && h5pObjectPrefix) {
             jsonObj.materials[i]['mimetype'] = 'application/h5p'
             jsonObj.materials[i]['filepath'] = new URL(
               `/${h5pObjectPrefix}`,
               process.env.HTML_BASE_URL
             ).href.replace(/\/+$/, '')
+            continue
+          }
+          if (!config.featureFlags.h5pClientPlayer) {
+            jsonObj.materials[i]['mimetype'] = 'text/html'
+            jsonObj.materials[i]['filepath'] =
+              `${config.MEDIA_FILE_PROCESS.h5pPlayApi}${jsonObj.materials[i]['filekey']}`
             continue
           }
           const packageFolder = await extractArchiveForPreview(

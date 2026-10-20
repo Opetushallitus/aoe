@@ -161,9 +161,8 @@ export const config = {
   scheduledTasks: scheduledTasksEnv.data,
 
   featureFlags: {
-    // Play H5P in the browser from the extracted package instead of the
-    // Lumi H5P server everywhere except production.
-    h5pClientPlayer: environment !== 'prod',
+    // Use Lumi in QA and production when there is no completed S3 extraction.
+    h5pClientPlayer: environment !== 'prod' && environment !== 'qa',
     extractH5PFilesToS3: environment === 'dev' || environment === 'qa'
   } as const,
 

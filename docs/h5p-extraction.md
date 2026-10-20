@@ -36,9 +36,13 @@ against the record ID and current file key. It returns the public
 `HTML_BASE_URL/files/<record-id>/<source-hash>` directory as the preview URL with
 the `application/h5p` MIME type. The URL omits the trailing slash because the client
 player appends package file paths with a slash. Completed packages do not need to be
-downloaded or extracted by the backend during metadata requests. Packages without a
-matching completion entry keep the existing preview fallback. If a package cannot
-play, the frontend offers the original file for download.
+downloaded or extracted by the backend during metadata requests. In QA, packages
+without a matching completion entry use the existing Lumi H5P server, as they do in
+production. Dev keeps local extraction and the browser player as its fallback.
+`config.featureFlags.h5pClientPlayer` controls this fallback and is disabled in QA
+and production; completed S3 extractions still use the browser player when
+`extractH5PFilesToS3` is enabled. If browser playback fails, the frontend offers
+the original file for download.
 
 When scheduled backfill is enabled, the existing backend scheduler runs one batch
 every five minutes (`0 */5 * * * *`), using the shared S3 client. No timezone override
