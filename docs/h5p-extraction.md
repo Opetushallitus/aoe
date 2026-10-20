@@ -25,6 +25,16 @@ and file key. It extracts and uploads the package, records completion in
 The batch command uses this operation for each selected upload and continues after
 individual failures.
 
+With the feature flag enabled, browser playback uses completed extractions from S3.
+Draft, published and version-specific material metadata matches `h5p_extraction`
+against the record ID and current file key. It returns the public
+`HTML_BASE_URL/files/<record-id>/<source-hash>` directory as the preview URL with
+the `application/h5p` MIME type. The URL omits the trailing slash because the client
+player appends package file paths with a slash. Completed packages do not need to be
+downloaded or extracted by the backend during metadata requests. Packages without a
+matching completion entry keep the existing preview fallback. If a package cannot
+play, the frontend offers the original file for download.
+
 When the feature flag is enabled, the existing backend scheduler runs one batch
 every ten minutes (`0 */10 * * * *`), using the shared S3 client. No timezone override
 is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` additionally

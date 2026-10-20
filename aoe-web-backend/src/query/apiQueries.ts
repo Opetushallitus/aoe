@@ -197,34 +197,48 @@ export const getEducationalMaterialMetadata = async (
     response = await t.any(query, [eduMaterialId])
     queries.push(response)
 
+    const h5pExtractionColumn = config.featureFlags.extractH5PFilesToS3
+      ? ', h5p.s3_object_prefix AS h5p_object_prefix'
+      : ''
+    const h5pExtractionJoin = config.featureFlags.extractH5PFilesToS3
+      ? 'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey '
+      : ''
+
     // Get all materials from material table if not published else get from version table.
     if (!isPublished) {
       query =
         'SELECT m.id, m.materiallanguagekey AS language, link, filepath, originalfilename, filesize, ' +
-        'mimetype, filekey, filebucket, pdfkey FROM material AS m ' +
+        'mimetype, filekey, filebucket, pdfkey' +
+        h5pExtractionColumn +
+        ' FROM material AS m ' +
         'LEFT JOIN record AS r ON m.id = r.materialid ' +
+        h5pExtractionJoin +
         'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0'
       response = await t.any(query, [eduMaterialId])
     } else {
       if (req.params.publishedat) {
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey ' +
-          'FROM (SELECT materialid, publishedat, priority FROM versioncomposition ' +
+          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey' +
+          h5pExtractionColumn +
+          ' FROM (SELECT materialid, publishedat, priority FROM versioncomposition ' +
           'WHERE publishedat = $2) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
           'LEFT JOIN record AS r ON m.id = r.materialid ' +
+          h5pExtractionJoin +
           'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 ' +
           'ORDER BY priority'
         response = await t.any(query, [eduMaterialId, req.params.publishedat])
       } else {
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey ' +
-          'FROM (SELECT materialid, publishedat, priority FROM versioncomposition WHERE publishedat = ' +
+          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey' +
+          h5pExtractionColumn +
+          ' FROM (SELECT materialid, publishedat, priority FROM versioncomposition WHERE publishedat = ' +
           '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
           'LEFT JOIN record AS r ON m.id = r.materialid ' +
+          h5pExtractionJoin +
           'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 ' +
           'ORDER BY priority'
         response = await t.any(query, [eduMaterialId])
@@ -329,18 +343,30 @@ export const getEducationalMaterialMetadata = async (
       jsonObj.id = data[0][0].id
       jsonObj.materials = data[14]
       for (const i in jsonObj.materials) {
+        const h5pObjectPrefix = jsonObj.materials[i]['h5p_object_prefix']
+        delete jsonObj.materials[i]['h5p_object_prefix']
         let ext = ''
         if (jsonObj.materials[i] && jsonObj.materials[i]['originalfilename']) {
-          ext = jsonObj.materials[i]['originalfilename'].substring(
-            jsonObj.materials[i]['originalfilename'].lastIndexOf('.'),
-            jsonObj.materials[i]['originalfilename'].length
-          )
+          ext = jsonObj.materials[i]['originalfilename']
+            .substring(
+              jsonObj.materials[i]['originalfilename'].lastIndexOf('.'),
+              jsonObj.materials[i]['originalfilename'].length
+            )
+            .toLowerCase()
         }
         if (ext === '.h5p' && !config.featureFlags.h5pClientPlayer) {
           jsonObj.materials[i]['mimetype'] = 'text/html'
           jsonObj.materials[i]['filepath'] =
             `${config.MEDIA_FILE_PROCESS.h5pPlayApi}${jsonObj.materials[i]['filekey']}`
         } else if (ext === '.h5p') {
+          if (config.featureFlags.extractH5PFilesToS3 && h5pObjectPrefix) {
+            jsonObj.materials[i]['mimetype'] = 'application/h5p'
+            jsonObj.materials[i]['filepath'] = new URL(
+              `/${h5pObjectPrefix}`,
+              process.env.HTML_BASE_URL
+            ).href.replace(/\/+$/, '')
+            continue
+          }
           const packageFolder = await extractArchiveForPreview(
             jsonObj.materials[i],
             eduMaterialId,

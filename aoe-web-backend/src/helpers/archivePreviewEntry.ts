@@ -26,7 +26,7 @@ const searchRecursive = (dir: string, pattern: string): string[] => {
 export const extractionFolderOf = (fileKey: string): string =>
   `${process.env.HTML_FOLDER}/${fileKey}`.slice(0, -4)
 
-export const isH5PArchive = (fileKey: string): boolean => fileKey.endsWith('.h5p')
+export const isH5PArchive = (fileKey: string): boolean => fileKey.toLowerCase().endsWith('.h5p')
 
 // An H5P package is previewed from its root folder, which must hold h5p.json. An HTML
 // archive is previewed from its first index.html (or index.htm). Returns false when missing.
