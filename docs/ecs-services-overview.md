@@ -89,7 +89,7 @@ Each scheduled job acquires a task-specific PostgreSQL session advisory lock wit
 
 | Time (UTC) | Job | Switch |
 |---|---|---|
-| Every 5 minutes | Extract up to two pending H5P uploads into the uploaded-materials bucket | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
+| Every 5 minutes | Extract up to five pending H5P uploads into the uploaded-materials bucket | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
 | 1:00 AM | Clean temporary H5P and HTML directories | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM | Generate URNs for unpublished materials | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |

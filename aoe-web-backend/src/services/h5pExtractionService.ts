@@ -173,7 +173,7 @@ export const extractH5pUploads = async (
         WHERE e.record_id = r.id AND e.source_file_key = r.filekey
       )
     ORDER BY random()
-    LIMIT 2
+    LIMIT 5
   `)
   const result: H5pExtractionResult = { selected: uploads.length, processed: 0, failed: 0 }
   for (const upload of uploads) {

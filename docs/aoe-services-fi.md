@@ -81,7 +81,7 @@ Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtai
 
 | Aika (UTC) | Tehtävä | Kytkin |
 | ---------- | ------- | ------ |
-| 5 minuutin välein | Pura enintään kaksi käsittelemätöntä H5P-pakettia uuteen S3-ämpäriin | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
+| 5 minuutin välein | Pura enintään viisi käsittelemätöntä H5P-pakettia uuteen S3-ämpäriin | `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` |
 | 1:00 AM    | Siivoa väliaikaiset H5P- ja HTML-hakemistot | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM    | Luo URNit julkaisemattomille materiaaleille | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |

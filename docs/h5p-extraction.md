@@ -12,8 +12,8 @@ are logged without marking the material obsolete or failing the upload. They lea
 no completion entry, so the backfill job can retry them. Upload extraction runs
 independently of the additional setting that enables scheduled backfill.
 
-The backend batch command selects up to two H5P upload records that have no matching
-`h5p_extraction` entry, using `ORDER BY random() LIMIT 2`. It downloads each archive
+The backend batch command selects up to five H5P upload records that have no matching
+`h5p_extraction` entry, using `ORDER BY random() LIMIT 5`. It downloads each archive
 using its recorded key from `CLOUD_STORAGE_BUCKET`, the environment's upload bucket,
 extracts it locally, and uploads the files to the destination bucket. This matches
 normal H5P playback and downloads; historical `record.filebucket` values are ignored.
