@@ -6,6 +6,12 @@ from its recorded bucket and key, extracts it locally, and uploads the files to 
 destination bucket. Files retain their package paths and receive content types for
 browser playback.
 
+The shared `extractH5pUpload` service processes one upload identified by its record ID
+and file key. It extracts and uploads the package, records completion in
+`h5p_extraction`, and returns the S3 object prefix. Errors propagate to the caller.
+The batch command uses this operation for each selected upload and continues after
+individual failures.
+
 The existing backend scheduler runs one batch every ten minutes (`0 */10 * * * *`),
 using the shared S3 client. No timezone override is needed for this interval.
 `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` disables automatic execution; it is

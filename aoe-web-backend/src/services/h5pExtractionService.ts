@@ -11,7 +11,7 @@ import { pipeline } from 'node:stream/promises'
 import StreamZip from 'node-stream-zip'
 import type { IDatabase } from 'pg-promise'
 
-type H5pUpload = { id: string; filebucket: string; filekey: string }
+export type H5pUpload = { id: string; filebucket: string; filekey: string }
 
 export type H5pExtractionResult = { selected: number; processed: number; failed: number }
 
@@ -117,6 +117,30 @@ const uploadExtractedArchive = async (
   }
 }
 
+export const extractH5pUpload = async (
+  database: Pick<IDatabase<unknown>, 'none'>,
+  s3: S3Client,
+  upload: H5pUpload,
+  destinationBucket: string,
+  signal: AbortSignal
+): Promise<string> => {
+  const prefix = await uploadExtractedArchive(upload, s3, destinationBucket, signal)
+  signal.throwIfAborted()
+  await database.none(
+    `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix)
+     VALUES ($1, $2, $3)
+     ON CONFLICT (record_id, source_file_key) DO NOTHING`,
+    [upload.id, upload.filekey, prefix]
+  )
+  log.info(`H5P extraction completed for record ${upload.id}`, {
+    sourceBucket: upload.filebucket,
+    sourceKey: upload.filekey,
+    destinationBucket,
+    prefix
+  })
+  return prefix
+}
+
 export const extractH5pUploads = async (
   database: Pick<IDatabase<unknown>, 'any' | 'none'>,
   s3: S3Client,
@@ -141,21 +165,8 @@ export const extractH5pUploads = async (
   for (const upload of uploads) {
     signal.throwIfAborted()
     try {
-      const prefix = await uploadExtractedArchive(upload, s3, destinationBucket, signal)
-      signal.throwIfAborted()
-      await database.none(
-        `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix)
-         VALUES ($1, $2, $3)
-         ON CONFLICT (record_id, source_file_key) DO NOTHING`,
-        [upload.id, upload.filekey, prefix]
-      )
+      await extractH5pUpload(database, s3, upload, destinationBucket, signal)
       result.processed++
-      log.info(`H5P extraction completed for record ${upload.id}`, {
-        sourceBucket: upload.filebucket,
-        sourceKey: upload.filekey,
-        destinationBucket,
-        prefix
-      })
     } catch (error) {
       result.failed++
       log.error(`H5P extraction failed for record ${upload.id}`, error, {
