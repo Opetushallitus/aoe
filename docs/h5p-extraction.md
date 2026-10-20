@@ -1,4 +1,16 @@
-# Extracting existing H5P uploads
+# Extracting H5P uploads
+
+`config.featureFlags.extractH5PFilesToS3` controls upload extraction, backfill
+scheduling and the manual batch command. It is enabled only in dev and QA
+(`ENV=dev` or `ENV=qa`), and disabled in production and other environments.
+
+When enabled, both material upload endpoints extract new H5P packages after the
+original archive is stored and the transaction saving its file key has committed.
+Other file types are not extracted. Processing continues
+after the upload response, independently of client disconnects. Extraction failures
+are logged without marking the material obsolete or failing the upload. They leave
+no completion entry, so the backfill job can retry them. Upload extraction runs
+independently of the additional setting that enables scheduled backfill.
 
 The backend batch command selects up to two H5P upload records that have no matching
 `h5p_extraction` entry, using `ORDER BY random() LIMIT 2`. It downloads each archive
@@ -13,10 +25,11 @@ and file key. It extracts and uploads the package, records completion in
 The batch command uses this operation for each selected upload and continues after
 individual failures.
 
-The existing backend scheduler runs one batch every ten minutes (`0 */10 * * * *`),
-using the shared S3 client. No timezone override is needed for this interval.
-`SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` disables automatic execution; it is
-enabled by default. The destination is configured with
+When the feature flag is enabled, the existing backend scheduler runs one batch
+every ten minutes (`0 */10 * * * *`), using the shared S3 client. No timezone override
+is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false` additionally
+disables scheduled backfill without disabling upload extraction; this task setting
+defaults to enabled. The destination is configured with
 `CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS`: `aoe-uploaded-materials-dev`,
 `aoe-uploaded-materials-qa` or `aoe-uploaded-materials-prod`, and
 `aoe-uploaded-materials` locally.
@@ -47,8 +60,9 @@ In a built backend container, run the entry point directly:
 node --enable-source-maps dist/tasks/extractH5pUploads.js aoe-uploaded-materials-qa
 ```
 
-Pass the destination bucket for the intended environment explicitly. For local
-development, the destination bucket is `aoe-uploaded-materials`.
+Pass the destination bucket for the intended dev or QA environment explicitly.
+The manual command skips without creating database or S3 clients when the feature
+flag is disabled.
 
 Each manual invocation processes one batch and reports selected, processed and failed
 counts. It logs a skip and exits successfully when another worker holds the lock.

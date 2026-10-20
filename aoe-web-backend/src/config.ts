@@ -163,7 +163,8 @@ export const config = {
   featureFlags: {
     // Play H5P in the browser from the extracted package instead of the
     // Lumi H5P server everywhere except production.
-    h5pClientPlayer: environment !== 'prod'
+    h5pClientPlayer: environment !== 'prod',
+    extractH5PFilesToS3: environment === 'dev' || environment === 'qa'
   } as const,
 
   // Media file processing configurations.

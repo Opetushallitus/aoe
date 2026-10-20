@@ -8,6 +8,10 @@ const main = async (): Promise<void> => {
     throw new Error('Usage: node dist/tasks/extractH5pUploads.js <destination-bucket>')
   }
   const { config } = await import('../config.js')
+  if (!config.featureFlags.extractH5PFilesToS3) {
+    log.info('H5P extraction skipped: extractH5PFilesToS3 feature flag is disabled')
+    return
+  }
   const { db, pgp } = await import('../resource/postgresClient.js')
   const { s3Client } = await import('../resource/s3Client.js')
   try {

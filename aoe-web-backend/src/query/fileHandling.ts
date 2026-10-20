@@ -19,6 +19,7 @@ import { Upload } from '@aws-sdk/lib-storage'
 import { db, pgp } from '@resource/postgresClient'
 import { s3Client } from '@resource/s3Client'
 import { hasAccesstoPublication } from '@services/authService'
+import { extractH5pUpload } from '@services/h5pExtractionService'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
@@ -227,6 +228,9 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     obj.Bucket,
                     obj.Location
                   )
+                  if (isH5PFile(file)) {
+                    await extractUploadedH5p(file, recordid, obj.Key)
+                  }
 
                   // convert file to pdf if office document
                   try {
@@ -438,6 +442,9 @@ export const uploadFileToMaterial = async (
         )
       }
     )
+    if (isH5PFile(file)) {
+      await extractUploadedH5p(file, recordID, fileS3.Key)
+    }
     // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
       await convertOfficeFileToStoredPDF(fileS3.Key, recordID)
@@ -459,6 +466,39 @@ export const uploadFileToMaterial = async (
     }
   } finally {
     deleteFileFromLocalDiskStorage(file)
+  }
+}
+
+function isH5PFile(file: MulterFile): boolean {
+  return path.extname(file.originalname).toLowerCase() === '.h5p'
+}
+
+async function extractUploadedH5p(
+  file: MulterFile,
+  recordId: string | null,
+  fileKey: string | undefined
+): Promise<void> {
+  if (!config.featureFlags.extractH5PFilesToS3) {
+    return
+  }
+  if (!recordId || !fileKey || !isH5PFile(file)) {
+    return
+  }
+  try {
+    await extractH5pUpload(
+      db,
+      s3Client,
+      { id: recordId, filekey: fileKey },
+      config.cloudStorage.bucket,
+      config.cloudStorage.bucketUploadedMaterials,
+      // Processing continues after the upload response, independently of client disconnects.
+      new AbortController().signal
+    )
+  } catch (err) {
+    log.error(`H5P extraction failed for uploaded record ${recordId}`, err, {
+      sourceBucket: config.cloudStorage.bucket,
+      sourceKey: fileKey
+    })
   }
 }
 
