@@ -151,6 +151,18 @@ export const extractH5pUploads = async (
   signal: AbortSignal
 ): Promise<H5pExtractionResult> => {
   signal.throwIfAborted()
+  const [counts] = await database.any<{ extracted: number; total: number }>(`
+    SELECT COUNT(e.record_id)::int AS extracted, COUNT(*)::int AS total
+    FROM record r
+    LEFT JOIN h5p_extraction e
+      ON e.record_id = r.id AND e.source_file_key = r.filekey
+    WHERE lower(r.originalfilename) LIKE '%.h5p'
+      AND r.filekey IS NOT NULL
+  `)
+  log.info(
+    `H5P extraction batch starting: ${counts.extracted} of ${counts.total} uploads processed`,
+    counts
+  )
   const uploads = await database.any<H5pUpload>(`
     SELECT r.id, r.filekey
     FROM record r

@@ -44,6 +44,12 @@ defaults to enabled. The destination is configured with
 `aoe-uploaded-materials-qa` or `aoe-uploaded-materials-prod`, and
 `aoe-uploaded-materials` locally.
 
+At the start of each batch, the service logs progress in the message, for example
+`H5P extraction batch starting: 120 of 500 uploads processed`, and includes
+`extracted` and `total` as structured fields. Both counts include only H5P records
+with a file key; `extracted` counts records with a completion entry matching their
+current file key. This progress is logged even when no files remain to extract.
+
 Each batch obtains one PostgreSQL session advisory lock on a dedicated connection
 through the shared `runTaskWithLock` function used by all scheduled jobs.
 The lock covers selection, extraction, upload, completion writes and temporary-file
