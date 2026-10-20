@@ -7,12 +7,13 @@ const main = async (): Promise<void> => {
   if (process.argv.length !== 3 || !destinationBucket?.trim()) {
     throw new Error('Usage: node dist/tasks/extractH5pUploads.js <destination-bucket>')
   }
+  const { config } = await import('../config.js')
   const { db, pgp } = await import('../resource/postgresClient.js')
   const { s3Client } = await import('../resource/s3Client.js')
   try {
     log.info('Starting H5P extraction batch', { destinationBucket })
     const result = await runTaskWithLock(db, 'h5pExtraction', (connection, signal) =>
-      extractH5pUploads(connection, s3Client, destinationBucket, signal)
+      extractH5pUploads(connection, s3Client, config.cloudStorage.bucket, destinationBucket, signal)
     )
     if (result === null) {
       return

@@ -11,7 +11,7 @@ import { pipeline } from 'node:stream/promises'
 import StreamZip from 'node-stream-zip'
 import type { IDatabase } from 'pg-promise'
 
-export type H5pUpload = { id: string; filebucket: string; filekey: string }
+export type H5pUpload = { id: string; filekey: string }
 
 export type H5pExtractionResult = { selected: number; processed: number; failed: number }
 
@@ -21,6 +21,7 @@ const MAX_EXTRACTED_ENTRIES = 100_000
 const uploadExtractedArchive = async (
   upload: H5pUpload,
   s3: S3Client,
+  sourceBucket: string,
   destinationBucket: string,
   signal: AbortSignal
 ): Promise<string> => {
@@ -30,7 +31,7 @@ const uploadExtractedArchive = async (
     const archivePath = path.join(temporaryDirectory, 'upload.h5p')
     const extractedDirectory = path.join(temporaryDirectory, 'extracted')
     const { Body } = await s3.send(
-      new GetObjectCommand({ Bucket: upload.filebucket, Key: upload.filekey }),
+      new GetObjectCommand({ Bucket: sourceBucket, Key: upload.filekey }),
       { abortSignal: signal }
     )
     if (!(Body instanceof Readable)) {
@@ -86,7 +87,7 @@ const uploadExtractedArchive = async (
     }
 
     const sourceHash = createHash('sha256')
-      .update(JSON.stringify([upload.filebucket, upload.filekey]))
+      .update(JSON.stringify([sourceBucket, upload.filekey]))
       .digest('hex')
     const prefix = `files/${upload.id}/${sourceHash}/`
     for (const entry of entries) {
@@ -121,10 +122,11 @@ export const extractH5pUpload = async (
   database: Pick<IDatabase<unknown>, 'none'>,
   s3: S3Client,
   upload: H5pUpload,
+  sourceBucket: string,
   destinationBucket: string,
   signal: AbortSignal
 ): Promise<string> => {
-  const prefix = await uploadExtractedArchive(upload, s3, destinationBucket, signal)
+  const prefix = await uploadExtractedArchive(upload, s3, sourceBucket, destinationBucket, signal)
   signal.throwIfAborted()
   await database.none(
     `INSERT INTO h5p_extraction (record_id, source_file_key, s3_object_prefix)
@@ -133,7 +135,7 @@ export const extractH5pUpload = async (
     [upload.id, upload.filekey, prefix]
   )
   log.info(`H5P extraction completed for record ${upload.id}`, {
-    sourceBucket: upload.filebucket,
+    sourceBucket,
     sourceKey: upload.filekey,
     destinationBucket,
     prefix
@@ -144,15 +146,15 @@ export const extractH5pUpload = async (
 export const extractH5pUploads = async (
   database: Pick<IDatabase<unknown>, 'any' | 'none'>,
   s3: S3Client,
+  sourceBucket: string,
   destinationBucket: string,
   signal: AbortSignal
 ): Promise<H5pExtractionResult> => {
   signal.throwIfAborted()
   const uploads = await database.any<H5pUpload>(`
-    SELECT r.id, r.filebucket, r.filekey
+    SELECT r.id, r.filekey
     FROM record r
     WHERE lower(r.originalfilename) LIKE '%.h5p'
-      AND r.filebucket IS NOT NULL
       AND r.filekey IS NOT NULL
       AND NOT EXISTS (
         SELECT 1 FROM h5p_extraction e
@@ -165,12 +167,12 @@ export const extractH5pUploads = async (
   for (const upload of uploads) {
     signal.throwIfAborted()
     try {
-      await extractH5pUpload(database, s3, upload, destinationBucket, signal)
+      await extractH5pUpload(database, s3, upload, sourceBucket, destinationBucket, signal)
       result.processed++
     } catch (error) {
       result.failed++
       log.error(`H5P extraction failed for record ${upload.id}`, error, {
-        sourceBucket: upload.filebucket,
+        sourceBucket,
         sourceKey: upload.filekey
       })
       signal.throwIfAborted()

@@ -108,6 +108,7 @@ export const startScheduledTasks = (): void => {
     const result = await extractH5pUploads(
       connection,
       s3Client,
+      config.cloudStorage.bucket,
       config.cloudStorage.bucketUploadedMaterials,
       signal
     )

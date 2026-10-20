@@ -2,9 +2,10 @@
 
 The backend batch command selects up to two H5P upload records that have no matching
 `h5p_extraction` entry, using `ORDER BY random() LIMIT 2`. It downloads each archive
-from its recorded bucket and key, extracts it locally, and uploads the files to the
-destination bucket. Files retain their package paths and receive content types for
-browser playback.
+using its recorded key from `CLOUD_STORAGE_BUCKET`, the environment's upload bucket,
+extracts it locally, and uploads the files to the destination bucket. This matches
+normal H5P playback and downloads; historical `record.filebucket` values are ignored.
+Files retain their package paths and receive content types for browser playback.
 
 The shared `extractH5pUpload` service processes one upload identified by its record ID
 and file key. It extracts and uploads the package, records completion in
