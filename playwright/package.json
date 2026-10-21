@@ -14,7 +14,7 @@
   "description": "",
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@playwright/test": "1.64.0",
+    "@playwright/test": "1.64.1",
     "@types/node": "24.19.2",
     "fast-xml-parser": "5.11.2",
     "knip": "6.41.0",
