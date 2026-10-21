@@ -163,7 +163,7 @@ export const config = {
   featureFlags: {
     // Use Lumi in QA and production when there is no completed S3 extraction.
     h5pClientPlayer: environment !== 'prod' && environment !== 'qa',
-    extractH5PFilesToS3: environment === 'dev' || environment === 'qa' || environment === 'prod'
+    extractH5PFilesToS3: true
   } as const,
 
   // Media file processing configurations.
