@@ -1,3 +1,6 @@
+import { config } from '@/config'
+import { db, pgp } from '@resource/postgresClient'
+import { s3Client } from '@resource/s3Client'
 import { extractH5pUploads } from '@services/h5pExtractionService'
 import { runTaskWithLock } from '@util/taskLock'
 import * as log from '@util/winstonLogger'
@@ -7,13 +10,6 @@ const main = async (): Promise<void> => {
   if (process.argv.length !== 3 || !destinationBucket?.trim()) {
     throw new Error('Usage: node dist/tasks/extractH5pUploads.js <destination-bucket>')
   }
-  const { config } = await import('../config.js')
-  if (!config.featureFlags.extractH5PFilesToS3) {
-    log.info('H5P extraction skipped: extractH5PFilesToS3 feature flag is disabled')
-    return
-  }
-  const { db, pgp } = await import('../resource/postgresClient.js')
-  const { s3Client } = await import('../resource/s3Client.js')
   try {
     log.info('Starting H5P extraction batch', { destinationBucket })
     const result = await runTaskWithLock(db, 'h5pExtraction', (connection, signal) =>

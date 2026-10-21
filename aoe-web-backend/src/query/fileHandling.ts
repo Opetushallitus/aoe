@@ -478,9 +478,6 @@ async function extractUploadedH5p(
   recordId: string | null,
   fileKey: string | undefined
 ): Promise<void> {
-  if (!config.featureFlags.extractH5PFilesToS3) {
-    return
-  }
   if (!recordId || !fileKey || !isH5PFile(file)) {
     return
   }

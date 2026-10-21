@@ -1,15 +1,12 @@
 # Extracting H5P uploads
 
-`config.featureFlags.extractH5PFilesToS3` controls upload extraction, S3 preview URLs
-and the manual batch command. It is enabled only in dev and QA
-(`ENV=dev` or `ENV=qa`), and disabled in production and other environments.
+H5P upload extraction, S3 preview URLs and the manual batch command are enabled
+in every environment.
 
 Scheduled backfill is controlled separately by
 `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` and is enabled by default in every environment.
-The production job prepares packages in S3 while playback continues through the
-existing H5P server.
 
-When upload extraction is enabled, both material upload endpoints extract new H5P packages after the
+Both material upload endpoints extract new H5P packages after the
 original archive is stored and the transaction saving its file key has committed.
 Other file types are not extracted. Processing continues
 after the upload response, independently of client disconnects. Extraction failures
@@ -34,7 +31,7 @@ overwrite an already successful extraction. Errors propagate to the caller.
 The batch command uses this operation for each selected upload and continues after
 individual failures.
 
-With the feature flag enabled, browser playback uses completed extractions from S3.
+Browser playback uses completed extractions from S3.
 Draft, published and version-specific material metadata matches `h5p_extraction`
 against the record ID and current file key, requiring `success = true`. It returns
 the public `HTML_BASE_URL/files/<record-id>/<source-hash>` directory as the preview URL with
@@ -44,9 +41,8 @@ downloaded or extracted by the backend during metadata requests. In QA, packages
 without a matching completion entry use the existing Lumi H5P server, as they do in
 production. Dev keeps local extraction and the browser player as its fallback.
 `config.featureFlags.h5pClientPlayer` controls this fallback and is disabled in QA
-and production; completed S3 extractions still use the browser player when
-`extractH5PFilesToS3` is enabled. If browser playback fails, the frontend offers
-the original file for download.
+and production; completed S3 extractions use the browser player. If browser playback
+fails, the frontend offers the original file for download.
 
 When scheduled backfill is enabled, the existing backend scheduler runs one batch
 every five minutes (`0 */5 * * * *`), using the shared S3 client. No timezone override
@@ -107,9 +103,7 @@ In a built backend container, run the entry point directly:
 node --enable-source-maps dist/tasks/extractH5pUploads.js aoe-uploaded-materials-qa
 ```
 
-Pass the destination bucket for the intended dev or QA environment explicitly.
-The manual command skips without creating database or S3 clients when the feature
-flag is disabled.
+Pass the destination bucket for the intended environment explicitly.
 
 Each manual invocation processes one batch and reports selected, processed and failed
 counts. It logs a skip and exits successfully when another worker holds the lock.
