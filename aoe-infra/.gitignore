@@ -2,6 +2,7 @@ bin/*.js
 lib/*.js
 environments/*.js
 lambda/**/*.js
+test/*.js
 *.d.ts
 node_modules
 

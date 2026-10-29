@@ -6,6 +6,8 @@ import { RemovalPolicy } from 'aws-cdk-lib'
 
 interface SecretManagerStackProps extends cdk.StackProps {
   kmsKey: IKey
+  // Regions whose stacks resolve /pagerduty/event_url: dynamic references only read their own region
+  pagerdutyEventUrlReplicaRegions: string[]
 }
 
 export type SecretEntry = {
@@ -19,6 +21,8 @@ export type Secrets = {
 }
 
 export const PAGERDUTY_EVENT_URL_SECRET_NAME = '/pagerduty/event_url'
+// Created and replicated by hand, see README
+export const PAGERDUTY_HEALTH_EVENT_URL_SECRET_NAME = '/pagerduty/health_event_url'
 export const CLOUDFRONT_ORIGIN_SECRET_NAME = '/service/alb/CLOUDFRONT_ORIGIN_SECRET'
 export const CLOUDFRONT_ORIGIN_SECRET_KEY = 'secretkey'
 export const CLOUDFRONT_ORIGIN_VERIFY_HEADER = 'x-origin-verify'
@@ -91,7 +95,10 @@ export class SecretManagerStack extends cdk.Stack {
     this.pagerdutyEventUrl = new secretsmanager.Secret(this, 'pagerdutyEventUrl', {
       secretName: PAGERDUTY_EVENT_URL_SECRET_NAME,
       description: '',
-      removalPolicy: RemovalPolicy.RETAIN
+      removalPolicy: RemovalPolicy.RETAIN,
+      replicaRegions: props.pagerdutyEventUrlReplicaRegions
+        .filter((region) => region !== this.region)
+        .map((region) => ({ region }))
     })
 
     this.semanticApisPassword = new secretsmanager.Secret(this, 'secret', {

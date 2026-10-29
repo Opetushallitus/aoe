@@ -38,6 +38,7 @@ import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
 import { BackupStack } from '../lib/backup-stack'
 import * as accounts from '../lib/accounts.json'
+import { AwsHealthRiskStack, HEALTH_RISK_REGIONS } from '../lib/aws-health-risk-stack'
 
 const app = new cdk.App()
 
@@ -113,8 +114,17 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   const Secrets = new SecretManagerStack(app, 'SecretManagerStack', {
     env: envEU,
     stackName: `${environmentName}-secrets`,
-    kmsKey: Kms.secretsManagerKey
+    kmsKey: Kms.secretsManagerKey,
+    pagerdutyEventUrlReplicaRegions: HEALTH_RISK_REGIONS
   })
+
+  for (const region of HEALTH_RISK_REGIONS) {
+    new AwsHealthRiskStack(app, `AwsHealthRisk-${region}`, {
+      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region },
+      stackName: `${environmentName}-aws-health-risk`,
+      environment: environmentName
+    }).addDependency(Secrets, 'resolves the replica of /pagerduty/event_url in its region')
+  }
 
   const Network = new VpcStack(app, 'VpcStack', {
     env: envEU,
