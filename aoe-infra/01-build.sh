@@ -10,7 +10,7 @@ main() {
 
     use_correct_node_version
     npm_ci_if_package_lock_has_changed
-    npm run build
+    npm test
 
     end_gh_actions_group
 }
