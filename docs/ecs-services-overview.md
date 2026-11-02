@@ -65,8 +65,7 @@ The central API service. Handles all business logic: material CRUD, file uploads
 
 | Database | Purpose |
 |---|---|
-| **PostgreSQL** | Primary store — users, materials, versions, records, attachments, collections, ratings, notifications, URNs, reference data |
-| **Redis** | Session storage via express-session + connect-redis |
+| **PostgreSQL** | Primary store — users, materials, versions, records, attachments, collections, ratings, notifications, URNs, reference data, sessions |
 | **OpenSearch** | Full-text search indices for materials (`aoe` index) and collections (`aoecollection` index). Re-indexed nightly at 1:30 AM UTC |
 
 **Cloud storage (S3):**
@@ -95,6 +94,7 @@ Each scheduled job acquires a task-specific PostgreSQL session advisory lock wit
 | 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
 | 2:00 AM | Convert office files without a PDF and upload the PDFs to S3 | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
 | 3:00 AM | Update reference data endpoints data into PostgreSQL | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 4:00 AM | Delete expired sessions | `SCHEDULED_TASK_SESSION_CLEANUP_ENABLED` |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
 On startup every task also updates the reference data into PostgreSQL and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).

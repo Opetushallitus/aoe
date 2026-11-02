@@ -18,9 +18,8 @@ import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import express, { Express, Request, Response, Router, NextFunction } from 'express'
 import passport from 'passport'
-import { RedisStore } from 'connect-redis'
 import session, { SessionOptions } from 'express-session'
-import { redisClient } from '@resource/redisClient'
+import { PostgresSessionStore } from '@resource/sessionStore'
 import { db } from './resource/postgresClient'
 import { initializeIndices } from './search/es'
 import { randomUUID } from 'crypto'
@@ -43,7 +42,7 @@ export async function initApp() {
 
   app.use(
     session({
-      store: new RedisStore({ client: redisClient }),
+      store: new PostgresSessionStore(),
       resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
       rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
       saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,

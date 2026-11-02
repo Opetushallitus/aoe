@@ -3,6 +3,7 @@ import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { db } from '@resource/postgresClient'
 import { s3Client } from '@resource/s3Client'
+import { deleteExpiredSessions } from '@resource/sessionStore'
 import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { clearH5PContentCache } from '@services/h5pService'
@@ -128,6 +129,7 @@ export const startScheduledTasks = (): void => {
     scheduledConvertAndUpstreamOfficeFilesToCloudStorage
   )
   scheduleTask('referenceDataUpdate', '0 0 3 * * *', updateReferenceData)
+  scheduleTask('sessionCleanup', '0 0 4 * * *', deleteExpiredSessions)
   scheduleTask('notificationMail', '0 0 10 * * *', async (): Promise<void> => {
     await sendRatingNotificationMail()
     await sendExpirationMail()

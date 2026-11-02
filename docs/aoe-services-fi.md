@@ -57,8 +57,7 @@ Keskeinen API-palvelu. Hoitaa kaiken liiketoimintalogiikan: materiaalien CRUD-op
 
 | Tietokanta     | Tarkoitus                                                                                                                                    |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| **PostgreSQL** | Ensisijainen tietovarasto — käyttäjät, materiaalit, versiot, tietueet, liitteet, kokoelmat, arviot, ilmoitukset, URNit, viitetiedot          |
-| **Redis**      | Istuntotallennus express-sessionin + connect-redisin kautta                                                                                  |
+| **PostgreSQL** | Ensisijainen tietovarasto — käyttäjät, materiaalit, versiot, tietueet, liitteet, kokoelmat, arviot, ilmoitukset, URNit, viitetiedot, istunnot |
 | **OpenSearch** | Oppimateriaalien (`aoe`-indeksi) ja kokoelmien (`aoecollection`-indeksi) kokotekstihakuindeksit. Indeksoidaan uudelleen joka yö klo 1.30 UTC |
 
 **Pilvitallennus (S3):**
@@ -87,6 +86,7 @@ Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtai
 | 1:30 AM    | Indeksoi materiaali- ja kokoelmaindeksit kokonaan uudelleen OpenSearchiin | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
 | 2:00 AM    | Muunna Office-tiedostot, joilta puuttuu PDF, ja lataa PDF:t S3:een | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
 | 3:00 AM    | Päivitä viitetietorajapintojen tiedot PostgreSQL:ään | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
+| 4:00 AM    | Poista vanhentuneet istunnot                        | `SCHEDULED_TASK_SESSION_CLEANUP_ENABLED`       |
 | 10:00 AM   | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
 
 Käynnistyessään jokainen task päivittää lisäksi viitetiedot PostgreSQL:ään ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen; koska taskeja on useampi, julkaise ensin `min_count: 1` ja `max_count: 1`, jotta vain yksi task luo indeksit uudelleen).

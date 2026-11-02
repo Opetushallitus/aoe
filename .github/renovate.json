@@ -91,10 +91,6 @@
       "matchPackageNames": ["compression", "@types/compression"]
     },
     {
-      "groupName": "Connect Redis",
-      "matchPackageNames": ["connect-redis", "@types/connect-redis"]
-    },
-    {
       "groupName": "CORS",
       "matchPackageNames": ["cors", "@types/cors"]
     },

@@ -126,7 +126,8 @@ const scheduledTasksEnv = z
     SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
     SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
     SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled,
-    SCHEDULED_TASK_H5P_EXTRACTION_ENABLED: taskEnabled
+    SCHEDULED_TASK_H5P_EXTRACTION_ENABLED: taskEnabled,
+    SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled
   })
   .transform((env) => ({
     directoryCleaning: { enabled: env.SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED },
@@ -135,7 +136,8 @@ const scheduledTasksEnv = z
     officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
     referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
     notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED },
-    h5pExtraction: { enabled: env.SCHEDULED_TASK_H5P_EXTRACTION_ENABLED }
+    h5pExtraction: { enabled: env.SCHEDULED_TASK_H5P_EXTRACTION_ENABLED },
+    sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED }
   }))
   .safeParse(process.env)
 if (!scheduledTasksEnv.success) {
@@ -198,15 +200,6 @@ export const config = {
     user: process.env.PG_USER as string,
     pass: process.env.PG_PASS as string,
     data: process.env.POSTGRESQL_DATA as string
-  } as const,
-
-  // Configuration for Redis database connetions.
-  REDIS_OPTIONS: {
-    host: process.env.REDIS_HOST as string,
-    port: parseInt(process.env.REDIS_PORT as string, 10) as number,
-    username: process.env.REDIS_USERNAME as string,
-    pass: process.env.REDIS_PASS as string,
-    protocol: process.env.REDIS_USE_TLS !== 'true' ? 'redis' : 'rediss'
   } as const,
 
   // Session management conventions to handle session initialization and persistence.

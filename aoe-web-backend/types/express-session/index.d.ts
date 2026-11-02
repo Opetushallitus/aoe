@@ -14,7 +14,7 @@ export {}
  */
 declare module 'express-session' {
   interface SessionData {
-    passport: Passport
+    passport?: Passport
   }
 
   interface Passport {
