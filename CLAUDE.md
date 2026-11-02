@@ -36,7 +36,7 @@ Native Aurora PITR plus an AWS Backup vault with daily restore verification and 
 
 ## Infrastructure
 
-ECS Fargate, Aurora, ElastiCache, OpenSearch; frontend is static files behind CloudFront. See [docs/infrastructure.md](docs/infrastructure.md).
+ECS Fargate, Aurora, OpenSearch; frontend is static files behind CloudFront. See [docs/infrastructure.md](docs/infrastructure.md).
 
 ## AWS SDK v3 (S3) — always free the socket
 

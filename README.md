@@ -5,7 +5,6 @@
 Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat
 
 - Aurora PostgresSQL
-- ElastiCache Redis OSS
 - OpenSearch -hakuindeksi
 - AWS S3
 - Palvelinteknologiat

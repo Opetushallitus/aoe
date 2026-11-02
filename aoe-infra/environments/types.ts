@@ -38,15 +38,6 @@ export interface EnvironmentConfig {
   EFS: {
     throughputMode: 'bursting' | 'elastic' | 'provisioned'
   }
-  redis_serverless: {
-    semantic_apis: {
-      major_version: string
-      storage_min: number
-      storage_max: number
-      min_ecpu_per_second: number
-      max_ecpu_per_second: number
-    }
-  }
   cloudfront: {
     require_test_authentication: boolean
   }

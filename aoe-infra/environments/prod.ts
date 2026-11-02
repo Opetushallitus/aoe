@@ -61,9 +61,6 @@ export const prod: EnvironmentConfig = {
         FILE_DOWNLOAD_URL: 'https://aoe.fi/api/v1/download/file/',
         THUMBNAIL_DOWNLOAD_URL: 'https://aoe.fi/api/v1/thumbnail/',
         COLLECTION_THUMBNAIL_DOWNLOAD_URL: 'https://aoe.fi/api/v1/collection/thumbnail/',
-        REDIS_USERNAME: 'app',
-        REDIS_USE_TLS: 'true',
-        REFERENCE_DATA_MIGRATION_FROM_REDIS_ENABLED: 'true',
         BASE_URL: 'https://aoe.fi/api/v1/',
         EMAIL_FROM: 'oppimateriaalivaranto@aoe.fi',
         SEND_EXPIRATION_NOTIFICATION_EMAIL: '1',
@@ -107,15 +104,6 @@ export const prod: EnvironmentConfig = {
   },
   EFS: {
     throughputMode: 'elastic'
-  },
-  redis_serverless: {
-    semantic_apis: {
-      major_version: '7',
-      storage_min: 1,
-      storage_max: 5,
-      min_ecpu_per_second: 1000,
-      max_ecpu_per_second: 40000
-    }
   },
   cloudfront: {
     require_test_authentication: false

@@ -19,7 +19,7 @@ import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
-import { ElasticacheServerlessStack } from '../lib/redis-stack'
+import { EmptyStack } from '../lib/empty-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
 import { BastionStack } from '../lib/bastion-stack'
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
@@ -215,21 +215,9 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     standbyReplicas: config.open_search.standbyReplicas
   })
 
-  const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
+  const SemanticApisRedis = new EmptyStack(app, 'SemanticApisRedis', {
     env: envEU,
-    stackName: `${environmentName}-semantic-apis-redis`,
-    elasticacheName: 'semantic-apis',
-    consumingServiceName: 'semantic-apis',
-    secret: Secrets.semanticApisPassword,
-    vpc: Network.vpc,
-    securityGroupId: SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId,
-    redisKmsKeyId: Kms.redisKmsKey.keyId,
-    secretsManagerKmsKeyId: Kms.secretsManagerKey,
-    redisMajorVersion: config.redis_serverless.semantic_apis.major_version,
-    storageMin: config.redis_serverless.semantic_apis.storage_min,
-    storageMax: config.redis_serverless.semantic_apis.storage_max,
-    minEcpuPerSecond: config.redis_serverless.semantic_apis.min_ecpu_per_second,
-    maxEcpuPerSecond: config.redis_serverless.semantic_apis.max_ecpu_per_second
+    stackName: `${environmentName}-semantic-apis-redis`
   })
 
   const Alb = new AlbStack(app, 'AlbStack', {
@@ -357,7 +345,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     ]
   })
 
-  new EcsServiceStack(app, 'WebBackendEcsService', {
+  const WebBackendEcsService = new EcsServiceStack(app, 'WebBackendEcsService', {
     env: envEU,
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
@@ -379,8 +367,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       ...{ ENV: environmentName },
       ...config.services.web_backend.env_vars,
       ...{
-        REDIS_HOST: SemanticApisRedis.endpointAddress,
-        REDIS_PORT: SemanticApisRedis.endpointPort,
         ES_NODE: OpenSearch.collectionEndpoint,
         POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
         POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
@@ -391,7 +377,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     },
     parameter_store_secrets: [],
     secrets_manager_secrets: [
-      Secrets.secrets.REDIS_PASS,
       Secrets.secrets.PG_PASS,
       Secrets.secrets.SESSION_SECRET,
       Secrets.secrets.CLIENT_SECRET,
@@ -449,6 +434,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       }
     }
   })
+  // Empty the Redis stack only after web-backend has dropped its imports
+  SemanticApisRedis.addDependency(WebBackendEcsService)
+  // Keep the exports the deployed Redis stack still imports; remove with the resources in AOE-134-6
+  SecurityGroups.exportValue(SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId)
+  Kms.exportValue(Kms.redisKmsKey.keyId)
+  Secrets.exportValue(Secrets.semanticApisPassword.secretArn)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,

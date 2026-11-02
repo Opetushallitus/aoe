@@ -1,6 +1,6 @@
 # Infrastructure
 
-- Production: AWS ECS Fargate, Aurora (PostgreSQL), ElastiCache (Redis), OpenSearch
+- Production: AWS ECS Fargate, Aurora (PostgreSQL), OpenSearch
 - The frontend is not on ECS: it is static files in `aoe-frontend-<env>`, served by CloudFront's default behavior over Origin Access Control, with an explicit behavior forwarding each backend path to the ALB. See [ecs-services-overview.md](ecs-services-overview.md).
 - Other sites may not frame AOE: the default behavior sends `Content-Security-Policy: frame-ancestors 'self'`. The exceptions are the embed view (`/embed/*`) and the PDF viewer (`/assets/pdfjs/*`, which previews PDF and office files), both from the same bucket without that policy, and the backend paths, because an embedded material frames its previews (`/assets/pdfjs/*`, `/h5p/*`, `/content/*`) inside the embed view. Local nginx mirrors this, and `playwright/tests/upotus.spec.ts` embeds a material from another origin
 - ECS task, service and deployment events (e.g. a stopped task's `stoppedReason`) are kept in CloudWatch Logs under `/aws/events/ecs/containerinsights/<env>-ecs-fargate/performance`, the console's event capture log group
