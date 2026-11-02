@@ -119,10 +119,6 @@
       "matchPackageNames": ["passport", "@types/passport"]
     },
     {
-      "groupName": "Redis",
-      "matchPackageNames": ["redis", "@types/redis"]
-    },
-    {
       "groupName": "Node.js",
       "matchManagers": ["nvm", "npm"],
       "matchPackageNames": ["node", "@types/node"],

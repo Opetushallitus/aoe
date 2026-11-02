@@ -57,12 +57,11 @@ function init {
 }
 
 function rename_infra_panes_to_match_the_script_they_run {
-  tmux select-pane -t 0.0 -T redis
-  tmux select-pane -t 0.1 -T localstack
-  tmux select-pane -t 0.2 -T postgres
-  tmux select-pane -t 0.3 -T keycloak
-  tmux select-pane -t 0.4 -T opensearch
-  tmux select-pane -t 0.5 -T nginx
+  tmux select-pane -t 0.0 -T localstack
+  tmux select-pane -t 0.1 -T postgres
+  tmux select-pane -t 0.2 -T keycloak
+  tmux select-pane -t 0.3 -T opensearch
+  tmux select-pane -t 0.4 -T nginx
 }
 
 function rename_services_panes_to_match_the_script_they_run_window_2 {
@@ -89,34 +88,29 @@ tmux select-pane -t 0
 tmux split-window -v   # Pane 2
 tmux split-window -v   # Pane 3
 
-# In the second column (Pane 1), split into 3 rows
+# In the second column (Pane 1), split into 2 rows
 tmux select-pane -t 1
 tmux split-window -v   # Pane 4
-tmux split-window -v   # Pane 5
 
 tmux select-layout tiled
 
-# Pane 0: Redis
+# Pane 0: Localstack
 tmux select-pane -t 0
-tmux send-keys "$local_up_cmd redis" C-m
-
-# Pane 1: Localstack
-tmux select-pane -t 1
 tmux send-keys "$local_up_cmd localstack" C-m
 
-# Pane 2: PostgreSQL
-tmux select-pane -t 2
+# Pane 1: PostgreSQL
+tmux select-pane -t 1
 tmux send-keys "$local_up_cmd aoe-postgres" C-m
 
-# Pane 3: keycloak
-tmux select-pane -t 3
+# Pane 2: keycloak
+tmux select-pane -t 2
 tmux send-keys "$local_up_cmd aoe-oidc-server" C-m
 
-# Pane 4: opensearch
-tmux select-pane -t 4
+# Pane 3: opensearch
+tmux select-pane -t 3
 tmux send-keys "$local_up_cmd opensearch" C-m
 
-# Pane 5: nginx (started last since it depends on backend and frontend)
+# Pane 4: nginx (started last since it depends on backend and frontend)
 
 rename_infra_panes_to_match_the_script_they_run
 
@@ -132,7 +126,7 @@ tmux select-pane -t 1.1
 tmux send-keys "$repo/scripts/run-web-backend.sh" C-m
 
 tmux select-window -t 0
-tmux select-pane -t 0.5
+tmux select-pane -t 0.4
 tmux send-keys "$repo/scripts/run-nginx.sh" C-m
 
 rename_services_panes_to_match_the_script_they_run_window_2

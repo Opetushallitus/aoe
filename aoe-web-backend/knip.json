@@ -1,5 +1,5 @@
 {
   "entry": ["migrations/*.js", "types/**/*.d.ts"],
   "project": ["**/*.{js,ts}"],
-  "ignoreDependencies": ["mongodb"]
+  "ignoreDependencies": ["mongodb", "redis"]
 }
