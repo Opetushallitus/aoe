@@ -36,7 +36,6 @@ export function cloudfrontOriginSecretValue(): string {
 // Stack for secrets generated on the fly (mostly resources that don't support Parameter Store)
 export class SecretManagerStack extends cdk.Stack {
   public readonly pagerdutyEventUrl: secretsmanager.Secret
-  public readonly semanticApisPassword: secretsmanager.Secret
   public readonly webBackendAuroraPassword: secretsmanager.Secret
   public readonly webBackendPassportSessionSecret: secretsmanager.Secret
   public readonly cloudfrontOriginSecret: secretsmanager.Secret
@@ -55,11 +54,6 @@ export class SecretManagerStack extends cdk.Stack {
     PROXY_URI: {
       envVarName: 'PROXY_URI',
       path: '/service/web-backend/PROXY_URI',
-      secretKey: 'secretkey'
-    },
-    REDIS_PASS: {
-      envVarName: 'REDIS_PASS',
-      path: '/service/semantic-apis/REDIS_PASS',
       secretKey: 'secretkey'
     },
     PG_PASS: {
@@ -99,16 +93,6 @@ export class SecretManagerStack extends cdk.Stack {
       replicaRegions: props.pagerdutyEventUrlReplicaRegions
         .filter((region) => region !== this.region)
         .map((region) => ({ region }))
-    })
-
-    this.semanticApisPassword = new secretsmanager.Secret(this, 'secret', {
-      secretName: '/service/semantic-apis/REDIS_PASS',
-      generateSecretString: {
-        secretStringTemplate: JSON.stringify({}),
-        generateStringKey: 'secretkey',
-        passwordLength: 16,
-        excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
-      }
     })
 
     this.webBackendPassportSessionSecret = new secretsmanager.Secret(

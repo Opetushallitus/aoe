@@ -10,7 +10,6 @@ interface KmsStackProps extends StackProps {
 
 export class KmsStack extends Stack {
   readonly rdsKmsKey: Key
-  readonly redisKmsKey: Key
   readonly cloudwatchLogsKmsKey: Key
   readonly s3KmsKey: Key
   readonly ebsKmsKey: Key
@@ -30,11 +29,6 @@ export class KmsStack extends Stack {
     this.rdsKmsKey = new Key(this, 'rdsKmsKey', {
       alias: `alias/${props.environment}-rds-aoe-key`,
       removalPolicy: RemovalPolicy.RETAIN
-    })
-
-    this.redisKmsKey = new Key(this, 'redisKmsKey', {
-      alias: `alias/${props.environment}-redis-aoe-key`,
-      removalPolicy: RemovalPolicy.DESTROY
     })
 
     this.s3KmsKey = new Key(this, 's3KmsKey', {

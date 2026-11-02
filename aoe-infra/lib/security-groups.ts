@@ -18,7 +18,6 @@ interface SecurityGroupStackProps extends StackProps {
 export class SecurityGroupStack extends cdk.Stack {
   public readonly albSecurityGroup: ec2.SecurityGroup
   public readonly webBackendAuroraSecurityGroup: ec2.SecurityGroup
-  public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup
   public readonly bastionSecurityGroup: ec2.SecurityGroup
   public readonly openSearchSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup
@@ -61,15 +60,6 @@ export class SecurityGroupStack extends cdk.Stack {
       }
     )
 
-    this.semanticApisRedisSecurityGroup = new ec2.SecurityGroup(
-      this,
-      'SemanticApisRedisSecurityGroup',
-      {
-        vpc: props.vpc,
-        allowAllOutbound: true
-      }
-    )
-
     this.openSearchSecurityGroup = new ec2.SecurityGroup(this, 'openSearchSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true
@@ -85,16 +75,6 @@ export class SecurityGroupStack extends cdk.Stack {
     this.openSearchSecurityGroup.addIngressRule(
       this.webBackendsServiceSecurityGroup,
       ec2.Port.tcp(443)
-    )
-
-    this.semanticApisRedisSecurityGroup.addIngressRule(
-      this.bastionSecurityGroup,
-      ec2.Port.tcp(6379)
-    )
-
-    this.semanticApisRedisSecurityGroup.addIngressRule(
-      this.webBackendsServiceSecurityGroup,
-      ec2.Port.tcp(6379)
     )
 
     this.webBackendsServiceSecurityGroup.addIngressRule(this.albSecurityGroup, ec2.Port.tcp(8080))

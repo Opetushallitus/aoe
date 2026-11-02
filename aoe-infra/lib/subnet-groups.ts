@@ -2,7 +2,6 @@
 import { IVpc, SubnetType } from 'aws-cdk-lib/aws-ec2'
 import { Construct } from 'constructs'
 import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib'
-import * as ElastiCache from 'aws-cdk-lib/aws-elasticache'
 import * as rds from 'aws-cdk-lib/aws-rds'
 
 interface SubnetGroupsStackProps extends StackProps {
@@ -12,7 +11,6 @@ interface SubnetGroupsStackProps extends StackProps {
 
 export class SubnetGroupsStack extends Stack {
   public readonly auroraSubnetGroup: rds.SubnetGroup
-  public readonly elastiCacheSubnetGroup: ElastiCache.CfnSubnetGroup
   constructor(scope: Construct, id: string, props: SubnetGroupsStackProps) {
     super(scope, id, props)
 
@@ -45,22 +43,5 @@ export class SubnetGroupsStack extends Stack {
       }
     })
     ///
-
-    // Subnet group for ElastiCache instances
-    // const elastiCacheSubnetIds  : string[] = [];
-    // const elastiCacheSubnetGroupName = "ElastiCacheSubnetGroup";
-    // for (const subnet of props.vpc.isolatedSubnets) {
-    // elastiCacheSubnetIds.push(subnet.subnetId);
-    // }
-
-    // this.elastiCacheSubnetGroup = new ElastiCache.CfnSubnetGroup(
-    // this,
-    // elastiCacheSubnetGroupName.toLowerCase(),
-    // {
-    //     description: "ElastiCache Subnet Group",
-    //     cacheSubnetGroupName: elastiCacheSubnetGroupName.toLowerCase(),
-    //     subnetIds: elastiCacheSubnetIds,
-    // }
-    // );
   }
 }

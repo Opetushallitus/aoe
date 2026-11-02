@@ -215,7 +215,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     standbyReplicas: config.open_search.standbyReplicas
   })
 
-  const SemanticApisRedis = new EmptyStack(app, 'SemanticApisRedis', {
+  new EmptyStack(app, 'SemanticApisRedis', {
     env: envEU,
     stackName: `${environmentName}-semantic-apis-redis`
   })
@@ -434,12 +434,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       }
     }
   })
-  // Empty the Redis stack only after web-backend has dropped its imports
-  SemanticApisRedis.addDependency(WebBackendEcsService)
-  // Keep the exports the deployed Redis stack still imports; remove with the resources in AOE-134-6
-  SecurityGroups.exportValue(SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId)
-  Kms.exportValue(Kms.redisKmsKey.keyId)
-  Secrets.exportValue(Secrets.semanticApisPassword.secretArn)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,
