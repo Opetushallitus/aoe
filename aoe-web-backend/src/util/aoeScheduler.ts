@@ -6,7 +6,6 @@ import { s3Client } from '@resource/s3Client'
 import { deleteExpiredSessions } from '@resource/sessionStore'
 import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
-import { clearH5PContentCache } from '@services/h5pService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import { extractH5pUploads } from '@services/h5pExtractionService'
 import {
@@ -119,7 +118,6 @@ export const startScheduledTasks = (): void => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
     await rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
-    clearH5PContentCache()
   })
   scheduleTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)
   scheduleTask('searchReindex', '0 30 1 * * *', reindexAll)

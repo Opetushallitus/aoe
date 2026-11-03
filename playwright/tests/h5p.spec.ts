@@ -15,10 +15,10 @@ const H5P = [
   }
 ]
 
-test('h5p: sisällöt toimivat materiaalisivulla', async ({ page }) => {
+test('h5p: sisällöt toimivat materiaalisivulla', async ({ context, page }) => {
   // Crossword lays out its grid and Sort Paragraphs shuffles with Math.random: seed it (mulberry32)
-  // in every frame so the screenshots are the same on every run.
-  await page.addInitScript(() => {
+  // in every frame of every page so the screenshots are the same on every run.
+  await context.addInitScript(() => {
     let seed = 1
     Math.random = () => {
       seed = (seed + 0x6d2b79f5) | 0
@@ -33,6 +33,15 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ page }) => {
   const materiaali = await uusi.taytaJaTallennaUusiMateriaali(uusi.randomMateriaaliNimi('H5P'), {
     tiedostot: H5P.map(({ tiedosto }) => ({ nimi: tiedosto }))
   })
+  const { materials } = await (
+    await page.request.get(`/api/v1/material/${await materiaali.getMateriaaliNumero()}`)
+  ).json()
+  const tiedostoavaimet = new Map<string, string>(
+    materials.map((m: { originalfilename: string; filekey: string }) => [
+      m.originalfilename,
+      m.filekey
+    ])
+  )
   // The cookie notice is fixed to the viewport and would overlap the preview.
   await page.addStyleTag({ content: 'app-cookie-notice{display:none!important}' })
 
@@ -44,9 +53,19 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ page }) => {
       })
       // Only the player: the tablist order of the files is not stable between runs, and the
       // selected tab's border overlaps the tabpanel's edge.
-      await expect(page.locator('app-h5p-preview')).toHaveScreenshot(
-        `${tiedosto.replace(/\.h5p$/, '')}.png`
-      )
+      const kuva = `${tiedosto.replace(/\.h5p$/, '')}.png`
+      await expect(page.locator('app-h5p-preview')).toHaveScreenshot(kuva)
+
+      const osoite = `/h5p/play/${tiedostoavaimet.get(tiedosto)}`
+      await expect
+        .poll(async () => (await page.request.get(osoite)).status(), { timeout: 60_000 })
+        .toBe(200)
+      const upotus = await context.newPage()
+      await upotus.goto(osoite)
+      const soitin = upotus.locator('#h5p iframe').contentFrame()
+      await expect(soitin.locator(sisalto).first()).toBeVisible({ timeout: 60_000 })
+      await expect(upotus).toHaveScreenshot(`play-${kuva}`, { fullPage: true })
+      await upotus.close()
     })
   }
 })

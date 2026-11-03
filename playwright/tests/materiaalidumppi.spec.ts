@@ -11,15 +11,14 @@ type Osa = {
   valilehdenOsoite?: RegExp
   media?: 'video' | 'audio'
   kuva?: true
-  h5pKansio?: RegExp
+  h5p?: true
 }
 
 // One material carrying every supported content type, so a regression in any single preview
 // path shows up here. `pdfTeksti` is text of the office file's converted PDF, `kehyksessa` a
-// locator inside the html or H5P preview iframe (and the html preview's new tab), `h5pKansio`
-// the extracted package folder the H5P player loads, `media` and `kuva` that the element really
-// loaded its source, `esikatselu` a plain page element, and none of them that the type only
-// offers a download.
+// locator inside the html preview iframe and its new tab, or with `h5p` inside the H5P preview
+// iframe, `media` and `kuva` that the element really loaded its source, `esikatselu` a plain
+// page element, and none of them that the type only offers a download.
 const OSAT: Osa[] = [
   { tiedosto: 'blank.pdf', esikatselu: 'app-pdf-preview' },
   { tiedosto: 'office-test.docx', pdfTeksti: 'office-to-PDF conversion test document' },
@@ -32,7 +31,7 @@ const OSAT: Osa[] = [
   {
     tiedosto: 'testing-127.h5p',
     kehyksessa: '.h5p-content',
-    h5pKansio: /\/content\/(testing127-\d+)\/h5p\.json$/
+    h5p: true
   },
   {
     tiedosto: 'test-site.zip',
@@ -92,14 +91,9 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
     valilehdenOsoite,
     media,
     kuva,
-    h5pKansio
+    h5p
   } of OSAT) {
     await test.step(`esikatselu: ${tiedosto}`, async () => {
-      const h5pPaketti =
-        h5pKansio &&
-        page
-          .waitForResponse((r) => h5pKansio.test(r.url()))
-          .then((r) => h5pKansio.exec(r.url())?.[1])
       await materiaali.valitseTiedosto(tiedosto)
       if (media) {
         // Assert the element read a duration off the stream, not just that it rendered:
@@ -125,13 +119,8 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
             timeout: 15_000
           })
         }).toPass({ timeout: 120_000, intervals: [5_000] })
-      } else if (h5pPaketti && kehyksessa) {
+      } else if (h5p && kehyksessa) {
         await expect(materiaali.esikatselu.h5p.locator(kehyksessa)).toBeVisible()
-        // The Lumi player URL of the package's file key keeps working for links and embeds
-        // outside AOE.
-        const lumiOsoite = await page.request.get(`/h5p/play/${await h5pPaketti}.h5p`)
-        expect(lumiOsoite.status()).toBe(200)
-        expect(lumiOsoite.headers()['content-type']).toContain('text/html')
       } else if (kehyksessa) {
         // Assert the rendered content, not just the iframe element: a failed import or
         // extraction still leaves the iframe in place, it just serves an error body.
