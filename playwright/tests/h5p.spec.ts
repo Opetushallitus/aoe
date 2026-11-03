@@ -33,6 +33,8 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ context, page }) => 
   const materiaali = await uusi.taytaJaTallennaUusiMateriaali(uusi.randomMateriaaliNimi('H5P'), {
     tiedostot: H5P.map(({ tiedosto }) => ({ nimi: tiedosto }))
   })
+  await materiaali.odotaH5pPurkua()
+  await page.reload()
   const { materials } = await (
     await page.request.get(`/api/v1/material/${await materiaali.getMateriaaliNumero()}`)
   ).json()

@@ -2,7 +2,6 @@ import { config } from '@/config'
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterialMetadataSchema'
 import { findExistingPreviewEntry } from '@/helpers/archivePreviewEntry'
 import { StatusError } from '@/helpers/errorHandler'
-import { hasAllH5PDependencies } from '@/helpers/h5pPackage'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import { db, pgp } from '@resource/postgresClient'
 import { updateEsDocument } from '@search/es'
@@ -355,31 +354,7 @@ export const getEducationalMaterialMetadata = async (
             ).href.replace(/\/+$/, '')
             continue
           }
-          if (!config.featureFlags.h5pClientPlayer) {
-            jsonObj.materials[i]['mimetype'] = 'text/html'
-            jsonObj.materials[i]['filepath'] =
-              `${config.MEDIA_FILE_PROCESS.h5pPlayApi}${jsonObj.materials[i]['filekey']}`
-            continue
-          }
-          const packageFolder = await extractArchiveForPreview(
-            jsonObj.materials[i],
-            eduMaterialId,
-            res
-          )
-          if (packageFolder === false) {
-            continue
-          }
-          if (await hasAllH5PDependencies(packageFolder)) {
-            jsonObj.materials[i]['mimetype'] = 'application/h5p'
-            jsonObj.materials[i]['filepath'] =
-              process.env.HTML_BASE_URL +
-              packageFolder.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content')
-          } else {
-            log.info(
-              `Skipping H5P preview with missing libraries: eduMaterialId=${eduMaterialId}, materialId=${jsonObj.materials[i].id}, ` +
-                `filekey=${jsonObj.materials[i].filekey}. File will be available for download only.`
-            )
-          }
+          // Without a successful extraction the package is download-only.
         } else if (
           jsonObj.materials[i] &&
           jsonObj.materials[i]['pdfkey'] &&

@@ -42,7 +42,6 @@
     "@aws-sdk/client-ses": "3.1156.0",
     "@aws-sdk/credential-provider-node": "3.972.88",
     "@aws-sdk/lib-storage": "3.1156.0",
-    "@lumieducation/h5p-server": "10.0.4",
     "@opensearch-project/opensearch": "2.13.0",
     "archiver": "8.0.0",
     "compression": "1.8.2",

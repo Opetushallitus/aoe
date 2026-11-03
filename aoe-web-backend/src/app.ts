@@ -10,10 +10,8 @@ import { v2 } from '@api/routes-v2/v2'
 import statisticsRouter from '@api/routes-v2/statistics'
 import { registerOidcStrategy } from '@resource/oidcConfig'
 import { checkAuthenticated } from '@services/authService'
-import { initializeH5P } from '@services/h5pService'
 import { startScheduledTasks, updateReferenceData } from '@util/aoeScheduler'
 import morganLogger from '@util/morganLogger'
-import * as log from '@util/winstonLogger'
 import compression from 'compression'
 import cors, { CorsOptions } from 'cors'
 import express, { Express, Request, Response, Router, NextFunction } from 'express'
@@ -114,9 +112,6 @@ export async function initApp() {
 
   await registerOidcStrategy(app)
 
-  // Initialize H5P editor
-  await initializeH5P()
-
   app.get('/health', async (_req: Request, res: Response) => {
     await db.any('SELECT 1')
     res.json({ status: 'ok' })
@@ -131,10 +126,6 @@ export async function initApp() {
   app.use('/api/v2/', apiRouterV2)
   app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
   app.use('/meta', metaRouter)
-  app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent))
-  app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore))
-  app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor))
-  app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibraries))
   app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder))
 
   app.use(handleError)

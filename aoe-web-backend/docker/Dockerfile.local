@@ -14,11 +14,6 @@ RUN apk add --no-cache \
     ttf-freefont \
     ttf-liberation
 
-COPY docker ./docker/
-
-RUN mkdir -p /app/h5p && \
-    unzip /app/docker/h5p.zip -d /app/h5p
-
 # Copy source files into application directory
 COPY --chown=app:app . /app
 

@@ -58,25 +58,4 @@ new H5PStandalone.H5P(document.getElementById('h5p'), {
 </html>
 `)
   })
-
-  // H5P application state not supported for anonymous users in AOE.
-  router.get(
-    `${moduleRoot}/contentUserData/:contentID/state/:stateID`,
-    (_req: Request, res: Response): void => {
-      res.status(204).end()
-    }
-  )
-
-  // H5P application state not supported for anonymous users in AOE.
-  router.post(
-    `${moduleRoot}/contentUserData/:contentID/state/:stateID`,
-    (_req: Request, res: Response): void => {
-      res.status(204).end()
-    }
-  )
-
-  // H5P download link currently not supported in AOE.
-  router.get(`${moduleRoot}/download/:contentID`, (_req: Request, res: Response): void => {
-    res.status(204).end()
-  })
 }

@@ -44,7 +44,6 @@ process.env.NODE_ENV || missingEnvs.push('NODE_ENV')
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN')
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL')
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED')
-process.env.H5P_USER_EMAIL || missingEnvs.push('H5P_USER_EMAIL')
 process.env.HTML_FOLDER || missingEnvs.push('HTML_FOLDER')
 process.env.MATERIAL_FILE_UPLOAD_FOLDER || missingEnvs.push('MATERIAL_FILE_UPLOAD_FOLDER')
 process.env.ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS ||
@@ -158,25 +157,11 @@ export const config = {
 
   scheduledTasks: scheduledTasksEnv.data,
 
-  featureFlags: {
-    // Without an S3 extraction, extract the package locally for the browser player
-    h5pClientPlayer: true
-  } as const,
-
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
     conversionToPdfApi: process.env.CONVERSION_TO_PDF_API as string,
     htmlFolder: process.env.HTML_FOLDER as string,
     localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
-    h5pJsonConfiguration: 'dist/services/config/h5p.json',
-    h5pPathTemporaryStorage: '/mnt/data/webdata/h5p/temporary-storage',
-    h5pPathContent: '/mnt/data/webdata/h5p/content',
-    h5pPathLibraries: '/mnt/data/webdata/h5p/libraries',
-    h5pPathBundledLibraries: '/app/h5p/libraries',
-    h5pPathCore: '/app/h5p/libraries/h5p-php-library',
-    h5pPathEditor: '/app/h5p/libraries/h5p-editor-php-library',
-    h5pPlayApi: `${process.env.HTML_BASE_URL as string}/h5p/play/`,
-    h5pUserEmail: process.env.H5P_USER_EMAIL as string,
     // Max file size (in bytes) for synchronous ZIP extraction during metadata requests
     // Files larger than this will be skipped to prevent timeout issues
     // Default: 104,857,600 bytes (100 MB)

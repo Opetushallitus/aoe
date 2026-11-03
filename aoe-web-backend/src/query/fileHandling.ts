@@ -6,7 +6,7 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
-import { extractionFolderOf, findPreviewEntry, isH5PArchive } from '@/helpers/archivePreviewEntry'
+import { extractionFolderOf, findPreviewEntry } from '@/helpers/archivePreviewEntry'
 import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/errorHandler'
 import { convertOfficeFileToStoredPDF, isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import {
@@ -1036,12 +1036,7 @@ export const downloadAndExtractZip = async (
     } finally {
       dispose()
     }
-    return await unZipAndExtract(
-      archivePath,
-      temporaryFolder,
-      extractedFolder,
-      isH5PArchive(fileName)
-    )
+    return await unZipAndExtract(archivePath, temporaryFolder, extractedFolder)
   } finally {
     await rm(archivePath, { force: true })
   }
@@ -1083,7 +1078,7 @@ export const downloadToTemporaryFile = async (
     } catch (err) {
       if (err instanceof Error && err.name === 'NoSuchKey') {
         // Record exists (caller checked) but object is gone; the caller
-        // (h5pService) logs and pages on-call.
+        // logs and pages on-call.
         throw new StatusError(404, missingStorageObjectMessage(paramsS3))
       }
       throw err
@@ -1303,8 +1298,7 @@ const moveIntoPlace = async (temporaryFolder: string, extractedFolder: string): 
 const unZipAndExtract = async (
   zipFilePath: string,
   temporaryFolder: string,
-  extractedFolder: string,
-  isH5P: boolean
+  extractedFolder: string
 ): Promise<string | false> => {
   try {
     fs.mkdirSync(temporaryFolder, { recursive: true })
@@ -1317,7 +1311,7 @@ const unZipAndExtract = async (
       await zip.close()
     }
     await moveIntoPlace(temporaryFolder, extractedFolder)
-    return findPreviewEntry(extractedFolder, isH5P)
+    return findPreviewEntry(extractedFolder)
   } catch (err) {
     await rm(temporaryFolder, { recursive: true, force: true })
     log.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)

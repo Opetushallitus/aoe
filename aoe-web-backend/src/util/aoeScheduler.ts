@@ -116,8 +116,6 @@ export const startScheduledTasks = (): void => {
   })
   scheduleTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
-    await rmDir(config.MEDIA_FILE_PROCESS.h5pPathContent, false)
-    await rmDir(config.MEDIA_FILE_PROCESS.h5pPathTemporaryStorage, false)
   })
   scheduleTask('pidRegistration', '0 15 1 * * *', processEntriesWithoutPID)
   scheduleTask('searchReindex', '0 30 1 * * *', reindexAll)
