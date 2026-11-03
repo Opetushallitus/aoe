@@ -89,6 +89,13 @@ function npm_ci_if_package_lock_has_changed {
   fi
 }
 
+function build_frontend {
+  pushd "${repo}/aoe-web-frontend"
+  npm_ci_if_package_lock_has_changed
+  npm run build
+  popd
+}
+
 function assert_env_var_is_set {
   local var_name="$1"
 

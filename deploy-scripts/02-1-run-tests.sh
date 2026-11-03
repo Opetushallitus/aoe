@@ -17,13 +17,6 @@ function clean {
   $compose down
 }
 
-function build_frontend {
-  pushd "$repo/aoe-web-frontend"
-  npm_ci_if_package_lock_has_changed
-  npm run build
-  popd
-}
-
 function run_playwright_tests {
   $compose up --abort-on-container-exit --quiet-pull --exit-code-from test-runner
 }
