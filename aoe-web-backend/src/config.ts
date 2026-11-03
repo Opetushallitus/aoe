@@ -159,8 +159,8 @@ export const config = {
   scheduledTasks: scheduledTasksEnv.data,
 
   featureFlags: {
-    // Use Lumi in QA and production
-    h5pClientPlayer: environment !== 'prod' && environment !== 'qa'
+    // Without an S3 extraction, extract the package locally for the browser player
+    h5pClientPlayer: true
   } as const,
 
   // Media file processing configurations.
