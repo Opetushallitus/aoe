@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test test/*.test.js",
+    "test": "rm -f test/*.js test/*.d.ts && npm run build && node --test test/*.test.js",
     "watch": "tsc -w",
     "cdk": "cdk",
     "knip": "knip"
