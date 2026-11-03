@@ -36,7 +36,7 @@
               {
                 "glob": "**/*",
                 "input": "node_modules/h5p-standalone/dist",
-                "ignore": ["main.bundle.js*", "h5p.d.ts"],
+                "ignore": ["h5p.d.ts"],
                 "output": "/assets/h5p-standalone"
               }
             ],
