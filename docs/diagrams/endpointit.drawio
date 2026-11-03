@@ -1,0 +1,50 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" scale="1" border="0">
+  <diagram name="Traffic Routing" id="DDWrdGFmjtdxrvVfynyZ">
+    <mxGraphModel dx="1588" dy="902" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p2_browser" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="Browser" vertex="1">
+          <mxGeometry height="60" width="140" x="230" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_oai" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" value="OAI-PMH&#xa;Harvesters" vertex="1">
+          <mxGeometry height="60" width="140" x="230" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_cf" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="CloudFront&#xa;aoe.fi" vertex="1">
+          <mxGeometry height="60" width="140" x="400" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_alb" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" value="ALB" vertex="1">
+          <mxGeometry height="60" width="140" x="600" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_frontend" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="S3 aoe-frontend-&lt;env&gt;&#xa;/*  /embed/*  /assets/pdfjs/*" vertex="1">
+          <mxGeometry height="60" width="200" x="600" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_backend" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" value="aoe-web-backend&#xa;/api/*  /h5p/*  /content/*&#xa;/embed/material/*  /embed/download/*  /embed/pdf/*&#xa;/ref/api/v1*  /stream/api/v1*&#xa;/meta/oaipmh*  /meta/v2/oaipmh*" vertex="1">
+          <mxGeometry height="100" width="280" x="900" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e_br_cf" edge="1" parent="1" source="p2_browser" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" target="p2_cf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e_oai_cf" edge="1" parent="1" source="p2_oai" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" target="p2_cf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e_cf_alb" edge="1" parent="1" source="p2_cf" value="origin-verify header" style="fontSize=10;edgeStyle=orthogonalEdgeStyle;rounded=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" target="p2_alb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e_alb_be" edge="1" parent="1" source="p2_cf" style="edgeStyle=orthogonalEdgeStyle;rounded=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" target="p2_frontend">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="255" />
+              <mxPoint x="570" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p2_e_alb_str" edge="1" parent="1" source="p2_alb" style="edgeStyle=orthogonalEdgeStyle;rounded=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p2_backend">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      <mxCell id="p2_files" parent="1" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="S3 uploaded materials&#xa;/files/*" vertex="1"><mxGeometry height="60" width="200" x="600" y="60" as="geometry" /></mxCell><mxCell id="p2_e_cf_files" edge="1" parent="1" source="p2_cf" target="p2_files" style="edgeStyle=orthogonalEdgeStyle;rounded=1;exitX=0.85;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;"><mxGeometry relative="1" as="geometry" /></mxCell></root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
