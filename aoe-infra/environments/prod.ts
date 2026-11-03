@@ -55,7 +55,6 @@ export const prod: EnvironmentConfig = {
         ES_FROM_DEFAULT: '0',
         HTML_BASE_URL: 'https://aoe.fi',
         HTML_FOLDER: '/mnt/data/webdata/htmlfolder',
-        H5P_USER_EMAIL: 'oppimateriaalivaranto@aoe.fi',
         MATERIAL_FILE_UPLOAD_FOLDER: '/mnt/data/uploads',
         CONVERSION_TO_PDF_API: 'https://aoe.fi/api/v1/pdf/content/',
         FILE_DOWNLOAD_URL: 'https://aoe.fi/api/v1/download/file/',
