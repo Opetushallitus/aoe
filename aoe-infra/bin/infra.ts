@@ -19,7 +19,6 @@ import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
-import { EmptyStack } from '../lib/empty-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
 import { BastionStack } from '../lib/bastion-stack'
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
@@ -213,11 +212,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     vpc: Network.vpc,
     kmsKey: Kms.openSearchKmsKey,
     standbyReplicas: config.open_search.standbyReplicas
-  })
-
-  new EmptyStack(app, 'SemanticApisRedis', {
-    env: envEU,
-    stackName: `${environmentName}-semantic-apis-redis`
   })
 
   const Alb = new AlbStack(app, 'AlbStack', {
