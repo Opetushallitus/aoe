@@ -36,6 +36,7 @@ import { SesStack } from '../lib/ses-stack'
 import { MonitorStack } from '../lib/monitor-stack'
 import { GuardDutyS3Stack } from '../lib/quard-duty-stack'
 import { BackupStack } from '../lib/backup-stack'
+import { WafStack } from '../lib/waf-stack'
 import * as accounts from '../lib/accounts.json'
 import { AwsHealthRiskStack, HEALTH_RISK_REGIONS } from '../lib/aws-health-risk-stack'
 
@@ -233,6 +234,16 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     crossRegionReferences: true
   })
 
+  const Waf = new WafStack(app, 'WafStack', {
+    env: envUS,
+    stackName: `${environmentName}-waf`,
+    environment: environmentName,
+    mode: config.cloudfront.waf_mode,
+    logBucketName: Alb.wafLogBucketName,
+    crossRegionReferences: true
+  })
+  Waf.addDependency(Alb)
+
   const Cloudfront = new CloudfrontStack(app, 'CloudFrontStack', {
     env: envEU,
     stackName: `${environmentName}-cloudfront`,
@@ -240,6 +251,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     domain: domain,
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
+    webAclArn: Waf.webAclArn,
     crossRegionReferences: true,
     environment: environmentName,
     requireTestAuth: config.cloudfront.require_test_authentication,

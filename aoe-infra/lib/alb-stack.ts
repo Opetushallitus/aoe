@@ -24,6 +24,7 @@ export class AlbStack extends cdk.Stack {
   readonly alb: elbv2.ApplicationLoadBalancer
   readonly albListener: elbv2.ApplicationListener
   readonly certificate: acm.ICertificate
+  readonly wafLogBucketName: string
   constructor(scope: Construct, id: string, props: AlbStackProps) {
     super(scope, id, props)
 
@@ -61,6 +62,15 @@ export class AlbStack extends cdk.Stack {
     })
 
     this.alb.logAccessLogs(logBucket)
+
+    // CloudFront WAF logs, kept in eu-west-1. WAF requires the bucket name to start with aws-waf-logs-.
+    // ponytail: WAF attaches the delivery bucket policy itself; adding a CDK bucket policy here would overwrite it.
+    this.wafLogBucketName = `aws-waf-logs-aoe-${props.environment}`
+    new s3.Bucket(this, 'WafLogBucket', {
+      bucketName: this.wafLogBucketName,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      lifecycleRules: [{ expiration: cdk.Duration.days(90) }]
+    })
     // Use this when an actual domain is available for ACM certs
     //    new alb listener
     this.certificate = new acm.Certificate(this, 'Certificate', {

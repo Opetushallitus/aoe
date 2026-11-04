@@ -22,6 +22,7 @@ interface CloudfrontStackProps extends StackProps {
   certificate: acm.ICertificate
   requireTestAuth: boolean
   uploadedMaterialsBucketName: string
+  webAclArn: string
 }
 
 const BACKEND_PATH_PATTERNS = [
@@ -125,6 +126,7 @@ export class CloudfrontStack extends Stack {
     this.distribution = new cloudfront.Distribution(this, 'Distribution', {
       domainNames: [props.domain],
       certificate: props.certificate,
+      webAclId: props.webAclArn,
       defaultBehavior: spaBehavior,
       additionalBehaviors: {
         ...Object.fromEntries(BACKEND_PATH_PATTERNS.map((pattern) => [pattern, albBehavior])),

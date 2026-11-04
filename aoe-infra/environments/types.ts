@@ -40,6 +40,7 @@ export interface EnvironmentConfig {
   }
   cloudfront: {
     require_test_authentication: boolean
+    waf_mode: 'count' | 'block'
   }
   ses: {
     verified_recipients: string[]

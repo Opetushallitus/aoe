@@ -105,7 +105,8 @@ export const qa: EnvironmentConfig = {
     throughputMode: 'bursting'
   },
   cloudfront: {
-    require_test_authentication: true
+    require_test_authentication: true,
+    waf_mode: 'count'
   },
   ses: {
     verified_recipients: ['oph-aoe@reaktor.fi']

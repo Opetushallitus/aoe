@@ -105,7 +105,8 @@ export const prod: EnvironmentConfig = {
     throughputMode: 'elastic'
   },
   cloudfront: {
-    require_test_authentication: false
+    require_test_authentication: false,
+    waf_mode: 'count'
   },
   ses: {
     verified_recipients: []
