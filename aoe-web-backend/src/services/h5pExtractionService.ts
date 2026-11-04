@@ -2,8 +2,8 @@ import { GetObjectCommand, PutObjectCommand, type S3Client } from '@aws-sdk/clie
 import * as log from '@util/winstonLogger'
 import mime from 'mime'
 import { createHash } from 'node:crypto'
-import { createReadStream, createWriteStream } from 'node:fs'
-import { mkdir, mkdtemp, rm, stat } from 'node:fs/promises'
+import { createReadStream, createWriteStream, statSync } from 'node:fs'
+import { mkdir, mkdtemp, rm } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { Readable, Transform } from 'node:stream'
@@ -17,6 +17,17 @@ export type H5pExtractionResult = { selected: number; processed: number; failed:
 
 const MAX_EXTRACTED_BYTES = 5 * 1024 ** 3
 const MAX_EXTRACTED_ENTRIES = 100_000
+
+// The package itself is unacceptable, as opposed to an S3 or disk failure.
+export class InvalidH5pError extends Error {}
+
+async function readZipEntries(zip: StreamZip.StreamZipAsync): Promise<StreamZip.ZipEntry[]> {
+  try {
+    return Object.values(await zip.entries())
+  } catch (error) {
+    throw new InvalidH5pError('H5P archive is not a valid ZIP file', { cause: error })
+  }
+}
 
 const uploadExtractedArchive = async (
   upload: H5pUpload,
@@ -43,14 +54,18 @@ const uploadExtractedArchive = async (
     const zip = new StreamZip.async({ file: archivePath })
     let entries: StreamZip.ZipEntry[]
     try {
-      entries = Object.values(await zip.entries())
+      entries = await readZipEntries(zip)
       signal.throwIfAborted()
       if (entries.length > MAX_EXTRACTED_ENTRIES) {
-        throw new Error(`H5P archive exceeds the ${MAX_EXTRACTED_ENTRIES}-entry extraction limit`)
+        throw new InvalidH5pError(
+          `H5P archive exceeds the ${MAX_EXTRACTED_ENTRIES}-entry extraction limit`
+        )
       }
       const declaredBytes = entries.reduce((total, entry) => total + entry.size, 0)
       if (!Number.isSafeInteger(declaredBytes) || declaredBytes > MAX_EXTRACTED_BYTES) {
-        throw new Error(`H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`)
+        throw new InvalidH5pError(
+          `H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`
+        )
       }
       let extractedBytes = 0
       for (const entry of entries) {
@@ -66,7 +81,9 @@ const uploadExtractedArchive = async (
               extractedBytes += chunk.length
               if (extractedBytes > MAX_EXTRACTED_BYTES) {
                 callback(
-                  new Error(`H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`)
+                  new InvalidH5pError(
+                    `H5P archive exceeds the ${MAX_EXTRACTED_BYTES}-byte extraction limit`
+                  )
                 )
                 return
               }
@@ -82,8 +99,9 @@ const uploadExtractedArchive = async (
     }
     // Require package metadata at the root, without rejecting packages whose
     // playback libraries are incomplete: extraction and previewability are separate.
-    if (!(await stat(path.join(extractedDirectory, 'h5p.json'))).isFile()) {
-      throw new Error('H5P archive has no root h5p.json file')
+    const metadata = statSync(path.join(extractedDirectory, 'h5p.json'), { throwIfNoEntry: false })
+    if (!metadata?.isFile()) {
+      throw new InvalidH5pError('H5P archive has no root h5p.json file')
     }
 
     const sourceHash = createHash('sha256')

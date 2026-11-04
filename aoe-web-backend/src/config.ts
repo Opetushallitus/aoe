@@ -121,7 +121,6 @@ const scheduledTasksEnv = z
     SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
     SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
     SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled,
-    SCHEDULED_TASK_H5P_EXTRACTION_ENABLED: taskEnabled,
     SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled
   })
   .transform((env) => ({
@@ -131,7 +130,6 @@ const scheduledTasksEnv = z
     officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
     referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
     notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED },
-    h5pExtraction: { enabled: env.SCHEDULED_TASK_H5P_EXTRACTION_ENABLED },
     sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED }
   }))
   .safeParse(process.env)

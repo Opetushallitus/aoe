@@ -33,8 +33,6 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ context, page }) => 
   const materiaali = await uusi.taytaJaTallennaUusiMateriaali(uusi.randomMateriaaliNimi('H5P'), {
     tiedostot: H5P.map(({ tiedosto }) => ({ nimi: tiedosto }))
   })
-  await materiaali.odotaH5pPurkua()
-  await page.reload()
   const { materials } = await (
     await page.request.get(`/api/v1/material/${await materiaali.getMateriaaliNumero()}`)
   ).json()
@@ -59,9 +57,6 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ context, page }) => 
       await expect(page.locator('app-h5p-preview')).toHaveScreenshot(kuva)
 
       const osoite = `/h5p/play/${tiedostoavaimet.get(tiedosto)}`
-      await expect
-        .poll(async () => (await page.request.get(osoite)).status(), { timeout: 60_000 })
-        .toBe(200)
       const upotus = await context.newPage()
       await upotus.goto(osoite)
       const soitin = upotus.locator('#h5p iframe').contentFrame()
@@ -101,4 +96,22 @@ test('h5p: kokoelma näyttää eri sisältötyypit', async ({ page }) => {
       .frameLocator('iframe')
     await expect(kehys.locator(sisalto).first()).toBeVisible({ timeout: 60_000 })
   }
+})
+
+test('h5p: rikkinäisen paketin lataaminen estetään', async ({ page }) => {
+  await Etusivu(page).goto()
+  const omatMateriaalit = await Etusivu(page).header.clickOmatMateriaalit()
+  await omatMateriaalit.locators.luoUusiMateriaali.click()
+  await page
+    .getByRole('textbox', { name: 'Oppimateriaalin nimi *', exact: true })
+    .fill(`Broken H5P test ${Date.now()}`)
+  await page.locator('#file0').setInputFiles({
+    name: 'rikki.h5p',
+    mimeType: 'application/zip',
+    buffer: Buffer.from('not a zip')
+  })
+  await page.getByRole('button', { name: 'Seuraava' }).click()
+  await expect(page.getByText('Osa latauksista keskeytyi tai epäonnistui')).toBeVisible({
+    timeout: 15_000
+  })
 })

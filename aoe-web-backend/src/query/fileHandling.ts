@@ -19,7 +19,7 @@ import { Upload } from '@aws-sdk/lib-storage'
 import { db, pgp } from '@resource/postgresClient'
 import { s3Client } from '@resource/s3Client'
 import { hasAccesstoPublication } from '@services/authService'
-import { extractH5pUpload } from '@services/h5pExtractionService'
+import { extractH5pUpload, InvalidH5pError } from '@services/h5pExtractionService'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
@@ -341,6 +341,16 @@ const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
 }
 
 // Upload a single file to the educational material with a multipart form upload.
+// Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
+// The upload has already succeeded and the scheduled conversion retries, so a failure is only logged.
+const convertOfficeFileAfterResponse = async (key: string, recordID: string): Promise<void> => {
+  try {
+    await convertOfficeFileToStoredPDF(key, recordID)
+  } catch (err) {
+    log.error('Office file conversion failed after the response was sent', err)
+  }
+}
+
 export const uploadFileToMaterial = async (
   req: Request,
   res: Response,
@@ -408,17 +418,6 @@ export const uploadFileToMaterial = async (
     await t.rollback()
     throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
-  res.status(200).json({
-    id: edumaterialid,
-    material: [
-      {
-        id: material.id,
-        createFrom: file.originalname,
-        educationalmaterialid: edumaterialid
-      }
-    ]
-  })
-
   try {
     const fileS3: SendData = await uploadFileToStorage(
       file.path,
@@ -442,12 +441,29 @@ export const uploadFileToMaterial = async (
         )
       }
     )
+    // Nothing retries a failed S3 upload or H5P extraction, so the upload succeeds only after both.
     if (isH5PFile(file)) {
-      await extractUploadedH5p(file, recordID, fileS3.Key)
+      await extractH5pUpload(
+        db,
+        s3Client,
+        { id: recordID, filekey: fileS3.Key },
+        config.cloudStorage.bucket,
+        config.cloudStorage.bucketUploadedMaterials,
+        new AbortController().signal
+      )
     }
-    // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
+    res.status(200).json({
+      id: edumaterialid,
+      material: [
+        {
+          id: material.id,
+          createFrom: file.originalname,
+          educationalmaterialid: edumaterialid
+        }
+      ]
+    })
     if (isOfficeMimeType(file.mimetype)) {
-      await convertOfficeFileToStoredPDF(fileS3.Key, recordID)
+      await convertOfficeFileAfterResponse(fileS3.Key, recordID)
     }
   } catch (err) {
     await Material.update(
@@ -458,9 +474,8 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    if (res.headersSent) {
-      // The 200 was already sent above, so this is the only place this failure is logged.
-      log.error('Single file upstreaming or conversions failed after the response was sent', err)
+    if (err instanceof InvalidH5pError) {
+      next(new StatusError(400, err.message, err))
     } else {
       next(new StatusError(500, 'File upstreaming failed', err))
     }

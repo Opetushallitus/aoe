@@ -82,8 +82,6 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
     ]
   })
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
-  await materiaali.odotaH5pPurkua()
-  await page.reload()
 
   for (const {
     tiedosto,

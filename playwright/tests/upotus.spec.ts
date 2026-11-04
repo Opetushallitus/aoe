@@ -50,7 +50,6 @@ test('toinen sivusto voi upottaa materiaalin H5P- ja PDF-esikatseluineen mutta e
     { tiedostot: [{ nimi: 'testing-127.h5p' }, { nimi: 'blank.pdf' }] }
   )
   const materiaaliNumero = await materiaali.getMateriaaliNumero()
-  await materiaali.odotaH5pPurkua()
 
   const ulkoinenKonteksti = await browser.newContext({
     storageState: undefined,

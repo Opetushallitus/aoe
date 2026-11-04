@@ -47,24 +47,6 @@ export const Materiaali = (page: Page) => {
     return oppimateriaaliNumero
   }
 
-  // H5P packages are extracted to S3 after the upload and are download-only until then, so a page
-  // opened before that must be reloaded.
-  const odotaH5pPurkua = async () => {
-    const osoite = `/api/v1/material/${await getMateriaaliNumero()}`
-    await expect
-      .poll(
-        async () => {
-          const { materials } = await (await page.request.get(osoite)).json()
-          return materials.filter(
-            (m: { originalfilename: string | null; mimetype: string }) =>
-              m.originalfilename?.endsWith('.h5p') && m.mimetype !== 'application/h5p'
-          ).length
-        },
-        { timeout: 120_000 }
-      )
-      .toBe(0)
-  }
-
   // Opens the Lataa menu only when it is closed, so calling this between downloads cannot
   // toggle an already open menu shut.
   const avaaLatausvalikko = async () => {
@@ -178,7 +160,6 @@ export const Materiaali = (page: Page) => {
     ...locators,
     expectHeading,
     getMateriaaliNumero,
-    odotaH5pPurkua,
     avaaLatausvalikko,
     lataaTiedosto,
     lataaKaikkiTiedostot,

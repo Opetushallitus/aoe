@@ -2,12 +2,10 @@ import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { db } from '@resource/postgresClient'
-import { s3Client } from '@resource/s3Client'
 import { deleteExpiredSessions } from '@resource/sessionStore'
 import { reindexAll } from '@search/es'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
-import { extractH5pUploads } from '@services/h5pExtractionService'
 import {
   setAmmattikoulunAmmattitutkinnot,
   setAmmattikoulunErikoisammattitutkinnot,
@@ -104,16 +102,6 @@ const scheduleTask = (
 }
 
 export const startScheduledTasks = (): void => {
-  scheduleTask('h5pExtraction', '0 */5 * * * *', async (connection, signal): Promise<void> => {
-    const result = await extractH5pUploads(
-      connection,
-      s3Client,
-      config.cloudStorage.bucket,
-      config.cloudStorage.bucketUploadedMaterials,
-      signal
-    )
-    log.info('H5P extraction batch finished', result)
-  })
   scheduleTask('directoryCleaning', '0 0 1 * * *', async (): Promise<void> => {
     await rmDir(config.MEDIA_FILE_PROCESS.htmlFolder, false)
   })

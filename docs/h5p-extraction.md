@@ -3,16 +3,14 @@
 H5P upload extraction, S3 preview URLs and the manual batch command are enabled
 in every environment.
 
-Scheduled backfill is controlled separately by
-`SCHEDULED_TASK_H5P_EXTRACTION_ENABLED` and is enabled by default in every environment.
-
 Both material upload endpoints extract new H5P packages after the
 original archive is stored and the transaction saving its file key has committed.
-Other file types are not extracted. Processing continues
-after the upload response, independently of client disconnects. Extraction failures
-are logged without marking the material obsolete or failing the upload. They are
-recorded with `success = false`, so the backfill job can retry them. Upload extraction
-runs independently of the setting that enables scheduled backfill.
+Other file types are not extracted. The v2 upload endpoint
+(`POST /api/v2/material/file/:id/upload`) responds only after extraction succeeds.
+A package that is not a valid ZIP, exceeds the size limits or has no root `h5p.json`
+is rejected with 400; other failures return 500. Either way the material is marked
+obsolete. The v1 endpoint still extracts after its response and only logs failures.
+Failures are recorded with `success = false`; the manual batch command retries them.
 
 The backend batch command selects up to five H5P upload records that have no matching
 successful `h5p_extraction` entry, using `ORDER BY random() LIMIT 5`. It downloads each
@@ -40,14 +38,8 @@ player appends package file paths with a slash. Completed packages do not need t
 downloaded or extracted by the backend during metadata requests. The link and embed
 URL `/h5p/play/<file-key>` returns a page that plays the successful extraction with
 h5p-standalone (published at `/assets/h5p-standalone/main.bundle.js`), or 404 when none
-exists. Without a successful extraction the package is download-only until the backfill
-succeeds. If browser playback fails, the frontend offers the original file for download.
+exists. Without a successful extraction the package is download-only. If browser playback fails, the frontend offers the original file for download.
 
-When scheduled backfill is enabled, the existing backend scheduler runs one batch
-every five minutes (`0 */5 * * * *`), using the shared S3 client. No timezone override
-is needed for this interval. `SCHEDULED_TASK_H5P_EXTRACTION_ENABLED=false`
-disables scheduled backfill without disabling upload extraction; this task setting
-defaults to enabled in every environment.
 The destination is configured with
 `CLOUD_STORAGE_BUCKET_UPLOADED_MATERIALS`: `aoe-uploaded-materials-dev`,
 `aoe-uploaded-materials-qa` or `aoe-uploaded-materials-prod`, and
@@ -61,10 +53,9 @@ matching the current file key; `failed` counts files, not extraction attempts.
 This progress is logged even when no files remain to extract.
 
 Each batch obtains one PostgreSQL session advisory lock on a dedicated connection
-through the shared `runTaskWithLock` function used by all scheduled jobs.
+through the shared `runTaskWithLock` function used by the scheduled jobs.
 The lock covers selection, extraction, upload, completion writes and temporary-file
-cleanup. Other servers skip while the lock is held. Manual invocations use the same
-lock. The connection is closed in `finally`, releasing the lock on success or failure.
+cleanup. Other invocations skip while the lock is held. The connection is closed in `finally`, releasing the lock on success or failure.
 If the connection is lost, active transfers are aborted and the batch stops;
 PostgreSQL also releases the disconnected session's lock.
 
