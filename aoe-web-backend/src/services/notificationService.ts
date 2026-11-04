@@ -2,6 +2,7 @@ import { Notification, sequelize } from '@domain/aoeModels'
 import * as log from '@util/winstonLogger'
 import { Request, Response } from 'express'
 import { Op, Transaction } from 'sequelize'
+import { z } from 'zod'
 
 /**
  * API function to fetch notifications currently visible in the web portal.
@@ -146,7 +147,7 @@ export const setScheduledNotificationDisabled = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const notificationID: string = req.params.id
+  const notificationID: string = z.string().parse(req.params.id)
   const t: Transaction = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED
   })

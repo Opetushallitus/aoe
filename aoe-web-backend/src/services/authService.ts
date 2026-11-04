@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
+import { z } from 'zod'
 
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
   if (req.isAuthenticated()) {
@@ -155,7 +156,7 @@ export const hasAccessToCollectionParams = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = req.params.collectionid
+  const id = z.string().parse(req.params.collectionid)
   const hasAccess: boolean = await hasAccessToCollectionID(id, req.session.passport.user.uid)
   if (!hasAccess) {
     res.sendStatus(401).end()

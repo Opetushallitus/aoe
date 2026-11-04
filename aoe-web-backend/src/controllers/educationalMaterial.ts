@@ -9,6 +9,7 @@ import { hasUrn, registerPID } from '@services/pidResolutionService'
 import { getEduMaterialVersionURL } from '@services/urlService'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
+import { z } from 'zod'
 
 export { educationalMaterialMetadataSchema, type EducationalMaterialMetadata }
 
@@ -25,7 +26,7 @@ export const updateEducationalMaterialMetadata = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const emid = req.params.edumaterialid
+    const emid = z.string().parse(req.params.edumaterialid)
     if (!emid) {
       return next(new StatusError(400, 'Metadata update failed: missing edumaterialid'))
     }

@@ -96,7 +96,7 @@ export const uploadAttachmentToMaterial = async (
       return next(new StatusError(400, 'Missing content-type header'))
     }
 
-    const materialId = req.params.materialId
+    const materialId = z.string().optional().parse(req.params.materialId)
     if (!materialId) {
       return next(new StatusError(400, 'Missing materialId req param'))
     }
@@ -370,7 +370,7 @@ export const uploadFileToMaterial = async (
     }
   }
 
-  const edumaterialid = req.params.edumaterialid
+  const edumaterialid = z.string().optional().parse(req.params.edumaterialid)
 
   if (!edumaterialid) {
     res.status(400).json({ rejected: 'Missing edumaterialid' })
@@ -1168,7 +1168,7 @@ export const downloadAllMaterialsCompressed = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const edumaterialid = req.params.edumaterialid
+  const edumaterialid = z.string().optional().parse(req.params.edumaterialid)
 
   if (!edumaterialid) {
     return next(new StatusError(400, 'Missing edumaterialid req param'))

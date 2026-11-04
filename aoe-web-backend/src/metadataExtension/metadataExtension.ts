@@ -5,6 +5,7 @@ import {
   usersMetadataExtension
 } from '@query/metadataExtensionQueries'
 import { NextFunction, Request, Response } from 'express'
+import { z } from 'zod'
 
 export class MetadataExtension {
   keywords: Array<{ key: string; value: string }>
@@ -26,7 +27,11 @@ export async function addMetadataExtension(req: Request, res: Response, next: Ne
     if (!req.params.id) {
       return res.status(404)
     }
-    await insertMetadataExtension(req.params.id, req.session.passport.user.uid, metadata)
+    await insertMetadataExtension(
+      z.string().parse(req.params.id),
+      req.session.passport.user.uid,
+      metadata
+    )
     res.status(200).json({ status: 'success' })
   } catch (error) {
     next(new StatusError(500, 'Issue adding metadata extension', error))
@@ -38,7 +43,7 @@ export async function getMetadataExtension(req: Request, res: Response, next: Ne
     if (!req.params.id) {
       return res.status(404)
     }
-    const data = await metadataExtension(req.params.id)
+    const data = await metadataExtension(z.string().parse(req.params.id))
     res.status(200).json(data)
   } catch (error) {
     next(new StatusError(500, 'Issue getting metadata extension', error))
@@ -50,7 +55,10 @@ export async function getUsersMetadataExtension(req: Request, res: Response, nex
     if (!req.params.id) {
       return res.status(404)
     }
-    const data = await usersMetadataExtension(req.params.id, req.session.passport.user.uid)
+    const data = await usersMetadataExtension(
+      z.string().parse(req.params.id),
+      req.session.passport.user.uid
+    )
     res.status(200).json(data)
   } catch (error) {
     next(new StatusError(500, 'Issue getting metadata extension', error))

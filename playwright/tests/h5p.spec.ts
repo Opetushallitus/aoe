@@ -88,9 +88,7 @@ test('h5p: kokoelma näyttää eri sisältötyypit', async ({ page }) => {
     if (i === 0) {
       await materiaali.lisaaKokoelmaan(kokoelma)
     } else {
-      await page.getByRole('button', { name: 'Lisää kokoelmaan' }).click()
-      await page.getByLabel(kokoelma).click({ force: true })
-      await page.getByRole('button', { name: 'Lisää', exact: true }).click()
+      await materiaali.lisaaKokoelmaan(kokoelma, { uusi: false })
     }
   }
   const omatMateriaalit = await Etusivu(page).header.clickOmatMateriaalit()

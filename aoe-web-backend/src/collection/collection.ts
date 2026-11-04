@@ -11,6 +11,7 @@ import {
 import { updateEsCollectionIndex } from '@search/es'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
+import { z } from 'zod'
 
 export class Collection {
   public collectionId?: string
@@ -159,9 +160,12 @@ export async function getCollection(req: Request, res: Response, next: NextFunct
   try {
     let data
     if (req.isAuthenticated()) {
-      data = await collectionQuery(req.params.collectionId, req.session.passport.user.uid)
+      data = await collectionQuery(
+        z.string().parse(req.params.collectionId),
+        req.session.passport.user.uid
+      )
     } else {
-      data = await collectionQuery(req.params.collectionId)
+      data = await collectionQuery(z.string().parse(req.params.collectionId))
     }
     res.status(200).json(data)
   } catch (error) {

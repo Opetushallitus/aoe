@@ -134,12 +134,20 @@ export const Materiaali = (page: Page) => {
     const materiaaliNumero = await getMateriaaliNumero()
     await page.getByTestId(`preview-link-${materiaaliNumero}`).click()
   }
-  const lisaaKokoelmaan = async (kokoelmaName: string) => {
+  const lisaaKokoelmaan = async (kokoelmaName: string, { uusi = true } = {}) => {
     await page.getByRole('button', { name: 'Lisää kokoelmaan' }).click()
-    await page.getByRole('textbox', { name: 'Kokoelman nimi' }).fill(kokoelmaName)
-    await page.getByRole('button', { name: 'Tallenna' }).click()
-    await page.getByLabel(kokoelmaName).click({ force: true })
+    if (uusi) {
+      await page.getByRole('textbox', { name: 'Kokoelman nimi' }).fill(kokoelmaName)
+      await page.getByRole('button', { name: 'Tallenna' }).click()
+    }
+    // The collection list re-renders when it reloads, which can swallow a click.
+    const valinta = page.getByLabel(kokoelmaName)
+    await expect(async () => {
+      await valinta.check({ force: true })
+      await expect(valinta).toBeChecked({ timeout: 1000 })
+    }).toPass()
     await page.getByRole('button', { name: 'Lisää', exact: true }).click()
+    await expect(page.getByRole('dialog')).toBeHidden()
   }
 
   const lisaaArvio = async (arvio: {

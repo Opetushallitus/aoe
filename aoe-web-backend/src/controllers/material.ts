@@ -9,6 +9,7 @@ import {
 import { deleteDocument } from '@search/esQueries'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
+import { z } from 'zod'
 
 /**
  * @param req
@@ -24,7 +25,7 @@ export async function removeEducationalMaterial(req: Request, res: Response, nex
     log.debug(
       `removeEducationalMaterial: user ${req.session.passport.user.uid} deleting educational material ${req.params.id}`
     )
-    const id = req.params.id
+    const id = z.string().parse(req.params.id)
     await updateEducationalMaterial(id)
     res.status(200).json({ status: 'success', statusCode: 200 })
     const index = process.env.ES_INDEX
@@ -81,8 +82,8 @@ export async function getMaterialNames(req: Request, res: Response, next: NextFu
     if (!req.params.id) {
       return res.sendStatus(404)
     }
-    const name = await getMaterialName(req.params.id)
-    const owner = await getOwnerName(req.params.id)
+    const name = await getMaterialName(z.string().parse(req.params.id))
+    const owner = await getOwnerName(z.string().parse(req.params.id))
     if (!owner) {
       return res.sendStatus(404)
     } else {

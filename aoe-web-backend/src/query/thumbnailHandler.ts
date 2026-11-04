@@ -5,6 +5,7 @@ import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
 import mime from 'mime'
 import { downloadFromStorage, uploadBase64FileToStorage } from './fileHandling'
+import { z } from 'zod'
 
 /**
  * @param req
@@ -33,7 +34,7 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
         await updateEmThumbnailData(
           obj.Location,
           matches[1],
-          req.params.edumaterialid,
+          z.string().parse(req.params.edumaterialid),
           fileName,
           obj.Key,
           obj.Bucket
@@ -42,7 +43,7 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
         await updateCollectionThumbnailData(
           obj.Location,
           matches[1],
-          req.params.collectionid,
+          z.string().parse(req.params.collectionid),
           fileName,
           obj.Key,
           obj.Bucket
@@ -64,7 +65,10 @@ export const uploadbase64Image = async (req: Request, res: Response, next: NextF
  */
 export const downloadEmThumbnail = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const key = req.params.filename || req.params.id
+    const key = z
+      .string()
+      .optional()
+      .parse(req.params.filename || req.params.id)
     if (!key) {
       return res.status(200).json({})
     }
@@ -87,7 +91,7 @@ export const downloadCollectionThumbnail = async (
   next: NextFunction
 ) => {
   try {
-    const key = req.params.id
+    const key = z.string().optional().parse(req.params.id)
     if (!key) {
       return res.status(200).json({})
     }

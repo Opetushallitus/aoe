@@ -83,6 +83,10 @@
       "matchPackageNames": ["bootstrap"]
     },
     {
+      "groupName": "ngx-translate",
+      "matchPackageNames": ["@ngx-translate/**"]
+    },
+    {
       "groupName": "Multer",
       "matchPackageNames": ["multer", "@types/multer"]
     },

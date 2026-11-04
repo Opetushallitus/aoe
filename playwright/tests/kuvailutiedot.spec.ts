@@ -53,22 +53,22 @@ test('toinen käyttäjä voi lisätä kuvailutietoja toisen käyttäjän materia
     metadataPage.getByText('Käyttäjien mielestä tämä materiaali soveltuu myös:')
   ).toBeVisible()
   await expect(
-    metadataPage.locator('button[aria-labelledby="socialMetadata-keywords"]', {
+    metadataPage.locator('[aria-labelledby="socialMetadata-keywords"] button', {
       hasText: 'PDF'
     })
   ).toBeVisible()
   await expect(
-    metadataPage.locator('button[aria-labelledby="socialMetadata-accessibilityFeatures"]', {
+    metadataPage.locator('[aria-labelledby="socialMetadata-accessibilityFeatures"] button', {
       hasText: 'tekstitys'
     })
   ).toBeVisible()
   await expect(
-    metadataPage.locator('button[aria-labelledby="socialMetadata-accessibilityHazards"]', {
+    metadataPage.locator('[aria-labelledby="socialMetadata-accessibilityHazards"] button', {
       hasText: 'ei esteitä'
     })
   ).toBeVisible()
   await expect(
-    metadataPage.locator('button[aria-labelledby="socialMetadata-educationalLevels"]', {
+    metadataPage.locator('[aria-labelledby="socialMetadata-educationalLevels"] button', {
       hasText: 'korkeakoulutus'
     })
   ).toBeVisible()
