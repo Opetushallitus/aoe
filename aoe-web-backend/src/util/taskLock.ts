@@ -3,7 +3,7 @@ import type { IDatabase } from 'pg-promise'
 import { z } from 'zod'
 
 export type TaskRun<T> = (
-  connection: Pick<IDatabase<unknown>, 'any' | 'none'>,
+  connection: Pick<IDatabase<unknown>, 'any' | 'none' | 'tx'>,
   signal: AbortSignal
 ) => Promise<T>
 

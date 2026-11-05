@@ -36,7 +36,7 @@ const OSAT: Osa[] = [
   {
     tiedosto: 'test-site.zip',
     kehyksessa: 'text=zip-to-HTML preview test site',
-    valilehdenOsoite: /\/content\/testsite-\d+\/index\.html$/
+    valilehdenOsoite: /\/files\/\d+\/[0-9a-f]{64}\/index\.html$/
   },
   { tiedosto: 'test-bundle.zip' },
   { tiedosto: 'backup-moodle2-course-3-test-course-20260731-1051-nu.mbz' }

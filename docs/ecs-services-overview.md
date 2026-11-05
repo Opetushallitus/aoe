@@ -95,6 +95,7 @@ Each scheduled job acquires a task-specific PostgreSQL session advisory lock wit
 | 3:00 AM | Update reference data endpoints data into PostgreSQL | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 4:00 AM | Delete expired sessions | `SCHEDULED_TASK_SESSION_CLEANUP_ENABLED` |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
+| Every 5 min | Extract up to five H5P and ZIP previews to S3 ([file-preview.md](file-preview.md)) | `SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED` |
 
 On startup every task also updates the reference data into PostgreSQL and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).
 

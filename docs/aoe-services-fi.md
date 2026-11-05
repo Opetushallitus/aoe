@@ -87,6 +87,7 @@ Jokainen ajastettu tehtävä ottaa tehtäväkohtaisen PostgreSQL:n istuntokohtai
 | 3:00 AM    | Päivitä viitetietorajapintojen tiedot PostgreSQL:ään | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 4:00 AM    | Poista vanhentuneet istunnot                        | `SCHEDULED_TASK_SESSION_CLEANUP_ENABLED`       |
 | 10:00 AM   | Lähetä vanhenemis- ja arviointi-ilmoitussähköpostit AWS SES:n kautta | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
+| 5 min välein | Pura enintään viisi H5P- ja ZIP-esikatselua S3:een ([file-preview.md](file-preview.md)) | `SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED` |
 
 Käynnistyessään jokainen task päivittää lisäksi viitetiedot PostgreSQL:ään ja luo puuttuvat OpenSearch-indeksit (`CREATE_ES_INDEX=1` luo molemmat uudelleen; koska taskeja on useampi, julkaise ensin `min_count: 1` ja `max_count: 1`, jotta vain yksi task luo indeksit uudelleen).
 

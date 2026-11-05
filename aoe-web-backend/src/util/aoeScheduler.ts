@@ -2,8 +2,10 @@ import { config } from '@/config'
 import { rmDir } from '@/helpers/fileRemover'
 import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter'
 import { db } from '@resource/postgresClient'
+import { s3Client } from '@resource/s3Client'
 import { deleteExpiredSessions } from '@resource/sessionStore'
 import { reindexAll } from '@search/es'
+import { extractFilePreviews } from '@services/filePreviewService'
 import { sendExpirationMail, sendRatingNotificationMail } from '@services/mailService'
 import { processEntriesWithoutPID } from '@services/pidResolutionService'
 import {
@@ -118,4 +120,17 @@ export const startScheduledTasks = (): void => {
     await sendRatingNotificationMail()
     await sendExpirationMail()
   })
+  scheduleTask(
+    'filePreviewBackfill',
+    '0 */5 * * * *',
+    async (connection, signal): Promise<void> => {
+      await extractFilePreviews(
+        connection,
+        s3Client,
+        config.cloudStorage.bucket,
+        config.cloudStorage.bucketUploadedMaterials,
+        signal
+      )
+    }
+  )
 }

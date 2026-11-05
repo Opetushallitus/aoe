@@ -220,5 +220,5 @@ export const convertOfficeFileToStoredPDF = async (
 }
 
 const updatePdfKey = async (key: string, id: string): Promise<void> => {
-  await db.none('UPDATE record SET pdfkey = $1 WHERE id = $2', [key, id])
+  await db.none(`UPDATE record SET pdfkey = $1, preview_type = 'office' WHERE id = $2`, [key, id])
 }

@@ -19,7 +19,11 @@ import { Upload } from '@aws-sdk/lib-storage'
 import { db, pgp } from '@resource/postgresClient'
 import { s3Client } from '@resource/s3Client'
 import { hasAccesstoPublication } from '@services/authService'
-import { extractH5pUpload, InvalidH5pError } from '@services/h5pExtractionService'
+import {
+  extractFilePreview,
+  InvalidArchiveError,
+  previewKindOf
+} from '@services/filePreviewService'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
@@ -189,6 +193,10 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               next(new StatusError(500, 'Error in upload', err))
             })
         } else {
+          // Only the Playwright seed is known to upload through v1; remove this branch if this never fires.
+          log.error('Legacy v1 material upload with a file', {
+            originalname: req.file.originalname
+          })
           const file: MulterFile = req.file
           let materialid: string
           const fileDetails = JSON.parse(req.body.fileDetails)
@@ -228,9 +236,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     obj.Bucket,
                     obj.Location
                   )
-                  if (isH5PFile(file)) {
-                    await extractUploadedH5p(file, recordid, obj.Key)
-                  }
+                  await extractUploadedPreview(file, recordid, obj.Key)
 
                   // convert file to pdf if office document
                   try {
@@ -441,16 +447,19 @@ export const uploadFileToMaterial = async (
         )
       }
     )
-    // Nothing retries a failed S3 upload or H5P extraction, so the upload succeeds only after both.
-    if (isH5PFile(file)) {
-      await extractH5pUpload(
+    // Wait for H5P extraction so an invalid package is rejected with 400 before responding.
+    // A failed ZIP preview doesn't fail the upload: the file preview backfill retries it.
+    if (previewKindOf(file.originalname, file.mimetype) === 'h5p') {
+      await extractFilePreview(
         db,
         s3Client,
-        { id: recordID, filekey: fileS3.Key },
+        { id: recordID, filekey: fileS3.Key, kind: 'h5p' },
         config.cloudStorage.bucket,
         config.cloudStorage.bucketUploadedMaterials,
         new AbortController().signal
       )
+    } else {
+      await extractUploadedPreview(file, recordID, fileS3.Key)
     }
     res.status(200).json({
       id: edumaterialid,
@@ -474,7 +483,7 @@ export const uploadFileToMaterial = async (
         }
       }
     )
-    if (err instanceof InvalidH5pError) {
+    if (err instanceof InvalidArchiveError) {
       next(new StatusError(400, err.message, err))
     } else {
       next(new StatusError(500, 'File upstreaming failed', err))
@@ -484,30 +493,27 @@ export const uploadFileToMaterial = async (
   }
 }
 
-function isH5PFile(file: MulterFile): boolean {
-  return path.extname(file.originalname).toLowerCase() === '.h5p'
-}
-
-async function extractUploadedH5p(
+async function extractUploadedPreview(
   file: MulterFile,
   recordId: string | null,
   fileKey: string | undefined
 ): Promise<void> {
-  if (!recordId || !fileKey || !isH5PFile(file)) {
+  const kind = previewKindOf(file.originalname, file.mimetype)
+  if (!recordId || !fileKey || !kind) {
     return
   }
   try {
-    await extractH5pUpload(
+    await extractFilePreview(
       db,
       s3Client,
-      { id: recordId, filekey: fileKey },
+      { id: recordId, filekey: fileKey, kind },
       config.cloudStorage.bucket,
       config.cloudStorage.bucketUploadedMaterials,
-      // Processing continues after the upload response, independently of client disconnects.
+      // Never aborted: extraction keeps going if the client disconnects.
       new AbortController().signal
     )
   } catch (err) {
-    log.error(`H5P extraction failed for uploaded record ${recordId}`, err, {
+    log.error(`File preview extraction failed for uploaded record ${recordId}`, err, {
       sourceBucket: config.cloudStorage.bucket,
       sourceKey: fileKey
     })
@@ -812,7 +818,8 @@ const insertDataToRecordTable = async (
     return await t.oneOrNone(`
         ${pgp.helpers.insert([values], columnSet)}
         ON CONFLICT (id) DO UPDATE SET
-        filepath = EXCLUDED.filepath, filekey = EXCLUDED.filekey, filebucket = EXCLUDED.filebucket
+        filepath = EXCLUDED.filepath, filekey = EXCLUDED.filekey, filebucket = EXCLUDED.filebucket,
+        preview_type = NULL
         RETURNING id
       `)
   })

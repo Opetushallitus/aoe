@@ -200,10 +200,10 @@ export const getEducationalMaterialMetadata = async (
     if (!isPublished) {
       query =
         'SELECT m.id, m.materiallanguagekey AS language, link, filepath, originalfilename, filesize, ' +
-        'mimetype, filekey, filebucket, pdfkey, h5p.s3_object_prefix AS h5p_object_prefix' +
+        'mimetype, filekey, filebucket, pdfkey, fp.s3_object_prefix AS preview_prefix, fp.entry_path AS preview_entry_path, fp.record_id IS NOT NULL AS preview_extracted' +
         ' FROM material AS m ' +
         'LEFT JOIN record AS r ON m.id = r.materialid ' +
-        'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey AND h5p.success = true ' +
+        'LEFT JOIN file_preview AS fp ON fp.record_id = r.id AND fp.source_file_key = r.filekey AND fp.success ' +
         'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0'
       response = await t.any(query, [eduMaterialId])
     } else {
@@ -211,12 +211,12 @@ export const getEducationalMaterialMetadata = async (
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
           'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey, ' +
-          'h5p.s3_object_prefix AS h5p_object_prefix' +
+          'fp.s3_object_prefix AS preview_prefix, fp.entry_path AS preview_entry_path, fp.record_id IS NOT NULL AS preview_extracted' +
           ' FROM (SELECT materialid, publishedat, priority FROM versioncomposition ' +
           'WHERE publishedat = $2) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
           'LEFT JOIN record AS r ON m.id = r.materialid ' +
-          'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey AND h5p.success = true ' +
+          'LEFT JOIN file_preview AS fp ON fp.record_id = r.id AND fp.source_file_key = r.filekey AND fp.success ' +
           'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 ' +
           'ORDER BY priority'
         response = await t.any(query, [eduMaterialId, req.params.publishedat])
@@ -224,12 +224,12 @@ export const getEducationalMaterialMetadata = async (
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
           'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey, ' +
-          'h5p.s3_object_prefix AS h5p_object_prefix' +
+          'fp.s3_object_prefix AS preview_prefix, fp.entry_path AS preview_entry_path, fp.record_id IS NOT NULL AS preview_extracted' +
           ' FROM (SELECT materialid, publishedat, priority FROM versioncomposition WHERE publishedat = ' +
           '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
           'LEFT JOIN record AS r ON m.id = r.materialid ' +
-          'LEFT JOIN h5p_extraction AS h5p ON h5p.record_id = r.id AND h5p.source_file_key = r.filekey AND h5p.success = true ' +
+          'LEFT JOIN file_preview AS fp ON fp.record_id = r.id AND fp.source_file_key = r.filekey AND fp.success ' +
           'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 ' +
           'ORDER BY priority'
         response = await t.any(query, [eduMaterialId])
@@ -334,8 +334,10 @@ export const getEducationalMaterialMetadata = async (
       jsonObj.id = data[0][0].id
       jsonObj.materials = data[14]
       for (const i in jsonObj.materials) {
-        const h5pObjectPrefix = jsonObj.materials[i]['h5p_object_prefix']
-        delete jsonObj.materials[i]['h5p_object_prefix']
+        const preview = materialPreviewSchema.parse(jsonObj.materials[i])
+        delete jsonObj.materials[i]['preview_prefix']
+        delete jsonObj.materials[i]['preview_entry_path']
+        delete jsonObj.materials[i]['preview_extracted']
         let ext = ''
         if (jsonObj.materials[i] && jsonObj.materials[i]['originalfilename']) {
           ext = jsonObj.materials[i]['originalfilename']
@@ -346,10 +348,10 @@ export const getEducationalMaterialMetadata = async (
             .toLowerCase()
         }
         if (ext === '.h5p') {
-          if (h5pObjectPrefix) {
+          if (preview.preview_prefix) {
             jsonObj.materials[i]['mimetype'] = 'application/h5p'
             jsonObj.materials[i]['filepath'] = new URL(
-              `/${h5pObjectPrefix}`,
+              `/${preview.preview_prefix}`,
               process.env.HTML_BASE_URL
             ).href.replace(/\/+$/, '')
             continue
@@ -362,12 +364,27 @@ export const getEducationalMaterialMetadata = async (
         ) {
           jsonObj.materials[i]['filepath'] =
             config.MEDIA_FILE_PROCESS.conversionToPdfApi + jsonObj.materials[i]['pdfkey']
+        } else if (preview.preview_extracted) {
+          // Extracted to S3 by filePreviewService. Without an entry the ZIP has no preview.
+          if (preview.preview_prefix && preview.preview_entry_path) {
+            jsonObj.materials[i]['mimetype'] = 'text/html'
+            jsonObj.materials[i]['filepath'] = new URL(
+              `/${preview.preview_prefix}${preview.preview_entry_path}`,
+              process.env.HTML_BASE_URL
+            ).href
+          }
         } else if (
           jsonObj.materials[i] &&
           (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
             jsonObj.materials[i]['mimetype'] === 'text/html' ||
             jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
         ) {
+          // ponytail: EFS fallback until the backfill has extracted every ZIP, removed in AOE-137 1c.
+          if (jsonObj.materials[i]['mimetype'] !== 'text/html') {
+            log.warn(
+              `ZIP preview not yet extracted to S3 for material ${jsonObj.materials[i]['id']}`
+            )
+          }
           const result = await extractArchiveForPreview(jsonObj.materials[i], eduMaterialId, res)
           if (
             result !== false &&
@@ -955,6 +972,12 @@ const syncKeyedRows = async (
     : pgp.as.format('ON CONFLICT ($1:name, educationalmaterialid) DO NOTHING', [keyColumn])
   await t.none(`${pgp.helpers.insert(rows, columns)} ${conflict}`)
 }
+
+const materialPreviewSchema = z.object({
+  preview_prefix: z.string().nullable(),
+  preview_entry_path: z.string().nullable(),
+  preview_extracted: z.boolean()
+})
 
 const versionSchema = z.object({ publishedat: z.string() })
 

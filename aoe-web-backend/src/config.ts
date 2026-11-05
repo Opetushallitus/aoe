@@ -121,7 +121,8 @@ const scheduledTasksEnv = z
     SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
     SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
     SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled,
-    SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled
+    SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled,
+    SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED: taskEnabled
   })
   .transform((env) => ({
     directoryCleaning: { enabled: env.SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED },
@@ -130,7 +131,8 @@ const scheduledTasksEnv = z
     officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
     referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
     notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED },
-    sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED }
+    sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED },
+    filePreviewBackfill: { enabled: env.SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED }
   }))
   .safeParse(process.env)
 if (!scheduledTasksEnv.success) {

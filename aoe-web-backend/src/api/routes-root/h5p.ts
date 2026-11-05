@@ -23,8 +23,9 @@ export const h5p = (router: Router): void => {
       await db.oneOrNone(
         `SELECT e.s3_object_prefix AS prefix
          FROM record r
-         JOIN h5p_extraction e
-           ON e.record_id = r.id AND e.source_file_key = r.filekey AND e.success = true
+         JOIN file_preview e
+           ON e.record_id = r.id AND e.source_file_key = r.filekey
+           AND e.success AND e.s3_object_prefix IS NOT NULL
          WHERE r.filekey = $1
          LIMIT 1`,
         [keyS3]
