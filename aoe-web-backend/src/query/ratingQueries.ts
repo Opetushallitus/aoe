@@ -81,7 +81,7 @@ export async function insertRatingAverage(id: string) {
   }
 }
 
-export async function getRatings(materialId: string) {
+export async function getRatings(materialId: number) {
   try {
     const ratings: Array<RatingResponse> = []
     const data = await db.task(async (t: any) => {
@@ -139,7 +139,7 @@ export async function getRatings(materialId: string) {
   }
 }
 
-export async function getUserRatings(username: string, materialId: string) {
+export async function getUserRatings(username: string, materialId: number) {
   try {
     const data = await db.task(async (t: any) => {
       const query =

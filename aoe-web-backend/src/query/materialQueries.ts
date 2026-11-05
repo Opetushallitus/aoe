@@ -1,7 +1,7 @@
 import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 
-export async function updateEducationalMaterial(emid: string) {
+export async function updateEducationalMaterial(emid: number) {
   return await db.tx(async (t: any) => {
     await t.none('UPDATE educationalmaterial SET obsoleted = 1 WHERE id = $1;', [emid])
     log.debug(`Educational material obsoleted for id: ${emid}`)
@@ -46,14 +46,14 @@ export async function getUsers() {
   return await db.any('SELECT id, firstname, lastname, email FROM users;')
 }
 
-export async function getOwnerName(materialid: string) {
+export async function getOwnerName(materialid: number | string) {
   return await db.oneOrNone(
     'SELECT firstname, lastname FROM educationalmaterial AS em JOIN users ON em.usersusername = users.username WHERE em.id = $1;',
     [materialid]
   )
 }
 
-export async function getMaterialName(materialid: string) {
+export async function getMaterialName(materialid: number) {
   return await db.any(
     'SELECT materialname, language FROM materialname WHERE educationalmaterialid = $1;',
     [materialid]

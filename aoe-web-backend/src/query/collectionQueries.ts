@@ -108,7 +108,7 @@ export async function userCollections(username: string) {
  * if published username is not required
  * otherwise check if username is owner of the collection to return data
  */
-export async function collectionQuery(collectionId: string, username?: string) {
+export async function collectionQuery(collectionId: number, username?: string) {
   try {
     const data = await db.task(async (t: any) => {
       let query =

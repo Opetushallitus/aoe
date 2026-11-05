@@ -3,7 +3,7 @@ import { db } from '@resource/postgresClient'
 import * as log from '@util/winstonLogger'
 
 export async function insertMetadataExtension(
-  id: string,
+  id: number,
   username: string,
   metadata: MetadataExtension
 ) {
@@ -73,7 +73,7 @@ export async function insertMetadataExtension(
   }
 }
 
-export async function metadataExtension(id: string) {
+export async function metadataExtension(id: number) {
   try {
     const data = await db.task(async (t: any) => {
       let query =
@@ -97,7 +97,7 @@ export async function metadataExtension(id: string) {
   }
 }
 
-export async function usersMetadataExtension(id: string, user: string) {
+export async function usersMetadataExtension(id: number, user: string) {
   try {
     const data = await db.task(async (t: any) => {
       let query =

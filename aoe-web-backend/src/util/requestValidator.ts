@@ -2,6 +2,10 @@ import { db } from '@resource/postgresClient'
 import { NextFunction, Request, Response } from 'express'
 import { body, header, ValidationChain } from 'express-validator'
 import { addHook, sanitize } from 'isomorphic-dompurify'
+import { z } from 'zod'
+
+// Numeric database id in a route parameter. Empty and whitespace coerce to 0, so positive() rejects them.
+export const idParamSchema = z.coerce.number().int().positive()
 
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.
 addHook('afterSanitizeAttributes', (element: Element): void => {

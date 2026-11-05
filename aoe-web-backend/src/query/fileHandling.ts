@@ -24,6 +24,7 @@ import {
   InvalidArchiveError,
   previewKindOf
 } from '@services/filePreviewService'
+import { idParamSchema } from '@util/requestValidator'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
@@ -1190,11 +1191,11 @@ export const downloadAllMaterialsCompressed = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const edumaterialid = z.string().optional().parse(req.params.edumaterialid)
-
-  if (!edumaterialid) {
-    return next(new StatusError(400, 'Missing edumaterialid req param'))
+  const parsedId = idParamSchema.safeParse(req.params.edumaterialid)
+  if (!parsedId.success) {
+    return next(new StatusError(400, 'Invalid edumaterialid req param'))
   }
+  const edumaterialid = parsedId.data
 
   // Queries to resolve files of the latest educational material version requested.
   const queryLatestPublished = `
@@ -1239,7 +1240,7 @@ export const downloadAllMaterialsCompressed = async (
     throw err
   }
   // Update the download counter.
-  const educationalMaterialId: number = parseInt(edumaterialid, 10)
+  const educationalMaterialId: number = edumaterialid
   if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
     try {
       await updateDownloadCounter(educationalMaterialId.toString())

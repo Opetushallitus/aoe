@@ -9,7 +9,7 @@ import {
 import { deleteDocument } from '@search/esQueries'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
-import { z } from 'zod'
+import { idParamSchema } from '@util/requestValidator'
 
 /**
  * @param req
@@ -19,17 +19,18 @@ import { z } from 'zod'
  */
 export async function removeEducationalMaterial(req: Request, res: Response, next: NextFunction) {
   try {
-    if (!req.params.id) {
-      return res.sendStatus(404)
+    const parsedId = idParamSchema.safeParse(req.params.id)
+    if (!parsedId.success) {
+      return next(new StatusError(400, 'Invalid material id'))
     }
+    const id = parsedId.data
     log.debug(
-      `removeEducationalMaterial: user ${req.session.passport.user.uid} deleting educational material ${req.params.id}`
+      `removeEducationalMaterial: user ${req.session.passport.user.uid} deleting educational material ${id}`
     )
-    const id = z.string().parse(req.params.id)
     await updateEducationalMaterial(id)
     res.status(200).json({ status: 'success', statusCode: 200 })
     const index = process.env.ES_INDEX
-    await deleteDocument(index, id)
+    await deleteDocument(index, String(id))
   } catch (err) {
     next(new StatusError(500, `Issue removing material`, err))
   }
@@ -79,11 +80,12 @@ export async function changeMaterialUser(req: Request, res: Response, next: Next
 
 export async function getMaterialNames(req: Request, res: Response, next: NextFunction) {
   try {
-    if (!req.params.id) {
-      return res.sendStatus(404)
+    const id = idParamSchema.safeParse(req.params.id)
+    if (!id.success) {
+      return next(new StatusError(400, 'Invalid material id'))
     }
-    const name = await getMaterialName(z.string().parse(req.params.id))
-    const owner = await getOwnerName(z.string().parse(req.params.id))
+    const name = await getMaterialName(id.data)
+    const owner = await getOwnerName(id.data)
     if (!owner) {
       return res.sendStatus(404)
     } else {

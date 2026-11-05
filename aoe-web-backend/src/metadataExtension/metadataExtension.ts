@@ -4,8 +4,8 @@ import {
   metadataExtension,
   usersMetadataExtension
 } from '@query/metadataExtensionQueries'
+import { idParamSchema } from '@util/requestValidator'
 import { NextFunction, Request, Response } from 'express'
-import { z } from 'zod'
 
 export class MetadataExtension {
   keywords: Array<{ key: string; value: string }>
@@ -23,15 +23,12 @@ export class MetadataExtension {
 
 export async function addMetadataExtension(req: Request, res: Response, next: NextFunction) {
   try {
-    const metadata = new MetadataExtension(req.body)
-    if (!req.params.id) {
-      return res.status(404)
+    const id = idParamSchema.safeParse(req.params.id)
+    if (!id.success) {
+      return next(new StatusError(400, 'Invalid material id'))
     }
-    await insertMetadataExtension(
-      z.string().parse(req.params.id),
-      req.session.passport.user.uid,
-      metadata
-    )
+    const metadata = new MetadataExtension(req.body)
+    await insertMetadataExtension(id.data, req.session.passport.user.uid, metadata)
     res.status(200).json({ status: 'success' })
   } catch (error) {
     next(new StatusError(500, 'Issue adding metadata extension', error))
@@ -40,10 +37,11 @@ export async function addMetadataExtension(req: Request, res: Response, next: Ne
 
 export async function getMetadataExtension(req: Request, res: Response, next: NextFunction) {
   try {
-    if (!req.params.id) {
-      return res.status(404)
+    const id = idParamSchema.safeParse(req.params.id)
+    if (!id.success) {
+      return next(new StatusError(400, 'Invalid material id'))
     }
-    const data = await metadataExtension(z.string().parse(req.params.id))
+    const data = await metadataExtension(id.data)
     res.status(200).json(data)
   } catch (error) {
     next(new StatusError(500, 'Issue getting metadata extension', error))
@@ -52,13 +50,11 @@ export async function getMetadataExtension(req: Request, res: Response, next: Ne
 
 export async function getUsersMetadataExtension(req: Request, res: Response, next: NextFunction) {
   try {
-    if (!req.params.id) {
-      return res.status(404)
+    const id = idParamSchema.safeParse(req.params.id)
+    if (!id.success) {
+      return next(new StatusError(400, 'Invalid material id'))
     }
-    const data = await usersMetadataExtension(
-      z.string().parse(req.params.id),
-      req.session.passport.user.uid
-    )
+    const data = await usersMetadataExtension(id.data, req.session.passport.user.uid)
     res.status(200).json(data)
   } catch (error) {
     next(new StatusError(500, 'Issue getting metadata extension', error))

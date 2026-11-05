@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusError } from '@/helpers/errorHandler'
 import { db } from '@resource/postgresClient'
+import { idParamSchema } from '@util/requestValidator'
 import * as log from '@util/winstonLogger'
-import { z } from 'zod'
 
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
   if (req.isAuthenticated()) {
@@ -83,24 +83,31 @@ export const insertUserToDatabase = async (userinfo: Record<string, unknown>): P
 }
 
 export async function hasAccessToPublicatication(req: Request, res: Response, next: NextFunction) {
+  const id = idParamSchema.safeParse(req.params.edumaterialid)
+  if (!id.success) {
+    return next(new StatusError(400, 'Invalid educational material id'))
+  }
   const query = 'SELECT usersusername FROM educationalmaterial WHERE id = $1'
-  const eduMaterial = await db.oneOrNone(query, [req.params.edumaterialid])
-  if (req.session.passport.user.uid === eduMaterial.usersusername) {
+  const eduMaterial = await db.oneOrNone(query, [id.data])
+  if (req.session.passport.user.uid === eduMaterial?.usersusername) {
     return next()
   }
   res.sendStatus(401)
 }
 
 export const hasAccessToMaterial = async (req: Request, res: Response, next: NextFunction) => {
-  const materialid = req.params.materialid || req.params.materialId
+  const materialid = idParamSchema.safeParse(req.params.materialid || req.params.materialId)
+  if (!materialid.success) {
+    return next(new StatusError(400, 'Invalid material id'))
+  }
   const query = `
     SELECT em.usersusername
     FROM educationalmaterial em
     JOIN material m ON m.educationalmaterialid = em.id
     WHERE m.id = $1
   `
-  const resp = await db.oneOrNone(query, [materialid])
-  if (req.session.passport.user.uid === resp.usersusername) {
+  const resp = await db.oneOrNone(query, [materialid.data])
+  if (req.session.passport.user.uid === resp?.usersusername) {
     next()
     return
   }
@@ -112,7 +119,10 @@ export const hasAccessToAttachmentFile = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = req.params.attachmentid
+  const id = idParamSchema.safeParse(req.params.attachmentid)
+  if (!id.success) {
+    return next(new StatusError(400, 'Invalid attachment id'))
+  }
   const query = `
     SELECT em.usersusername
     FROM educationalmaterial em
@@ -123,8 +133,8 @@ export const hasAccessToAttachmentFile = async (
       WHERE a.id = $1
     )
   `
-  const result = await db.oneOrNone(query, [id])
-  if (!result.usersusername) {
+  const result = await db.oneOrNone(query, [id.data])
+  if (!result?.usersusername) {
     res.sendStatus(401).end()
     return
   }
@@ -156,8 +166,11 @@ export const hasAccessToCollectionParams = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const id = z.string().parse(req.params.collectionid)
-  const hasAccess: boolean = await hasAccessToCollectionID(id, req.session.passport.user.uid)
+  const id = idParamSchema.safeParse(req.params.collectionid)
+  if (!id.success) {
+    return next(new StatusError(400, 'Invalid collection id'))
+  }
+  const hasAccess: boolean = await hasAccessToCollectionID(id.data, req.session.passport.user.uid)
   if (!hasAccess) {
     res.sendStatus(401).end()
     return
@@ -166,7 +179,7 @@ export const hasAccessToCollectionParams = async (
   return
 }
 
-export const hasAccessToCollectionID = async (id: string, username: string): Promise<boolean> => {
+export const hasAccessToCollectionID = async (id: number, username: string): Promise<boolean> => {
   const query = `
     SELECT uc.usersusername
     FROM userscollection uc

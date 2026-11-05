@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { StatusError } from '@/helpers/errorHandler'
 import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '@query/ratingQueries'
 import { RatingInformation } from './interface/rating-information.interface'
-import { z } from 'zod'
+import { idParamSchema } from '@util/requestValidator'
 
 /**
  * Save rating information for the educational material and recount rating averages.
@@ -37,8 +37,12 @@ export async function addRating(req: Request, res: Response, next: NextFunction)
  * @param next NextFunction
  */
 export async function getRating(req: Request, res: Response, next: NextFunction) {
+  const materialId = idParamSchema.safeParse(req.params.materialId)
+  if (!materialId.success) {
+    return next(new StatusError(400, 'Invalid material id'))
+  }
   try {
-    const response = await getRatings(z.string().parse(req.params.materialId))
+    const response = await getRatings(materialId.data)
     if (!response.averages) {
       next(new StatusError(404, 'No rating found'))
     } else {
@@ -57,11 +61,12 @@ export async function getRating(req: Request, res: Response, next: NextFunction)
  * @param next NextFunction
  */
 export async function getUserRating(req: Request, res: Response, next: NextFunction) {
+  const materialId = idParamSchema.safeParse(req.params.materialId)
+  if (!materialId.success) {
+    return next(new StatusError(400, 'Invalid material id'))
+  }
   try {
-    const response = await getUserRatings(
-      req.session.passport.user.uid,
-      z.string().parse(req.params.materialId)
-    )
+    const response = await getUserRatings(req.session.passport.user.uid, materialId.data)
     if (!response.materialId) {
       next(new StatusError(404, 'No rating found'))
     } else {

@@ -11,7 +11,7 @@ import {
 import { updateEsCollectionIndex } from '@search/es'
 import * as log from '@util/winstonLogger'
 import { NextFunction, Request, Response } from 'express'
-import { z } from 'zod'
+import { idParamSchema } from '@util/requestValidator'
 
 export class Collection {
   public collectionId?: string
@@ -158,14 +158,15 @@ export async function getUserCollections(req: Request, res: Response, next: Next
  */
 export async function getCollection(req: Request, res: Response, next: NextFunction) {
   try {
+    const collectionId = idParamSchema.safeParse(req.params.collectionId)
+    if (!collectionId.success) {
+      return next(new StatusError(400, 'Invalid collection id'))
+    }
     let data
     if (req.isAuthenticated()) {
-      data = await collectionQuery(
-        z.string().parse(req.params.collectionId),
-        req.session.passport.user.uid
-      )
+      data = await collectionQuery(collectionId.data, req.session.passport.user.uid)
     } else {
-      data = await collectionQuery(z.string().parse(req.params.collectionId))
+      data = await collectionQuery(collectionId.data)
     }
     res.status(200).json(data)
   } catch (error) {
