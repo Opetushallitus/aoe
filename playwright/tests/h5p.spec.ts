@@ -54,11 +54,16 @@ test('h5p: sisällöt toimivat materiaalisivulla', async ({ context, page }) => 
       // Only the player: the tablist order of the files is not stable between runs, and the
       // selected tab's border overlaps the tabpanel's edge.
       const kuva = `${tiedosto.replace(/\.h5p$/, '')}.png`
-      await expect(page.locator('app-h5p-preview')).toHaveScreenshot(kuva)
+      await expect(page.locator('app-h5p-preview > div')).toHaveScreenshot(kuva)
 
-      const osoite = `/h5p/play/${tiedostoavaimet.get(tiedosto)}`
-      const upotus = await context.newPage()
-      await upotus.goto(osoite)
+      const [upotus] = await Promise.all([
+        context.waitForEvent('page'),
+        page
+          .locator('app-h5p-preview')
+          .getByRole('link', { name: 'Avaa oppimateriaali uuteen välilehteen' })
+          .click()
+      ])
+      await expect(upotus).toHaveURL(new RegExp(`/h5p/play/${tiedostoavaimet.get(tiedosto)}$`))
       const soitin = upotus.locator('#h5p iframe').contentFrame()
       await expect(soitin.locator(sisalto).first()).toBeVisible({ timeout: 60_000 })
       await expect(upotus).toHaveScreenshot(`play-${kuva}`, { fullPage: true })

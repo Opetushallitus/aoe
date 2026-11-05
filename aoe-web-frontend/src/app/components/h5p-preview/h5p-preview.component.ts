@@ -6,11 +6,14 @@ import {
   OnChanges,
   OnDestroy,
   Output,
+  ViewChild,
   ChangeDetectionStrategy
 } from '@angular/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { H5P } from 'h5p-standalone'
 
 import { Material } from '@models/material'
+import { FocusRemoverDirective } from '../../directives/focus-remover.directive'
 
 const PLAYER_PATH = '/assets/h5p-standalone'
 
@@ -20,18 +23,32 @@ let renderQueue: Promise<void> = Promise.resolve()
 
 @Component({
   selector: 'app-h5p-preview',
-  template: '',
-  changeDetection: ChangeDetectionStrategy.Eager
+  template: `
+    <a [href]="'/h5p/play/' + material.filekey" target="_blank" rel="noopener nofollow" class="btn btn-outline-secondary mb-2">
+      {{ "demo.educationalMaterial.preview.openInNewTab" | translate }}
+    </a>
+    <div #player></div>
+  `,
+  // The global :focus rule drops the border, which shifts the player on mouse press.
+  styles: `
+    .btn:focus {
+      border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+    }
+    .btn:focus:active {
+      border-color: var(--bs-btn-active-border-color);
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [FocusRemoverDirective, TranslatePipe]
 })
 export class H5pPreviewComponent implements OnChanges, OnDestroy {
   @Input() material: Material
   // Emits the filepath of a package that could not be played.
   @Output() loadFailed = new EventEmitter<string>()
+  @ViewChild('player', { static: true }) player: ElementRef<HTMLElement>
   // Stops waiting for the current player, whose detached iframe would never finish loading
   // and so would block the queue for every other preview.
   private cancelRender = (): void => undefined
-
-  constructor(private host: ElementRef<HTMLElement>) {}
 
   ngOnChanges(): void {
     const h5pJsonPath = this.material.filepath
@@ -51,7 +68,7 @@ export class H5pPreviewComponent implements OnChanges, OnDestroy {
       this.cancelRender = resolve
     })
     const anchor = document.createElement('div')
-    this.host.nativeElement.replaceChildren(anchor)
+    this.player.nativeElement.replaceChildren(anchor)
     const render = renderQueue.then(async () => {
       if (!anchor.isConnected) {
         return // the material changed or the preview was closed while waiting
