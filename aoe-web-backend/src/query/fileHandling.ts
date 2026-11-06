@@ -896,14 +896,15 @@ const getStorageFileDetails = async (
   fileName: string
 ): Promise<{ originalfilename: string; filesize: number; mimetype: string }> => {
   const query = `
-    SELECT originalfilename, filesize, mimetype, materialid
+    SELECT originalfilename, filesize, mimetype
     FROM record
     RIGHT JOIN material AS m ON m.id = materialid
     WHERE m.obsoleted = 0 AND filekey = $1
     UNION
-    SELECT originalfilename, filesize, mimetype, materialid
+    SELECT originalfilename, filesize, mimetype
     FROM attachment
     WHERE filekey = $1 AND obsoleted = 0
+    LIMIT 1
   `
   const fileDetailsSchema = z.object({
     originalfilename: z.string(),
