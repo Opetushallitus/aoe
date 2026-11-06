@@ -7,6 +7,16 @@ import { z } from 'zod'
 // Numeric database id in a route parameter. Empty and whitespace coerce to 0, so positive() rejects them.
 export const idParamSchema = z.coerce.number().int().positive()
 
+// A multipart form field carrying JSON. Invalid JSON is a validation issue instead of a thrown SyntaxError.
+export const jsonFieldSchema = z.string().transform((value, ctx) => {
+  try {
+    return JSON.parse(value) as unknown
+  } catch {
+    ctx.addIssue({ code: 'custom', message: 'Invalid JSON' })
+    return z.NEVER
+  }
+})
+
 // DOMPurify hook to add opening target and security attributes for the links embedded in notifications.
 addHook('afterSanitizeAttributes', (element: Element): void => {
   if (element.tagName === 'A' && !element.hasAttribute('target')) {

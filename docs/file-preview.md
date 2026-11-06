@@ -13,8 +13,8 @@ stored and the transaction saving its file key has committed.
 
 - **H5P, v2 endpoint** (`POST /api/v2/material/file/:id/upload`): responds only after
   extraction succeeds. A package that is not a valid ZIP, exceeds the size limits or has
-  no root `h5p.json` is rejected with 400; other failures return 500. Either way the
-  material is marked obsolete.
+  no root `h5p.json` is rejected with 400 and its original is deleted from storage; other
+  failures return 500. Either way the material is marked obsolete.
 - **ZIP, v2 endpoint, and both kinds on v1:** extraction failures are only logged. The
   backfill retries ZIPs only; a failed v1 H5P stays download-only.
 

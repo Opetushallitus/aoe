@@ -391,59 +391,6 @@ export const Record = <RecordType>sequelize.define(
   commonSettings as ModelOptions
 )
 
-export const TemporaryRecord = <TemporaryRecordType>sequelize.define(
-  'temporaryrecord',
-  {
-    id: {
-      field: 'id',
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    filePath: {
-      field: 'filepath',
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    originalFileName: {
-      field: 'originalfilename',
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    fileSize: {
-      field: 'filesize',
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    mimeType: {
-      field: 'mimetype',
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    fileName: {
-      field: 'filename',
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    materialId: {
-      field: 'materialid',
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: Material, // Can be the table name 'material' or the Sequelize model Material
-        key: 'id'
-      }
-    },
-    createdAt: {
-      field: 'createdat',
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
-    }
-  } as ModelAttributes<TemporaryRecord, unknown>,
-  commonSettings as ModelOptions
-)
-
 // AOEUser <=> Notification
 AOEUser.hasMany(Notification, {
   foreignKey: 'username'

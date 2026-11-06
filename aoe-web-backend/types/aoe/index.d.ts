@@ -67,7 +67,6 @@ declare global {
 
     // Reference Information
     materialDisplayNames?: MaterialDisplayName[]
-    temporaryRecords?: TemporaryRecord[]
   }
 
   type MaterialType = typeof Model & {
@@ -123,22 +122,5 @@ declare global {
 
   type RecordType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): IRecord
-  }
-
-  // TemporaryRecord
-  interface TemporaryRecord extends Model {
-    id: string
-    filePath: string
-    originalFileName: string
-    fileSize: number
-    mimeType: string
-    format: string
-    fileName: string
-    materialId: string
-    createdAt: Date
-  }
-
-  type TemporaryRecordType = typeof Model & {
-    new (values?: Record<string, unknown>, options?: BuildOptions): TemporaryRecord
   }
 }

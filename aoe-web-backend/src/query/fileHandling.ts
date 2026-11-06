@@ -11,6 +11,7 @@ import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/e
 import { convertOfficeFileToStoredPDF, isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import {
   CompleteMultipartUploadCommandOutput,
+  DeleteObjectCommand,
   GetObjectCommand,
   GetObjectCommandInput,
   PutObjectCommandInput
@@ -24,16 +25,16 @@ import {
   InvalidArchiveError,
   previewKindOf
 } from '@services/filePreviewService'
-import { idParamSchema } from '@util/requestValidator'
+import { idParamSchema, jsonFieldSchema } from '@util/requestValidator'
 import * as log from '@util/winstonLogger'
 import { ZipArchive } from 'archiver'
 import { NextFunction, Request, Response } from 'express'
 import fs from 'fs'
-import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer'
+import multer, { Multer, StorageEngine } from 'multer'
 import path from 'path'
 import { ColumnSet, ITask } from 'pg-promise'
 import { Transaction } from 'sequelize'
-import { Readable, Transform } from 'stream'
+import { PassThrough, Readable, Transform } from 'stream'
 import { once } from 'node:events'
 import { finished, pipeline } from 'node:stream/promises'
 import os from 'node:os'
@@ -67,28 +68,117 @@ export const s3StreamBody = (body: unknown): Readable => {
   return body
 }
 
-// define multer storage
-const storage: StorageEngine = multer.diskStorage({
-  // notice you are calling the multer.diskStorage() method here, not multer()
-  destination: (_req: Request, _file: any, cb: any) => {
-    cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`)
-  },
-  filename: (_req: Request, file: any, cb: any) => {
-    const ext = file.originalname.substring(
-      file.originalname.lastIndexOf('.'),
-      file.originalname.length
-    )
-    let str = file.originalname.substring(0, file.originalname.lastIndexOf('.'))
-    str = str.replace(/[^a-zA-Z0-9]/g, '')
-    cb(undefined, `${str}-${Date.now()}${ext}`)
+const ENCRYPT_MARKER = Buffer.from('/Encrypt')
+
+// Rejects a PDF containing the /Encrypt marker. Keeps a small overlap so a marker split
+// across a chunk boundary is still found.
+const rejectEncryptedPDF = (): Transform => {
+  const overlap = ENCRYPT_MARKER.length - 1
+  let tail = Buffer.alloc(0)
+  return new Transform({
+    transform(chunk: Buffer, _encoding, callback) {
+      const buf = Buffer.concat([tail, chunk])
+      if (buf.includes(ENCRYPT_MARKER)) {
+        callback(new StatusError(415, 'Encrypted PDF files not allowed'))
+        return
+      }
+      tail = buf.subarray(Math.max(0, buf.length - overlap))
+      callback(null, chunk)
+    }
+  })
+}
+
+const deleteFromStorage = async (key: string): Promise<void> => {
+  await s3Client.send(new DeleteObjectCommand({ Bucket: config.cloudStorage.bucket, Key: key }))
+}
+
+// Streams the upload straight to the storage bucket. The stored file has the object key as
+// its filename and the object URL as its path.
+const streamUploadToStorage = async (file: MulterFile): Promise<Partial<MulterFile>> => {
+  const { name, ext } = path.parse(file.originalname)
+  const key = `${name.replace(/[^a-zA-Z0-9]/g, '')}-${Date.now()}${ext}`
+  const stream = file.stream as Readable & { truncated?: boolean }
+  let size = 0
+  const transforms = [
+    new Transform({
+      transform(chunk: Buffer, _encoding, callback) {
+        size += chunk.length
+        callback(null, chunk)
+      },
+      // Fail before the body ends so a truncated file is never completed in S3.
+      flush(callback) {
+        callback(stream.truncated ? new Error('Upload exceeds the file size limit') : null)
+      }
+    })
+  ]
+  if (file.mimetype === 'application/pdf') {
+    transforms.push(rejectEncryptedPDF())
   }
-} as DiskStorageOptions)
+  const body = new PassThrough()
+  const upload = new Upload({
+    client: s3Client,
+    params: { Bucket: config.cloudStorage.bucket, Key: key, Body: body }
+  })
+  try {
+    const [, output] = await Promise.all([pipeline([stream, ...transforms, body]), upload.done()])
+    return { filename: key, path: output.Location, size }
+  } catch (err) {
+    // The SDK doesn't destroy its body, so a failed upload would leave the pipeline waiting.
+    body.destroy()
+    await upload.abort()
+    throw err
+  }
+}
+
+const storage: StorageEngine = {
+  async _handleFile(_req, file, callback) {
+    let stored: Partial<MulterFile>
+    try {
+      stored = await streamUploadToStorage(file)
+    } catch (err) {
+      callback(err)
+      return
+    }
+    callback(null, stored)
+  },
+  async _removeFile(_req, file, callback) {
+    try {
+      await deleteFromStorage(file.filename)
+    } catch (err) {
+      callback(err as Error)
+      return
+    }
+    callback(null)
+  }
+}
 
 const upload: Multer = multer({
   storage: storage,
   limits: { fileSize: Number(process.env.FILE_SIZE_LIMIT) },
   preservePath: true
 }) // provide the return value from
+
+const attachmentDetailsSchema = jsonFieldSchema.pipe(
+  z.object({
+    default: z.boolean(),
+    kind: z.enum(['subtitles', 'captions', 'descriptions', 'chapters', 'metadata']),
+    label: z.string(),
+    srclang: z.string()
+  })
+)
+
+const fileDetailsSchema = jsonFieldSchema.pipe(
+  z.object({
+    displayName: z.object({
+      fi: z.string().nullish(),
+      sv: z.string().nullish(),
+      en: z.string().nullish()
+    }),
+    language: z.string(),
+    priority: z.number().int()
+  })
+)
+type FileDetails = z.infer<typeof fileDetailsSchema>
 
 export const uploadAttachmentToMaterial = async (
   req: Request,
@@ -109,46 +199,28 @@ export const uploadAttachmentToMaterial = async (
     if (!contentType.startsWith('multipart/form-data')) {
       return next(new StatusError(400, 'Wrong contentType'))
     }
-    upload.single('attachment')(req, res, async (err: any) => {
-      if (err) {
-        log.error('Multer error in uploadAttachmentToMaterial()', err)
-        if (err.code === 'LIMIT_FILE_SIZE') {
-          return next(new StatusError(413, err.message))
-        } else {
-          return next(new StatusError(500, 'Failure in file upload'))
-        }
-      }
-      const file = req.file
-      if (!file) {
-        return next(new StatusError(400, 'No file sent'))
-      }
-      const metadata = JSON.parse(req.body.attachmentDetails)
-      log.debug(metadata)
-      const attachmentId = await insertDataToAttachmentTable(
-        file,
-        materialId,
-        undefined,
-        undefined,
-        undefined,
-        metadata
-      )
-      const result = await insertDataToTempAttachmentTable(file, metadata, attachmentId)
-      const obj: any = await uploadFileToStorage(
-        file.path,
-        file.filename,
-        config.cloudStorage.bucket
-      )
-      await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId)
-      await deleteDataToTempAttachmentTable(file.filename, result[0].id)
-      fs.unlink(file.path, (err: any) => {
-        if (err) {
-          log.error(err)
-        }
-      })
+    const file = await uploadFileToBucket(req, res, 'attachment')
+    if (!file) {
+      return next(new StatusError(400, 'No file sent'))
+    }
+    // The details come after the file in the form, so they can only be checked once it's stored.
+    const parsedDetails = attachmentDetailsSchema.safeParse(req.body.attachmentDetails)
+    if (!parsedDetails.success) {
+      await deleteFromStorage(file.filename)
+      return next(new StatusError(400, 'Invalid attachmentDetails'))
+    }
+    try {
+      const attachmentId = await insertDataToAttachmentTable(file, materialId, parsedDetails.data)
       res.status(200).json({ id: attachmentId })
-    })
+    } catch (err) {
+      await deleteFromStorage(file.filename)
+      throw err
+    }
   } catch (err) {
-    return next(new StatusError(500, 'Failure in file upload', err))
+    log.error('Attachment upload failed', err)
+    return next(
+      err instanceof StatusError ? err : new StatusError(500, 'Failure in file upload', err)
+    )
   }
 }
 
@@ -169,6 +241,8 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           log.debug(err)
           if (err.code === 'LIMIT_FILE_SIZE') {
             next(new StatusError(413, err.message))
+          } else if (err instanceof StatusError) {
+            next(err)
           } else {
             next(new StatusError(500, 'Error in upload', err))
           }
@@ -200,7 +274,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
           })
           const file: MulterFile = req.file
           let materialid: string
-          const fileDetails = JSON.parse(req.body.fileDetails)
+          const fileDetails = fileDetailsSchema.parse(req.body.fileDetails)
           const material: any = []
           db.tx(async (t: ITask<IClient>) => {
             const emresp = await insertDataToEducationalMaterialTable(req, t)
@@ -214,7 +288,6 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
             material.push({ id: id.id, createFrom: file.originalname })
             materialid = id.id
             await insertDataToDisplayName(t, emresp.id, id.id, fileDetails)
-            await insertDataToTempRecordTable(t, file, id.id)
             return emresp
           })
             .then(async (data: any) => {
@@ -225,36 +298,25 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               try {
                 if (typeof file !== 'undefined') {
                   log.debug(materialid)
-                  const obj: any = await uploadFileToStorage(
-                    file.path,
-                    file.filename,
-                    config.cloudStorage.bucket
-                  )
                   const recordid = await insertDataToRecordTable(
                     file,
                     materialid,
-                    obj.Key,
-                    obj.Bucket,
-                    obj.Location
+                    file.filename,
+                    config.cloudStorage.bucket,
+                    file.path
                   )
-                  await extractUploadedPreview(file, recordid, obj.Key)
+                  await extractUploadedPreview(file, recordid, file.filename)
 
                   // convert file to pdf if office document
                   try {
                     if (isOfficeMimeType(file.mimetype) && recordid) {
                       log.debug('Convert file and send to allas')
-                      await convertOfficeFileToStoredPDF(obj.Key, recordid)
+                      await convertOfficeFileToStoredPDF(file.filename, recordid)
                     }
                   } catch (e) {
                     log.debug('ERROR converting office file to pdf')
                     log.error(e)
                   }
-                  await deleteDataFromTempRecordTable(file.filename, materialid)
-                  fs.unlink(file.path, (err: any) => {
-                    if (err) {
-                      log.error(err)
-                    }
-                  })
                 }
               } catch (err) {
                 log.debug(`error while sending file to pouta: ${JSON.stringify((<any>req).file)}`)
@@ -265,13 +327,6 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
               if (!res.headersSent) {
                 next(new StatusError(500, `Error in upload: ${err}`))
               }
-              fs.unlink(file.path, (err: any) => {
-                if (err) {
-                  log.debug('Error in uploadMaterial()', err)
-                } else {
-                  log.debug('file removed')
-                }
-              })
             })
         }
       } catch (err) {
@@ -285,67 +340,24 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-const uploadFileToLocalDisk = (
+const uploadFileToBucket = (
   req: Request,
-  res: Response
-): Promise<{ file: MulterFile; fileDetails: Record<string, unknown> }> => {
-  return new Promise((resolve, reject): void => {
-    try {
-      upload.single('file')(req, res, (err: any): void => {
-        if (err) {
-          if (err.code === 'LIMIT_FILE_SIZE') {
-            reject(new StatusError(413, `MULTER error`, err))
-          } else {
-            reject(new StatusError(500, `MULTER error`, err))
-          }
-          return
-        }
-        resolve({
-          file: req.file as MulterFile,
-          fileDetails: JSON.parse(req.body.fileDetails) as Record<string, unknown>
-        })
-      })
-    } catch (err) {
-      const file = req.file
-      if (file) {
-        fs.unlink(file.path, (err) => {
-          if (err) {
-            log.error('File removal after the interrupted upload failed', err)
-          }
-        })
+  res: Response,
+  field: string
+): Promise<MulterFile | undefined> =>
+  new Promise((resolve, reject): void => {
+    upload.single(field)(req, res, (err: any): void => {
+      if (!err) {
+        resolve(req.file)
+      } else if (err.code === 'LIMIT_FILE_SIZE') {
+        reject(new StatusError(413, `MULTER error`, err))
+      } else if (err instanceof StatusError) {
+        reject(err)
+      } else {
+        reject(new StatusError(500, `MULTER error`, err))
       }
-      reject(err)
-      log.error('File upload failed', err)
-    }
+    })
   })
-}
-
-const ENCRYPT_MARKER = Buffer.from('/Encrypt')
-
-// Scan the file as a stream for the /Encrypt marker. Reading the whole file
-// into memory (fs.readFile) throws ERR_FS_FILE_TOO_LARGE above 2 GiB and would
-// OOM on multi-GB uploads, so we scan chunk-by-chunk and keep a small overlap
-// so a marker split across a chunk boundary is still found.
-const detectEncyptedPDF = async (filePath: string): Promise<boolean> => {
-  const overlap = ENCRYPT_MARKER.length - 1
-  let tail: Buffer = Buffer.alloc(0)
-  for await (const chunk of fs.createReadStream(filePath) as AsyncIterable<Buffer>) {
-    const buf = Buffer.concat([tail, chunk])
-    if (buf.includes(ENCRYPT_MARKER)) {
-      return true // break auto-destroys the stream
-    }
-    tail = buf.subarray(Math.max(0, buf.length - overlap))
-  }
-  return false
-}
-
-const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
-  fs.unlink(file.path, (err: any): void => {
-    if (err) {
-      log.error('Unlink removal for the uploaded file failed', err)
-    }
-  })
-}
 
 // Upload a single file to the educational material with a multipart form upload.
 // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
@@ -363,36 +375,21 @@ export const uploadFileToMaterial = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { file, fileDetails }: any = await uploadFileToLocalDisk(req, res)
-    .then((result: { file: MulterFile; fileDetails: Record<string, unknown> }) => {
-      return result
-    })
-    .catch((err) => {
-      log.error('Multer upload failed', err)
-      throw err
-    })
-  if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
-    res.status(500).json({ message: 'aborted' })
-    return
+  const parsedId = idParamSchema.safeParse(req.params.edumaterialid)
+  if (!parsedId.success) {
+    throw new StatusError(400, 'Invalid edumaterialid req param')
   }
-  // Detect and reject encrypted PDFs.
-  if (file.mimetype === 'application/pdf') {
-    const isEncrypted: boolean = await detectEncyptedPDF(
-      `${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`
-    )
-    if (isEncrypted) {
-      res.status(415).json({ rejected: 'Encrypted PDF files not allowed' }).end()
-      deleteFileFromLocalDiskStorage(file)
-      return
-    }
+  const edumaterialid = parsedId.data
+  const file = await uploadFileToBucket(req, res, 'file')
+  if (!file) {
+    throw new StatusError(400, 'No file sent')
   }
-
-  const edumaterialid = z.string().optional().parse(req.params.edumaterialid)
-
-  if (!edumaterialid) {
-    res.status(400).json({ rejected: 'Missing edumaterialid' })
-    return
+  const parsedDetails = fileDetailsSchema.safeParse(req.body.fileDetails)
+  if (!parsedDetails.success) {
+    await deleteFromStorage(file.filename)
+    throw new StatusError(400, 'Invalid fileDetails')
   }
+  const fileDetails = parsedDetails.data
 
   let material: Material
   let recordID: string
@@ -408,8 +405,8 @@ export const uploadFileToMaterial = async (
         link: '',
         educationalMaterialId: edumaterialid,
         obsoleted: 0,
-        priority: (fileDetails as any).priority,
-        materialLanguageKey: (fileDetails as any).language
+        priority: fileDetails.priority,
+        materialLanguageKey: fileDetails.language
       },
       {
         transaction: t
@@ -418,49 +415,35 @@ export const uploadFileToMaterial = async (
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, material.id, fileDetails)
 
-    recordID = await upsertRecord(t, file, material.id) // await insertDataToRecordTable(file, material.id);
+    recordID = await upsertRecord(
+      t,
+      file,
+      material.id,
+      file.filename,
+      config.cloudStorage.bucket,
+      file.path
+    )
     await t.commit()
   } catch (err: any) {
     log.error('Transaction for the single file upload failed', err)
     await t.rollback()
+    await deleteFromStorage(file.filename)
     throw new StatusError(500, `Transaction for the single file upload failed`, err)
   }
   try {
-    const fileS3: SendData = await uploadFileToStorage(
-      file.path,
-      file.filename,
-      config.cloudStorage.bucket,
-      material
-    )
-    await sequelize.transaction(
-      {
-        isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED // SERIALIZABLE,
-      },
-      async (t: Transaction): Promise<void> => {
-        await upsertRecord(
-          t,
-          file,
-          material.id,
-          fileS3.Key,
-          fileS3.Bucket,
-          fileS3.Location,
-          recordID
-        )
-      }
-    )
     // Wait for H5P extraction so an invalid package is rejected with 400 before responding.
     // A failed ZIP preview doesn't fail the upload: the file preview backfill retries it.
     if (previewKindOf(file.originalname, file.mimetype) === 'h5p') {
       await extractFilePreview(
         db,
         s3Client,
-        { id: recordID, filekey: fileS3.Key, kind: 'h5p' },
+        { id: recordID, filekey: file.filename, kind: 'h5p' },
         config.cloudStorage.bucket,
         config.cloudStorage.bucketUploadedMaterials,
         new AbortController().signal
       )
     } else {
-      await extractUploadedPreview(file, recordID, fileS3.Key)
+      await extractUploadedPreview(file, recordID, file.filename)
     }
     res.status(200).json({
       id: edumaterialid,
@@ -473,7 +456,7 @@ export const uploadFileToMaterial = async (
       ]
     })
     if (isOfficeMimeType(file.mimetype)) {
-      await convertOfficeFileAfterResponse(fileS3.Key, recordID)
+      await convertOfficeFileAfterResponse(file.filename, recordID)
     }
   } catch (err) {
     await Material.update(
@@ -485,12 +468,15 @@ export const uploadFileToMaterial = async (
       }
     )
     if (err instanceof InvalidArchiveError) {
+      try {
+        await deleteFromStorage(file.filename)
+      } catch (deleteError) {
+        log.error(`Deleting rejected archive ${file.filename} failed`, deleteError)
+      }
       next(new StatusError(400, err.message, err))
     } else {
       next(new StatusError(500, 'File upstreaming failed', err))
     }
-  } finally {
-    deleteFileFromLocalDiskStorage(file)
   }
 }
 
@@ -540,33 +526,12 @@ const insertDataToEducationalMaterialTable = async (
   )
 }
 
-// LEGACY IMPLEMENTATION. TODO: TO BE REMOVED
-const insertDataToTempRecordTable = async (
-  t: ITask<IClient>,
-  file: MulterFile,
-  materialId: any
-): Promise<string> => {
-  const query = `
-    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, materialid)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING id
-  `
-  return await t.one<string>(query, [
-    file.filename,
-    file.path,
-    file.originalname,
-    file.size,
-    file.mimetype,
-    materialId
-  ])
-}
-
 // Update or insert a material display name with the language versions (if available) and attach to a transaction.
 // A new implementation of insertDataToDisplayName() below.
 const upsertMaterialDisplayName = async (
   t: Transaction,
   materialId: string,
-  fileDetails: any
+  fileDetails: FileDetails
 ): Promise<void> => {
   // Define the languages we are interested in
   const languages = ['en', 'fi', 'sv']
@@ -642,86 +607,43 @@ const insertDataToMaterialTable = async (
 }
 
 const insertDataToAttachmentTable = async (
-  files: any,
+  file: MulterFile,
   materialID: string,
-  fileKey: string | undefined,
-  fileBucket: string | undefined,
-  location: string | undefined,
-  metadata: any
-): Promise<any> => {
-  const queries: any[] = []
-  const data = await db.tx(async (t: any): Promise<any> => {
-    queries.push(
-      await t.none(
-        `
-          UPDATE educationalmaterial
-          SET updatedat = NOW()
-          WHERE id = (
-            SELECT m.educationalmaterialid FROM material m WHERE m.id = $1
-          )
-        `,
-        [materialID]
-      )
+  metadata: z.infer<typeof attachmentDetailsSchema>
+): Promise<string> =>
+  db.tx(async (t: ITask<IClient>) => {
+    await t.none(
+      `
+        UPDATE educationalmaterial
+        SET updatedat = NOW()
+        WHERE id = (
+          SELECT m.educationalmaterialid FROM material m WHERE m.id = $1
+        )
+      `,
+      [materialID]
     )
-    queries.push(
-      await t.one(
-        `
-          INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-          RETURNING id
-        `,
-        [
-          location,
-          files.originalname,
-          files.size,
-          files.mimetype,
-          fileKey,
-          fileBucket,
-          materialID,
-          metadata.default,
-          metadata.kind,
-          metadata.label,
-          metadata.srclang
-        ]
-      )
+    const row = await t.one(
+      `
+        INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        RETURNING id
+      `,
+      [
+        file.path,
+        file.originalname,
+        file.size,
+        file.mimetype,
+        file.filename,
+        config.cloudStorage.bucket,
+        materialID,
+        metadata.default,
+        metadata.kind,
+        metadata.label,
+        metadata.srclang
+      ]
     )
-    return t.batch(queries)
+    return z.object({ id: z.string() }).parse(row).id
   })
-  return data[1].id
-}
-
-async function updateAttachment(
-  fileKey: any,
-  fileBucket: any,
-  location: string,
-  attachmentId: string
-) {
-  await db.tx(async (t: ITask<IClient>) => {
-    const query = 'UPDATE attachment SET filePath = $1, fileKey = $2, fileBucket = $3 WHERE id = $4'
-    log.debug(query)
-    await t.none(query, [location, fileKey, fileBucket, attachmentId])
-  })
-}
-
-async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string) {
-  const query =
-    'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
-    'defaultfile, kind, label, srclang, attachmentid) ' +
-    'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id'
-  log.debug(query)
-  return await db.any(query, [
-    files.filename,
-    files.path,
-    files.originalname,
-    files.size,
-    files.mimetype,
-    metadata.default,
-    metadata.kind,
-    metadata.label,
-    metadata.srclang,
-    attachmentId
-  ])
-}
 
 const upsertRecord = async (
   t: Transaction,
@@ -825,19 +747,6 @@ const insertDataToRecordTable = async (
       `)
   })
   return id
-}
-
-const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
-  const query = `
-    DELETE FROM temporaryrecord
-    WHERE filename = $1 AND materialid = $2
-  `
-  await db.any(query, [filename, materialId])
-}
-
-async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
-  const query = 'DELETE FROM temporaryattachment WHERE filename = $1 AND id = $2'
-  return await db.any(query, [filename, materialId])
 }
 
 // Upload a file from the local file system to the cloud object storage.
@@ -1033,6 +942,9 @@ const downloadFileFromStorage = async (req: Request, res: Response): Promise<voi
   await downloadFromStorage(res, params, fileDetails.originalfilename)
 }
 
+/**
+ * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
+ */
 export const downloadAndExtractZip = async (
   res: Response,
   fileName: string
@@ -1306,7 +1218,10 @@ const downloadAndZipFromStorage = async (res: Response, files: StorageFile[]): P
   }
 }
 
-// A concurrent request may have renamed its extraction into place first; its copy is kept.
+/**
+ * A concurrent request may have renamed its extraction into place first; its copy is kept.
+ * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
+ */
 const moveIntoPlace = async (temporaryFolder: string, extractedFolder: string): Promise<void> => {
   try {
     await rename(temporaryFolder, extractedFolder)
@@ -1318,6 +1233,9 @@ const moveIntoPlace = async (temporaryFolder: string, extractedFolder: string): 
   }
 }
 
+/**
+ * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
+ */
 const unZipAndExtract = async (
   zipFilePath: string,
   temporaryFolder: string,
