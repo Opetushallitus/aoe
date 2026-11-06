@@ -55,7 +55,7 @@
     "isomorphic-dompurify": "4.6.0",
     "jsonwebtoken": "9.0.3",
     "knex": "3.3.0",
-    "libreoffice-convert": "1.8.2",
+    "libreoffice-convert": "1.9.1",
     "mime": "4.1.2",
     "morgan": "1.12.1",
     "multer": "2.5.0",
