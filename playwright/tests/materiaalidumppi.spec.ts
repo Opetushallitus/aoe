@@ -143,6 +143,23 @@ test('materiaalidumppi: kaikki tiedostotyypit samassa materiaalissa', async ({ p
     })
   }
 
+  await test.step('vanha /content-linkki ohjautuu esikatseluun', async () => {
+    const { materials } = await (
+      await page.request.get(`/api/v1/material/${materiaaliNumero}`)
+    ).json()
+    const { filekey } = materials.find(
+      (m: { originalfilename: string }) => m.originalfilename === 'test-site.zip'
+    )
+    const vanha = await page.request.get(`/content/${filekey.slice(0, -4)}/index.html`, {
+      maxRedirects: 0
+    })
+    expect(vanha.status()).toBe(302)
+    await page.goto(`/content/${filekey.slice(0, -4)}/index.html`)
+    await expect(page).toHaveURL(/\/files\/\d+\/[0-9a-f]{64}\/index\.html$/)
+    await expect(page.getByText('zip-to-HTML preview test site')).toBeVisible()
+    await page.goBack()
+  })
+
   for (const { tiedosto } of OSAT) {
     await test.step(`lataa yksittäin: ${tiedosto}`, async () => {
       // Chromium's per-tab download limiter starts prompting instead of downloading after the

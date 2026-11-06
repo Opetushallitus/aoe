@@ -44,8 +44,6 @@ process.env.NODE_ENV || missingEnvs.push('NODE_ENV')
 process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN')
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL')
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED')
-process.env.HTML_FOLDER || missingEnvs.push('HTML_FOLDER')
-process.env.MATERIAL_FILE_UPLOAD_FOLDER || missingEnvs.push('MATERIAL_FILE_UPLOAD_FOLDER')
 process.env.ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS ||
   missingEnvs.push('ANALYTICS_EXCLUDED_AGENT_IDENTIFIERS')
 process.env.CONVERSION_TO_PDF_API || missingEnvs.push('CONVERSION_TO_PDF_API')
@@ -115,24 +113,20 @@ const taskEnabled = z
 
 const scheduledTasksEnv = z
   .object({
-    SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED: taskEnabled,
     SCHEDULED_TASK_PID_REGISTRATION_ENABLED: taskEnabled,
     SCHEDULED_TASK_SEARCH_REINDEX_ENABLED: taskEnabled,
     SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED: taskEnabled,
     SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED: taskEnabled,
     SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED: taskEnabled,
-    SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled,
-    SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED: taskEnabled
+    SCHEDULED_TASK_SESSION_CLEANUP_ENABLED: taskEnabled
   })
   .transform((env) => ({
-    directoryCleaning: { enabled: env.SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED },
     pidRegistration: { enabled: env.SCHEDULED_TASK_PID_REGISTRATION_ENABLED },
     searchReindex: { enabled: env.SCHEDULED_TASK_SEARCH_REINDEX_ENABLED },
     officePdfConversion: { enabled: env.SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED },
     referenceDataUpdate: { enabled: env.SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED },
     notificationMail: { enabled: env.SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED },
-    sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED },
-    filePreviewBackfill: { enabled: env.SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED }
+    sessionCleanup: { enabled: env.SCHEDULED_TASK_SESSION_CLEANUP_ENABLED }
   }))
   .safeParse(process.env)
 if (!scheduledTasksEnv.success) {
@@ -159,13 +153,7 @@ export const config = {
 
   // Media file processing configurations.
   MEDIA_FILE_PROCESS: {
-    conversionToPdfApi: process.env.CONVERSION_TO_PDF_API as string,
-    htmlFolder: process.env.HTML_FOLDER as string,
-    localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
-    // Max file size (in bytes) for synchronous ZIP extraction during metadata requests
-    // Files larger than this will be skipped to prevent timeout issues
-    // Default: 104,857,600 bytes (100 MB)
-    maxZipExtractionSize: parseInt(process.env.MAX_ZIP_EXTRACTION_SIZE || '104857600', 10) as number
+    conversionToPdfApi: process.env.CONVERSION_TO_PDF_API as string
   } as const,
 
   ANALYTICS_OPTIONS: {

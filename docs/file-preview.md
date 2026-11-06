@@ -15,8 +15,8 @@ stored and the transaction saving its file key has committed.
   extraction succeeds. A package that is not a valid ZIP, exceeds the size limits or has
   no root `h5p.json` is rejected with 400 and its original is deleted from storage; other
   failures return 500. Either way the material is marked obsolete.
-- **ZIP, v2 endpoint, and both kinds on v1:** extraction failures are only logged. The
-  backfill retries ZIPs only; a failed v1 H5P stays download-only.
+- **ZIP, v2 endpoint, and both kinds on v1:** extraction failures are only logged and
+  the file stays download-only.
 
 Replacing a record's file sets `preview_type` back to NULL until the new file has a preview.
 
@@ -46,19 +46,6 @@ entry path, `processed_at`) and sets `record.preview_type`. A failure stores
 Retries reuse the same prefix; a new file key gives a new prefix. The bucket's lifecycle rule cleans up incomplete multipart
 uploads after one day.
 
-## Backfill
-
-The `filePreviewBackfill` scheduled job (every 5 minutes,
-`SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED`) runs under `runTaskWithLock` like the
-other jobs. Each run:
-
-1. Sets `preview_type` on records that have a preview but no type (rows written by old
-   tasks during a rolling deploy, and office PDFs).
-2. Logs `File preview batch starting: <n> uploads remaining, <m> of them failed before`.
-3. Extracts up to five random ZIP records (not `.h5p`) with no successful `file_preview`
-   row for their current file key, continuing after individual failures. H5P packages
-   were already backfilled by the earlier H5P extraction job.
-
 ## Playback
 
 Draft, published and version-specific material metadata (`apiQueries.ts`) joins
@@ -68,15 +55,15 @@ Draft, published and version-specific material metadata (`apiQueries.ts`) joins
   trailing slash (the player appends paths with a slash). `/h5p/play/<file-key>` plays it
   with h5p-standalone, or returns 404. Without a successful extraction the package is
   download-only.
-- **ZIP:** `text/html` and `HTML_BASE_URL/files/<record-id>/<hash>/<entry_path>`. A ZIP
-  with no row yet still uses the old EFS extraction under `/content/` and logs a warning;
-  that fallback is removed once the backfill has processed every ZIP.
+- **ZIP:** `text/html` and `HTML_BASE_URL/files/<record-id>/<hash>/<entry_path>`. Without a
+  successful extraction the ZIP is download-only.
 
 ## Schema
 
 `file_preview` (renamed from `h5p_extraction` in `20261105120000_add_file_preview.js`)
 keeps one row per record and source file key, not attempt history. During the rolling
-deploy a `h5p_extraction` view lets old tasks keep writing; it is dropped later.
+deploy a `h5p_extraction` view let old tasks keep writing;
+`20261106130000_drop_h5p_extraction_view.js` drops it.
 
 Files whose extraction is currently failing:
 

@@ -6,7 +6,6 @@ import {
   Record,
   sequelize
 } from '@/domain/aoeModels'
-import { extractionFolderOf, findPreviewEntry } from '@/helpers/archivePreviewEntry'
 import { abortOnClientClose, isClientAbortError, StatusError } from '@/helpers/errorHandler'
 import { convertOfficeFileToStoredPDF, isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import {
@@ -38,12 +37,10 @@ import { PassThrough, Readable, Transform } from 'stream'
 import { once } from 'node:events'
 import { finished, pipeline } from 'node:stream/promises'
 import os from 'node:os'
-import { mkdtemp, rename, rm } from 'node:fs/promises'
-import { randomUUID } from 'node:crypto'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { updateDownloadCounter } from './analyticsQueries'
 import { insertEducationalMaterialName } from './apiQueries'
 import MulterFile = Express.Multer.File
-import StreamZip from 'node-stream-zip'
 import { IClient } from 'pg-promise/typescript/pg-subset'
 import { z } from 'zod'
 
@@ -943,41 +940,6 @@ const downloadFileFromStorage = async (req: Request, res: Response): Promise<voi
   await downloadFromStorage(res, params, fileDetails.originalfilename)
 }
 
-/**
- * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
- */
-export const downloadAndExtractZip = async (
-  res: Response,
-  fileName: string
-): Promise<string | false> => {
-  const paramsS3 = { Bucket: config.cloudStorage.bucket, Key: fileName }
-  const extractedFolder = extractionFolderOf(fileName)
-  const temporaryFolder = `${extractedFolder}.tmp-${randomUUID()}`
-  const archivePath = `${temporaryFolder}.zip`
-  const { controller, dispose } = abortOnClientClose(res)
-  try {
-    try {
-      const output = await s3Client.send(new GetObjectCommand(paramsS3), {
-        abortSignal: controller.signal
-      })
-      await pipeline(s3StreamBody(output.Body), fs.createWriteStream(archivePath))
-    } catch (err) {
-      if (controller.signal.aborted || isClientAbortError(err)) {
-        return false
-      }
-      if (err instanceof Error && err.name === 'NoSuchKey') {
-        throw new StatusError(404, missingStorageObjectMessage(paramsS3))
-      }
-      throw new StatusError(500, `Download of [${fileName}] failed in downloadAndExtractZip()`, err)
-    } finally {
-      dispose()
-    }
-    return await unZipAndExtract(archivePath, temporaryFolder, extractedFolder)
-  } finally {
-    await rm(archivePath, { force: true })
-  }
-}
-
 // The exact message both storage-download paths log when a DB record's backing
 // object is missing from S3. Kept identical so log-based alerting matches either
 // path.
@@ -1216,47 +1178,5 @@ const downloadAndZipFromStorage = async (res: Response, files: StorageFile[]): P
     throw err
   } finally {
     dispose()
-  }
-}
-
-/**
- * A concurrent request may have renamed its extraction into place first; its copy is kept.
- * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
- */
-const moveIntoPlace = async (temporaryFolder: string, extractedFolder: string): Promise<void> => {
-  try {
-    await rename(temporaryFolder, extractedFolder)
-  } catch (err) {
-    if (!fs.existsSync(extractedFolder)) {
-      throw err
-    }
-    await rm(temporaryFolder, { recursive: true, force: true })
-  }
-}
-
-/**
- * @deprecated Legacy EFS ZIP preview fallback. Remove once every ZIP has a successful `file_preview` row.
- */
-const unZipAndExtract = async (
-  zipFilePath: string,
-  temporaryFolder: string,
-  extractedFolder: string
-): Promise<string | false> => {
-  try {
-    fs.mkdirSync(temporaryFolder, { recursive: true })
-    const zip = new StreamZip.async({ file: zipFilePath })
-    // Extracted into a request-owned folder first, so findExistingPreviewEntry never
-    // picks up a partial or concurrent extraction.
-    try {
-      await zip.extract(null, temporaryFolder)
-    } finally {
-      await zip.close()
-    }
-    await moveIntoPlace(temporaryFolder, extractedFolder)
-    return findPreviewEntry(extractedFolder)
-  } catch (err) {
-    await rm(temporaryFolder, { recursive: true, force: true })
-    log.debug('Decompression of a HTML archive in unzipAndExtract() failed', err)
-    return false
   }
 }

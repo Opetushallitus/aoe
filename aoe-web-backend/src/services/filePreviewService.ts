@@ -27,18 +27,12 @@ export type PreviewUpload = z.infer<typeof previewUploadSchema>
 const ZIP_MIME_TYPES = ['application/zip', 'application/x-zip-compressed']
 
 // The extension wins, so an .h5p sent as application/zip is still validated as H5P.
-// Mirrored by ZIP_UPLOAD_SQL for the backfill.
 export const previewKindOf = (originalName: string, mimetype: string): PreviewKind | null => {
   if (path.extname(originalName).toLowerCase() === '.h5p') {
     return 'h5p'
   }
   return ZIP_MIME_TYPES.includes(mimetype) ? 'html-zip' : null
 }
-
-// H5P packages were already backfilled by the earlier H5P extraction job.
-const ZIP_UPLOAD_SQL = `
-  r.mimetype IN ('application/zip', 'application/x-zip-compressed')
-  AND lower(r.originalfilename) NOT LIKE '%.h5p'`
 
 const MAX_EXTRACTED_BYTES = 5 * 1024 ** 3
 const MAX_EXTRACTED_ENTRIES = 100_000
@@ -294,66 +288,5 @@ export const extractFilePreview = async (
       })
     }
     throw error
-  }
-}
-
-export const extractFilePreviews = async (
-  database: Pick<IDatabase<unknown>, 'any' | 'none' | 'tx'>,
-  s3: S3Client,
-  sourceBucket: string,
-  destinationBucket: string,
-  signal: AbortSignal
-): Promise<void> => {
-  signal.throwIfAborted()
-  // Previews written by tasks running the previous code, which didn't set preview_type.
-  // Only needed during the transition; removed in AOE-137 1c with the h5p_extraction view.
-  await database.none(`
-    UPDATE record r SET preview_type = 'h5p'
-    FROM file_preview f
-    WHERE r.preview_type IS NULL AND f.record_id = r.id AND f.source_file_key = r.filekey
-      AND f.success AND f.s3_object_prefix IS NOT NULL AND f.entry_path IS NULL
-      AND lower(r.originalfilename) LIKE '%.h5p'
-  `)
-  await database.none(`
-    UPDATE record SET preview_type = 'office'
-    WHERE preview_type IS NULL AND pdfkey = regexp_replace(filekey, '\\.[^.]*$', '') || '.pdf'
-  `)
-  const [counts] = await database.any<{ remaining: number; failed: number }>(`
-    SELECT COUNT(*) FILTER (WHERE f.success IS NOT TRUE)::int AS remaining,
-           COUNT(*) FILTER (WHERE f.success = false)::int AS failed
-    FROM record r
-    LEFT JOIN file_preview f ON f.record_id = r.id AND f.source_file_key = r.filekey
-    WHERE r.filekey IS NOT NULL AND ${ZIP_UPLOAD_SQL}
-  `)
-  log.info(
-    `File preview batch starting: ${counts.remaining} uploads remaining, ${counts.failed} of them failed before`,
-    counts
-  )
-  const uploads = z.array(previewUploadSchema).parse(
-    await database.any(`
-      SELECT r.id::text AS id, r.filekey, 'html-zip' AS kind
-      FROM record r
-      WHERE r.filekey IS NOT NULL
-        AND ${ZIP_UPLOAD_SQL}
-        AND NOT EXISTS (
-          SELECT 1 FROM file_preview f
-          WHERE f.record_id = r.id AND f.source_file_key = r.filekey AND f.success
-        )
-      ORDER BY random()
-      LIMIT 5
-    `)
-  )
-  for (const upload of uploads) {
-    signal.throwIfAborted()
-    try {
-      await extractFilePreview(database, s3, upload, sourceBucket, destinationBucket, signal)
-    } catch (error) {
-      log.error(`File preview extraction failed for record ${upload.id}`, error, {
-        kind: upload.kind,
-        sourceBucket,
-        sourceKey: upload.filekey
-      })
-      signal.throwIfAborted()
-    }
   }
 }

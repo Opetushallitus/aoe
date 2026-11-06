@@ -38,10 +38,6 @@ services:
       retries: 5
     restart: unless-stopped
     volumes:
-      - ./docker/dev/web/thumbnail/:/app/thumbnail:rw
-      - ./docker/dev/web/uploads:/app/uploads:rw
-      - ./docker/dev/web/webdata:/webdata:rw
-      - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
       - ./aoe-web-backend/src:/app/src:rw
 
     environment:

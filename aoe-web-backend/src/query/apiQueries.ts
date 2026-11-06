@@ -1,6 +1,5 @@
 import { config } from '@/config'
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterialMetadataSchema'
-import { findExistingPreviewEntry } from '@/helpers/archivePreviewEntry'
 import { StatusError } from '@/helpers/errorHandler'
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter'
 import { db, pgp } from '@resource/postgresClient'
@@ -13,7 +12,7 @@ import * as log from '@util/winstonLogger'
 import * as pgLib from 'pg-promise'
 import { z } from 'zod'
 import { updateViewCounter } from './analyticsQueries'
-import { downloadAndExtractZip, insertDataToDisplayName } from './fileHandling'
+import { insertDataToDisplayName } from './fileHandling'
 import { getOwnerName } from './materialQueries'
 
 import type { NextFunction, Request, Response } from 'express'
@@ -373,40 +372,6 @@ export const getEducationalMaterialMetadata = async (
               process.env.HTML_BASE_URL
             ).href
           }
-        } else if (
-          jsonObj.materials[i] &&
-          (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
-            jsonObj.materials[i]['mimetype'] === 'text/html' ||
-            jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
-        ) {
-          // ponytail: EFS fallback until the backfill has extracted every ZIP, removed in AOE-137 1c.
-          if (jsonObj.materials[i]['mimetype'] !== 'text/html') {
-            log.warn(
-              `ZIP preview not yet extracted to S3 for material ${jsonObj.materials[i]['id']}`
-            )
-          }
-          const result = await extractArchiveForPreview(jsonObj.materials[i], eduMaterialId, res)
-          if (
-            result !== false &&
-            (jsonObj.materials[i]['mimetype'] === 'application/zip' ||
-              jsonObj.materials[i]['mimetype'] === 'application/x-zip-compressed')
-          ) {
-            /**
-             * if the unZipAndExtract returns a pathToReturn instead of false, we know its a html file, so then we change the mimetype to text/html
-             * Write db code to replace application/zip with text/html for this specific file
-             * mimetype = text/html + result
-             */
-            jsonObj.materials[i]['mimetype'] = 'text/html'
-            jsonObj.materials[i]['filepath'] =
-              process.env.HTML_BASE_URL +
-              result.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content')
-          } else if (result !== false) {
-            /**
-             * This means the function the returned true, but the mimetype was already text/html so we dont have to change it
-             * Simply return the result to the frontend, which means we have to to the query here and push the response thereafter
-             */
-            jsonObj.materials[i]['filepath'] = result
-          }
         }
       }
       jsonObj.owner = owner
@@ -480,43 +445,6 @@ export const getEducationalMaterialMetadata = async (
         err instanceof StatusError ? err : new StatusError(500, 'Issue getting material data', err)
       )
     })
-}
-
-// Returns the preview entry of the material's extracted archive, downloading and extracting
-// it unless it is already on disk. Returns false when there is nothing to preview, in which
-// case the caller leaves filepath empty so the file can still be downloaded.
-const extractArchiveForPreview = async (
-  material: any,
-  eduMaterialId: number,
-  res: Response
-): Promise<string | false> => {
-  // The record is saved before the upload to the storage finishes and sets the filekey.
-  if (!material.filekey) {
-    return false
-  }
-  const fileSize = material.filesize || 0
-  const maxSize = config.MEDIA_FILE_PROCESS.maxZipExtractionSize
-  const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2)
-  const maxSizeMB = (maxSize / 1024 / 1024).toFixed(2)
-
-  // Skip synchronous extraction for large files to prevent timeout issues
-  if (fileSize > maxSize) {
-    log.info(
-      `Skipping ZIP extraction for large file: eduMaterialId=${eduMaterialId}, materialId=${material.id}, ` +
-        `filekey=${material.filekey}, filesize=${fileSizeMB} MB (max allowed: ${maxSizeMB} MB). ` +
-        `File will be available for download only.`
-    )
-    return false
-  }
-
-  log.debug(
-    `Processing ZIP/HTML file: eduMaterialId=${eduMaterialId}, materialId=${material.id}, ` +
-      `filekey=${material.filekey}, filesize=${fileSizeMB} MB`
-  )
-
-  // Check if files are already extracted on disk before downloading from S3
-  const cachedResult = findExistingPreviewEntry(material.filekey)
-  return cachedResult !== false ? cachedResult : await downloadAndExtractZip(res, material.filekey)
 }
 
 export async function getUserMaterial(req: Request, res: Response, next: NextFunction) {

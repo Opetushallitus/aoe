@@ -88,14 +88,12 @@ Each scheduled job acquires a task-specific PostgreSQL session advisory lock wit
 
 | Time (UTC) | Job | Switch |
 |---|---|---|
-| 1:00 AM | Clean temporary H5P and HTML directories | `SCHEDULED_TASK_DIRECTORY_CLEANING_ENABLED` |
 | 1:15 AM | Generate URNs for unpublished materials | `SCHEDULED_TASK_PID_REGISTRATION_ENABLED` |
 | 1:30 AM | Fully re-index the material and collection OpenSearch indices | `SCHEDULED_TASK_SEARCH_REINDEX_ENABLED` |
 | 2:00 AM | Convert office files without a PDF and upload the PDFs to S3 | `SCHEDULED_TASK_OFFICE_PDF_CONVERSION_ENABLED` |
 | 3:00 AM | Update reference data endpoints data into PostgreSQL | `SCHEDULED_TASK_REFERENCE_DATA_UPDATE_ENABLED` |
 | 4:00 AM | Delete expired sessions | `SCHEDULED_TASK_SESSION_CLEANUP_ENABLED` |
 | 10:00 AM | Send expiration and rating notification emails via AWS SES | `SCHEDULED_TASK_NOTIFICATION_MAIL_ENABLED` |
-| Every 5 min | Extract up to five H5P and ZIP previews to S3 ([file-preview.md](file-preview.md)) | `SCHEDULED_TASK_FILE_PREVIEW_BACKFILL_ENABLED` |
 
 On startup every task also updates the reference data into PostgreSQL and creates any missing OpenSearch index (`CREATE_ES_INDEX=1` recreates both; with more than one task, deploy with `min_count: 1` and `max_count: 1` first, so only one task recreates them).
 

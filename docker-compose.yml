@@ -30,11 +30,6 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
-    volumes:
-      - ./docker/dev/web/thumbnail/:/app/thumbnail:rw
-      - ./docker/dev/web/uploads:/app/uploads:rw
-      - ./docker/dev/web/webdata:/webdata:rw
-      - ./docker/dev/web/webdata/htmlfolder:/webdata/htmlfolder:rw
     depends_on:
       aoe-oidc-server:
         condition: service_healthy

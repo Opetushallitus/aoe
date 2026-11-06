@@ -1,6 +1,7 @@
 import { config } from '@/config'
 import { handleError } from '@/helpers/errorHandler'
 import { h5p } from '@api/routes-root/h5p'
+import { content } from '@api/routes-root/content'
 import { embed } from '@api/routes-root/embed'
 import { stream } from '@api/routes-root/stream'
 import { metaRoutes } from '@api/routes-meta/oaipmh'
@@ -65,6 +66,7 @@ export async function initApp() {
   // Load API root modules
   const apiRouterRoot: Router = Router()
   h5p(apiRouterRoot)
+  content(apiRouterRoot)
   embed(apiRouterRoot)
   stream(apiRouterRoot)
 
@@ -126,7 +128,6 @@ export async function initApp() {
   app.use('/api/v2/', apiRouterV2)
   app.use('/api/v2/statistics', checkAuthenticated, statisticsRouter)
   app.use('/meta', metaRouter)
-  app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder))
 
   app.use(handleError)
 
