@@ -39,10 +39,6 @@ export class BastionStack extends Stack {
         'aoss:DescribeIndex',
         'aoss:ReadDocument',
         'aoss:WriteDocument',
-        'elasticfilesystem:DescribeFileSystems',
-        'elasticfilesystem:ClientWrite',
-        'elasticfilesystem:ClientMount',
-        'elasticfilesystem:DescribeMountTargets',
         's3:GetObject'
       ],
       resources: ['*']

@@ -17,6 +17,7 @@ import { CloudfrontStack } from '../lib/cloudfront-stack'
 import { KmsStack } from '../lib/kms-stack'
 import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
+import { EmptyStack } from '../lib/empty-stack'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
@@ -28,8 +29,6 @@ import { environmentBucketName, S3Stack } from '../lib/S3Stack'
 import * as iam from 'aws-cdk-lib/aws-iam'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { NamespaceStack } from '../lib/namespaceStack'
-import { EfsStack } from '../lib/efs-stack'
-import { ThroughputMode } from 'aws-cdk-lib/aws-efs'
 import { GithubActionsStack } from '../lib/githubActionsStack'
 import { UtilityStack } from '../lib/utility-stack'
 import { SesStack } from '../lib/ses-stack'
@@ -306,14 +305,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     }
   })
 
-  new EfsStack(app, 'AOEefsStack', {
-    env: envEU,
-    vpc: Network.vpc,
-    securityGroup: SecurityGroups.efsSecurityGroup,
-    accessPointPath: '/data',
-    throughputMode: config.EFS.throughputMode as ThroughputMode
-  })
-
   const aossPolicyStatement = new iam.PolicyStatement({
     actions: [
       'aoss:CreateIndex',
@@ -411,6 +402,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic,
     slackOnlySnsTopic: Monitor.slackOnlyTopic
   })
+
+  // Needs web-backend already deployed without its EFS imports (de030256).
+  // The file system is RETAIN'd and deleted by hand.
+  const Efs = new EmptyStack(app, 'AOEefsStack', { env: envEU })
+  // Delete the EFS security group only after the stack has dropped its import
+  SecurityGroups.addDependency(Efs)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,

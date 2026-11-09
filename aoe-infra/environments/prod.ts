@@ -99,9 +99,6 @@ export const prod: EnvironmentConfig = {
     aoeThumbnailBucketName: 'aoethumbnail',
     uploadedMaterialsBucketName: 'aoe-uploaded-materials'
   },
-  EFS: {
-    throughputMode: 'elastic'
-  },
   cloudfront: {
     require_test_authentication: false,
     waf_mode: 'count'

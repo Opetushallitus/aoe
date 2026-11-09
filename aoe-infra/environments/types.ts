@@ -35,9 +35,6 @@ export interface EnvironmentConfig {
     aoeThumbnailBucketName: string
     uploadedMaterialsBucketName: string
   }
-  EFS: {
-    throughputMode: 'bursting' | 'elastic' | 'provisioned'
-  }
   cloudfront: {
     require_test_authentication: boolean
     waf_mode: 'count' | 'block'

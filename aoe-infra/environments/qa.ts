@@ -99,9 +99,6 @@ export const qa: EnvironmentConfig = {
     aoeThumbnailBucketName: 'aoethumbnail',
     uploadedMaterialsBucketName: 'aoe-uploaded-materials'
   },
-  EFS: {
-    throughputMode: 'bursting'
-  },
   cloudfront: {
     require_test_authentication: true,
     waf_mode: 'count'
