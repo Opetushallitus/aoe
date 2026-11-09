@@ -17,7 +17,6 @@ import { CloudfrontStack } from '../lib/cloudfront-stack'
 import { KmsStack } from '../lib/kms-stack'
 import { FargateClusterStack } from '../lib/fargate-cluster-stack'
 import { EcsServiceStack } from '../lib/ecs-service'
-import { EmptyStack } from '../lib/empty-stack'
 import { FrontendStack } from '../lib/frontend-stack'
 import { EcrStack } from '../lib/ecr-stack'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
@@ -402,12 +401,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     alarmSnsTopic: Monitor.topic,
     slackOnlySnsTopic: Monitor.slackOnlyTopic
   })
-
-  // Needs web-backend already deployed without its EFS imports (de030256).
-  // The file system is RETAIN'd and deleted by hand.
-  const Efs = new EmptyStack(app, 'AOEefsStack', { env: envEU })
-  // Delete the EFS security group only after the stack has dropped its import
-  SecurityGroups.addDependency(Efs)
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: envEU,
