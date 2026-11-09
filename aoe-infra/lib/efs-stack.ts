@@ -46,5 +46,10 @@ export class EfsStack extends Stack {
     new CfnOutput(this, 'FileSystemId', {
       value: this.fileSystem.fileSystemId
     })
+
+    // Keep the exports the deployed web-backend still imports until it is deployed without them
+    this.exportValue(this.fileSystem.fileSystemId)
+    this.exportValue(this.fileSystem.fileSystemArn)
+    this.exportValue(this.accessPoint.accessPointId)
   }
 }
