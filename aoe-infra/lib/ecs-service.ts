@@ -19,12 +19,10 @@ import {
   FargateService,
   ICluster,
   LinuxParameters,
-  MountPoint,
   OperatingSystemFamily,
   Secret,
   TaskDefinition,
-  UlimitName,
-  Volume
+  UlimitName
 } from 'aws-cdk-lib/aws-ecs'
 import { ISecurityGroup, IVpc } from 'aws-cdk-lib/aws-ec2'
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2'
@@ -85,10 +83,6 @@ interface EcsServiceStackProps extends StackProps {
   securityGroup: ISecurityGroup
   iAmPolicyStatements?: iam.PolicyStatement[]
   privateDnsNamespace: PrivateDnsNamespace
-  efs?: {
-    mountPoint: MountPoint
-    volume: Volume
-  }
   alarmSnsTopic: sns.Topic
   slackOnlySnsTopic: sns.Topic
   // Matches one error line in this service's log group. Drives both the Slack error forwarder
@@ -237,11 +231,6 @@ export class EcsServiceStack extends Stack {
     //     logGroup: ServiceLogGroup,
     //   }),
     // })
-
-    if (props.efs) {
-      taskDefinition.addVolume(props.efs.volume)
-      container.addMountPoints(props.efs.mountPoint)
-    }
 
     const ecsService = new FargateService(this, 'EcsFargateService', {
       cluster: props.cluster,

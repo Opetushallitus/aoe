@@ -306,7 +306,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     }
   })
 
-  const efs = new EfsStack(app, 'AOEefsStack', {
+  new EfsStack(app, 'AOEefsStack', {
     env: envEU,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.efsSecurityGroup,
@@ -329,16 +329,6 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       'aoss:APIAccessAll'
     ],
     resources: [OpenSearch.collectionArn]
-  })
-
-  const efsPolicyStatement = new iam.PolicyStatement({
-    actions: [
-      'elasticfilesystem:DescribeFileSystems',
-      'elasticfilesystem:ClientWrite',
-      'elasticfilesystem:ClientMount',
-      'elasticfilesystem:DescribeMountTargets'
-    ],
-    resources: [efs.fileSystem.fileSystemArn]
   })
 
   const sesIamPolicy = new iam.PolicyStatement({
@@ -415,30 +405,11 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       aossPolicyStatement,
       s3PolicyStatement,
       s3GetObjectPolicyStatement,
-      efsPolicyStatement,
       sesIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     alarmSnsTopic: Monitor.topic,
-    slackOnlySnsTopic: Monitor.slackOnlyTopic,
-    efs: {
-      volume: {
-        name: 'data',
-        efsVolumeConfiguration: {
-          fileSystemId: efs.fileSystemId,
-          transitEncryption: 'ENABLED',
-          authorizationConfig: {
-            accessPointId: efs.accessPoint.accessPointId,
-            iam: 'ENABLED'
-          }
-        }
-      },
-      mountPoint: {
-        sourceVolume: 'data',
-        containerPath: '/mnt/data', // how to mount from bastion: sudo mount -t efs -o tls,iam fs-02c2d5a3ca0064690:/ /mnt/
-        readOnly: false
-      }
-    }
+    slackOnlySnsTopic: Monitor.slackOnlyTopic
   })
 } else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {

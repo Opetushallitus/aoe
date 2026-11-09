@@ -54,8 +54,6 @@ export const prod: EnvironmentConfig = {
         ES_SIZE_DEFAULT: '1000',
         ES_FROM_DEFAULT: '0',
         HTML_BASE_URL: 'https://aoe.fi',
-        HTML_FOLDER: '/mnt/data/webdata/htmlfolder',
-        MATERIAL_FILE_UPLOAD_FOLDER: '/mnt/data/uploads',
         CONVERSION_TO_PDF_API: 'https://aoe.fi/api/v1/pdf/content/',
         FILE_DOWNLOAD_URL: 'https://aoe.fi/api/v1/download/file/',
         THUMBNAIL_DOWNLOAD_URL: 'https://aoe.fi/api/v1/thumbnail/',
