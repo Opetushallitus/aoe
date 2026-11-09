@@ -282,12 +282,34 @@ test('käyttäjä voi lisätä oppimateriaaleja eri kielillä', async ({ page })
   await Etusivu(page).goto()
   const materiaalienNimet: string[] = []
 
-  for (const kieli of ['inarinsaame', 'viro', 'ruotsi', 'suomi']) {
-    await test.step(`lisää oppimateriaali kielellä ${kieli}`, async () => {
-      const { nimi } = await luoMateriaali(page, `Materiaali ${kieli}`, { tiedostot: [{ kieli }] })
-      materiaalienNimet.push(nimi)
+  await test.step('lisää oppimateriaali kolmella kielellä ja tarkasta kielivalitsin', async () => {
+    const { nimi } = await luoMateriaali(page, 'Kielivalitsin', {
+      tiedostot: [{ kieli: 'suomi' }, { kieli: 'englanti' }, { kieli: 'ruotsi' }]
     })
-  }
+    materiaalienNimet.push(nimi)
+
+    await expect(page.getByRole('heading', { name: 'Valitse kieli:' })).toBeVisible()
+    const kielivalitsin = page.getByRole('tablist', { name: 'Valitse kieli:' })
+    for (const kieli of ['fi', 'en', 'sv']) {
+      await expect(kielivalitsin.locator(`#langSelector-${kieli}`)).toBeVisible()
+    }
+  })
+
+  // More than three languages switches the button group to a dropdown.
+  await test.step('lisää oppimateriaali neljällä kielellä ja tarkasta kielivalikko', async () => {
+    const { nimi } = await luoMateriaali(page, 'Kielivalikko', {
+      tiedostot: [
+        { kieli: 'inarinsaame' },
+        { kieli: 'viro' },
+        { kieli: 'ruotsi' },
+        { kieli: 'suomi' }
+      ]
+    })
+    materiaalienNimet.push(nimi)
+
+    await page.locator('#selectLanguage').click()
+    await expect(page.locator('.dropdown-menu [id^="langSelector-"]')).toHaveCount(4)
+  })
 
   await test.step(`tarkasta materiaalien löytyminen`, async () => {
     await tarkastaMateriaalitLoytyy(page, ...materiaalienNimet)
