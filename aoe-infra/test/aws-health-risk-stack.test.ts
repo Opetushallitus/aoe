@@ -72,6 +72,15 @@ for (const environment of ['dev', 'qa', 'prod']) {
           SqsManagedSseEnabled: true
         })
       }
+      // Renaming this ID is what makes CloudFormation re-resolve the Health URL secret.
+      assert.deepEqual(
+        Object.keys(
+          template.findResources('AWS::SNS::Subscription', {
+            Properties: { Endpoint: endpoints.health }
+          })
+        ),
+        ['PagerDutyHealthOphSecurity']
+      )
       template.hasResourceProperties('AWS::SNS::Subscription', {
         Endpoint: endpoints.health,
         TopicArn: { Ref: topicIds[name] },
