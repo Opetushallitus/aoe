@@ -80,7 +80,8 @@ export class AwsHealthRiskStack extends cdk.Stack {
       })
     }
 
-    const subscription = new sns.CfnSubscription(this, 'PagerDutyHealth', {
+    // Renamed from 'PagerDutyHealth' to re-resolve the secret for "OPH AWS security" in PagerDuty.
+    const subscription = new sns.CfnSubscription(this, 'PagerDutyHealthOphSecurity', {
       topicArn: topic.topicArn,
       protocol: 'https',
       endpoint: secretUrl(PAGERDUTY_HEALTH_EVENT_URL_SECRET_NAME),

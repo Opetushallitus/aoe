@@ -145,6 +145,8 @@ accounts. As with `MonitorStack`, CloudFormation resolves a URL only when its
 subscription changes: after changing a secret in eu-west-1, change or recreate the
 subscriptions that use it (in every collector region, and `MonitorStack`'s for
 `/pagerduty/event_url`), deploy, and check they are *Confirmed*.
+For `/pagerduty/health_event_url`, rename the `CfnSubscription` logical ID in
+`lib/aws-health-risk-stack.ts`.
 
 ## Database dump for transfer
 
