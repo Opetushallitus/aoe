@@ -17,7 +17,7 @@
     "@playwright/test": "1.65.0",
     "@types/node": "24.19.2",
     "fast-xml-parser": "5.12.0",
-    "knip": "6.44.1",
+    "knip": "6.44.2",
     "typescript": "5.9.3",
     "zod": "4.6.7"
   }
