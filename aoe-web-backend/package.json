@@ -62,7 +62,7 @@
     "openid-client": "6.8.9",
     "passport": "0.7.0",
     "pg": "8.23.1",
-    "pg-promise": "12.7.1",
+    "pg-promise": "12.8.0",
     "sequelize": "6.37.8",
     "striptags": "3.2.0",
     "winston": "3.19.0",
