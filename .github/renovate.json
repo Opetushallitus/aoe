@@ -5,8 +5,10 @@
     ":pinAllExceptPeerDependencies",
     "customManagers:biomeVersions"
   ],
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "AOE Renovate Dependency Dashboard",
+  "dependencyDashboard": {
+    "enabled": true,
+    "title": "AOE Renovate Dependency Dashboard"
+  },
   "dependencyDashboardApproval": true,
   "gitAuthor": "aoe-renovate[bot] <201958700+aoe-renovate[bot]@users.noreply.github.com>",
   "branchPrefix": "github-renovate/",
