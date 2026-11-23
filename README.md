@@ -19,7 +19,9 @@ Nämä ovat keskeiset AOE järjestelmän käytettävät teknologiat
 
 #### Ajaminen Dockerilla
 
-Koko AOE:n saa paikallisesti ajoon `./start-local-env.sh` skriptin avulla.
+Yleisimmät komennot (käynnistys, lint, testit, psql, lokit, deploy) näkee komennolla `task`. Ne kutsuvat repositoryn skriptejä [`taskfile.yml`](taskfile.yml):n kautta. Skriptille annettavat argumentit kirjoitetaan `--`:n jälkeen (esim. `task test -- --workers=1`), ja `task --summary <task>` näyttää, mitä argumentteja komento ottaa. `task` on [go-task](https://taskfile.dev): `brew install go-task`.
+
+Koko AOE:n saa paikallisesti ajoon komennolla `task start` (kutsuu `./start-local-env.sh`-skriptiä).
 Skripti käynnistää docker compose:n avulla kaikki AOE palvelut, frontin ja riippuvuudet docker kontteihin.
 
 Ympäristössä on myös NGINX, jonka kautta kaikki web sovelluksen https-pyynnöt menevät.
@@ -31,7 +33,7 @@ Lokaali AOE käyttää paikallista OIDC-palvelua (Keycloak), jota vasten AOE tek
 - 127.0.0.1 aoe-oidc-server
 - 127.0.0.1 demo.aoe.fi
 
-2. Aja projektin juuressa `./start-local-env.sh`
+2. Aja projektin juuressa `task start`
 
 - Skripti luo itseallekirjoitetun varmenteen hakemistoon `docker/dev/nginx-selfsigned.crt`
 - Lisää varmenne `docker/dev/nginx-selfsigned.crt` oman koneesi luotettuihin varmenteisiin, selaimat sallivat itseallekirjoitetun varmenteen käytön.
@@ -69,8 +71,8 @@ output = json
 
 ## Testien ajaminen
 
-Testit ajetaan normaalisti komennolla `./run-tests.sh` ja Playwrightin UI:n saa näkyviin
-`--ui`-flagilla. Lokaalisti ajettaessa testit käyttävät oletuksena useampaa workeria, jolloin
+Testit ajetaan normaalisti komennolla `task test` (kutsuu `./run-tests.sh`-skriptiä) ja Playwrightin UI:n saa näkyviin
+komennolla `task test:ui`. Lokaalisti ajettaessa testit käyttävät oletuksena useampaa workeria, jolloin
 testien tulokset eivät ole luotettavia. Testit voi pakottaa ajamaan yhdellä workerilla joko
-Playwrightin UI:ssa tai käyttämällä `--workers=1`-flagia komentorivillä. CI ajaa testit aina
+Playwrightin UI:ssa tai käyttämällä `--workers=1`-flagia komentorivillä (`task test -- --workers=1`). CI ajaa testit aina
 yhdellä workerilla.

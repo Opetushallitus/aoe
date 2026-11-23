@@ -6,7 +6,7 @@ AOE (Avoimet Oppimateriaalit - Library of Open Educational Resources) is a micro
 
 ## Local Development
 
-`./start-local-env.sh` starts the stack at https://demo.aoe.fi/. Linting, Playwright tests and mock OIDC credentials: [docs/local-development.md](docs/local-development.md).
+`task start` starts the stack at https://demo.aoe.fi/. Run `task` for the other common commands (lint, tests, psql, logs, deploy); they wrap the repo's scripts. Pass arguments to the wrapped script after `--` (`task test -- --workers=1`); `task --summary <task>` lists the arguments a task takes. Linting, Playwright tests and mock OIDC credentials: [docs/local-development.md](docs/local-development.md).
 
 ## AWS Environments
 

@@ -24,3 +24,7 @@ global-bundle.pem
 # draw.io exports and autosave backups
 *.drawio.png
 .$*.drawio.bkp
+
+# Logs fetched by scripts/fetch-logs-<env>.sh and scripts/fetch-alb-logs-<env>.sh (task logs:*)
+/web-backend-*.log
+/alb-*.log

@@ -1,0 +1,208 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+# The discoverable front door to this repo's scripts: run `task` to list them.
+# Tasks only wrap scripts. Logic, environment and secrets stay in the scripts.
+#
+# Passing arguments: {{.CLI_ARGS}} is everything you type after `--`, forwarded
+# to the wrapped script as-is. For example
+#   task test -- --workers=1
+# runs
+#   ./run-tests.sh --workers=1
+# Without `--`, {{.CLI_ARGS}} is empty and the script runs with no arguments.
+# Only tasks whose command ends in {{.CLI_ARGS}} accept arguments.
+# Those tasks list their arguments and examples in `summary:`; read it with
+#   task --summary <task>
+
+version: "3"
+
+tasks:
+  start:
+    desc: Start the local stack at https://demo.aoe.fi/ (wraps start-local-env.sh)
+    cmd: ./start-local-env.sh
+
+  lint:
+    desc: Check linting with Biome, read-only - what CI runs (wraps deploy-scripts/02-lint.sh)
+    cmd: ./deploy-scripts/02-lint.sh
+  lint:fix:
+    desc: Auto-fix lint issues across all services, modifies files (wraps fix-lint.sh)
+    cmd: ./scripts/fix-lint.sh
+
+  test:
+    desc: Run backend unit tests, then the Playwright tests (wraps run-tests.sh)
+    summary: |
+      Run the aoe-web-backend unit tests, then the Playwright tests against the
+      running local stack.
+
+      Arguments after -- are passed to `playwright test`:
+        --workers=1     run on one worker, as CI does; the default of several
+                        workers gives unreliable results locally
+        --grep "name"   run only tests whose title matches
+        <file>          run only matching test files, e.g. tests/h5p.spec.ts
+
+      Example: task test -- --workers=1
+      For the Playwright UI use `task test:ui`.
+    cmd: ./run-tests.sh {{.CLI_ARGS}}
+  test:ui:
+    desc: Run the tests with the Playwright UI (wraps run-tests.sh --ui)
+    summary: |
+      Run the backend unit tests, then open the Playwright UI.
+
+      Arguments after -- are passed to `playwright test` after --ui,
+      see `task --summary test`.
+    cmd: ./run-tests.sh --ui {{.CLI_ARGS}}
+  test:update-snapshots:
+    desc: Generate missing Playwright snapshots in Docker (wraps update-playwright-snapshots.sh)
+    summary: |
+      Generate missing Linux screenshot baselines with the CI Playwright stack.
+      Existing baselines are not touched. Stop the local stack first:
+        docker compose -p aoe-local down
+
+      Arguments after -- are passed to `playwright test`:
+        <file>          only this test file, e.g. tests/h5p.spec.ts
+
+      Example: task test:update-snapshots -- tests/h5p.spec.ts
+    cmd: ./scripts/update-playwright-snapshots.sh {{.CLI_ARGS}}
+
+  psql:local:
+    desc: Open a psql shell to the local database (wraps psql-local.sh)
+    summary: |
+      Open a psql shell to the local database in the running local stack.
+
+      Arguments after -- are passed to psql:
+        -c "<sql>"      run one statement and exit
+
+      Example: task psql:local -- -c '\dt'
+    cmd: ./scripts/psql-local.sh {{.CLI_ARGS}}
+  psql:dev:
+    desc: Open a psql shell to the dev database through a tunnel (wraps psql-aoe-dev.sh)
+    cmd: ./scripts/db/psql-aoe-dev.sh
+  psql:qa:
+    desc: Open a psql shell to the QA database through a tunnel (wraps psql-aoe-qa.sh)
+    cmd: ./scripts/db/psql-aoe-qa.sh
+  psql:prod:
+    desc: Open a psql shell to the PRODUCTION database through a tunnel (wraps psql-aoe-prod.sh)
+    cmd: ./scripts/db/psql-aoe-prod.sh
+
+  logs:dev:
+    desc: Fetch one day of dev web-backend logs to a file (wraps fetch-logs-dev.sh)
+    summary: |
+      Fetch one day (Helsinki time) of dev /service/web-backend logs from
+      CloudWatch into web-backend-dev-<day>.log in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>        the day to fetch, required
+        <filter-pattern>    optional CloudWatch filter pattern, e.g. ERROR
+
+      Example: task logs:dev -- 2026-01-31 ERROR
+    cmd: ./scripts/fetch-logs-dev.sh {{.CLI_ARGS}}
+  logs:qa:
+    desc: Fetch one day of QA web-backend logs to a file (wraps fetch-logs-qa.sh)
+    summary: |
+      Fetch one day (Helsinki time) of QA /service/web-backend logs from
+      CloudWatch into web-backend-qa-<day>.log in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>        the day to fetch, required
+        <filter-pattern>    optional CloudWatch filter pattern, e.g. ERROR
+
+      Example: task logs:qa -- 2026-01-31 ERROR
+    cmd: ./scripts/fetch-logs-qa.sh {{.CLI_ARGS}}
+  logs:prod:
+    desc: Fetch one day of production web-backend logs to a file (wraps fetch-logs-prod.sh)
+    summary: |
+      Fetch one day (Helsinki time) of production /service/web-backend logs from
+      CloudWatch into web-backend-prod-<day>.log in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>        the day to fetch, required
+        <filter-pattern>    optional CloudWatch filter pattern, e.g. ERROR
+
+      Example: task logs:prod -- 2026-01-31 ERROR
+    cmd: ./scripts/fetch-logs-prod.sh {{.CLI_ARGS}}
+  logs:alb:dev:
+    desc: Fetch dev load balancer logs for a day to a file (wraps fetch-alb-logs-dev.sh)
+    summary: |
+      Download dev load balancer access logs from S3 into alb-dev-<day>.log,
+      plus the 5xx responses into alb-dev-<day>-5xx.log, in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>    the day to fetch, required
+        <HH>            optional hour of that day, in UTC
+
+      Example: task logs:alb:dev -- 2026-01-31 14
+    cmd: ./scripts/fetch-alb-logs-dev.sh {{.CLI_ARGS}}
+  logs:alb:qa:
+    desc: Fetch QA load balancer logs for a day to a file (wraps fetch-alb-logs-qa.sh)
+    summary: |
+      Download QA load balancer access logs from S3 into alb-qa-<day>.log,
+      plus the 5xx responses into alb-qa-<day>-5xx.log, in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>    the day to fetch, required
+        <HH>            optional hour of that day, in UTC
+
+      Example: task logs:alb:qa -- 2026-01-31 14
+    cmd: ./scripts/fetch-alb-logs-qa.sh {{.CLI_ARGS}}
+  logs:alb:prod:
+    desc: Fetch production load balancer logs for a day to a file (wraps fetch-alb-logs-prod.sh)
+    summary: |
+      Download production load balancer access logs from S3 into alb-prod-<day>.log,
+      plus the 5xx responses into alb-prod-<day>-5xx.log, in the repo root.
+
+      Arguments after --:
+        <YYYY-MM-DD>    the day to fetch, required
+        <HH>            optional hour of that day, in UTC
+
+      Example: task logs:alb:prod -- 2026-01-31 14
+    cmd: ./scripts/fetch-alb-logs-prod.sh {{.CLI_ARGS}}
+
+  pending-commits:
+    desc: List commits not yet deployed to dev, QA and prod (wraps pending-commits.sh)
+    cmd: ./scripts/pending-commits.sh
+  deploy:dev:
+    desc: Deploy to dev with CDK (wraps deploy-scripts/04-deploy-dev.sh)
+    summary: |
+      Build the frontend and deploy all stacks to dev with CDK, then tag the
+      deployed images as green-dev.
+
+      Only the first argument after -- selects a different action:
+        --diff                  show what would change, deploy nothing
+        --diagnose              run `cdk diagnose`, deploy nothing
+        --direct <StackName>    deploy only that stack, with --method=direct
+        --destroy <StackName>   destroy that stack, asks for confirmation
+
+      Example: task deploy:dev -- --diff
+    cmd: ./deploy-scripts/04-deploy-dev.sh {{.CLI_ARGS}}
+  deploy:qa:
+    desc: Deploy to QA with CDK (wraps deploy-scripts/05-deploy-qa.sh)
+    summary: |
+      Build the frontend and deploy all stacks to QA with CDK, then tag the
+      deployed images as green-qa.
+
+      Only the first argument after -- selects a different action:
+        --diff                  show what would change, deploy nothing
+        --diagnose              run `cdk diagnose`, deploy nothing
+        --direct <StackName>    deploy only that stack, with --method=direct
+        --destroy <StackName>   destroy that stack, asks for confirmation
+
+      Example: task deploy:qa -- --diff
+    cmd: ./deploy-scripts/05-deploy-qa.sh {{.CLI_ARGS}}
+  deploy:prod:
+    desc: Deploy to PRODUCTION with CDK (wraps deploy-scripts/06-deploy-prod.sh)
+    summary: |
+      Build the frontend and deploy all stacks to PRODUCTION with CDK, then tag
+      the deployed images as green-prod.
+
+      Only the first argument after -- selects a different action:
+        --diff                  show what would change, deploy nothing
+        --diagnose              run `cdk diagnose`, deploy nothing
+        --direct <StackName>    deploy only that stack, with --method=direct
+        --destroy <StackName>   destroy that stack, asks for confirmation
+
+      Example: task deploy:prod -- --diff
+    cmd: ./deploy-scripts/06-deploy-prod.sh {{.CLI_ARGS}}
+
+  default:
+    desc: List all tasks in workflow order - what plain `task` runs
+    silent: true
+    cmd: task --list --sort none
